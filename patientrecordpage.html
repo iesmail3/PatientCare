@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<title>Drop Down Navbar</title>
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="Content/bootstrap.css"/>
+<style>
+	.inputHolder {
+		display: inline-block;
+		position: relative;
+		width: 230px;
+		margin-bottom:10px;
+	}
+	
+	.inputHolder input, .inputHolder select {
+		position: absolute;
+		right: 0px;
+		top: -4px;
+	}
+	
+	.inputHolder2 {
+		display: inline-block;
+		position: relative;
+		width: 150px;
+		margin-bottom:10px;
+	}
+</style>
+<!-- Javascript -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="Scripts/bootstrap.js"></script>
+<script> 
+	$(document).ready(function(){ 
+	   
+	   $('#MyButton').click(function(){ 
+	       $('#header').slideToggle('slow'); 
+		     $(this).toggleClass("active");
+		}); 
+	}); 
+</script> 
+</head> 
+<body> 
+<!-- class="well" gives us the grayish bckgrnd  -->
+<form class="form-inline well span9" > 
+	<fieldset>
+		<legend> Personal Details </legend> 
+		<div class="inputHolder"> 
+		 	<label> Last Name </label> 
+		 	<input type="text" class="span2" placeholder="UserName"/> 
+		</div>
+		<div class="inputHolder"> 
+		 	<label> Middle Name </label> 
+		 	<input type="text" class="span2"/> 
+		</div> 
+		<div class="inputHolder"> 
+		 	<label> First Name </label> 	
+		 	<input type="text" class="span2"/>
+		</div> 
+		<div class="inputHolder"> 
+			<label> Alias</label> 
+			<input type="text" class="span2"/>
+		</div> 
+		<div class="inputHolder"> 
+			<label>Gender</label>
+		    <select class="span2" id="select01">
+		    	<option value="male">Male</option>
+		        <option value="female">Female</option>
+		    </select>
+		</div> 
+	</fieldset>
+</form>
+<h3 style="clear: both;float: left;">I like this look better. What do you think?
+<form style="clear: both;"class="form-inline well span9" > 
+	<fieldset>
+		<legend> Personal Details </legend> 
+		<div class="inputHolder2">  
+		 	<input type="text" class="span2" placeholder="Last Name" /> 
+		</div>
+		<div class="inputHolder2">
+		 	<input type="text" class="span2" placeholder="Middle Name" /> 
+		</div> 
+		<div class="inputHolder2"> 	
+		 	<input type="text" class="span2" placeholder="First Name" />
+		</div> 
+		<div class="inputHolder2"> 
+			<input type="text" class="span2" placeholder="Alias" />
+		</div> 
+		<div class="inputHolder2"> 
+		    <select class="span2" id="select01">
+		    	<option value="none">Gender</option>
+		    	<option value="male">Male</option>
+		        <option value="female">Female</option>
+		    </select>
+		</div> 
+	</fieldset>
+</form>
+</body> 
+</html> 

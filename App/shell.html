@@ -1,0 +1,25 @@
+<div>
+	<div class="navbar mainNav">
+    	<div class="navbar-inner">
+        	<ul class="nav">
+        		<li class="patientNav navItem" data-bind="event: { mouseover: subMenuIn, mouseout: subMenuOut}">
+        		<a href="#/managepatients">Patients</a></li>
+      		</ul>
+		</div>        
+    </div>
+    <div class="navbar hoverNav patient">
+    	<div class="navbar-inner">
+        	<ul class="nav">
+        		<li class=""><a href="#/patients">Add Patient</a></li>
+        		<li class=""><a href="#/managepatients">Manage Patients</a></li>
+      		</ul>
+		</div>        
+    </div>
+    <div class="viewHolder container-fluid page-host">
+        <!--ko compose: { 
+            model: router.activeItem,
+            afterCompose: router.afterCompose,
+            transition:'entrance'
+        }--><!--/ko-->
+    </div>
+</div>
