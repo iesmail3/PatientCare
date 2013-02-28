@@ -4,8 +4,11 @@
  *
  * These are variables that come from the frontend.
  **************************************************************************************************/
-$mode = $_GET['mode'];
-$query = $_GET['query'];
+$mode   = $_GET['mode'];
+$table  = $_GET['table'];
+$fields = $_GET['fields'];
+$where  = $_GET['where'];
+$values = $_GET['values'];
 
 /***************************************************************************************************
  *  Database Parameters
@@ -13,9 +16,9 @@ $query = $_GET['query'];
  * These are parameters for the database connection.
  **************************************************************************************************/
 $host = 'codeplanetapps.com';
-$dbname = 'senior_design';
-$user = 'senior_design';
-$pass = '77dj7HC2LcBDjCPV';
+$dbname = 'patient_care';
+$user = 'patient_care';
+$pass = 'nyJQRtaQyw2X2KJH';
 
 // Exception handling
 try {
@@ -24,47 +27,84 @@ try {
 	
 	// If Select is chosen
 	if(strtolower($mode) == 'select') {
-		// Make the string safe
-		$query = $db->quote($query);
+		// Compile query
+		$query = "SELECT $fields FROM $table";
 		// Create query statement to run
 		$stmt = $db->query($query);
 		// Fetch method
 		$stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
 		// Grab each row
-		$result = array();
-		while($row = $stmt->fetch()) {
-			$name  = $row['name'];
-			$dob   = $row['dob'];
-			$phone = $row['phone'];
-			$email = $row['email'];
-			
-			array_push($result, array('name' => $name, 'dob' => $dob, 'phone' => $phone, 'email' => $email));
-		}
-		
+		$result = $stmt->fetchAll();
 		// Echo json to the page. 
 		echo json_encode($result);
 	}
 	// If Insert is chosen
 	else if($mode == 'insert') {
-		// Make the string safe
-		$query = $db->quote($query);
+		// Create nameholders
+		$nameholders = "(";
+		$fieldString = "(";
+		foreach($fields as $field) {
+			$nameholders .= ":$field,";
+			$fieldString .= "$field,";
+		}
+		$nameholders = substr_replace($nameholders ,"",-1) . ")";
+		$fieldString = substr_replace($fieldString ,"",-1) . ")";
+		
+		$query = "INSERT INTO $table $fieldString VALUES $nameholders";
 		// Run Query
 		$stmt = $db->prepare($query);
+		// Bind parameters
+		for($i = 0; $i < count($fields); $i++) {
+			$stmt->bindParam(":" . $fields[$i], $value[$i]);
+		}
 		$stmt->execute();
+		
+		// Check for failure
+		$rows_affected = $stmt->rowCount(); 
+		if($rows_affected < 1) {
+			
+		}
 	}
 	// If delete is Chosen
 	else if($mode == 'delete') {
-		// Make the string safe
-		$query = $db->quote($query);
-		// Run Query
-		$db->exec($query);
+		if($where != "") {
+			$query = "DELETE FROM $table $where";
+			// Run Query
+			$db->exec($query);
+			
+			// Check for failure
+			$rows_affected = $stmt->rowCount(); 
+			if($rows_affected < 1) {
+				
+			}
 	}
 	// If Update is chosen
 	else if($mode == 'update') {
-		// TODO
+		// Create nameholders
+		$set = "";
+		for($i = 0; $i < count($fields); $i++) {
+			$set .= "{$fields[$i]}='{$values[$i]}' AND ";
+		}
+		// Remove last AND
+		$set = substr_replace($set, "", -5, strlen($set));
+		
+		$query = "UPDATE $table SET $set $where";
+
+		// Run Query
+		$stmt = $db->prepare($query);
+		// Bind parameters
+		for($i = 0; $i < count($fields); $i++) {
+			$stmt->bindParam(":" . $fields[$i], $value[$i]);
+		}
+		$stmt->execute();
+		
+		// Check for failure
+		$rows_affected = $stmt->rowCount(); 
+		if($rows_affected < 1) {
+			echo 'fail';
+		}
 	}
 }
 catch (PDOException $e) {
-	echo $e->getMessage();
+	echo 'fail';
 }
