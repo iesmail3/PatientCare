@@ -31,7 +31,7 @@ define(function(require) {
             router.mapAuto('viewmodels');
             
             // Set initial view
-            return router.activate('managePatients');
+            return router.activate('managepatients');
             
         },
         // This causes the submenu to appear when the main icon is hovered
