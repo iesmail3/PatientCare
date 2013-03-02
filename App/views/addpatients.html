@@ -13,13 +13,13 @@ Description:
 		</p>
 		<p>
 			<input type="text" data-bind="value: inputAlias" placeholder="Alias" />
-			<select data-bind="value: inputGender">
-				<option value="" disabled selected style="display:non;">Select</option>
+			<select class="input-small" data-bind="value: inputGender">
+				<option value="" disabled selected style="display:non;">Gender</option>
 				<option value="male">Male</option>
 				<option value="female">Female</option>
 			</select>
 			<input type="text" data-bind="value: inputAlias" placeholder="Alias" />
-			<input type="text" class="input-small" data-bind="value: inputDOB, datepicker" placeholder="Date of Birth" />
+			<input type="text" class="input-small" data-bind="value: inputDOB, datepicker: {dateFormat: 'yy-mm-dd'}" placeholder="Date of Birth" />
 		</p>
 		<p>
 			<input type="text" data-bind="value: inputID" placeholder="Patient ID" />
@@ -28,7 +28,7 @@ Description:
 		</p>
 		<span>Contact Details</span>
 		<p>
-			<input type="text" class="input-large" data-bind="value: inputAddress" placeholder="Address" />
+			<input type="text" class="input-xxlarge" data-bind="value: inputAddress" placeholder="Address" />
 		</p>
 		<p>
 			<input type="text" data-bind="value: inputCity" placeholder="City" />
