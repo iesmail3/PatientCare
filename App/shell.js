@@ -7,23 +7,6 @@ define(function(require) {
         router: router,
         // Function that allows DOM manipulation
         viewAttached: function() {
-	        function reSize () {
-            	var windowHeight = $(window).height();
-            	var windowWidth = $(window).width();
-            	var navHeight = parseInt($('.mainNav').height());
-            	var viewHolder = $('.viewHolder');
-            	
-        		viewHolder.height(parseInt(windowHeight - navHeight));
-            	viewHolder.width(parseInt(windowWidth));
-            };
-            
-            $('.viewHolder').ready(function() {
-            	reSize();
-            });
-            
-            $(window).resize(function() {
-            	reSize();
-            });
         },
         // Function that is called when view is loaded
         activate: function() {
