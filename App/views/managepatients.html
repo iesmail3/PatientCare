@@ -1,5 +1,5 @@
 <div>
-	<form class="form-inline managePatients">
+	<form class="form-inline managepatients well">
 		<input type="text" class="input-medium"data-bind="value: inputFilter" placeholder="Enter to filter patients" />
 		<span>that</span>
 		<select class="span3" data-bind="value: inputStartsEndsContains">
@@ -29,23 +29,23 @@
 		<button type="reset" class="btn btn-small">Reset Fields</button>
 		<button type="button" class="btn btn-small btn-warning">Clear</button>
 		<button type="button" class="btn btn-small btn-danger">Delete Record</button>
+		<!-- Patient Table -->
+		<table class="table table-bordered">
+			<thead>
+			<tr>
+				<th>ID</th>
+				<th>Last Name</th>
+				<th>First Name</th>
+				<th>DOB</th>
+				<th>Last DOS</th>
+				<th>Gender</th>
+				<th>Phone</th>
+				<th>Mobile</th>
+				<th>Email</th>
+				<th>Address</th>
+			</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
 	</form>
-	<!-- Patient Table -->
-	<table class="table table-bordered">
-		<thead>
-		<tr>
-			<th>ID</th>
-			<th>Last Name</th>
-			<th>First Name</th>
-			<th>DOB</th>
-			<th>Last DOS</th>
-			<th>Gender</th>
-			<th>Phone</th>
-			<th>Mobile</th>
-			<th>Email</th>
-			<th>Address</th>
-		</tr>
-		</thead>
-		<tbody></tbody>
-	</table>
 </div>

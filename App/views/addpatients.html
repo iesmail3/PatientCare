@@ -5,73 +5,99 @@ Description:
 -->
 <div>
 	<form class="well">
-		<span>Personal Details</span>
-		<p>
-			<input type="text" data-bind="value: inputLast" placeholder="Last Name" />
-			<input type="text" data-bind="value: inputMiddle" placeholder="Middle Name" />
-			<input type="text" data-bind="value: inputFirst" placeholder="First Name" />
-		</p>
-		<p>
-			<input type="text" data-bind="value: inputAlias" placeholder="Alias" />
-			<select class="input-small" data-bind="value: inputGender">
-				<option value="" disabled selected style="display:non;">Gender</option>
-				<option value="male">Male</option>
-				<option value="female">Female</option>
+		<div class="personalDetails">
+			<fieldset>
+				<legend>Personal Details</legend>
+				<input type="text" data-bind="value: inputLast" placeholder="Last Name" />
+				<input type="text" data-bind="value: inputMiddle" placeholder="Middle Name" />
+				<input type="text" data-bind="value: inputFirst" placeholder="First Name" />
+				<input type="text" data-bind="value: inputAlias" placeholder="Alias" />
+				<select class="input-small" data-bind="value: inputGender">
+					<option value="" disabled selected style="display:non;">Gender</option>
+					<option value="male">Male</option>
+					<option value="female">Female</option>
+				</select>
+				<input type="text" data-bind="value: inputAlias" placeholder="Alias" />
+				<input type="text" class="input-small" data-bind="value: inputDOB, datepicker: {dateFormat: 'yy-mm-dd'}" placeholder="Date of Birth" />
+
+				<input type="text" class="input-small" data-bind="value: inputID" placeholder="Patient ID" />
+				<input type="text" class="input-small" data-bind="value: inputIDType" placeholder="ID Type" />
+				<input type="text" class="input-small" data-bind="value: inputDL" placeholder="DL#" />
+				<select class="input-medium" data-bind="value: inputMaritalStatus">
+					<option value="" disabled selected style="display:non;">Marital Status</option>
+					<option value="divorced">Divorced</option>
+					<option value="married">Married</option>
+					<option value="separated">Separated</option>
+					<option value="single">Single</option>
+					<option value="widowed">Widowed</option>
+					<option value="other">Other</option>
+				</select>
+				<input type="number" class="input-medium" data-bind="value: inputChildren" placeholder="No. of Children" />
+			</fieldset>
+		</div>
+		<div class="contactDetails">
+			<fieldset>
+				<legend>Contact Details</legend>
+					<input type="text" class="input-xxlarge" data-bind="value: inputAddress" placeholder="Address" />
+					<input type="text" data-bind="value: inputCity" placeholder="City" />
+					<input type="text" data-bind="value: inputState" placeholder="State" />
+					<input type="text" data-bind="value: inputZip" placeholder="Zip Code" />
+					<input type="text" data-bind="value: inputPhone" placeholder="Phone" />
+					<input type="text" data-bind="value: inputCell" placeholder="Cell" />
+					<input type="text" data-bind="value: inputEmail" placeholder="Email" />
+					<input type="text" data-bind="value: inputEmergencyContact" placeholder="Emergency Contact" />
+					<input type="text" data-bind="value: inputEmergencyRelation" placeholder="Relationship with Patient" />
+					<input type="text" data-bind="value: inputEmergencyPhone" placeholder="Emergency Phone" />
+					<input type="text" data-bind="value: inputEmergencyCell" placeholder="Emergency Cell" />
+			</fieldset>
+		</div>
+		<div class="employmentDetails">
+			<fieldset>
+				<legend>Employment Details</legend>
+				<span>Currently Employed</span>
+				<div class="btn-group" data-toggle="buttons-radio" data-bind="inputEmployed">
+					<button type="button" class="btn btn-primary">Yes</button>
+					<button type="button" class="btn btn-primary">No</button>
+				</div>
+				<input type="text" class="input-xlarge" data-bind="value: inputEmployer" placeholder="Employer" />
+				<input type="text" class="input-xxlarge" data-bind="value: inputEmployerAddress" placeholder="Address" />
+				<input type="text" data-bind="value: inputEmployerCity" placeholder="City" />
+				<input type="text" data-bind="value: inputEmployerState" placeholder="State" />
+				<input type="text" data-bind="value: inputEmployerZip" placeholder="Zip Code" />
+				<input type="text" data-bind="value: inputEmployerPhone" placeholder="Phone" />
+			</fieldset>
+		</div>
+		<div class="spouseDetails">
+			<fieldset>
+				<legend>Spouse Details</legend>
+				<input type="text" data-bind="value: inputSpouseFirst" placeholder="First Name" />
+				<input type="text" data-bind="value: inputSpouseLast" placeholder="Last Name" />
+				<select class="input-small" data-bind="value: inputSpouseGender">
+					<option value="" disabled selected style="display:non;">Gender</option>
+					<option value="male">Male</option>
+					<option value="female">Female</option>
+				</select>
+				<input type="text" class="input-small" data-bind="value: inputSpouseDOB, datepicker: {dateFormat: 'yy-mm-dd'}" placeholder="Date of Birth" />
+				<input type="text" class="input-small" data-bind="value: inputSpouseID" placeholder="Patient ID" />
+				<input type="text" class="input-small" data-bind="value: inputSpouseIDType" placeholder="ID Type" />
+				<input type="text" data-bind="value: inputSpousePhone" placeholder="Phone" />
+				<input type="text" data-bind="value: inputSpouseCell" placeholder="Cell" />
+			</fieldset>
+		</div>
+		<div class="addPatientsOptions">
+			<fieldset>
+			<select class="input-medium" data-bind="value: inputRecordStatus">
+				<option value="" disabled selected style="display:non;">Record Status</option>
+				<option value="active">Active</option>
+				<option value="archived">Archived</option>
+				<option value="deceased">Deceased</option>
+				<option value="deindentified">Deindentified</option>
+				<option value="transferred">Transferred</option>
 			</select>
-			<input type="text" data-bind="value: inputAlias" placeholder="Alias" />
-			<input type="text" class="input-small" data-bind="value: inputDOB, datepicker: {dateFormat: 'yy-mm-dd'}" placeholder="Date of Birth" />
-		</p>
-		<p>
-			<input type="text" class="input-small" data-bind="value: inputID" placeholder="Patient ID" />
-			<input type="text" class="input-small" data-bind="value: inputIDType" placeholder="ID Type" />
-			<input type="text" class="input-small" data-bind="value: inputDL" placeholder="DL#" />
-			<select class="input-medium" data-bind="value: inputMaritalStatus">
-				<option value="" disabled selected style="display:non;">Marital Status</option>
-				<option value="divorced">Divorced</option>
-				<option value="married">Married</option>
-				<option value="separated">Separated</option>
-				<option value="single">Single</option>
-				<option value="widowed">Widowed</option>
-				<option value="other">Other</option>
-			</select>
-			<input type="number" class="input-medium" data-bind="value: inputChildren" placeholder="No. of Children" />
-		</p>
-	</form>
-	<form class="well">
-		<span>Contact Details</span>
-		<p>
-			<input type="text" class="input-xxlarge" data-bind="value: inputAddress" placeholder="Address" />
-		</p>
-		<p>
-			<input type="text" data-bind="value: inputCity" placeholder="City" />
-			<input type="text" data-bind="value: inputState" placeholder="State" />
-			<input type="text" data-bind="value: inputZip" placeholder="Zip Code" />
-		</p>
-		<p>
-			<input type="text" data-bind="value: inputPhone" placeholder="Phone" />
-			<input type="text" data-bind="value: inputCell" placeholder="Cell" />
-			<input type="text" data-bind="value: inputEmail" placeholder="Email" />
-		</p>
-		<p>
-			<input type="text" data-bind="value: inputEmergencyContact" placeholder="Emergency Contact" />
-			<input type="text" data-bind="value: inputEmergencyRelation" placeholder="Relationship with Patient" />
-		</p>
-		<p>
-			<input type="text" data-bind="value: inputEmergencyPhone" placeholder="Emergency Phone" />
-			<input type="text" data-bind="value: inputEmergencyCell" placeholder="Emergency Cell" />
-		</p>
-	</form>
-	<form class="well">
-		<span>Employment Details</span>
-		<p>
-			<span>Currently Employed</span>
-			<div class="btn-group" data-toggle="buttons-radio" data-bind="value: inputEmployed">
-				<button type="button" class="btn btn-primary">Yes</button>
-				<button type="button" class="btn btn-primary">No</button>
-			</div>
-		</p>
-	</form>
-	<form class="well">
-		<span>Spouse Details</span>
+			<button type="button" class="btn btn-small btn-primary">Print</button>
+			<button type="button" class="btn btn-small">Save</button>
+			<button type="button" class="btn btn-small btn-danger">Cancel</button>
+			</fieldset>
+		</div>
 	</form>
 </div>
