@@ -1,0 +1,28 @@
+<!--
+View: patient.html
+Author(s): Sean Malone
+Description: This view is the outer patient view. It will hold the tree
+		     and the sub-content for each patient view.
+-->
+<div>
+	<div class="container-fluid"> 
+		<div class="row-fluid">
+			<div class="span3 patientTree">
+				<div>
+					<h1>Test patients</h1>
+					<ul class="unstyled">
+					<li><a href="#/patient/personalinformation">Personal Information</a></li>
+					<li><a href="#/patient/insurance">Insurance</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="span9 contentPane">
+				<div class="container-fluid page-host">
+					<!--ko compose: { 
+			            model: currentView
+			        }--><!--/ko-->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
