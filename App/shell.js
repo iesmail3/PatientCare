@@ -7,6 +7,7 @@ define(function(require) {
         router: router,
         // Function that allows DOM manipulation
         viewAttached: function() {
+        	
         },
         // Function that is called when view is loaded
         activate: function() {
@@ -14,7 +15,7 @@ define(function(require) {
             router.mapAuto('viewmodels');
             
             // Set initial view
-            return router.activate('managePatients');
+            return router.activate('managepatients');
             
         },
         // This causes the submenu to appear when the main icon is hovered

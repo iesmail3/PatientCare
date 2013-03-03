@@ -20,9 +20,9 @@ define(function(require) {
 	 * 	this.email = ko.observable(data.email);
 	 * };
 	 *************************************************************************************************/
-	function <Structure name> (parameters) {
+	//function <Structure name> (parameters) {
 		// place attributes here
-	}
+	//}
 	
 	/**************************************************************************************************
 	 * Get Customers
@@ -30,7 +30,7 @@ define(function(require) {
 	 * Below is how you write the constructor for this class. You can add parameters and initialization
 	 * logic if needed.
 	 *************************************************************************************************/
-	var <class name> = function() {};
+	//var <class name> = function() {};
 	
 	/**************************************************************************************************
 	 * Attributes

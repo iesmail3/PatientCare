@@ -4,6 +4,8 @@
         	<ul class="nav">
         		<li class="patientNav navItem" data-bind="event: { mouseover: subMenuIn, mouseout: subMenuOut}">
         		<a href="#/managepatients">Patients</a></li>
+			<li class="insuranceNav navItem" data-bind="event: { mouseover: subMenuIn, mouseout: subMenuOut}">
+                        <a href="#/insurance">Insurance</a></li>
       		</ul>
 		</div>        
     </div>
@@ -16,10 +18,12 @@
 		</div>        
     </div>
     <div class="viewHolder container-fluid page-host">
-        <!--ko compose: { 
-            model: router.activeItem,
-            afterCompose: router.afterCompose,
-            transition:'entrance'
-        }--><!--/ko-->
+    	<div class="well">
+	        <!--ko compose: { 
+	            model: router.activeItem,
+	            afterCompose: router.afterCompose,
+	            transition:'entrance'
+	        }--><!--/ko-->
+    	</div>
     </div>
 </div>
