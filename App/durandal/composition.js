@@ -1,9 +1,5 @@
-﻿define(function (require) {
-    var viewLocator = require('./viewLocator'),
-        viewModelBinder = require('./viewModelBinder'),
-        viewEngine = require('./viewEngine'),
-        system = require('./system'),
-        viewModel = require('./viewModel');
+﻿define(['./viewLocator', './viewModelBinder', './viewEngine', './system', './viewModel'],
+    function (viewLocator, viewModelBinder, viewEngine, system, viewModel) {
 
     var dummyModel = {},
         activeViewAttributeName = 'data-active-view';
@@ -68,6 +64,28 @@
         }
     }
 
+    function shouldTransition(newChild, settings) {
+        if (typeof settings.transition == 'string' && newChild) {
+            if (settings.activeView) {
+                if (settings.activeView == newChild) {
+                    return false;
+                }
+
+                if (settings.skipTransitionOnSameViewId) {
+                    var currentViewId = settings.activeView.getAttribute('data-view');
+                    var newViewId = newChild.getAttribute('data-view');
+                    return currentViewId != newViewId;
+                }
+
+                return true;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
     var composition = {
         activateDuringComposition: false,
         convertTransitionToModuleId: function (name) {
@@ -76,7 +94,7 @@
         switchContent: function (parent, newChild, settings) {
             settings.transition = settings.transition || this.defaultTransitionName;
 
-            if (typeof settings.transition == 'string' && newChild) {
+            if (shouldTransition(newChild, settings)) {
                 var transitionModuleId = this.convertTransitionToModuleId(settings.transition);
                 system.acquire(transitionModuleId).then(function (transition) {
                     settings.transition = transition;
@@ -85,25 +103,27 @@
                     });
                 });
             } else {
-                if (settings.cacheViews && settings.activeView) {
-                    $(settings.activeView).css('display', 'none');
-                }
-
-                if (!newChild) {
-                    if (!settings.cacheViews) {
-                        ko.virtualElements.emptyNode(parent);
+                if (newChild != settings.activeView) {
+                    if (settings.cacheViews && settings.activeView) {
+                        $(settings.activeView).css('display', 'none');
                     }
-                } else {
-                    if (settings.cacheViews) {
-                        if (settings.composingNewView) {
-                            settings.viewElements.push(newChild);
-                            ko.virtualElements.prepend(parent, newChild);
-                        } else {
-                            $(newChild).css('display', '');
+
+                    if (!newChild) {
+                        if (!settings.cacheViews) {
+                            ko.virtualElements.emptyNode(parent);
                         }
                     } else {
-                        ko.virtualElements.emptyNode(parent);
-                        ko.virtualElements.prepend(parent, newChild);
+                        if (settings.cacheViews) {
+                            if (settings.composingNewView) {
+                                settings.viewElements.push(newChild);
+                                ko.virtualElements.prepend(parent, newChild);
+                            } else {
+                                $(newChild).css('display', '');
+                            }
+                        } else {
+                            ko.virtualElements.emptyNode(parent);
+                            ko.virtualElements.prepend(parent, newChild);
+                        }
                     }
                 }
 
@@ -149,8 +169,7 @@
             return viewLocator.locateViewForObject(settings.model, settings.viewElements);
         },
         getSettings: function (valueAccessor, element) {
-            var settings = {},
-                value = ko.utils.unwrapObservable(valueAccessor()) || {};
+            var value = ko.utils.unwrapObservable(valueAccessor()) || {};
 
             if (typeof value == 'string') {
                 return value;
@@ -164,13 +183,10 @@
             }
 
             for (var attrName in value) {
-                if (typeof attrName == 'string') {
-                    var attrValue = ko.utils.unwrapObservable(value[attrName]);
-                    settings[attrName] = attrValue;
-                }
+                value[attrName] = ko.utils.unwrapObservable(value[attrName]);
             }
 
-            return settings;
+            return value;
         },
         executeStrategy: function (element, settings) {
             settings.strategy(settings).then(function (view) {
