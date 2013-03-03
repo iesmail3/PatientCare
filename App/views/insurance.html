@@ -1,12 +1,13 @@
 <div>
 <form id="form-inline">
+	<div>
     <fieldset>
-        <legend>Edit Insurance Information</legend>
-		<span> Primary Insured person </span> 
-         <input type="radio" class = "Insured_person" name="Self" value="1" />Self
-         <input type="radio" class = "Insured_person" name="Self" value="2" />Not Insured
-         <input type="radio" class = "Insured_person" name="Self" value="3" />Other
-		 <input type="text" class=" Insured_person input-xlarge">
+        <legend>Edit Insurance Infromation</legend>
+		<span> Primary Insured person </span>  
+         <input type="radio" class = "insuredPerson" name="Self" value="1" /><span>Self</span>
+         <input type="radio" class = "insuredPerson" name="Self" value="2" /><span>Not Insured</span>
+         <input type="radio" class = "insuredPerson" name="Self" value="3" /><span>Other</span>
+		 <input type="text" class=" insuredPerson input-xlarge">
 						
 	<p id = "InsuredDetails">
 	<input type="text" class="input-medium" placeholder = "Name of Insured/Responsible Party"/> 
@@ -16,15 +17,14 @@
 					<option value="Mother">Mother</option>
 					<option value="Spouse">Spouse</option>
 					<option value="Daughter">Daughter</option>
-					<option value="Son">Son</option>
+					<option value="Son">Son</option>      
 					<option value="Other">Other</option>
-					</select>	
-	</p>
- 
-   <fieldset class = "span5"> 
+		</select>	    
+	</p>  
+    <fieldset class = "span5">  
           <legend> Address of Insured/Responsible Party </legend> 
-		  <input type="radio" class = "Insured_person" name="address" value="" />Same as for patient
-          <input type="radio" class = "Insured_person" name="address" value="" /> As Given
+		  <input type="radio" class = "insuredPerson" name="address" value="" /><span>Same as for patient</span>
+          <input type="radio" class = "insuredPerson" name="address" value="" /> <span> Given</span>
 		  <p>
 				<input type="text" class= "input-xlarge" data-bind="value: inputAdress" placeholder="Address" >
 		  </p>
@@ -80,18 +80,115 @@
 				<option> USA </option> 
 				</select>
 		  </p>		  		 		                          
-    </fieldset>
+    </fieldset>  
 	<fieldset class = "span6"> 
 	<legend> Employer of Insured/Responsible Party </legend> 
-	 <input type="radio" class = "Insured_person" name="employer" value="" />Same as for patient
-     <input type="radio" class = "Insured_person" name="employer" value="" /> As Given
-	 <input type="radio" class = "Insured_person" name="employer" value="" /> Not applicable	
+	 <input type="radio" class = "insuredPerson" name="employer" value="" /><span>Same as for patient</span>
+     <input type="radio" class = "insuredPerson" name="employer" value="" /> <span>As Given</span>
+	 <input type="radio" class = "insuredPerson" name="employer" value="" /> <span>Not applicable</span>	
 	 <input type="text" class= "input-xlarge" data-bind="value: inputEmployerName" placeholder="Name" />
 	 <p>
 	 <input type="text" class= "input-small" data-bind="value: inputPhone" placeholder="Phone" />
 	 <input type="text" class= "input-mini" data-bind="value:" placeholder="" />
-	 </p>
-	</fieldset>  	
+	 </p> 
+	</fieldset>  
+	</div>
+	 <div> 
+	 <p>
+	 <input type="text" class= "input-small" data-bind="value: inputSSN" placeholder="SSN" />
+	 <input type="checkbox" id="" value=""> <span>same as patient</span> 
+	 <input type="text" class="input-small hasDatepicker" data-bind="value: inputDOB, datepicker: {dateFormat: 'yy-mm-dd'}" placeholder="Date of Birth">
+	 <input type="checkbox" id="" value=""> <span>same as patient</span> 
+	 </p>	 	
+    </div> 
 </fieldset>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#pane1" data-toggle="tab">Primary Insurance</a></li>
+    <li><a href="#pane2" data-toggle="tab">Secondary Insurance</a></li>
+    <li><a href="#pane3" data-toggle="tab">Other Insurance</a></li>
+  </ul>
+  <div class="tab-content">
+    <div id="pane1" class="tab-pane active">
+      
+      <p>  
+		<select data-bind="value:inpuCompany" class = "input-xlarge">
+				  <option>Insurance Company Name</option>
+				  <option value="geico">Geico</option>
+	    </select>
+	   <input type="text" class="input-small hasDatepicker" data-bind="value: inputDOB, datepicker: {dateFormat: 'yy-mm-dd'}" placeholder="Date of Birth">
+      </p>
+      <p>
+      	 <input type="text" class="input-medium" placeholder="ID Number">
+      	 <input type="text" class="input-medium" placeholder="Group Number">
+      	 <span> Subject to Pre-Existing Clause </span>  
+         <input type="radio" class = "insuredPerson" name="clauseOption" value="Yes" /><span>Yes</span>
+         <input type="radio" class = "insuredPerson" name="clauseOption" value="No" /><span>No</span>
+      </p>
+      <p>
+      	 <span> Plan ? </span>  
+         <input type="radio" class = "insuredPerson" name="plan" value="HMO" /><span>HMO</span>
+         <input type="radio" class = "insuredPerson" name="plan" value="EPO" /><span>EPO</span>
+         <input type="radio" class = "insuredPerson" name="plan" value="POS" /><span>POS</span>
+         <input type="radio" class = "insuredPerson" name="plan" value="PPO" /><span>PPO</span>
+         <input type="radio" class = "insuredPerson" name="plan" value="Other" /><span>Other</span>
+         <span> Referal Authorization Required</span>  
+         <input type="radio" class = "insuredPerson" name="referalAuthorization" value="Yes" /><span>Yes</span>
+         <input type="radio" class = "insuredPerson" name="referalAuthorization" value="No" /><span>No</span>
+      </p> 
+      <div> 
+      	<fieldset>
+      		<legend>Duductible/Out of Pocket/Co-Payment</legend>
+      		<p>
+      			<span>$</span>
+      			<input type="text" class="input-medium" placeholder="Deductible">
+      			<span> Met Deductibles</span>  
+                <input type="radio" class = "insuredPerson" name="metDeductible" value="Yes" /><span>Yes</span>
+                <input type="radio" class = "insuredPerson" name="metDeductible" value="No" /><span>No</span>
+                <span>$</span>
+      			<input type="text" class="input-medium" placeholder="Remaining Deductibles">
+      		</p>
+      		<p>
+      			<span><strong>OV/LAB</strong> Co-Payment</span>
+      			<span>$</span>
+      			<input type="text" class="input-medium" placeholder="Co-Payment">
+      			<input type="text" class="input-medium" placeholder="Patient Portion">
+      			<span>%</span>
+      			<input type="text" class="input-medium" placeholder="Ins.Portion">
+      			<span>%</span>    			
+      		</p>    		
+      	  </fieldset>    	
+       </div> 
+       <div>
+       	<fieldset>
+       		<legend>Verification</legend>
+       		<p>
+       			<input type="text" class="input-medium" placeholder="Insurance Company Contact Information">
+       			<input type="text" class="input-medium" placeholder="Phone Number for Verification">
+       			<input type="text" class="input-mini" placeholder="Ext">
+       		</p>
+       		<p>
+       			<span> Verified ? </span>  
+                <input type="radio" class = "insuredPerson" name="plan" value="Yes" /><span>Yes</span>
+                <input type="radio" class = "insuredPerson" name="plan" value="No" /><span>No</span>
+                <input type="text" class="input-small hasDatepicker" data-bind="value: inputDOB, datepicker: {dateFormat: 'yy-mm-dd'}" placeholder="Verification Date">
+       		</p>
+       	</fieldset>
+       </div>  
+    </div>
+    
+    <div id="pane2" class="tab-pane">
+    <h4>Pane 2 Content</h4>
+      <p> and so on ...</p>
+    </div>
+    <div id="pane3" class="tab-pane">
+      <h4>Pane 3 Content</h4>
+    </div>
+    <div id="pane4" class="tab-pane">
+      <h4>Pane 4 Content</h4>
+    </div>
+  </div><!-- /.tab-content -->
+</div><!-- /.tabbable -->
 </form>
 </div>
