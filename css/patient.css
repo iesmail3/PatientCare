@@ -1,8 +1,3 @@
-
-input.insuredPerson { margin: 12px; }   
-
- span.sameAsPatient{ margin-right: 305px;}
-
 .patientTree {
 	background-color: rgb(250,250,250);
 	margin-top: 10px;
@@ -57,3 +52,15 @@ input.insuredPerson { margin: 12px; }
 	border-radius: 0 0 5px 5px;
 }
 
+/* Insurance */
+.insuredPerson { 
+	margin: 12px; 
+}   
+
+.sameAsPatient{ 
+	margin-right: 305px;
+}
+
+.insuranceTabs {
+	clear: both;
+}
