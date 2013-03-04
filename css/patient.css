@@ -11,3 +11,24 @@
 .fill {
 	height: 100%;
 }
+
+.patientRecordNav {
+	margin-left: 10px !important;
+}
+
+.patientRecordNav li a {
+	color: #000;
+	text-decoration: none;
+}
+
+.patientRecordNav li a:hover {
+	text-decoration: none;
+}
+
+.patientName {
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}

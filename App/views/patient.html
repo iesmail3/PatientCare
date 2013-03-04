@@ -9,10 +9,15 @@ Description: This view is the outer patient view. It will hold the tree
 		<div class="row-fluid">
 			<div class="span3 patientTree">
 				<div>
-					<h1>Test patients</h1>
-					<ul class="unstyled">
-					<li><a href="#/patient/personalinformation">Personal Information</a></li>
-					<li><a href="#/patient/insurance">Insurance</a></li>
+					<!-- ko with: patient -->
+						<div class="patientName" data-bind="text: lastFirstName"></div>
+					<!-- /ko -->
+					<ul class="patientRecordNav unstyled">
+						<li><a data-bind="attr: {href: personalUrl}">Personal Information</a></li>
+						<li><a data-bind="attr: {href: socialUrl}">Social & Family History</a></li>
+						<li><a data-bind="attr: {href: serviceUrl}"">Service Record</a></li>
+						<div class="serviceRecords"></div>
+						<li><a data-bind="attr: {href: followupUrl}">Follow Up</a></li>
 					</ul>
 				</div>
 			</div>
