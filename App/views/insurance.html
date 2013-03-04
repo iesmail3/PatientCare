@@ -21,6 +21,7 @@
 					<option value="Other">Other</option>
 		</select>	    
 	</p>  
+	<div>
     <fieldset class = "span5">  
           <legend> Address of Insured/Responsible Party </legend> 
 		  <input type="radio" class = "insuredPerson" name="address" value="" /><span>Same as for patient</span>
@@ -80,7 +81,9 @@
 				<option> USA </option> 
 				</select>
 		  </p>		  		 		                          
-    </fieldset>  
+    </fieldset> 
+    </div>
+    <div>
 	<fieldset class = "span6"> 
 	<legend> Employer of Insured/Responsible Party </legend> 
 	 <input type="radio" class = "insuredPerson" name="employer" value="" /><span>Same as for patient</span>
@@ -101,8 +104,8 @@
 	 <input type="checkbox" id="" value=""> <span>same as patient</span> 
 	 </p>	 	
     </div> 
-</fieldset>
-
+    </fieldset>
+  </div>
 <div class="tabbable">
   <ul class="nav nav-tabs">
     <li class="active"><a href="#pane1" data-toggle="tab">Primary Insurance</a></li>
@@ -110,7 +113,7 @@
     <li><a href="#pane3" data-toggle="tab">Other Insurance</a></li>
   </ul>
   <div class="tab-content">
-    <div id="pane1" class="tab-pane active">
+    <div id="primaryPane" class="tab-pane active">
       
       <p>  
 		<select data-bind="value:inpuCompany" class = "input-xlarge">
@@ -178,16 +181,13 @@
        </div>  
     </div>
     
-    <div id="pane2" class="tab-pane">
+    <div id="secondaryPane" class="tab-pane">
     <h4>Pane 2 Content</h4>
       <p> and so on ...</p>
     </div>
-    <div id="pane3" class="tab-pane">
+    <div id="otherPane" class="tab-pane">
       <h4>Pane 3 Content</h4>
-    </div>
-    <div id="pane4" class="tab-pane">
-      <h4>Pane 4 Content</h4>
-    </div>
+    </div>  
   </div><!-- /.tab-content -->
 </div><!-- /.tabbable -->
 </form>
