@@ -119,13 +119,8 @@ define(function(require) {
 			// Display subview
 			var sub = '';
 			// Check for initial load
-			if (self.currentView() == '') {
-				sub = 'viewmodels/patient/personalinformation';
-			}
-			else {
-				sub = 'viewmodels/patient/' + data.view;
-			}
-			
+			sub = 'viewmodels/patient/' + data.view;
+				
 			// Change the view
 			self.currentView(sub);
 			// Get URL parameters (make sure to create an observable above for each)
