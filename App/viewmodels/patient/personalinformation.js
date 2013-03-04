@@ -42,7 +42,6 @@ define(function(require) {
 				e.preventDefault();
   				$(this).tab('show');
 			});
-
 		},
 		// Loads when view is loaded
 		activate: function(data) {

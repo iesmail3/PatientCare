@@ -38,6 +38,10 @@ define(function(require) {
 		 *******************************************************************************************/
 		// This allow manipulation of the DOM
 		viewAttached: function() {
+			$('#socialTab a').click(function(e) {
+				e.preventDefault();
+  				$(this).tab('show');
+			});
 		},
 		// Loads when view is loaded
 		activate: function(data) {
