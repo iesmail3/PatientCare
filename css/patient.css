@@ -8,6 +8,11 @@
 	margin-top: 10px;
 }
 
+.contentPane .container-fluid {
+	padding: 5px;
+}
+
+
 .fill {
 	height: 100%;
 }
@@ -31,4 +36,17 @@
 	font-weight: bold;
 	margin-top: 5px;
 	margin-bottom: 10px;
+}
+
+.patientNavs {
+	margin-top: 15px;
+}
+
+.nav-tabs {
+	margin-bottom: -1px;
+}
+
+.tab-pane {
+	border: 1px solid #ddd;
+	border-radius: 0 0 5px 5px;
 }
