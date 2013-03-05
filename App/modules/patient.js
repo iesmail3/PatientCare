@@ -6,7 +6,7 @@
  *************************************************************************************************/
 define(function(require) {
 	/**************************************************************************************************
-	 * Customer Structure
+	 * Structures
 	 * 
 	 * Place any structures that you need here. A structure is basically an object that acts like an 
 	 * array in that it only has variables. There are no methods. An example of a structure is the
@@ -25,12 +25,12 @@ define(function(require) {
 	//}
 	
 	/**************************************************************************************************
-	 * Get Customers
+	 * Constructor
 	 *
 	 * Below is how you write the constructor for this class. You can add parameters and initialization
 	 * logic if needed.
 	 *************************************************************************************************/
-	//var <class name> = function() {};
+	var patient = function() {};
 	
 	/**************************************************************************************************
 	 * Attributes
@@ -49,9 +49,61 @@ define(function(require) {
 	 *	   		return customers[id];
 	 * 	   };
 	 *************************************************************************************************/ 
+	// Get All Patients
+	patient.prototype.getPatients = function() {
+		return $.getJSON(
+	        // Backend script
+	        'php/query.php',
+	        // Variables sent to query.php
+	        {
+	                mode: 'select',
+	                table: 'patient',
+	                fields: '*',
+	        },
+	        function(data) {
+	        	self.results = data;
+	        }
+	    );
+	}
+	
+	// Get Personal Information
+	patient.prototype.getPatient = function(id) {
+		return $.getJSON(
+	        // Backend script
+	        'php/query.php',
+	        // Variables sent to query.php
+	        {
+	                mode: 'select',
+	                table: 'patient',
+	                fields: '*',
+	                where: "WHERE id='" + id + "'"
+	        },
+	        // Callback function
+	        function(data) {
+	        }
+	    );
+	}
+	
+	// Get Insurance
+	patient.prototype.getInsurance = function(id) {
+		return $.getJSON(
+	        // Backend script
+	        'php/query.php',
+	        // Variables sent to query.php
+	        {
+	                mode: 'select',
+	                table: 'insurance',
+	                fields: '*',
+	                where: "WHERE patient_id='" + id + "'"
+	        },
+	        // Callback function
+	        function(data) {
+	        }
+	    );
+	}
 	
 	/**************************************************************************************************
 	 * Return class so it is usable.
 	 *************************************************************************************************/
-	//return backend;
+	return patient;
 });
