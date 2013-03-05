@@ -44,9 +44,9 @@ define(function(require) {
 			});
 			
 			// Resize tree and content pane
-			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+			$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
 			$(window).resize(function() {
-				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
 			});
 		},
 		// Loads when view is loaded

@@ -12,4 +12,16 @@ define(function(require) {
 			}
 		}	
 	};
+	
+	ko.bindingHandlers.timepicker = {
+		init: function(element, valueAccessor) {
+			var value = valueAccessor(); 
+			
+			console.log(value);
+			$(element).timepicker();
+			for(var key in value) {
+				$(element).timepicker("option", key, value[key]);
+			}
+		}	
+	};
 });

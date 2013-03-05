@@ -70,3 +70,11 @@ legend {
 .insuranceTabs {
 	clear: both;
 }
+
+#primaryPane form {
+	padding: 10px;
+}
+
+.deductible {
+	margin-bottom: 5px;
+}
