@@ -1,3 +1,7 @@
+legend {
+	font-size: 14pt;
+}
+
 .patientTree {
 	background-color: rgb(250,250,250);
 	margin-top: 10px;
@@ -47,15 +51,16 @@
 }
 
 .tab-pane {
-	background-color: #fff;
+	background-color: #fff;   
 	border: 1px solid #ddd;
 	border-radius: 0 0 5px 5px;
+	padding: 0 10px;     
 }
 
 /* Insurance */
 .insuredPerson { 
-	margin: 12px; 
-}   
+	margin: 12px;    
+}     
 
 .sameAsPatient{ 
 	margin-right: 305px;

@@ -106,12 +106,10 @@ define(function(require) {
 			// Resize tree and content pane
 			$('.patientTree').height(parseInt($('.viewHolder').height()) - 20);
 			$('.contentPane').height(parseInt($('.viewHolder').height()) - 20);
-			$('.tab-content').height(parseInt($('.contentPane').height()) - 60);
 			$(window).resize(function() {
 				system.log('trigger');
 				$('.patientTree').height(parseInt($('.viewHolder').height()) - 20);
 				$('.contentPane').height(parseInt($('.viewHolder').height()) - 20);
-				$('.tab-content').height(parseInt($('.contentPane').height()) - 60);
 			});
 		},
 		// Loads when view is loaded
