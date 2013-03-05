@@ -86,7 +86,7 @@ try {
 		$nameholders = substr_replace($nameholders ,"",-1) . ")";
 		$fieldString = substr_replace($fieldString ,"",-1) . ")";
 		
-		$query = "INSERT INTO $table $fieldString VALUES $nameholders $where";
+		$query = "INSERT INTO $table VALUES $nameholders $where";
 		// Run Query
 		$stmt = $db->prepare($query);
 		// Bind parameters

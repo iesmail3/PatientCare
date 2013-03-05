@@ -13,6 +13,9 @@ define(function(require) {
         	// Tell Durandal where the viewmodels are
             router.mapAuto('viewmodels');
             
+            // Add url variables
+            router.mapRoute('#/patient/:view', 'viewmodels/patient');
+            router.mapRoute('#/patient/:view/:patientId', 'viewmodels/patient');
             // Set initial view
             return router.activate('managepatients');
             

@@ -20,7 +20,7 @@
     <div class="navbar hoverNav patient">
     	<div class="navbar-inner">
         	<ul class="nav">
-        		<li class=""><a href="#/addpatients">Add Patient</a></li>
+        		<li class=""><a href="#/patient/personalinformation/new">Add Patient</a></li>
         		<li class=""><a href="#/managepatients">Manage Patients</a></li>
       		</ul>
 		</div>        
@@ -28,8 +28,10 @@
     <div class="viewHolder container-fluid page-host">
         <!--ko compose: { 
             model: router.activeItem,
+            activateDuringComposition: true,
             afterCompose: router.afterCompose,
-            transition:'entrance'
+            transition:'entrance',
+            skipTransitionOnSameViewId: true
         }--><!--/ko-->
     </div>
 </div>
