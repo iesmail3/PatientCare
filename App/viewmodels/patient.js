@@ -9,7 +9,13 @@ define(function(require) {
 	 **********************************************************************************************/
 	var system = require('durandal/system');			// System logger
 	var custom = require('durandal/customBindings');	// Custom bindings
-	//var Backend = require('modules/moduleTemplate');	// Module
+	var viewModel = require('durandal/viewModel');
+	var Backend = require('modules/patient');			// Backend
+	// Subviews
+	var personal = require('viewmodels/patient/personalinformation');
+	var social = require('viewmodels/patient/socialandfamily');
+	var service = require('viewmodels/patient/servicerecord');
+	var followup = require('viewmodels/patient/followup');
 	
 	/*********************************************************************************************** 
 	 * Patient Structure
@@ -46,6 +52,7 @@ define(function(require) {
 		self.contactPhone 		  = ko.observable(data.contact_phone);
 		self.contactMobile 	   	  = ko.observable(data.contact_mobile);
 		self.contactRelationship  = ko.observable(data.contact_relationship);
+		self.insuredType 		  = ko.observable('not insured');
 		
 		
 		// This will return the name in the following format: Last, First
@@ -59,7 +66,7 @@ define(function(require) {
 	 **********************************************************************************************/
 	var patient = ko.observable('');
 	var patientId = ko.observable();
-	var currentView = ko.observable('');
+	var currentView = viewModel.activator();
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -93,7 +100,11 @@ define(function(require) {
 		 *******************************************************************************************/
 		patient: patient,
 		patientId: patientId,
-		currentView: currentView,
+		currentView: viewModel.activator(),
+		personal: personal,
+		social: social,
+		service: service,
+		followup: followup,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -116,37 +127,34 @@ define(function(require) {
 		activate: function(data) {
 			var self = this;
 			
-			// Display subview
-			var sub = '';
-			// Check for initial load
-			sub = 'viewmodels/patient/' + data.view;
-				
-			// Change the view
-			self.currentView(sub);
 			// Get URL parameters (make sure to create an observable above for each)
 			self.patientId(data.patientId);
-			
-			var jsonCall = $.getJSON(
-                // Backend script
-                'php/query.php',
-                // Variables sent to query.php
-                {
-                        mode: 'select',
-                        table: 'patient',
-                        fields: '*',
-                        values: '',
-                        where: "WHERE id='" + self.patientId() + "'"
-                },
-                // Callback function
-                function(data) {
-                	if(data.length > 0) {
-	                    var p = new Patient(data[0]);
-	                    self.patient(p);
-                    }
-                }
-            );
-
-            return jsonCall;
+            var view = data.view;
+            
+            // Switch view
+            switch(view) {
+            	case 'socialandfamily': 
+            		self.currentView.activateItem(social, data);
+            		break;
+            	case 'servicerecord': 
+            		self.currentView.activateItem(service, data);
+            		break;
+            	case 'followup': 
+            		self.currentView.activateItem(followup, data);
+            		break;
+            	default: 
+            		self.currentView.activateItem(personal, data);
+            		break;				 	
+            }
+            
+            // Load Patient information
+            var backend = new Backend();
+            return backend.getPatient(self.patientId()).success(function(data) {
+            	if(data.length > 0) {
+            		var p = new Patient(data[0]);
+            		self.patient(p);
+            	}
+            });
 		},
 		// URL generators
 		personalUrl: personalUrl,

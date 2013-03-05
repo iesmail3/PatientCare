@@ -1,105 +1,196 @@
 /**************************************************************************************************
- * Module name:
- * Author(s):
- * Description:
- *
+ * Module name: Patient
+ * Author(s): Sean malone
+ * Description: This module is used to query the database.
  *************************************************************************************************/
 define(function(require) {
-	/**************************************************************************************************
-	 * Structures
-	 * 
-	 * Place any structures that you need here. A structure is basically an object that acts like an 
-	 * array in that it only has variables. There are no methods. An example of a structure is the
-	 * Customer structure below:
-	 *  
-	 * function Customer(data) {
-	 *	this.name  = ko.observable(data.name);
-	 *	this.dob   = ko.observable(data.dob.substring(5,7) + '/' 
-	 *		+ data.dob.substring(8,10) + '/' + data.dob.substring(0,4));
-	 *	this.phone = ko.observable(data.phone);
-	 * 	this.email = ko.observable(data.email);
-	 * };
-	 *************************************************************************************************/
-	//function <Structure name> (parameters) {
-		// place attributes here
-	//}
-	
-	/**************************************************************************************************
+	/**********************************************************************************************
 	 * Constructor
-	 *
-	 * Below is how you write the constructor for this class. You can add parameters and initialization
-	 * logic if needed.
-	 *************************************************************************************************/
+	 *********************************************************************************************/
 	var patient = function() {};
 	
-	/**************************************************************************************************
-	 * Attributes
-	 *
-	 * This is where you can add attributes (variables) to the class.
-	 *
-	 * Ex: backend.prototype.name = "Harry";
-	 *************************************************************************************************/
-	 
-	/**************************************************************************************************
-	 * Methods
-	 *
-	 * This is where you can add attibutes to handle the data that comes in.
-	 *
-	 * Ex: backend.prototype.getCustomers(id) {
-	 *	   		return customers[id];
-	 * 	   };
-	 *************************************************************************************************/ 
+	/**********************************************************************************************
+	 * Get Methods
+	 * 
+	 * These methods retrieve information from the database via SELECT queries
+	 *********************************************************************************************/
 	// Get All Patients
 	patient.prototype.getPatients = function() {
-		return $.getJSON(
-	        // Backend script
-	        'php/query.php',
-	        // Variables sent to query.php
-	        {
-	                mode: 'select',
-	                table: 'patient',
-	                fields: '*',
-	        },
-	        function(data) {
-	        	self.results = data;
-	        }
-	    );
+		return this.query({
+			mode: 'select', 
+			table: 'patient', 
+			fields: '*'
+		});
 	}
 	
-	// Get Personal Information
+	// Get Personal Information for a Single Patient
 	patient.prototype.getPatient = function(id) {
-		return $.getJSON(
-	        // Backend script
-	        'php/query.php',
-	        // Variables sent to query.php
-	        {
-	                mode: 'select',
-	                table: 'patient',
-	                fields: '*',
-	                where: "WHERE id='" + id + "'"
-	        },
-	        // Callback function
-	        function(data) {
-	        }
-	    );
+		return this.query({
+			mode: 'select', 
+			table: 'patient', 
+			fields: '*', 
+			where: "WHERE id='" + id + "'"
+		});
 	}
 	
-	// Get Insurance
+	// Get All Insurances for a Single Patient
 	patient.prototype.getInsurance = function(id) {
-		return $.getJSON(
-	        // Backend script
-	        'php/query.php',
-	        // Variables sent to query.php
-	        {
-	                mode: 'select',
-	                table: 'insurance',
-	                fields: '*',
-	                where: "WHERE patient_id='" + id + "'"
-	        },
-	        // Callback function
-	        function(data) {
-	        }
-	    );
+		return this.query({
+			mode: 'select', 
+			table: 'insurance', 
+			fields: '*', 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Get Guarantor for a Single Patient
+	patient.prototype.getGuarantor = function(id) {
+		return this.query({
+			mode: 'select', 
+			table: 'guarantor', 
+			fields: '*', 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	/**********************************************************************************************
+	 * Add Methods
+	 * 
+	 * These methods add information to the database via INSERT queries
+	 *********************************************************************************************/
+	// Add Personal Information for a Single Patient
+	patient.prototype.addPatient = function(id, data) {
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'insert', 
+			table: 'patient', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Add Insurance for a Single Patient
+	patient.prototype.addInsurance = function(id, data) {
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'insert', 
+			table: 'insurance', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Add Guarantor for a Single Patient
+	patient.prototype.addGuarantor = function(id, data) {
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'insert', 
+			table: 'guarantor', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	/**********************************************************************************************
+	 * Update Methods
+	 * 
+	 * These methods update information in the database via UPDATE queries
+	 *********************************************************************************************/
+	// Update Personal Information for a Single Patient
+	patient.prototype.updatePatient = function(id, data) {
+		var fields = Object.keys(data);
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'update', 
+			table: 'patient',
+			fields: fields, 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Update Insurance for a Single Patient
+	patient.prototype.updateInsurance = function(id, data) {
+		var fields = Object.keys(data);
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'update', 
+			table: 'insurance',
+			fields: fields, 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Update Guarantor for a Single Patient
+	patient.prototype.updateGuarantor = function(id, data) {
+		var fields = Object.keys(data);
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'update', 
+			table: 'guarantor',
+			fields: fields, 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	/**********************************************************************************************
+	 * remove Methods
+	 * 
+	 * These methods remove information from the database via DELETE queries
+	 *********************************************************************************************/
+	// Delete Personal Information for a Single Patient
+	patient.prototype.deletePatient = function(id) {
+		return this.query({
+			mode: 'delete', 
+			table: 'patient', 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Delete Insurance for a Single Patient
+	patient.prototype.deleteInsurance = function(id) {
+		return this.query({
+			mode: 'delete', 
+			table: 'insurance',
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Delete Guarantor for a Single Patient
+	patient.prototype.deleteGuarantor = function(id) {
+		return this.query({
+			mode: 'delete', 
+			table: 'guarantor',
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	/**********************************************************************************************
+	 * Query
+	 * 
+	 * This method is used by all other methods to execute the ajax call.
+	 *********************************************************************************************/ 
+	patient.prototype.query = function(data) {
+		return $.getJSON('php/query.php',data);
 	}
 	
 	/**************************************************************************************************
