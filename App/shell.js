@@ -24,11 +24,14 @@ define(function(require) {
         subMenuIn: function(element, event) {
         	// Get the class name for the element to toggle
         	var len = event.currentTarget.classList.length - 1;
-	        var cl =  event.currentTarget.classList[0].replace('Nav','');
-	        // Hide all other submenus
-	        $('.hoverNav').slideUp();
+        	var el = event.currentTarget.classList[0];
+	        var cl =  el.replace('Nav','');
+	        el = '.' + el;
 	        // Show submenu
-	        $('.' + cl).slideDown();
+	        $('.' + cl).slideDown(400, function() {
+	        	$('.' + cl).stop(true); // Stop all other animations
+	        });
+
         },
         // This causes the submenu to disappear when the main icon is no longer hovered
         subMenuOut: function(element, event) {
@@ -36,15 +39,16 @@ define(function(require) {
         	var len = event.currentTarget.classList.length - 1;
 	        var cl =  '.' + event.currentTarget.classList[0].replace('Nav','');
 	        
+	        system.log('sploosh');
 	        // If the submenu is hovered, break the toggle animation,
 	        // Else hide the submenu
-	        $(cl).hover(
+	        $(cl).mouseenter(
 	        function(e) {
 	        	$(cl).stop(true);
-	        },
+	        }).mouseleave(
 	        function(e) {
-	        	$(cl).slideUp(400, function() {
-	        		$(cl).stop(true);
+	        	$('.hoverNav').slideUp(400, function() {
+	        		//$(cl).stop(true);
 	        	});
 	        });
 	        

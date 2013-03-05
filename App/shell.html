@@ -2,7 +2,7 @@
 	<div class="navbar mainNav">
     	<div class="navbar-inner">
         	<ul class="nav">
-        		<li class="patientNav navItem" data-bind="event: { mouseover: subMenuIn, mouseout: subMenuOut}">
+        		<li class="patientNav navItem" data-bind="event: { mouseenter: subMenuIn, mouseleave: subMenuOut},mouseoverBubble: false">
         		<a href="#/managepatients"><img src="media/iconPatient.png" /></a></li>
 				<li class="schedulingNav navItem" data-bind="event: { mouseover: subMenuIn, mouseout: subMenuOut}">
         		<a href="#/scheduling"><img src="media/iconScheduling.png" /></a></li>
