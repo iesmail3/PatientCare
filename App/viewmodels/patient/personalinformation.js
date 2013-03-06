@@ -107,8 +107,6 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
-	// var observable = ko.observable('');
-	// var observableArray = ko.observableArray([]);
 	var insuredPerson 		= ko.observable();
 	var primaryInsurance 	= ko.observable();
 	var secondaryInsurance  = ko.observable();
@@ -152,6 +150,7 @@ define(function(require) {
 		// Loads when view is loaded
 		activate: function(data) {
 			var self = this;
+			
 			// Patient ID
 			self.patientId(data.patientId);
 			
@@ -210,11 +209,11 @@ define(function(require) {
 	            				break;
 	            		}
 	            	}
-			}
-			else {
-				self.insuredPerson('not insured')	
-			}
-});
+				}
+				else {
+					self.insuredPerson('not insured')	
+				}
+			});
 		}
 	};
 });

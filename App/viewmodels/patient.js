@@ -54,7 +54,6 @@ define(function(require) {
 		self.contactRelationship  = ko.observable(data.contact_relationship);
 		self.insuredType 		  = ko.observable('not insured');
 		
-		
 		// This will return the name in the following format: Last, First
 		self.lastFirstName = ko.computed(function() {
 			return self.lastName() + ", " + self.firstName();
@@ -67,7 +66,7 @@ define(function(require) {
 	var patient = ko.observable('');
 	var patientId = ko.observable();
 	var currentView = viewModel.activator();
-
+	
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
