@@ -13,25 +13,25 @@ Description:
 	  <div class="tab-pane active outerPane" id="personal">
 	  	<h2>Personal Information</h2>
 	  </div>
-	  <!-- Insurance -->
+	  <!-- Insurance -->  
 	  <div class="tab-pane outerPane" id="insurance">
 		<form id="form-inline">
-			<!-- Insurance Type -->
-			<div class="row-fluid"> 
-				<fieldset>   
+			<!-- Insurance Type -->     
+			<div class="row-fluid">   
+				<fieldset>     
 					<legend>Edit Insurance Information</legend>
 				<div>
 					<span class="radio inline">Primary Insured person:</span>
 					<label class="radio inline">  
-						<input type="radio" class="insuredPerson" name="Self" value="1" />
+						<input type="radio" class="insuredPerson" name="Self" value="1"/>
 						Self
 					</label>
 					<label class="radio inline">
-						<input type="radio" class="insuredPerson" name="Self" value="2" />
-						Not&nbsp;Insured
+						<input type="radio" class="insuredPerson" name="Self" value="2"/>
+						Not&nbsp;Insured   
 					</label>
 					<label class="radio inline">
-						<input type="radio" class="insuredPerson" name="Self" value="3" />
+						<input type="radio" class="insuredPerson" name="Self" value="3"/>
 						Other
 					</label>
 					<input type="text" class=" insuredPerson input-large">
@@ -142,7 +142,7 @@ Description:
 				     </fieldset>
 				</div>  
 			</div>
-			<!-- SSN and DOB -->
+			<!-- SSN and DOB -->  
 			<div class="row-fluid">
 				<div class="span5">
 					<input type="text" class="input-small" placeholder="SSN" />
@@ -150,7 +150,7 @@ Description:
 				</div>   
 				<div class="offset1 span5">
 					<input type="text" class="input-small" 
-				       placeholder="Date of Birth">
+				       placeholder="Date of Birth" data-bind="datepicker: true">
 				   	<label class="checkbox inline">
 				   	<input type="checkbox" id="" value=""> 
 				   	same as patient 
