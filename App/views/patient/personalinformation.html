@@ -292,25 +292,25 @@ Description:
 									<input type="text" data-bind="" placeholder="Phone" />
 									<input type="text" data-bind="" placeholder="Email" />
 								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+							</div> <!-- End Personal Reference Tab -->
+						</div> <!-- End Tab Content -->
+					</div> <!-- End referenceTabs -->
+				</div> <!-- End row-fluid referenceTabs -->
+			</div> <!-- End personalContents -->
+			<div class="row-fluid">
+				<select class="input-medium" data-bind="">
+					<option value="" disabled selected style="display:none;">Record Status</option>
+					<option value="active">Active</option>
+					<option value="archived">Archived</option>
+					<option value="deceased">Deceased</option>
+					<option value="deindentified">Deindentified</option>
+					<option value="transferred">Transferred</option>
+				</select>
+				<button type="button" class="btn btn-small">Print</button>
+				<button type="button" class="btn btn-small btn-primary" data-bind="">Save</button>
+				<button type="button" class="btn btn-small btn-danger">Cancel</button>
 			</div>
-		</div>
-		<div class="row-fluid">
-			<select class="input-medium" data-bind="">
-				<option value="" disabled selected style="display:none;">Record Status</option>
-				<option value="active">Active</option>
-				<option value="archived">Archived</option>
-				<option value="deceased">Deceased</option>
-				<option value="deindentified">Deindentified</option>
-				<option value="transferred">Transferred</option>
-			</select>
-			<button type="button" class="btn btn-small">Print</button>
-			<button type="button" class="btn btn-small btn-primary" data-bind="">Save</button>
-			<button type="button" class="btn btn-small btn-danger">Cancel</button>
-		</div>
+		</div> <!-- End outerPane Personal -->
 		  <!-- Insurance -->  
 		  <div class="tab-pane outerPane" id="insurance">
 			<form id="form-inline">
