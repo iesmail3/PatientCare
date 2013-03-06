@@ -7,6 +7,7 @@ define(function(require) {
         router: router,
         // Function that allows DOM manipulation
         viewAttached: function() {
+        	
         },
         // Function that is called when view is loaded
         activate: function() {

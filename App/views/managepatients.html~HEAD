@@ -1,15 +1,15 @@
-<div class="well">
+<div>
 	<form class="form-inline managePatients">
-		<input type="text" class="input-medium"data-bind="value: keyword, valueUpdate: 'afterkeydown'" placeholder="Enter to filter patients" />
+		<input type="text" class="input-medium"data-bind="value: inputFilter" placeholder="Enter to filter patients" />
 		<span>that</span>
-		<select class="span2" data-bind="value: context">
-			<option value="" disabled selected style="display:none;">Select Context</option>
+		<select class="span3" data-bind="value: inputStartsEndsContains">
+			<option value="" disabled selected style="display:none;">starts/ends/contains</option>
 			<option value="startsWith">Starts With</option>
 			<option value="endssWith">Ends with</option>
 			<option value="contains">Contains</option>
 		</select> 
 		<span>in</span>
-		<select class="span3" data-bind="value: parameter">
+		<select class="span3" data-bind="value: inputSearchParameter">
 			<option value="" disabled selected style="display:none;">Select Parameter</option>
 			<option value="firstName">First Name</option>
 			<option value="middleName">Middle Name</option>
@@ -31,10 +31,10 @@
 		<button type="button" class="btn btn-small btn-danger">Delete Record</button>
 	</form>
 	<!-- Patient Table -->
-	<table class="table table-bordered table-hover">
+	<table class="table table-bordered">
 		<thead>
 		<tr>
-			<th></th>
+			<th>ID</th>
 			<th>Last Name</th>
 			<th>First Name</th>
 			<th>DOB</th>
@@ -46,19 +46,6 @@
 			<th>Address</th>
 		</tr>
 		</thead>
-		<tbody data-bind="foreach: patients">
-			<tr data-bind="visible: $root.filterPatient">
-				<td><button class="btn btn-small btn-primary">Record</button></td>
-				<td data-bind="text: lastName"></td>
-				<td data-bind="text: firstName"></td>
-				<td data-bind="text: dob"></td>
-				<td></td>
-				<td data-bind="text: gender"></td>
-				<td data-bind="text: phone"></td>
-				<td data-bind="text: mobile"></td>
-				<td></td>
-				<td data-bind="text: address"></td>
-			</tr>
-		</tbody>
+		<tbody></tbody>
 	</table>
 </div>

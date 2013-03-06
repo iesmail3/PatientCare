@@ -147,8 +147,6 @@ define(function(require) {
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 			});
-			system.log($('.contentPane').height());
-			system.log($('.tab-pane').height());
 		},
 		// Loads when view is loaded
 		activate: function(data) {
