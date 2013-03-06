@@ -154,7 +154,7 @@ define(function(require) {
 	}
 	
 	/**********************************************************************************************
-	 * remove Methods
+	 * Remove Methods
 	 * 
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
