@@ -5,16 +5,314 @@ Description:
 -->
 <div>
 	<ul class="nav nav-tabs patientNavs" id="personalTab">
-	  <li class="active"><a href="#personal">Personal Information</a></li>
-	  <li><a href="#insurance">Insurance</a></li>
+	  <li class="active"><a data-toggle="tab" href="#personal">Personal Information</a></li>
+	  <li><a data-toggle="tab" href="#insurance">Insurance</a></li>
 	</ul>
- 
 	<div class="tab-content">
-	  <div class="tab-pane active" id="personal">
-	  	<h2>Personal Information</h2>
-	  </div>
-	  <div class="tab-pane" id="insurance">
-	  	<h2>Insurance</h2>
-	  </div>
+		<div class="tab-pane outerPane active" id="personal" style="height: 731px;">
+			<div class="personalContents">
+				<form class="form-inline">
+					<!--Personal Details-->
+					<div class="row-fluid">
+						<fieldset>
+							<legend>Personal Details</legend>
+							<div class="marginBottom5">
+								<input type="text" data-bind="value: inputLast" placeholder="Last Name" />
+								<input type="text" data-bind="value: inputMiddle" placeholder="Middle Name" />
+								<input type="text" data-bind="value: inputFirst" placeholder="First Name" />
+							</div>
+							<div class="marginBottom5">
+								<input type="text" data-bind="value: inputAlias" placeholder="Alias" />
+								<select class="input-small" data-bind="value: inputGender">
+									<option value="" disabled selected style="display:none;">Gender</option>
+									<option value="male">Male</option>
+									<option value="female">Female</option>
+								</select>
+								<input type="text" class="input-small" data-bind="value: inputDOB, datepicker: {dateFormat: 'yy-mm-dd'}" placeholder="Date of Birth" />
+							</div>
+							<div class="marginBottom5">
+								<input type="text" class="input-small" data-bind="value: inputID" placeholder="Patient ID" />
+								<input type="text" class="input-small" data-bind="value: inputIDType" placeholder="ID Type" />
+								<input type="text" class="input-medium" data-bind="value: inputDLN" placeholder="Driver's License No." />
+							</div>
+							<div class="marginBottom5">
+								<select class="input-medium" data-bind="value: inputMaritalStatus">
+									<option value="" disabled selected style="display:none;">Marital Status</option>
+									<option value="divorced">Divorced</option>
+									<option value="married">Married</option>
+									<option value="separated">Separated</option>
+									<option value="single">Single</option>
+									<option value="widowed">Widowed</option>
+									<option value="other">Other</option>
+								</select>
+								<input type="number" class="input-medium" data-bind="value: inputChildren" placeholder="No. of Children" />
+							</div>
+						</fieldset>
+					</div>
+					<!--Contact Details-->
+					<div class="row-fluid">
+						<fieldset>
+							<legend>Contact Details</legend>
+							<div class="marginBottom5">
+								<input type="text" class="input-large" data-bind="value: inputStreet" placeholder="Street Address" />
+								<input type="text" data-bind="value: inputCity" placeholder="City" />
+								<select data-bind="value: inputState" class="input-medium">
+									<option value="" disabled selected style="display:none;">State</option>
+									<option value="AL">Alabama</option>
+									<option value="AK">Alaska</option>
+									<option value="AZ">Arizona</option>
+									<option value="AR">Arkansas</option>
+									<option value="CA">California</option>
+									<option value="CO">Colorado</option>
+									<option value="CT">Connecticut</option>
+									<option value="DE">Delaware</option>
+									<option value="DC">District of Columbia</option>
+									<option value="FL">Florida</option>
+									<option value="GA">Georgia</option>
+									<option value="HI">Hawaii</option>
+									<option value="ID">Idaho</option>
+									<option value="IL">Illinois</option>
+									<option value="IN">Indiana</option>
+									<option value="IA">Iowa</option>
+									<option value="KS">Kansas</option>
+									<option value="KY">Kentucky</option>
+									<option value="LA">Louisiana</option>
+									<option value="ME">Maine</option>
+									<option value="MD">Maryland</option>
+									<option value="MA">Massachusetts</option>
+									<option value="MI">Michigan</option>
+									<option value="MN">Minnesota</option>
+									<option value="OH">Ohio</option>
+									<option value="OK">Oklahoma</option>
+									<option value="OR">Oregon</option>
+									<option value="PA">Pennsylvania</option>
+									<option value="RI">Rhode Island</option>
+									<option value="SC">South Carolina</option>
+									<option value="SD">South Dakota</option>
+									<option value="TN">Tennessee</option>
+									<option value="TX">Texas</option>
+									<option value="UT">Utah</option>
+									<option value="VT">Vermont</option>
+									<option value="VA">Virginia</option>
+									<option value="WA">Washington</option>
+									<option value="WV">West Virginia</option>
+									<option value="WI">Wisconsin</option>
+									<option value="WY">Wyoming</option>
+								</select>
+								<input type="text" data-bind="value: inputZip" placeholder="Zip Code" />
+								<select class="input-medium" data-bind="value: inputCountry">
+									<option value="" disabled selected style="display:none;">Country</option>
+									<option value="usa">USA</option>
+								</select>
+							</div>
+							<div class="marginBottom5">
+								<input type="text" data-bind="value: inputPhone" placeholder="Phone" />
+								<input type="text" data-bind="value: inputCell" placeholder="Cell" />
+								<input type="text" data-bind="value: inputEmail" placeholder="Email" />
+							</div>
+							<div class="marginBottom5">
+								<input type="text" data-bind="value: inputEmergencyContact" placeholder="Emergency Contact" />
+								<input type="text" data-bind="value: inputEmergencyRelation" placeholder="Relationship with Patient" />
+								<input type="text" data-bind="value: inputEmergencyPhone" placeholder="Emergency Phone" />
+								<input type="text" data-bind="value: inputEmergencyCell" placeholder="Emergency Cell" />
+							</div>
+						</fieldset>
+					</div>
+					<div class="row-fluid">
+						<!--Employment Details Left Column-->
+						<div class="span5">
+							<fieldset>
+								<legend>Employment Details</legend>
+								<div class="marginBottom5">
+									<span class="radio inline">Currently Employed</span>
+									<label class="radio inline">
+										<input type="radio" class="employedPerson" name="yes" value="1" />
+										Yes
+									</label>
+									<label class="radio inline">
+										<input type="radio" class="employedPerson" name="no" value="2" />
+										No
+									</label>
+								</div>
+								<div class="marginBottom5">
+									<input type="text" class="input-xlarge" data-bind="value: inputEmployer" placeholder="Employer" />
+								</div>
+								<div class="marginBottom5">
+									<input type="text" class="input-xlarge" data-bind="value: inputEmployerStreet" placeholder="Address" />
+									<input type="text" data-bind="value: inputEmployerCity" placeholder="City" />
+									<select data-bind="value: inputEmployerState" class="input-medium">
+										<option value="" disabled selected style="display:none;">State</option>
+										<option value="AL">Alabama</option>
+										<option value="AK">Alaska</option>
+										<option value="AZ">Arizona</option>
+										<option value="AR">Arkansas</option>
+										<option value="CA">California</option>
+										<option value="CO">Colorado</option>
+										<option value="CT">Connecticut</option>
+										<option value="DE">Delaware</option>
+										<option value="DC">District of Columbia</option>
+										<option value="FL">Florida</option>
+										<option value="GA">Georgia</option>
+										<option value="HI">Hawaii</option>
+										<option value="ID">Idaho</option>
+										<option value="IL">Illinois</option>
+										<option value="IN">Indiana</option>
+										<option value="IA">Iowa</option>
+										<option value="KS">Kansas</option>
+										<option value="KY">Kentucky</option>
+										<option value="LA">Louisiana</option>
+										<option value="ME">Maine</option>
+										<option value="MD">Maryland</option>
+										<option value="MA">Massachusetts</option>
+										<option value="MI">Michigan</option>
+										<option value="MN">Minnesota</option>
+										<option value="OH">Ohio</option>
+										<option value="OK">Oklahoma</option>
+										<option value="OR">Oregon</option>
+										<option value="PA">Pennsylvania</option>
+										<option value="RI">Rhode Island</option>
+										<option value="SC">South Carolina</option>
+										<option value="SD">South Dakota</option>
+										<option value="TN">Tennessee</option>
+										<option value="TX">Texas</option>
+										<option value="UT">Utah</option>
+										<option value="VT">Vermont</option>
+										<option value="VA">Virginia</option>
+										<option value="WA">Washington</option>
+										<option value="WV">West Virginia</option>
+										<option value="WI">Wisconsin</option>
+										<option value="WY">Wyoming</option>
+									</select>
+									<input type="text" data-bind="value: inputEmployerZip" placeholder="Zip Code" />
+									<select class="input-medium" data-bind="value: inputEmployerCountry">
+										<option value="" disabled selected style="display:none;">Country</option>
+										<option value="usa">USA</option>
+									</select>
+								</div>
+								<div class="marginBottom5">
+									<input type="text" data-bind="value: inputEmployerPhone" placeholder="Phone" />
+								</div>
+							</fieldset>
+						</div>
+						<!--Spouse Details Right Column-->
+						<div class="offset1 span5">
+							<fieldset>
+								<legend>Spouse Details</legend>
+								<div class="marginBottom5">
+									<input type="text" data-bind="value: inputSpouseFirst" placeholder="First Name" />
+									<input type="text" data-bind="value: inputSpouseLast" placeholder="Last Name" />
+								</div>
+								<div class="marginBottom5">
+									<select class="input-small" data-bind="value: inputSpouseGender">
+										<option value="" disabled selected style="display:none;">Gender</option>
+										<option value="male">Male</option>
+										<option value="female">Female</option>
+									</select>
+									<input type="text" class="input-small" data-bind="value: inputSpouseDOB, datepicker: {dateFormat: 'yy-mm-dd'}" placeholder="Date of Birth" />
+								</div>
+								<div class="marginBottom5">
+									<input type="text" class="input-small" data-bind="value: inputSpouseID" placeholder="Patient ID" />
+									<input type="text" class="input-small" data-bind="value: inputSpouseIDType" placeholder="ID Type" />
+								</div>
+								<div class="marginBottom5">
+									<input type="text" data-bind="value: inputSpousePhone" placeholder="Phone" />
+									<input type="text" data-bind="value: inputSpouseCell" placeholder="Cell" />
+								</div>
+							</fieldset>
+						</div>
+					</div>
+				</form>
+				<div class="row-fluid">
+					<!--Reference Tabs-->
+					<div class="tabbable referenceTabs">
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#referringphysician" data-toggle="tab">Referring Physician</a></li>
+							<li><a href="#pcp" data-toggle="tab">PCP</a></li>
+							<li><a href="#other" data-toggle="tab">Other</a></li>
+							<li><a href="#personalreference" data-toggle="tab">Personal Reference</a></li>
+						</ul>
+						<div class="tab-content">
+							<!--Referring Physician-->
+							<div id="referringphysician" class="tab-pane active">
+								<div class="marginBottom5">
+									<input type="text" class="input-medium" data-bind="value: inputReferFirst" placeholder="First Name" />
+									<input type="text" class="input-medium" data-bind="value: inputReferMiddle" placeholder="Middle Name" />
+									<input type="text" class="input-medium" data-bind="value: inputReferLast" placeholder="Last Name" />
+									<input type="text" class="input-medium" data-bind="value: inputReferDegree" placeholder="Degree" />
+								</div>
+								<div class="marginBottom5">
+									<input type="text" class="input-xlarge" data-bind="value: inputReferReason" placeholder="Reason" />
+									<input type="text" data-bind="value: inputReferPhone" placeholder="Phone" />
+									<input type="text" data-bind="value: inputReferFax" placeholder="Fax" />
+								</div>
+							</div>
+							<!--PCP-->
+							<div id="pcp" class="tab-pane">
+								<div class="marginBottom5">
+									<input type="text" class="input-medium" data-bind="value: inputPCPFirst" placeholder="First Name" />
+									<input type="text" class="input-medium" data-bind="value: inputPCPMiddle" placeholder="Middle Name" />
+									<input type="text" class="input-medium" data-bind="value: inputPCPLast" placeholder="Last Name" />
+									<input type="text" class="input-medium" data-bind="value: inputPCPDegree" placeholder="Degree" />
+								</div>
+								<div class="marginBottom5">
+									<input type="text" data-bind="value: inputPCPPhone" placeholder="Phone" />
+									<input type="text" data-bind="value: inputPCPFax" placeholder="Fax" />
+								</div>
+							</div>
+							<!--Other-->
+							<div id="other" class="tab-pane">
+								<div class="marginBottom5">
+									<input type="text" class="input-medium" data-bind="value: inputOtherFirst" placeholder="First Name" />
+									<input type="text" class="input-medium" data-bind="value: inputOtherMiddle" placeholder="Middle Name" />
+									<input type="text" class="input-medium" data-bind="value: inputOtherLast" placeholder="Last Name" />
+									<input type="text" class="input-medium" data-bind="value: inputOtherDegree" placeholder="Degree" />
+								</div>
+								<div class="marginBottom5">
+									<input type="text" data-bind="value: inputOtherPhone" placeholder="Phone" />
+									<input type="text" data-bind="value: inputOtherFax" placeholder="Fax" />
+								</div>
+							</div>
+							<!--Personal Reference-->
+							<div id="personalreference" class="tab-pane">
+								<div class="marginBottom5">
+									<input type="text" data-bind="value: inputPersonalFirst" placeholder="First Name" />
+									<input type="text" data-bind="value: inputPersonalMiddle" placeholder="Middle Name" />
+									<input type="text" data-bind="value: inputPersonalLast" placeholder="Last Name" />
+									<select data-bind="value: inputPersonalReferral">
+										<option value="" disabled selected style="display:none;">Referral</option>
+										<option value="advertisement">Advertisement</option>
+										<option value="co-worker">Co-worker</option>
+										<option value="doctor">Doctor</option>
+										<option value="family">Family</option>
+										<option value="friend">Friend</option>
+										<option value="other">Other</option>
+									</select>
+								</div>
+								<div class="marginBottom5">
+									<input type="text" data-bind="value: inputPersonalPhone" placeholder="Phone" />
+									<input type="text" data-bind="value: inputPersonalEmail" placeholder="Email" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<select class="input-medium" data-bind="value: inputRecordStatus">
+				<option value="" disabled selected style="display:none;">Record Status</option>
+				<option value="active">Active</option>
+				<option value="archived">Archived</option>
+				<option value="deceased">Deceased</option>
+				<option value="deindentified">Deindentified</option>
+				<option value="transferred">Transferred</option>
+			</select>
+			<button type="button" class="btn btn-small">Print</button>
+			<button type="button" class="btn btn-small btn-primary" data-bind="click: submitPatient">Save</button>
+			<button type="button" class="btn btn-small btn-danger">Cancel</button>
+		</div>
+		<div class="tab-pane" id="insurance">
+			<h2>Insurance</h2>
+		</div>
 	</div>
 </div>

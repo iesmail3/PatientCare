@@ -1,4 +1,64 @@
-<div>
-	<h1>Manage Patients</h1>
-	<p>I only added this page because Durandal needs at least one page to display.</p>
+<div class="well">
+	<form class="form-inline managePatients">
+		<input type="text" class="input-medium"data-bind="value: keyword, valueUpdate: 'afterkeydown'" placeholder="Enter to filter patients" />
+		<span>that</span>
+		<select class="span2" data-bind="value: context">
+			<option value="" disabled selected style="display:none;">Select Context</option>
+			<option value="startsWith">Starts With</option>
+			<option value="endssWith">Ends with</option>
+			<option value="contains">Contains</option>
+		</select> 
+		<span>in</span>
+		<select class="span3" data-bind="value: parameter">
+			<option value="" disabled selected style="display:none;">Select Parameter</option>
+			<option value="firstName">First Name</option>
+			<option value="middleName">Middle Name</option>
+			<option value="lastName">Last Name</option>
+			<option value="alias">Alias</option>
+			<option value="gender">Gender</option>
+			<option value="city">City</option>
+			<option value="state">State</option>
+			<option value="country">Country</option>
+			<option value="phone">Phone</option>
+			<option value="mobile">Mobile</option>
+			<option value="email">Email</option>		
+		</select>
+
+		<!-- buttons -->
+		<button type="submit" class="btn btn-small btn-primary">Search</button>
+		<button type="reset" class="btn btn-small">Reset Fields</button>
+		<button type="button" class="btn btn-small btn-warning">Clear</button>
+		<button type="button" class="btn btn-small btn-danger">Delete Record</button>
+	</form>
+	<!-- Patient Table -->
+	<table class="table table-bordered table-hover">
+		<thead>
+		<tr>
+			<th></th>
+			<th>Last Name</th>
+			<th>First Name</th>
+			<th>DOB</th>
+			<th>Last DOS</th>
+			<th>Gender</th>
+			<th>Phone</th>
+			<th>Mobile</th>
+			<th>Email</th>
+			<th>Address</th>
+		</tr>
+		</thead>
+		<tbody data-bind="foreach: patients">
+			<tr data-bind="visible: $root.filterPatient">
+				<td><button class="btn btn-small btn-primary">Record</button></td>
+				<td data-bind="text: lastName"></td>
+				<td data-bind="text: firstName"></td>
+				<td data-bind="text: dob"></td>
+				<td></td>
+				<td data-bind="text: gender"></td>
+				<td data-bind="text: phone"></td>
+				<td data-bind="text: mobile"></td>
+				<td></td>
+				<td data-bind="text: address"></td>
+			</tr>
+		</tbody>
+	</table>
 </div>

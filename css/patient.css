@@ -50,4 +50,19 @@
 	background-color: #fff;
 	border: 1px solid #ddd;
 	border-radius: 0 0 5px 5px;
+	padding: 0 10px;
+	overflow-y: auto;
+}
+
+/* Personal Information */
+.employedPerson {
+	margin: 12px
+}
+
+.referenceTabs {
+	clear: both;
+}
+
+#referringphysician form {
+	padding: 10px
 }

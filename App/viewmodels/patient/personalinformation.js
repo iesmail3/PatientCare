@@ -142,10 +142,13 @@ define(function(require) {
 		 *******************************************************************************************/
 		// This allow manipulation of the DOM
 		viewAttached: function() {
-			$('#personalTab a').click(function(e) {
-				e.preventDefault();
-  				$(this).tab('show');
+			// Resize tree and content pane
+			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+			$(window).resize(function() {
+				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 			});
+			system.log($('.contentPane').height());
+			system.log($('.tab-pane').height());
 		},
 		// Loads when view is loaded
 		activate: function(data) {
