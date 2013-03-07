@@ -120,6 +120,34 @@ define(function(require) {
 		});
 	}
 	
+	// Add Employer for a Single Patient
+	patient.prototype.addEmployer = function(id, data) {
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'insert', 
+			table: 'employer', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Add Spouse for a Single Patient
+	patient.prototype.addSpouse = function(id, data) {
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'insert', 
+			table: 'spouse', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
 	/**********************************************************************************************
 	 * Update Methods
 	 * 
@@ -173,6 +201,34 @@ define(function(require) {
 		});
 	}
 	
+	// Update Employer for a Single Patient
+	patient.prototype.updateEmployer = function(id, data) {
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'update', 
+			table: 'employer', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Update Spouse for a Single Patient
+	patient.prototype.updateSpouse = function(id, data) {
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'update', 
+			table: 'spouse', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
 	/**********************************************************************************************
 	 * Remove Methods
 	 * 
@@ -204,6 +260,35 @@ define(function(require) {
 			where: "WHERE patient_id='" + id + "'"
 		});
 	}
+	
+	// Delete Employer for a Single Patient
+	patient.prototype.deleteEmployer = function(id, data) {
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'delete', 
+			table: 'employer', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Delete Spouse for a Single Patient
+	patient.prototype.deleteSpouse = function(id, data) {
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'delete', 
+			table: 'spouse', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
 	/**********************************************************************************************
 	 * Query
 	 * 
