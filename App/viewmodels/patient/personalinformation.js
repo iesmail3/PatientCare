@@ -56,31 +56,61 @@ define(function(require) {
 	function Insurance(data) {
 		var self = this;
 		
-		self.patientId   			= ko.observable(data.patient_id);
-		self.insuredType 			= ko.observable(data.type);
-		self.group       			= ko.observable(data.group_number);
-		self.policy      			= ko.observable(data.policy_number);
-		self.companyName 			= ko.observable(data.company_name);
-		self.plan        			= ko.observable(data.plan);
-		self.effectiveDate 			= ko.observable(data.effective_date);
-		self.outOfPocket 			= ko.observable(data.out_of_pocket);
-		self.metOutOfPocket 		= ko.observable(data.met_out_of_pocket);
-		self.remainingOutOfPocket 	= ko.observable(data.remaining_out_of_pocket);
-		self.deductible				= ko.observable(data.remaining_out_of_pocket);
-		self.metDeductible			= ko.observable(data.met_detuctible);
-		self.remainingDeductible	= ko.observable(data.remaining_deductible);
-		self.patientPortion			= ko.observable(data.patient_portion);
-		self.insurancePortion		= ko.observable(data.insurance_portion);
-		self.referralRequired		= ko.observable(data.referralRequired);
-		self.existingClause			= ko.observable(data.existing_clause);
-		self.copayment				= ko.observable(data.copayment);
-		self.verification			= ko.observable(data.verification);
-		self.verificationDate		= ko.observable(data.verification_datatime);
-		self.confirmationNumber		= ko.observable(data.confirmation_number);
-		self.contactName			= ko.observable(data.contact_name);
-		self.contactPhone			= ko.observable(data.contact_phone);
-		self.contactExt				= ko.observable(data.contact_phone_ext);
-		self.otherName				= ko.observable(data.other_name);
+		if (data != null) {
+			self.patientId   			= ko.observable(data.patient_id);
+			self.insuredType 			= ko.observable(data.type);
+			self.group       			= ko.observable(data.group_number);
+			self.policy      			= ko.observable(data.policy_number);
+			self.companyName 			= ko.observable(data.company_name);
+			self.plan        			= ko.observable(data.plan);
+			self.effectiveDate 			= ko.observable(data.effective_date);
+			self.outOfPocket 			= ko.observable(data.out_of_pocket);
+			self.metOutOfPocket 		= ko.observable(data.met_out_of_pocket);
+			self.remainingOutOfPocket 	= ko.observable(data.remaining_out_of_pocket);
+			self.deductible				= ko.observable(data.deductible);
+			self.metDeductible			= ko.observable(data.met_deductible);
+			self.remainingDeductible	= ko.observable(data.remaining_deductible);
+			self.patientPortion			= ko.observable(data.patient_portion);
+			self.insurancePortion		= ko.observable(data.insurance_portion);
+			self.referralRequired		= ko.observable(data.referral_required);
+			self.existingClause			= ko.observable(data.existing_clause);
+			self.copayment				= ko.observable(data.copayment);
+			self.verification			= ko.observable(data.verification);
+			self.verificationDate		= ko.observable(data.verification_date);
+			self.verificationTime		= ko.observable(data.verification_time);
+			self.confirmationNumber		= ko.observable(data.confirmation_number);
+			self.contactName			= ko.observable(data.contact_name);
+			self.contactPhone			= ko.observable(data.contact_phone);
+			self.contactExt				= ko.observable(data.contact_phone_ext);
+			self.otherName				= ko.observable(data.other_name);
+		}
+		else {
+			self.patientId   			= ko.observable();
+			self.insuredType 			= ko.observable();
+			self.group       			= ko.observable();
+			self.policy      			= ko.observable();
+			self.companyName 			= ko.observable();
+			self.plan        			= ko.observable();
+			self.effectiveDate 			= ko.observable();
+			self.outOfPocket 			= ko.observable();
+			self.metOutOfPocket 		= ko.observable();
+			self.remainingOutOfPocket 	= ko.observable();
+			self.deductible				= ko.observable();
+			self.metDeductible			= ko.observable();
+			self.remainingDeductible	= ko.observable();
+			self.patientPortion			= ko.observable();
+			self.insurancePortion		= ko.observable();
+			self.referralRequired		= ko.observable();
+			self.existingClause			= ko.observable();
+			self.copayment				= ko.observable();
+			self.verification			= ko.observable();
+			self.verificationDate		= ko.observable();
+			self.confirmationNumber		= ko.observable();
+			self.contactName			= ko.observable();
+			self.contactPhone			= ko.observable();
+			self.contactExt				= ko.observable();
+			self.otherName				= ko.observable();
+		}
 	};
 	
 	// Guarantor
@@ -108,9 +138,9 @@ define(function(require) {
 	 * KO Observables
 	 **********************************************************************************************/
 	var insuredPerson 		= ko.observable();
-	var primaryInsurance 	= ko.observable();
-	var secondaryInsurance  = ko.observable();
-	var otherInsurance 		= ko.observable();
+	var primaryInsurance 	= ko.observable(new Insurance());
+	var secondaryInsurance  = ko.observable(new Insurance());
+	var otherInsurance 		= ko.observable(new Insurance());
 	var patientId 			= ko.observable();
 	var patient				= ko.observable();
 	var guarantor 			= ko.observable();
@@ -146,6 +176,12 @@ define(function(require) {
 				e.preventDefault();
   				$(this).tab('show');
 			});
+			
+			$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
+			$(window).resize(function() {
+				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
+			});
+			
 		},
 		// Loads when view is loaded
 		activate: function(data) {
@@ -180,10 +216,10 @@ define(function(require) {
 				if(data.length > 0) {
 					var g = new Guarantor(data[0]);
 					self.guarantor(g);
-					self.insuredPerson('other');
+					self.insuredPerson(3);
 				}
 				else {
-					self.insuredPerson('self');
+					self.insuredPerson(1);
 				}
 			});
 			
@@ -211,7 +247,7 @@ define(function(require) {
 	            	}
 				}
 				else {
-					self.insuredPerson('not insured')	
+					self.insuredPerson(2)	
 				}
 			});
 		}
