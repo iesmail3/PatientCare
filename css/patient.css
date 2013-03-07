@@ -71,21 +71,21 @@ legend {
 	clear: both;
 }
 
-#primaryPane form {
-	padding: 10px;
+.formPadding{
+	padding: 10px;   
 }
 
 .deductible {
-	margin-bottom: 5px;
+	margin-bottom: 5px;    
 }
 
 /* Personal Information */
 .employedPerson {
-	margin: 12px
+	margin: 12px;        
 }
-
+     
 .referenceTabs {
-	clear: both;
+	clear: both;   
 }
 
 #referringphysician form {

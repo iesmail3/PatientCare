@@ -3,7 +3,7 @@
  * Author(s):
  * Description: 
  **************************************************************************************************/
-define(function(require) { 
+define(function(require) {    
 	/*********************************************************************************************** 
 	 * Includes*
 	 **********************************************************************************************/
@@ -11,7 +11,7 @@ define(function(require) {
 	var custom = require('durandal/customBindings');	// Custom bindings
 	var Backend = require('modules/patient');	// Module
 	
-	// Patient
+	// Patient     
 	function Patient(data) {
 		var self = this;
 		
@@ -33,7 +33,7 @@ define(function(require) {
 		self.country   			  = ko.observable(data.country);
 		self.phone   		      = ko.observable(data.phone);
 		self.phoneExt  			  = ko.observable(data.phone_ext);
-		self.mobile    		  	  = ko.observable(data.mobile);
+		self.mobile    		  	  = ko.observable(data.mobile);        
 		self.gender     		  = ko.observable(data.gender);
 		self.familyHistoryType    = ko.observable(data.family_history_type);
 		self.familyHistoryComment = ko.observable(data.family_history_comment);
@@ -44,14 +44,14 @@ define(function(require) {
 		self.contactPhone 		  = ko.observable(data.contact_phone);
 		self.contactMobile 	   	  = ko.observable(data.contact_mobile);
 		self.contactRelationship  = ko.observable(data.contact_relationship);
-		self.insuredType 		  = ko.observable('not insured');
-		
+		self.insuredType 		  = ko.observable('not insured');    
+		self.otherName			  = ko.observable(data.insurance_name);      
 		
 		// This will return the name in the following format: Last, First
 		self.lastFirstName = ko.computed(function() {
 			return self.lastName() + ", " + self.firstName();
 		});
-	}
+	}   
 	// Insurance
 	function Insurance(data) {
 		var self = this;
@@ -82,7 +82,6 @@ define(function(require) {
 			self.contactName			= ko.observable(data.contact_name);
 			self.contactPhone			= ko.observable(data.contact_phone);
 			self.contactExt				= ko.observable(data.contact_phone_ext);
-			self.otherName				= ko.observable(data.other_name);
 		}
 		else {
 			self.patientId   			= ko.observable();
@@ -103,15 +102,15 @@ define(function(require) {
 			self.referralRequired		= ko.observable();
 			self.existingClause			= ko.observable();
 			self.copayment				= ko.observable();
-			self.verification			= ko.observable();
+			self.verification			= ko.observable(); 
 			self.verificationDate		= ko.observable();
+			self.verificationTime		= ko.observable();
 			self.confirmationNumber		= ko.observable();
 			self.contactName			= ko.observable();
 			self.contactPhone			= ko.observable();
 			self.contactExt				= ko.observable();
-			self.otherName				= ko.observable();
 		}
-	};
+	};     
 	
 	// Guarantor
 	function Guarantor(data) {
@@ -199,7 +198,7 @@ define(function(require) {
 			 *************************************************************************************/
 			backend.getPatient(self.patientId()).success(function(data) {
 				if(data.length > 0) {
-					var p = new patient(data[0]);
+					var p = new Patient(data[0]);
 					self.patient(p);
 				}
 			});

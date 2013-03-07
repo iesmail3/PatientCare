@@ -53,6 +53,7 @@ define(function(require) {
 		self.contactMobile 	   	  = ko.observable(data.contact_mobile);
 		self.contactRelationship  = ko.observable(data.contact_relationship);
 		self.insuredType 		  = ko.observable('not insured');
+		self.otherName            = ko.observable(data.insurance_name); 
 		
 		// This will return the name in the following format: Last, First
 		self.lastFirstName = ko.computed(function() {
