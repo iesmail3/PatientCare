@@ -44,6 +44,10 @@ define(function(require) {
 		self.lastFirstName = ko.computed(function() {
 			return self.lastName() + ", " + self.firstName();
 		});
+		
+		self.goToRecord = ko.computed(function(element) {
+			return '#/patient/personalinformation/' + self.id();
+		});
 	}
 	
 	/*********************************************************************************************** 
@@ -65,6 +69,13 @@ define(function(require) {
 		}
 	});
 	
+	/*********************************************************************************************** 
+	 * Computed Functions
+	 **********************************************************************************************/
+	
+	/*********************************************************************************************** 
+	 * Manage Patients ViewModel
+	 **********************************************************************************************/
 	return {
 		keyword: keyword,
 		context: context,
