@@ -10,7 +10,7 @@ Description:
 	</ul>
 	<div class="tab-content">
 		<div class="tab-pane outerPane active" id="personal">
-			<div class="personalContents">
+			<div class="formScroll">
 				<form class="form-inline">
 					<!-- ko with: patient -->
 					<!-- Personal Details -->
@@ -34,11 +34,8 @@ Description:
 							<div class="marginBottom5">
 								<input type="text" class="input-small" data-bind="value: idNumber" placeholder="Patient ID" />
 								<input type="text" class="input-small" data-bind="value: idType" placeholder="ID Type" />
-								<input type="text" class="input-medium"  placeholder="Driver's License No." />
-							</div>
-							<div class="marginBottom5">
-								<select class="input-medium" >
-									<option value="" disabled selected style="display:none;">Marital Status</option>
+								<select data-bind="value: maritalStatus" class="input-medium" >
+									<option value="">Marital Status</option>
 									<option value="divorced">Divorced</option>
 									<option value="married">Married</option>
 									<option value="separated">Separated</option>
@@ -100,7 +97,7 @@ Description:
 									<option value="WI">Wisconsin</option>
 									<option value="WY">Wyoming</option>
 								</select>
-								<input type="text" data-bind="value: zip" placeholder="Zip Code" />
+								<input type="text" class="input-small" data-bind="value: zip" placeholder="Zip Code" />
 								<select class="input-medium" data-bind="value: country">
 									<option value="" disabled selected style="display:none;">Country</option>
 									<option value="usa">USA</option>
@@ -120,7 +117,7 @@ Description:
 						</fieldset>
 					</div> <!-- /ko -->    
 					<div class="row-fluid">
-						<!-- ko with: guarantor -->
+						<!-- ko with: employer -->
 						<!-- Employment Details Left Column -->
 						<div class="span5">
 							<fieldset>
@@ -128,20 +125,25 @@ Description:
 								<div class="marginBottom5">
 									<span class="radio inline">Currently Employed</span>
 									<label class="radio inline">
-										<input type="radio" class="employedPerson" name="yes" value="Yes" /><span>Yes</span>
+										<input data-bind="checked: $root.personalEmployer" type="radio" name="employed" value="1" /><span>Yes</span>
 									</label>
 									<label class="radio inline">
-										<input type="radio" class="employedPerson" name="no" value="No" /><span>No</span>
+										<input data-bind="checked: $root.personalEmployer" type="radio" name="employed" value="0" /><span>No</span>
 									</label>
 								</div>
 								<div class="marginBottom5">
-									<input type="text" class="input-xlarge" data-bind="value: employer" placeholder="Employer" />
+									<input type="text" class="input-xlarge" data-bind="enable: $root.personalEmployer() == '1', 
+										value: companyName" placeholder="Employer" />
 								</div>
 								<div class="marginBottom5">
-									<input type="text" class="input-xlarge" data-bind="value: address" placeholder="Address" />
-									<input type="text" data-bind="value: city" placeholder="City" />
-									<select data-bind="value: state" class="input-medium">
-										<option value="" disabled selected style="display:none;">State</option>
+									<input type="text" class="input-xlarge" data-bind="enable: $root.personalEmployer() == '1', 
+										value: address" placeholder="Address" />
+								</div>
+								<div class="marginBottom5">
+									<input type="text" class="input-medium" data-bind="enable: $root.personalEmployer() == '1',
+										 value: city" placeholder="City" />
+									<select data-bind="enable: $root.personalEmployer() == '1',value: state" class="input-medium">
+										<option value="">State</option>
 										<option value="AL">Alabama</option>
 										<option value="AK">Alaska</option>
 										<option value="AZ">Arizona</option>
@@ -183,14 +185,19 @@ Description:
 										<option value="WI">Wisconsin</option>
 										<option value="WY">Wyoming</option>
 									</select>
-									<input type="text" data-bind="value: zip" placeholder="Zip Code" />
-									<select class="input-medium" data-bind="value: country">
-										<option value="" disabled selected style="display:none;">Country</option>
+								</div>
+								<div class="marginBottom5">
+									<input type="text" class="input-small" data-bind="enable: $root.personalEmployer() == '1',
+										value: zip" placeholder="Zip Code" />
+									<select class="input-medium" data-bind="enable: $root.personalEmployer() == '1',
+										value: country">
+										<option value="">Country</option>
 										<option value="usa">USA</option>
 									</select>
 								</div>
 								<div class="marginBottom5">
-									<input type="text" data-bind="value: employerPhone" placeholder="Phone" />
+									<input type="text" class="input-small" data-bind="enable: $root.personalEmployer() == '1',
+										value: phone" placeholder="Phone" />
 								</div>
 							</fieldset>
 						</div> <!-- /ko -->
@@ -200,24 +207,31 @@ Description:
 							<fieldset>
 								<legend>Spouse Details</legend>
 								<div class="marginBottom5">
-									<input type="text" data-bind="value: firstName" placeholder="First Name" />
-									<input type="text" data-bind="value: lastName" placeholder="Last Name" />
+									<input type="text" class="input-medium"data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated', 
+										value: firstName" placeholder="First Name" />
+									<input type="text" class="input-medium" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated',
+										value: lastName" placeholder="Last Name" />
 								</div>
 								<div class="marginBottom5">
-									<select class="input-small" data-bind="value: gender">
-										<option value="" disabled selected style="display:none;">Gender</option>
+									<select class="input-small" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated', value: gender">
+										<option value="">Gender</option>
 										<option value="male">Male</option>
 										<option value="female">Female</option>
 									</select>
-									<input type="text" data-bind="value: dob,datepicker: true" class="input-small"  placeholder="Date of Birth" />
+									<input type="text" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated', 
+										value: dob,datepicker: true" class="input-small"  placeholder="Date of Birth" />
 								</div>
 								<div class="marginBottom5">
-									<input type="text" class="input-small" data-bind="value: idNumber" placeholder="Patient ID" />
-									<input type="text" class="input-small" data-bind="value: idType" placeholder="ID Type" />
+									<input type="text" class="input-small" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated',
+										value: idNumber" placeholder="Patient ID" />
+									<input type="text" class="input-small" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated',
+										value: idType" placeholder="ID Type" />
 								</div>
 								<div class="marginBottom5">
-									<input type="text" data-bind="value: phone" placeholder="Phone" />
-									<input type="text" data-bind="value: workPhone" placeholder="Work Phone" />
+									<input type="text" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated',
+										value: phone" placeholder="Phone" />
+									<input type="text" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated',
+										value: workPhone" placeholder="Work Phone" />
 								</div>
 							</fieldset>
 						</div> <!-- /ko -->
@@ -235,782 +249,793 @@ Description:
 						<div class="tab-content">
 							<!-- Referring Physician -->
 							<div id="referringphysician" class="tab-pane active">
-								<div class="marginBottom5">
-									<input type="text" class="input-medium"  placeholder="First Name" />
-									<input type="text" class="input-medium"  placeholder="Middle Name" />
-									<input type="text" class="input-medium"  placeholder="Last Name" />
-									<input type="text" class="input-medium"  placeholder="Degree" />
-								</div>
-								<div class="marginBottom5">
-									<input type="text" class="input-xlarge"  placeholder="Reason" />
-									<input type="text"  placeholder="Phone" />
-									<input type="text"  placeholder="Fax" />
-								</div>
+								<form class="form-inline formPadding">
+									<div class="marginBottom5">	
+										<input type="text" class="input-medium"  placeholder="First Name" />
+										<input type="text" class="input-medium"  placeholder="Middle Name" />
+										<input type="text" class="input-medium"  placeholder="Last Name" />
+										<input type="text" class="input-medium"  placeholder="Degree" />
+									</div>
+									<div class="marginBottom5">
+										<input type="text" class="input-xlarge"  placeholder="Reason" />
+										<input type="text"  placeholder="Phone" />
+										<input type="text"  placeholder="Fax" />
+									</div>
+								</form>
 							</div>
 							<!-- PCP -->
 							<div id="pcp" class="tab-pane">
-								<div class="marginBottom5">
-									<input type="text" class="input-medium"  placeholder="First Name" />
-									<input type="text" class="input-medium"  placeholder="Middle Name" />
-									<input type="text" class="input-medium"  placeholder="Last Name" />
-									<input type="text" class="input-medium"  placeholder="Degree" />
-								</div>
-								<div class="marginBottom5">
-									<input type="text"  placeholder="Phone" />
-									<input type="text"  placeholder="Fax" />
-								</div>
+								<form class="form-inline formPadding">
+									<div class="marginBottom5">
+										<input type="text" class="input-medium"  placeholder="First Name" />
+										<input type="text" class="input-medium"  placeholder="Middle Name" />
+										<input type="text" class="input-medium"  placeholder="Last Name" />
+										<input type="text" class="input-medium"  placeholder="Degree" />
+									</div>
+									<div class="marginBottom5">
+										<input type="text"  placeholder="Phone" />
+										<input type="text"  placeholder="Fax" />
+									</div>
+								</form>
 							</div>
 							<!-- Other -->
 							<div id="other" class="tab-pane">
-								<div class="marginBottom5">
-									<input type="text" class="input-medium"  placeholder="First Name" />
-									<input type="text" class="input-medium"  placeholder="Middle Name" />
-									<input type="text" class="input-medium"  placeholder="Last Name" />
-									<input type="text" class="input-medium"  placeholder="Degree" />
-								</div>
-								<div class="marginBottom5">
-									<input type="text"  placeholder="Phone" />
-									<input type="text"  placeholder="Fax" />
-								</div>
+								<form class="form-inline formPadding">
+									<div class="marginBottom5">
+										<input type="text" class="input-medium"  placeholder="First Name" />
+										<input type="text" class="input-medium"  placeholder="Middle Name" />
+										<input type="text" class="input-medium"  placeholder="Last Name" />
+										<input type="text" class="input-medium"  placeholder="Degree" />
+									</div>
+									<div class="marginBottom5">
+										<input type="text"  placeholder="Phone" />
+										<input type="text"  placeholder="Fax" />
+									</div>
+								</form>
 							</div>
 							<!-- Personal Reference -->
 							<div id="personalreference" class="tab-pane">
-								<div class="marginBottom5">
-									<input type="text"  placeholder="First Name" />
-									<input type="text"  placeholder="Middle Name" />
-									<input type="text"  placeholder="Last Name" />
-									<select >
-										<option value="" disabled selected style="display:none;">Referral</option>
-										<option value="advertisement">Advertisement</option>
-										<option value="co-worker">Co-worker</option>
-										<option value="doctor">Doctor</option>
-										<option value="family">Family</option>
-										<option value="friend">Friend</option>
-										<option value="other">Other</option>
-									</select>
-								</div>
-								<div class="marginBottom5">
-									<input type="text"  placeholder="Phone" />
-									<input type="text"  placeholder="Email" />
-								</div>
+								<form class="form-inline formPadding">
+									<div class="marginBottom5">
+										<input type="text" class="input-medium" placeholder="First Name" />
+										<input type="text" class="input-medium" placeholder="Middle Name" />
+										<input type="text" class="input-medium" placeholder="Last Name" />
+										<select class="pull-right">
+											<option value="" disabled selected style="display:none;">Referral</option>
+											<option value="advertisement">Advertisement</option>
+											<option value="co-worker">Co-worker</option>
+											<option value="doctor">Doctor</option>
+											<option value="family">Family</option>
+											<option value="friend">Friend</option>
+											<option value="other">Other</option>
+										</select>
+									</div>
+									<div class="marginBottom5">
+										<input type="text"  placeholder="Phone" />
+										<input type="text"  placeholder="Email" />
+									</div>
+								</form>
 							</div><!-- End Personal Reference Tab -->
 						</div><!-- End Tab Content -->
 					</div><!-- End referenceTabs -->
 				</div><!-- End row-fluid referenceTabs -->
-				<div class="row-fluid">
-					<select class="input-medium" >
-						<option value="" disabled selected style="display:none;">Record Status</option>
-						<option value="active">Active</option>
-						<option value="archived">Archived</option>
-						<option value="deceased">Deceased</option>
-						<option value="deindentified">Deindentified</option>
-						<option value="transferred">Transferred</option>
-					</select>
-					<div class="pull-right">
-						<button type="button" class="btn btn-small">Print</button>
-						<button type="button" class="btn btn-small btn-primary" >Save</button>
-						<button type="button" class="btn btn-small btn-danger">Cancel</button>
-					</div>
-				</div>
 			</div><!-- End personalContents -->
+			<div class="footer">
+				<select class="input-medium" data-bind="value: patient().recordStatus">
+					<option value="">Record Status</option>
+					<option value="active">Active</option>
+					<option value="archived">Archived</option>
+					<option value="deceased">Deceased</option>
+					<option value="deindentified">Deindentified</option>
+					<option value="transferred">Transferred</option>
+				</select>
+				<div class="pull-right">
+					<button type="button" class="btn btn-small">Print</button>
+					<button type="button" class="btn btn-small btn-primary" >Save</button>
+					<button type="button" class="btn btn-small btn-danger">Cancel</button>
+				</div>
+			</div>
 		</div><!-- End outerPane Personal -->
 		<!-- Insurance -->
 		<div class="tab-pane outerPane" id="insurance">
-			<form id="form-inline">
-				<!-- Insurance Type -->
+			<div class="formScroll">
+				<form id="form-inline">
+					<!-- Insurance Type -->
+					<div class="row-fluid">
+						<fieldset>
+							<legend>Edit Insurance Information</legend>
+							<div>
+								<span class="radio inline">Primary Insured person:</span>
+								<label class="radio inline">
+									<input type="radio" data-bind="checked: insuredPerson" 
+										class="insuredPerson" name="Self" value="1" />
+									Self
+								</label>
+								<label class="radio inline">
+									<input type="radio" data-bind="checked: insuredPerson" 
+										class="insuredPerson" name="Self" value="2" />
+									Not&nbsp;Insured   
+								</label>
+								<label class="radio inline">
+									<input type="radio" data-bind="checked: insuredPerson" 
+										class="insuredPerson" name="Self" value="3" />
+									Other
+								</label>
+									<input type="text" class="insuredPerson input-large" data-bind="value: $root.patient().otherName" placeholder="Insurance Type" />
+							</div>
+						</fieldset>   
+					</div>   
+					<!-- Other information -->   
+					<div data-bind="visible: insuredPerson() == '3'">
+					<!-- ko with: guarantor -->
+						<!-- Left Column -->
+						<div class="row-fluid">
+							<div class="span5">    
+								<!-- Name of Insured -->
+								<input type="text" data-bind="value: name" class="input-large" 
+									placeholder="Name of Insured/Responsible"/>
+								<!-- Insured Address -->
+								<fieldset>
+									<legend>Address</legend>
+									<label class="radio inline">
+										<input data-bind="checked: $root.addressEnable" type="radio" name="address" value="same" />
+										Same&nbsp;as&nbsp;patient
+									</label>
+									<label class="radio inline">
+										<input data-bind="checked: $root.addressEnable" type="radio" name="address" value="given" />
+										Given
+									</label>
+									<div>
+										<input type="text" class= "input-large" placeholder="Address" 
+											data-bind="enable: $root.addressEnable() == 'given', value: address" />
+										<input type="text" class="input-small" placeholder="City" 
+											data-bind="enable: $root.addressEnable() == 'given', value: city" />
+										<select class="input-medium" 
+											data-bind="enable: $root.addressEnable() == 'given', value: state">
+											<option>State</option>
+											<option value="AL">Alabama</option>
+											<option value="AK">Alaska</option>
+											<option value="AZ">Arizona</option>
+											<option value="AR">Arkansas</option>
+											<option value="CA">California</option>
+											<option value="CO">Colorado</option>
+											<option value="CT">Connecticut</option>
+											<option value="DE">Delaware</option>
+											<option value="DC">District of Columbia</option>
+											<option value="FL">Florida</option>
+											<option value="GA">Georgia</option>
+											<option value="HI">Hawaii</option>
+											<option value="ID">Idaho</option>
+											<option value="IL">Illinois</option>
+											<option value="IN">Indiana</option>
+											<option value="IA">Iowa</option>
+											<option value="KS">Kansas</option>
+											<option value="KY">Kentucky</option>
+											<option value="LA">Louisiana</option>
+											<option value="ME">Maine</option>
+											<option value="MD">Maryland</option>
+											<option value="MA">Massachusetts</option>
+											<option value="MI">Michigan</option>
+											<option value="MN">Minnesota</option>
+											<option value="OH">Ohio</option>
+											<option value="OK">Oklahoma</option>
+											<option value="OR">Oregon</option>
+											<option value="PA">Pennsylvania</option>
+											<option value="RI">Rhode Island</option>
+											<option value="SC">South Carolina</option>
+											<option value="SD">South Dakota</option>
+											<option value="TN">Tennessee</option>
+											<option value="TX">Texas</option>
+											<option value="UT">Utah</option>
+											<option value="VT">Vermont</option>
+											<option value="VA">Virginia</option>
+											<option value="WA">Washington</option>
+											<option value="WV">West Virginia</option>
+											<option value="WI">Wisconsin</option>
+											<option value="WY">Wyoming</option>
+										</select>
+										<input type="text" class= "input-small" placeholder="ZipCode" 
+											data-bind="enable: $root.addressEnable() == 'given', value: zip" />
+										<select class="input-medium" 
+											data-bind="enable: $root.addressEnable() == 'given', value: country">
+											<option>USA </option>
+										</select>
+									</div>
+								</fieldset>
+							</div>
+							<!-- Right Column -->
+							<div class="offset1 span5">
+								<!-- Relationship with Patient -->
+								<select data-bind="value: relationship">
+									<option>Relationship with Insured</option>
+									<option value="father">Father</option>
+									<option value="mother">Mother</option>
+									<option value="spouse">Spouse</option>
+									<option value="daughter">Daughter</option>
+									<option value="son">Son</option>
+									<option value="other">Other</option>
+								</select>
+								<!-- Employer Information -->
+								<fieldset>
+									<legend>Employer</legend>
+									<label class="radio inline">
+										<input type="radio" class="insuredPerson" name="employer" value="same"
+											data-bind="checked: $root.employerEnable" />
+										Same&nbsp;as&nbsp;patient
+									</label>
+									<label class="radio inline">
+										<input type="radio" class="insuredPerson" name="employer" value="given"
+											data-bind="checked: $root.employerEnable" />
+										As&nbsp;Given
+									</label>
+									<label class="radio inline">
+										<input type="radio" class="insuredPerson" name="employer" value="na"
+											data-bind="checked: $root.employerEnable" />
+										NA
+									</label>
+									<div>
+										<input type="text" class= "input-large"  placeholder="Name"
+											data-bind="enable: $root.employerEnable() == 'given', value: employer" />
+										<input type="text" class= "input-small"  placeholder="Phone" 
+											data-bind="enable: $root.employerEnable() == 'given', value: employerPhone" />
+										<input type="text" class= "input-mini" placeholder="Ext"
+											data-bind="enable: $root.employerEnable() == 'given', value: employerExt" />
+									</div>
+								</fieldset>
+							</div>
+						</div>
+						<!-- SSN and DOB -->
+						<div class="row-fluid">
+							<div class="span5">
+								<input type="text" data-bind="enable: idSame() == false,
+									 value: idNumber" class="input-small" placeholder="ID" />
+								<input type="text" data-bind="enable: idSame() == false,
+									value: idType" class="input-small" placeholder="ID Type" />
+								<label class="checkbox inline">
+									<input type="checkbox" data-bind="checked: idSame" />
+									<span>same&nbsp;as&nbsp;patient</span>
+								</label>
+							</div>
+							<div class="offset1 span5">
+								<input type="text" class="input-small" placeholder="Date of Birth"
+									data-bind="enable: dobSame() == false, datepicker: true" />
+								<label class="checkbox inline">
+									<input type="checkbox" data-bind="checked: dobSame" /><span>same&nbsp;as&nbsp;patient</span> 
+								</label>
+							</div>
+						</div>
+					<!-- /ko -->
+					</div>
+				</form>
 				<div class="row-fluid">
-					<fieldset>
-						<legend>Edit Insurance Information</legend>
-						<div>
-							<span class="radio inline">Primary Insured person:</span>
-							<label class="radio inline">
-								<input type="radio" data-bind="checked: insuredPerson" 
-									class="insuredPerson" name="Self" value="1" />
-								Self
-							</label>
-							<label class="radio inline">
-								<input type="radio" data-bind="checked: insuredPerson" 
-									class="insuredPerson" name="Self" value="2" />
-								Not&nbsp;Insured   
-							</label>
-							<label class="radio inline">
-								<input type="radio" data-bind="checked: insuredPerson" 
-									class="insuredPerson" name="Self" value="3" />
-								Other
-							</label>
-								<input type="text" class="insuredPerson input-large" data-bind="value: $root.patient().otherName" placeholder="Insurance Type" />
-						</div>
-					</fieldset>   
-				</div>   
-				<!-- Other information -->   
-				<div data-bind="visible: insuredPerson() == '3'">
-				<!-- ko with: guarantor -->
-					<!-- Left Column -->
-					<div class="row-fluid">
-						<div class="span5">    
-							<!-- Name of Insured -->
-							<input type="text" data-bind="value: name" class="input-large" 
-								placeholder="Name of Insured/Responsible"/>
-							<!-- Insured Address -->
-							<fieldset>
-								<legend>Address</legend>
-								<label class="radio inline">
-									<input data-bind="checked: $root.addressEnable" type="radio" name="address" value="same" />
-									Same&nbsp;as&nbsp;patient
-								</label>
-								<label class="radio inline">
-									<input data-bind="checked: $root.addressEnable" type="radio" name="address" value="given" />
-									Given
-								</label>
-								<div>
-									<input type="text" class= "input-large" placeholder="Address" 
-										data-bind="enable: $root.addressEnable() == 'given', value: address" />
-									<input type="text" class="input-small" placeholder="City" 
-										data-bind="enable: $root.addressEnable() == 'given', value: city" />
-									<select class="input-medium" 
-										data-bind="enable: $root.addressEnable() == 'given', value: state">
-										<option>State</option>
-										<option value="AL">Alabama</option>
-										<option value="AK">Alaska</option>
-										<option value="AZ">Arizona</option>
-										<option value="AR">Arkansas</option>
-										<option value="CA">California</option>
-										<option value="CO">Colorado</option>
-										<option value="CT">Connecticut</option>
-										<option value="DE">Delaware</option>
-										<option value="DC">District of Columbia</option>
-										<option value="FL">Florida</option>
-										<option value="GA">Georgia</option>
-										<option value="HI">Hawaii</option>
-										<option value="ID">Idaho</option>
-										<option value="IL">Illinois</option>
-										<option value="IN">Indiana</option>
-										<option value="IA">Iowa</option>
-										<option value="KS">Kansas</option>
-										<option value="KY">Kentucky</option>
-										<option value="LA">Louisiana</option>
-										<option value="ME">Maine</option>
-										<option value="MD">Maryland</option>
-										<option value="MA">Massachusetts</option>
-										<option value="MI">Michigan</option>
-										<option value="MN">Minnesota</option>
-										<option value="OH">Ohio</option>
-										<option value="OK">Oklahoma</option>
-										<option value="OR">Oregon</option>
-										<option value="PA">Pennsylvania</option>
-										<option value="RI">Rhode Island</option>
-										<option value="SC">South Carolina</option>
-										<option value="SD">South Dakota</option>
-										<option value="TN">Tennessee</option>
-										<option value="TX">Texas</option>
-										<option value="UT">Utah</option>
-										<option value="VT">Vermont</option>
-										<option value="VA">Virginia</option>
-										<option value="WA">Washington</option>
-										<option value="WV">West Virginia</option>
-										<option value="WI">Wisconsin</option>
-										<option value="WY">Wyoming</option>
-									</select>
-									<input type="text" class= "input-small" placeholder="ZipCode" 
-										data-bind="enable: $root.addressEnable() == 'given', value: zip" />
-									<select class="input-medium" 
-										data-bind="enable: $root.addressEnable() == 'given', value: country">
-										<option>USA </option>
-									</select>
-								</div>
-							</fieldset>
-						</div>
-						<!-- Right Column -->
-						<div class="offset1 span5">
-							<!-- Relationship with Patient -->
-							<select data-bind="value: relationship">
-								<option>Relationship with Insured</option>
-								<option value="father">Father</option>
-								<option value="mother">Mother</option>
-								<option value="spouse">Spouse</option>
-								<option value="daughter">Daughter</option>
-								<option value="son">Son</option>
-								<option value="other">Other</option>
-							</select>
-							<!-- Employer Information -->
-							<fieldset>
-								<legend>Employer</legend>
-								<label class="radio inline">
-									<input type="radio" class="insuredPerson" name="employer" value="same"
-										data-bind="checked: $root.employerEnable" />
-									Same&nbsp;as&nbsp;patient
-								</label>
-								<label class="radio inline">
-									<input type="radio" class="insuredPerson" name="employer" value="given"
-										data-bind="checked: $root.employerEnable" />
-									As&nbsp;Given
-								</label>
-								<label class="radio inline">
-									<input type="radio" class="insuredPerson" name="employer" value="na"
-										data-bind="checked: $root.employerEnable" />
-									NA
-								</label>
-								<div>
-									<input type="text" class= "input-large"  placeholder="Name"
-										data-bind="enable: $root.employerEnable() == 'given', value: employer" />
-									<input type="text" class= "input-small"  placeholder="Phone" 
-										data-bind="enable: $root.employerEnable() == 'given', value: employerPhone" />
-									<input type="text" class= "input-mini" placeholder="Ext"
-										data-bind="enable: $root.employerEnable() == 'given', value: employerExt" />
-								</div>
-							</fieldset>
-						</div>
-					</div>
-					<!-- SSN and DOB -->
-					<div class="row-fluid">
-						<div class="span5">
-							<input type="text" data-bind="enable: idSame() == false,
-								 value: idNumber" class="input-small" placeholder="ID" />
-							<input type="text" data-bind="enable: idSame() == false,
-								value: idType" class="input-small" placeholder="ID Type" />
-							<label class="checkbox inline">
-								<input type="checkbox" data-bind="checked: idSame" />
-								<span>same&nbsp;as&nbsp;patient</span>
-							</label>
-						</div>
-						<div class="offset1 span5">
-							<input type="text" class="input-small" placeholder="Date of Birth"
-								data-bind="enable: dobSame() == false, datepicker: true" />
-							<label class="checkbox inline">
-								<input type="checkbox" data-bind="checked: dobSame" /><span>same&nbsp;as&nbsp;patient</span> 
-							</label>
-						</div>
-					</div>
-				<!-- /ko -->
-				</div>
-			</form>
-			<div class="row-fluid">
-				<!-- Insurance Detail Tabs -->
-				<div class="tabbable insuranceTabs">
-					<ul class="nav nav-tabs">
-						<li class="active"><a href="#primaryPane" data-toggle="tab">Primary Insurance</a></li>
-						<li><a href="#secondaryPane" data-toggle="tab">Secondary Insurance</a></li>
-						<li><a href="#otherPane" data-toggle="tab">Other Insurance</a></li>
-					</ul>
-					<div class="tab-content">
-						<!-- Primary Insurance -->
-						<div id="primaryPane" class="tab-pane active">
-							<!-- ko with: primaryInsurance -->
-							<form class="form-inline formPadding">
-									<div class="marginBottom5">
-									<input type="text" data-bind="value: companyName" 
-										class="input-large" placeholder="Insurance Company" />
-									<input type="text" data-bind="value: effectiveDate,datepicker: true"
-										class="input-small"  placeholder="Effective Date" />
-									</div>
-									<div class="marginBottom5">
-										<input type="text" data-bind="value: policy"
-											class="input-medium" placeholder="ID Number" />
-										<input type="text" data-bind="value: group"
-											class="input-small" placeholder="Group Number" />
-										<span class="radio inline">Subject to Pre-Existing Clause?</span>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: existingClause"
-												class="insuredPerson" name="clauseOption" value="1" />
-											<span>Yes</span>
-										</label>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: existingClause"
-												class="insuredPerson" name="clauseOption" value="0" />
-											<span>No</span>
-										</label>
-									</div>
-									<div class="marginBottom5">
-										<span class="radio inline">Plan?</span>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: plan"
-												class="insuredPerson" name="plan" value="hmo" />
-											<span>HMO</span>
-										</label>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: plan"
-												class="insuredPerson" name="plan" value="epo" />
-											<span>EPO</span>
-										</label>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: plan"
-												class="insuredPerson" name="plan" value="pos" />
-											<span>POS</span>
-										</label>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: plan" 
-												class="insuredPerson" name="plan" value="ppo" />
-											<span>PPO</span>
-										</label>
-										<label class="radio inline">
-											<input type="radio" class="insuredPerson" name="plan" value="Other" /><span>Other</span>
-										</label>
-										<input type="text" 
-											class="input-small" placeholder="Self" />
-										<span class="radio inline">Referral Required?</span>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: referralRequired"
-												name="referalAuthorization" value="1" />
-											<span>Yes</span>
-										</label>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: referralRequired"
-												name="referalAuthorization" value="0" />
-											<span>No</span>
-										</label>
-									</div>
-									<div class="row-fluid">
-										<fieldset>
-											<legend>Deductible/Out of Pocket/Co-Payment</legend>
-											<div class="marginBottom5">
-												<div class="input-prepend">
-													<span class="add-on">$</span>
-													<input type="text" data-bind="value: deductible" 
-														class="input-small" placeholder="Deductible" />
+					<!-- Insurance Detail Tabs -->
+					<div class="tabbable insuranceTabs">
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#primaryPane" data-toggle="tab">Primary Insurance</a></li>
+							<li><a href="#secondaryPane" data-toggle="tab">Secondary Insurance</a></li>
+							<li><a href="#otherPane" data-toggle="tab">Other Insurance</a></li>
+						</ul>
+						<div class="tab-content">
+							<!-- Primary Insurance -->
+							<div id="primaryPane" class="tab-pane active">
+								<!-- ko with: primaryInsurance -->
+								<form class="form-inline formPadding">
+										<div class="marginBottom5">
+										<input type="text" data-bind="value: companyName" 
+											class="input-large" placeholder="Insurance Company" />
+										<input type="text" data-bind="value: effectiveDate,datepicker: true"
+											class="input-small"  placeholder="Effective Date" />
+										</div>
+										<div class="marginBottom5">
+											<input type="text" data-bind="value: policy"
+												class="input-medium" placeholder="ID Number" />
+											<input type="text" data-bind="value: group"
+												class="input-small" placeholder="Group Number" />
+											<span class="radio inline">Subject to Pre-Existing Clause?</span>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: existingClause"
+													class="insuredPerson" name="clauseOption" value="1" />
+												<span>Yes</span>
+											</label>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: existingClause"
+													class="insuredPerson" name="clauseOption" value="0" />
+												<span>No</span>
+											</label>
+										</div>
+										<div class="marginBottom5">
+											<span class="radio inline">Plan?</span>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: plan"
+													name="plant" value="hmo" />
+												<span>HMO</span>
+											</label>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: plan"
+													name="plant" value="epo" />
+												<span>EPO</span>
+											</label>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: plan"
+													name="plant" value="pos" />
+												<span>POS</span>
+											</label>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: plan" 
+													name="plant" value="ppo" />
+												<span>PPO</span>
+											</label>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: plan"
+													name="plant" value="other" /><span>Other</span>
+											</label>
+											<input type="text" data-bind="value: planOther"
+												class="input-small" placeholder="Plan Type" />
+											<span class="radio inline">Referral Required?</span>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: referralRequired"
+													name="referalAuthorization" value="1" />
+												<span>Yes</span>
+											</label>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: referralRequired"
+													name="referalAuthorization" value="0" />
+												<span>No</span>
+											</label>
+										</div>
+										<div class="row-fluid">
+											<fieldset>
+												<legend>Deductible/Out of Pocket/Co-Payment</legend>
+												<div class="marginBottom5">
+													<div class="input-prepend">
+														<span class="add-on">$</span>
+														<input type="text" data-bind="value: deductible" 
+															class="input-small" placeholder="Deductible" />
+													</div>
+													<span class="radio inline">Met Deductibles</span>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: metDeductible" 
+															name="metDeductible" value="1" />
+														<span>Yes</span>
+													</label>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: metDeductible" 
+															name="metDeductible" value="0" />
+														<span>No</span>
+													</label>
+													<div class="input-prepend">
+														<span class="add-on">$</span>
+														<input type="text" class="input-small" placeholder="Remaining"
+															data-bind="value: remainingDeductible, enable: metDeductible() == '0'" />
+													</div>
 												</div>
-												<span class="radio inline">Met Deductibles</span>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: metDeductible" 
-														name="metDeductible" value="1" />
-													<span>Yes</span>
-												</label>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: metDeductible" 
-														name="metDeductible" value="0" />
-													<span>No</span>
-												</label>
-												<div class="input-prepend">
-													<span class="add-on">$</span>
-													<input type="text" class="input-small" placeholder="Remaining"
-														data-bind="value: remainingDeductible, enable: metDeductible() == '0'" />
+												<div class="marginBottom5">
+													<div class="input-prepend">
+														<span class="add-on">$</span>
+														<input type="text" data-bind="value: outOfPocket"
+															class="input-small" placeholder="Out of pocket" />
+													</div>
+													<span class="radio inline">Met Out of pocket</span>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: metOutOfPocket" 
+															name="metPocket" value="1" />
+														<span>Yes</span>
+													</label>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: metOutOfPocket" 
+															name="metPocket" value="0" />
+														<span>No</span>
+													</label>
+													<div class="input-prepend">
+														<span class="add-on">$</span>
+														<input type="text" class="input-small" placeholder="Remaining"
+															data-bind="value: remainingOutOfPocket, enable: metOutOfPocket() == '0'" />
+													</div>
 												</div>
-											</div>
-											<div class="marginBottom5">
-												<div class="input-prepend">
-													<span class="add-on">$</span>
-													<input type="text" data-bind="value: outOfPocket"
-														class="input-small" placeholder="Out of pocket" />
+												<div class="marginBottom5">
+													<strong>OV/LAB</strong>    
+													<div class="input-prepend">
+														<span class="add-on">$</span>
+														<input type="text" data-bind="value: copayment" 
+															class="input-small" placeholder="Co-Payment" />
+													</div>
+													<div class="input-append">
+														<input type="text" data-bind="value: patientPortion"
+															class="input-small" placeholder="Patient Portion" />
+														<span class="add-on">%</span>
+													</div>
+													<div class="input-append">
+														<input type="text" data-bind="value: insurancePortion" 
+															class="input-small" placeholder="Ins.Portion" />
+														<span class="add-on">%</span>
+													</div>
 												</div>
-												<span class="radio inline">Met Out of pocket</span>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: metOutOfPocket" 
-														name="metPocket" value="1" />
-													<span>Yes</span>
-												</label>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: metOutOfPocket" 
-														name="metPocket" value="0" />
-													<span>No</span>
-												</label>
-												<div class="input-prepend">
-													<span class="add-on">$</span>
-													<input type="text" class="input-small" placeholder="Remaining"
-														data-bind="value: remainingOutOfPocket, enable: metOutOfPocket() == '0'" />
+											</fieldset>
+										</div>
+										<div class="row-fluid"><!-- Can add row-fluid class here -->
+											<fieldset>
+												<legend>Verification</legend>
+												<div class="marginBottom5">
+													<input type="text" data-bind="value: contactName" 
+														class="input-medium" placeholder="Insurance Contact" />
+													<input type="text" data-bind="value: contactPhone" 
+														class="input-medium" placeholder="Phone Number" />
+													<input type="text" data-bind="value: contactExt" 
+														class="input-mini" placeholder="Ext" />
 												</div>
-											</div>
-											<div class="marginBottom5">
-												<strong>OV/LAB</strong>    
-												<div class="input-prepend">
-													<span class="add-on">$</span>
-													<input type="text" data-bind="value: copayment" 
-														class="input-small" placeholder="Co-Payment" />
-												</div>
-												<div class="input-append">
-													<input type="text" data-bind="value: patientPortion"
-														class="input-small" placeholder="Patient Portion" />
-													<span class="add-on">%</span>
-												</div>
-												<div class="input-append">
-													<input type="text" data-bind="value: insurancePortion" 
-														class="input-small" placeholder="Ins.Portion" />
-													<span class="add-on">%</span>
-												</div>
-											</div>
-										</fieldset>
-									</div>
-									<div class="row-fluid"><!-- Can add row-fluid class here -->
-										<fieldset>
-											<legend>Verification</legend>
-											<div class="marginBottom5">
-												<input type="text" data-bind="value: contactName" 
-													class="input-medium" placeholder="Insurance Contact" />
-												<input type="text" data-bind="value: contactPhone" 
-													class="input-medium" placeholder="Phone Number" />
-												<input type="text" data-bind="value: contactExt" 
-													class="input-mini" placeholder="Ext" />
-											</div>
-											<div class="marginBottom5">
-												<span class="radio inline">Verified ?</span>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: verification"
-														class="insuredPerson" name="plan" value="1" />
-													<span>Yes</span>
-												</label>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: verification" 
-														class="insuredPerson" name="plan" value="0" />
-													<span>No</span>
-												</label>   
-												<input type="text" class="input-medium" data-bind="value: verificationDate,
-												datepicker: true" placeholder="Verification Date" />
-												<div class="input-append bootstrap-timepicker">
-													<input class="timepicker input-small" 
-														data-bind="value: verificationTime, timepicker: true" type="text" />
-													<span class="add-on"><i class="icon-time"></i></span>
-												</div>
-												<input type="text" data-bind="value: confirmationNumber" 
-													class="input-small" placeholder="Confirmation #" />
-											</div>
-										</fieldset>
-									</div>
-							</form><!-- /ko -->
-						</div>
-						<!-- Secondary Insurance -->
-						<div id="secondaryPane" class="tab-pane">
-							<!-- ko with: secondaryInsurance -->
-							<form class="form-inline formPadding">       
-									<div class="marginBottom5">
-									<input type="text" data-bind="value: companyName" 
-										class="input-large" placeholder="Insurance Company" />
-									<input type="text" data-bind="value: effectiveDate,datepicker: true"  
-										class="input-small" placeholder="Effective Date" />
-									</div>
-									<div class="marginBottom5">   
-										<input type="text" data-bind="value: policy"
-											class="input-medium" placeholder="ID Number" />
-										<input type="text" data-bind="value: group"
-											class="input-small" placeholder="Group Number" />
-										<span class="radio inline">Subject to Pre-Existing Clause?</span>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: existingClause"
-												class="insuredPerson" name="clauseOption" value="1" />
-											<span>Yes</span>
-										</label>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: existingClause"
-												class="insuredPerson" name="clauseOption" value="0" />
-											<span>No</span>
-										</label>
-									</div>
-									<div class="marginBottom5">
-										<span class="radio inline">Plan?</span>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: plan"
-												class="insuredPerson" name="plan" value="hmo" />
-											<span>HMO</span>
-										</label>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: plan"
-												class="insuredPerson" name="plan" value="epo" />
-											<span>EPO</span>
-										</label>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: plan"
-												class="insuredPerson" name="plan" value="pos" />
-											<span>POS</span>
-										</label>        
-										<label class="radio inline">    
-											<input type="radio" data-bind="checked: plan" 
-												class="insuredPerson" name="plan" value="ppo" />
-											<span>PPO</span>   
-										</label>    
-										<label class="radio inline">
-											<input type="radio" class="insuredPerson" name="plan" value="Other" /><span>Other</span>
-										</label>
-										<input type="text" 
-											class="input-small" placeholder="Self" />
-										<span class="radio inline">Referral Required?</span>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: referralRequired"
-												name="referalAuthorization" value="1" />
-											<span>Yes</span>
-										</label>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: referralRequired"
-												name="referalAuthorization" value="0" />
-											<span>No</span>
-										</label>
-									</div>
-									<div class="row-fluid">
-										<fieldset>
-											<legend>Deductible/Out of Pocket/Co-Payment</legend>
-											<div class="marginBottom5">
-												<div class="input-prepend">
-													<span class="add-on">$</span>
-													<input type="text" data-bind="value: deductible" 
-														class="input-small" placeholder="Deductible" />
-												</div>
-												<span class="radio inline">Met Deductibles</span>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: metDeductible" 
-														name="metDeductible" value="1" />
-													<span>Yes</span>
-												</label>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: metDeductible" 
-														name="metDeductible" value="0" />
-													<span>No</span>
-												</label>
-												<div class="input-prepend">
-													<span class="add-on">$</span>
-													<input type="text" class="input-small" placeholder="Remaining Deductibles"
-														data-bind="value: remainingDeductible, enable: metDeductible() == '0'" />
-												</div>
-											</div>
-											<div class="marginBottom5">
-												<div class="input-prepend">
-													<span class="add-on">$</span>
-													<input type="text" data-bind="value: outOfPocket"
-														class="input-small" placeholder="Out of pocket" />
-												</div>
-												<span class="radio inline">Met Out of pocket</span>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: metOutOfPocket" 
-														name="metPocket" value="1" />
-													<span>Yes</span>
-												</label>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: metOutOfPocket" 
-														name="metPocket" value="0" />
-													<span>No</span>
-												</label>
-												<div class="input-prepend">
-													<span class="add-on">$</span>
-													<input type="text" class="input-small" placeholder="Remaining out of pocket"
-														data-bind="value: remainingOutOfPocket, enable: metOutOfPocket() == '0'" />
-												</div>
-											</div>
-											<div class="marginBottom5">
-												<strong>OV/LAB</strong>
-												<div class="input-prepend">
-													<span class="add-on">$</span>
-													<input type="text" data-bind="value: copayment" 
-														class="input-small" placeholder="Co-Payment" />
-												</div>
-												<div class="input-append">
-													<input type="text" data-bind="value: patientPortion"
-														class="input-small" placeholder="Patient Portion" />
-													<span class="add-on">%</span>
-												</div>
-												<div class="input-append">
-													<input type="text" data-bind="value: insurancePortion" 
-														class="input-small" placeholder="Ins.Portion" />
-													<span class="add-on">%</span>
-												</div>
-											</div>
-										</fieldset>
-									</div>
-									<div class="row-fluid"><!-- Can add row-fluid class here -->
-										<fieldset>
-											<legend>Verification</legend>
-											<div class="marginBottom5">
-												<input type="text" data-bind="value: contactName" 
-													class="input-medium" placeholder="Insurance Contact" />
-												<input type="text" data-bind="value: contactPhone" 
-													class="input-medium" placeholder="Phone Number" />
-												<input type="text" data-bind="value: contactExt" 
-													class="input-mini" placeholder="Ext" />
-											</div>
-											<div class="marginBottom5">
-												<span class="radio inline">Verified ?</span>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: verification"
-														class="insuredPerson" name="plan" value="1" />
-													<span>Yes</span>
-												</label>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: verification" 
-														class="insuredPerson" name="plan" value="0" />
-													<span>No</span>
-												</label>
-												<input type="text" class="input-medium" data-bind="value: verificationDate, 
+												<div class="marginBottom5">
+													<span class="radio inline">Verified ?</span>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: verification"
+															class="insuredPerson" name="plan" value="1" />
+														<span>Yes</span>
+													</label>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: verification" 
+															class="insuredPerson" name="plan" value="0" />
+														<span>No</span>
+													</label>   
+													<input type="text" class="input-medium" data-bind="value: verificationDate,
 													datepicker: true" placeholder="Verification Date" />
-												<div class="input-append bootstrap-timepicker">
-													<input class="timepicker input-small" 
-														data-bind="value: verificationTime, timepicker: true" type="text" />
-													<span class="add-on"><i class="icon-time"></i></span>
+													<div class="input-append bootstrap-timepicker">
+														<input class="timepicker input-small" 
+															data-bind="value: verificationTime, timepicker: true" type="text" />
+														<span class="add-on"><i class="icon-time"></i></span>
+													</div>
+													<input type="text" data-bind="value: confirmationNumber" 
+														class="input-small" placeholder="Confirmation #" />
 												</div>
-												<input type="text" data-bind="value: confirmationNumber" 
-													class="input-small" placeholder="Confirmation #" />
-											</div>
-										</fieldset>
-									</div>
-							</form><!-- /ko -->
-						</div>
-						<!-- Other Insurance -->
-						<div id="otherPane" class="tab-pane">
-							<!-- ko with: otherInsurance -->
-							<form class="form-inline formPadding">       
-									<div class="marginBottom5">
-									<input type="text" data-bind="value: companyName" 
-										class="input-large" placeholder="Insurance Company" />
-									<input type="text" data-bind="value: effectiveDate,datepicker: true"
-										class="input-small" placeholder="Effective Date" />
-									</div>
-									<div class="marginBottom5">   
-										<input type="text" data-bind="value: policy"
-											class="input-medium" placeholder="ID Number" />
-										<input type="text" data-bind="value: group"
-											class="input-small" placeholder="Group Number" />
-										<span class="radio inline">Subject to Pre-Existing Clause?</span>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: existingClause"
-												class="insuredPerson" name="clauseOption" value="1" />
-											<span>Yes</span>
-										</label>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: existingClause"
-												class="insuredPerson" name="clauseOption" value="0" />
-											<span>No</span>
-										</label>
-									</div>
-									<div class="marginBottom5">
-										<span class="radio inline">Plan?</span>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: plan"
-												class="insuredPerson" name="plan" value="hmo" />
-											<span>HMO</span>
-										</label>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: plan"
-												class="insuredPerson" name="plan" value="epo" />
-											<span>EPO</span>
-										</label>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: plan"
-												class="insuredPerson" name="plan" value="pos" />
-											<span>POS</span>
-										</label>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: plan" 
-												class="insuredPerson" name="plan" value="ppo" />
-											<span>PPO</span>
-										</label>
-										<label class="radio inline">
-											<input type="radio" class="insuredPerson" name="plan" value="Other" /><span>Other</span>
-										</label>
-										<input type="text" 
-											class="input-small" placeholder="Self" />
-										<span class="radio inline">Referral Required?</span>
-										<label class="radio inline">
-											<input type="radio" data-bind="checked: referralRequired"
-												name="referalAuthorization" value="1" />
-											<span>Yes</span>
-										</label>     
-										<label class="radio inline">  
-											<input type="radio" data-bind="checked: referralRequired"
-												name="referalAuthorization" value="0" />
-											<span>No</span>
-										</label>    
-									</div>  
-									<div class="row-fluid">
-										<fieldset>
-											<legend>Deductible/Out of Pocket/Co-Payment</legend>
-											<div class="marginBottom5">
-												<div class="input-prepend">
-													<span class="add-on">$</span>
-													<input type="text" data-bind="value: deductible" 
-														class="input-small" placeholder="Deductible" />
+											</fieldset>
+										</div>
+								</form><!-- /ko -->
+							</div>
+							<!-- Secondary Insurance -->
+							<div id="secondaryPane" class="tab-pane">
+								<!-- ko with: secondaryInsurance -->
+								<form class="form-inline formPadding">       
+										<div class="marginBottom5">
+										<input type="text" data-bind="value: companyName" 
+											class="input-large" placeholder="Insurance Company" />
+										<input type="text" data-bind="value: effectiveDate,datepicker: true"  
+											class="input-small" placeholder="Effective Date" />
+										</div>
+										<div class="marginBottom5">   
+											<input type="text" data-bind="value: policy"
+												class="input-medium" placeholder="ID Number" />
+											<input type="text" data-bind="value: group"
+												class="input-small" placeholder="Group Number" />
+											<span class="radio inline">Subject to Pre-Existing Clause?</span>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: existingClause"
+													class="insuredPerson" name="clauseOption" value="1" />
+												<span>Yes</span>
+											</label>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: existingClause"
+													class="insuredPerson" name="clauseOption" value="0" />
+												<span>No</span>
+											</label>
+										</div>
+										<div class="marginBottom5">
+											<span class="radio inline">Plan?</span>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: plan"
+													class="insuredPerson" name="plan" value="hmo" />
+												<span>HMO</span>
+											</label>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: plan"
+													class="insuredPerson" name="plan" value="epo" />
+												<span>EPO</span>
+											</label>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: plan"
+													class="insuredPerson" name="plan" value="pos" />
+												<span>POS</span>
+											</label>        
+											<label class="radio inline">    
+												<input type="radio" data-bind="checked: plan" 
+													class="insuredPerson" name="plan" value="ppo" />
+												<span>PPO</span>   
+											</label>    
+											<label class="radio inline">
+												<input type="radio" class="insuredPerson" name="plan" value="Other" /><span>Other</span>
+											</label>
+											<input type="text" 
+												class="input-small" placeholder="Self" />
+											<span class="radio inline">Referral Required?</span>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: referralRequired"
+													name="referalAuthorization" value="1" />
+												<span>Yes</span>
+											</label>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: referralRequired"
+													name="referalAuthorization" value="0" />
+												<span>No</span>
+											</label>
+										</div>
+										<div class="row-fluid">
+											<fieldset>
+												<legend>Deductible/Out of Pocket/Co-Payment</legend>
+												<div class="marginBottom5">
+													<div class="input-prepend">
+														<span class="add-on">$</span>
+														<input type="text" data-bind="value: deductible" 
+															class="input-small" placeholder="Deductible" />
+													</div>
+													<span class="radio inline">Met Deductibles</span>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: metDeductible" 
+															name="metDeductible" value="1" />
+														<span>Yes</span>
+													</label>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: metDeductible" 
+															name="metDeductible" value="0" />
+														<span>No</span>
+													</label>
+													<div class="input-prepend">
+														<span class="add-on">$</span>
+														<input type="text" class="input-small" placeholder="Remaining"
+															data-bind="value: remainingDeductible, enable: metDeductible() == '0'" />
+													</div>
 												</div>
-												<span class="radio inline">Met Deductibles</span>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: metDeductible" 
-														name="metDeductible" value="1" />
-													<span>Yes</span>
-												</label>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: metDeductible" 
-														name="metDeductible" value="0" />
-													<span>No</span>
-												</label>
-												<div class="input-prepend">
-													<span class="add-on">$</span>
-													<input type="text" class="input-small" placeholder="Remaining Deductibles"
-														data-bind="value: remainingDeductible, enable: metDeductible() == '0'" />
+												<div class="marginBottom5">
+													<div class="input-prepend">
+														<span class="add-on">$</span>
+														<input type="text" data-bind="value: outOfPocket"
+															class="input-small" placeholder="Out of pocket" />
+													</div>
+													<span class="radio inline">Met Out of pocket</span>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: metOutOfPocket" 
+															name="metPocket" value="1" />
+														<span>Yes</span>
+													</label>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: metOutOfPocket" 
+															name="metPocket" value="0" />
+														<span>No</span>
+													</label>
+													<div class="input-prepend">
+														<span class="add-on">$</span>
+														<input type="text" class="input-small" placeholder="Remaining"
+															data-bind="value: remainingOutOfPocket, enable: metOutOfPocket() == '0'" />
+													</div>
 												</div>
-											</div>
-											<div class="marginBottom5">
-												<div class="input-prepend">
-													<span class="add-on">$</span>
-													<input type="text" data-bind="value: outOfPocket"
-														class="input-small" placeholder="Out of pocket" />
+												<div class="marginBottom5">
+													<strong>OV/LAB</strong>
+													<div class="input-prepend">
+														<span class="add-on">$</span>
+														<input type="text" data-bind="value: copayment" 
+															class="input-small" placeholder="Co-Payment" />
+													</div>
+													<div class="input-append">
+														<input type="text" data-bind="value: patientPortion"
+															class="input-small" placeholder="Patient Portion" />
+														<span class="add-on">%</span>
+													</div>
+													<div class="input-append">
+														<input type="text" data-bind="value: insurancePortion" 
+															class="input-small" placeholder="Ins.Portion" />
+														<span class="add-on">%</span>
+													</div>
 												</div>
-												<span class="radio inline">Met Out of pocket</span>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: metOutOfPocket" 
-														name="metPocket" value="1" />
-													<span>Yes</span>
-												</label>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: metOutOfPocket" 
-														name="metPocket" value="0" />
-													<span>No</span>
-												</label>
-												<div class="input-prepend">
-													<span class="add-on">$</span>
-													<input type="text" class="input-small" placeholder="Remaining out of pocket"
-														data-bind="value: remainingOutOfPocket, enable: metOutOfPocket() == '0'" />
+											</fieldset>
+										</div>
+										<div class="row-fluid"><!-- Can add row-fluid class here -->
+											<fieldset>
+												<legend>Verification</legend>
+												<div class="marginBottom5">
+													<input type="text" data-bind="value: contactName" 
+														class="input-medium" placeholder="Insurance Contact" />
+													<input type="text" data-bind="value: contactPhone" 
+														class="input-medium" placeholder="Phone Number" />
+													<input type="text" data-bind="value: contactExt" 
+														class="input-mini" placeholder="Ext" />
 												</div>
-											</div>
-											<div class="marginBottom5">
-												<strong>OV/LAB</strong>
-												<div class="input-prepend">
-													<span class="add-on">$</span>
-													<input type="text" data-bind="value: copayment" 
-														class="input-small" placeholder="Co-Payment" />
+												<div class="marginBottom5">
+													<span class="radio inline">Verified ?</span>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: verification"
+															class="insuredPerson" name="plan" value="1" />
+														<span>Yes</span>
+													</label>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: verification" 
+															class="insuredPerson" name="plan" value="0" />
+														<span>No</span>
+													</label>
+													<input type="text" class="input-medium" data-bind="value: verificationDate, 
+														datepicker: true" placeholder="Verification Date" />
+													<div class="input-append bootstrap-timepicker">
+														<input class="timepicker input-small" 
+															data-bind="value: verificationTime, timepicker: true" type="text" />
+														<span class="add-on"><i class="icon-time"></i></span>
+													</div>
+													<input type="text" data-bind="value: confirmationNumber" 
+														class="input-small" placeholder="Confirmation #" />
 												</div>
-												<div class="input-append">
-													<input type="text" data-bind="value: patientPortion"
-														class="input-small" placeholder="Patient Portion" />
-													<span class="add-on">%</span>
+											</fieldset>
+										</div>
+								</form><!-- /ko -->
+							</div>
+							<!-- Other Insurance -->
+							<div id="otherPane" class="tab-pane">
+								<!-- ko with: otherInsurance -->
+								<form class="form-inline formPadding">       
+										<div class="marginBottom5">
+										<input type="text" data-bind="value: companyName" 
+											class="input-large" placeholder="Insurance Company" />
+										<input type="text" data-bind="value: effectiveDate,datepicker: true"
+											class="input-small" placeholder="Effective Date" />
+										</div>
+										<div class="marginBottom5">   
+											<input type="text" data-bind="value: policy"
+												class="input-medium" placeholder="ID Number" />
+											<input type="text" data-bind="value: group"
+												class="input-small" placeholder="Group Number" />
+											<span class="radio inline">Subject to Pre-Existing Clause?</span>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: existingClause"
+													class="insuredPerson" name="clauseOption" value="1" />
+												<span>Yes</span>
+											</label>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: existingClause"
+													class="insuredPerson" name="clauseOption" value="0" />
+												<span>No</span>
+											</label>
+										</div>
+										<div class="marginBottom5">
+											<span class="radio inline">Plan?</span>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: plan"
+													class="insuredPerson" name="plan" value="hmo" />
+												<span>HMO</span>
+											</label>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: plan"
+													class="insuredPerson" name="plan" value="epo" />
+												<span>EPO</span>
+											</label>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: plan"
+													class="insuredPerson" name="plan" value="pos" />
+												<span>POS</span>
+											</label>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: plan" 
+													class="insuredPerson" name="plan" value="ppo" />
+												<span>PPO</span>
+											</label>
+											<label class="radio inline">
+												<input type="radio" class="insuredPerson" name="plan" value="Other" /><span>Other</span>
+											</label>
+											<input type="text" data-bind="value: planOther"
+												class="input-small" placeholder="Plan Type" />
+											<span class="radio inline">Referral Required?</span>
+											<label class="radio inline">
+												<input type="radio" data-bind="checked: referralRequired"
+													name="referalAuthorization" value="1" />
+												<span>Yes</span>
+											</label>     
+											<label class="radio inline">  
+												<input type="radio" data-bind="checked: referralRequired"
+													name="referalAuthorization" value="0" />
+												<span>No</span>
+											</label>    
+										</div>  
+										<div class="row-fluid">
+											<fieldset>
+												<legend>Deductible/Out of Pocket/Co-Payment</legend>
+												<div class="marginBottom5">
+													<div class="input-prepend">
+														<span class="add-on">$</span>
+														<input type="text" data-bind="value: deductible" 
+															class="input-small" placeholder="Deductible" />
+													</div>
+													<span class="radio inline">Met Deductibles</span>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: metDeductible" 
+															name="metDeductible" value="1" />
+														<span>Yes</span>
+													</label>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: metDeductible" 
+															name="metDeductible" value="0" />
+														<span>No</span>
+													</label>
+													<div class="input-prepend">
+														<span class="add-on">$</span>
+														<input type="text" class="input-small" placeholder="Remaining"
+															data-bind="value: remainingDeductible, enable: metDeductible() == '0'" />
+													</div>
 												</div>
-												<div class="input-append">
-													<input type="text" data-bind="value: insurancePortion" 
-														class="input-small" placeholder="Ins.Portion" />
-													<span class="add-on">%</span>
+												<div class="marginBottom5">
+													<div class="input-prepend">
+														<span class="add-on">$</span>
+														<input type="text" data-bind="value: outOfPocket"
+															class="input-small" placeholder="Out of pocket" />
+													</div>
+													<span class="radio inline">Met Out of pocket</span>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: metOutOfPocket" 
+															name="metPocket" value="1" />
+														<span>Yes</span>
+													</label>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: metOutOfPocket" 
+															name="metPocket" value="0" />
+														<span>No</span>
+													</label>
+													<div class="input-prepend">
+														<span class="add-on">$</span>
+														<input type="text" class="input-small" placeholder="Remaining"
+															data-bind="value: remainingOutOfPocket, enable: metOutOfPocket() == '0'" />
+													</div>
 												</div>
-											</div>
-										</fieldset>
-									</div>
-									<div class="row-fluid"><!-- Can add row-fluid class here -->
-										<fieldset>
-											<legend>Verification</legend>
-											<div class="marginBottom5">
-												<input type="text" data-bind="value: contactName" 
-													class="input-medium" placeholder="Insurance Contact" />
-												<input type="text" data-bind="value: contactPhone" 
-													class="input-medium" placeholder="Phone Number" />
-												<input type="text" data-bind="value: contactExt" 
-													class="input-mini" placeholder="Ext" />
-											</div>
-											<div class="marginBottom5">
-												<span class="radio inline">Verified ?</span>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: verification"
-														class="insuredPerson" name="plan" value="1" />
-													<span>Yes</span>
-												</label>
-												<label class="radio inline">
-													<input type="radio" data-bind="checked: verification" 
-														class="insuredPerson" name="plan" value="0" />
-													<span>No</span>
-												</label>
-												<input type="text" class="input-medium" data-bind="value: verificationDate,
-												datepicker: true" placeholder="Verification Date" />
-												<div class="input-append bootstrap-timepicker">
-													<input class="timepicker input-small" 
-														data-bind="value: verificationTime, timepicker: true" type="text" />
-													<span class="add-on"><i class="icon-time"></i></span>
+												<div class="marginBottom5">
+													<strong>OV/LAB</strong>
+													<div class="input-prepend">
+														<span class="add-on">$</span>
+														<input type="text" data-bind="value: copayment" 
+															class="input-small" placeholder="Co-Payment" />
+													</div>
+													<div class="input-append">
+														<input type="text" data-bind="value: patientPortion"
+															class="input-small" placeholder="Patient Portion" />
+														<span class="add-on">%</span>
+													</div>
+													<div class="input-append">
+														<input type="text" data-bind="value: insurancePortion" 
+															class="input-small" placeholder="Ins.Portion" />
+														<span class="add-on">%</span>
+													</div>
 												</div>
-												<input type="text" data-bind="value: confirmationNumber" 
-													class="input-small" placeholder="Confirmation #" />
-											</div>
-										</fieldset>
-									</div>
-							</form><!-- /ko -->
-						</div>
-					</div><!-- End tab-content -->
-				</div><!-- End tabbable -->
+											</fieldset>
+										</div>
+										<div class="row-fluid"><!-- Can add row-fluid class here -->
+											<fieldset>
+												<legend>Verification</legend>
+												<div class="marginBottom5">
+													<input type="text" data-bind="value: contactName" 
+														class="input-medium" placeholder="Insurance Contact" />
+													<input type="text" data-bind="value: contactPhone" 
+														class="input-medium" placeholder="Phone Number" />
+													<input type="text" data-bind="value: contactExt" 
+														class="input-mini" placeholder="Ext" />
+												</div>
+												<div class="marginBottom5">
+													<span class="radio inline">Verified ?</span>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: verification"
+															class="insuredPerson" name="plan" value="1" />
+														<span>Yes</span>
+													</label>
+													<label class="radio inline">
+														<input type="radio" data-bind="checked: verification" 
+															class="insuredPerson" name="plan" value="0" />
+														<span>No</span>
+													</label>
+													<input type="text" class="input-medium" data-bind="value: verificationDate,
+													datepicker: true" placeholder="Verification Date" />
+													<div class="input-append bootstrap-timepicker">
+														<input class="timepicker input-small" 
+															data-bind="value: verificationTime, timepicker: true" type="text" />
+														<span class="add-on"><i class="icon-time"></i></span>
+													</div>
+													<input type="text" data-bind="value: confirmationNumber" 
+														class="input-small" placeholder="Confirmation #" />
+												</div>
+											</fieldset>
+										</div>
+								</form><!-- /ko -->
+							</div>
+						</div><!-- End tab-content -->
+					</div><!-- End tabbable -->
+				</div>
 			</div>
 			<div class="row-fluid">
 				<div class="pull-right">

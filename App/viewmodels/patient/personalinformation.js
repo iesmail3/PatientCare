@@ -9,7 +9,7 @@ define(function(require) {
 	 **********************************************************************************************/
 	var system = require('durandal/system');			// System logger
 	var custom = require('durandal/customBindings');	// Custom bindings
-	var Backend = require('modules/patient');	// Module
+	var Backend = require('modules/patient');			// Module
 	
 	// Patient     
 	function Patient(data) {
@@ -35,6 +35,7 @@ define(function(require) {
 		self.phoneExt  			  = ko.observable(data.phone_ext);
 		self.mobile    		  	  = ko.observable(data.mobile);        
 		self.gender     		  = ko.observable(data.gender);
+		self.maritalStatus		  = ko.observable(data.marital_status);
 		self.familyHistoryType    = ko.observable(data.family_history_type);
 		self.familyHistoryComment = ko.observable(data.family_history_comment);
 		self.routineExamComment   = ko.observable(data.routine_exam_comment);
@@ -63,6 +64,8 @@ define(function(require) {
 			self.policy      			= ko.observable(data.policy_number);
 			self.companyName 			= ko.observable(data.company_name);
 			self.plan        			= ko.observable(data.plan);
+			system.log(self.plan());
+			self.planOther    			= ko.observable(data.plan_other);
 			self.effectiveDate 			= ko.observable(data.effective_date);
 			self.outOfPocket 			= ko.observable(data.out_of_pocket);
 			self.metOutOfPocket 		= ko.observable(data.met_out_of_pocket);
@@ -90,6 +93,7 @@ define(function(require) {
 			self.policy      			= ko.observable();
 			self.companyName 			= ko.observable();
 			self.plan        			= ko.observable();
+			self.planOther        	    = ko.observable();
 			self.effectiveDate 			= ko.observable();
 			self.outOfPocket 			= ko.observable();
 			self.metOutOfPocket 		= ko.observable();
@@ -156,6 +160,36 @@ define(function(require) {
 		}
 	};
 	
+	// Employer
+	function Employer(data) {
+		var self = this;
+		
+		if (data != null) {
+			self.patientId		= ko.observable(data.patient_id);
+			self.companyName	= ko.observable(data.company_name);
+			self.address		= ko.observable(data.address);
+			self.city			= ko.observable(data.city);
+			self.state			= ko.observable(data.state);
+			self.zip			= ko.observable(data.zip);
+			self.province		= ko.observable(data.province);
+			self.country		= ko.observable(data.country);
+			self.phone			= ko.observable(data.phone);
+			self.phoneExt		= ko.observable(data.phone_ext);
+		}
+		else {
+			self.patientId		= ko.observable();
+			self.companyName	= ko.observable();
+			self.address		= ko.observable();
+			self.city			= ko.observable();
+			self.state			= ko.observable();
+			self.zip			= ko.observable();
+			self.province		= ko.observable();
+			self.country		= ko.observable();
+			self.phone			= ko.observable();
+			self.phoneExt		= ko.observable();
+		}
+	};
+	
 	// Spouse
 	function Spouse(data) {
 		var self = this;
@@ -188,6 +222,39 @@ define(function(require) {
 		}
 	};
 	
+	/*
+	function Reference(data) {
+		var self = this;
+		
+		if (data != null) {
+			self.patientId	= ko.observable(data.patient_id);
+			self.type		= ko.observable(data.type);
+			self.firstName	= ko.observable(data.first_name);
+			self.middleName	= ko.observable(data.middle_name);
+			self.lastName	= ko.observable(data.last_name);
+			self.phone		= ko.observable(data.phone);
+			self.fax		= ko.observable(data.fax);
+			self.email		= ko.observable(data.email);
+			self.degree		= ko.observable(data.degree);
+			self.reason		= ko.observable(data.reason);
+			self.referral	= ko.observable(data.referral);
+		}
+		else {
+			self.patientId	= ko.observable();
+			self.type		= ko.observable();
+			self.firstName	= ko.observable();
+			self.middleName	= ko.observable();
+			self.lastName	= ko.observable();
+			self.phone		= ko.observable();
+			self.fax		= ko.observable();
+			self.email		= ko.observable();
+			self.degree		= ko.observable();
+			self.reason		= ko.observable();
+			self.referral	= ko.observable();
+		}
+	}
+	*/
+	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
@@ -198,9 +265,16 @@ define(function(require) {
 	var patientId 			= ko.observable();
 	var patient				= ko.observable();
 	var guarantor 			= ko.observable(new Guarantor());
+	var employer			= ko.observable(new Employer());
 	var spouse				= ko.observable(new Spouse());
+	//var reference			= ko.observable(new Reference());
 	var addressEnable		= ko.observable("given");
 	var employerEnable		= ko.observable();
+	var personalEmployer	= ko.observable();
+	//var referencePhysician	= ko.observable();
+	//var referencePcp		= ko.observable();
+	//var referenceOther		= ko.observable();
+	//var referencePersonal	= ko.observable();
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -224,9 +298,16 @@ define(function(require) {
 		secondaryInsurance: secondaryInsurance,
 		otherInsurance: otherInsurance,
 		guarantor: guarantor,
+		employer: employer,
 		spouse: spouse,
+		//reference: reference,
 		addressEnable: addressEnable,
 		employerEnable: employerEnable,
+		personalEmployer: personalEmployer,
+		//referencePhysician: referencePhysician,
+		//referencePcp: referencePcp,
+		//referenceOther: referenceOther,
+		//referencePersonal: referencePersonal,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -238,8 +319,11 @@ define(function(require) {
 			});
 			
 			$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
+			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
+			system.log($('.tab-pane').height() + " : " + $('.formScroll').height());
 			$(window).resize(function() {
 				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
+				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
 			});
 			
 		},
@@ -299,6 +383,72 @@ define(function(require) {
 					self.insuredPerson(1);
 				}
 			});
+			
+			/**************************************************************************************
+			 * Employer Information
+			 * 
+			 * If no employer information is returned, set insuredPerson to not insured. Otherwise
+			 * for each type of insurance, set appropriate observable.
+			 *************************************************************************************/
+			backend.getEmployer(self.patientId()).success(function(data) {
+				if(data.length > 0) {
+					var e = new Employer(data[0]);
+					self.employer(e);
+					
+					self.personalEmployer(1);
+				}
+				else {
+					self.personalEmployer(0);
+				}
+			});
+			
+			/**************************************************************************************
+			 * Spouse Information
+			 * 
+			 * If no spouse information is returned, set insuredPerson to not insured. Otherwise
+			 * for each type of insurance, set appropriate observable.
+			 *************************************************************************************/
+			backend.getSpouse(self.patientId()).success(function(data) {
+				if(data.length > 0) {
+					var s = new Spouse(data[0]);
+					self.spouse(s);
+					
+					//self.spouseEnable(1);
+				}
+				else {
+					//self.spouseEnable(0);
+				}
+			});
+			
+			/**************************************************************************************
+			 * Reference Information
+			 * 
+			 * If no reference information is returned, set insuredPerson to not insured. Otherwise
+			 * for each type of insurance, set appropriate observable.
+			 *************************************************************************************/
+			/*
+			return backend.getReference(self.patientId()).success(function(data) {
+				if(data.length > 0) {
+					for(var count = 0; count < data.length; count++) {
+						var i = new Reference(data[count]);
+						switch(i.referenceType()) {
+							case 'referringphysician':
+								self.referencePhysician(i);
+								break;
+							case 'pcp':
+								self.referencePcp(i);
+								break;
+							case 'personal':
+								self.referencePersonal(i);
+								break;
+							default:
+								self.referenceOther(i);
+								break;
+						}
+					}
+				}
+			});
+			*/
 			
 			/**************************************************************************************
 			 * Insurance Information
