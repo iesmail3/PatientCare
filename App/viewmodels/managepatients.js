@@ -27,6 +27,7 @@ define(function(require) {
 		self.phone   		      = ko.observable(data.phone);
 		self.phoneExt  			  = ko.observable(data.phone_ext);
 		self.mobile    		  	  = ko.observable(data.mobile);
+		self.email    		  	  = ko.observable(data.email);
 		self.gender     		  = ko.observable(data.gender);
 		self.familyHistoryType    = ko.observable(data.family_history_type);
 		self.familyHistoryComment = ko.observable(data.family_history_comment);
@@ -59,15 +60,49 @@ define(function(require) {
 	var patients = ko.observableArray([]);
 	var allPatients = ko.observableArray([]);
 	
-	var filterPatient = ko.computed(function() {
-		system.log(keyword());
+	var filterPatient = function(patient) {
 		if (keyword() == undefined || keyword() == '') {
 			return true;
 		}
 		else {
+			var param = parameter();
+			var con = context();
+			var reg = '';
+			switch(con) {
+				case 'startsWith':
+					reg = new RegExp("^" + keyword().toLowerCase());
+					break;
+				case 'endsWith':
+					reg = new RegExp(keyword().toLowerCase() + "$");
+					break;
+				default:
+					reg = new RegExp(keyword().toLowerCase() + "+");
+					break;
+			}
+			
+			if(param != '') {
+				var check = patient[param]();
+				if (check.match(reg))
+					return true;
+			}
+			else if(patient['firstName']().toLowerCase().match(reg) || 
+				    patient['lastName']().toLowerCase().match(reg) ||
+				    patient['middleName']().toLowerCase().match(reg) || 
+				    patient['alias']().toLowerCase().match(reg) ||
+				    patient['gender']().toLowerCase().match(reg) || 
+				    patient['city']().toLowerCase().match(reg) ||
+				    patient['state']().toLowerCase().match(reg) || 
+				    patient['country']().toLowerCase().match(reg) ||
+				    patient['phone']().toLowerCase().match(reg) || 
+				    patient['email']().toLowerCase().match(reg) ||
+				    patient['mobile']().toLowerCase().match(reg)) 
+			{
+				return true
+			}
+			
 			return false;
 		}
-	});
+	};
 	
 	/*********************************************************************************************** 
 	 * Computed Functions
@@ -97,6 +132,12 @@ define(function(require) {
 				self.allPatients(patient);
 			});
 		},
-		filterPatient: filterPatient
+		filterPatient: filterPatient,
+		clearFields: function() {
+			var self = this;
+			self.keyword('');
+			self.context('contains');
+			self.parameter('');
+		}
 	};
 });

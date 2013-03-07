@@ -1,16 +1,15 @@
 <div class="well">
 	<form class="form-inline managePatients">
-		<input type="text" class="input-medium"data-bind="value: keyword, valueUpdate: 'afterkeydown'" placeholder="Enter to filter patients" />
+		<input type="text" class="input-medium"data-bind="value: keyword, valueUpdate: 'afterkeydown'" placeholder="Keyword" />
 		<span>that</span>
 		<select class="span2" data-bind="value: context">
-			<option value="" disabled selected style="display:none;">Select Context</option>
-			<option value="startsWith">Starts With</option>
-			<option value="endssWith">Ends with</option>
 			<option value="contains">Contains</option>
+			<option value="startsWith">Starts With</option>
+			<option value="endsWith">Ends with</option>
 		</select> 
 		<span>in</span>
 		<select class="span3" data-bind="value: parameter">
-			<option value="" disabled selected style="display:none;">Select Parameter</option>
+			<option value="" disabled selected style="display:none;">All</option>
 			<option value="firstName">First Name</option>
 			<option value="middleName">Middle Name</option>
 			<option value="lastName">Last Name</option>
@@ -25,10 +24,7 @@
 		</select>
 
 		<!-- buttons -->
-		<button type="submit" class="btn btn-small btn-primary">Search</button>
-		<button type="reset" class="btn btn-small">Reset Fields</button>
-		<button type="button" class="btn btn-small btn-warning">Clear</button>
-		<button type="button" class="btn btn-small btn-danger">Delete Record</button>
+		<button type="button" data-bind="click: clearFields" class="btn btn-small btn-warning">Clear</button>
 	</form>
 	<!-- Patient Table -->
 	<table class="table table-bordered table-hover">
@@ -37,27 +33,27 @@
 			<th></th>
 			<th>Last Name</th>
 			<th>First Name</th>
-			<th>DOB</th>
+			<th>Id Number</th>
+			<th>Id Type</th>
 			<th>Last DOS</th>
-			<th>Gender</th>
 			<th>Phone</th>
 			<th>Mobile</th>
 			<th>Email</th>
-			<th>Address</th>
+			<th></th>
 		</tr>
 		</thead>
 		<tbody data-bind="foreach: patients">
-			<tr data-bind="visible: $root.filterPatient">
+			<tr data-bind="visible: $root.filterPatient($data)">
 				<td><a class="btn btn-small btn-primary" data-bind="attr: {href: goToRecord}">Record</a></td>
 				<td data-bind="text: lastName"></td>
 				<td data-bind="text: firstName"></td>
-				<td data-bind="text: dob"></td>
+				<td data-bind="text: idNumber"></td>
+				<td data-bind="text: idType"></td>
 				<td></td>
-				<td data-bind="text: gender"></td>
 				<td data-bind="text: phone"></td>
 				<td data-bind="text: mobile"></td>
-				<td></td>
-				<td data-bind="text: address"></td>
+				<td data-bind="text: email"></td>
+				<td><a class="btn btn-small btn-danger">Delete</a></td>
 			</tr>
 		</tbody>
 	</table>
