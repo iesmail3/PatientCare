@@ -156,7 +156,7 @@ define(function(require) {
 		}
 	};
 	
-	// Spouse
+	// Spouse Structure
 	function Spouse(data) {
 		var self = this;
 		
