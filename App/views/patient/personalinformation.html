@@ -29,15 +29,15 @@ Description:
 									<option value="male">Male</option>
 									<option value="female">Female</option>
 								</select>
-								<input type="text" data-bind="value: dob" class="input-small" data-bind="datepicker: true" placeholder="Date of Birth" />
+								<input type="text" data-bind="value: dob,datepicker: true" class="input-small"  placeholder="Date of Birth" />
 							</div>
 							<div class="marginBottom5">
 								<input type="text" class="input-small" data-bind="value: idNumber" placeholder="Patient ID" />
 								<input type="text" class="input-small" data-bind="value: idType" placeholder="ID Type" />
-								<input type="text" class="input-medium" data-bind="" placeholder="Driver's License No." />
+								<input type="text" class="input-medium"  placeholder="Driver's License No." />
 							</div>
 							<div class="marginBottom5">
-								<select class="input-medium" data-bind="">
+								<select class="input-medium" >
 									<option value="" disabled selected style="display:none;">Marital Status</option>
 									<option value="divorced">Divorced</option>
 									<option value="married">Married</option>
@@ -46,7 +46,7 @@ Description:
 									<option value="widowed">Widowed</option>
 									<option value="other">Other</option>
 								</select>
-								<input type="number" class="input-medium" data-bind="" placeholder="No. of Children" />
+								<input type="number" class="input-medium"  placeholder="No. of Children" />
 							</div>
 						</fieldset>
 					</div>
@@ -109,7 +109,7 @@ Description:
 							<div class="marginBottom5">
 								<input type="text" data-bind="value: phone" placeholder="Phone" />
 								<input type="text" data-bind="value: mobile" placeholder="Cell" />
-								<input type="text" data-bind="" placeholder="Email" />
+								<input type="text"  placeholder="Email" />
 							</div>
 							<div class="marginBottom5">
 								<input type="text" data-bind="value: contactName" placeholder="Emergency Contact Name" />
@@ -118,7 +118,7 @@ Description:
 								<input type="text" data-bind="value: contactMobile" placeholder="Emergency Cell" />
 							</div>
 						</fieldset>
-					</div> <!-- /ko -->
+					</div> <!-- /ko -->    
 					<div class="row-fluid">
 						<!-- ko with: guarantor -->
 						<!-- Employment Details Left Column -->
@@ -209,7 +209,7 @@ Description:
 										<option value="male">Male</option>
 										<option value="female">Female</option>
 									</select>
-									<input type="text" data-bind="value: dob" class="input-small" data-bind="datepicker: true" placeholder="Date of Birth" />
+									<input type="text" data-bind="value: dob,datepicker: true" class="input-small"  placeholder="Date of Birth" />
 								</div>
 								<div class="marginBottom5">
 									<input type="text" class="input-small" data-bind="value: idNumber" placeholder="Patient ID" />
@@ -236,50 +236,50 @@ Description:
 							<!-- Referring Physician -->
 							<div id="referringphysician" class="tab-pane active">
 								<div class="marginBottom5">
-									<input type="text" class="input-medium" data-bind="value: " placeholder="First Name" />
-									<input type="text" class="input-medium" data-bind="value: " placeholder="Middle Name" />
-									<input type="text" class="input-medium" data-bind="value: " placeholder="Last Name" />
-									<input type="text" class="input-medium" data-bind="value: " placeholder="Degree" />
+									<input type="text" class="input-medium"  placeholder="First Name" />
+									<input type="text" class="input-medium"  placeholder="Middle Name" />
+									<input type="text" class="input-medium"  placeholder="Last Name" />
+									<input type="text" class="input-medium"  placeholder="Degree" />
 								</div>
 								<div class="marginBottom5">
-									<input type="text" class="input-xlarge" data-bind="value: " placeholder="Reason" />
-									<input type="text" data-bind="value: " placeholder="Phone" />
-									<input type="text" data-bind="value: " placeholder="Fax" />
+									<input type="text" class="input-xlarge"  placeholder="Reason" />
+									<input type="text"  placeholder="Phone" />
+									<input type="text"  placeholder="Fax" />
 								</div>
 							</div>
 							<!-- PCP -->
 							<div id="pcp" class="tab-pane">
 								<div class="marginBottom5">
-									<input type="text" class="input-medium" data-bind="value: " placeholder="First Name" />
-									<input type="text" class="input-medium" data-bind="value: " placeholder="Middle Name" />
-									<input type="text" class="input-medium" data-bind="value: " placeholder="Last Name" />
-									<input type="text" class="input-medium" data-bind="value: " placeholder="Degree" />
+									<input type="text" class="input-medium"  placeholder="First Name" />
+									<input type="text" class="input-medium"  placeholder="Middle Name" />
+									<input type="text" class="input-medium"  placeholder="Last Name" />
+									<input type="text" class="input-medium"  placeholder="Degree" />
 								</div>
 								<div class="marginBottom5">
-									<input type="text" data-bind="value: " placeholder="Phone" />
-									<input type="text" data-bind="value: " placeholder="Fax" />
+									<input type="text"  placeholder="Phone" />
+									<input type="text"  placeholder="Fax" />
 								</div>
 							</div>
 							<!-- Other -->
 							<div id="other" class="tab-pane">
 								<div class="marginBottom5">
-									<input type="text" class="input-medium" data-bind="value: " placeholder="First Name" />
-									<input type="text" class="input-medium" data-bind="value: " placeholder="Middle Name" />
-									<input type="text" class="input-medium" data-bind="value: " placeholder="Last Name" />
-									<input type="text" class="input-medium" data-bind="value: " placeholder="Degree" />
+									<input type="text" class="input-medium"  placeholder="First Name" />
+									<input type="text" class="input-medium"  placeholder="Middle Name" />
+									<input type="text" class="input-medium"  placeholder="Last Name" />
+									<input type="text" class="input-medium"  placeholder="Degree" />
 								</div>
 								<div class="marginBottom5">
-									<input type="text" data-bind="value: " placeholder="Phone" />
-									<input type="text" data-bind="value: " placeholder="Fax" />
+									<input type="text"  placeholder="Phone" />
+									<input type="text"  placeholder="Fax" />
 								</div>
 							</div>
 							<!-- Personal Reference -->
 							<div id="personalreference" class="tab-pane">
 								<div class="marginBottom5">
-									<input type="text" data-bind="value: " placeholder="First Name" />
-									<input type="text" data-bind="value: " placeholder="Middle Name" />
-									<input type="text" data-bind="value: " placeholder="Last Name" />
-									<select data-bind="value: ">
+									<input type="text"  placeholder="First Name" />
+									<input type="text"  placeholder="Middle Name" />
+									<input type="text"  placeholder="Last Name" />
+									<select >
 										<option value="" disabled selected style="display:none;">Referral</option>
 										<option value="advertisement">Advertisement</option>
 										<option value="co-worker">Co-worker</option>
@@ -290,15 +290,15 @@ Description:
 									</select>
 								</div>
 								<div class="marginBottom5">
-									<input type="text" data-bind="value: " placeholder="Phone" />
-									<input type="text" data-bind="value: " placeholder="Email" />
+									<input type="text"  placeholder="Phone" />
+									<input type="text"  placeholder="Email" />
 								</div>
 							</div><!-- End Personal Reference Tab -->
 						</div><!-- End Tab Content -->
 					</div><!-- End referenceTabs -->
 				</div><!-- End row-fluid referenceTabs -->
 				<div class="row-fluid">
-					<select class="input-medium" data-bind="value: ">
+					<select class="input-medium" >
 						<option value="" disabled selected style="display:none;">Record Status</option>
 						<option value="active">Active</option>
 						<option value="archived">Archived</option>
@@ -308,7 +308,7 @@ Description:
 					</select>
 					<div class="pull-right">
 						<button type="button" class="btn btn-small">Print</button>
-						<button type="button" class="btn btn-small btn-primary" data-bind="value: ">Save</button>
+						<button type="button" class="btn btn-small btn-primary" >Save</button>
 						<button type="button" class="btn btn-small btn-danger">Cancel</button>
 					</div>
 				</div>
@@ -500,8 +500,8 @@ Description:
 									<div class="marginBottom5">
 									<input type="text" data-bind="value: companyName" 
 										class="input-large" placeholder="Insurance Company" />
-									<input type="text" data-bind="value: effectiveDate" 
-										class="input-small" data-bind="datepicker: true" placeholder="Effective Date" />
+									<input type="text" data-bind="value: effectiveDate,datepicker: true"
+										class="input-small"  placeholder="Effective Date" />
 									</div>
 									<div class="marginBottom5">
 										<input type="text" data-bind="value: policy"
@@ -545,6 +545,8 @@ Description:
 										<label class="radio inline">
 											<input type="radio" class="insuredPerson" name="plan" value="Other" /><span>Other</span>
 										</label>
+										<input type="text" 
+											class="input-small" placeholder="Self" />
 										<span class="radio inline">Referral Required?</span>
 										<label class="radio inline">
 											<input type="radio" data-bind="checked: referralRequired"
@@ -648,9 +650,9 @@ Description:
 													<input type="radio" data-bind="checked: verification" 
 														class="insuredPerson" name="plan" value="0" />
 													<span>No</span>
-												</label>
-												<input type="text" class="input-medium" data-bind="value: verificationDate" 
-													data-bind="datepicker: true" placeholder="Verification Date" />
+												</label>   
+												<input type="text" class="input-medium" data-bind="value: verificationDate,
+												datepicker: true" placeholder="Verification Date" />
 												<div class="input-append bootstrap-timepicker">
 													<input class="timepicker input-small" 
 														data-bind="value: verificationTime, timepicker: true" type="text" />
@@ -670,8 +672,8 @@ Description:
 									<div class="marginBottom5">
 									<input type="text" data-bind="value: companyName" 
 										class="input-large" placeholder="Insurance Company" />
-									<input type="text" data-bind="value: effectiveDate" 
-										class="input-small" data-bind="datepicker: true" placeholder="Effective Date" />
+									<input type="text" data-bind="value: effectiveDate,datepicker: true"  
+										class="input-small" placeholder="Effective Date" />
 									</div>
 									<div class="marginBottom5">   
 										<input type="text" data-bind="value: policy"
@@ -706,15 +708,17 @@ Description:
 											<input type="radio" data-bind="checked: plan"
 												class="insuredPerson" name="plan" value="pos" />
 											<span>POS</span>
-										</label>
-										<label class="radio inline">
+										</label>        
+										<label class="radio inline">    
 											<input type="radio" data-bind="checked: plan" 
 												class="insuredPerson" name="plan" value="ppo" />
-											<span>PPO</span>
-										</label>
+											<span>PPO</span>   
+										</label>    
 										<label class="radio inline">
 											<input type="radio" class="insuredPerson" name="plan" value="Other" /><span>Other</span>
 										</label>
+										<input type="text" 
+											class="input-small" placeholder="Self" />
 										<span class="radio inline">Referral Required?</span>
 										<label class="radio inline">
 											<input type="radio" data-bind="checked: referralRequired"
@@ -819,8 +823,8 @@ Description:
 														class="insuredPerson" name="plan" value="0" />
 													<span>No</span>
 												</label>
-												<input type="text" class="input-medium" data-bind="value: verificationDate" 
-													data-bind="datepicker: true" placeholder="Verification Date" />
+												<input type="text" class="input-medium" data-bind="value: verificationDate, 
+													datepicker: true" placeholder="Verification Date" />
 												<div class="input-append bootstrap-timepicker">
 													<input class="timepicker input-small" 
 														data-bind="value: verificationTime, timepicker: true" type="text" />
@@ -840,8 +844,8 @@ Description:
 									<div class="marginBottom5">
 									<input type="text" data-bind="value: companyName" 
 										class="input-large" placeholder="Insurance Company" />
-									<input type="text" data-bind="value: effectiveDate" 
-										class="input-small" data-bind="datepicker: true" placeholder="Effective Date" />
+									<input type="text" data-bind="value: effectiveDate,datepicker: true"
+										class="input-small" placeholder="Effective Date" />
 									</div>
 									<div class="marginBottom5">   
 										<input type="text" data-bind="value: policy"
@@ -885,18 +889,20 @@ Description:
 										<label class="radio inline">
 											<input type="radio" class="insuredPerson" name="plan" value="Other" /><span>Other</span>
 										</label>
+										<input type="text" 
+											class="input-small" placeholder="Self" />
 										<span class="radio inline">Referral Required?</span>
 										<label class="radio inline">
 											<input type="radio" data-bind="checked: referralRequired"
 												name="referalAuthorization" value="1" />
 											<span>Yes</span>
-										</label>
-										<label class="radio inline">
+										</label>     
+										<label class="radio inline">  
 											<input type="radio" data-bind="checked: referralRequired"
 												name="referalAuthorization" value="0" />
 											<span>No</span>
-										</label>
-									</div>
+										</label>    
+									</div>  
 									<div class="row-fluid">
 										<fieldset>
 											<legend>Deductible/Out of Pocket/Co-Payment</legend>
@@ -989,8 +995,8 @@ Description:
 														class="insuredPerson" name="plan" value="0" />
 													<span>No</span>
 												</label>
-												<input type="text" class="input-medium" data-bind="value: verificationDate" 
-													data-bind="datepicker: true" placeholder="Verification Date" />
+												<input type="text" class="input-medium" data-bind="value: verificationDate,
+												datepicker: true" placeholder="Verification Date" />
 												<div class="input-append bootstrap-timepicker">
 													<input class="timepicker input-small" 
 														data-bind="value: verificationTime, timepicker: true" type="text" />
