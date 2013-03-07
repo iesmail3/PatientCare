@@ -53,6 +53,26 @@ define(function(require) {
 		});
 	}
 	
+	// Get Employer for a Single Patient
+	patient.prototype.getEmployer = function(id) {
+		return this.query({
+			mode: 'select', 
+			table: 'employer', 
+			fields: '*', 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Get Spouse for a Single Patient
+	patient.prototype.getSpouse = function(id) {
+		return this.query({
+			mode: 'select', 
+			table: 'spouse', 
+			fields: '*', 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
 	/**********************************************************************************************
 	 * Add Methods
 	 * 

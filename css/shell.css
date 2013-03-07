@@ -5,7 +5,7 @@ body {
 	background-color: rgb(200,200,200);
 	padding: 1px;
 	position: absolute;
-	top: 40px;
+	top: 66px;
 	left: 0;
 	right: 0;
 	bottom: 0;
@@ -13,7 +13,7 @@ body {
 
 .mainNav {
 	margin-bottom: 0px;
-	height: 41px;
+	height: 67px;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -23,7 +23,7 @@ body {
 .hoverNav {
 	display: None;
 	position: absolute;
-	top: 40px;
+	top: 66px;
 	width: 100%;
 	z-index: 100;
 }
@@ -44,5 +44,14 @@ table {
 
 .customerTable {
 	width: 90%;
+	margin: auto;
+}
+
+.navCenterText {
+	text-align: center;
+}
+
+.navCenterIcon {
+	width: 25px;
 	margin: auto;
 }
