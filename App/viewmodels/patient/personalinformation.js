@@ -156,6 +156,38 @@ define(function(require) {
 		}
 	};
 	
+	// Spouse
+	function Spouse(data) {
+		var self = this;
+		
+		if (data != null) {
+			self.patientId	= ko.observable(data.patient_id);
+			self.firstName	= ko.observable(data.first_name);
+			self.lastName	= ko.observable(data.last_name);
+			self.idNumber	= ko.observable(data.id_number);
+			self.idType		= ko.observable(data.id_type);
+			self.gender		= ko.observable(data.gender);
+			self.dob		= ko.observable(data.date_of_birth);
+			self.phone		= ko.observable(data.phone);
+			self.phoneExt	= ko.observable(data.phone_ext);
+			self.workPhone	= ko.observable(data.work_phone);
+			self.workExt	= ko.observable(data.work_ext);
+		}
+		else {
+			self.patientId	= ko.observable();
+			self.firstName	= ko.observable();
+			self.lastName	= ko.observable();
+			self.idNumber	= ko.observable();
+			self.idType		= ko.observable();
+			self.gender		= ko.observable();
+			self.dob		= ko.observable();
+			self.phone		= ko.observable();
+			self.phoneExt	= ko.observable();
+			self.workPhone	= ko.observable();
+			self.workExt	= ko.observable();
+		}
+	};
+	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/

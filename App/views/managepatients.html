@@ -48,7 +48,7 @@
 		</thead>
 		<tbody data-bind="foreach: patients">
 			<tr data-bind="visible: $root.filterPatient">
-				<td><button class="btn btn-small btn-primary">Record</button></td>
+				<td><a class="btn btn-small btn-primary" data-bind="attr: {href: goToRecord}">Record</a></td>
 				<td data-bind="text: lastName"></td>
 				<td data-bind="text: firstName"></td>
 				<td data-bind="text: dob"></td>
