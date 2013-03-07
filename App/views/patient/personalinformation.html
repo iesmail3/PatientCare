@@ -12,27 +12,28 @@ Description:
 		<div class="tab-pane outerPane active" id="personal">
 			<div class="personalContents">
 				<form class="form-inline">
+					<!-- ko with: patient -->
 					<!-- Personal Details -->
 					<div class="row-fluid">
 						<fieldset>
 							<legend>Personal Details</legend>
 							<div class="marginBottom5">
-								<input type="text" data-bind="" placeholder="Last Name" />
-								<input type="text" data-bind="" placeholder="Middle Name" />
-								<input type="text" data-bind="" placeholder="First Name" />
+								<input type="text" data-bind="value: lastName" placeholder="Last Name" />
+								<input type="text" data-bind="value: middleName" placeholder="Middle Name" />
+								<input type="text" data-bind="value: firstName" placeholder="First Name" />
 							</div>
 							<div class="marginBottom5">
-								<input type="text" data-bind="" placeholder="Alias" />
-								<select class="input-small" data-bind="">
+								<input type="text" data-bind="value: alias" placeholder="Alias" />
+								<select class="input-small" data-bind="value: gender">
 									<option value="" disabled selected style="display:none;">Gender</option>
 									<option value="male">Male</option>
 									<option value="female">Female</option>
 								</select>
-								<input type="text" class="input-small" data-bind="datepicker: true" placeholder="Date of Birth" />
+								<input type="text" data-bind="value: dob" class="input-small" data-bind="datepicker: true" placeholder="Date of Birth" />
 							</div>
 							<div class="marginBottom5">
-								<input type="text" class="input-small" data-bind="" placeholder="Patient ID" />
-								<input type="text" class="input-small" data-bind="" placeholder="ID Type" />
+								<input type="text" class="input-small" data-bind="value: idNumber" placeholder="Patient ID" />
+								<input type="text" class="input-small" data-bind="value: idType" placeholder="ID Type" />
 								<input type="text" class="input-medium" data-bind="" placeholder="Driver's License No." />
 							</div>
 							<div class="marginBottom5">
@@ -54,9 +55,9 @@ Description:
 						<fieldset>
 							<legend>Contact Details</legend>
 							<div class="marginBottom5">
-								<input type="text" class="input-large" data-bind="" placeholder="Street Address" />
-								<input type="text" data-bind="" placeholder="City" />
-								<select data-bind="" class="input-medium">
+								<input type="text" class="input-large" data-bind="value: address" placeholder="Street Address" />
+								<input type="text" data-bind="value: city" placeholder="City" />
+								<select data-bind="value: state" class="input-medium">
 									<option value="" disabled selected style="display:none;">State</option>
 									<option value="AL">Alabama</option>
 									<option value="AK">Alaska</option>
@@ -99,26 +100,27 @@ Description:
 									<option value="WI">Wisconsin</option>
 									<option value="WY">Wyoming</option>
 								</select>
-								<input type="text" data-bind="" placeholder="Zip Code" />
-								<select class="input-medium" data-bind="">
+								<input type="text" data-bind="value: zip" placeholder="Zip Code" />
+								<select class="input-medium" data-bind="value: country">
 									<option value="" disabled selected style="display:none;">Country</option>
 									<option value="usa">USA</option>
 								</select>
 							</div>
 							<div class="marginBottom5">
-								<input type="text" data-bind="" placeholder="Phone" />
-								<input type="text" data-bind="" placeholder="Cell" />
+								<input type="text" data-bind="value: phone" placeholder="Phone" />
+								<input type="text" data-bind="value: mobile" placeholder="Cell" />
 								<input type="text" data-bind="" placeholder="Email" />
 							</div>
 							<div class="marginBottom5">
-								<input type="text" data-bind="" placeholder="Emergency Contact" />
-								<input type="text" data-bind="" placeholder="Relationship with Patient" />
-								<input type="text" data-bind="" placeholder="Emergency Phone" />
-								<input type="text" data-bind="" placeholder="Emergency Cell" />
+								<input type="text" data-bind="value: contactName" placeholder="Emergency Contact Name" />
+								<input type="text" data-bind="value: contactRelationship" placeholder="Relationship with Patient" />
+								<input type="text" data-bind="value: contactPhone" placeholder="Emergency Phone" />
+								<input type="text" data-bind="value: contactMobile" placeholder="Emergency Cell" />
 							</div>
 						</fieldset>
-					</div>
+					</div> <!-- /ko -->
 					<div class="row-fluid">
+						<!-- ko with: guarantor -->
 						<!-- Employment Details Left Column -->
 						<div class="span5">
 							<fieldset>
@@ -133,12 +135,12 @@ Description:
 									</label>
 								</div>
 								<div class="marginBottom5">
-									<input type="text" class="input-xlarge" data-bind="" placeholder="Employer" />
+									<input type="text" class="input-xlarge" data-bind="value: employer" placeholder="Employer" />
 								</div>
 								<div class="marginBottom5">
-									<input type="text" class="input-xlarge" data-bind="" placeholder="Address" />
-									<input type="text" data-bind="" placeholder="City" />
-									<select data-bind="" class="input-medium">
+									<input type="text" class="input-xlarge" data-bind="value: address" placeholder="Address" />
+									<input type="text" data-bind="value: city" placeholder="City" />
+									<select data-bind="value: state" class="input-medium">
 										<option value="" disabled selected style="display:none;">State</option>
 										<option value="AL">Alabama</option>
 										<option value="AK">Alaska</option>
@@ -181,43 +183,44 @@ Description:
 										<option value="WI">Wisconsin</option>
 										<option value="WY">Wyoming</option>
 									</select>
-									<input type="text" data-bind="" placeholder="Zip Code" />
-									<select class="input-medium" data-bind="">
+									<input type="text" data-bind="value: zip" placeholder="Zip Code" />
+									<select class="input-medium" data-bind="value: country">
 										<option value="" disabled selected style="display:none;">Country</option>
 										<option value="usa">USA</option>
 									</select>
 								</div>
 								<div class="marginBottom5">
-									<input type="text" data-bind="" placeholder="Phone" />
+									<input type="text" data-bind="value: employerPhone" placeholder="Phone" />
 								</div>
 							</fieldset>
-						</div>
+						</div> <!-- /ko -->
+						<!-- ko with: spouse -->
 						<!-- Spouse Details Right Column -->
 						<div class="offset1 span5">
 							<fieldset>
 								<legend>Spouse Details</legend>
 								<div class="marginBottom5">
-									<input type="text" data-bind="" placeholder="First Name" />
-									<input type="text" data-bind="" placeholder="Last Name" />
+									<input type="text" data-bind="value: firstName" placeholder="First Name" />
+									<input type="text" data-bind="value: lastName" placeholder="Last Name" />
 								</div>
 								<div class="marginBottom5">
-									<select class="input-small" data-bind="">
+									<select class="input-small" data-bind="value: gender">
 										<option value="" disabled selected style="display:none;">Gender</option>
 										<option value="male">Male</option>
 										<option value="female">Female</option>
 									</select>
-									<input type="text" class="input-small" data-bind="datepicker: true" placeholder="Date of Birth" />
+									<input type="text" data-bind="value: dob" class="input-small" data-bind="datepicker: true" placeholder="Date of Birth" />
 								</div>
 								<div class="marginBottom5">
-									<input type="text" class="input-small" data-bind="" placeholder="Patient ID" />
-									<input type="text" class="input-small" data-bind="" placeholder="ID Type" />
+									<input type="text" class="input-small" data-bind="value: idNumber" placeholder="Patient ID" />
+									<input type="text" class="input-small" data-bind="value: idType" placeholder="ID Type" />
 								</div>
 								<div class="marginBottom5">
-									<input type="text" data-bind="" placeholder="Phone" />
-									<input type="text" data-bind="" placeholder="Cell" />
+									<input type="text" data-bind="value: phone" placeholder="Phone" />
+									<input type="text" data-bind="value: workPhone" placeholder="Work Phone" />
 								</div>
 							</fieldset>
-						</div>
+						</div> <!-- /ko -->
 					</div>
 				</form>
 				<div class="row-fluid">
@@ -233,50 +236,50 @@ Description:
 							<!-- Referring Physician -->
 							<div id="referringphysician" class="tab-pane active">
 								<div class="marginBottom5">
-									<input type="text" class="input-medium" data-bind="" placeholder="First Name" />
-									<input type="text" class="input-medium" data-bind="" placeholder="Middle Name" />
-									<input type="text" class="input-medium" data-bind="" placeholder="Last Name" />
-									<input type="text" class="input-medium" data-bind="" placeholder="Degree" />
+									<input type="text" class="input-medium" data-bind="value: " placeholder="First Name" />
+									<input type="text" class="input-medium" data-bind="value: " placeholder="Middle Name" />
+									<input type="text" class="input-medium" data-bind="value: " placeholder="Last Name" />
+									<input type="text" class="input-medium" data-bind="value: " placeholder="Degree" />
 								</div>
 								<div class="marginBottom5">
-									<input type="text" class="input-xlarge" data-bind="" placeholder="Reason" />
-									<input type="text" data-bind="" placeholder="Phone" />
-									<input type="text" data-bind="" placeholder="Fax" />
+									<input type="text" class="input-xlarge" data-bind="value: " placeholder="Reason" />
+									<input type="text" data-bind="value: " placeholder="Phone" />
+									<input type="text" data-bind="value: " placeholder="Fax" />
 								</div>
 							</div>
 							<!-- PCP -->
 							<div id="pcp" class="tab-pane">
 								<div class="marginBottom5">
-									<input type="text" class="input-medium" data-bind="" placeholder="First Name" />
-									<input type="text" class="input-medium" data-bind="" placeholder="Middle Name" />
-									<input type="text" class="input-medium" data-bind="" placeholder="Last Name" />
-									<input type="text" class="input-medium" data-bind="" placeholder="Degree" />
+									<input type="text" class="input-medium" data-bind="value: " placeholder="First Name" />
+									<input type="text" class="input-medium" data-bind="value: " placeholder="Middle Name" />
+									<input type="text" class="input-medium" data-bind="value: " placeholder="Last Name" />
+									<input type="text" class="input-medium" data-bind="value: " placeholder="Degree" />
 								</div>
 								<div class="marginBottom5">
-									<input type="text" data-bind="" placeholder="Phone" />
-									<input type="text" data-bind="" placeholder="Fax" />
+									<input type="text" data-bind="value: " placeholder="Phone" />
+									<input type="text" data-bind="value: " placeholder="Fax" />
 								</div>
 							</div>
 							<!-- Other -->
 							<div id="other" class="tab-pane">
 								<div class="marginBottom5">
-									<input type="text" class="input-medium" data-bind="" placeholder="First Name" />
-									<input type="text" class="input-medium" data-bind="" placeholder="Middle Name" />
-									<input type="text" class="input-medium" data-bind="" placeholder="Last Name" />
-									<input type="text" class="input-medium" data-bind="" placeholder="Degree" />
+									<input type="text" class="input-medium" data-bind="value: " placeholder="First Name" />
+									<input type="text" class="input-medium" data-bind="value: " placeholder="Middle Name" />
+									<input type="text" class="input-medium" data-bind="value: " placeholder="Last Name" />
+									<input type="text" class="input-medium" data-bind="value: " placeholder="Degree" />
 								</div>
 								<div class="marginBottom5">
-									<input type="text" data-bind="" placeholder="Phone" />
-									<input type="text" data-bind="" placeholder="Fax" />
+									<input type="text" data-bind="value: " placeholder="Phone" />
+									<input type="text" data-bind="value: " placeholder="Fax" />
 								</div>
 							</div>
 							<!-- Personal Reference -->
 							<div id="personalreference" class="tab-pane">
 								<div class="marginBottom5">
-									<input type="text" data-bind="" placeholder="First Name" />
-									<input type="text" data-bind="" placeholder="Middle Name" />
-									<input type="text" data-bind="" placeholder="Last Name" />
-									<select data-bind="">
+									<input type="text" data-bind="value: " placeholder="First Name" />
+									<input type="text" data-bind="value: " placeholder="Middle Name" />
+									<input type="text" data-bind="value: " placeholder="Last Name" />
+									<select data-bind="value: ">
 										<option value="" disabled selected style="display:none;">Referral</option>
 										<option value="advertisement">Advertisement</option>
 										<option value="co-worker">Co-worker</option>
@@ -287,15 +290,15 @@ Description:
 									</select>
 								</div>
 								<div class="marginBottom5">
-									<input type="text" data-bind="" placeholder="Phone" />
-									<input type="text" data-bind="" placeholder="Email" />
+									<input type="text" data-bind="value: " placeholder="Phone" />
+									<input type="text" data-bind="value: " placeholder="Email" />
 								</div>
 							</div><!-- End Personal Reference Tab -->
 						</div><!-- End Tab Content -->
 					</div><!-- End referenceTabs -->
 				</div><!-- End row-fluid referenceTabs -->
 				<div class="row-fluid">
-					<select class="input-medium" data-bind="">
+					<select class="input-medium" data-bind="value: ">
 						<option value="" disabled selected style="display:none;">Record Status</option>
 						<option value="active">Active</option>
 						<option value="archived">Archived</option>
@@ -305,7 +308,7 @@ Description:
 					</select>
 					<div class="pull-right">
 						<button type="button" class="btn btn-small">Print</button>
-						<button type="button" class="btn btn-small btn-primary" data-bind="">Save</button>
+						<button type="button" class="btn btn-small btn-primary" data-bind="value: ">Save</button>
 						<button type="button" class="btn btn-small btn-danger">Cancel</button>
 					</div>
 				</div>

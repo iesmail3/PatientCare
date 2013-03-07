@@ -156,7 +156,7 @@ define(function(require) {
 		}
 	};
 	
-	// Spouse Structure
+	// Spouse
 	function Spouse(data) {
 		var self = this;
 		
@@ -198,6 +198,7 @@ define(function(require) {
 	var patientId 			= ko.observable();
 	var patient				= ko.observable();
 	var guarantor 			= ko.observable(new Guarantor());
+	var spouse				= ko.observable(new Spouse());
 	var addressEnable		= ko.observable("given");
 	var employerEnable		= ko.observable();
 
@@ -223,6 +224,7 @@ define(function(require) {
 		secondaryInsurance: secondaryInsurance,
 		otherInsurance: otherInsurance,
 		guarantor: guarantor,
+		spouse: spouse,
 		addressEnable: addressEnable,
 		employerEnable: employerEnable,
 		/******************************************************************************************* 
