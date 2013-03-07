@@ -338,7 +338,7 @@ Description:
 									class="insuredPerson" name="Self" value="3" />
 								Other
 							</label>
-								<input type="text" class="insuredPerson input-large" data-bind="value: patient().otherName" placeholder="Insurance Type" />
+								<input type="text" class="insuredPerson input-large" data-bind="value: $root.patient().otherName" placeholder="Insurance Type" />
 						</div>
 					</fieldset>   
 				</div>   
@@ -581,7 +581,7 @@ Description:
 												</label>
 												<div class="input-prepend">
 													<span class="add-on">$</span>
-													<input type="text" class="input-small" placeholder="Remaining Deductibles"
+													<input type="text" class="input-small" placeholder="Remaining"
 														data-bind="value: remainingDeductible, enable: metDeductible() == '0'" />
 												</div>
 											</div>
@@ -604,12 +604,12 @@ Description:
 												</label>
 												<div class="input-prepend">
 													<span class="add-on">$</span>
-													<input type="text" class="input-small" placeholder="Remaining out of pocket"
+													<input type="text" class="input-small" placeholder="Remaining"
 														data-bind="value: remainingOutOfPocket, enable: metOutOfPocket() == '0'" />
 												</div>
 											</div>
 											<div class="marginBottom5">
-												<strong>OV/LAB</strong>
+												<strong>OV/LAB</strong>    
 												<div class="input-prepend">
 													<span class="add-on">$</span>
 													<input type="text" data-bind="value: copayment" 
