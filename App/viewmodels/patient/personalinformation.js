@@ -116,21 +116,42 @@ define(function(require) {
 	function Guarantor(data) {
 		var self = this;
 		
-		self.patientId   		= ko.observable(data.patient_id);
-		self.sameAsPatient		= ko.observable(data.same_as_patient);
-		self.name				= ko.observable(data.name);
-		self.relationship		= ko.observable(data.relationship);
-		self.idNumber			= ko.observable(data.id_number);
-		self.idType				= ko.observable(data.id_type);
-		self.dob				= ko.observable(data.date_of_birth);
-		self.address			= ko.observable(data.address);
-		self.city				= ko.observable(data.city);
-		self.state				= ko.observable(data.state);
-		self.zip				= ko.observable(data.zip);
-		self.province			= ko.observable(data.province);
-		self.country			= ko.observable(data.country);
-		self.employer			= ko.observable(data.employer);
-		self.employerPhone		= ko.observable(data.employer_phone);
+		if (data != null) {
+			self.patientId   		= ko.observable(data.patient_id);
+			self.idSame				= ko.observable((data.id_same) == 'true');
+			self.name				= ko.observable(data.name);
+			self.relationship		= ko.observable(data.relationship);
+			self.idNumber			= ko.observable(data.id_number);
+			self.idType				= ko.observable(data.id_type);
+			self.dob				= ko.observable(data.date_of_birth);
+			self.dobSame			= ko.observable((data.dob_same) == 'true');
+			self.address			= ko.observable(data.address);
+			self.city				= ko.observable(data.city);
+			self.state				= ko.observable(data.state);
+			self.zip				= ko.observable(data.zip);
+			self.province			= ko.observable(data.province);
+			self.country			= ko.observable(data.country);
+			self.employer			= ko.observable(data.employer);
+			self.employerPhone		= ko.observable(data.employer_phone);
+		}
+		else {
+			self.patientId   		= ko.observable();
+			self.idSame				= ko.observable();
+			self.name				= ko.observable();
+			self.relationship		= ko.observable();
+			self.idNumber			= ko.observable();
+			self.idType				= ko.observable();
+			self.dob				= ko.observable();
+			self.dob_Same			= ko.observable();
+			self.address			= ko.observable();
+			self.city				= ko.observable();
+			self.state				= ko.observable();
+			self.zip				= ko.observable();
+			self.province			= ko.observable();
+			self.country			= ko.observable();
+			self.employer			= ko.observable();
+			self.employerPhone		= ko.observable();
+		}
 	};
 	
 	/*********************************************************************************************** 
@@ -142,7 +163,7 @@ define(function(require) {
 	var otherInsurance 		= ko.observable(new Insurance());
 	var patientId 			= ko.observable();
 	var patient				= ko.observable();
-	var guarantor 			= ko.observable();
+	var guarantor 			= ko.observable(new Guarantor());
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -220,6 +241,8 @@ define(function(require) {
 				else {
 					self.insuredPerson(1);
 				}
+				
+				system.log(guarantor());
 			});
 			
 			/**************************************************************************************
@@ -249,6 +272,6 @@ define(function(require) {
 					self.insuredPerson(2)	
 				}
 			});
-		}
+		},
 	};
 });

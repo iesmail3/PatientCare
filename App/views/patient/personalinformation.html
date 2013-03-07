@@ -339,6 +339,7 @@ Description:
 				</div>   
 				<!-- Other information -->   
 				<div data-bind="visible: insuredPerson() == '3'">
+				<!-- ko with: guarantor -->
 					<!-- Left Column -->
 					<div class="row-fluid">
 						<div class="span5">    
@@ -446,21 +447,27 @@ Description:
 					<!-- SSN and DOB -->
 					<div class="row-fluid">
 						<div class="span5">
-							<input type="text" class="input-small" placeholder="SSN" />
+							<input type="text" data-bind="enable: idSame() == false,
+								 value: idNumber" class="input-small" placeholder="ID" />
+							<input type="text" data-bind="enable: idSame() == false,
+								value: idType" class="input-small" placeholder="ID Type" />
 							<label class="checkbox inline">
-								<input type="checkbox" id="" value="" /><span>same&nbsp;as&nbsp;patient</span>
+								<input type="checkbox" data-bind="checked: idSame" />
+								<span>same&nbsp;as&nbsp;patient</span>
 							</label>
 						</div>
 						<div class="offset1 span5">
-							<input type="text" class="input-small" placeholder="Date of Birth" data-bind="datepicker: true" />
+							<input type="text" class="input-small" placeholder="Date of Birth"
+								data-bind="enable: dobSame() == false, datepicker: true" />
 							<label class="checkbox inline">
-								<input type="checkbox" id="" value="" /><span>same&nbsp;as&nbsp;patient</span> 
+								<input type="checkbox" data-bind="checked: dobSame" /><span>same&nbsp;as&nbsp;patient</span> 
 							</label>
 						</div>
 					</div>
+				<!-- /ko -->
 				</div>
 			</form>
-			<div class = "row-fluid">
+			<div class="row-fluid">
 				<!-- Insurance Detail Tabs -->
 				<div class="tabbable insuranceTabs">
 					<ul class="nav nav-tabs">
