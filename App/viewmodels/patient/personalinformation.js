@@ -133,6 +133,7 @@ define(function(require) {
 			self.country			= ko.observable(data.country);
 			self.employer			= ko.observable(data.employer);
 			self.employerPhone		= ko.observable(data.employer_phone);
+			self.employerExt		= ko.observable(data.employer_ext);
 		}
 		else {
 			self.patientId   		= ko.observable();
@@ -151,6 +152,7 @@ define(function(require) {
 			self.country			= ko.observable();
 			self.employer			= ko.observable();
 			self.employerPhone		= ko.observable();
+			self.employerExt		= ko.observable();
 		}
 	};
 	
@@ -164,6 +166,8 @@ define(function(require) {
 	var patientId 			= ko.observable();
 	var patient				= ko.observable();
 	var guarantor 			= ko.observable(new Guarantor());
+	var addressEnable		= ko.observable("given");
+	var employerEnable		= ko.observable();
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -187,6 +191,8 @@ define(function(require) {
 		secondaryInsurance: secondaryInsurance,
 		otherInsurance: otherInsurance,
 		guarantor: guarantor,
+		addressEnable: addressEnable,
+		employerEnable: employerEnable,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -236,13 +242,28 @@ define(function(require) {
 				if(data.length > 0) {
 					var g = new Guarantor(data[0]);
 					self.guarantor(g);
+					
+					// Set defaults
+					// Employer
+					if(self.guarantor().employer().length > 1) {
+						self.employerEnable('given');
+					}
+					else {
+						self.employerEnable('na');
+					}
+					// Address
+					if(self.guarantor().address().length > 1) {
+						self.addressEnable('given');
+					}
+					else {
+						self.addressEnable('same');
+					}
+					
 					self.insuredPerson(3);
 				}
 				else {
 					self.insuredPerson(1);
 				}
-				
-				system.log(guarantor());
 			});
 			
 			/**************************************************************************************

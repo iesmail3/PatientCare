@@ -344,22 +344,26 @@ Description:
 					<div class="row-fluid">
 						<div class="span5">    
 							<!-- Name of Insured -->
-							<input type="text" class="input-large" placeholder="Name of Insured/Responsible"/>
+							<input type="text" data-bind="value: name" class="input-large" 
+								placeholder="Name of Insured/Responsible"/>
 							<!-- Insured Address -->
 							<fieldset>
 								<legend>Address</legend>
 								<label class="radio inline">
-									<input type="radio" class="insuredPerson" name="address" value="" />
-									Same&nbsp;as&nbsp;for&nbsp;patient
+									<input data-bind="checked: $root.addressEnable" type="radio" name="address" value="same" />
+									Same&nbsp;as&nbsp;patient
 								</label>
 								<label class="radio inline">
-									<input type="radio" class="insuredPerson" name="address" value="" />
+									<input data-bind="checked: $root.addressEnable" type="radio" name="address" value="given" />
 									Given
 								</label>
 								<div>
-									<input type="text" class= "input-large" placeholder="Address" />
-									<input type="text" class="input-small" placeholder="City" />
-									<select class="input-medium">
+									<input type="text" class= "input-large" placeholder="Address" 
+										data-bind="enable: $root.addressEnable() == 'given', value: address" />
+									<input type="text" class="input-small" placeholder="City" 
+										data-bind="enable: $root.addressEnable() == 'given', value: city" />
+									<select class="input-medium" 
+										data-bind="enable: $root.addressEnable() == 'given', value: state">
 										<option>State</option>
 										<option value="AL">Alabama</option>
 										<option value="AK">Alaska</option>
@@ -402,8 +406,10 @@ Description:
 										<option value="WI">Wisconsin</option>
 										<option value="WY">Wyoming</option>
 									</select>
-									<input type="text" class= "input-small" placeholder="ZipCode" />
-									<select class="input-medium">
+									<input type="text" class= "input-small" placeholder="ZipCode" 
+										data-bind="enable: $root.addressEnable() == 'given', value: zip" />
+									<select class="input-medium" 
+										data-bind="enable: $root.addressEnable() == 'given', value: country">
 										<option>USA </option>
 									</select>
 								</div>
@@ -412,34 +418,40 @@ Description:
 						<!-- Right Column -->
 						<div class="offset1 span5">
 							<!-- Relationship with Patient -->
-							<select>
+							<select data-bind="value: relationship">
 								<option>Relationship with Insured</option>
-								<option value="Father">Father</option>
-								<option value="Mother">Mother</option>
-								<option value="Spouse">Spouse</option>
-								<option value="Daughter">Daughter</option>
-								<option value="Son">Son</option>
-								<option value="Other">Other</option>
+								<option value="father">Father</option>
+								<option value="mother">Mother</option>
+								<option value="spouse">Spouse</option>
+								<option value="daughter">Daughter</option>
+								<option value="son">Son</option>
+								<option value="other">Other</option>
 							</select>
 							<!-- Employer Information -->
 							<fieldset>
 								<legend>Employer</legend>
 								<label class="radio inline">
-									<input type="radio" class="insuredPerson" name="employer" value="" />
+									<input type="radio" class="insuredPerson" name="employer" value="same"
+										data-bind="checked: $root.employerEnable" />
 									Same&nbsp;as&nbsp;patient
 								</label>
 								<label class="radio inline">
-									<input type="radio" class="insuredPerson" name="employer" value="" />
+									<input type="radio" class="insuredPerson" name="employer" value="given"
+										data-bind="checked: $root.employerEnable" />
 									As&nbsp;Given
 								</label>
 								<label class="radio inline">
-									<input type="radio" class="insuredPerson" name="employer" value="" />
+									<input type="radio" class="insuredPerson" name="employer" value="na"
+										data-bind="checked: $root.employerEnable" />
 									NA
 								</label>
 								<div>
-									<input type="text" class= "input-large"  placeholder="Name" />
-									<input type="text" class= "input-small"  placeholder="Phone" />
-									<input type="text" class= "input-mini" placeholder="Ext" />
+									<input type="text" class= "input-large"  placeholder="Name"
+										data-bind="enable: $root.employerEnable() == 'given', value: employer" />
+									<input type="text" class= "input-small"  placeholder="Phone" 
+										data-bind="enable: $root.employerEnable() == 'given', value: employerPhone" />
+									<input type="text" class= "input-mini" placeholder="Ext"
+										data-bind="enable: $root.employerEnable() == 'given', value: employerExt" />
 								</div>
 							</fieldset>
 						</div>
