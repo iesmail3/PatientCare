@@ -100,7 +100,6 @@ define(function(require) {
 			self.policy      			= ko.observable(data.policy_number);
 			self.companyName 			= ko.observable(data.company_name);
 			self.plan        			= ko.observable(data.plan);
-			system.log(self.plan());
 			self.planOther    			= ko.observable(data.plan_other);
 			self.effectiveDate 			= ko.observable(data.effective_date);
 			self.outOfPocket 			= ko.observable(data.out_of_pocket);
@@ -183,7 +182,7 @@ define(function(require) {
 			self.idNumber			= ko.observable();
 			self.idType				= ko.observable();
 			self.dob				= ko.observable();
-			self.dob_Same			= ko.observable();
+			self.dobSame			= ko.observable();
 			self.address			= ko.observable();
 			self.city				= ko.observable();
 			self.state				= ko.observable();
@@ -356,7 +355,6 @@ define(function(require) {
 			
 			$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
 			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-			system.log($('.tab-pane').height() + " : " + $('.formScroll').height());
 			$(window).resize(function() {
 				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
 				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
