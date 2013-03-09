@@ -73,6 +73,16 @@ define(function(require) {
 		});
 	}
 	
+	// Get Reference for a Single Patient
+	patient.prototype.getReference = function(id) {
+		return this.query({
+			mode: 'select',
+			table: 'reference',
+			fields: '*',
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
 	/**********************************************************************************************
 	 * Add Methods
 	 * 
@@ -143,6 +153,20 @@ define(function(require) {
 		return this.query({
 			mode: 'insert', 
 			table: 'spouse', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Add Reference for a Single Patient
+	patient.prototype.addReference = function(id, data) {
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'insert', 
+			table: 'reference', 
 			values: values, 
 			where: "WHERE patient_id='" + id + "'"
 		});
@@ -229,6 +253,20 @@ define(function(require) {
 		});
 	}
 	
+	// Update Reference for a Single Patient
+	patient.prototype.updateReference = function(id, data) {
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'update', 
+			table: 'reference', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
 	/**********************************************************************************************
 	 * Remove Methods
 	 * 
@@ -284,6 +322,20 @@ define(function(require) {
 		return this.query({
 			mode: 'delete', 
 			table: 'spouse', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Delete Reference for a Single Patient
+	patient.prototype.deleteReference = function(id, data) {
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'delete', 
+			table: 'reference', 
 			values: values, 
 			where: "WHERE patient_id='" + id + "'"
 		});
