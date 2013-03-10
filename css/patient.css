@@ -95,18 +95,18 @@ legend {
      
 .referenceTabs {
 	clear: both;      
-}           
+}             
 
 #referringphysician form {       
-	padding: 10px
-}   
+	padding: 10px; 
+}        
 
 .marginBottom5 {
 	margin-bottom: 5px;
 }
 
 .bigContainer {
-    border: 1px solid #aaa;
+    border: 1px solid #aaa;  
     width: 120px;
-    margin: 12px;     
+    margin: 12px;      
 }
