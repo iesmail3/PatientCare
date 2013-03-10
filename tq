@@ -1,0 +1,116 @@
+* [31m7fb8f78[m -[33m (HEAD, followup)[m Created FollowUp and checkout tabs UI. [32m(76 seconds ago) [1;34m<imran esmail>[m
+* [31mee0384c[m -[33m (personal)[m Add form module. [32m(23 hours ago) [1;34m<Sean Malone>[m
+* [31m01f304f[m -[33m[m Start Social & Famly History. [32m(26 hours ago) [1;34m<Zhanhsien Chang>[m
+* [31mb78da98[m -[33m[m Fix bug with personalinformation. [32m(26 hours ago) [1;34m<Zhanhsien Chang>[m
+* [31mbbfc7b3[m -[33m[m Reference structure and function. [32m(2 days ago) [1;34m<Zhanhsien Chang>[m
+* [31m6e4e901[m -[33m (origin/personal)[m Modified placeholder in Insurance UI. [32m(2 days ago) [1;34m<imran esmail>[m
+* [31mbd5012c[m -[33m[m Complete patient filtering. [32m(2 days ago) [1;34m<Sean Malone>[m
+* [31m3a5760a[m -[33m[m Fix data-bind issues. [32m(2 days ago) [1;34m<Sean Malone>[m
+* [31mc46c724[m -[33m[m Added data-binds for patient, guarantor, and spouse. [32m(2 days ago) [1;34m<Zhanhsien Chang>[m
+*   [31m5a6e1bd[m -[33m[m Merge branch 'personal' of github.com:leprakahn/PatientCare into personal [32m(2 days ago) [1;34m<Zhanhsien Chang>[m
+|\  
+| * [31m94416f8[m -[33m[m Linked record buttons to patient records. [32m(3 days ago) [1;34m<Zhanhsien Chang>[m
+* | [31md2d3b27[m -[33m[m Added spouse structure and moved buttons to the right. [32m(2 days ago) [1;34m<Zhanhsien Chang>[m
+* | [31m51459e9[m -[33m[m Linked record buttons to patient records. [32m(3 days ago) [1;34m<Zhanhsien Chang>[m
+|/  
+* [31ma1cc400[m -[33m[m Finish primary insurance. [32m(3 days ago) [1;34m<Sean Malone>[m
+* [31mdcb1244[m -[33m[m Add enable feature on guarantor fields. [32m(3 days ago) [1;34m<Sean Malone>[m
+* [31m140b80a[m -[33m[m Add spouse and employer to patient module. [32m(3 days ago) [1;34m<Sean Malone>[m
+*   [31mc0371bc[m -[33m[m Merge branch 'personal' of github.com:leprakahn/PatientCare into personal [32m(3 days ago) [1;34m<imran esmail>[m
+|\  
+| *   [31m34f548d[m -[33m[m Merge branch 'personal' of github.com:leprakahn/PatientCare into personal [32m(3 days ago) [1;34m<Zhanhsien Chang>[m
+| |\  
+| * | [31mb7c17a2[m -[33m[m Centered navigation icons and added text. [32m(3 days ago) [1;34m<Zhanhsien Chang>[m
+* | | [31me41c3b4[m -[33m[m Tweak Insurance tab. [32m(3 days ago) [1;34m<imran esmail>[m
+| |/  
+|/|   
+* | [31me6f3a33[m -[33m[m Added fields in secondary tab. [32m(3 days ago) [1;34m<imran esmail>[m
+|/  
+* [31m038f4fe[m -[33m[m Add data binding to Insurance tab. [32m(3 days ago) [1;34m<Sean Malone>[m
+* [31maed0a47[m -[33m[m Add field spacing. [32m(3 days ago) [1;34m<Sean Malone>[m
+* [31m6925765[m -[33m[m Fix overriden code. [32m(3 days ago) [1;34m<Sean Malone>[m
+* [31mf05cde1[m -[33m[m Revert changes to personalinformation.html. [32m(3 days ago) [1;34m<Zhanhsien Chang>[m
+* [31me4f6d02[m -[33m[m Added div and text to nav. [32m(3 days ago) [1;34m<Zhanhsien Chang>[m
+*   [31m1011c93[m -[33m[m Merge conflicts. [32m(3 days ago) [1;34m<imran esmail>[m
+|\  
+| * [31m1d4f891[m -[33m[m fixed datepickers, added spans to radio button text, and relocated a div within insurance [32m(3 days ago) [1;34m<Zhanhsien Chang>[m
+* | [31m2f39304[m -[33m[m Added the functionality to hide and show patient's address and employer information. [32m(3 days ago) [1;34m<imran esmail>[m
+|/  
+* [31m2a3ac23[m -[33m[m fixed tabbing/spacing issues, unclosed tags, and an overlapping tag problem [32m(3 days ago) [1;34m<Zhanhsien Chang>[m
+* [31mfcee52f[m -[33m[m moved buttons up one more div [32m(3 days ago) [1;34m<Zhanhsien Chang>[m
+* [31me4367ad[m -[33m[m moved personal buttons out of insurance tab [32m(3 days ago) [1;34m<Zhanhsien Chang>[m
+* [31mdc90629[m -[33m (origin/master, master)[m Remove old files. [32m(3 days ago) [1;34m<imran esmail>[m
+*   [31m1fb74ac[m -[33m[m Update patient.css. [32m(3 days ago) [1;34m<imran esmail>[m
+|\  
+| * [31m1476fed[m -[33m (insurance)[m Added data bind to the datepicker. [32m(3 days ago) [1;34m<imran esmail>[m
+| * [31m1e39d4c[m -[33m[m Added styling to the Insurance UI. [32m(4 days ago) [1;34m<imran esmail>[m
+| * [31m32b71bf[m -[33m[m Added css classes and javascript classes for timepicker. [32m(4 days ago) [1;34m<imran esmail>[m
+| * [31m59de8ab[m -[33m[m Accepted patient.js file [32m(4 days ago) [1;34m<imran esmail>[m
+| * [31mb626f8d[m -[33m (origin/insurance)[m Add scroll to long forms. [32m(5 days ago) [1;34m<imran esmail>[m
+| * [31macc9561[m -[33m[m Add Insurance page to insurance tab. [32m(5 days ago) [1;34m<imran esmail>[m
+| * [31m1b315a4[m -[33m[m Add simple transition. [32m(5 days ago) [1;34m<imran esmail>[m
+| * [31m61e0b87[m -[33m[m Fix conflict in shell.html. [32m(5 days ago) [1;34m<root>[m
+| * [31m419895a[m -[33m[m Removed all p tags from Insurance UI. [32m(5 days ago) [1;34m<imran esmail>[m
+| *   [31m63cc7fb[m -[33m[m Added new files from master [32m(5 days ago) [1;34m<imran esmail>[m
+| |\  
+| * | [31mc965aab[m -[33m[m change patient.css to patient1.css [32m(6 days ago) [1;34m<imran esmail>[m
+| * | [31mfc6d8dd[m -[33m[m Added div tags [32m(6 days ago) [1;34m<imran esmail>[m
+| * | [31m012da9e[m -[33m[m Added tabs in the Insurance Details UI. [32m(6 days ago) [1;34m<imran esmail>[m
+| * | [31m89b2939[m -[33m[m Created UI for Insurance Details [32m(7 days ago) [1;34m<imran esmail>[m
+* | |   [31m76c1ef6[m -[33m[m Merge branch 'managePatients' of github.com:leprakahn/PatientCare into gary [32m(3 days ago) [1;34m<Sean Malone>[m
+|\ \ \  
+| * | | [31m5461069[m -[33m[m correcting div tags on personalinformation tab [32m(4 days ago) [1;34m<Zhanhsien Chang>[m
+| * | | [31md6a52b9[m -[33m[m reupdating managepatients [32m(4 days ago) [1;34m<Zhanhsien Chang>[m
+| * | | [31m2c2a157[m -[33m[m consolidated addpatients to personalinformation [32m(4 days ago) [1;34m<Zhanhsien Chang>[m
+| * | |   [31m1119f32[m -[33m[m updating to tabbed forms [32m(4 days ago) [1;34m<Zhanhsien Chang>[m
+| |\ \ \  
+| * | | | [31mf71568d[m -[33m[m added icons to nav menu and viewmodel [32m(6 days ago) [1;34m<Zhanhsien Chang>[m
+| * | | | [31m334ed95[m -[33m[m got rid of <p> tags and switched print/save buttons [32m(6 days ago) [1;34m<Zhanhsien Chang>[m
+| * | | | [31m2ede91d[m -[33m[m finished addPatients [32m(6 days ago) [1;34m<Zhanhsien Chang>[m
+| * | | | [31mc21d9be[m -[33m[m added employment and spouse details [32m(6 days ago) [1;34m<Zhanhsien Chang>[m
+| * | | |   [31m7651447[m -[33m[m Merge branch 'master' of github.com:leprakahn/PatientCare into managePatients [32m(6 days ago) [1;34m<Zhanhsien Chang>[m
+| |\ \ \ \  
+| | | |/ /  
+| | |/| |   
+| * | | | [31m7101152[m -[33m[m fixing spacing [32m(6 days ago) [1;34m<Zhanhsien Chang>[m
+| * | | | [31m9df5cff[m -[33m[m adding marital status [32m(7 days ago) [1;34m<Zhanhsien Chang>[m
+| * | | | [31m9f5c898[m -[33m[m adding wells [32m(7 days ago) [1;34m<Zhanhsien Chang>[m
+| * | | | [31mcbf3462[m -[33m[m fixing input spacing [32m(7 days ago) [1;34m<Zhanhsien Chang>[m
+| * | | | [31mda28f5b[m -[33m[m adding basic form structure [32m(7 days ago) [1;34m<Zhanhsien Chang>[m
+| * | | | [31md2428ef[m -[33m[m update to bootstrap buttons [32m(7 days ago) [1;34m<Zhanhsien Chang>[m
+| * | | | [31mc626920[m -[33m[m troubleshooting cross browser updates [32m(7 days ago) [1;34m<Zhanhsien Chang>[m
+| * | | | [31m0350d09[m -[33m[m deleted camelcase files [32m(7 days ago) [1;34m<Zhanhsien Chang>[m
+| * | | |   [31mc53df6c[m -[33m[m added placeholder pages for sub-menu under patients [32m(7 days ago) [1;34m<Zhanhsien Chang>[m
+| |\ \ \ \  
+| * | | | | [31m116dad4[m -[33m[m added well for formatting [32m(9 days ago) [1;34m<Zhanhsien Chang>[m
+| * | | | | [31m1e12e1e[m -[33m[m managePatients view edits added search fields and table for patients [32m(10 days ago) [1;34m<Zhanhsien Chang>[m
+* | | | | |   [31m4baf82c[m -[33m[m Fix merge conflicts. [32m(3 days ago) [1;34m<Sean Malone>[m
+|\ \ \ \ \ \  
+| * | | | | | [31m3b61dcc[m -[33m[m Add Follow Up tabs. [32m(6 days ago) [1;34m<Sean Malone>[m
+| * | | | | | [31m46869db[m -[33m[m Add Social/Family History and Service Record tabs. [32m(6 days ago) [1;34m<Sean Malone>[m
+| * | | | | | [31ma71e519[m -[33m[m Fix navigation issue. [32m(6 days ago) [1;34m<Sean Malone>[m
+| * | | | | | [31m185bb2d[m -[33m[m Style patient tabs. [32m(6 days ago) [1;34m<Sean Malone>[m
+| * | | | | | [31m2ffdf68[m -[33m[m Add Personal Information tabs | add bootstrap.js [32m(6 days ago) [1;34m<Sean Malone>[m
+| * | | | | | [31mfe2dfff[m -[33m[m Finished - Outer patient record view. [32m(6 days ago) [1;34m<Sean Malone>[m
+| * | | | | | [31m5790b6d[m -[33m[m Added patients outer view. [32m(7 days ago) [1;34m<Sean Malone>[m
+| | |_|/ / /  
+| |/| | | |   
+* | | | | | [31m742b28d[m -[33m[m Update patient module. [32m(3 days ago) [1;34m<Sean Malone>[m
+| |_|_|/ /  
+|/| | | |   
+* | | | | [31md86e6a9[m -[33m[m Update Patient Module. [32m(5 days ago) [1;34m<Sean Malone>[m
+* | | | | [31m63ee8ab[m -[33m[m Add Insurance to patient module. [32m(5 days ago) [1;34m<Sean Malone>[m
+| |_|_|/  
+|/| | |   
+* | | | [31mce10fa9[m -[33m[m Change background color for tab-pane. [32m(6 days ago) [1;34m<Sean Malone>[m
+* | | | [31m47c4813[m -[33m[m Remove old files. [32m(6 days ago) [1;34m<Sean Malone>[m
+* | | | [31m4be4135[m -[33m[m Add Patient Record outer view. [32m(6 days ago) [1;34m<Sean Malone>[m
+|/ / /  
+* | | [31m85fe8e7[m -[33m[m Fix fullPage issue. [32m(7 days ago) [1;34m<Sean Malone>[m
+| |/  
+|/|   
+* | [31md7b3657[m -[33m[m Updated query.php. [32m(8 days ago) [1;34m<Sean Malone>[m
+|/  
+* [31m397da2a[m -[33m[m Update README.md [32m(10 days ago) [1;34m<leprakahn>[m
+* [31m0a97a5c[m -[33m[m Initialize application. [32m(10 days ago) [1;34m<Sean Malone>[m
+* [31m8263c0c[m -[33m[m Initial commit with .gitignore [32m(10 days ago) [1;34m<Sean Malone>[m

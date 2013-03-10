@@ -12,11 +12,11 @@ Description:
 	  <li><a href="#superbill">Superbill</a></li>
 	  <li><a href="#docs">Misc Docs</a></li>
 	</ul>
- 
+       
 	<div class="tab-content">
 		<div class="tab-pane active" id="followup">
 			<div class="formScroll">   
-				<form class="form-inline">
+				<form class="form-inline">    
 					<div class="row-fluid">
 						<fieldset>
 							<legend>Schedule a FollowUp</legend>
@@ -73,7 +73,7 @@ Description:
 		            </thead>
 		            <tbody>
 		            </tbody>    
-				</table>         
+				</table>          
 				</div>
 			</div>    
 		</div>   
@@ -84,24 +84,26 @@ Description:
 						<fieldset> 	         
 							<legend>Co-pay Details</legend>    	
 						 		<div class="span5">    
-								    <span class="label">Select Co-Payment</span>
-								  	<div class="bigContainer">
-										<div class="marginBottom5">     
-											<label class="checkbox inline">
- 											<input type="checkbox"/><span>Primary($5000)</span>
- 											</label>
- 						    			</div>
- 						    			<div class="marginBottom5">      
- 											<label class="checkbox inline">
- 											<input type="checkbox"/><span>Primary($5000)</span>
- 											</label>							 
-										</div>       
-									  	<div class="marginBottom5">      
- 											<label class="checkbox inline">
- 											<input type="checkbox"/><span>Primary($7000)</span>
- 											</label>							 
-								       	</div> 
-									</div>
+								   	<div class="marginBottom5">  
+								    	<span class="label">Select Co-Payment</span>
+								  		<div class="bigContainer offset1">
+											<div class="marginBottom5">     
+												<label class="checkbox inline">
+	 											<input type="checkbox"/><span>Primary($5000)</span>
+	 											</label>
+	 						    			</div>
+	 						    			<div class="marginBottom5">      
+	 											<label class="checkbox inline">
+	 											<input type="checkbox"/><span>Primary($5000)</span>
+	 											</label>							 
+											</div>        
+										  	<div class="marginBottom5">      
+	 											<label class="checkbox inline">
+	 											<input type="checkbox"/><span>Primary($7000)</span>
+	 											</label>							 
+									       	</div> 
+										</div>    
+									  </div>
 									<div class="marginBottom5">
 										<input type="text" class="input-medium" placeholder="Co-Payment amount" />
 									</div>
@@ -125,8 +127,7 @@ Description:
 									</div>    
 									<div class="marginBottom5">
 										<a href="#">Additional Details</a>								
-									</div>     
-									
+									</div>     							
 								</div>		
 								<div class="offset1 span5">
 					 				<table class="table table-bordered table-hover">
@@ -157,56 +158,203 @@ Description:
 									<input type="text" class="input-medium" placeholder="Balance" />			 	     
 					 			</div> 					 								 	  		                                      
 						</fieldset>	        		    	     	 			             
-				</div>					                           
-			</div> 
-			<table class="table table-bordered table-hover">
-										<thead>    
-											<tr>    
-												<th></th>
-												<th>Date of Service</th>
-												<th>CoPay Amount</th>
-												<th>Other Co-Pay</th>
-												<th>Insurance Portion</th>	
-												<th>Additional Charges</th>
-												<th>Paid Amount</th>
-											</tr>				 
-										</thead>
-		            					<tbody>    
-		            						<tr>
-		            						<td>*</td> 
-		            						<td>
-		            							<select class="input-small">
-												<option value=""></option>    
-												<option value=""></option>
-												<option value=""></option>
-												</select>
-								            </td>
-								            <td></td>     
-								            <td></td>      
-								            </tr> 
-		            					</tbody>    
-									</table>                              
-								</div>
-								<div class="row-fluid">
-									<div class="pull-right marginBottom5">
-										<button type="button" class="btn btn-small">Print Receipt</button>
-										<button type="button" class="btn btn-small">PrintOrder</button>
-										<button type="button" class="btn btn-small btn-primary">Save</button>
-										<button type="button" class="btn btn-small btn-danger">Cancel</button>
-				              		</div>	
-				              	</div>                                                 
+					</div>					                           
+				</div> 
+				<table class="table table-bordered table-hover">
+					<thead>    
+						<tr>    
+							<th></th>
+							<th>Date of Service</th>
+							<th>CoPay Amount</th>
+							<th>Other Co-Pay</th>
+							<th>Insurance Portion</th>	
+							<th>Additional Charges</th>
+							<th>Paid Amount</th>
+						</tr>				 
+					</thead>
+		            <tbody>    
+						<tr>
+						<td>*</td> 
+						<td>
+							<select class="input-small">
+							<option value=""></option>    
+							<option value=""></option>
+							<option value=""></option>
+							</select>
+			            </td>
+			            <td></td>     
+			            <td></td>      
+			            </tr> 
+		            	</tbody>    
+				</table>                              
+			</div>
+			<div class="row-fluid">
+				<div class="pull-right marginBottom5">
+					<button type="button" class="btn btn-small">Print Receipt</button>
+					<button type="button" class="btn btn-small">PrintOrder</button>
+					<button type="button" class="btn btn-small btn-primary">Save</button>
+					<button type="button" class="btn btn-small btn-danger">Cancel</button>
+          		</div>	
+          	</div>                                                 
 	  	</div>      
-		<div class="tab-pane" id="prescriptions">    
-			<h2>Prescriptions</h2>        
+		<div class="tab-pane outerPane" id="prescriptions">    
+			<div class="formScroll formPadding">
+				<div class="row-fluid">
+					<table class="table table-bordered table-hover">
+					<thead>    
+						<tr>    
+							<th></th>
+							<th>Date</th>
+							<th>Medicine Name</th>
+							<th>Physician</th>      
+							<th>Created By</th>	           
+							<th>Mode</th>
+							<th>Comments</th>
+						</tr>				 
+					</thead>   
+		            <tbody>      
+		            </tbody>    
+					</table> 
+				</div> 		
+			</div>
 		</div>    
-		<div class="tab-pane" id="phonelog">
-			<h2>Phone Log</h2>     
+		<div class="tab-pane outerPane" id="phonelog">
+			<div class="formScroll">   
+				<form class="form-inline">    
+					<div class="row-fluid">
+						<fieldset>
+							<legend>Schedule a FollowUp</legend>
+							<div class="marginBottom5">
+								<input type="text" class="input-medium" placeholder="Call Date"
+									data-bind="datepicker: true"/>
+								<select class="input-medium">
+									<option>Call Type</option>    
+									<option></option>
+									<option></option>
+								</select>  
+							</div>
+							<div class="marginBottom5">
+								<input type="text" class="input-medium" placeholder="Caller"/>
+								<input type="text" class="input-medium" placeholder="Attended By"/>
+							</div>
+							<div class="marginBottom5"> 
+								<textarea class="input-xxlarge" rows="3" placeholder="Message"></textarea>
+							</div>
+							<div class="marginBottom5">
+								<span class="radio inline">Action Required</span>
+									<label class="radio inline">
+										<input type="radio" name="actionRequired" value="1" /><span>Yes</span>
+									</label>
+									<label class="radio inline">
+										<input type="radio" name="actionRequired" value="0" /><span>No</span>
+									</label>
+							</div>
+							<div class="marginBottom5 pull-right">
+								<button type="button" class="btn btn-small btn-primary">Save</button>
+								<button type="button" class="btn btn-small btn-danger">Cancel</button>
+							</div> 							
+						</fieldset> 
+					</div>
+				</form>        
+			</div>
+			<div class="row-fluid">
+					<table class="table table-bordered table-hover">
+					<thead>     
+						<tr>    
+							<th></th>
+							<th>Call Date</th>
+							<th>Call Type</th>
+							<th>Caller</th>      
+							<th>Attended By</th>	           
+							<th>Message</th>
+						</tr>				 
+					</thead>     
+		            <tbody>      
+		            </tbody>    
+					</table> 
+			</div>          
 		</div>        
 		<div class="tab-pane" id="superbill">    
-			<h2>Superbill</h2>
+			<div class="rowFuild">
+				<div class="borderBottom5 offset9">
+					<label class="checkbox inline">
+ 						<input type="checkbox"/><span>Complete</span>
+ 					</label>
+				</div>
+				<div class="borderBottom5"> 
+					<table class="table table-bordered table-hover">
+						<thead>     
+							<tr>      
+								<th></th> 
+								<th>Service Date</th>
+								<th>Billing Complete</th>      
+								<th>Comments</th>	          
+							</tr>				 
+						</thead>     
+			            <tbody>      
+			            </tbody>    
+					</table> 
+				</div>
+			</div> 
 		</div>     
 		<div class="tab-pane" id="docs">
-			<h2>Misc Docs</h2>
+			<div class="formScroll">
+				<form class="form-inline">   
+					<div class="row-fluid">   	       
+						<fieldset> 	         
+							<legend>Search</legend>
+								<div class="marginBottom5">        
+									<select class="input-medium">   
+										<option>Document Type</option>      
+										<option></option>
+										<option></option>
+									</select> 
+									<div class="pull-right">
+										<button type="button"class="btn btn-small">Search</button>
+										<button type="button"class="btn btn-small btn-warning">Clear</button> 
+ 						    	   </div>
+ 						        </div>
+ 						    </fieldset>
+ 					  </div>						
+ 				   </form>
+ 					<form class="form-inline">      
+						<div class="row-fluid">   	       
+							<fieldset> 	         
+									<legend>Details</legend>
+										<div class="marginBottom5">
+											<input type="text" class="input-medium" placeholder="Document Type"/>
+										</div>
+										<div class="marginBottom5"> 
+											<textarea class="input-xxlarge" rows="3" placeholder="Comment"></textarea>
+										</div>
+										<div class="marginBottom5">
+											<label class="checkbox inline">
+	 											<input type="checkbox"/><span>Is Reviewed?</span>
+	 										</label>
+	 										<button type="button"class="btn btn-small btn-primary pull-right">Save</button>									
+										</div>
+								</fieldset>
+ 					 	  </div>	
+					</form> 
+						<div class="row-fluid">
+							<div class="marginBottom5">
+								<table class="table table-bordered table-hover">
+									<thead>     
+										<tr>      
+											<th></th> 
+											<th>Received Date</th>
+											<th>DOS</th>      
+											<th>Doc Type</th>  
+											<th>Is Reviewed?</th>
+											<th>Comments</th>	          
+										</tr>				 
+									</thead>     
+						            <tbody>      
+						            </tbody>    
+								</table>    
+							</div>
+						 </div>			    					 
+ 					</div>
+				</div>			 
+			</div>
 		</div>
-	</div>
-</div>
