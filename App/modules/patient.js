@@ -5,6 +5,10 @@
  *************************************************************************************************/
 define(function(require) {
 	/**********************************************************************************************
+	 * Structures
+	 *********************************************************************************************/
+	
+	/**********************************************************************************************
 	 * Constructor
 	 *********************************************************************************************/
 	var patient = function() {};
@@ -78,6 +82,16 @@ define(function(require) {
 		return this.query({
 			mode: 'select',
 			table: 'reference',
+			fields: '*',
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Get Service Record for a Single Patient
+	patient.prototype.getServiceRecord = function(id) {
+		return this.query({
+			mode: 'select',
+			table: 'service_record',
 			fields: '*',
 			where: "WHERE patient_id='" + id + "'"
 		});

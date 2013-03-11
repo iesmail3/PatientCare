@@ -16,7 +16,11 @@ Description: This view is the outer patient view. It will hold the tree
 						<li><a data-bind="attr: {href: personalUrl}">Personal Information</a></li>
 						<li><a data-bind="attr: {href: socialUrl}">Social & Family History</a></li>
 						<li><a data-bind="attr: {href: serviceUrl}">Service Record</a></li>
-						<div class="serviceRecords"></div>
+						<div class="serviceRecords">
+							<ul data-bind="foreach: serviceRecords">
+								<li data-bind="text: date"></li>
+							</ul>
+						</div>
 						<li><a data-bind="attr: {href: followupUrl}">Follow Up</a></li>
 					</ul>
 				</div>

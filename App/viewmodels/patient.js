@@ -61,10 +61,27 @@ define(function(require) {
 		});
 	}
 	
+	function ServiceRecord(data) {
+		var self = this;
+		
+		self.id							= ko.observable(data.id);
+		self.patientId					= ko.observable(data.patient_id);
+		self.physicianId				= ko.observable(data.physician_id);
+		self.date						= ko.observable(data.date);
+		self.reason						= ko.observable(data.reason);
+		self.history					= ko.observable(data.history);
+		self.systemsComment				= ko.observable(data.systems_comment);
+		self.noKnownAllergies			= ko.observable(data.no_known_allergies);
+		self.allergiesVerified			= ko.observable(data.allergies_verified);
+		self.physicalExaminationComment	= ko.observable(data.physical_examination_comment);
+		self.planAndInstructions		= ko.observable(data.plan_and_instructions);
+	}
+	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
 	var patient = ko.observable('');
+	var serviceRecords = ko.observableArray([]);
 	var patientId = ko.observable();
 	var currentView = viewModel.activator();
 	
@@ -99,6 +116,7 @@ define(function(require) {
 		 * Attributes
 		 *******************************************************************************************/
 		patient: patient,
+		serviceRecords: serviceRecords,
 		patientId: patientId,
 		currentView: viewModel.activator(),
 		personal: personal,
@@ -149,12 +167,19 @@ define(function(require) {
             
             // Load Patient information
             var backend = new Backend();
-            return backend.getPatient(self.patientId()).success(function(data) {
-            	if(data.length > 0) {
-            		var p = new Patient(data[0]);
-            		self.patient(p);
-            	}
-            });
+			backend.getServiceRecord(self.patientId()).success(function(data) {
+				if(data.length > 0) {
+					var serviceRecord = $.map(data, function(item) {return new ServiceRecord(item)});
+					self.serviceRecords(serviceRecord);
+				}
+			});
+			
+			return backend.getPatient(self.patientId()).success(function(data) {
+				if(data.length > 0) {
+					var p = new Patient(data[0]);
+					self.patient(p);
+				}
+			});
 		},
 		// URL generators
 		personalUrl: personalUrl,
