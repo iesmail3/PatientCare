@@ -174,7 +174,7 @@ define(function(require) {
 			self.employer			= ko.observable(data.employer);
 			self.employerPhone		= ko.observable(data.employer_phone);
 			self.employerExt		= ko.observable(data.employer_ext);
-		}
+		}   
 		else {
 			self.patientId   		= ko.observable();
 			self.idSame				= ko.observable();
@@ -356,7 +356,7 @@ define(function(require) {
 			$(window).resize(function() {
 				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
 				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-			});
+			});    
 			
 		},
 		// Loads when view is loaded
