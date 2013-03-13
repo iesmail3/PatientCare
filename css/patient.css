@@ -1,4 +1,4 @@
-legend {
+.legend {
 	font-size: 14pt;
 }
 
@@ -8,22 +8,22 @@ legend {
 
 .patientTree {
 	background-color: rgb(250,250,250);
-	margin-top: 10px;
+	margin-top: 10px;    
 }
 
-.contentPane {
+.contentPane {        
 	background-color: rgb(250,250,250);
 	margin-top: 10px;
-}
+}    
 
 .contentPane .container-fluid {
 	padding: 5px;
 }
-
+     
 
 .fill {
-	height: 100%;
-}
+	height: 100%;   
+}                               
 
 .patientRecordNav {
 	margin-left: 10px !important;
@@ -61,32 +61,19 @@ legend {
 	padding: 0 10px;
 }
 
-/* Insurance */
-.insuredPerson { 
-	margin: 12px;    
-}
-
-.sameAsPatient{ 
-	margin-right: 305px;
-}
-
-.insuranceTabs {
+.formTabs {
 	clear: both;
 }
 
-.formPadding{
+.formPadding {
 	padding: 10px;   
 }
 
-.deductible {
-	margin-bottom: 5px;    
-}
-
-/* Personal Information */
 .formScroll {
 	overflow-y: auto;
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 5px;
+
 }
 
 .employedPerson {
@@ -95,18 +82,18 @@ legend {
      
 .referenceTabs {
 	clear: both;      
-}           
+}             
 
 #referringphysician form {       
-	padding: 10px
-}   
+	padding: 10px; 
+}        
 
 .marginBottom5 {
 	margin-bottom: 5px;
 }
 
 .bigContainer {
-    border: 1px solid #aaa;
+    border: 1px solid #aaa;  
     width: 120px;
-    margin: 12px;     
+    margin: 12px;      
 }

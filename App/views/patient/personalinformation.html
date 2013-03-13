@@ -52,55 +52,16 @@ Description:
 						<fieldset>
 							<legend>Contact Details</legend>
 							<div class="marginBottom5">
-								<input type="text" class="input-large" data-bind="value: address" placeholder="Street Address" />
+								<input type="text" class="input-xlarge" data-bind="value: address" placeholder="Street Address" />
+							</div>
+							<div class="marginBottom5">
 								<input type="text" data-bind="value: city" placeholder="City" />
-								<select data-bind="value: state" class="input-medium">
-									<option value="" disabled selected style="display:none;">State</option>
-									<option value="AL">Alabama</option>
-									<option value="AK">Alaska</option>
-									<option value="AZ">Arizona</option>
-									<option value="AR">Arkansas</option>
-									<option value="CA">California</option>
-									<option value="CO">Colorado</option>
-									<option value="CT">Connecticut</option>
-									<option value="DE">Delaware</option>
-									<option value="DC">District of Columbia</option>
-									<option value="FL">Florida</option>
-									<option value="GA">Georgia</option>
-									<option value="HI">Hawaii</option>
-									<option value="ID">Idaho</option>
-									<option value="IL">Illinois</option>
-									<option value="IN">Indiana</option>
-									<option value="IA">Iowa</option>
-									<option value="KS">Kansas</option>
-									<option value="KY">Kentucky</option>
-									<option value="LA">Louisiana</option>
-									<option value="ME">Maine</option>
-									<option value="MD">Maryland</option>
-									<option value="MA">Massachusetts</option>
-									<option value="MI">Michigan</option>
-									<option value="MN">Minnesota</option>
-									<option value="OH">Ohio</option>
-									<option value="OK">Oklahoma</option>
-									<option value="OR">Oregon</option>
-									<option value="PA">Pennsylvania</option>
-									<option value="RI">Rhode Island</option>
-									<option value="SC">South Carolina</option>
-									<option value="SD">South Dakota</option>
-									<option value="TN">Tennessee</option>
-									<option value="TX">Texas</option>
-									<option value="UT">Utah</option>
-									<option value="VT">Vermont</option>
-									<option value="VA">Virginia</option>
-									<option value="WA">Washington</option>
-									<option value="WV">West Virginia</option>
-									<option value="WI">Wisconsin</option>
-									<option value="WY">Wyoming</option>
+								<select data-bind="options: $root.form.states, optionsText: 
+									'text', optionsValue: 'value', optionsCaption: 'State', value: state" class="input-medium">
 								</select>
 								<input type="text" class="input-small" data-bind="value: zip" placeholder="Zip Code" />
-								<select class="input-medium" data-bind="value: country">
-									<option value="" disabled selected style="display:none;">Country</option>
-									<option value="usa">USA</option>
+								<select data-bind="options: $root.form.countries, optionsText: 
+									'text', optionsValue: 'value', optionsCaption: 'Country', value: country" class="input-medium">
 								</select>
 							</div>
 							<div class="marginBottom5">
@@ -142,57 +103,15 @@ Description:
 								<div class="marginBottom5">
 									<input type="text" class="input-medium" data-bind="enable: $root.personalEmployer() == '1',
 										 value: city" placeholder="City" />
-									<select data-bind="enable: $root.personalEmployer() == '1',value: state" class="input-medium">
-										<option value="">State</option>
-										<option value="AL">Alabama</option>
-										<option value="AK">Alaska</option>
-										<option value="AZ">Arizona</option>
-										<option value="AR">Arkansas</option>
-										<option value="CA">California</option>
-										<option value="CO">Colorado</option>
-										<option value="CT">Connecticut</option>
-										<option value="DE">Delaware</option>
-										<option value="DC">District of Columbia</option>
-										<option value="FL">Florida</option>
-										<option value="GA">Georgia</option>
-										<option value="HI">Hawaii</option>
-										<option value="ID">Idaho</option>
-										<option value="IL">Illinois</option>
-										<option value="IN">Indiana</option>
-										<option value="IA">Iowa</option>
-										<option value="KS">Kansas</option>
-										<option value="KY">Kentucky</option>
-										<option value="LA">Louisiana</option>
-										<option value="ME">Maine</option>
-										<option value="MD">Maryland</option>
-										<option value="MA">Massachusetts</option>
-										<option value="MI">Michigan</option>
-										<option value="MN">Minnesota</option>
-										<option value="OH">Ohio</option>
-										<option value="OK">Oklahoma</option>
-										<option value="OR">Oregon</option>
-										<option value="PA">Pennsylvania</option>
-										<option value="RI">Rhode Island</option>
-										<option value="SC">South Carolina</option>
-										<option value="SD">South Dakota</option>
-										<option value="TN">Tennessee</option>
-										<option value="TX">Texas</option>
-										<option value="UT">Utah</option>
-										<option value="VT">Vermont</option>
-										<option value="VA">Virginia</option>
-										<option value="WA">Washington</option>
-										<option value="WV">West Virginia</option>
-										<option value="WI">Wisconsin</option>
-										<option value="WY">Wyoming</option>
+									<select data-bind="enable: $root.personalEmployer() == '1', options: $root.form.states, optionsText: 
+										'text', optionsValue: 'value', optionsCaption: 'State', value: state" class="input-medium">
 									</select>
 								</div>
 								<div class="marginBottom5">
 									<input type="text" class="input-small" data-bind="enable: $root.personalEmployer() == '1',
 										value: zip" placeholder="Zip Code" />
-									<select class="input-medium" data-bind="enable: $root.personalEmployer() == '1',
-										value: country">
-										<option value="">Country</option>
-										<option value="usa">USA</option>
+									<select data-bind="enable: $root.personalEmployer() == '1', options: $root.form.countries, optionsText: 
+										'text', optionsValue: 'value', optionsCaption: 'Country', value: country" class="input-medium">
 									</select>
 								</div>
 								<div class="marginBottom5">
@@ -239,7 +158,7 @@ Description:
 				</form>
 				<div class="row-fluid">
 					<!-- Reference Tabs -->
-					<div class="tabbable referenceTabs">
+					<div class="tabbable formTabs">
 						<ul class="nav nav-tabs">
 							<li class="active"><a href="#referringphysician" data-toggle="tab">Referring Physician</a></li>
 							<li><a href="#pcp" data-toggle="tab">PCP</a></li>
@@ -249,58 +168,62 @@ Description:
 						<div class="tab-content">
 							<!-- Referring Physician -->
 							<div id="referringphysician" class="tab-pane active">
+								<!-- ko with: referencePhysician -->
 								<form class="form-inline formPadding">
 									<div class="marginBottom5">	
-										<input type="text" class="input-medium"  placeholder="First Name" />
-										<input type="text" class="input-medium"  placeholder="Middle Name" />
-										<input type="text" class="input-medium"  placeholder="Last Name" />
-										<input type="text" class="input-medium"  placeholder="Degree" />
+										<input type="text" class="input-medium" data-bind="value: firstName" placeholder="First Name" />
+										<input type="text" class="input-medium" data-bind="value: middleName" placeholder="Middle Name" />
+										<input type="text" class="input-medium" data-bind="value: lastName" placeholder="Last Name" />
+										<input type="text" class="input-medium" data-bind="value: degree" placeholder="Degree" />
 									</div>
 									<div class="marginBottom5">
-										<input type="text" class="input-xlarge"  placeholder="Reason" />
-										<input type="text"  placeholder="Phone" />
-										<input type="text"  placeholder="Fax" />
+										<input type="text" class="input-xlarge" data-bind="value: reason" placeholder="Reason" />
+										<input type="text" data-bind="value: phone" placeholder="Phone" />
+										<input type="text" data-bind="value: fax" placeholder="Fax" />
 									</div>
-								</form>
+								</form> <!-- /ko -->
 							</div>
 							<!-- PCP -->
 							<div id="pcp" class="tab-pane">
+								<!-- ko with: referencePcp -->
 								<form class="form-inline formPadding">
 									<div class="marginBottom5">
-										<input type="text" class="input-medium"  placeholder="First Name" />
-										<input type="text" class="input-medium"  placeholder="Middle Name" />
-										<input type="text" class="input-medium"  placeholder="Last Name" />
-										<input type="text" class="input-medium"  placeholder="Degree" />
+										<input type="text" class="input-medium" data-bind="value: firstName" placeholder="First Name" />
+										<input type="text" class="input-medium" data-bind="value: middleName" placeholder="Middle Name" />
+										<input type="text" class="input-medium" data-bind="value: lastName" placeholder="Last Name" />
+										<input type="text" class="input-medium" data-bind="value: degree" placeholder="Degree" />
 									</div>
 									<div class="marginBottom5">
-										<input type="text"  placeholder="Phone" />
-										<input type="text"  placeholder="Fax" />
+										<input type="text" data-bind="value: phone" placeholder="Phone" />
+										<input type="text" data-bind="value: fax" placeholder="Fax" />
 									</div>
-								</form>
+								</form> <!-- /ko -->
 							</div>
 							<!-- Other -->
 							<div id="other" class="tab-pane">
+								<!-- ko with: referenceOther -->
 								<form class="form-inline formPadding">
 									<div class="marginBottom5">
-										<input type="text" class="input-medium"  placeholder="First Name" />
-										<input type="text" class="input-medium"  placeholder="Middle Name" />
-										<input type="text" class="input-medium"  placeholder="Last Name" />
-										<input type="text" class="input-medium"  placeholder="Degree" />
+										<input type="text" class="input-medium" data-bind="value: firstName" placeholder="First Name" />
+										<input type="text" class="input-medium" data-bind="value: middleName" placeholder="Middle Name" />
+										<input type="text" class="input-medium" data-bind="value: lastName" placeholder="Last Name" />
+										<input type="text" class="input-medium" data-bind="value: degree" placeholder="Degree" />
 									</div>
 									<div class="marginBottom5">
-										<input type="text"  placeholder="Phone" />
-										<input type="text"  placeholder="Fax" />
+										<input type="text" data-bind="value: phone" placeholder="Phone" />
+										<input type="text" data-bind="value: fax" placeholder="Fax" />
 									</div>
-								</form>
+								</form> <!-- /ko -->
 							</div>
 							<!-- Personal Reference -->
 							<div id="personalreference" class="tab-pane">
+								<!-- ko with: referencePersonal -->
 								<form class="form-inline formPadding">
 									<div class="marginBottom5">
-										<input type="text" class="input-medium" placeholder="First Name" />
-										<input type="text" class="input-medium" placeholder="Middle Name" />
-										<input type="text" class="input-medium" placeholder="Last Name" />
-										<select class="pull-right">
+										<input type="text" class="input-medium" data-bind="value: firstName" placeholder="First Name" />
+										<input type="text" class="input-medium" data-bind="value: middleName" placeholder="Middle Name" />
+										<input type="text" class="input-medium" data-bind="value: lastName" placeholder="Last Name" />
+										<select class="pull-right" data-bind="value: referral">
 											<option value="" disabled selected style="display:none;">Referral</option>
 											<option value="advertisement">Advertisement</option>
 											<option value="co-worker">Co-worker</option>
@@ -311,10 +234,10 @@ Description:
 										</select>
 									</div>
 									<div class="marginBottom5">
-										<input type="text"  placeholder="Phone" />
-										<input type="text"  placeholder="Email" />
+										<input type="text" data-bind="value: phone" placeholder="Phone" />
+										<input type="text" data-bind="value: fax" placeholder="Email" />
 									</div>
-								</form>
+								</form> <!-- /ko -->
 							</div><!-- End Personal Reference Tab -->
 						</div><!-- End Tab Content -->
 					</div><!-- End referenceTabs -->
@@ -344,24 +267,24 @@ Description:
 					<div class="row-fluid">
 						<fieldset>
 							<legend>Edit Insurance Information</legend>
-							<div>
+							<div class="marginBottom5">
 								<span class="radio inline">Primary Insured person:</span>
 								<label class="radio inline">
 									<input type="radio" data-bind="checked: insuredPerson" 
-										class="insuredPerson" name="Self" value="1" />
+										 name="Self" value="1" />
 									Self
 								</label>
 								<label class="radio inline">
 									<input type="radio" data-bind="checked: insuredPerson" 
-										class="insuredPerson" name="Self" value="2" />
+										 name="Self" value="2" />
 									Not&nbsp;Insured   
 								</label>
 								<label class="radio inline">
 									<input type="radio" data-bind="checked: insuredPerson" 
-										class="insuredPerson" name="Self" value="3" />
+										 name="Self" value="3" />
 									Other
 								</label>
-									<input type="text" class="insuredPerson input-large" data-bind="value: $root.patient().otherName" placeholder="Insurance Type" />
+								<input type="text" class="radio inline input-large" data-bind="value: $root.patient().otherName" placeholder="Insurance Type" />
 							</div>
 						</fieldset>   
 					</div>   
@@ -377,68 +300,28 @@ Description:
 								<!-- Insured Address -->
 								<fieldset>
 									<legend>Address</legend>
-									<label class="radio inline">
-										<input data-bind="checked: $root.addressEnable" type="radio" name="address" value="same" />
-										Same&nbsp;as&nbsp;patient
-									</label>
-									<label class="radio inline">
-										<input data-bind="checked: $root.addressEnable" type="radio" name="address" value="given" />
-										Given
-									</label>
-									<div>
+									<div class="marginBottom5">
+										<label class="radio inline">
+											<input data-bind="checked: $root.addressEnable" type="radio" name="address" value="same" />
+											Same&nbsp;as&nbsp;patient
+										</label>
+										<label class="radio inline">
+											<input data-bind="checked: $root.addressEnable" type="radio" name="address" value="given" />
+											Given
+										</label>
+									</div>
+									<div class="marginBottom5">
 										<input type="text" class= "input-large" placeholder="Address" 
 											data-bind="enable: $root.addressEnable() == 'given', value: address" />
 										<input type="text" class="input-small" placeholder="City" 
 											data-bind="enable: $root.addressEnable() == 'given', value: city" />
-										<select class="input-medium" 
-											data-bind="enable: $root.addressEnable() == 'given', value: state">
-											<option>State</option>
-											<option value="AL">Alabama</option>
-											<option value="AK">Alaska</option>
-											<option value="AZ">Arizona</option>
-											<option value="AR">Arkansas</option>
-											<option value="CA">California</option>
-											<option value="CO">Colorado</option>
-											<option value="CT">Connecticut</option>
-											<option value="DE">Delaware</option>
-											<option value="DC">District of Columbia</option>
-											<option value="FL">Florida</option>
-											<option value="GA">Georgia</option>
-											<option value="HI">Hawaii</option>
-											<option value="ID">Idaho</option>
-											<option value="IL">Illinois</option>
-											<option value="IN">Indiana</option>
-											<option value="IA">Iowa</option>
-											<option value="KS">Kansas</option>
-											<option value="KY">Kentucky</option>
-											<option value="LA">Louisiana</option>
-											<option value="ME">Maine</option>
-											<option value="MD">Maryland</option>
-											<option value="MA">Massachusetts</option>
-											<option value="MI">Michigan</option>
-											<option value="MN">Minnesota</option>
-											<option value="OH">Ohio</option>
-											<option value="OK">Oklahoma</option>
-											<option value="OR">Oregon</option>
-											<option value="PA">Pennsylvania</option>
-											<option value="RI">Rhode Island</option>
-											<option value="SC">South Carolina</option>
-											<option value="SD">South Dakota</option>
-											<option value="TN">Tennessee</option>
-											<option value="TX">Texas</option>
-											<option value="UT">Utah</option>
-											<option value="VT">Vermont</option>
-											<option value="VA">Virginia</option>
-											<option value="WA">Washington</option>
-											<option value="WV">West Virginia</option>
-											<option value="WI">Wisconsin</option>
-											<option value="WY">Wyoming</option>
+										<select data-bind="enable: $root.addressEnable() == 'given', options: $root.form.states, optionsText: 
+											'text', optionsValue: 'value', optionsCaption: 'State', value: state" class="input-medium">
 										</select>
 										<input type="text" class= "input-small" placeholder="ZipCode" 
 											data-bind="enable: $root.addressEnable() == 'given', value: zip" />
-										<select class="input-medium" 
-											data-bind="enable: $root.addressEnable() == 'given', value: country">
-											<option>USA </option>
+										<select data-bind="enable: $root.addressEnable() == 'given', options: $root.form.countries, optionsText: 
+											'text', optionsValue: 'value', optionsCaption: 'Country', value: country" class="input-medium">
 										</select>
 									</div>
 								</fieldset>
@@ -458,21 +341,23 @@ Description:
 								<!-- Employer Information -->
 								<fieldset>
 									<legend>Employer</legend>
-									<label class="radio inline">
-										<input type="radio" class="insuredPerson" name="employer" value="same"
-											data-bind="checked: $root.employerEnable" />
-										Same&nbsp;as&nbsp;patient
-									</label>
-									<label class="radio inline">
-										<input type="radio" class="insuredPerson" name="employer" value="given"
-											data-bind="checked: $root.employerEnable" />
-										As&nbsp;Given
-									</label>
-									<label class="radio inline">
-										<input type="radio" class="insuredPerson" name="employer" value="na"
-											data-bind="checked: $root.employerEnable" />
-										NA
-									</label>
+									<div class="marginBottom5">
+										<label class="radio inline">
+											<input type="radio"  name="employer" value="same"
+												data-bind="checked: $root.employerEnable" />
+											Same&nbsp;as&nbsp;patient
+										</label>
+										<label class="radio inline">
+											<input type="radio"  name="employer" value="given"
+												data-bind="checked: $root.employerEnable" />
+											As&nbsp;Given
+										</label>
+										<label class="radio inline">
+											<input type="radio"  name="employer" value="na"
+												data-bind="checked: $root.employerEnable" />
+											NA
+										</label>
+									</div>
 									<div>
 										<input type="text" class= "input-large"  placeholder="Name"
 											data-bind="enable: $root.employerEnable() == 'given', value: employer" />
@@ -509,7 +394,7 @@ Description:
 				</form>
 				<div class="row-fluid">
 					<!-- Insurance Detail Tabs -->
-					<div class="tabbable insuranceTabs">
+					<div class="tabbable formTabs">
 						<ul class="nav nav-tabs">
 							<li class="active"><a href="#primaryPane" data-toggle="tab">Primary Insurance</a></li>
 							<li><a href="#secondaryPane" data-toggle="tab">Secondary Insurance</a></li>
@@ -523,7 +408,7 @@ Description:
 										<div class="marginBottom5">
 										<input type="text" data-bind="value: companyName" 
 											class="input-large" placeholder="Insurance Company" />
-										<input type="text" data-bind="value: effectiveDate,datepicker: true"
+										<input type="text" data-bind="value: effectiveDate, datepicker: true"
 											class="input-small"  placeholder="Effective Date" />
 										</div>
 										<div class="marginBottom5">
@@ -534,12 +419,12 @@ Description:
 											<span class="radio inline">Subject to Pre-Existing Clause?</span>
 											<label class="radio inline">
 												<input type="radio" data-bind="checked: existingClause"
-													class="insuredPerson" name="clauseOption" value="1" />
+													 name="clauseOption" value="1" />
 												<span>Yes</span>
 											</label>
 											<label class="radio inline">
 												<input type="radio" data-bind="checked: existingClause"
-													class="insuredPerson" name="clauseOption" value="0" />
+													 name="clauseOption" value="0" />
 												<span>No</span>
 											</label>
 										</div>
@@ -667,12 +552,12 @@ Description:
 													<span class="radio inline">Verified ?</span>
 													<label class="radio inline">
 														<input type="radio" data-bind="checked: verification"
-															class="insuredPerson" name="plan" value="1" />
+															 name="plan" value="1" />
 														<span>Yes</span>
 													</label>
 													<label class="radio inline">
 														<input type="radio" data-bind="checked: verification" 
-															class="insuredPerson" name="plan" value="0" />
+															 name="plan" value="0" />
 														<span>No</span>
 													</label>   
 													<input type="text" class="input-medium" data-bind="value: verificationDate,
@@ -707,12 +592,12 @@ Description:
 											<span class="radio inline">Subject to Pre-Existing Clause?</span>
 											<label class="radio inline">
 												<input type="radio" data-bind="checked: existingClause"
-													class="insuredPerson" name="clauseOption" value="1" />
+													 name="clauseOption" value="1" />
 												<span>Yes</span>
 											</label>
 											<label class="radio inline">
 												<input type="radio" data-bind="checked: existingClause"
-													class="insuredPerson" name="clauseOption" value="0" />
+													 name="clauseOption" value="0" />
 												<span>No</span>
 											</label>
 										</div>
@@ -720,26 +605,26 @@ Description:
 											<span class="radio inline">Plan?</span>
 											<label class="radio inline">
 												<input type="radio" data-bind="checked: plan"
-													class="insuredPerson" name="plan" value="hmo" />
+													 name="plan" value="hmo" />
 												<span>HMO</span>
 											</label>
 											<label class="radio inline">
 												<input type="radio" data-bind="checked: plan"
-													class="insuredPerson" name="plan" value="epo" />
+													 name="plan" value="epo" />
 												<span>EPO</span>
 											</label>
 											<label class="radio inline">
 												<input type="radio" data-bind="checked: plan"
-													class="insuredPerson" name="plan" value="pos" />
+													 name="plan" value="pos" />
 												<span>POS</span>
 											</label>        
 											<label class="radio inline">    
 												<input type="radio" data-bind="checked: plan" 
-													class="insuredPerson" name="plan" value="ppo" />
+													 name="plan" value="ppo" />
 												<span>PPO</span>   
 											</label>    
 											<label class="radio inline">
-												<input type="radio" class="insuredPerson" name="plan" value="Other" /><span>Other</span>
+												<input type="radio"  name="plan" value="Other" /><span>Other</span>
 											</label>
 											<input type="text" 
 												class="input-small" placeholder="Self" />
@@ -839,12 +724,12 @@ Description:
 													<span class="radio inline">Verified ?</span>
 													<label class="radio inline">
 														<input type="radio" data-bind="checked: verification"
-															class="insuredPerson" name="plan" value="1" />
+															 name="plan" value="1" />
 														<span>Yes</span>
 													</label>
 													<label class="radio inline">
 														<input type="radio" data-bind="checked: verification" 
-															class="insuredPerson" name="plan" value="0" />
+															 name="plan" value="0" />
 														<span>No</span>
 													</label>
 													<input type="text" class="input-medium" data-bind="value: verificationDate, 
@@ -879,12 +764,12 @@ Description:
 											<span class="radio inline">Subject to Pre-Existing Clause?</span>
 											<label class="radio inline">
 												<input type="radio" data-bind="checked: existingClause"
-													class="insuredPerson" name="clauseOption" value="1" />
+													 name="clauseOption" value="1" />
 												<span>Yes</span>
 											</label>
 											<label class="radio inline">
 												<input type="radio" data-bind="checked: existingClause"
-													class="insuredPerson" name="clauseOption" value="0" />
+													 name="clauseOption" value="0" />
 												<span>No</span>
 											</label>
 										</div>
@@ -892,26 +777,26 @@ Description:
 											<span class="radio inline">Plan?</span>
 											<label class="radio inline">
 												<input type="radio" data-bind="checked: plan"
-													class="insuredPerson" name="plan" value="hmo" />
+													 name="plan" value="hmo" />
 												<span>HMO</span>
 											</label>
 											<label class="radio inline">
 												<input type="radio" data-bind="checked: plan"
-													class="insuredPerson" name="plan" value="epo" />
+													 name="plan" value="epo" />
 												<span>EPO</span>
 											</label>
 											<label class="radio inline">
 												<input type="radio" data-bind="checked: plan"
-													class="insuredPerson" name="plan" value="pos" />
+													 name="plan" value="pos" />
 												<span>POS</span>
 											</label>
 											<label class="radio inline">
 												<input type="radio" data-bind="checked: plan" 
-													class="insuredPerson" name="plan" value="ppo" />
+													 name="plan" value="ppo" />
 												<span>PPO</span>
 											</label>
 											<label class="radio inline">
-												<input type="radio" class="insuredPerson" name="plan" value="Other" /><span>Other</span>
+												<input type="radio"  name="plan" value="Other" /><span>Other</span>
 											</label>
 											<input type="text" data-bind="value: planOther"
 												class="input-small" placeholder="Plan Type" />
@@ -1011,12 +896,12 @@ Description:
 													<span class="radio inline">Verified ?</span>
 													<label class="radio inline">
 														<input type="radio" data-bind="checked: verification"
-															class="insuredPerson" name="plan" value="1" />
+															 name="plan" value="1" />
 														<span>Yes</span>
 													</label>
 													<label class="radio inline">
 														<input type="radio" data-bind="checked: verification" 
-															class="insuredPerson" name="plan" value="0" />
+															 name="plan" value="0" />
 														<span>No</span>
 													</label>
 													<input type="text" class="input-medium" data-bind="value: verificationDate,

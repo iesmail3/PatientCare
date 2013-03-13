@@ -10,6 +10,7 @@ define(function(require) {
 	var system = require('durandal/system');			// System logger
 	var custom = require('durandal/customBindings');	// Custom bindings
 	var Backend = require('modules/patient');			// Module
+	var Forms = require('modules/form');
 	
 	// Patient     
 	function Patient(data) {
@@ -257,7 +258,6 @@ define(function(require) {
 		}
 	};
 	
-	/*
 	function Reference(data) {
 		var self = this;
 		
@@ -288,7 +288,6 @@ define(function(require) {
 			self.referral	= ko.observable();
 		}
 	}
-	*/
 	
 	/*********************************************************************************************** 
 	 * KO Observables
@@ -302,14 +301,13 @@ define(function(require) {
 	var guarantor 			= ko.observable(new Guarantor());
 	var employer			= ko.observable(new Employer());
 	var spouse				= ko.observable(new Spouse());
-	//var reference			= ko.observable(new Reference());
 	var addressEnable		= ko.observable("given");
 	var employerEnable		= ko.observable();
 	var personalEmployer	= ko.observable();
-	//var referencePhysician	= ko.observable();
-	//var referencePcp		= ko.observable();
-	//var referenceOther		= ko.observable();
-	//var referencePersonal	= ko.observable();
+	var referencePhysician	= ko.observable(new Reference());
+	var referencePcp		= ko.observable(new Reference());
+	var referenceOther		= ko.observable(new Reference());
+	var referencePersonal	= ko.observable(new Reference());
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -326,6 +324,7 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
+		form: new Forms(),
 		patientId: patientId,
 		patient: patient,
 		insuredPerson: insuredPerson,
@@ -335,14 +334,13 @@ define(function(require) {
 		guarantor: guarantor,
 		employer: employer,
 		spouse: spouse,
-		//reference: reference,
 		addressEnable: addressEnable,
 		employerEnable: employerEnable,
 		personalEmployer: personalEmployer,
-		//referencePhysician: referencePhysician,
-		//referencePcp: referencePcp,
-		//referenceOther: referenceOther,
-		//referencePersonal: referencePersonal,
+		referencePhysician: referencePhysician,
+		referencePcp: referencePcp,
+		referenceOther: referenceOther,
+		referencePersonal: referencePersonal,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -460,19 +458,18 @@ define(function(require) {
 			 * If no reference information is returned, set insuredPerson to not insured. Otherwise
 			 * for each type of insurance, set appropriate observable.
 			 *************************************************************************************/
-			/*
 			return backend.getReference(self.patientId()).success(function(data) {
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
 						var i = new Reference(data[count]);
-						switch(i.referenceType()) {
+						switch(i.type()) {
 							case 'referringphysician':
 								self.referencePhysician(i);
 								break;
 							case 'pcp':
 								self.referencePcp(i);
 								break;
-							case 'personal':
+							case 'personalreference':
 								self.referencePersonal(i);
 								break;
 							default:
@@ -482,7 +479,6 @@ define(function(require) {
 					}
 				}
 			});
-			*/
 			
 			/**************************************************************************************
 			 * Insurance Information
