@@ -1,4 +1,4 @@
-legend {
+.legend {
 	font-size: 14pt;
 }
 
@@ -8,22 +8,22 @@ legend {
 
 .patientTree {
 	background-color: rgb(250,250,250);
-	margin-top: 10px;
+	margin-top: 10px;    
 }
 
-.contentPane {
+.contentPane {        
 	background-color: rgb(250,250,250);
 	margin-top: 10px;
-}
+}    
 
 .contentPane .container-fluid {
 	padding: 5px;
 }
-
+     
 
 .fill {
-	height: 100%;
-}
+	height: 100%;   
+}                               
 
 .patientRecordNav {
 	margin-left: 10px !important;
@@ -73,7 +73,7 @@ legend {
 	overflow-y: auto;
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 5px;
-<<<<<<< HEAD
+
 }
 
 .employedPerson {
@@ -87,9 +87,6 @@ legend {
 #referringphysician form {       
 	padding: 10px; 
 }        
-=======
-}
->>>>>>> 2c8968e8c7074e8e5cb347d1013beb616df912ae
 
 .marginBottom5 {
 	margin-bottom: 5px;

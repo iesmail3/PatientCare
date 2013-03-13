@@ -22,7 +22,7 @@ Description:
 							<legend>Schedule a FollowUp</legend>
 							<div class="marginBottom5">
 								<label class="radio inline">
-									<input type="radio" class="insuredPerson" name="followUp" value="1"/>
+									<input type="radio" class="insuredPerson" name="followup" value="1"/>
 									Follow up in
 								</label>
 								<input type="text" placeholder="0"/>
@@ -35,20 +35,20 @@ Description:
 							</div>
 							<div>
 								<label class="radio inline">
-									<input type="radio" class="insuredPerson" name="followUp" value="1"/>
+									<input type="radio" class="insuredPerson" name="followup" value="1"/>
 									Follow up after
-								</label>
-								<input type="text" placeholder=""/>
-							</div>
+								</label>   
+								<input type="text" placeholder=""/>   
+							</div>   
 							<div>
 								<label class="radio inline">
-									<input type="radio" class="insuredPerson" name="followUp" value="1"/>
+									<input type="radio" class="insuredPerson" name="followup" value="1"/>
 									Follow up PRN
 								</label>
 							</div>
 							<div>
 								<label class="radio inline">
-									<input type="radio" class="insuredPerson" name="followUp" value="1" />
+									<input type="radio" class="insuredPerson" name="followup" value="1" />
 									No Follow up
 								</label>
 							</div>
@@ -71,11 +71,19 @@ Description:
 								<th>Comments</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody data-bind="foreach: followups">
+							<tr data-bind="click: setFields">     
+								<td data-bind="text: serviceDate"></td>
+								<td data-bind="text: plan"></td>
+								<td data-bind="text: followupType"></td>
+								<td data-bind="text: value"></td>
+								<td data-bind="text: comment"></td>
+								<td><a class="btn btn-small btn-danger">Delete</a></td>
+							</tr>
 						</tbody>
 					</table>
-				</div>
-			</div>
+				</div>       
+			</div>    
 		</div>
 		<div class="tab-pane outerPane" id="checkout">
 			<div class="formScroll">
@@ -102,7 +110,7 @@ Description:
 												<input type="checkbox"/><span>Primary($7000)</span>
 											</label>
 										</div>
-									</div>
+									</div>  
 								</div>
 								<div class="marginBottom5">
 									<span class="label">Co-Payment amount</span>
@@ -358,6 +366,16 @@ Description:
 									<th>Is Reviewed?</th>
 									<th>Comments</th>
 								</tr>
+								<tbody data-bind="foreach: followups">
+									<tr>
+										<td data-bind="text: serviceDate"></td>
+										<td data-bind="text: plan"></td>
+										<td data-bind="text: followupType"></td>
+										<td data-bind="text: value"></td>
+										<td data-bind="text: comment"></td>	
+										<td><a class="btn btn-small btn-danger">Delete</a></td> 
+									</tr>
+		                         </tbody>
 							</thead>
 							<tbody>
 							</tbody>
