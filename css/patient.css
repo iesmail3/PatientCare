@@ -61,32 +61,19 @@ legend {
 	padding: 0 10px;
 }
 
-/* Insurance */
-.insuredPerson { 
-	margin: 12px;    
-}
-
-.sameAsPatient{ 
-	margin-right: 305px;
-}
-
-.insuranceTabs {
+.formTabs {
 	clear: both;
 }
 
-.formPadding{
+.formPadding {
 	padding: 10px;   
 }
 
-.deductible {
-	margin-bottom: 5px;    
-}
-
-/* Personal Information */
 .formScroll {
 	overflow-y: auto;
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 5px;
+<<<<<<< HEAD
 }
 
 .employedPerson {
@@ -100,6 +87,9 @@ legend {
 #referringphysician form {       
 	padding: 10px; 
 }        
+=======
+}
+>>>>>>> 2c8968e8c7074e8e5cb347d1013beb616df912ae
 
 .marginBottom5 {
 	margin-bottom: 5px;
