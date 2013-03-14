@@ -16,6 +16,7 @@ define(function(require) {
 	var social = require('viewmodels/patient/socialandfamily');
 	var service = require('viewmodels/patient/servicerecord');
 	var followup = require('viewmodels/patient/followup');
+	var illness = require('viewmodels/patient/servicerecord/historypresentillness');
 	
 	/*********************************************************************************************** 
 	 * Patient Structure
@@ -104,6 +105,10 @@ define(function(require) {
 	 var followupUrl = ko.computed(function(element) {
 	 	return '#/patient/followup/' + patientId();
 	 });
+	 // History Present Illness url generator
+	 var illnessUrl = ko.computed(function(element) {
+		return '#/patient/servicerecord/historypresentillness/' + patientId();
+	 });
 
 	/*********************************************************************************************** 
 	 * ViewModel
@@ -123,6 +128,7 @@ define(function(require) {
 		social: social,
 		service: service,
 		followup: followup,
+		illness: illness,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -160,9 +166,12 @@ define(function(require) {
             	case 'followup': 
             		self.currentView.activateItem(followup, data);
             		break;
+				case 'historypresentillness':
+					self.currentView.activateItem(illness, data);
+					break;
             	default: 
             		self.currentView.activateItem(personal, data);
-            		break;				 	
+            		break;
             }
             
             // Load Patient information
@@ -185,6 +194,7 @@ define(function(require) {
 		personalUrl: personalUrl,
 		socialUrl: socialUrl,
 		serviceUrl: serviceUrl,
-		followupUrl: followupUrl
+		followupUrl: followupUrl,
+		illnessUrl: illnessUrl
 	};
 });
