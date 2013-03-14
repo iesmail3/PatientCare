@@ -16,7 +16,11 @@ define(function(require) {
 	var social = require('viewmodels/patient/socialandfamily');
 	var service = require('viewmodels/patient/servicerecord');
 	var followup = require('viewmodels/patient/followup');
-	var illness = require('viewmodels/patient/servicerecord/historypresentillness');
+	var history = require('viewmodels/patient/servicerecord/historypresentillness');
+	var physical = require('viewmodels/patient/servicerecord/physicalexamination');
+	var lab = require('viewmodels/patient/servicerecord/labxrayreport');
+	var diagnosis = require('viewmodels/patient/servicerecord/diagnosisplaninstruction');
+	var order = require('viewmodels/patient/servicerecord/order');
 	
 	/*********************************************************************************************** 
 	 * Patient Structure
@@ -106,8 +110,24 @@ define(function(require) {
 	 	return '#/patient/followup/' + patientId();
 	 });
 	 // History Present Illness url generator
-	 var illnessUrl = ko.computed(function(element) {
-		return '#/patient/servicerecord/historypresentillness/' + patientId();
+	 var historyUrl = ko.computed(function(element) {
+		return '#/patient/historypresentillness/' + patientId();
+	 });
+	 // Physical Examinations url generator
+	 var physicalUrl = ko.computed(function(element) {
+		return '#/patient/physicalexamination/' + patientId();
+	 });
+	 // Labs & X-ray Reports url generator
+	 var labUrl = ko.computed(function(element) {
+		return '#/patient/labxrayreport/' + patientId();
+	 });
+	 // Diagnosis Plan and Instructions url generator
+	 var diagnosisUrl = ko.computed(function(element) {
+		return '#/patient/diagnosisplaninstruction/' + patientId();
+	 });
+	 // Orders url generator
+	 var orderUrl = ko.computed(function(element) {
+		return '#/patient/order/' + patientId();
 	 });
 
 	/*********************************************************************************************** 
@@ -128,7 +148,11 @@ define(function(require) {
 		social: social,
 		service: service,
 		followup: followup,
-		illness: illness,
+		history: history,
+		physical: physical,
+		lab: lab,
+		diagnosis: diagnosis,
+		order: order,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -154,7 +178,7 @@ define(function(require) {
 			// Get URL parameters (make sure to create an observable above for each)
 			self.patientId(data.patientId);
             var view = data.view;
-            
+			
             // Switch view
             switch(view) {
             	case 'socialandfamily': 
@@ -167,7 +191,19 @@ define(function(require) {
             		self.currentView.activateItem(followup, data);
             		break;
 				case 'historypresentillness':
-					self.currentView.activateItem(illness, data);
+					self.currentView.activateItem(history, data);
+					break;
+				case 'physicalexamination':
+					self.currentView.activateItem(physical, data);
+					break;
+				case 'labxrayreport':
+					self.currentView.activateItem(lab, data);
+					break;
+				case 'diagnosisplaninstruction':
+					self.currentView.activateItem(diagnosis, data);
+					break;
+				case 'order':
+					self.currentView.activateItem(order, data);
 					break;
             	default: 
             		self.currentView.activateItem(personal, data);
@@ -195,6 +231,10 @@ define(function(require) {
 		socialUrl: socialUrl,
 		serviceUrl: serviceUrl,
 		followupUrl: followupUrl,
-		illnessUrl: illnessUrl
+		historyUrl: historyUrl,
+		physicalUrl: physicalUrl,
+		labUrl: labUrl,
+		diagnosisUrl: diagnosisUrl,
+		orderUrl: orderUrl
 	};
 });

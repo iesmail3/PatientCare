@@ -20,11 +20,11 @@ Description: This view is the outer patient view. It will hold the tree
 							<ul data-bind="foreach: serviceRecords">
 								<li data-bind="text: date"></li>
 								<ul>
-									<li><a data-bind="attr: {href: $root.illnessUrl}">History & Present Illness</a></li>
-									<li>Physical Examinations</li>
-									<li>Labs & X-ray Reports</li>
-									<li>Diagnosis, Plans, and Instructions</li>
-									<li>Orders</li>
+									<li><a data-bind="attr: {href: $root.historyUrl}">History & Present Illness</a></li>
+									<li><a data-bind="attr: {href: $root.physicalUrl}">Physical Examinations</a></li>
+									<li><a data-bind="attr: {href: $root.labUrl}">Labs & X-ray Reports</a></li>
+									<li><a data-bind="attr: {href: $root.diagnosisUrl}">Diagnosis, Plans, and Instructions</a></li>
+									<li><a data-bind="attr: {href: $root.orderUrl}">Orders</a></li>
 								</ul>
 							</ul>
 						</div>

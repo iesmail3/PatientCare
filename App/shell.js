@@ -17,7 +17,7 @@ define(function(require) {
             // Add url variables
             router.mapRoute('#/patient/:view', 'viewmodels/patient');
             router.mapRoute('#/patient/:view/:patientId', 'viewmodels/patient');
-			router.mapRoute('#/patient/servicerecord/:view/:patientId/:date', 'viewmodels/patient/servicerecord');
+			router.mapRoute('#/patient/servicerecord/:view/:patientId', 'viewmodels/patient/servicerecord');
             
             // Set initial view
             return router.activate('managepatients');
