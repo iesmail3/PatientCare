@@ -14,19 +14,199 @@ Description:
 
 	<div class="tab-content">
 		<div class="tab-pane outerPane active" id="history">
-			<h2>History</h2>
+			<div class="formScroll">
+				<form class="form-inline formPadding">
+					<div class="row-fluid">
+						<div class="marginBottom5 commentContainer">
+							<textarea class="commentSpan" rows="5" placeholder="History details" /></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div>
+				<div class="pull-right">
+					<button type="submit" class="btn btn-small btn-primary">Save</button>
+					<button type="button" class="btn btn-small btn-warning">Clear</button>
+				</div>
+			</div>
 		</div>
 		<div class="tab-pane outerPane" id="review">
-			<h2>Review of Systems</h2>
+			<div class="formScroll">
+				<div class="row-fluid">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Particulars</th>
+								<th>Type</th>
+								<th>Comment</th>
+								<th></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<form class="form-inline formPadding">
+					<div class="row-fluid">
+						<div class="marginBottom5 commentContainer">
+							<textarea class="commentSpan" rows="3" placeholder="Comments" /></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
 		<div class="tab-pane outerPane" id="problem">
-			<h2>Medical Problems</h2>
+			<form class="form-inline formPadding">
+				<div class="row-fluid">
+					<div class="marginBottom5">
+						<select>
+							<option value="" disabled selected style="display:none;">Problem Type</option>
+							<option value="placeholder">placeholder</option>
+						</select>
+					</div>
+					<div class="marginBottom5 commentContainer">
+						<textarea class="commentSpan" rows="3" placeholder="Description" /></textarea>
+					</div>
+					<div class="marginBottom5">
+						<input type="text" placeholder="Onset Date" data-bind="datepicker: true" />
+						<label class="checkbox inline">
+							<input type="checkbox" />
+							<span>Unknown</span>
+						</label>
+					</div>
+					<div class="marginBottom5">
+						<input type="text" placeholder="Resolution Date" data-bind="datepicker: true" />
+						<label class="checkbox inline">
+							<input type="checkbox" />
+							<span>Unknown</span>
+						</label>
+					</div>
+					<div class="pull-right">
+						<button type="submit" class="btn btn-small btn-primary">Save</button>
+						<button type="button" class="btn btn-small btn-warning">Cancel</button>
+					</div>
+				</div>
+			</form>
+			<div class="row-fluid">
+				<table class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Type of Problem</th>
+							<th>Description</th>
+							<th>Onset Date</th>
+							<th>Resolution Date</th>
+							<th></th>
+						</tr>
+					</thead>
+				</table>
+			</div>
 		</div>
 		<div class="tab-pane outerPane" id="medication">
-			<h2>Medication</h2>
+			<form class="form-inline formPadding">
+				<div class="row-fluid">
+					<div class="marginBottom5">
+						<input type="text" placeholder="Medicine" />
+						<select>
+							<option value="" disabled selected style="display:none;">Strength</option>
+							<option value="placeholder">placeholder</option>
+						</select>
+					</div>
+					<div class="marginBottom5">
+						<input type="text" placeholder="Quantity" />
+						<select>
+							<option value="" disabled selected style="display:none;">Route</option>
+							<option value="placeholder">placeholder</option>
+						</select>
+						<select>
+							<option value="" disabled selected style="display:none;">Sigs</option>
+							<option value="placeholder">placeholder</option>
+						</select>
+					</div>
+					<div class="marginBottom5">
+						<select>
+							<option value="" disabled selected style="display:none;">Status</option>
+							<option value="placeholder">placeholder</option>
+						</select>
+					</div>
+					<div class="marginBottom5">
+						<input type="text" placeholder="Prescribed By" />
+						<input type="text" placeholder="Prescription Date" data-bind="datepicker: true" />
+						<input type="text" placeholder="Discontinued By" />
+						<input type="text" placeholder="Discontinuation Date" data-bind="datepicker: true" />
+					</div>
+					<div class="marginBottom5 commentContainer">
+						<textarea class="commentSpan" rows="3" placeholder="Comments" /></textarea>
+					</div>
+					<div class="pull-right">
+						<button type="submit" class="btn btn-small btn-primary">Save</button>
+						<button type="button" class="btn btn-small btn-warning">Cancel</button>
+					</div>
+				</div>
+			</form>
+			<div class="row-fluid">
+				<table class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Medicine Name</th>
+							<th>Strength</th>
+							<th>Quantity</th>
+							<th>Route</th>
+							<th>Sigs</th>
+							<th>Status</th>
+							<th>Prescribed By</th>
+							<th></th>
+						</tr>
+					</thead>
+				</table>
+			</div>
 		</div>
 		<div class="tab-pane outerPane" id="allergy">
-			<h2>Allergies/Intolerance</h2>
+			<form class="form-inline formPadding">
+				<div class="row-fluid">
+					<div class="marginBottom5">
+						<label class="checkbox inline">
+							<input type="checkbox" />
+							<span>No Known Allergies</span>
+						</label>
+						<label class="checkbox inline">
+							<input type="checkbox" />
+							<span>Allergies Verified</span>
+						</label>
+					</div>
+					<div class="marginBottom5 commentContainer">
+						<textarea class="commentSpan" rows="3" placeholder="Allergy Details" /></textarea>
+					</div>
+					<div class="marginBottom5">
+						<select>
+							<option value="" disabled selected style="display:none;">Type</option>
+							<option value="placeholder">placeholder</option>
+						</select>
+						<select>
+							<option value="" disabled selected style="display:none;">Status</option>
+							<option value="placeholder">Active</option>
+						</select>
+					</div>
+					<div class="pull-right">
+						<button type="submit" class="btn btn-small btn-primary">Save</button>
+						<button type="button" class="btn btn-small btn-warning">Cancel</button>
+					</div>
+				</div>
+			</form>
+			<div class="row-fluid">
+				<table class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Type</th>
+							<th>Details</th>
+							<th>Status</th>
+							<th>Date Recorded</th>
+							<th></th>
+						</tr>
+					</thead>
+				</table>
+			</div>
 		</div>
 	</div>
 </div>
