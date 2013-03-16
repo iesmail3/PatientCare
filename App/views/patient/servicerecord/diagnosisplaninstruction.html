@@ -13,16 +13,130 @@ Description:
 
 	<div class="tab-content">
 		<div class="tab-pane outerPane active" id="diagnosis">
-			<h2>Diagnosis</h2>
+			<div class="formScroll formPadding">
+				<div class="row-fluid">
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Diagnosis</th>
+								<th>Code</th>
+								<th></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="pull-right">
+					<button type="button" class="btn btn-small">Print Letter</button>
+					<button type="submit" class="btn btn-small btn-primary">Save</button>
+					<button type="button" class="btn btn-small btn-danger">Delete</button>
+				</div>
+			</div>
 		</div>
 		<div class="tab-pane outerPane" id="plan">
-			<h2>Plan & Instructions</h2>
+			<div class="formScroll">
+				<form class="form-inline formPadding">
+					<div class="row-fluid">
+						<div class="marginBottom5 commentContainer">
+							<textarea class="commentSpan" rows="5" /></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="row-fluid">
+				<div class="pull-right">
+					<button type="button" class="btn btn-small">Print Letter</button>
+					<button type="submit" class="btn btn-small btn-primary">Save</button>
+					<button type="button" class="btn btn-small btn-danger">Delete</button>
+				</div>
+			</div>
 		</div>
 		<div class="tab-pane outerPane" id="guidance">
-			<h2>Guidance</h2>
+			<div class="formScroll">
+				<form class="form-inline formPadding">
+					<div class="row-fluid">
+						<div class="marginBottom5">
+							<select>
+								<option value="" disabled selected style="display:none;">Age Category</option>
+								<option value="placeholder">placeholder</option>
+							</select>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="row-fluid">
+				<div class="pull-right">
+					<button type="submit" class="btn btn-small btn-primary">Save</button>
+				</div>
+			</div>
 		</div>
 		<div class="tab-pane outerPane" id="development">
-			<h2>Development</h2>
+			<div class="formScroll">
+				<form class="form-inline formPadding">
+					<div class="row-fluid">
+						<div class="marginBottom5">
+							<select>
+								<option value="" disabled selected style="display:none;">Age Category</option>
+								<option value="placeholder">placeholder</option>
+							</select>
+						</div>
+						<div class="marginBottom5">
+							<input type="text" placeholder="Breast" />
+							<span>q</span>
+							<input type="text" placeholder="Breast" />
+							<span>h</span>
+						</div>
+						<div class="marginBottom5">
+							<input type="text" placeholder="Bottle" />
+							<input type="text" placeholder="Type of Formula" />
+						</div>
+						<div class="marginBottom5">
+							<label class="checkbox inline">
+								<input type="checkbox" />
+								<span>Weaned</span>
+							</label>
+							<input type="text" placeholder="Baby Food" />
+							<span>xd</span>
+							<input type="text" placeholder="Cereal" />
+							<span>xd</span>
+							<label class="checkbox inline">
+								<input type="checkbox" />
+								<span>Table Food</span>
+							</label>
+						</div>
+						<div class="marginBottom5">
+							<span class="radio inline">Nutrition</span>
+							<label class="radio inline">
+								<input type="radio" name="nutrition" value="1" /><span>Eats Well</span>
+							</label>
+							<label class="radio inline">
+								<input type="radio" name="nutrition" value="2" /><span>Does Not Eat Well</span>
+							</label>
+						</div>
+						<div class="marginBottom5">
+							<label class="checkbox inline">
+								<input type="checkbox" />
+								<span>Turns Head</span>
+							</label>
+							<label class="checkbox inline">
+								<input type="checkbox" />
+								<span>Focuses</span>
+							</label>
+							<label class="checkbox inline">
+								<input type="checkbox" />
+								<span>Hears</span>
+							</label>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="row-fluid">
+				<div class="pull-right">
+					<button type="button" class="btn btn-small">Add</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
