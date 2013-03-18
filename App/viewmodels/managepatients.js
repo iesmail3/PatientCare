@@ -79,7 +79,7 @@ define(function(require) {
 					reg = new RegExp(keyword().toLowerCase() + "+");
 					break;
 			}
-			
+			     
 			if(param != '') {
 				var check = patient[param]();
 				if (check.match(reg))

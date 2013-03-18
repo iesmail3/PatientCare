@@ -20,8 +20,9 @@ define(function(require) {
 		var self = this; 
 		
 		if(data!= null) { 
+			//system.log(data.serviceDate);
 			self.patientId      = ko.observable(data.patient_id); 
-			self.followupType 	= ko.observable(data.type); 
+			self.type 			= ko.observable(data.type); 
 			self.value 	   		= ko.observable(data.value); 
 			self.unit 			= ko.observable(data.unit); 
 			self.comment 		= ko.observable(data.comment); 
@@ -30,7 +31,7 @@ define(function(require) {
 		}
 		else {				
 			self.patientId      = ko.observable(); 
-			self.followupType 	= ko.observable(); 
+			self.type 			= ko.observable(); 
 			self.value 			= ko.observable(); 
 			self.unit 			= ko.observable(); 
 			self.comment 		= ko.observable();
@@ -122,7 +123,6 @@ define(function(require) {
 		}
 	}
 	
-	// Superbill is one word. No need to camelCase it.
 	// Superbill
 	function Superbill(data) { 
 		var self = this; 
@@ -145,9 +145,9 @@ define(function(require) {
 		}   
 	}
 	
-	// You can probably just call this Document
+	
 	// Misc Doc 
-	function MiscDoc(data) { 
+	function Document(data) { 
 		var self = this; 
 		
 		if(data != null) { 
@@ -181,7 +181,7 @@ define(function(require) {
 	 var phoneLog       = ko.observable(new PhoneLog()); 
 	 var superBill      = ko.observable(new Superbill()); 
 	 var prescription   = ko.observable(new Prescription());
-	 var miscDoc        = ko.observable(new MiscDoc());  
+	 var Document       = ko.observable(new Document());  
 	 var patientId      = ko.observable(); 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -199,18 +199,18 @@ define(function(require) {
 		 * Attributes
 		 *******************************************************************************************/
 		followup: followup,
-		followups:followups, 
-		checkOut:checkOut, 
-		phoneLog:phoneLog,
-		superBill:superBill, 
-		prescription:prescription,	
-		miscDoc:miscDoc,
-		patientId:patientId,
+		followups: followups, 
+		checkOut: checkOut, 
+		phoneLog: phoneLog,
+		superBill: superBill, 
+		prescription: prescription,
+		Document: Document,
+		patientId: patientId,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
 		// This allow manipulation of the DOM
-		viewAttached: function() {
+		viewAttached: function() {       
 			$('#followupTab a').click(function(e) {
 				e.preventDefault();
   				$(this).tab('show');
@@ -234,12 +234,12 @@ define(function(require) {
 			
 			var f = new Followup({
 				patientId : 123, 
-				followupType : 'testType', 
-				value : 'testValue', 
-				unit : 'kg', 
+				type : '1', 
+				value : '12', 
+				unit : 'Weeks', 
 				comment : 'This is a test comment.', 
 				plan : 'testPlan', 
-				serviceDate : '01/02/2013'
+				service_date : '01/02/2013'
 			});
 			
 			self.followup(f);
@@ -247,42 +247,54 @@ define(function(require) {
 			var temp = [
 				new Followup({
 					patientId : 123, 
-					followupType : 'testType', 
-					value : 'testValue', 
-					unit : 'kg', 
+					type : '1', 
+					value : '5', 
+					unit : 'Weeks', 
 					comment : 'This is a test comment.', 
 					plan : 'testPlan', 
-					serviceDate : '01/02/2013'
+					service_date : '01/02/2013'
 				}),
 				new Followup({
 					patientId : 123, 
-					followupType : 'testType2', 
-					value : 'testValue2', 
-					unit : 'kg', 
+					type : '1', 
+					value : '6', 
+					unit : 'Days', 
 					comment : 'This is also test comment.', 
 					plan : 'testPlan2', 
-					serviceDate : '01/03/2013'
+					service_date : '01/03/2013'
 				}),
 				new Followup({
 					patientId : 123, 
-					followupType : 'testType3', 
-					value : 'testValue3', 
-					unit : 'lb', 
-					comment : 'This is also test comment.', 
-					plan : 'testPlan3', 
-					serviceDate : '01/04/2013'
+					type : '2',   
+					value : '1', 
+					unit : 'Months', 
+					comment : 'This is also test comment.',       
+					plan : 'testPlan3',        
+					service_date : '01/04/2013'    
+				}),
+				new Followup({
+					patientId : 123, 
+					type : '3',   
+					value : 'None', 
+					unit : '', 
+					comment : '',       
+					plan : 'testPlan4',        
+					service_date : '02/13/2013'    
+				}),
+				new Followup({
+					patientId : 123, 
+					type : '4',   
+					value : 'None', 
+					unit : '', 
+					comment : '',       
+					plan : 'testPlan5',        
+					service_date : '02/15/2013'    
 				})
-			];
-			    
-			self.followups(temp);			
-		},    
-		    
-		setFields:function(data) { 
-				var self = this;      
-				self.value(data.value);        
-				self.unit(data.unit); 
-				self.comment(data.comment); 
-				
-			}
+			]; 
+			self.followups(temp);    
+		}, 
+		setFields: function(data) {
+			followup(data);
+		}
 	};
 });

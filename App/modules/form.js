@@ -16,7 +16,7 @@ define(function(require) {
 	 * States
 	 *************************************************************************************************/
 	form.prototype.states = ko.observableArray([
-		{'value' : 'AL', text: 'Alabama'},
+		{'value' : 'AL', 'text': 'Alabama'},
 		{'value' : 'AK', 'text' : 'Alaska'}, 
 		{'value' : 'AZ', 'text' : 'Arizona'}, 
 		{'value' : 'AR', 'text' : 'Arkansas'}, 
