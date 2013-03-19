@@ -83,6 +83,9 @@
 .referenceTabs {
 	clear: both;      
 }             
+=======
+	margin-bottom: 5px;
+}
 
 #referringphysician form {       
 	padding: 10px; 

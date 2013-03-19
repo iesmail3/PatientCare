@@ -41,11 +41,10 @@ define(function(require) {
 	}
 	
 	// CheckOut
-	function CheckOut(data) { 
+	function CheckOut(data) {     
 		var self = this; 
 			
 		if(data != null) { 
-			self.id                	    = ko.observable(data.id); 
 			self.patientId         		= ko.observable(data.patient_id);
 			self.primaryInsurance      	= ko.observable(data.primary_insurance); 
 			self.secondaryInsurance 	= ko.observable(data.secondary_insurance); 
@@ -53,16 +52,16 @@ define(function(require) {
 			self.date  					= ko.observable(data.date); 
 			self.copayAmount			= ko.observable(data.copay_amount); 
 			self.otherCopay				= ko.observable(data.other_copay); 
-			self.additionalCharges 		= ko.observable(data.additional_charges); 
+			self.additionalCharges 		= ko.observable(data.additional_charges);   
+			self.editAdditionalCharge	= ko.observable((data.edit_additional_charge) == 'true');
 			self.insurancePortion 		= ko.observable(data.insurance_portion); 
 			self.totalReceivable       	= ko.observable(data.total_receivable); 
 			self.totalPayment          	= ko.observable(data.total_payment); 
 			self.balance   				= ko.observable(data.balance); 
-			self.comment 				= ko.obsevable(data.comment); 
+			self.comment 				= ko.observable(data.comment); 
 				
 		}
-		else {
-		    self.id                	    = ko.observable(); 
+		else {    
 			self.patientId         		= ko.observable(); 
 			self.primaryIsurance     	= ko.observable(); 
 			self.secondaryInsurance 	= ko.observable(); 
@@ -70,8 +69,9 @@ define(function(require) {
 			self.date  					= ko.observable(); 
 			self.copayAmount			= ko.observable(); 
 			self.otherCopay				= ko.observable(); 
-			self.additionalCharges 		= ko.observable();     
-			self.insurancePortion 		= ko.observable(); 
+			self.additionalCharges 		= ko.observable();
+			self.editAdditionalCharge   = ko.observable();      
+			self.insurancePortion 		= ko.observable();    
 			self.totalReceivable      	= ko.observable(); 
 			self.totalPayment          	= ko.observable(); 
 			self.balance   				= ko.observable(); 
@@ -178,6 +178,7 @@ define(function(require) {
 	 var followup 		= ko.observable(new Followup());
 	 var followups      = ko.observableArray([]); 
 	 var checkOut 		= ko.observable(new CheckOut()); 
+	 var checkOuts      = ko.observableArray([]); 
 	 var phoneLog       = ko.observable(new PhoneLog()); 
 	 var superBill      = ko.observable(new Superbill()); 
 	 var prescription   = ko.observable(new Prescription());
@@ -200,7 +201,8 @@ define(function(require) {
 		 *******************************************************************************************/
 		followup: followup,
 		followups: followups, 
-		checkOut: checkOut, 
+		checkOut: checkOut,
+		checkOuts: checkOuts, 
 		phoneLog: phoneLog,
 		superBill: superBill, 
 		prescription: prescription,
@@ -291,10 +293,67 @@ define(function(require) {
 					service_date : '02/15/2013'    
 				})
 			]; 
-			self.followups(temp);    
-		}, 
+			self.followups(temp);
+			
+			var ch = new CheckOut({
+						patientId : 123, 
+						primary_insurance : '1',   
+						secondary_insurance: '2',
+						other_insurance: '3',   
+						date : '02/13/2013' ,
+						copay_amount : '120',
+						other_copay : '30',
+						additional_charges : '10', 
+						insurance_portion : '50', 
+						total_receivable : '25',   
+						total_payment: '300', 
+						balance : '100',  
+						comment : 'This is a test comment.'
+			});
+			
+			self.checkOut(ch); 
+			
+			var chArray = [
+			    new CheckOut({
+						patientId : 123, 
+						primary_insurance : '1',   
+						secondary_insurance: '2',
+						other_insurance: '3',   
+						date : '02/13/2013' ,
+						copay_amount : '120',
+						other_copay : '30',
+						additional_charges : '10', 
+						insurance_portion : '50', 
+						total_receivable : '25',   
+						total_payment: '300', 
+						balance : '100',  
+						comment : 'This is a test comment.'
+			}), 
+			new CheckOut({
+						patientId : 123, 
+						primary_insurance : '1',   
+						secondary_insurance: '2',
+						other_insurance: '3',   
+						date : '02/13/2013' ,
+						copay_amount : '110',
+						other_copay : '90',
+						additional_charges : '100', 
+						insurance_portion : '150', 
+						total_receivable : '325',   
+						total_payment: '20', 
+						balance : '10',  
+						comment : 'This is a second test comment.'
+			})
+			]; 
+			   
+			self.checkOuts(chArray);      
+		},    
 		setFields: function(data) {
 			followup(data);
-		}
+		},
+		
+		setCheckOutFields: function(data) { 
+			checkOut(data); 
+			}
 	};
 });

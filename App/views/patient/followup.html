@@ -96,10 +96,11 @@ Description:
 		</div>
 		<div class="tab-pane outerPane" id="checkout">
 			<div class="formScroll">
+				 <!-- ko with: checkOut -->
 				<div class="form-inline">
 					<div class="row-fluid">
 						<fieldset>
-							<legend>Co-pay Details</legend>
+							<legend>Co-pay Details</legend>  
 							<div class="span5">
 								<div class="marginBottom5">
 									<span class="label">Select Co-Payment</span>
@@ -123,28 +124,29 @@ Description:
 								</div>
 								<div class="marginBottom5">
 									<span class="label">Co-Payment amount</span>
-									<input type="text" class="input-medium" placeholder="0" />
+									<input type="text" class="input-medium" placeholder="0" data-bind="value: copayAmount"/>
 								</div>
-								<div class="marginBottom5">
+								<div class="marginBottom5">  
 									<span class="label">Other Co-Pay</span>
-									<input type="text" class="input-medium" placeholder="0" />
+									<input type="text" class="input-medium" placeholder="0" data-bind="value: otherCopay"/>
 								</div>
 								<div class="marginBottom5">
 									<label class="checkbox inline">
-										<input type="checkbox"/><span>Additional Charges</span>
+										<input type="checkbox" data-bind="checked: editAdditionalCharge"/><span>Additional Charges</span>
 									</label>
-									<input type="text" class="input-medium" placeholder="0" />
-								</div>
+									<input type="text" class="input-medium" placeholder="0" data-bind="enable: editAdditionalCharge() == true,
+									 value: additionalCharges"/>
+								</div>    
 								<div class="marginBottom5">   
 									<span class="label">Insurance Portion</span>
-									<input type="text" class="input-medium" placeholder="0" />
+									<input type="text" class="input-medium" placeholder="0" data-bind="value: insurancePortion" />
 								</div>
 								<div class="marginBottom5">
 									<span class="label label-inverse">Total Receivable</span>
-									<input type="text" class="input-medium" placeholder="0" />
+									<input type="text" class="input-medium" placeholder="0" data-bind="value: totalReceivable"/>  
 								</div>
 								<div class="marginBottom5">
-									<input type="text" class="input-large" placeholder="Comments" />
+									<input type="text" class="input-large" placeholder="Comments" data-bind="value: comment"/>
 								</div>
 								<div class="marginBottom5">
 									<a href="#">Additional Details</a>
@@ -154,8 +156,8 @@ Description:
 								<table class="table table-bordered table-hover">
 									<thead>
 										<tr>
-											<th></th>
-											<th>Mode</th>
+											<th></th> 
+											<th>Modes</th> 
 											<th>Particulars</th>
 											<th>Amount</th>
 										</tr>
@@ -174,19 +176,21 @@ Description:
 											<td></td>
 										</tr>
 									</tbody>
-								</table>
+								</table> 
 								<div id="marginBottom5">
 								<span class="label label-inverse">Total Payment</span>
-								<input type="text" class="input-medium" placeholder="0" />
+								<input type="text" class="input-medium" placeholder="0" data-bind="value: totalPayment" />
 								</div>
 								<div id="marginBottom5">
 								<span class="label label-important">Balance</span>
-								<input type="text" class="input-medium" placeholder="0" />
-								</div>
-							</div>   
+								<input type="text" class="input-medium" placeholder="0" data-bind="value: balance"/>
+								</div>  
+							</div>     
 						</fieldset>      
 					</div>
 				</div>
+				<!-- /ko -->  
+			</div>
 				<table class="table table-bordered table-hover">      
 					<thead>
 						<tr>
@@ -195,26 +199,22 @@ Description:
 							<th>CoPay Amount</th>     
 							<th>Other Co-Pay</th>
 							<th>Insurance Portion</th>
-							<th>Additional Charges</th>
+							<th>Additional Charges</th>  
 							<th>Paid Amount</th>
-						</tr>
+						</tr> 
 					</thead>
-					<tbody>
-						<tr>
-							<td>*</td>
-							<td>
-								<select class="input-small">
-									<option value=""></option>
-									<option value=""></option>
-									<option value=""></option>
-								</select>
-							</td>
-							<td></td>
-							<td></td>
-						</tr>
-					</tbody>
+					<tbody data-bind="foreach: checkOuts">    
+							<tr data-bind="click: $root.setCheckOutFields">   
+								<td></td>  
+								<td data-bind="text: date"></td>   
+								<td data-bind="text: copayAmount"></td>
+								<td data-bind="text: otherCopay"></td>
+								<td data-bind="text:insurancePortion"></td>
+								<td data-bind="text: additionalCharges"></td>
+								<td data-bind="text: totalPayment"></td>						     
+							</tr>          
+					</tbody> 
 				</table>
-			</div>
 			<div class="row-fluid">
 				<div class="pull-right marginBottom5">
 					<button type="button" class="btn btn-small">Print Receipt</button>
@@ -274,7 +274,7 @@ Description:
 								</label>
 								<label class="radio inline">
 									<input type="radio" name="actionRequired" value="0" /><span>No</span>
-								</label>
+								</label>  
 							</div>
 							<div class="marginBottom5 pull-right">
 								<button type="button" class="btn btn-small btn-primary">Save</button>
