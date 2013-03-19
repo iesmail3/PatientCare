@@ -15,278 +15,267 @@ define(function(require) {
 	// Patient     
 	patient.prototype.Patient = function(data) {
 		var self = this;
-		
 		if(data != null) {
-			self.practice   		  = ko.observable(data.practice_id);
-			self.id					  = ko.observable(data.id);
-			self.firstName  		  = ko.observable(data.first_name);
-			self.middleName 		  = ko.observable(data.middle_name);
-			self.lastName   		  = ko.observable(data.last_name);
-			self.alias			   	  = ko.observable(data.alias);
-			self.dob			   	  = ko.observable(data.dob);
-			self.idNumber  			  = ko.observable(data.id_number);
-			self.idType    			  = ko.observable(data.id_type);
-			self.physician  		  = ko.observable(data.physician_id);
-			self.address   			  = ko.observable(data.address);
-			self.city      			  = ko.observable(data.city);
-			self.state     			  = ko.observable(data.state);
-			self.zip       		 	  = ko.observable(data.zip);
-			self.province   		  = ko.observable(data.province);
-			self.country   			  = ko.observable(data.country);
-			self.phone   		      = ko.observable(data.phone);
-			self.phoneExt  			  = ko.observable(data.phone_ext);
-			self.mobile    		  	  = ko.observable(data.mobile);        
-			self.gender     		  = ko.observable(data.gender);
-			self.maritalStatus		  = ko.observable(data.marital_status);
-			self.familyHistoryType    = ko.observable(data.family_history_type);
-			self.familyHistoryComment = ko.observable(data.family_history_comment);
-			self.routineExamComment   = ko.observable(data.routine_exam_comment);
-			self.insuranceType        = ko.observable(data.insurance_type);
-			self.recordStatus   	  = ko.observable(data.record_status);
-			self.contactName 		  = ko.observable(data.contact_name);
-			self.contactPhone 		  = ko.observable(data.contact_phone);
-			self.contactMobile 	   	  = ko.observable(data.contact_mobile);
-			self.contactRelationship  = ko.observable(data.contact_relationship);
-			self.insuredType 		  = ko.observable('not insured');    
-			self.otherName			  = ko.observable(data.insurance_name);      
+			this.practice   		  = ko.observable(data.practice_id);
+			this.id					  = ko.observable(data.id);
+			this.firstName  		  = ko.observable(data.first_name);
+			this.middleName 		  = ko.observable(data.middle_name);
+			this.lastName   		  = ko.observable(data.last_name);
+			this.alias			   	  = ko.observable(data.alias);
+			this.dob			   	  = ko.observable(data.dob);
+			this.idNumber  			  = ko.observable(data.id_number);
+			this.idType    			  = ko.observable(data.id_type);
+			this.physician  		  = ko.observable(data.physician_id);
+			this.address   			  = ko.observable(data.address);
+			this.city      			  = ko.observable(data.city);
+			this.state     			  = ko.observable(data.state);
+			this.zip       		 	  = ko.observable(data.zip);
+			this.province   		  = ko.observable(data.province);
+			this.country   			  = ko.observable(data.country);
+			this.phone   		      = ko.observable(data.phone);
+			this.phoneExt  			  = ko.observable(data.phone_ext);
+			this.mobile    		  	  = ko.observable(data.mobile);        
+			this.gender     		  = ko.observable(data.gender);
+			this.maritalStatus		  = ko.observable(data.marital_status);
+			this.familyHistoryType    = ko.observable(data.family_history_type);
+			this.familyHistoryComment = ko.observable(data.family_history_comment);
+			this.routineExamComment   = ko.observable(data.routine_exam_comment);
+			this.insuranceType        = ko.observable(data.insurance_type);
+			this.recordStatus   	  = ko.observable(data.record_status);
+			this.contactName 		  = ko.observable(data.contact_name);
+			this.contactPhone 		  = ko.observable(data.contact_phone);
+			this.contactMobile 	   	  = ko.observable(data.contact_mobile);
+			this.contactRelationship  = ko.observable(data.contact_relationship);
+			this.insuredType 		  = ko.observable('not insured');    
+			this.otherName			  = ko.observable(data.insurance_name);      
 		}
 		else {
-			self.practice   		  = ko.observable();
-			self.id					  = ko.observable();
-			self.firstName  		  = ko.observable();
-			self.middleName 		  = ko.observable();
-			self.lastName   		  = ko.observable();
-			self.alias			   	  = ko.observable();
-			self.dob			   	  = ko.observable();
-			self.idNumber  			  = ko.observable();
-			self.idType    			  = ko.observable();
-			self.physician  		  = ko.observable();
-			self.address   			  = ko.observable();
-			self.city      			  = ko.observable();
-			self.state     			  = ko.observable();
-			self.zip       		 	  = ko.observable();
-			self.province   		  = ko.observable();
-			self.country   			  = ko.observable();
-			self.phone   		      = ko.observable();
-			self.phoneExt  			  = ko.observable();
-			self.mobile    		  	  = ko.observable();        
-			self.gender     		  = ko.observable();
-			self.maritalStatus		  = ko.observable();
-			self.familyHistoryType    = ko.observable();
-			self.familyHistoryComment = ko.observable();
-			self.routineExamComment   = ko.observable();
-			self.insuranceType        = ko.observable();
-			self.recordStatus   	  = ko.observable();
-			self.contactName 		  = ko.observable();
-			self.contactPhone 		  = ko.observable();
-			self.contactMobile 	   	  = ko.observable();
-			self.contactRelationship  = ko.observable();
-			self.insuredType 		  = ko.observable();    
-			self.otherName			  = ko.observable(); 
+			this.practice   		  = ko.observable();
+			this.id					  = ko.observable();
+			this.firstName  		  = ko.observable();
+			this.middleName 		  = ko.observable();
+			this.lastName   		  = ko.observable();
+			this.alias			   	  = ko.observable();
+			this.dob			   	  = ko.observable();
+			this.idNumber  			  = ko.observable();
+			this.idType    			  = ko.observable();
+			this.physician  		  = ko.observable();
+			this.address   			  = ko.observable();
+			this.city      			  = ko.observable();
+			this.state     			  = ko.observable();
+			this.zip       		 	  = ko.observable();
+			this.province   		  = ko.observable();
+			this.country   			  = ko.observable();
+			this.phone   		      = ko.observable();
+			this.phoneExt  			  = ko.observable();
+			this.mobile    		  	  = ko.observable();        
+			this.gender     		  = ko.observable();
+			this.maritalStatus		  = ko.observable();
+			this.familyHistoryType    = ko.observable();
+			this.familyHistoryComment = ko.observable();
+			this.routineExamComment   = ko.observable();
+			this.insuranceType        = ko.observable();
+			this.recordStatus   	  = ko.observable();
+			this.contactName 		  = ko.observable();
+			this.contactPhone 		  = ko.observable();
+			this.contactMobile 	   	  = ko.observable();
+			this.contactRelationship  = ko.observable();
+			this.insuredType 		  = ko.observable();    
+			this.otherName			  = ko.observable(); 
 		}
 		
 		// This will return the name in the following format: Last, First
-		self.lastFirstName = ko.computed(function() {
+		this.lastFirstName = ko.computed(function() {
 			return self.lastName() + ", " + self.firstName();
 		});
 	}  
 	 
 	// Insurance
 	patient.prototype.Insurance = function(data) {
-		var self = this;
-		
 		if (data != null) {
-			self.patientId   			= ko.observable(data.patient_id);
-			self.insuredType 			= ko.observable(data.type);
-			self.group       			= ko.observable(data.group_number);
-			self.policy      			= ko.observable(data.policy_number);
-			self.companyName 			= ko.observable(data.company_name);
-			self.plan        			= ko.observable(data.plan);
-			self.planOther    			= ko.observable(data.plan_other);
-			self.effectiveDate 			= ko.observable(data.effective_date);
-			self.outOfPocket 			= ko.observable(data.out_of_pocket);
-			self.metOutOfPocket 		= ko.observable(data.met_out_of_pocket);
-			self.remainingOutOfPocket 	= ko.observable(data.remaining_out_of_pocket);
-			self.deductible				= ko.observable(data.deductible);
-			self.metDeductible			= ko.observable(data.met_deductible);
-			self.remainingDeductible	= ko.observable(data.remaining_deductible);
-			self.patientPortion			= ko.observable(data.patient_portion);
-			self.insurancePortion		= ko.observable(data.insurance_portion);
-			self.referralRequired		= ko.observable(data.referral_required);
-			self.existingClause			= ko.observable(data.existing_clause);
-			self.copayment				= ko.observable(data.copayment);
-			self.verification			= ko.observable(data.verification);
-			self.verificationDate		= ko.observable(data.verification_date);
-			self.verificationTime		= ko.observable(data.verification_time);
-			self.confirmationNumber		= ko.observable(data.confirmation_number);
-			self.contactName			= ko.observable(data.contact_name);
-			self.contactPhone			= ko.observable(data.contact_phone);
-			self.contactExt				= ko.observable(data.contact_phone_ext);
+			this.patientId   			= ko.observable(data.patient_id);
+			this.insuredType 			= ko.observable(data.type);
+			this.group       			= ko.observable(data.group_number);
+			this.policy      			= ko.observable(data.policy_number);
+			this.companyName 			= ko.observable(data.company_name);
+			this.plan        			= ko.observable(data.plan);
+			this.planOther    			= ko.observable(data.plan_other);
+			this.effectiveDate 			= ko.observable(data.effective_date);
+			this.outOfPocket 			= ko.observable(data.out_of_pocket);
+			this.metOutOfPocket 		= ko.observable(data.met_out_of_pocket);
+			this.remainingOutOfPocket 	= ko.observable(data.remaining_out_of_pocket);
+			this.deductible				= ko.observable(data.deductible);
+			this.metDeductible			= ko.observable(data.met_deductible);
+			this.remainingDeductible	= ko.observable(data.remaining_deductible);
+			this.patientPortion			= ko.observable(data.patient_portion);
+			this.insurancePortion		= ko.observable(data.insurance_portion);
+			this.referralRequired		= ko.observable(data.referral_required);
+			this.existingClause			= ko.observable(data.existing_clause);
+			this.copayment				= ko.observable(data.copayment);
+			this.verification			= ko.observable(data.verification);
+			this.verificationDate		= ko.observable(data.verification_date);
+			this.verificationTime		= ko.observable(data.verification_time);
+			this.confirmationNumber		= ko.observable(data.confirmation_number);
+			this.contactName			= ko.observable(data.contact_name);
+			this.contactPhone			= ko.observable(data.contact_phone);
+			this.contactExt				= ko.observable(data.contact_phone_ext);
 		}
 		else {
-			self.patientId   			= ko.observable();
-			self.insuredType 			= ko.observable();
-			self.group       			= ko.observable();
-			self.policy      			= ko.observable();
-			self.companyName 			= ko.observable();
-			self.plan        			= ko.observable();
-			self.planOther        	    = ko.observable();
-			self.effectiveDate 			= ko.observable();
-			self.outOfPocket 			= ko.observable();
-			self.metOutOfPocket 		= ko.observable();
-			self.remainingOutOfPocket 	= ko.observable();
-			self.deductible				= ko.observable();
-			self.metDeductible			= ko.observable();
-			self.remainingDeductible	= ko.observable();
-			self.patientPortion			= ko.observable();
-			self.insurancePortion		= ko.observable();
-			self.referralRequired		= ko.observable();
-			self.existingClause			= ko.observable();
-			self.copayment				= ko.observable();
-			self.verification			= ko.observable(); 
-			self.verificationDate		= ko.observable();
-			self.verificationTime		= ko.observable();
-			self.confirmationNumber		= ko.observable();
-			self.contactName			= ko.observable();
-			self.contactPhone			= ko.observable();
-			self.contactExt				= ko.observable();
+			this.patientId   			= ko.observable();
+			this.insuredType 			= ko.observable();
+			this.group       			= ko.observable();
+			this.policy      			= ko.observable();
+			this.companyName 			= ko.observable();
+			this.plan        			= ko.observable();
+			this.planOther        	    = ko.observable();
+			this.effectiveDate 			= ko.observable();
+			this.outOfPocket 			= ko.observable();
+			this.metOutOfPocket 		= ko.observable();
+			this.remainingOutOfPocket 	= ko.observable();
+			this.deductible				= ko.observable();
+			this.metDeductible			= ko.observable();
+			this.remainingDeductible	= ko.observable();
+			this.patientPortion			= ko.observable();
+			this.insurancePortion		= ko.observable();
+			this.referralRequired		= ko.observable();
+			this.existingClause			= ko.observable();
+			this.copayment				= ko.observable();
+			this.verification			= ko.observable(); 
+			this.verificationDate		= ko.observable();
+			this.verificationTime		= ko.observable();
+			this.confirmationNumber		= ko.observable();
+			this.contactName			= ko.observable();
+			this.contactPhone			= ko.observable();
+			this.contactExt				= ko.observable();
 		}
 	};     
 	
 	// Guarantor
 	patient.prototype.Guarantor = function(data) {
-		var self = this;
-		
 		if (data != null) {
-			self.patientId   		= ko.observable(data.patient_id);
-			self.idSame				= ko.observable((data.id_same) == 'true');
-			self.name				= ko.observable(data.name);
-			self.relationship		= ko.observable(data.relationship);
-			self.idNumber			= ko.observable(data.id_number);
-			self.idType				= ko.observable(data.id_type);
-			self.dob				= ko.observable(data.date_of_birth);
-			self.dobSame			= ko.observable((data.dob_same) == 'true');
-			self.address			= ko.observable(data.address);
-			self.city				= ko.observable(data.city);
-			self.state				= ko.observable(data.state);
-			self.zip				= ko.observable(data.zip);
-			self.province			= ko.observable(data.province);
-			self.country			= ko.observable(data.country);
-			self.employer			= ko.observable(data.employer);
-			self.employerPhone		= ko.observable(data.employer_phone);
-			self.employerExt		= ko.observable(data.employer_ext);
+			this.patientId   		= ko.observable(data.patient_id);
+			this.idSame				= ko.observable((data.id_same) == 'true');
+			this.name				= ko.observable(data.name);
+			this.relationship		= ko.observable(data.relationship);
+			this.idNumber			= ko.observable(data.id_number);
+			this.idType				= ko.observable(data.id_type);
+			this.dob				= ko.observable(data.date_of_birth);
+			this.dobSame			= ko.observable((data.dob_same) == 'true');
+			this.address			= ko.observable(data.address);
+			this.city				= ko.observable(data.city);
+			this.state				= ko.observable(data.state);
+			this.zip				= ko.observable(data.zip);
+			this.province			= ko.observable(data.province);
+			this.country			= ko.observable(data.country);
+			this.employer			= ko.observable(data.employer);
+			this.employerPhone		= ko.observable(data.employer_phone);
+			this.employerExt		= ko.observable(data.employer_ext);
 		}
 		else {
-			self.patientId   		= ko.observable();
-			self.idSame				= ko.observable();
-			self.name				= ko.observable();
-			self.relationship		= ko.observable();
-			self.idNumber			= ko.observable();
-			self.idType				= ko.observable();
-			self.dob				= ko.observable();
-			self.dobSame			= ko.observable();
-			self.address			= ko.observable();
-			self.city				= ko.observable();
-			self.state				= ko.observable();
-			self.zip				= ko.observable();
-			self.province			= ko.observable();
-			self.country			= ko.observable();
-			self.employer			= ko.observable();
-			self.employerPhone		= ko.observable();
-			self.employerExt		= ko.observable();
+			this.patientId   		= ko.observable();
+			this.idSame				= ko.observable();
+			this.name				= ko.observable();
+			this.relationship		= ko.observable();
+			this.idNumber			= ko.observable();
+			this.idType				= ko.observable();
+			this.dob				= ko.observable();
+			this.dobSame			= ko.observable();
+			this.address			= ko.observable();
+			this.city				= ko.observable();
+			this.state				= ko.observable();
+			this.zip				= ko.observable();
+			this.province			= ko.observable();
+			this.country			= ko.observable();
+			this.employer			= ko.observable();
+			this.employerPhone		= ko.observable();
+			this.employerExt		= ko.observable();
 		}
 	};
 	
 	// Employer
 	patient.prototype.Employer = function(data) {
-		var self = this;
-		
 		if (data != null) {
-			self.patientId		= ko.observable(data.patient_id);
-			self.companyName	= ko.observable(data.company_name);
-			self.address		= ko.observable(data.address);
-			self.city			= ko.observable(data.city);
-			self.state			= ko.observable(data.state);
-			self.zip			= ko.observable(data.zip);
-			self.province		= ko.observable(data.province);
-			self.country		= ko.observable(data.country);
-			self.phone			= ko.observable(data.phone);
-			self.phoneExt		= ko.observable(data.phone_ext);
+			this.patientId		= ko.observable(data.patient_id);
+			this.companyName	= ko.observable(data.company_name);
+			this.address		= ko.observable(data.address);
+			this.city			= ko.observable(data.city);
+			this.state			= ko.observable(data.state);
+			this.zip			= ko.observable(data.zip);
+			this.province		= ko.observable(data.province);
+			this.country		= ko.observable(data.country);
+			this.phone			= ko.observable(data.phone);
+			this.phoneExt		= ko.observable(data.phone_ext);
 		}
 		else {
-			self.patientId		= ko.observable();
-			self.companyName	= ko.observable();
-			self.address		= ko.observable();
-			self.city			= ko.observable();
-			self.state			= ko.observable();
-			self.zip			= ko.observable();
-			self.province		= ko.observable();
-			self.country		= ko.observable();
-			self.phone			= ko.observable();
-			self.phoneExt		= ko.observable();
+			this.patientId		= ko.observable();
+			this.companyName	= ko.observable();
+			this.address		= ko.observable();
+			this.city			= ko.observable();
+			this.state			= ko.observable();
+			this.zip			= ko.observable();
+			this.province		= ko.observable();
+			this.country		= ko.observable();
+			this.phone			= ko.observable();
+			this.phoneExt		= ko.observable();
 		}
 	};
 	
 	// Spouse
 	patient.prototype.Spouse = function(data) {
-		var self = this;
-		
 		if (data != null) {
-			self.patientId	= ko.observable(data.patient_id);
-			self.firstName	= ko.observable(data.first_name);
-			self.lastName	= ko.observable(data.last_name);
-			self.idNumber	= ko.observable(data.id_number);
-			self.idType		= ko.observable(data.id_type);
-			self.gender		= ko.observable(data.gender);
-			self.dob		= ko.observable(data.date_of_birth);
-			self.phone		= ko.observable(data.phone);
-			self.phoneExt	= ko.observable(data.phone_ext);
-			self.workPhone	= ko.observable(data.work_phone);
-			self.workExt	= ko.observable(data.work_ext);
+			this.patientId	= ko.observable(data.patient_id);
+			this.firstName	= ko.observable(data.first_name);
+			this.lastName	= ko.observable(data.last_name);
+			this.idNumber	= ko.observable(data.id_number);
+			this.idType		= ko.observable(data.id_type);
+			this.gender		= ko.observable(data.gender);
+			this.dob		= ko.observable(data.date_of_birth);
+			this.phone		= ko.observable(data.phone);
+			this.phoneExt	= ko.observable(data.phone_ext);
+			this.workPhone	= ko.observable(data.work_phone);
+			this.workExt	= ko.observable(data.work_ext);
 		}
 		else {
-			self.patientId	= ko.observable();
-			self.firstName	= ko.observable();
-			self.lastName	= ko.observable();
-			self.idNumber	= ko.observable();
-			self.idType		= ko.observable();
-			self.gender		= ko.observable();
-			self.dob		= ko.observable();
-			self.phone		= ko.observable();
-			self.phoneExt	= ko.observable();
-			self.workPhone	= ko.observable();
-			self.workExt	= ko.observable();
+			this.patientId	= ko.observable();
+			this.firstName	= ko.observable();
+			this.lastName	= ko.observable();
+			this.idNumber	= ko.observable();
+			this.idType		= ko.observable();
+			this.gender		= ko.observable();
+			this.dob		= ko.observable();
+			this.phone		= ko.observable();
+			this.phoneExt	= ko.observable();
+			this.workPhone	= ko.observable();
+			this.workExt	= ko.observable();
 		}
 	};
 	
 	patient.prototype.Reference = function(data) {
-		var self = this;
-		
 		if (data != null) {
-			self.patientId	= ko.observable(data.patient_id);
-			self.type		= ko.observable(data.type);
-			self.firstName	= ko.observable(data.first_name);
-			self.middleName	= ko.observable(data.middle_name);
-			self.lastName	= ko.observable(data.last_name);
-			self.phone		= ko.observable(data.phone);
-			self.fax		= ko.observable(data.fax);
-			self.email		= ko.observable(data.email);
-			self.degree		= ko.observable(data.degree);
-			self.reason		= ko.observable(data.reason);
-			self.referral	= ko.observable(data.referral);
+			this.patientId	= ko.observable(data.patient_id);
+			this.type		= ko.observable(data.type);
+			this.firstName	= ko.observable(data.first_name);
+			this.middleName	= ko.observable(data.middle_name);
+			this.lastName	= ko.observable(data.last_name);
+			this.phone		= ko.observable(data.phone);
+			this.fax		= ko.observable(data.fax);
+			this.email		= ko.observable(data.email);
+			this.degree		= ko.observable(data.degree);
+			this.reason		= ko.observable(data.reason);
+			this.referral	= ko.observable(data.referral);
 		}
 		else {
-			self.patientId	= ko.observable();
-			self.type		= ko.observable();
-			self.firstName	= ko.observable();
-			self.middleName	= ko.observable();
-			self.lastName	= ko.observable();
-			self.phone		= ko.observable();
-			self.fax		= ko.observable();
-			self.email		= ko.observable();
-			self.degree		= ko.observable();
-			self.reason		= ko.observable();
-			self.referral	= ko.observable();
+			this.patientId	= ko.observable();
+			this.type		= ko.observable();
+			this.firstName	= ko.observable();
+			this.middleName	= ko.observable();
+			this.lastName	= ko.observable();
+			this.phone		= ko.observable();
+			this.fax		= ko.observable();
+			this.email		= ko.observable();
+			this.degree		= ko.observable();
+			this.reason		= ko.observable();
+			this.referral	= ko.observable();
 		}
 	}
 	

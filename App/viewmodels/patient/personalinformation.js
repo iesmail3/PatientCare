@@ -108,30 +108,26 @@ define(function(require) {
 			 *************************************************************************************/ 
 			backend.getGuarantor(self.patientId()).success(function(data) {
 				if(data.length > 0) {
+					// Guarantor
 					var g = new backend.Guarantor(data[0]);
 					self.guarantor(g);
 					
-					// Set defaults
 					// Employer
-					if(self.guarantor().employer().length > 1) {
+					if(self.guarantor().employer().length > 1)
 						self.employerEnable('given');
-					}
-					else {
+					else
 						self.employerEnable('na');
-					}
+					
 					// Address
-					if(self.guarantor().address().length > 1) {
+					if(self.guarantor().address().length > 1)
 						self.addressEnable('given');
-					}
-					else {
+					else
 						self.addressEnable('same');
-					}
 					
 					self.insuredPerson(3);
 				}
-				else {
+				else
 					self.insuredPerson(1);
-				}
 			});
 			
 			/**************************************************************************************
@@ -144,12 +140,10 @@ define(function(require) {
 				if(data.length > 0) {
 					var e = new backend.Employer(data[0]);
 					self.employer(e);
-					
 					self.personalEmployer(1);
 				}
-				else {
+				else
 					self.personalEmployer(0);
-				}
 			});
 			
 			/**************************************************************************************
@@ -162,11 +156,6 @@ define(function(require) {
 				if(data.length > 0) {
 					var s = new backend.Spouse(data[0]);
 					self.spouse(s);
-					
-					//self.spouseEnable(1);
-				}
-				else {
-					//self.spouseEnable(0);
 				}
 			});
 			
@@ -180,6 +169,7 @@ define(function(require) {
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
 						var i = new backend.Reference(data[count]);
+						
 						switch(i.type()) {
 							case 'referringphysician':
 								self.referencePhysician(i);
@@ -208,6 +198,7 @@ define(function(require) {
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
 						var i = new backend.Insurance(data[count]);
+						
 						switch(i.insuredType()) {
 	            			case 'primary':
 	            				self.primaryInsurance(i);
@@ -221,9 +212,8 @@ define(function(require) {
 	            		}
 	            	}
 				}
-				else {
-					self.insuredPerson(2)	
-				}
+				else
+					self.insuredPerson(2);
 			});
 		}, // End activate
 	}; // End ViewModel
