@@ -247,34 +247,36 @@ Description:
 		</div>
 		<div class="tab-pane outerPane" id="phonelog">
 			<div class="formScroll">
+				<!-- ko with: phoneLog -->
 				<form class="form-inline">
 					<div class="row-fluid">
 						<fieldset>
 							<legend>Schedule a FollowUp</legend>
 							<div class="marginBottom5">
 								<input type="text" class="input-medium" placeholder="Call Date"
-									data-bind="datepicker: true"/>
-								<select class="input-medium">
+									data-bind="value: dateTime,data-bind= datepicker: true"/>
+								<select class="input-medium" data-bind="value:callType">
 									<option>Call Type</option>
-									<option></option>
-									<option></option>
+									<option>Type1</option>
+									<option>Type2</option>
+									<option>Type3</option>
 								</select>
 							</div>
 							<div class="marginBottom5">
-								<input type="text" class="input-medium" placeholder="Caller"/>
-								<input type="text" class="input-medium" placeholder="Attended By"/>
+								<input type="text" class="input-medium" placeholder="Caller" data-bind="value: caller"/>
+								<input type="text" class="input-medium" placeholder="Attended By" data-bind="value: attendedBy"/>
 							</div>
 							<div class="marginBottom5">
-								<textarea class="input-xxlarge" rows="3" placeholder="Message"></textarea>
+								<textarea class="input-xxlarge" rows="3" placeholder="Message" data-bind="value: message"></textarea>
 							</div>
 							<div class="marginBottom5">
 								<span class="radio inline">Action Required</span>
 								<label class="radio inline">
-									<input type="radio" name="actionRequired" value="1" /><span>Yes</span>
+									<input type="radio" name="actionRequired"  data-bind="checked: actionRequired" value="Yes" /><span>Yes</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" name="actionRequired" value="0" /><span>No</span>
-								</label>  
+									<input type="radio" name="actionRequired"   data-bind="checked:actionRequired"value="No" /><span>No</span>
+								</label>   
 							</div>
 							<div class="marginBottom5 pull-right">
 								<button type="button" class="btn btn-small btn-primary">Save</button>
@@ -283,6 +285,7 @@ Description:
 						</fieldset>
 					</div>
 				</form>
+				<!-- /ko -->
 			</div>
 			<div class="row-fluid">
 				<table class="table table-bordered table-hover">
@@ -295,8 +298,16 @@ Description:
 							<th>Attended By</th>
 							<th>Message</th>
 						</tr>
-					</thead>
-					<tbody>
+					</thead>  
+					<tbody data-bind="foreach: phoneLogs">     
+							<tr data-bind="click: $root.setPhoneLogFields">   
+								<td></td>  
+								<td data-bind="text: dateTime"></td>   
+								<td data-bind="text: callType"></td>
+								<td data-bind="text: caller"></td>  
+								<td data-bind="text:attendedBy"></td>
+								<td data-bind="text: message"></td>						     
+							</tr>          
 					</tbody>
 				</table>
 			</div>
@@ -318,8 +329,9 @@ Description:
 								<th>Comments</th>
 							</tr>
 						</thead>
-						<tbody>
-						</tbody>
+						<body>
+							
+						</body>
 					</table>
 				</div>
 			</div>

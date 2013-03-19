@@ -71,6 +71,7 @@
 
 .formScroll {
 	overflow-y: auto;
+<<<<<<< HEAD
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 5px;
 
@@ -84,6 +85,9 @@
 	clear: both;      
 }             
 =======
+=======
+	border-bottom: 1px solid #ddd;
+>>>>>>> 2c8968e8c7074e8e5cb347d1013beb616df912ae
 	margin-bottom: 5px;
 }
 

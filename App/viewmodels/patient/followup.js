@@ -95,29 +95,27 @@ define(function(require) {
 		}
 	}
 	          
-	// PhoneLog
+	// PhoneLog  
 	function PhoneLog(data) { 
 		var self = this; 
 		
-		if(data!=null) { 
-			self.id 			= ko.observable(data.id); 
+		if(data!=null) {  
 			self.patientId      = ko.observable(data.patient_id); 	
 			self.dateTime       = ko.observable(data.datetime); 
 			self.caller         = ko.observable(data.caller); 
 			self.attendedBy     = ko.observable(data.attended_by); 
 			self.message        = ko.observable(data.message); 
-			self.actionRequried = ko.observable(data.action_requried); 
+			self.actionRequired = ko.observable(data.action_requried);   
 			self.assignedTo     = ko.observable(data.assigned_to); 
 			self.callType       = ko.observable(data.type); 
 		}
-		else {
-			self.id 			= ko.observable(); 
+		else { 
 			self.patientId      = ko.observable(); 	
 			self.dateTime       = ko.observable(); 
 			self.caller         = ko.observable(); 
 			self.attendedBy     = ko.observable(); 
 			self.message        = ko.observable(); 
-			self.actionRequried = ko.observable(); 
+			self.actionRequired  = ko.observable(); 
 			self.assignedTo     = ko.observable(); 
 			self.callType       = ko.observable();  
 		}
@@ -180,6 +178,7 @@ define(function(require) {
 	 var checkOut 		= ko.observable(new CheckOut()); 
 	 var checkOuts      = ko.observableArray([]); 
 	 var phoneLog       = ko.observable(new PhoneLog()); 
+	 var phoneLogs      = ko.observableArray([]);    
 	 var superBill      = ko.observable(new Superbill()); 
 	 var prescription   = ko.observable(new Prescription());
 	 var Document       = ko.observable(new Document());  
@@ -204,6 +203,7 @@ define(function(require) {
 		checkOut: checkOut,
 		checkOuts: checkOuts, 
 		phoneLog: phoneLog,
+		phoneLogs: phoneLogs, 
 		superBill: superBill, 
 		prescription: prescription,
 		Document: Document,
@@ -212,7 +212,7 @@ define(function(require) {
 		 * Methods
 		 *******************************************************************************************/
 		// This allow manipulation of the DOM
-		viewAttached: function() {       
+		viewAttached: function() {          
 			$('#followupTab a').click(function(e) {
 				e.preventDefault();
   				$(this).tab('show');
@@ -233,19 +233,7 @@ define(function(require) {
 			
 			//Module Object 
 			var backend = new Backend();
-			
-			var f = new Followup({
-				patientId : 123, 
-				type : '1', 
-				value : '12', 
-				unit : 'Weeks', 
-				comment : 'This is a test comment.', 
-				plan : 'testPlan', 
-				service_date : '01/02/2013'
-			});
-			
-			self.followup(f);
-			
+				
 			var temp = [
 				new Followup({
 					patientId : 123, 
@@ -295,24 +283,6 @@ define(function(require) {
 			]; 
 			self.followups(temp);
 			
-			var ch = new CheckOut({
-						patientId : 123, 
-						primary_insurance : '1',   
-						secondary_insurance: '2',
-						other_insurance: '3',   
-						date : '02/13/2013' ,
-						copay_amount : '120',
-						other_copay : '30',
-						additional_charges : '10', 
-						insurance_portion : '50', 
-						total_receivable : '25',   
-						total_payment: '300', 
-						balance : '100',  
-						comment : 'This is a test comment.'
-			});
-			
-			self.checkOut(ch); 
-			
 			var chArray = [
 			    new CheckOut({
 						patientId : 123, 
@@ -344,16 +314,48 @@ define(function(require) {
 						balance : '10',  
 						comment : 'This is a second test comment.'
 			})
-			]; 
+			];  
 			   
 			self.checkOuts(chArray);      
-		},    
+	    
+		
+		var phoneLogList = [
+		       new PhoneLog({
+		       	patientId : 123, 
+		       	datetime : '02/13/2013', 
+		       	caller : 'Bobby smith', 
+		       	attended_by : 'Marry Ann', 
+		       	message : 'appointment cancellation' , 
+		       	action_required : 'No', 
+		       	assigned_to  : 'Nathan Abraham', 
+		       	type: 'Type3'
+		       	}), 
+		       	new PhoneLog({
+		       	patientId : 123, 
+		       	datetime : '02/19/2013',   
+		       	caller : 'Bobby smith', 
+		       	attended_by : 'Dan Walker', 
+		       	message : 'appointment fix' ,    
+		       	action_required : 'Yes', 
+		       	assigned_to  : 'Ian sinkler', 
+		       	type: 'Type1'
+		       	})
+		]; 
+		   
+		   self.phoneLogs(phoneLogList); 
+		},   
+		    	
 		setFields: function(data) {
 			followup(data);
 		},
 		
 		setCheckOutFields: function(data) { 
 			checkOut(data); 
-			}
+		}, 
+		
+		setPhoneLogFields: function(data) { 
+			phoneLog(data); 
+		}
+		
 	};
 });
