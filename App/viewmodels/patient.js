@@ -11,6 +11,7 @@ define(function(require) {
 	var custom = require('durandal/customBindings');	// Custom bindings
 	var viewModel = require('durandal/viewModel');
 	var Backend = require('modules/patient');			// Backend
+	
 	// Subviews
 	var personal = require('viewmodels/patient/personalinformation');
 	var social = require('viewmodels/patient/socialandfamily');
@@ -23,69 +24,10 @@ define(function(require) {
 	var order = require('viewmodels/patient/servicerecord/order');
 	
 	/*********************************************************************************************** 
-	 * Patient Structure
-	 **********************************************************************************************/
-	function Patient(data) {
-		var self = this;
-		
-		self.practice   		  = ko.observable(data.practice_id);
-		self.id					  = ko.observable(data.id);
-		self.firstName  		  = ko.observable(data.first_name);
-		self.middleName 		  = ko.observable(data.middle_name);
-		self.lastName   		  = ko.observable(data.last_name);
-		self.alias			   	  = ko.observable(data.alias);
-		self.dob			   	  = ko.observable(data.dob);
-		self.idNumber  			  = ko.observable(data.id_number);
-		self.idType    			  = ko.observable(data.id_type);
-		self.physician  		  = ko.observable(data.physician_id);
-		self.address   			  = ko.observable(data.address);
-		self.city      			  = ko.observable(data.city);
-		self.state     			  = ko.observable(data.state);
-		self.zip       		 	  = ko.observable(data.zip);
-		self.province   		  = ko.observable(data.province);
-		self.country   			  = ko.observable(data.country);
-		self.phone   		      = ko.observable(data.phone);
-		self.phoneExt  			  = ko.observable(data.phone_ext);
-		self.mobile    		  	  = ko.observable(data.mobile);
-		self.gender     		  = ko.observable(data.gender);
-		self.familyHistoryType    = ko.observable(data.family_history_type);
-		self.familyHistoryComment = ko.observable(data.family_history_comment);
-		self.routineExamComment   = ko.observable(data.routine_exam_comment);
-		self.insuranceType        = ko.observable(data.insurance_type);
-		self.recordStatus   	  = ko.observable(data.record_status);
-		self.contactName 		  = ko.observable(data.contact_name);
-		self.contactPhone 		  = ko.observable(data.contact_phone);
-		self.contactMobile 	   	  = ko.observable(data.contact_mobile);
-		self.contactRelationship  = ko.observable(data.contact_relationship);
-		self.insuredType 		  = ko.observable('not insured');
-		self.otherName            = ko.observable(data.insurance_name); 
-		
-		// This will return the name in the following format: Last, First
-		self.lastFirstName = ko.computed(function() {
-			return self.lastName() + ", " + self.firstName();
-		});
-	}
-	
-	function ServiceRecord(data) {
-		var self = this;
-		
-		self.id							= ko.observable(data.id);
-		self.patientId					= ko.observable(data.patient_id);
-		self.physicianId				= ko.observable(data.physician_id);
-		self.date						= ko.observable(data.date);
-		self.reason						= ko.observable(data.reason);
-		self.history					= ko.observable(data.history);
-		self.systemsComment				= ko.observable(data.systems_comment);
-		self.noKnownAllergies			= ko.observable(data.no_known_allergies);
-		self.allergiesVerified			= ko.observable(data.allergies_verified);
-		self.physicalExaminationComment	= ko.observable(data.physical_examination_comment);
-		self.planAndInstructions		= ko.observable(data.plan_and_instructions);
-	}
-	
-	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
-	var patient = ko.observable('');
+	var backend = new Backend();
+	var patient = ko.observable(new backend.Patient());
 	var serviceRecords = ko.observableArray([]);
 	var patientId = ko.observable();
 	var currentView = viewModel.activator();
@@ -214,14 +156,14 @@ define(function(require) {
             var backend = new Backend();
 			backend.getServiceRecords(self.patientId()).success(function(data) {
 				if(data.length > 0) {
-					var serviceRecord = $.map(data, function(item) {return new ServiceRecord(item)});
+					var serviceRecord = $.map(data, function(item) {return new backend.ServiceRecord(item)});
 					self.serviceRecords(serviceRecord);
 				}
 			});
-			
+
 			return backend.getPatient(self.patientId()).success(function(data) {
 				if(data.length > 0) {
-					var p = new Patient(data[0]);
+					var p = new backend.Patient(data[0]);
 					self.patient(p);
 				}
 			});
