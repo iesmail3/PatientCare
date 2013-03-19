@@ -87,13 +87,23 @@ define(function(require) {
 		});
 	}
 	
-	// Get Service Record for a Single Patient
-	patient.prototype.getServiceRecord = function(id) {
+	// Get Service Records for a Single Patient
+	patient.prototype.getServiceRecords = function(id) {
 		return this.query({
 			mode: 'select',
 			table: 'service_record',
 			fields: '*',
 			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Get Service Record for a Single Patient
+	patient.prototype.getServiceRecord = function(id, date) {
+		return this.query({
+			mode: 'select',
+			table: 'service_record',
+			fields: '*',
+			where: "WHERE patient_id='" + id + "' AND date='" + date + "'"
 		});
 	}
 	
@@ -181,6 +191,20 @@ define(function(require) {
 		return this.query({
 			mode: 'insert', 
 			table: 'reference', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Add Service Record for a Single Patient
+	patient.prototype.addServiceRecords = function(id, data) {
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'insert', 
+			table: 'service_record', 
 			values: values, 
 			where: "WHERE patient_id='" + id + "'"
 		});
@@ -281,6 +305,20 @@ define(function(require) {
 		});
 	}
 	
+	// Update Service Record for a Single Patient
+	patient.prototype.updateServiceRecords = function(id, data) {
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'update', 
+			table: 'service_record', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
 	/**********************************************************************************************
 	 * Remove Methods
 	 * 
@@ -350,6 +388,20 @@ define(function(require) {
 		return this.query({
 			mode: 'delete', 
 			table: 'reference', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
+	
+	// Delete Service Record for a Single Patient
+	patient.prototype.deleteServiceRecords = function(id, data) {
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return this.query({
+			mode: 'delete', 
+			table: 'service_record', 
 			values: values, 
 			where: "WHERE patient_id='" + id + "'"
 		});

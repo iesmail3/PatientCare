@@ -212,7 +212,7 @@ define(function(require) {
             
             // Load Patient information
             var backend = new Backend();
-			backend.getServiceRecord(self.patientId()).success(function(data) {
+			backend.getServiceRecords(self.patientId()).success(function(data) {
 				if(data.length > 0) {
 					var serviceRecord = $.map(data, function(item) {return new ServiceRecord(item)});
 					self.serviceRecords(serviceRecord);
