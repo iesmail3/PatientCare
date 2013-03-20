@@ -90,7 +90,9 @@ define(function(require) {
 		
 		// This will return the name in the following format: Last, First
 		this.lastFirstName = ko.computed(function() {
-			return self.lastName() + ", " + self.firstName();
+			if (data != null) {
+				return self.lastName() + ", " + self.firstName();
+			}
 		});
 	}  
 	 
