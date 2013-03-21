@@ -9,13 +9,17 @@ define(function(require) {
 	 **********************************************************************************************/
 	var system = require('durandal/system');			// System logger
 	var custom = require('durandal/customBindings');	// Custom bindings
-	//var Backend = require('modules/moduleTemplate');	// Module
+	var Backend = require('modules/patient');			// Backend
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
 	// var observable = ko.observable('');
 	// var observableArray = ko.observableArray([]);
+	var backend = new Backend();
+	var patientId = ko.observable();
+	var serviceRecord = ko.observable(new backend.ServiceRecord());
+	var serviceRecords = ko.observableArray([]);
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -32,6 +36,9 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
+		patientId: patientId,
+		serviceRecord: serviceRecord,
+		serviceRecords: serviceRecords,
 		
 		/******************************************************************************************* 
 		 * Methods
@@ -59,6 +66,21 @@ define(function(require) {
 			// There might be issues when updating observables.
 			// Ex:
 			// return .get().getJSON().post();
-		}
+			var self = this;
+			
+			self.patientId(data.patientId);
+			
+			var backend = new Backend();
+			return backend.getServiceRecords(self.patientId()).success(function(data) {
+				if(data.length > 0) {
+					var serviceRecordEntry = $.map(data, function(item) {return new backend.ServiceRecord(item)});
+					self.serviceRecords(serviceRecordEntry);
+				}
+			});
+		},
+		
+		setFields: function(data) {
+			serviceRecord(data);
+		},
 	};
 });

@@ -10,7 +10,6 @@ Description:
  
 	<div class="tab-content">
 		<div class="tab-pane active" id="service">
-			<!-- ko with: serviceRecord -->
 			<form class="form-inline formPadding">
 				<div class="row-fluid">
 					<fieldset>
@@ -31,46 +30,22 @@ Description:
 					<fieldset>
 						<legend>Edit Service Record</legend>
 						<div class="marginBottom5">
-							<input type="text" placeholder="Date of Service" data-bind="value: date, datepicker: true" />
+							<input type="text" placeholder="Date of Service" data-bind="datepicker: true" />
 							<select>
 								<option value="" disabled selected style="display:none;">Physician</option>
 								<option value="placeholder">placeholder</option>
 							</select>
 						</div>
 						<div class="marginBottom5 commentContainer">
-							<textarea class="commentSpan" rows="3" data-bind="value: reason" placeholder="Reason for Visit" /></textarea>
+							<textarea class="commentSpan" rows="3" placeholder="Reason for Visit" /></textarea>
 						</div>
 						<div class="pull-right">
-							<button type="button" class="btn btn-small">Add</button>
 							<button type="submit" class="btn btn-small btn-primary">Save</button>
 							<button type="button" class="btn btn-small btn-danger">Delete</button>
 						</div>
 					</fieldset>
 				</div>
 			</form>
-			<!-- /ko -->
-			<div class="row-fluid">
-				<table class="table table-bordered table-hover">
-					<thead>
-						<tr>
-							<th></th>
-							<th>Date of Service</th>
-							<th>Physician Name</th>
-							<th>Reason for Visit</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody data-bind="foreach: serviceRecords">
-						<tr data-bind="click: $root.setFields">
-							<td></td>
-							<td data-bind="text: date"></td>
-							<td data-bind="text: physicianId"></td>
-							<td data-bind="text: reason"></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
 		</div>
 	</div>
 </div>

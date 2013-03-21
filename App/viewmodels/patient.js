@@ -30,6 +30,7 @@ define(function(require) {
 	var patient = ko.observable(new backend.Patient());
 	var serviceRecords = ko.observableArray([]);
 	var patientId = ko.observable();
+	var date = ko.observable();
 	var currentView = viewModel.activator();
 	
 	/*********************************************************************************************** 
@@ -53,23 +54,23 @@ define(function(require) {
 	 });
 	 // History Present Illness url generator
 	 var historyUrl = ko.computed(function(element) {
-		return '#/patient/historypresentillness/' + patientId();
+		return '#/patient/historypresentillness/' + date() + '/' + patientId();
 	 });
 	 // Physical Examinations url generator
 	 var physicalUrl = ko.computed(function(element) {
-		return '#/patient/physicalexamination/' + patientId();
+		return '#/patient/physicalexamination/' + date() + '/' + patientId();
 	 });
 	 // Labs & X-ray Reports url generator
 	 var labUrl = ko.computed(function(element) {
-		return '#/patient/labxrayreport/' + patientId();
+		return '#/patient/labxrayreport/' + date() + '/' + patientId();
 	 });
 	 // Diagnosis Plan and Instructions url generator
 	 var diagnosisUrl = ko.computed(function(element) {
-		return '#/patient/diagnosisplaninstruction/' + patientId();
+		return '#/patient/diagnosisplaninstruction/' + date() + '/' + patientId();
 	 });
 	 // Orders url generator
 	 var orderUrl = ko.computed(function(element) {
-		return '#/patient/order/' + patientId();
+		return '#/patient/order/' + date() + '/' + patientId();
 	 });
 
 	/*********************************************************************************************** 
@@ -85,6 +86,7 @@ define(function(require) {
 		patient: patient,
 		serviceRecords: serviceRecords,
 		patientId: patientId,
+		date: date,
 		currentView: viewModel.activator(),
 		personal: personal,
 		social: social,
@@ -119,6 +121,11 @@ define(function(require) {
 			
 			// Get URL parameters (make sure to create an observable above for each)
 			self.patientId(data.patientId);
+			self.date(data.date);
+			
+			console.log("Patient ID: " + data.patientId);
+			console.log("Date: " + data.date);
+			
             var view = data.view;
 			
             // Switch view
