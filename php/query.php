@@ -104,6 +104,7 @@ try {
 		// Bind parameters
 		for($i = 0; $i < count($fields); $i++) {
 			$stmt->bindParam(":" . $fields[$i], $values[$i]);
+			echo $fields[$i] . " => " . $values[$i] . "<br />";
 		}
 		$stmt->execute();
 		
@@ -130,16 +131,26 @@ try {
 	}
 	// If Update is chosen
 	else if($mode == 'update') {
+		// Remove nulls
+		for($i = 0; $i < count($fields); $i++) {
+			if($values[$i] == '') {
+				unset($fields[$i]);
+				$fields = array_values($fields);
+				unset($values[$i]);
+				$values = array_values($values);
+			}
+		}
+		
 		// Create nameholders
 		$set = "";
 		for($i = 0; $i < count($fields); $i++) {
-			$set .= "{$fields[$i]}='{$values[$i]}' AND ";
+			$set .= "{$fields[$i]}='{$values[$i]}', ";
 		}
 		// Remove last AND
-		$set = substr_replace($set, "", -5, strlen($set));
+		$set = substr_replace($set, "", -2, strlen($set));
 		
 		$query = "UPDATE $table SET $set $where";
-
+		
 		// Run Query
 		$stmt = $db->prepare($query);
 		// Bind parameters
@@ -151,7 +162,7 @@ try {
 		// Check for failure
 		$rows_affected = $stmt->rowCount(); 
 		if($rows_affected < 1) {
-			echo 'fail';
+			echo 'failUpdate';
 		}
 	}
 }
