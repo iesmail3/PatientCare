@@ -1,6 +1,7 @@
 define(function(require) {
 	var system = require('durandal/system');
 	var Backend = require('modules/patient');
+	var app = require('durandal/app');
 	
 	/*********************************************************************************************** 
 	 * Patient Structure
@@ -53,7 +54,8 @@ define(function(require) {
 	
 	/*********************************************************************************************** 
 	 * KO Observables
-	 **********************************************************************************************/ 
+	 **********************************************************************************************/
+	var backend = new Backend(); 
 	var keyword = ko.observable();
 	var context = ko.observable();
 	var parameter = ko.observable();
@@ -112,6 +114,7 @@ define(function(require) {
 	 * Manage Patients ViewModel
 	 **********************************************************************************************/
 	return {
+		backend: backend,
 		keyword: keyword,
 		context: context,
 		parameter: parameter,
@@ -125,7 +128,6 @@ define(function(require) {
 		activate: function(data) {
 			var self = this;
 			
-			var backend = new Backend();
 			return backend.getPatients().success(function(data) {
 				var patient = $.map(data, function(item) {return new Patient(item) });
 				self.patients(patient);
@@ -138,6 +140,23 @@ define(function(require) {
 			self.keyword('');
 			self.context('contains');
 			self.parameter('');
+		},
+		deletePatient: function(item, test) {
+			return app.showMessage(
+				'Are you sure you want to delete ' + item.firstName() + ' ' + item.lastName() + '?', 
+				'Delete', 
+				['Yes', 'No'])
+			.done(function(answer){
+				if(answer == 'Yes') {
+					backend.deletePatient(item.id()).complete(function(data) {
+						if(data.responseText == 'fail') {
+							app.showMessage('The patient could not be deleted.', 'Deletion Error');
+						}
+						else
+							patients.remove(item);
+					});
+				}
+			});
 		}
 	};
 });

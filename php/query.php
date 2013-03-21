@@ -118,7 +118,8 @@ try {
 		if($where != "") {
 			$query = "DELETE FROM $table $where";
 			// Run Query
-			$db->exec($query);
+			$stmt = $db->prepare($query);
+			$stmt->execute();
 			
 			// Check for failure
 			$rows_affected = $stmt->rowCount(); 
