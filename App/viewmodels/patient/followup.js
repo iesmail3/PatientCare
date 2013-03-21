@@ -182,6 +182,7 @@ define(function(require) {
 	 var doc            = ko.observable(new Document());
 	 var documents      = ko.observableArray([]);         
 	 var patientId      = ko.observable(); 
+	 var practiceId     = ko.observable(); 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
@@ -208,6 +209,7 @@ define(function(require) {
 		doc: doc,
 		documents: documents, 
 		patientId: patientId,
+		practiceId: practiceId, 
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -230,6 +232,10 @@ define(function(require) {
 			
 			//Patient ID
 			self.patientId(data.patientId); 
+			
+			//Pactice ID
+			self.practiceId(data.practiceId); 
+
 			
 			//Module Object 
 			var backend = new Backend();
