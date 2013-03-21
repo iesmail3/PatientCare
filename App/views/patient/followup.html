@@ -35,6 +35,7 @@ Description:
 									<option value="Days">Days</option>     
 									<option value="Weeks">Weeks</option>            
 									<option value="Months">Months</option>  
+								    <option value="Years">Years</option> 
 								</select>         
 								<input type="text" placeholder="Comment" 
 									data-bind="value: comment, visible: type() == '1'" />
@@ -53,16 +54,20 @@ Description:
 									<input type="radio" name="followup" value="3"
 									data-bind="checked: type" />
 									Followup PRN
-								</label>
+								</label>  
+								<input type="text" placeholder="Comment" 
+								data-bind="value: comment, visible: type() == '3'" />  
 							</div>
 							<div class="marginBottom5">
-								<label class="radio inline">
+								<label class="radio inline">   
 									<input type="radio" name="followup" value="4" 
 									data-bind="checked: type" />
 									No Followup
-								</label>    
-							</div>  
-							<div class="pull-right">
+								</label> 
+								<input type="text" placeholder="Comment" 
+								data-bind="value: comment, visible: type() == '4'" />     
+							</div>   
+							<div class="pull-right">   
 								<button type="button" class="btn btn-small btn-primary">Save</button>
 								<button type="button" class="btn btn-small btn-danger">Cancel</button>
 							</div>
@@ -107,17 +112,17 @@ Description:
 									<div class="bigContainer">
 										<div class="marginBottom5">
 											<label class="checkbox inline">
-												<input type="checkbox"/><span>Primary($5000)</span>
+												<input type="checkbox"/><span>Primary($500)</span> 
 											</label>
 										</div>
 										<div class="marginBottom5">
 											<label class="checkbox inline">
-												<input type="checkbox"/><span>Primary($5000)</span>
+												<input type="checkbox"/><span>Secondary($0)</span>
 											</label>
 										</div>
 										<div class="marginBottom5">
 											<label class="checkbox inline">
-												<input type="checkbox"/><span>Primary($7000)</span>
+												<input type="checkbox"/><span>Other($0)</span>
 											</label>
 										</div>
 									</div>  
@@ -257,9 +262,8 @@ Description:
 									data-bind="value: dateTime,data-bind= datepicker: true"/>
 								<select class="input-medium" data-bind="value:callType">
 									<option>Call Type</option>
-									<option>Type1</option>
-									<option>Type2</option>
-									<option>Type3</option>
+									<option>Incoming</option>
+									<option>Outgoing</option>
 								</select>
 							</div>
 							<div class="marginBottom5">
@@ -276,9 +280,16 @@ Description:
 								</label>
 								<label class="radio inline">
 									<input type="radio" name="actionRequired"   data-bind="checked:actionRequired"value="No" /><span>No</span>
-								</label>   
-							</div>
-							<div class="marginBottom5 pull-right">
+								</label>  
+								<select class="input-medium offset1" data-bind="value:assignedTo">
+									<option>Assigned to</option>
+									<option>Nathan Abraham</option>  
+									<option>Ian Sinkler</option>     
+								</select>     
+							</div>     
+							<div class="marginBottom5">
+								<button type="button" class="btn btn-small btn-primary">Add</button>
+								<button type="button" class="btn btn-small btn-primary">Save</button>
 								<button type="button" class="btn btn-small btn-primary">Save</button>
 								<button type="button" class="btn btn-small btn-danger">Cancel</button>
 							</div>
@@ -287,7 +298,7 @@ Description:
 				</form>
 				<!-- /ko -->
 			</div>
-			<div class="row-fluid">
+			<div class="row-fluid"> 
 				<table class="table table-bordered table-hover">
 					<thead>
 						<tr>
@@ -337,7 +348,9 @@ Description:
 			</div>
 		</div>
 		<div class="tab-pane" id="docs">
+		    <!-- ko with: doc -->
 			<div class="formScroll">
+			
 				<form class="form-inline">
 					<div class="row-fluid">
 						<fieldset>
@@ -345,65 +358,74 @@ Description:
 							<div class="marginBottom5">
 								<select class="input-medium">
 									<option>Document Type</option>
-									<option></option>
-									<option></option>
+									<option>All</option>
+									<option>Labs</option>
+									<option>X-Ray</option>
+									<option>Pathology</option>
+									<option>Procedures</option>
+									<option>Other</option>
 								</select>
-								<div class="pull-right">
+								<div class="pull-right">   
 									<button type="button"class="btn btn-small">Search</button>
 									<button type="button"class="btn btn-small btn-warning">Clear</button>
 								</div>
 							</div>
-						</fieldset>
+						</fieldset>   
 					</div>
 				</form>
+				
 				<form class="form-inline">
 					<div class="row-fluid">
-						<fieldset>
+						<fieldset>   
 							<legend>Details</legend>
 							<div class="marginBottom5">
-								<input type="text" class="input-medium" placeholder="Document Type"/>
+								<input type="text" class="input-medium" placeholder="Document Type" data-bind="value: documentType"/>
+							   <div class="fileupload fileupload-new pull-right" data-provides="fileupload">
+                                 <div class="input-append">
+                                     <div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Select file</span><span class="fileupload-exists">Change</span><input type="file" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                                 </div>
+                             </div>
 							</div>
 							<div class="marginBottom5">
-								<textarea class="input-xxlarge" rows="3" placeholder="Comment"></textarea>
-							</div>
+								<textarea class="input-xxlarge" rows="3" placeholder="Comment" data-bind="value: comment"></textarea>
+							</div>  
 							<div class="marginBottom5">
 								<label class="checkbox inline">
-									<input type="checkbox"/><span>Is Reviewed?</span>
+									<input type="checkbox" data-bind="checked:isReviewed"/><span>Is Reviewed?</span>
 								</label>
-								<button type="button"class="btn btn-small btn-primary pull-right">Save</button>
+								<button type="button"class="btn btn-small btn-primary pull-right" >Save</button>
 							</div>
-						</fieldset>
-					</div>
+						</fieldset>  
+					</div>     
 				</form>
 				<div class="row-fluid">
 					<div class="marginBottom5">
-						<table class="table table-bordered table-hover">
+						<table class="table table-bordered table-hover">   
 							<thead>
 								<tr>
 									<th></th>
 									<th>Received Date</th>
 									<th>DOS</th>
 									<th>Doc Type</th>
-									<th>Is Reviewed?</th>  
-									<th>Comments</th>
-								</tr>  
-								<tbody>    
-									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>	
-										<td><a class="btn btn-small btn-danger">Delete</a></td> 
-									</tr>
-		                        </tbody> 
-							</thead>   
-							<tbody>
-							</tbody>
+									<th>Is Reviewed?</th>     
+									<th>Comments</th>      
+								</tr>
+							</thead>    
+								<tbody data-bind="foreach: documents">     
+									<tr data-bind="click: $root.setDocumentFields">   
+										<td></td>  
+										<td data-bind="text: receivedDate"></td>      
+										<td data-bind="text: DOS"></td>
+										<td data-bind="text: documentType"></td>     
+										<td data-bind="text:isReviewed"></td>
+										<td data-bind="text: comment"></td>	    					     
+									</tr>            
+								</tbody>               
 						</table>
-					</div>
-				</div>
-			</div>
+					</div>    
+				</div>     
+			</div>                    
+			<!-- /ko -->
 		</div>
 	</div>
 </div>

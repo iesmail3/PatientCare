@@ -149,17 +149,15 @@ define(function(require) {
 		var self = this; 
 		
 		if(data != null) { 
-		    self.id        		= ko.observable(data.id); 
-		    self.patient_id     = ko.observable(data.patient_id); 
-		    self.documentType   = ko.observable(data.type); 
+		    self.patientId     = ko.observable(data.patient_id); 
+		    self.documentType   = ko.observable(data.type);    
 		    self.DOS            = ko.observable(data.DOS); 
-		    self.receivedDate   = ko.observable(data._date);
+		    self.receivedDate   = ko.observable(data.date);
 		    self.isReviewed     = ko.observable(data.is_reviewed);  
 		    self.comment        = ko.observable(data.comment); 
 	    }
 	    else {
-    		self.id             = ko.observable(); 
-		    self.patient_id     = ko.observable(); 
+		    self.patientId     = ko.observable(); 
 		    self.documentType   = ko.observable(); 
 		    self.DOS            = ko.observable(); 
 		    self.receivedDate   = ko.observable();
@@ -179,9 +177,10 @@ define(function(require) {
 	 var checkOuts      = ko.observableArray([]); 
 	 var phoneLog       = ko.observable(new PhoneLog()); 
 	 var phoneLogs      = ko.observableArray([]);    
-	 var superBill      = ko.observable(new Superbill()); 
+	 var superBill      = ko.observable(new Superbill());    
 	 var prescription   = ko.observable(new Prescription());
-	 var Document       = ko.observable(new Document());  
+	 var doc            = ko.observable(new Document());
+	 var documents      = ko.observableArray([]);         
 	 var patientId      = ko.observable(); 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -190,7 +189,7 @@ define(function(require) {
 
 	/*********************************************************************************************** 
 	 * ViewModel
-	 *
+	 *  
 	 * For including ko observables and computed functions, add an attribute of the same name.
 	 * Ex: observable: observable
 	 **********************************************************************************************/
@@ -206,7 +205,8 @@ define(function(require) {
 		phoneLogs: phoneLogs, 
 		superBill: superBill, 
 		prescription: prescription,
-		Document: Document,
+		doc: doc,
+		documents: documents, 
 		patientId: patientId,
 		/******************************************************************************************* 
 		 * Methods
@@ -328,7 +328,7 @@ define(function(require) {
 		       	message : 'appointment cancellation' , 
 		       	action_required : 'No', 
 		       	assigned_to  : 'Nathan Abraham', 
-		       	type: 'Type3'
+		       	type: 'Incoming'
 		       	}), 
 		       	new PhoneLog({
 		       	patientId : 123, 
@@ -337,25 +337,51 @@ define(function(require) {
 		       	attended_by : 'Dan Walker', 
 		       	message : 'appointment fix' ,    
 		       	action_required : 'Yes', 
-		       	assigned_to  : 'Ian sinkler', 
-		       	type: 'Type1'
+		       	assigned_to  : 'Ian Sinkler',     
+		       	type: 'Outgoing'
 		       	})
 		]; 
-		   
+		    
 		   self.phoneLogs(phoneLogList); 
+		   
+		var documentList = [   
+			new Document({
+		       	patientId : 123, 
+		       	type : 'X-ray',   
+		       	DOS : '02/02/2013', 
+		       	date : '02/13/2013',    
+		       	is_reviewed : '' , 
+		       	comment : 'No comments'
+		       }),
+		       new Document({
+		       	patientId : 123, 
+		       	type : 'Lab',   
+		       	DOS : '10/02/2013', 
+		       	date : '21/13/2013',    
+		       	is_reviewed : '' , 
+		       	comment : 'No comments either'
+		       }) 
+		         
+		];     
+		
+		self.documents(documentList);       
 		},   
-		    	
+		   	
 		setFields: function(data) {
 			followup(data);
-		},
-		
+		},        
+		   
 		setCheckOutFields: function(data) { 
-			checkOut(data); 
-		}, 
-		
+			checkOut(data);                
+		},             
+				    
 		setPhoneLogFields: function(data) { 
 			phoneLog(data); 
-		}
+		}, 
 		
-	};
+		setDocumentFields: function(data) { 
+			doc(data); 
+		}    
+		
+	};         
 });
