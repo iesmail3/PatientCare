@@ -47,7 +47,7 @@ define(function(require) {
 		});
 		
 		self.goToRecord = ko.computed(function(element) {
-			return '#/patient/personalinformation/' + self.id();
+			return '#/patient/personalinformation/1/' + self.id();
 		});
 	}
 	
