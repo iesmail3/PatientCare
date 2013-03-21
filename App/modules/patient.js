@@ -4,6 +4,11 @@
  * Description: This module is used to query the database.
  *************************************************************************************************/
 define(function(require) {
+	/*********************************************************************************************** 
+	 * Includes*
+	 **********************************************************************************************/
+	var system = require('durandal/system');			// System logger
+	
 	/**********************************************************************************************
 	 * Structures
 	 *********************************************************************************************/
@@ -51,7 +56,8 @@ define(function(require) {
 			this.contactMobile 	   	  = ko.observable(data.contact_mobile);
 			this.contactRelationship  = ko.observable(data.contact_relationship);
 			this.insuredType 		  = ko.observable('not insured');    
-			this.otherName			  = ko.observable(data.insurance_name);      
+			this.otherName			  = ko.observable(data.insurance_name);
+			this.email				  = ko.observable(data.email);      
 		}
 		else {
 			this.practice   		  = ko.observable();
@@ -85,7 +91,8 @@ define(function(require) {
 			this.contactMobile 	   	  = ko.observable();
 			this.contactRelationship  = ko.observable();
 			this.insuredType 		  = ko.observable();    
-			this.otherName			  = ko.observable(); 
+			this.otherName			  = ko.observable();
+			this.email				  = ko.observable();  
 		}
 		
 		// This will return the name in the following format: Last, First
@@ -409,22 +416,62 @@ define(function(require) {
 	}
 	
 	/**********************************************************************************************
-	 * Add Methods
+	 * Save Methods
 	 * 
-	 * These methods add information to the database via INSERT queries
+	 * These methods add information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
 	// Add Personal Information for a Single Patient
-	patient.prototype.addPatient = function(id, data) {
+	patient.prototype.savePatient = function(id, data) {
+		var self = this;
+		
+		var fields = ['practice_id', 'id', 'first_name', 'middle_name', 'last_name', 'alias', 
+			'date_of_birth', 'id_number', 'id_type', 'physician_id', 'address', 'city', 'state',
+			'zip', 'province', 'country', 'phone', 'phone_ext', 'mobile', 'gender', 'marital_status',
+			'family_history_type','family_history_comment', 'routine_exam_comment', 'insurance_type',
+			'record_status', 'contact_name', 'contact_phone', 'contact_mobile', 'contact_relationship',
+			'insurance_name', 'email'];
+		
 		var values = $.map(data, function(k,v) {
-			return [k];
+			if(v != 'lastFirstName' && v!= 'insuredType')
+				if(k() == null || k() == undefined) {
+					return [''];
+				}
+				else
+					return [k()];
 		});
 		
+		var newId = '';
+		if(id == 'new') {
+			self.query({
+				mode: 'select',
+				table: 'patient',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				$.each(data, function(key, item) {
+					newId = parseInt(item.id) + 1;
+				});
+				
+				values[1] = newId;
+				
+				self.query({
+					mode: 'insert', 
+					table: 'patient',
+					fields: fields, 
+					values: values
+				});
+			});
+			
+		}
+		/*
 		return this.query({
 			mode: 'insert', 
 			table: 'patient', 
 			values: values, 
 			where: "WHERE patient_id='" + id + "'"
 		});
+		*/
 	}
 	
 	// Add Insurance for a Single Patient
@@ -512,116 +559,7 @@ define(function(require) {
 	}
 	
 	/**********************************************************************************************
-	 * Update Methods
-	 * 
-	 * These methods update information in the database via UPDATE queries
-	 *********************************************************************************************/
-	// Update Personal Information for a Single Patient
-	patient.prototype.updatePatient = function(id, data) {
-		var fields = Object.keys(data);
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'update', 
-			table: 'patient',
-			fields: fields, 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Update Insurance for a Single Patient
-	patient.prototype.updateInsurance = function(id, data) {
-		var fields = Object.keys(data);
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'update', 
-			table: 'insurance',
-			fields: fields, 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Update Guarantor for a Single Patient
-	patient.prototype.updateGuarantor = function(id, data) {
-		var fields = Object.keys(data);
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'update', 
-			table: 'guarantor',
-			fields: fields, 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Update Employer for a Single Patient
-	patient.prototype.updateEmployer = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'update', 
-			table: 'employer', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Update Spouse for a Single Patient
-	patient.prototype.updateSpouse = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'update', 
-			table: 'spouse', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Update Reference for a Single Patient
-	patient.prototype.updateReference = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'update', 
-			table: 'reference', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Update Service Record for a Single Patient
-	patient.prototype.updateServiceRecords = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'update', 
-			table: 'service_record', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	/**********************************************************************************************
-	 * Remove Methods
+	 * Delete Methods
 	 * 
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
@@ -630,7 +568,7 @@ define(function(require) {
 		return this.query({
 			mode: 'delete', 
 			table: 'patient', 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE id='" + id + "'"
 		});
 	}
 	

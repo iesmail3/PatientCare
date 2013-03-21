@@ -23,6 +23,7 @@ define(function(require) {
 	var secondaryInsurance  = ko.observable(new backend.Insurance());
 	var otherInsurance 		= ko.observable(new backend.Insurance());
 	var patientId 			= ko.observable();
+	var practiceId			= ko.observable();
 	var patient				= ko.observable(new backend.Patient());
 	var guarantor 			= ko.observable(new backend.Guarantor());
 	var employer			= ko.observable(new backend.Employer());
@@ -43,7 +44,9 @@ define(function(require) {
 		 * Attributes
 		 *******************************************************************************************/
 		form: new Forms(),
+		backend: backend,
 		patientId: patientId,
+		practiceId: practiceId,
 		patient: patient,
 		insuredPerson: insuredPerson,
 		primaryInsurance: primaryInsurance,
@@ -83,9 +86,8 @@ define(function(require) {
 			
 			// Patient ID
 			self.patientId(data.patientId);
+			self.practiceId(data.practiceId);
 			
-			// Module object
-			var backend = new Backend();
 			/**************************************************************************************
 			 * Personal Information
 			 * 
@@ -94,6 +96,7 @@ define(function(require) {
 			backend.getPatient(self.patientId()).success(function(data) {
 				if(data.length > 0) {
 					var p = new backend.Patient(data[0]);
+					p.practice(self.practiceId);
 					self.patient(p);
 				}
 			});
@@ -216,5 +219,9 @@ define(function(require) {
 					self.insuredPerson(2);
 			});
 		}, // End activate
+		clickPersonal: function(data) {
+			var self = this;
+			self.backend.savePatient(self.patientId(), self.patient());
+		}
 	}; // End ViewModel
 }); // End file

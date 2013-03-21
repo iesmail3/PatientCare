@@ -60,11 +60,13 @@ $pass = 'nyJQRtaQyw2X2KJH';
 try {
 	// Connect to the database
 	$db = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
+	$db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 	
 	// If Select is chosen
 	if(strtolower($mode) == 'select') {
 		// Compile query
 		$query = "SELECT $fields FROM $table $where $group $order $limit";
+		
 		// Create query statement to run
 		$stmt = $db->query($query);
 		// Fetch method
@@ -76,6 +78,16 @@ try {
 	}
 	// If Insert is chosen
 	else if($mode == 'insert') {
+		// Remove nulls
+		for($i = 0; $i < count($fields); $i++) {
+			if($values[$i] == '') {
+				unset($fields[$i]);
+				$fields = array_values($fields);
+				unset($values[$i]);
+				$values = array_values($values);
+			}
+		}
+		
 		// Create nameholders
 		$nameholders = "(";
 		$fieldString = "(";
@@ -86,12 +98,12 @@ try {
 		$nameholders = substr_replace($nameholders ,"",-1) . ")";
 		$fieldString = substr_replace($fieldString ,"",-1) . ")";
 		
-		$query = "INSERT INTO $table VALUES $nameholders $where";
+		$query = "INSERT INTO $table $fieldString VALUES $nameholders $where";
 		// Run Query
 		$stmt = $db->prepare($query);
 		// Bind parameters
 		for($i = 0; $i < count($fields); $i++) {
-			$stmt->bindParam(":" . $fields[$i], $value[$i]);
+			$stmt->bindParam(":" . $fields[$i], $values[$i]);
 		}
 		$stmt->execute();
 		
@@ -106,7 +118,8 @@ try {
 		if($where != "") {
 			$query = "DELETE FROM $table $where";
 			// Run Query
-			$db->exec($query);
+			$stmt = $db->prepare($query);
+			$stmt->execute();
 			
 			// Check for failure
 			$rows_affected = $stmt->rowCount(); 

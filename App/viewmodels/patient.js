@@ -31,6 +31,7 @@ define(function(require) {
 	var serviceRecords = ko.observableArray([]);
 	var patientId = ko.observable();
 	var date = ko.observable();
+	var practiceId = ko.observable();
 	var currentView = viewModel.activator();
 	
 	/*********************************************************************************************** 
@@ -38,19 +39,19 @@ define(function(require) {
 	 **********************************************************************************************/
 	 // Personal information url generator
 	 var personalUrl = ko.computed(function(element) {
-	 	return '#/patient/personalinformation/' + patientId();
+	 	return '#/patient/personalinformation/' + practiceId() + '/' + patientId();
 	 });
 	 // Social and Family History url generator
 	 var socialUrl = ko.computed(function(element) {
-	 	return '#/patient/socialandfamily/' + patientId();
+	 	return '#/patient/socialandfamily/' + practiceId() + '/' + patientId();
 	 });
 	 // Service Record url generator
 	 var serviceUrl = ko.computed(function(element) {
-	 	return '#/patient/servicerecord/' + patientId();
+	 	return '#/patient/servicerecord/' + practiceId() + '/' + patientId();
 	 });
 	 // Follow Up url generator
 	 var followupUrl = ko.computed(function(element) {
-	 	return '#/patient/followup/' + patientId();
+	 	return '#/patient/followup/' + practiceId() + '/' + patientId();
 	 });
 	 // History Present Illness url generator
 	 var historyUrl = ko.computed(function(element) {
@@ -87,6 +88,7 @@ define(function(require) {
 		serviceRecords: serviceRecords,
 		patientId: patientId,
 		date: date,
+		practiceId: practiceId,
 		currentView: viewModel.activator(),
 		personal: personal,
 		social: social,
@@ -126,6 +128,7 @@ define(function(require) {
 			console.log("Patient ID: " + data.patientId);
 			console.log("Date: " + data.date);
 			
+			self.practiceId('1'); // Uncomment when adding login self.practiceId(data.practiceId);
             var view = data.view;
 			
             // Switch view
