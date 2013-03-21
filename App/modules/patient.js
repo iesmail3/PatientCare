@@ -363,7 +363,7 @@ define(function(require) {
 	/**********************************************************************************************
 	 * Save Methods
 	 * 
-	 * These methods add information to the database via INSERT queries
+	 * These methods add information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
 	// Add Personal Information for a Single Patient
 	patient.prototype.savePatient = function(id, data) {
@@ -386,7 +386,7 @@ define(function(require) {
 		});
 		
 		var newId = '';
-		if(true) {
+		if(id == 'new') {
 			self.query({
 				mode: 'select',
 				table: 'patient',
@@ -490,102 +490,7 @@ define(function(require) {
 	}
 	
 	/**********************************************************************************************
-	 * Update Methods
-	 * 
-	 * These methods update information in the database via UPDATE queries
-	 *********************************************************************************************/
-	// Update Personal Information for a Single Patient
-	patient.prototype.updatePatient = function(id, data) {
-		var fields = Object.keys(data);
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'update', 
-			table: 'patient',
-			fields: fields, 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Update Insurance for a Single Patient
-	patient.prototype.updateInsurance = function(id, data) {
-		var fields = Object.keys(data);
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'update', 
-			table: 'insurance',
-			fields: fields, 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Update Guarantor for a Single Patient
-	patient.prototype.updateGuarantor = function(id, data) {
-		var fields = Object.keys(data);
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'update', 
-			table: 'guarantor',
-			fields: fields, 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Update Employer for a Single Patient
-	patient.prototype.updateEmployer = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'update', 
-			table: 'employer', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Update Spouse for a Single Patient
-	patient.prototype.updateSpouse = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'update', 
-			table: 'spouse', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Update Reference for a Single Patient
-	patient.prototype.updateReference = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'update', 
-			table: 'reference', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	/**********************************************************************************************
-	 * Remove Methods
+	 * Delete Methods
 	 * 
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
@@ -594,7 +499,7 @@ define(function(require) {
 		return this.query({
 			mode: 'delete', 
 			table: 'patient', 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE id='" + id + "'"
 		});
 	}
 	
