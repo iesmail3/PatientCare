@@ -429,7 +429,7 @@
                 return value;
             },
             areSameItem: function (currentItem, newItem, activationData) {
-                return currentItem == newItem;
+                return false; //currentItem == newItem;
             },
             beforeActivate: function (newItem) {
                 return newItem;

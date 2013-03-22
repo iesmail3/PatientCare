@@ -20,6 +20,7 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
+	var backend = new Backend();
 	var patient = ko.observable('');
 	var patientId = ko.observable();
 	var practiceId = ko.observable();
@@ -55,6 +56,7 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
+		backend: backend,
 		patient: patient,
 		patientId: patientId,
 		practiceId: practiceId,
@@ -90,6 +92,9 @@ define(function(require) {
 			self.practiceId('1'); // Uncomment when adding login self.practiceId(data.practiceId);
             var view = data.view;
             
+            if(self.patientId() == 'new')
+            	self.patient(new backend.Patient());
+            
             // Switch view
             switch(view) {
             	case 'socialandfamily': 
@@ -107,7 +112,6 @@ define(function(require) {
             }
             
             // Load Patient information
-            var backend = new Backend();
             return backend.getPatient(self.patientId()).success(function(data) {
             	if(data.length > 0) {
             		var p = new backend.Patient(data[0]);
