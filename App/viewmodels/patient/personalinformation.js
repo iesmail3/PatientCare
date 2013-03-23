@@ -13,6 +13,7 @@ define(function(require) {
 	var custom = require('durandal/customBindings');	// Custom bindings
 	var Backend = require('modules/patient');			// Database access
 	var Forms = require('modules/form');				// Common form elements
+	var router = require('durandal/plugins/router');
 	
 	/*********************************************************************************************** 
 	 * KO Observables
@@ -87,6 +88,7 @@ define(function(require) {
 			// Patient ID
 			self.patientId(data.patientId);
 			self.practiceId(data.practiceId);
+			self.patient().practice(data.practiceId);
 			
 			/**************************************************************************************
 			 * Personal Information
@@ -96,10 +98,15 @@ define(function(require) {
 			backend.getPatient(self.patientId()).success(function(data) {
 				if(data.length > 0) {
 					var p = new backend.Patient(data[0]);
-					p.practice(self.practiceId);
+					p.practice(self.practiceId());
 					self.patient(p);
 				}
 			});
+			
+			if(self.patientId() == 'new') {
+				self.patient(new backend.Patient());
+				self.patient().practice(self.practiceId());
+			}
 			
 			/**************************************************************************************
 			 * Gurantor Information
@@ -221,7 +228,12 @@ define(function(require) {
 		}, // End activate
 		clickPersonal: function(data) {
 			var self = this;
-			self.backend.savePatient(self.patientId(), self.patient());
+			self.backend.savePatient(self.patientId(), self.patient()).complete(function(data) {
+				if(data.responseText != "" && data.responseText != "failUpdate") {
+					self.patientId($.parseJSON(data.responseText)[0].id);
+					router.navigateTo('#/patient/personalinformation/' + self.practiceId() + '/' + (parseInt(self.patientId()) + 1));
+				}
+			});
 		}
 	}; // End ViewModel
 }); // End file

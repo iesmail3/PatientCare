@@ -62,9 +62,9 @@ define(function(require) {
 		else {
 			this.practice   		  = ko.observable();
 			this.id					  = ko.observable();
-			this.firstName  		  = ko.observable();
-			this.middleName 		  = ko.observable();
-			this.lastName   		  = ko.observable();
+			this.firstName  		  = ko.observable('');
+			this.middleName 		  = ko.observable('');
+			this.lastName   		  = ko.observable('');
 			this.alias			   	  = ko.observable();
 			this.dob			   	  = ko.observable();
 			this.idNumber  			  = ko.observable();
@@ -97,9 +97,10 @@ define(function(require) {
 		
 		// This will return the name in the following format: Last, First
 		this.lastFirstName = ko.computed(function() {
-			if (data != null) {
+			if (self.lastName() == '' && self.firstName() == '')
+				return '';
+			else
 				return self.lastName() + ", " + self.firstName();
-			}
 		});
 	}  
 	 
@@ -326,6 +327,18 @@ define(function(require) {
 	 * 
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/
+	// Get Patient ID
+	// Get All Patients
+	patient.prototype.getPatientId = function() {
+		return this.query({
+			mode: 'select', 
+			table: 'patient', 
+			fields: 'id',
+			order: 'ORDER BY id DESC',
+			limit: 'LIMIT 1'
+		});
+	}
+	
 	// Get All Patients
 	patient.prototype.getPatients = function() {
 		return this.query({
@@ -439,10 +452,10 @@ define(function(require) {
 				else
 					return [k()];
 		});
-		
+
 		var newId = '';
 		if(id == 'new') {
-			self.query({
+			return self.query({
 				mode: 'select',
 				table: 'patient',
 				fields: 'id',
@@ -464,14 +477,15 @@ define(function(require) {
 			});
 			
 		}
-		/*
-		return this.query({
-			mode: 'insert', 
-			table: 'patient', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-		*/
+		else {
+			return self.query({
+				mode: 'update', 
+				table: 'patient',
+				fields: fields, 
+				values: values, 
+				where: "WHERE id='" + id + "'"
+			});
+		}
 	}
 	
 	// Add Insurance for a Single Patient

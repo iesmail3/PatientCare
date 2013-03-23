@@ -89,6 +89,7 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
+		backend: backend,
 		patient: patient,
 		serviceRecords: serviceRecords,
 		patientId: patientId,
