@@ -17,6 +17,7 @@ define(function(require) {
 	var social = require('viewmodels/patient/socialandfamily');
 	var service = require('viewmodels/patient/servicerecord');
 	var followup = require('viewmodels/patient/followup');
+	var serviceView = require('viewmodels/patient/servicerecord/serviceview');
 	var history = require('viewmodels/patient/servicerecord/historypresentillness');
 	var physical = require('viewmodels/patient/servicerecord/physicalexamination');
 	var lab = require('viewmodels/patient/servicerecord/labxrayreport');
@@ -53,25 +54,29 @@ define(function(require) {
 	 var followupUrl = ko.computed(function(element) {
 	 	return '#/patient/followup/' + practiceId() + '/' + patientId();
 	 });
+	 // Service Record View url generator
+	 var serviceViewUrl = ko.computed(function(element) {
+		return '#/patient/servicerecord/serviceview/' + practiceId() + '/' + patientId() + '/' + date();
+	 });
 	 // History Present Illness url generator
 	 var historyUrl = ko.computed(function(element) {
-		return '#/patient/historypresentillness/' + date() + '/' + patientId();
+		return '#/patient/servicerecord/historypresentillness/' + date() + '/' + patientId();
 	 });
 	 // Physical Examinations url generator
 	 var physicalUrl = ko.computed(function(element) {
-		return '#/patient/physicalexamination/' + date() + '/' + patientId();
+		return '#/patient/servicerecord/physicalexamination/' + date() + '/' + patientId();
 	 });
 	 // Labs & X-ray Reports url generator
 	 var labUrl = ko.computed(function(element) {
-		return '#/patient/labxrayreport/' + date() + '/' + patientId();
+		return '#/patient/servicerecord/labxrayreport/' + date() + '/' + patientId();
 	 });
 	 // Diagnosis Plan and Instructions url generator
 	 var diagnosisUrl = ko.computed(function(element) {
-		return '#/patient/diagnosisplaninstruction/' + date() + '/' + patientId();
+		return '#/patient/servicerecord/diagnosisplaninstruction/' + date() + '/' + patientId();
 	 });
 	 // Orders url generator
 	 var orderUrl = ko.computed(function(element) {
-		return '#/patient/order/' + date() + '/' + patientId();
+		return '#/patient/servicerecord/order/' + date() + '/' + patientId();
 	 });
 
 	/*********************************************************************************************** 
@@ -94,6 +99,7 @@ define(function(require) {
 		social: social,
 		service: service,
 		followup: followup,
+		serviceView: serviceView,
 		history: history,
 		physical: physical,
 		lab: lab,
@@ -183,6 +189,7 @@ define(function(require) {
 		socialUrl: socialUrl,
 		serviceUrl: serviceUrl,
 		followupUrl: followupUrl,
+		serviceViewUrl: serviceViewUrl,
 		historyUrl: historyUrl,
 		physicalUrl: physicalUrl,
 		labUrl: labUrl,
