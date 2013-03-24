@@ -17,7 +17,7 @@ define(function(require) {
 	var social = require('viewmodels/patient/socialandfamily');
 	var service = require('viewmodels/patient/servicerecord');
 	var followup = require('viewmodels/patient/followup');
-	var serviceView = require('viewmodels/patient/servicerecord/serviceview');
+	var serviceview = require('viewmodels/patient/servicerecord/serviceview');
 	var history = require('viewmodels/patient/servicerecord/historypresentillness');
 	var physical = require('viewmodels/patient/servicerecord/physicalexamination');
 	var lab = require('viewmodels/patient/servicerecord/labxrayreport');
@@ -31,7 +31,6 @@ define(function(require) {
 	var patient = ko.observable(new backend.Patient());
 	var serviceRecords = ko.observableArray([]);
 	var patientId = ko.observable();
-	var date = ko.observable();
 	var practiceId = ko.observable();
 	var currentView = viewModel.activator();
 	
@@ -55,28 +54,28 @@ define(function(require) {
 	 	return '#/patient/followup/' + practiceId() + '/' + patientId();
 	 });
 	 // Service Record View url generator
-	 var serviceViewUrl = ko.computed(function(element) {
-		return '#/patient/servicerecord/serviceview/' + practiceId() + '/' + patientId() + '/' + date();
+	 var serviceviewUrl = ko.computed(function(element) {
+		return '#/patient/serviceview/' + practiceId() + '/' + patientId();
 	 });
 	 // History Present Illness url generator
 	 var historyUrl = ko.computed(function(element) {
-		return '#/patient/servicerecord/historypresentillness/' + date() + '/' + patientId();
+		return '#/patient/historypresentillness/' + practiceId() + '/' + patientId();
 	 });
 	 // Physical Examinations url generator
 	 var physicalUrl = ko.computed(function(element) {
-		return '#/patient/servicerecord/physicalexamination/' + date() + '/' + patientId();
+		return '#/patient/physicalexamination/' + practiceId() + '/' + patientId();
 	 });
 	 // Labs & X-ray Reports url generator
 	 var labUrl = ko.computed(function(element) {
-		return '#/patient/servicerecord/labxrayreport/' + date() + '/' + patientId();
+		return '#/patient/labxrayreport/' + practiceId() + '/' + patientId();
 	 });
 	 // Diagnosis Plan and Instructions url generator
 	 var diagnosisUrl = ko.computed(function(element) {
-		return '#/patient/servicerecord/diagnosisplaninstruction/' + date() + '/' + patientId();
+		return '#/patient/diagnosisplaninstruction/' + practiceId() + '/' + patientId();
 	 });
 	 // Orders url generator
 	 var orderUrl = ko.computed(function(element) {
-		return '#/patient/servicerecord/order/' + date() + '/' + patientId();
+		return '#/patient/order/' + practiceId() + '/' + patientId();
 	 });
 
 	/*********************************************************************************************** 
@@ -93,14 +92,13 @@ define(function(require) {
 		patient: patient,
 		serviceRecords: serviceRecords,
 		patientId: patientId,
-		date: date,
 		practiceId: practiceId,
 		currentView: viewModel.activator(),
 		personal: personal,
 		social: social,
 		service: service,
 		followup: followup,
-		serviceView: serviceView,
+		serviceview: serviceview,
 		history: history,
 		physical: physical,
 		lab: lab,
@@ -130,13 +128,9 @@ define(function(require) {
 			
 			// Get URL parameters (make sure to create an observable above for each)
 			self.patientId(data.patientId);
-			self.date(data.date);
-			
-			console.log("Patient ID: " + data.patientId);
-			console.log("Date: " + data.date);
 			
 			self.practiceId('1'); // Uncomment when adding login self.practiceId(data.practiceId);
-            var view = data.view;
+			var view = data.view;
 			
             // Switch view
             switch(view) {
@@ -149,13 +143,16 @@ define(function(require) {
             	case 'followup': 
             		self.currentView.activateItem(followup, data);
             		break;
-				case 'historypresentillness':
+				case 'serviceview':
+					self.currentView.activateItem(serviceview, data);
+					break;
+				case 'historypresentillness': 
 					self.currentView.activateItem(history, data);
 					break;
-				case 'physicalexamination':
+				case 'physicalexamination': 
 					self.currentView.activateItem(physical, data);
 					break;
-				case 'labxrayreport':
+				case 'labxrayreport': 
 					self.currentView.activateItem(lab, data);
 					break;
 				case 'diagnosisplaninstruction':
@@ -190,7 +187,7 @@ define(function(require) {
 		socialUrl: socialUrl,
 		serviceUrl: serviceUrl,
 		followupUrl: followupUrl,
-		serviceViewUrl: serviceViewUrl,
+		serviceviewUrl: serviceviewUrl,
 		historyUrl: historyUrl,
 		physicalUrl: physicalUrl,
 		labUrl: labUrl,

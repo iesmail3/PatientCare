@@ -18,7 +18,8 @@ Description: This view is the outer patient view. It will hold the tree
 						<li><a data-bind="attr: {href: serviceUrl}">Service Record</a></li>
 						<div class="serviceRecords">
 							<ul data-bind="foreach: serviceRecords">
-								<li data-bind="text: date"></li>
+								<!--<li data-bind="text: date"></li>-->
+								<li><a data-bind="text: date, attr: {href: $root.serviceviewUrl}"></a></li>
 								<ul>
 									<li><a data-bind="attr: {href: $root.historyUrl}">History & Present Illness</a></li>
 									<li><a data-bind="attr: {href: $root.physicalUrl}">Physical Examinations</a></li>
