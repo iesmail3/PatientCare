@@ -1,0 +1,58 @@
+<form class="form-inline formPadding">
+	<div class="row-fluid">
+		<div class="marginBottom5">
+			<input type="text" placeholder="Medicine" />
+			<select>
+				<option value="" disabled selected style="display:none;">Strength</option>
+				<option value="placeholder">placeholder</option>
+			</select>
+		</div>
+		<div class="marginBottom5">
+			<input type="text" placeholder="Quantity" />
+			<select>
+				<option value="" disabled selected style="display:none;">Route</option>
+				<option value="placeholder">placeholder</option>
+			</select>
+			<select>
+				<option value="" disabled selected style="display:none;">Sigs</option>
+				<option value="placeholder">placeholder</option>
+			</select>
+		</div>
+		<div class="marginBottom5">
+			<select>
+				<option value="" disabled selected style="display:none;">Status</option>
+				<option value="placeholder">placeholder</option>
+			</select>
+		</div>
+		<div class="marginBottom5">
+			<input type="text" placeholder="Prescribed By" />
+			<input type="text" placeholder="Prescription Date" data-bind="datepicker: true" />
+			<input type="text" placeholder="Discontinued By" />
+			<input type="text" placeholder="Discontinuation Date" data-bind="datepicker: true" />
+		</div>
+		<div class="marginBottom5 commentContainer">
+			<textarea class="commentSpan" rows="3" placeholder="Comments" /></textarea>
+		</div>
+		<div class="pull-right">
+			<button type="submit" class="btn btn-small btn-primary">Save</button>
+			<button type="button" class="btn btn-small btn-warning">Cancel</button>
+		</div>
+	</div>
+</form>
+<div class="row-fluid">
+	<table class="table table-bordered table-hover">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Medicine Name</th>
+				<th>Strength</th>
+				<th>Quantity</th>
+				<th>Route</th>
+				<th>Sigs</th>
+				<th>Status</th>
+				<th>Prescribed By</th>
+				<th></th>
+			</tr>
+		</thead>
+	</table>
+</div>

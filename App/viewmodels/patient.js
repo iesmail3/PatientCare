@@ -18,10 +18,10 @@ define(function(require) {
 	var service = require('viewmodels/patient/servicerecord');
 	var followup = require('viewmodels/patient/followup');
 	var serviceview = require('viewmodels/patient/servicerecord/serviceview');
-	var history = require('viewmodels/patient/servicerecord/historypresentillness');
-	var physical = require('viewmodels/patient/servicerecord/physicalexamination');
-	var lab = require('viewmodels/patient/servicerecord/labxrayreport');
-	var diagnosis = require('viewmodels/patient/servicerecord/diagnosisplaninstruction');
+	var history = require('viewmodels/patient/servicerecord/history');
+	var physical = require('viewmodels/patient/servicerecord/physical');
+	var report = require('viewmodels/patient/servicerecord/report');
+	var diagnosis = require('viewmodels/patient/servicerecord/diagnosis');
 	var order = require('viewmodels/patient/servicerecord/order');
 	
 	/*********************************************************************************************** 
@@ -30,6 +30,7 @@ define(function(require) {
 	var backend = new Backend();
 	var patient = ko.observable(new backend.Patient());
 	var serviceRecords = ko.observableArray([]);
+	//var serviceDate = ko.observable();
 	var patientId = ko.observable();
 	var practiceId = ko.observable();
 	var currentView = viewModel.activator();
@@ -59,19 +60,19 @@ define(function(require) {
 	 });
 	 // History Present Illness url generator
 	 var historyUrl = ko.computed(function(element) {
-		return '#/patient/historypresentillness/' + practiceId() + '/' + patientId();
+		return '#/patient/history/' + practiceId() + '/' + patientId();
 	 });
 	 // Physical Examinations url generator
 	 var physicalUrl = ko.computed(function(element) {
-		return '#/patient/physicalexamination/' + practiceId() + '/' + patientId();
+		return '#/patient/physical/' + practiceId() + '/' + patientId();
 	 });
 	 // Labs & X-ray Reports url generator
-	 var labUrl = ko.computed(function(element) {
-		return '#/patient/labxrayreport/' + practiceId() + '/' + patientId();
+	 var reportUrl = ko.computed(function(element) {
+		return '#/patient/report/' + practiceId() + '/' + patientId();
 	 });
 	 // Diagnosis Plan and Instructions url generator
 	 var diagnosisUrl = ko.computed(function(element) {
-		return '#/patient/diagnosisplaninstruction/' + practiceId() + '/' + patientId();
+		return '#/patient/diagnosis/' + practiceId() + '/' + patientId();
 	 });
 	 // Orders url generator
 	 var orderUrl = ko.computed(function(element) {
@@ -91,6 +92,7 @@ define(function(require) {
 		backend: backend,
 		patient: patient,
 		serviceRecords: serviceRecords,
+		//serviceDate: serviceDate,
 		patientId: patientId,
 		practiceId: practiceId,
 		currentView: viewModel.activator(),
@@ -101,7 +103,7 @@ define(function(require) {
 		serviceview: serviceview,
 		history: history,
 		physical: physical,
-		lab: lab,
+		report: report,
 		diagnosis: diagnosis,
 		order: order,
 		/******************************************************************************************* 
@@ -146,16 +148,16 @@ define(function(require) {
 				case 'serviceview':
 					self.currentView.activateItem(serviceview, data);
 					break;
-				case 'historypresentillness': 
+				case 'history': 
 					self.currentView.activateItem(history, data);
 					break;
-				case 'physicalexamination': 
+				case 'physical': 
 					self.currentView.activateItem(physical, data);
 					break;
-				case 'labxrayreport': 
-					self.currentView.activateItem(lab, data);
+				case 'report': 
+					self.currentView.activateItem(report, data);
 					break;
-				case 'diagnosisplaninstruction':
+				case 'diagnosis':
 					self.currentView.activateItem(diagnosis, data);
 					break;
 				case 'order':
@@ -190,7 +192,7 @@ define(function(require) {
 		serviceviewUrl: serviceviewUrl,
 		historyUrl: historyUrl,
 		physicalUrl: physicalUrl,
-		labUrl: labUrl,
+		reportUrl: reportUrl,
 		diagnosisUrl: diagnosisUrl,
 		orderUrl: orderUrl
 	};

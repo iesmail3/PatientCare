@@ -1,0 +1,45 @@
+<form class="form-inline formPadding">
+	<div class="row-fluid">
+		<div class="marginBottom5">
+			<select>
+				<option value="" disabled selected style="display:none;">Problem Type</option>
+				<option value="placeholder">placeholder</option>
+			</select>
+		</div>
+		<div class="marginBottom5 commentContainer">
+			<textarea class="commentSpan" rows="3" placeholder="Description" /></textarea>
+		</div>
+		<div class="marginBottom5">
+			<input type="text" placeholder="Onset Date" data-bind="datepicker: true" />
+			<label class="checkbox inline">
+				<input type="checkbox" />
+				<span>Unknown</span>
+			</label>
+		</div>
+		<div class="marginBottom5">
+			<input type="text" placeholder="Resolution Date" data-bind="datepicker: true" />
+			<label class="checkbox inline">
+				<input type="checkbox" />
+				<span>Unknown</span>
+			</label>
+		</div>
+		<div class="pull-right">
+			<button type="submit" class="btn btn-small btn-primary">Save</button>
+			<button type="button" class="btn btn-small btn-warning">Cancel</button>
+		</div>
+	</div>
+</form>
+<div class="row-fluid">
+	<table class="table table-bordered table-hover">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Type of Problem</th>
+				<th>Description</th>
+				<th>Onset Date</th>
+				<th>Resolution Date</th>
+				<th></th>
+			</tr>
+		</thead>
+	</table>
+</div>
