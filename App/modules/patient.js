@@ -319,7 +319,7 @@ define(function(require) {
 			mode: 'select', 
 			table: 'insurance', 
 			fields: '*', 
-			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
+			where: "WHERE patient_id='" + id + "'" 
 		});
 	}
 	

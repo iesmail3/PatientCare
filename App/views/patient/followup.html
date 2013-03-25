@@ -326,9 +326,9 @@ Description:
 								</select>      
 							</div>     
 							<div class="marginBottom5 pull-right">
-								<button type="button" id ="addButton" class="btn btn-small btn-primary">Add</button>
-								<button type="button" class="btn btn-small btn-primary">Save</button>
-								<button type="button" id ="cancelButton" class="btn btn-small btn-danger">Cancel</button>
+								<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.phoneLogAdd,visible: !$root.phoneLogState()">New</button>
+								<button type="button" class="btn btn-small btn-primary" data-bind="visible: !$root.phoneLogSave()">Save</button>
+								<button type="button" id ="cancelButton" class="btn btn-small btn-danger" data-bind="click: $root.phoneLogCancel,visible: $root.phoneLogState()">Cancel</button>
 							</div>
 						</fieldset>
 					</div>
@@ -350,7 +350,7 @@ Description:
 					<tbody data-bind="foreach: phoneLogs">     
 							<tr data-bind="click: $root.setPhoneLogFields">   
 								<td></td>  
-								<td data-bind="text: dateTime"></td>   
+								<td data-bind="text: datetime"></td>   
 								<td data-bind="text: callType"></td>
 								<td data-bind="text: caller"></td>  
 								<td data-bind="text:attendedBy"></td>

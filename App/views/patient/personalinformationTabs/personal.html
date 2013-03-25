@@ -1,0 +1,249 @@
+<div class="formScroll">
+	<form class="form-inline">
+		<!-- ko with: patient -->
+		<!-- Personal Details -->
+		<div class="row-fluid">
+			<fieldset>
+				<legend>Personal Details</legend>
+				<div class="marginBottom5">
+					<input type="text" data-bind="value: lastName" placeholder="Last Name" />
+					<input type="text" data-bind="value: middleName" placeholder="Middle Name" />
+					<input type="text" data-bind="value: firstName" placeholder="First Name" />
+				</div>
+				<div class="marginBottom5">
+					<input type="text" data-bind="value: alias" placeholder="Alias" />
+					<select class="input-small" data-bind="value: gender">
+						<option value="" disabled selected style="display:none;">Gender</option>
+						<option value="male">Male</option>
+						<option value="female">Female</option>
+					</select>
+					<input type="text" data-bind="value: dob,datepicker: true" class="input-small"  placeholder="Date of Birth" />
+				</div>
+				<div class="marginBottom5">
+					<input type="text" class="input-small" data-bind="value: idNumber" placeholder="Patient ID" />
+					<input type="text" class="input-small" data-bind="value: idType" placeholder="ID Type" />
+					<select data-bind="value: maritalStatus" class="input-medium" >
+						<option value="">Marital Status</option>
+						<option value="divorced">Divorced</option>
+						<option value="married">Married</option>
+						<option value="separated">Separated</option>
+						<option value="single">Single</option>
+						<option value="widowed">Widowed</option>
+						<option value="other">Other</option>
+					</select>
+					<input type="number" class="input-medium"  placeholder="No. of Children" />
+				</div>
+			</fieldset>
+		</div>
+		<!-- Contact Details -->
+		<div class="row-fluid">
+			<fieldset>
+				<legend>Contact Details</legend>
+				<div class="marginBottom5">
+					<input type="text" class="input-xlarge" data-bind="value: address" placeholder="Street Address" />
+				</div>
+				<div class="marginBottom5">
+					<input type="text" data-bind="value: city" placeholder="City" />
+					<select data-bind="options: $root.form.states, optionsText: 
+						'text', optionsValue: 'value', optionsCaption: 'State', value: state" class="input-medium">
+					</select>
+					<input type="text" class="input-small" data-bind="value: zip" placeholder="Zip Code" />
+					<select data-bind="options: $root.form.countries, optionsText: 
+						'text', optionsValue: 'value', optionsCaption: 'Country', value: country" class="input-medium">
+					</select>
+				</div>
+				<div class="marginBottom5">
+					<input type="text" data-bind="value: phone" placeholder="Phone" />
+					<input type="text" data-bind="value: mobile" placeholder="Cell" />
+					<input type="text"  placeholder="Email" />
+				</div>
+				<div class="marginBottom5">
+					<input type="text" data-bind="value: contactName" placeholder="Emergency Contact Name" />
+					<input type="text" data-bind="value: contactRelationship" placeholder="Relationship with Patient" />
+					<input type="text" data-bind="value: contactPhone" placeholder="Emergency Phone" />
+					<input type="text" data-bind="value: contactMobile" placeholder="Emergency Cell" />
+				</div>
+			</fieldset>
+		</div> <!-- /ko -->    
+		<div class="row-fluid">
+			<!-- ko with: employer -->
+			<!-- Employment Details Left Column -->
+			<div class="span5">
+				<fieldset>
+					<legend>Employment Details</legend>
+					<div class="marginBottom5">
+						<span class="radio inline">Currently Employed</span>
+						<label class="radio inline">
+							<input data-bind="checked: $root.personalEmployer" type="radio" name="employed" value="1" /><span>Yes</span>
+						</label>
+						<label class="radio inline">
+							<input data-bind="checked: $root.personalEmployer" type="radio" name="employed" value="0" /><span>No</span>
+						</label>
+					</div>
+					<div class="marginBottom5">
+						<input type="text" class="input-xlarge" data-bind="enable: $root.personalEmployer() == '1', 
+							value: companyName" placeholder="Employer" />
+					</div>
+					<div class="marginBottom5">
+						<input type="text" class="input-xlarge" data-bind="enable: $root.personalEmployer() == '1', 
+							value: address" placeholder="Address" />
+					</div>
+					<div class="marginBottom5">
+						<input type="text" class="input-medium" data-bind="enable: $root.personalEmployer() == '1',
+							 value: city" placeholder="City" />
+						<select data-bind="enable: $root.personalEmployer() == '1', options: $root.form.states, optionsText: 
+							'text', optionsValue: 'value', optionsCaption: 'State', value: state" class="input-medium">
+						</select>
+					</div>
+					<div class="marginBottom5">
+						<input type="text" class="input-small" data-bind="enable: $root.personalEmployer() == '1',
+							value: zip" placeholder="Zip Code" />
+						<select data-bind="enable: $root.personalEmployer() == '1', options: $root.form.countries, optionsText: 
+							'text', optionsValue: 'value', optionsCaption: 'Country', value: country" class="input-medium">
+						</select>
+					</div>
+					<div class="marginBottom5">
+						<input type="text" class="input-small" data-bind="enable: $root.personalEmployer() == '1',
+							value: phone" placeholder="Phone" />
+					</div>
+				</fieldset>
+			</div> <!-- /ko -->
+			<!-- ko with: spouse -->
+			<!-- Spouse Details Right Column -->
+			<div class="offset1 span5">
+				<fieldset>
+					<legend>Spouse Details</legend>
+					<div class="marginBottom5">
+						<input type="text" class="input-medium"data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated', 
+							value: firstName" placeholder="First Name" />
+						<input type="text" class="input-medium" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated',
+							value: lastName" placeholder="Last Name" />
+					</div>
+					<div class="marginBottom5">
+						<select class="input-small" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated', value: gender">
+							<option value="">Gender</option>
+							<option value="male">Male</option>
+							<option value="female">Female</option>
+						</select>
+						<input type="text" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated', 
+							value: dob, datepicker: true" class="input-small"  placeholder="Date of Birth" />
+					</div>
+					<div class="marginBottom5">
+						<input type="text" class="input-small" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated',
+							value: idNumber" placeholder="Patient ID" />
+						<input type="text" class="input-small" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated',
+							value: idType" placeholder="ID Type" />
+					</div>
+					<div class="marginBottom5">
+						<input type="text" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated',
+							value: phone" placeholder="Phone" />
+						<input type="text" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated',
+							value: workPhone" placeholder="Work Phone" />
+					</div>
+				</fieldset>
+			</div> <!-- /ko -->
+		</div>
+	</form>
+	<div class="row-fluid">
+		<!-- Reference Tabs -->
+		<div class="tabbable formTabs">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#referringphysician" data-toggle="tab">Referring Physician</a></li>
+				<li><a href="#pcp" data-toggle="tab">PCP</a></li>
+				<li><a href="#other" data-toggle="tab">Other</a></li>
+				<li><a href="#personalreference" data-toggle="tab">Personal Reference</a></li>
+			</ul>
+			<div class="tab-content">
+				<!-- Referring Physician -->
+				<div id="referringphysician" class="tab-pane active">
+					<!-- ko with: referencePhysician -->
+					<form class="form-inline formPadding">
+						<div class="marginBottom5">	
+							<input type="text" class="input-medium" data-bind="value: firstName" placeholder="First Name" />
+							<input type="text" class="input-medium" data-bind="value: middleName" placeholder="Middle Name" />
+							<input type="text" class="input-medium" data-bind="value: lastName" placeholder="Last Name" />
+							<input type="text" class="input-medium" data-bind="value: degree" placeholder="Degree" />
+						</div>
+						<div class="marginBottom5">
+							<input type="text" class="input-xlarge" data-bind="value: reason" placeholder="Reason" />
+							<input type="text" data-bind="value: phone" placeholder="Phone" />
+							<input type="text" data-bind="value: fax" placeholder="Fax" />
+						</div>
+					</form> <!-- /ko -->
+				</div>
+				<!-- PCP -->
+				<div id="pcp" class="tab-pane">
+					<!-- ko with: referencePcp -->
+					<form class="form-inline formPadding">
+						<div class="marginBottom5">
+							<input type="text" class="input-medium" data-bind="value: firstName" placeholder="First Name" />
+							<input type="text" class="input-medium" data-bind="value: middleName" placeholder="Middle Name" />
+							<input type="text" class="input-medium" data-bind="value: lastName" placeholder="Last Name" />
+							<input type="text" class="input-medium" data-bind="value: degree" placeholder="Degree" />
+						</div>
+						<div class="marginBottom5">
+							<input type="text" data-bind="value: phone" placeholder="Phone" />
+							<input type="text" data-bind="value: fax" placeholder="Fax" />
+						</div>
+					</form> <!-- /ko -->
+				</div>
+				<!-- Other -->
+				<div id="other" class="tab-pane">
+					<!-- ko with: referenceOther -->
+					<form class="form-inline formPadding">
+						<div class="marginBottom5">
+							<input type="text" class="input-medium" data-bind="value: firstName" placeholder="First Name" />
+							<input type="text" class="input-medium" data-bind="value: middleName" placeholder="Middle Name" />
+							<input type="text" class="input-medium" data-bind="value: lastName" placeholder="Last Name" />
+							<input type="text" class="input-medium" data-bind="value: degree" placeholder="Degree" />
+						</div>
+						<div class="marginBottom5">
+							<input type="text" data-bind="value: phone" placeholder="Phone" />
+							<input type="text" data-bind="value: fax" placeholder="Fax" />
+						</div>
+					</form> <!-- /ko -->
+				</div>
+				<!-- Personal Reference -->
+				<div id="personalreference" class="tab-pane">
+					<!-- ko with: referencePersonal -->
+					<form class="form-inline formPadding">
+						<div class="marginBottom5">
+							<input type="text" class="input-medium" data-bind="value: firstName" placeholder="First Name" />
+							<input type="text" class="input-medium" data-bind="value: middleName" placeholder="Middle Name" />
+							<input type="text" class="input-medium" data-bind="value: lastName" placeholder="Last Name" />
+							<select class="pull-right" data-bind="value: referral">
+								<option value="" disabled selected style="display:none;">Referral</option>
+								<option value="advertisement">Advertisement</option>
+								<option value="co-worker">Co-worker</option>
+								<option value="doctor">Doctor</option>
+								<option value="family">Family</option>
+								<option value="friend">Friend</option>
+								<option value="other">Other</option>
+							</select>
+						</div>
+						<div class="marginBottom5">
+							<input type="text" data-bind="value: phone" placeholder="Phone" />
+							<input type="text" data-bind="value: fax" placeholder="Email" />
+						</div>
+					</form> <!-- /ko -->
+				</div><!-- End Personal Reference Tab -->
+			</div><!-- End Tab Content -->
+		</div><!-- End referenceTabs -->
+	</div><!-- End row-fluid referenceTabs -->
+</div><!-- End personalContents -->
+<div class="footer">
+	<select class="input-medium" data-bind="value: patient().recordStatus">
+		<option value="">Record Status</option>
+		<option value="active">Active</option>
+		<option value="archived">Archived</option>
+		<option value="deceased">Deceased</option>
+		<option value="deindentified">Deindentified</option>
+		<option value="transferred">Transferred</option>
+	</select>
+	<div class="pull-right">
+		<button type="button" class="btn btn-small">Print</button>
+		<button type="button" class="btn btn-small btn-primary" 
+			data-bind="click: clickPersonal">Save</button>
+		<button type="button" class="btn btn-small btn-danger">Cancel</button>
+	</div>
+</div>

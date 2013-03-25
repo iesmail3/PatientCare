@@ -11,183 +11,6 @@ define(function(require) {
 	var custom = require('durandal/customBindings');	// Custom bindings
 	var Backend = require('modules/followup');			// Database access
 	
-	
-	// Structures are like classses. They need to be capitalized.
-	
-	// Followup is one word. No need to capitalize it.
-	// Followup
-	// function Followup(data){ 
-		// var self = this; 
-		
-		// if(data!= null) { 
-			// //system.log(data.serviceDate);
-			// self.patientId      = ko.observable(data.patient_id); 
-			// self.type 			= ko.observable(data.type); 
-			// self.value 	   		= ko.observable(data.value); 
-			// self.unit 			= ko.observable(data.unit); 
-			// self.comment 		= ko.observable(data.comment); 
-			// self.plan           = ko.observable(data.plan); 
-			// self.serviceDate    = ko.observable(data.service_date); 
-		// }
-		// else {				
-			// self.patientId      = ko.observable(); 
-			// self.type 			= ko.observable(); 
-			// self.value 			= ko.observable(); 
-			// self.unit 			= ko.observable(); 
-			// self.comment 		= ko.observable();
-			// self.plan           = ko.observable(); 
-			// self.serviceDate    = ko.observable();  			
-		// }
-	// }
-	
-	// // CheckOut
-	// function CheckOut(data) {     
-		// var self = this; 
-			
-		// if(data != null) { 
-			// self.patientId         		= ko.observable(data.patient_id);
-			// self.primaryInsurance      	= ko.observable((data.primary_insurance)); 
-			// self.secondaryInsurance 	= ko.observable(data.secondary_insurance); 
-			// self.otherInsurance        	= ko.observable(data.other_insurance); 
-			// self.date  					= ko.observable(data.date); 
-			// self.copayAmount			= ko.observable(data.copay_amount); 
-			// self.otherCopay				= ko.observable(data.other_copay);   
-			// self.additionalCharges 		= ko.observable(data.additional_charges);   
-			// self.editAdditionalCharge	= ko.observable((data.edit_additional_charge) == 'true');
-			// self.insurancePortion 		= ko.observable(data.insurance_portion); 
-			// self.totalReceivable       	= ko.observable(data.total_receivable); 
-			// self.totalPayment          	= ko.observable(data.total_payment);    
-			// self.balance   				= ko.observable(data.balance); 
-			// self.comment 				= ko.observable(data.comment); 
-			
-			
-		// }
-		// else {    
-			// self.patientId         		= ko.observable(); 
-			// self.primaryIsurance     	= ko.observable(); 
-			// self.secondaryInsurance 	= ko.observable(); 
-			// self.otherInsurance        	= ko.observable(); 
-			// self.date  					= ko.observable(); 
-			// self.copayAmount			= ko.observable(); 
-			// self.otherCopay				= ko.observable(); 
-			// self.additionalCharges 		= ko.observable();
-			// self.editAdditionalCharge   = ko.observable();      
-			// self.insurancePortion 		= ko.observable();       
-			// self.totalReceivable      	= ko.observable(); 
-			// self.totalPayment          	= ko.observable();    
-			// self.balance   				= ko.observable(); 
-			// self.comment 				= ko.observable();
-			   
-		// }
-	// }
-	
-	// //Payment Method
-	// function PaymentMethod(data) { 
-		// var self = this; 
-		
-		// if(data!= null) { 
-			// self.checkOutId            = ko.observable(data.checkout_id); 
-			// self.mode                  = ko.observable(data.mode); 
-			// self.particulars           = ko.observable(data.particulars); 
-			// self.amount                = ko.observable(data.amount); 
-			// }
-		// else { 
-			// self.checkOutId            = ko.observable(); 
-			// self.mode                  = ko.observable(); 
-			// self.particulars           = ko.observable(); 
-			// self.amount                = ko.observable(); 
-			// }
-	// }
-	
-	// // Prescription
-	// function Prescription(data) {
-		// var self = this; 
-		
-		// if(data!= null) { 
-			// self.patientid			= ko.observable(data.patient_id); 
-			// self.medicationOrderId  = ko.observable(data.medication_order_id); 
-			// self.comment            = ko.observable(data.comment); 
-		// }
-		// else { 
-			// self.patientId			= ko.observable(); 
-			// self.medicationOrderId  = ko.observable();   
-			// self.comment            = ko.observable(); 
-		// }
-	// }
-	          
-	// // PhoneLog  
-	// function PhoneLog(data) { 
-		// var self = this; 
-		
-		// if(data!=null) {  
-			// self.patientId      = ko.observable(data.patient_id); 	
-			// self.dateTime       = ko.observable(data.datetime); 
-			// self.caller         = ko.observable(data.caller); 
-			// self.attendedBy     = ko.observable(data.attended_by); 
-			// self.message        = ko.observable(data.message); 
-			// self.actionRequired = ko.observable(data.action_requried);   
-			// self.assignedTo     = ko.observable(data.assigned_to); 
-			// self.callType       = ko.observable(data.type); 
-		// }
-		// else { 
-			// self.patientId      = ko.observable(); 	
-			// self.dateTime       = ko.observable(); 
-			// self.caller          = ko.observable(); 
-			// self.attendedBy      = ko.observable(); 
-			// self.message         = ko.observable(); 
-			// self.actionRequired  = ko.observable(); 
-			// self.assignedTo     = ko.observable(); 
-			// self.callType       = ko.observable();  
-		// }
-	// }
-	
-	// // Superbill
-	// function Superbill(data) { 
-		// var self = this; 
-		
-		// if(data!=null) {
-		    // self.serviceRecordId	= ko.observable(data.self_record_id); 
-			// self.visitType          = ko.observable(data.visit_type); 
-			// self.visitCode          = ko.observable(data.visit_code); 
-			// self.levelOfService     = ko.observable(data.level_of_service); 
-			// self.serviceCode        = ko.observable(data.service_code); 
-			// self.isComplete         = ko.observable(data.is_complete); 			 
-		// }
-		// else {
-		    // self.serviceRecordId    = ko.observable(); 
-			// self.visitType          = ko.observable(); 
-			// self.visitCode          = ko.observable(); 
-			// self.levelOfService     = ko.observable(); 
-			// self.serviceCode        = ko.observable(); 
-			// self.isComplete         = ko.observable(); 
-		// }   
-	// }
-	
-	
-	// // Misc Doc 
-	// function Document(data) { 
-		// var self = this; 
-		
-		// if(data != null) { 
-		    // self.patientId     = ko.observable(data.patient_id); 
-		    // self.documentType   = ko.observable(data.type);    
-		    // self.DOS            = ko.observable(data.DOS); 
-		    // self.receivedDate   = ko.observable(data.date);
-		    // self.isReviewed     = ko.observable(data.is_reviewed);  
-		    // self.comment        = ko.observable(data.comment); 
-	    // }
-	    // else {
-		    // self.patientId     = ko.observable(); 
-		    // self.documentType   = ko.observable(); 
-		    // self.DOS            = ko.observable(); 
-		    // self.receivedDate   = ko.observable(); 
-		    // self.isReviewed     = ko.observable();  
-		    // self.comment        = ko.observable(); 	    	
-	    // }
-			    
-	// }
-	
-	 
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
@@ -215,12 +38,13 @@ define(function(require) {
 	 var otherInsurance = ko.observable("200");
 	 var selectedValues = ko.observableArray([]);
 	 var modes          = ko.observableArray([]); 
-	   
+	 var phoneLogState  = ko.observable(false); 
+	 var phoneLogAdd    = ko.observable(); 
+	 var phoneLogSave   = ko.observable(); 
+	 var phoneLogCancel = ko.observable(); 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
-	 **********************************************************************************************/
-	 // var computedFunction = ko.computed(function() {});
-     // system.log('priomaryCo'+ primaryCo());  
+	 **********************************************************************************************/  
 	 var copayment = ko.computed(function() {     
 	 	
 	 	var total = 0;   	
@@ -231,10 +55,7 @@ define(function(require) {
 	 	    
         return total;    
    });
-   
-  //var totalPayment = ko.computed(function)
-   
-   
+      
     
 	/*********************************************************************************************** 
 	 * ViewModel
@@ -270,44 +91,33 @@ define(function(require) {
 		paymentMethod: paymentMethod, 
 		paymentMethods: paymentMethods,
 		modes: modes,  
+		phoneLogState: phoneLogState, 
+		phoneLogAdd: phoneLogAdd, 
+		phoneLogSave: phoneLogSave,
+		phoneLogCancel: phoneLogCancel, 
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
-		// hideButton: function() { 
-			   // $('#cancelButton').show(); 
-			   // $('#addButton').hide();
-		// },
+		 phoneLogAdd: function() {
+				phoneLogState(true);
+			},
+			
+			phoneLogCancel: function() {
+				phoneLogState(false);
+			},
 		
 		// This allow manipulation of the DOM
-		viewAttached: function() {           
+		viewAttached: function() {           		
 			$('#followupTab a').click(function(e) {
 				e.preventDefault();
   				$(this).tab('show');
 			});
-			
-			
-			
+						
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-			});
-			
-			
-			$('#cancelButton').hide(); 
-			$('#addButton').click(function() {
-                    $('#cancelButton').show(); 
-					$('#addButton').hide(); 
-             });
-			 
-			 $('#cancelButton').click(function() {
-                    $('#cancelButton').hide(); 
-					$('#addButton').show(); 
-             });
-			// $('#secondView').on('hidden', function () {
-  // $(this).removeData('modal');
-// });
-            
+			});	
 		},
 		// Loads when view is loaded
 		activate: function(data) {
@@ -321,78 +131,32 @@ define(function(require) {
             
          // Add rows to the paymenyMethod table   
 	    var Item = function(particulars, amount) {
-        var self = this;  
-        self.particulars = ko.observable(particulars); 
-        self.amount = ko.observable(amount); 
-        self.hasAddedRow = ko.observable(false);         
-        self.addRow = function(){    
-          if(!self.hasAddedRow()){
-            self.hasAddedRow(true); 
-            modes.push(new Item('lala',0));   
-          } 
-        };
+			var self = this;  
+			self.particulars = ko.observable(particulars); 
+			self.amount = ko.observable(amount); 
+			self.hasAddedRow = ko.observable(false);         
+			self.addRow = function(){    
+			  if(!self.hasAddedRow()){
+				self.hasAddedRow(true); 
+				modes.push(new Item('lala',0));   
+			  } 
+			};
     };   
     modes.push(new Item('first',0));
 			
 			//Module Object 
-			var backend = new Backend();
+			//var backend = new Backend();
 			return backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) {
+				system.log('inside followup length is' + data.length); 
 				if(data.length > 0) {
-					var s = new backend.Insurance(data[0]);
-					self.followup(s);
+					var s = new backend.Followup(data[0]);
+					//self.followup(s);
+					self.followups(self.followup(s)); 
+					system.log('inside followup loop length is' + data.length);
 				}
+				system.log('followups is' + followups); 
 			});
-			
-				 
-			// var temp = [
-				// new Followup({
-					// patientId : 123, 
-					// type : '1', 
-					// value : '5', 
-					// unit : 'Weeks', 
-					// comment : 'This is a test comment.', 
-					// plan : 'testPlan', 
-					// service_date : '01/02/2013'
-				// }),
-				// new Followup({
-					// patientId : 123, 
-					// type : '1', 
-					// value : '6', 
-					// unit : 'Days', 
-					// comment : 'This is also test comment.', 
-					// plan : 'testPlan2', 
-					// service_date : '01/03/2013'
-				// }),
-				// new Followup({
-					// patientId : 123, 
-					// type : '2',   
-					// value : '1', 
-					// unit : 'Months', 
-					// comment : 'This is also test comment.',       
-					// plan : 'testPlan3',        
-					// service_date : '01/04/2013'    
-				// }),
-				// new Followup({
-					// patientId : 123, 
-					// type : '3',   
-					// value : 'None', 
-					// unit : '', 
-					// comment : '',       
-					// plan : 'testPlan4',        
-					// service_date : '02/13/2013'    
-				// }),
-				// new Followup({
-					// patientId : 123, 
-					// type : '4',   
-					// value : 'None', 
-					// unit : '', 
-					// comment : '',       
-					// plan : 'testPlan5',        
-					// service_date : '02/15/2013'    
-				// })
-			// ]; 
-			// self.followups(temp);
-			
+	         
 			var chArray = [
 			    new CheckOut({
 						patientId : 123, 
@@ -502,11 +266,9 @@ define(function(require) {
 	            				break; 
 	            			case 'secondary': 
 	            				self.secondaryCo(i.copayment());   
-	            				system.log(i.copayment()); 
 	            				break;
 	            			default:   
-	            				self.otherCo(i.copayment());
-	            				system.log(i.copayment()); 
+	            				self.otherCo(i.copayment()); 
 	            				break;
 	            		}
 	            	}

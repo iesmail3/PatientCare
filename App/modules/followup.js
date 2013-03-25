@@ -17,7 +17,7 @@
 	 * Structures
 	 *******/
 	 // Followup     
-	patient.prototype.Followup = function(data) {
+	followup.prototype.Followup = function(data) {
 		var self = this; 	
 		if(data!= null) { 
 			//system.log(data.serviceDate);
@@ -39,7 +39,7 @@
 			self.serviceDate    = ko.observable();  			
 		}
 	}
-    patient.prototype.CheckOut = function(data) {
+    followup.prototype.CheckOut = function(data) {
 		var self = this; 
 			
 		if(data != null) { 
@@ -79,7 +79,7 @@
 		}
 	}
 	
-	 patient.prototype.PaymentMethod = function(data) {
+	 followup.prototype.PaymentMethod = function(data) {
 		var self = this; 
 		
 		if(data!= null) { 
@@ -96,7 +96,7 @@
 			}
 	}
 	
-	patient.prototype.Prescription = function(data) {
+	followup.prototype.Prescription = function(data) {
 		var self = this; 
 		
 		if(data!= null) { 
@@ -111,53 +111,53 @@
 		}
 	}
 	
-	patient.prototype.Superbill = function(data) {
+	followup.prototype.PhoneLog = function(data) {
 		var self = this; 
 		
 		if(data!=null) {  
-			self.patientId      = ko.observable(data.patient_id); 	
-			self.dateTime       = ko.observable(data.datetime); 
-			self.caller         = ko.observable(data.caller); 
-			self.attendedBy     = ko.observable(data.attended_by); 
-			self.message        = ko.observable(data.message); 
-			self.actionRequired = ko.observable(data.action_requried);   
-			self.assignedTo     = ko.observable(data.assigned_to); 
-			self.callType       = ko.observable(data.type); 
+				self.patientId      = ko.observable(data.patient_id); 	
+				self.datetime       = ko.observable(data.datetime); 
+				self.caller         = ko.observable(data.caller); 
+				self.attendedBy     = ko.observable(data.attended_by); 
+				self.message        = ko.observable(data.message); 
+				self.actionRequired = ko.observable(data.action_requried);   
+				self.assignedTo     = ko.observable(data.assigned_to); 
+				self.callType       = ko.observable(data.type); 
 		}
 		else { 
-			self.patientId      = ko.observable(); 	
-			self.dateTime       = ko.observable(); 
-			self.caller          = ko.observable(); 
-			self.attendedBy      = ko.observable(); 
-			self.message         = ko.observable(); 
-			self.actionRequired  = ko.observable(); 
-			self.assignedTo     = ko.observable(); 
-			self.callType       = ko.observable();  
+				self.patientId      = ko.observable(); 	
+				self.dateTime       = ko.observable(); 
+				self.caller         = ko.observable(); 
+				self.attendedBy     = ko.observable(); 
+				self.message        = ko.observable(); 
+				self.actionRequired = ko.observable(); 
+				self.assignedTo     = ko.observable(); 
+				self.callType       = ko.observable();  
 		}
 	}
 	
-	patient.prototype.PhoneLog = function(data) {
+	followup.prototype.Superbill = function(data) {
 		var self = this; 
 		
-		if(data!=null) {
-		    self.serviceRecordId	= ko.observable(data.self_record_id); 
-			self.visitType          = ko.observable(data.visit_type); 
-			self.visitCode          = ko.observable(data.visit_code); 
-			self.levelOfService     = ko.observable(data.level_of_service); 
-			self.serviceCode        = ko.observable(data.service_code); 
-			self.isComplete         = ko.observable(data.is_complete); 			 
-		}
-		else {
-		    self.serviceRecordId    = ko.observable(); 
-			self.visitType          = ko.observable(); 
-			self.visitCode          = ko.observable(); 
-			self.levelOfService     = ko.observable(); 
-			self.serviceCode        = ko.observable(); 
-			self.isComplete         = ko.observable(); 
-		}   
+			if(data!=null) {
+				self.serviceRecordId	= ko.observable(data.self_record_id); 
+				self.visitType          = ko.observable(data.visit_type); 
+				self.visitCode          = ko.observable(data.visit_code); 
+				self.levelOfService     = ko.observable(data.level_of_service); 
+				self.serviceCode        = ko.observable(data.service_code); 
+				self.isComplete         = ko.observable(data.is_complete); 			 
+			}
+			else {
+				self.serviceRecordId    = ko.observable(); 
+				self.visitType          = ko.observable(); 
+				self.visitCode          = ko.observable(); 
+				self.levelOfService     = ko.observable(); 
+				self.serviceCode        = ko.observable(); 
+				self.isComplete         = ko.observable(); 
+			}   
 	}
 	
-	patient.prototype.Document = function(data) {
+	followup.prototype.Document = function(data) {
 		var self = this; 
 		
 		if(data != null) { 
@@ -184,7 +184,7 @@
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/
      // Get Personal Information for a Single Patient
-	patient.prototype.getFollowup = function(id, practiceId) {
+	followup.prototype.getFollowup = function(id, practiceId) {
 		return this.query({
 			mode: 'select',
 			table: 'follow_up',
@@ -198,7 +198,7 @@
 	 * 
 	 * This method is used by all other methods to execute the ajax call.
 	 *********************************************************************************************/ 
-	patient.prototype.query = function(data) {
+	followup.prototype.query = function(data) {
 		return $.getJSON('php/query.php',data);
 	}
 	
