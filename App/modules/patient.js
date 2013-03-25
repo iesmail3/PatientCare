@@ -62,9 +62,9 @@ define(function(require) {
 			this.middleName 		  = ko.observable('');
 			this.lastName   		  = ko.observable('');
 			this.alias			   	  = ko.observable();
-			this.dob			   	  = ko.observable();
+			this.dob			   	  = ko.observable();    
 			this.idNumber  			  = ko.observable();
-			this.idType    			  = ko.observable();
+			this.idType    			  = ko.observable(); 
 			this.physician  		  = ko.observable();
 			this.address   			  = ko.observable();
 			this.city      			  = ko.observable();
@@ -93,12 +93,12 @@ define(function(require) {
 		
 		// This will return the name in the following format: Last, First
 		this.lastFirstName = ko.computed(function() {
-			if (self.lastName() == '' && self.firstName() == '')
-				return '';
+		if (self.lastName() == '' && self.firstName() == '')
+		return '';
 			else
-				return self.lastName() + ", " + self.firstName();
+		return self.lastName() + ", " + self.firstName();
 		});
-	}  
+	}   
 	 
 	// Insurance
 	patient.prototype.Insurance = function(data) {
@@ -169,7 +169,7 @@ define(function(require) {
 			this.relationship		= ko.observable(data.relationship);
 			this.idNumber			= ko.observable(data.id_number);
 			this.idType				= ko.observable(data.id_type);
-			this.dob				= ko.observable(data.date_of_birth);
+			this.dob				= ko.observable(data.date_of_birth); 
 			this.dobSame			= ko.observable((data.dob_same) == 'true');
 			this.address			= ko.observable(data.address);
 			this.city				= ko.observable(data.city);
@@ -294,18 +294,6 @@ define(function(require) {
 	 * 
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/
-	// Get Patient ID
-	// Get All Patients
-	patient.prototype.getPatientId = function() {
-		return this.query({
-			mode: 'select', 
-			table: 'patient', 
-			fields: 'id',
-			order: 'ORDER BY id DESC',
-			limit: 'LIMIT 1'
-		});
-	}
-	
 	// Get All Patients
 	patient.prototype.getPatients = function() {
 		return this.query({
@@ -331,7 +319,7 @@ define(function(require) {
 			mode: 'select', 
 			table: 'insurance', 
 			fields: '*', 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
@@ -399,10 +387,10 @@ define(function(require) {
 				else
 					return [k()];
 		});
-
+		
 		var newId = '';
 		if(id == 'new') {
-			return self.query({
+			self.query({
 				mode: 'select',
 				table: 'patient',
 				fields: 'id',
@@ -424,15 +412,14 @@ define(function(require) {
 			});
 			
 		}
-		else {
-			return self.query({
-				mode: 'update', 
-				table: 'patient',
-				fields: fields, 
-				values: values, 
-				where: "WHERE id='" + id + "'"
-			});
-		}
+		/*
+		return this.query({
+			mode: 'insert', 
+			table: 'patient', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+		*/
 	}
 	
 	// Add Insurance for a Single Patient
