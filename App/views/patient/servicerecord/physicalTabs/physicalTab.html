@@ -1,1 +1,63 @@
-<h2>Physical Examination Tab</h2>
+<div class="formScroll formPadding">
+	<div class="row-fluid">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th></th>
+					<th></th>
+					<th>Not Done</th>
+					<th>Negative</th>
+					<th>Positive</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+					<td>
+						<span class="label">GEN</span>
+					</td>
+					<td>
+						<label class="radio inline">
+							<input type="radio" name="nutrition" value="1" />
+						</label>
+					</td>
+					<td>
+						<label class="radio inline">
+							<input type="radio" name="nutrition" value="2" />
+						</label>
+					</td>
+					<td>
+						<label class="radio inline">
+							<input type="radio" name="nutrition" value="3" />
+						</label>
+					</td>
+					<td>
+						<select>
+							<option value="" disabled selected style="display:none;">Nutrition</option>
+							<option value="placeholder">Not Checked</option>
+							<option value="placeholder">Poorly Nourished</option>
+							<option value="placeholder">Well Nourished</option>
+						</select>
+						<select>
+							<option value="" disabled selected style="display:none;">Head</option>
+							<option value="placeholder">Not Checked</option>
+							<option value="placeholder">Abnormal</option>
+							<option value="placeholder">ATNC</option>
+						</select>
+						<textarea rows="1" placeholder="Comments" /></textarea>
+					</td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="marginBottom5 commentContainer">
+			<textarea class="commentSpan" rows="1" placeholder="Comments" /></textarea>
+		</div>
+	</div>
+</div>
+<div class="pull-right">
+	<button type="submit" class="btn btn-small btn-primary">Save</button>
+	<button type="button" class="btn btn-small btn-warning">Clear</button>
+</div>

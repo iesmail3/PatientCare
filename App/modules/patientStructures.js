@@ -19,7 +19,8 @@ define(function(require) {
 	 **********************************************************************************************/
 	// Allergies/Intelerance
 	patient.prototype.AllergiesIntolerance = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.type			 = ko.observable(data.type);
@@ -37,7 +38,8 @@ define(function(require) {
 	
 	// Checkout
 	patient.prototype.Checkout = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id					  = ko.observable(data.id);
 			this.patientId			  = ko.observable(data.patient_id);
 			this.primaryInsurance	  = ko.observable(data.primary_insurance);
@@ -75,7 +77,8 @@ define(function(require) {
 	
 	// Document
 	patient.prototype.Document = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.patientId		 = ko.observable(data.patient_id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
@@ -103,7 +106,8 @@ define(function(require) {
 	
 	// Employer
 	patient.prototype.Employer = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.patientId	 = ko.observable(data.patient_id);
 			this.companyName = ko.observable(data.company_name);
 			this.address	 = ko.observable(data.address);
@@ -131,7 +135,8 @@ define(function(require) {
 	
 	// Family History
 	patient.prototype.FamilyHistory = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id			  = ko.observable(data.id);
 			this.patientId	  = ko.observable(data.patient_id);
 			this.firstName	  = ko.observable(data.first_name);
@@ -157,7 +162,8 @@ define(function(require) {
 	
 	// Follow Up
 	patient.prototype.FollowUp = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id			 = ko.observable(data.id);
 			this.patientId	 = ko.observable(data.patient_id);
 			this.type		 = ko.observable(data.type);
@@ -181,7 +187,8 @@ define(function(require) {
 	
 	// Guarantor
 	patient.prototype.Guarantor = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.patientId	   = ko.observable(data.patient_id);
 			this.idSame		   = ko.observable(data.id_same);
 			this.name		   = ko.observable(data.name);
@@ -223,7 +230,8 @@ define(function(require) {
 	
 	// Insurance
 	patient.prototype.Insurance = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.patientId			  = ko.observable(data.patient_id);
 			this.type				  = ko.observable(data.type);
 			this.groupNumber		  = ko.observable(data.group_number);
@@ -283,7 +291,8 @@ define(function(require) {
 	
 	// Medical Problem
 	patient.prototype.MedicalProblem = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.type			 = ko.observable(data.type);
@@ -303,7 +312,8 @@ define(function(require) {
 	
 	// Medication
 	patient.prototype.Medication = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id				  = ko.observable(data.id);
 			this.serviceRecordId  = ko.observable(data.service_record_id);
 			this.medicine		  = ko.observable(data.medicine);
@@ -337,7 +347,8 @@ define(function(require) {
 	
 	// Medication Order Log
 	patient.prototype.MedicationOrderLog = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id			    = ko.observable(data.id);
 			this.orderId	    = ko.observable(data.order_id);
 			this.medicine	    = ko.observable(data.medicine);
@@ -369,7 +380,8 @@ define(function(require) {
 	
 	// Patient
 	patient.prototype.Patient = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id					  = ko.observable(data.id);
 			this.practiceId			  = ko.observable(data.practice_id);
 			this.physicianId		  = ko.observable(data.physician_id);
@@ -449,7 +461,8 @@ define(function(require) {
 	
 	// Payment Method
 	patient.prototype.PaymentMethod = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id			 = ko.observable(data.id);
 			this.checkoutId	 = ko.observable(data.checkout_id);
 			this.mode		 = ko.observable(data.mode);
@@ -467,7 +480,8 @@ define(function(require) {
 	
 	// Physical Examination: Abd
 	patient.prototype.PeAbd = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.inspection		 = ko.observable(data.inspection);
@@ -489,7 +503,8 @@ define(function(require) {
 	
 	// Physical Examination: Cvs
 	patient.prototype.PeCvs = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.rhythm			 = ko.observable(data.rhythm);
@@ -511,7 +526,8 @@ define(function(require) {
 	
 	// Physical Examination: Cw
 	patient.prototype.PeCw = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.asymmetry		 = ko.observable(data.asymmetry);
@@ -531,7 +547,8 @@ define(function(require) {
 	
 	// Physical Examination: Ent
 	patient.prototype.PeEnt = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.oralLesions	 = ko.observable(data.oral_lesions);
@@ -569,7 +586,8 @@ define(function(require) {
 	
 	// Physical Examination: Ext
 	patient.prototype.PeExt = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id				   = ko.observable(data.id);
 			this.serviceRecordId   = ko.observable(data.service_record_id);
 			this.clubbing		   = ko.observable(data.clubbing);
@@ -593,7 +611,8 @@ define(function(require) {
 	
 	// Physical Examination: Eye
 	patient.prototype.PeEye = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.perla			 = ko.observable(data.perla);
@@ -615,7 +634,8 @@ define(function(require) {
 	
 	// Physical Examination: Gen
 	patient.prototype.PeGen = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.nutrition		 = ko.observable(data.nutrition);
@@ -633,7 +653,8 @@ define(function(require) {
 	
 	// Physical Examination: Heme
 	patient.prototype.PeHeme = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.cervial		 = ko.observable(data.cervial);
@@ -653,7 +674,8 @@ define(function(require) {
 	
 	// Physical Examination: Lungs
 	patient.prototype.PeLungs = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.ctap			 = ko.observable(data.ctap);
@@ -669,7 +691,8 @@ define(function(require) {
 	
 	// Physical Examination: Neuro
 	patient.prototype.PeNeuro = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id				  = ko.observable(data.id);
 			this.serviceRecordId  = ko.observable(data.service_record_id);
 			this.type			  = ko.observable(data.type);
@@ -695,7 +718,8 @@ define(function(require) {
 	
 	// Physical Examination: Skin
 	patient.prototype.PeSkin = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.ecchymoses		 = ko.observable(data.ecchymoses);
@@ -715,7 +739,8 @@ define(function(require) {
 	
 	// Phone Log
 	patient.prototype.PhoneLog = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id			    = ko.observable(data.id);
 			this.patientId	    = ko.observable(data.patient_id);
 			this.datetime	    = ko.observable(data.datetime);
@@ -739,9 +764,27 @@ define(function(require) {
 		}
 	}
 	
+	// Physician
+	patient.prototype.Physician = function(data) {
+		var self = this;
+		if (data != null) {
+			this.id		    = ko.observable(data.id);
+			this.practiceId = ko.observable(data.practice_id);
+			this.firstName  = ko.observable(data.first_name);
+			this.degree	    = ko.observable(data.degree);
+		}
+		else {
+			this.id		    = ko.observable();
+			this.practiceId = ko.observable();
+			this.firstName  = ko.observable();
+			this.degree	    = ko.observable();
+		}
+	}
+	
 	// Prescription
 	patient.prototype.Prescription = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.patientId		   = ko.observable(data.patient_id);
 			this.medicine		   = ko.observable(data.medicine);
 			this.strength		   = ko.observable(data.strength);
@@ -779,7 +822,8 @@ define(function(require) {
 	
 	// Reference
 	patient.prototype.Reference = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.patientId  = ko.observable(data.patient_id);
 			this.type	    = ko.observable(data.type);
 			this.firstName  = ko.observable(data.first_name);
@@ -809,7 +853,8 @@ define(function(require) {
 	
 	// Review of Systems
 	patient.prototype.ReviewOfSystems = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.particulars	 = ko.observable(data.particulars);
 			this.type			 = ko.observable(data.type);
@@ -824,7 +869,8 @@ define(function(require) {
 	}
 	
 	patient.prototype.RoutineExam = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.patientId = ko.observable(data.patient_id);
 			this.name	   = ko.observable(data.name);
 			this.lastDone  = ko.observable(data.last_done);
@@ -844,7 +890,8 @@ define(function(require) {
 	
 	// Service Record
 	patient.prototype.ServiceRecord = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.id						    = ko.observable(data.id);
 			this.patientId				    = ko.observable(data.patient_id);
 			this.physicianId			    = ko.observable(data.physician_id);
@@ -874,7 +921,8 @@ define(function(require) {
 	
 	// Social History
 	patient.prototype.SocialHistory = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.patientId		   = ko.observable(data.patient_id);
 			this.smoking		   = ko.observable(data.smoking);
 			this.smokingComment	   = ko.observable(data.smoking_comment);
@@ -906,7 +954,8 @@ define(function(require) {
 	
 	// Spouse
 	patient.prototype.Spouse = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.patientId	 = ko.observable(data.patient_id);
 			this.firstName	 = ko.observable(data.first_name);
 			this.lastName	 = ko.observable(data.last_name);
@@ -936,7 +985,8 @@ define(function(require) {
 	
 	// Superbill
 	patient.prototype.Superbill = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.visitType		 = ko.observable(data.visit_type);
 			this.visitCode		 = ko.observable(data.visit_code);
@@ -956,7 +1006,8 @@ define(function(require) {
 	
 	// Vital Signs
 	patient.prototype.VitalSigns = function(data) {
-		if (data ! = null) {
+		var self = this;
+		if (data != null) {
 			this.serviceRecordId	   = ko.observable(data.service_record_id);
 			this.height				   = ko.observable(data.height);
 			this.weight				   = ko.observable(data.weight);

@@ -30,7 +30,6 @@ define(function(require) {
 	var backend = new Backend();
 	var patient = ko.observable(new backend.Patient());
 	var serviceRecords = ko.observableArray([]);
-	//var serviceDate = ko.observable();
 	var patientId = ko.observable();
 	var practiceId = ko.observable();
 	var currentView = viewModel.activator();
@@ -92,7 +91,6 @@ define(function(require) {
 		backend: backend,
 		patient: patient,
 		serviceRecords: serviceRecords,
-		//serviceDate: serviceDate,
 		patientId: patientId,
 		practiceId: practiceId,
 		currentView: viewModel.activator(),
@@ -131,7 +129,7 @@ define(function(require) {
 			// Get URL parameters (make sure to create an observable above for each)
 			self.patientId(data.patientId);
 			
-			self.practiceId('1'); // Uncomment when adding login self.practiceId(data.practiceId);
+			self.practiceId('1');
 			var view = data.view;
 			
             // Switch view
@@ -170,14 +168,14 @@ define(function(require) {
             
             // Load Patient information
             var backend = new Backend();
-			backend.getServiceRecords(self.patientId()).success(function(data) {
+			backend.getServiceRecords(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					var serviceRecord = $.map(data, function(item) {return new backend.ServiceRecord(item)});
 					self.serviceRecords(serviceRecord);
 				}
 			});
 
-			return backend.getPatient(self.patientId()).success(function(data) {
+			return backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					var p = new backend.Patient(data[0]);
 					self.patient(p);

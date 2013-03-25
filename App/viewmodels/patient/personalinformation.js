@@ -95,7 +95,7 @@ define(function(require) {
 			 * 
 			 * Query the patient table to retrive peronsonal information for the patient.
 			 *************************************************************************************/
-			backend.getPatient(self.patientId()).success(function(data) {
+			backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					var p = new backend.Patient(data[0]);
 					p.practice(self.practiceId());

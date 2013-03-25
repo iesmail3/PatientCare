@@ -27,7 +27,7 @@ define(function(require) {
 			this.middleName 		  = ko.observable(data.middle_name);
 			this.lastName   		  = ko.observable(data.last_name);
 			this.alias			   	  = ko.observable(data.alias);
-			this.dob			   	  = ko.observable(data.dob);
+			this.dateOfBirth	   	  = ko.observable(data.date_of_birth);
 			this.idNumber  			  = ko.observable(data.id_number);
 			this.idType    			  = ko.observable(data.id_type);
 			this.physician  		  = ko.observable(data.physician_id);
@@ -345,17 +345,17 @@ define(function(require) {
 	}
 	
 	// Get Personal Information for a Single Patient
-	patient.prototype.getPatient = function(id) {
+	patient.prototype.getPatient = function(id, practiceId) {
 		return this.query({
 			mode: 'select', 
 			table: 'patient', 
 			fields: '*', 
-			where: "WHERE id='" + id + "'"
+			where: "WHERE id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
 	// Get All Insurances for a Single Patient
-	patient.prototype.getInsurance = function(id) {
+	patient.prototype.getInsurance = function(id, practiceId) {
 		return this.query({
 			mode: 'select', 
 			table: 'insurance', 
@@ -365,7 +365,7 @@ define(function(require) {
 	}
 	
 	// Get Guarantor for a Single Patient
-	patient.prototype.getGuarantor = function(id) {
+	patient.prototype.getGuarantor = function(id, practiceId) {
 		return this.query({
 			mode: 'select', 
 			table: 'guarantor', 
@@ -375,7 +375,7 @@ define(function(require) {
 	}
 	
 	// Get Employer for a Single Patient
-	patient.prototype.getEmployer = function(id) {
+	patient.prototype.getEmployer = function(id, practiceId) {
 		return this.query({
 			mode: 'select', 
 			table: 'employer', 
@@ -385,7 +385,7 @@ define(function(require) {
 	}
 	
 	// Get Spouse for a Single Patient
-	patient.prototype.getSpouse = function(id) {
+	patient.prototype.getSpouse = function(id, practiceId) {
 		return this.query({
 			mode: 'select', 
 			table: 'spouse', 
@@ -395,7 +395,7 @@ define(function(require) {
 	}
 	
 	// Get Reference for a Single Patient
-	patient.prototype.getReference = function(id) {
+	patient.prototype.getReference = function(id, practiceId) {
 		return this.query({
 			mode: 'select',
 			table: 'reference',
@@ -405,22 +405,40 @@ define(function(require) {
 	}
 	
 	// Get Service Records for a Single Patient
-	patient.prototype.getServiceRecords = function(id) {
+	patient.prototype.getServiceRecords = function(id, practiceId) {
 		return this.query({
 			mode: 'select',
 			table: 'service_record',
 			fields: '*',
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
 	// Get Service Record for a Single Patient
-	patient.prototype.getServiceRecord = function(id, date) {
+	patient.prototype.getServiceRecord = function(id, practiceId, date) {
 		return this.query({
 			mode: 'select',
 			table: 'service_record',
 			fields: '*',
 			where: "WHERE patient_id='" + id + "' AND date='" + date + "'"
+		});
+	}
+	
+	patient.prototype.getPhysicians = function(practiceId) {
+		return this.query({
+			mode: 'select',
+			table: 'physician',
+			fields: '*',
+			where: "WHERE practice_id='" + practiceId + "'"
+		});
+	}
+	
+	patient.prototype.getPhysician = function(id, practiceId) {
+		return this.query({
+			mode: 'select',
+			table: 'physician',
+			fields: '*',
+			where: "WHERE id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
@@ -471,7 +489,6 @@ define(function(require) {
 					values: values
 				});
 			});
-			
 		}
 		else {
 			return self.query({
@@ -482,6 +499,30 @@ define(function(require) {
 				where: "WHERE id='" + id + "'"
 			});
 		}
+	}
+	
+	patient.prototype.saveServiceRecord = function(id, data) {
+		var self = this;
+		
+		var fields = ['id', 'practice_id', 'patient_id', 'physician_id', 'date', 'reason', 'history',
+			'systems_comment', 'no_known_allergies', 'allergies_verified', 'physical_examination_comment',
+			'plan_and_instructions'];
+		
+		var values = $.map(data, function(k,v) {
+			if(k() == null || k() == undefined) {
+				return [''];
+			}
+			else
+				return [k()];
+		});
+		
+		return self.query({
+			mode: 'update',
+			table: 'service_record',
+			fields: fields,
+			values: values,
+			where: "Where id='" + id + "'"
+		});
 	}
 	
 	// Add Insurance for a Single Patient
@@ -555,7 +596,7 @@ define(function(require) {
 	}
 	
 	// Add Service Record for a Single Patient
-	patient.prototype.addServiceRecords = function(id, data) {
+	patient.prototype.addServiceRecord = function(id, data) {
 		var values = $.map(data, function(k,v) {
 			return [k];
 		});
@@ -564,7 +605,7 @@ define(function(require) {
 			mode: 'insert', 
 			table: 'service_record', 
 			values: values, 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE id='" + id + "'"
 		});
 	}
 	
@@ -643,16 +684,11 @@ define(function(require) {
 	}
 	
 	// Delete Service Record for a Single Patient
-	patient.prototype.deleteServiceRecords = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
+	patient.prototype.deleteServiceRecord = function(id) {
 		return this.query({
 			mode: 'delete', 
 			table: 'service_record', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE id='" + id + "'"
 		});
 	}
 	
