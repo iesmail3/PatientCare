@@ -9,33 +9,35 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * Includes*
 	 **********************************************************************************************/
-	var system = require('durandal/system');			// System logger
-	var custom = require('durandal/customBindings');	// Custom bindings
-	var Backend = require('modules/patient');			// Database access
-	var Forms = require('modules/form');				// Common form elements
-	var router = require('durandal/plugins/router');
+	var system = require('durandal/system');				// System logger
+	var custom = require('durandal/customBindings');		// Custom bindings
+	var Backend = require('modules/patient');				// Database access
+	var Forms = require('modules/form');					// Common form elements
+	var router = require('durandal/plugins/router');    	// Router
+	var Structures = require('modules/patientStructures');  // Patient Structures
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
 	var backend = new Backend();
+	var structures = new Structures();
 	var insuredPerson 		= ko.observable();
-	var primaryInsurance 	= ko.observable(new backend.Insurance());
-	var secondaryInsurance  = ko.observable(new backend.Insurance());
-	var otherInsurance 		= ko.observable(new backend.Insurance());
+	var primaryInsurance 	= ko.observable(new structures.Insurance());
+	var secondaryInsurance  = ko.observable(new structures.Insurance());
+	var otherInsurance 		= ko.observable(new structures.Insurance());
 	var patientId 			= ko.observable();
 	var practiceId			= ko.observable();
-	var patient				= ko.observable(new backend.Patient());
-	var guarantor 			= ko.observable(new backend.Guarantor());
-	var employer			= ko.observable(new backend.Employer());
-	var spouse				= ko.observable(new backend.Spouse());
+	var patient				= ko.observable(new structures.Patient());
+	var guarantor 			= ko.observable(new structures.Guarantor());
+	var employer			= ko.observable(new structures.Employer());
+	var spouse				= ko.observable(new structures.Spouse());
 	var addressEnable		= ko.observable("given");
 	var employerEnable		= ko.observable();
 	var personalEmployer	= ko.observable();
-	var referencePhysician	= ko.observable(new backend.Reference());
-	var referencePcp		= ko.observable(new backend.Reference());
-	var referenceOther		= ko.observable(new backend.Reference());
-	var referencePersonal	= ko.observable(new backend.Reference());
+	var referencePhysician	= ko.observable(new structures.Reference());
+	var referencePcp		= ko.observable(new structures.Reference());
+	var referenceOther		= ko.observable(new structures.Reference());
+	var referencePersonal	= ko.observable(new structures.Reference());
 
 	/*********************************************************************************************** 
 	 * ViewModel
@@ -46,6 +48,7 @@ define(function(require) {
 		 *******************************************************************************************/
 		form: new Forms(),
 		backend: backend,
+		structures: structures,
 		patientId: patientId,
 		practiceId: practiceId,
 		patient: patient,
@@ -88,7 +91,7 @@ define(function(require) {
 			// Patient ID
 			self.patientId(data.patientId);
 			self.practiceId(data.practiceId);
-			self.patient().practice(data.practiceId);
+			self.patient().practiceId(data.practiceId);
 			
 			/**************************************************************************************
 			 * Personal Information
@@ -97,14 +100,14 @@ define(function(require) {
 			 *************************************************************************************/
 			backend.getPatient(self.patientId()).success(function(data) {
 				if(data.length > 0) {
-					var p = new backend.Patient(data[0]);
-					p.practice(self.practiceId());
+					var p = new structures.Patient(data[0]);
+					p.practiceId(self.practiceId());
 					self.patient(p);
 				}
 			});
 			
 			if(self.patientId() == 'new') {
-				self.patient(new backend.Patient());
+				self.patient(new structures.Patient());
 				self.patient().practice(self.practiceId());
 			}
 			
@@ -119,7 +122,7 @@ define(function(require) {
 			backend.getGuarantor(self.patientId()).success(function(data) {
 				if(data.length > 0) {
 					// Guarantor
-					var g = new backend.Guarantor(data[0]);
+					var g = new structures.Guarantor(data[0]);
 					self.guarantor(g);
 					
 					// Employer
@@ -148,7 +151,7 @@ define(function(require) {
 			 *************************************************************************************/
 			backend.getEmployer(self.patientId()).success(function(data) {
 				if(data.length > 0) {
-					var e = new backend.Employer(data[0]);
+					var e = new structures.Employer(data[0]);
 					self.employer(e);
 					self.personalEmployer(1);
 				}
@@ -164,7 +167,7 @@ define(function(require) {
 			 *************************************************************************************/
 			backend.getSpouse(self.patientId()).success(function(data) {
 				if(data.length > 0) {
-					var s = new backend.Spouse(data[0]);
+					var s = new structures.Spouse(data[0]);
 					self.spouse(s);
 				}
 			});
@@ -178,7 +181,7 @@ define(function(require) {
 			backend.getReference(self.patientId()).success(function(data) {
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
-						var i = new backend.Reference(data[count]);
+						var i = new structures.Reference(data[count]);
 						
 						switch(i.type()) {
 							case 'referringphysician':
@@ -207,9 +210,9 @@ define(function(require) {
 			return backend.getInsurance(self.patientId()).success(function(data) {
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
-						var i = new backend.Insurance(data[count]);
+						var i = new structures.Insurance(data[count]);
 						
-						switch(i.insuredType()) {
+						switch(i.type()) {
 	            			case 'primary':
 	            				self.primaryInsurance(i);
 	            				break;

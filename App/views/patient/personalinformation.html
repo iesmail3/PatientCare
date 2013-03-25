@@ -1,7 +1,8 @@
 <!--
-View:
-Author(s):
-Description:
+View: Personal Information
+Author(s): Gary Change, Imran Esmail, & Sean Malone
+Description: This view holds the Personal Information and Insurance tabs. These files are located
+ 			 in personalinformationTabs. The viewmodel for both files is personalinformation.js.
 -->
 <div>
 	<ul class="nav nav-tabs patientNavs" id="personalTab">
@@ -9,12 +10,13 @@ Description:
 		<li><a data-toggle="tab" href="#insurance">Insurance</a></li>
 	</ul>
 	<div class="tab-content">
+		<!-- Personal Information -->
 		<div class="tab-pane outerPane active" id="personal">
-			<div data-bind='compose: "patient/personalTab.html"'></div>
-		</div><!-- End outerPane Personal -->
+			<div data-bind='compose: "patient/personalinformationTabs/personal.html"'></div>
+		</div><!-- Personal Information -->
 		<!-- Insurance -->
 		<div class="tab-pane outerPane" id="insurance">
-			<div data-bind='compose: "patient/insuranceTab.html"'></div>
+			<div data-bind='compose: "patient/personalinformationTabs/insurance.html"'></div>
 		</div>
 	</div>
 </div>
