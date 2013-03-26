@@ -2,6 +2,10 @@ legend {
 	font-size: 14pt;
 }
 
+.input-xmedium {
+	width: 119px 
+}
+
 .checkbox {
 	padding-bottom: 15px;
 }
@@ -77,4 +81,12 @@ legend {
 
 .marginBottom5 {
 	margin-bottom: 5px;
+}
+
+.commentContainer {
+	padding-right: 15px;
+}
+
+.commentSpan {
+	width: 100%;
 }

@@ -90,8 +90,8 @@ define(function(require) {
 			
 			// Patient ID
 			self.patientId(data.patientId);
-			self.practiceId(data.practiceId);
-			self.patient().practiceId(data.practiceId);
+			self.practiceId('1');
+			self.patient().practiceId(self.practiceId());
 			
 			/**************************************************************************************
 			 * Personal Information
@@ -108,7 +108,7 @@ define(function(require) {
 			
 			if(self.patientId() == 'new') {
 				self.patient(new structures.Patient());
-				self.patient().practice(self.practiceId());
+				self.patient().practiceId(self.practiceId());
 			}
 			
 			/**************************************************************************************
@@ -231,10 +231,10 @@ define(function(require) {
 		}, // End activate
 		clickPersonal: function(data) {
 			var self = this;
-			self.backend.savePatient(self.patientId(), self.patient()).complete(function(data) {
+			self.backend.savePatient(self.patientId(), self.patient(), self.practiceId()).complete(function(data) {
 				if(data.responseText != "" && data.responseText != "failUpdate") {
 					self.patientId($.parseJSON(data.responseText)[0].id);
-					router.navigateTo('#/patient/personalinformation/' + self.practiceId() + '/' + (parseInt(self.patientId()) + 1));
+					//router.navigateTo('#/patient/personalinformation/' + self.practiceId() + '/' + (parseInt(self.patientId()) + 1));
 				}
 			});
 		}

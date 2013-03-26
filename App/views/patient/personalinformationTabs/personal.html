@@ -31,40 +31,65 @@
 						<option value="widowed">Widowed</option>
 						<option value="other">Other</option>
 					</select>
-					<input type="number" class="input-medium"  placeholder="No. of Children" />
+					<input type="number" class="input-mini" data-bind="value: numberOfChildren" placeholder="No. of Children" />
 				</div>
 			</fieldset>
 		</div>
-		<!-- Contact Details -->
-		<div class="row-fluid">
+			<!-- Contact Details -->
 			<fieldset>
 				<legend>Contact Details</legend>
-				<div class="marginBottom5">
-					<input type="text" class="input-xlarge" data-bind="value: address" placeholder="Street Address" />
+				<div class="row-fluid">
+					<div class="span6">
+						<div class="marginBottom5">
+							<input type="text" class="input-xlarge" data-bind="value: address" placeholder="Street Address" />
+						</div>
+						<div class="marginBottom5">
+							<input type="text" data-bind="value: city" placeholder="City" class="input-medium" />
+							<select data-bind="options: $root.form.states, optionsText: 
+								'text', optionsValue: 'value', optionsCaption: 'State', value: state" class="input-medium">
+							</select>
+						</div>
+						<div class="marginBottom5">
+							<input type="text" data-bind="value: phone" placeholder="Phone" class="input-xmedium" />
+							<input type="text" data-bind="value: mobile" placeholder="Cell" class="input-xmedium" />	
+						</div>
+					</div>
+					<div class="span6">
+						<div class="marginBottom5">
+							<input type="text" class="input-medium" data-bind="value: province" placeholder="Province" />
+							<input type="text" class="input-mini" data-bind="value: zip" placeholder="Zip Code" />
+						</div>
+						<div class="marginBottom5">
+							<select data-bind="options: $root.form.countries, optionsText: 
+								'text', optionsValue: 'value', optionsCaption: 'Country', value: country" class="input-medium">
+							</select>
+						</div>
+						<div class="marginBottom5">
+							<input type="text" data-bind="value: email" placeholder="Email" />
+						</div>
+					</div>
 				</div>
-				<div class="marginBottom5">
-					<input type="text" data-bind="value: city" placeholder="City" />
-					<select data-bind="options: $root.form.states, optionsText: 
-						'text', optionsValue: 'value', optionsCaption: 'State', value: state" class="input-medium">
-					</select>
-					<input type="text" class="input-small" data-bind="value: zip" placeholder="Zip Code" />
-					<select data-bind="options: $root.form.countries, optionsText: 
-						'text', optionsValue: 'value', optionsCaption: 'Country', value: country" class="input-medium">
-					</select>
-				</div>
-				<div class="marginBottom5">
-					<input type="text" data-bind="value: phone" placeholder="Phone" />
-					<input type="text" data-bind="value: mobile" placeholder="Cell" />
-					<input type="text"  placeholder="Email" />
-				</div>
-				<div class="marginBottom5">
-					<input type="text" data-bind="value: contactName" placeholder="Emergency Contact Name" />
-					<input type="text" data-bind="value: contactRelationship" placeholder="Relationship with Patient" />
-					<input type="text" data-bind="value: contactPhone" placeholder="Emergency Phone" />
-					<input type="text" data-bind="value: contactMobile" placeholder="Emergency Cell" />
+				<div class="row-fluid">
+					<div class="span6">
+						<div class="marginBottom5">
+							<input type="text" data-bind="value: contactName" placeholder="Emergency Contact Name" class="input-large" />
+						</div>
+						<div class="marginBottom5">
+							<input type="text" data-bind="value: contactPhone" placeholder="Emergency Phone" class="input-xmedium" />
+							<input type="text"  placeholder="Ext" class="input-mini" />
+						</div>
+					</div>
+					<div class="span6">
+						<div class="marginBottom5">
+							<input type="text" data-bind="value: contactRelationship" placeholder="Relationship with Patient" />
+						</div>
+						<div class="marginBottom5">
+							<input type="text" data-bind="value: contactMobile" placeholder="Emergency Cell" class="input-xmedium" />
+						</div>
+					</div>
 				</div>
 			</fieldset>
-		</div> <!-- /ko -->    
+			<!-- /ko -->    
 		<div class="row-fluid">
 			<!-- ko with: employer -->
 			<!-- Employment Details Left Column -->
@@ -89,7 +114,7 @@
 							value: address" placeholder="Address" />
 					</div>
 					<div class="marginBottom5">
-						<input type="text" class="input-medium" data-bind="enable: $root.personalEmployer() == '1',
+						<input type="text" class="input-small" data-bind="enable: $root.personalEmployer() == '1',
 							 value: city" placeholder="City" />
 						<select data-bind="enable: $root.personalEmployer() == '1', options: $root.form.states, optionsText: 
 							'text', optionsValue: 'value', optionsCaption: 'State', value: state" class="input-medium">
@@ -98,11 +123,13 @@
 					<div class="marginBottom5">
 						<input type="text" class="input-small" data-bind="enable: $root.personalEmployer() == '1',
 							value: zip" placeholder="Zip Code" />
+						<input type="text" class="input-small" data-bind="enable: $root.personalEmployer() == '1',
+							value: province" placeholder="Province" />
+					</div>
+					<div class="marginBottom5">
 						<select data-bind="enable: $root.personalEmployer() == '1', options: $root.form.countries, optionsText: 
 							'text', optionsValue: 'value', optionsCaption: 'Country', value: country" class="input-medium">
 						</select>
-					</div>
-					<div class="marginBottom5">
 						<input type="text" class="input-small" data-bind="enable: $root.personalEmployer() == '1',
 							value: phone" placeholder="Phone" />
 					</div>
@@ -114,9 +141,9 @@
 				<fieldset>
 					<legend>Spouse Details</legend>
 					<div class="marginBottom5">
-						<input type="text" class="input-medium"data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated', 
+						<input type="text" class="input-xmedium" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated', 
 							value: firstName" placeholder="First Name" />
-						<input type="text" class="input-medium" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated',
+						<input type="text" class="input-xmedium" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated',
 							value: lastName" placeholder="Last Name" />
 					</div>
 					<div class="marginBottom5">
@@ -136,12 +163,13 @@
 					</div>
 					<div class="marginBottom5">
 						<input type="text" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated',
-							value: phone" placeholder="Phone" />
+							value: phone" placeholder="Phone" class="input-xmedium" />
 						<input type="text" data-bind="enable: $root.patient().maritalStatus() == 'married' || $root.patient().maritalStatus() == 'separated',
-							value: workPhone" placeholder="Work Phone" />
+							value: workPhone" placeholder="Work Phone" class="input-xmedium" />
 					</div>
 				</fieldset>
-			</div> <!-- /ko -->
+			</div> 
+			<!-- /ko -->
 		</div>
 	</form>
 	<div class="row-fluid">
@@ -159,15 +187,22 @@
 					<!-- ko with: referencePhysician -->
 					<form class="form-inline formPadding">
 						<div class="marginBottom5">	
-							<input type="text" class="input-medium" data-bind="value: firstName" placeholder="First Name" />
-							<input type="text" class="input-medium" data-bind="value: middleName" placeholder="Middle Name" />
-							<input type="text" class="input-medium" data-bind="value: lastName" placeholder="Last Name" />
-							<input type="text" class="input-medium" data-bind="value: degree" placeholder="Degree" />
+							<input type="text" class="input-xmedium" data-bind="value: firstName" 
+								placeholder="First Name" />
+							<input type="text" class="input-xmedium" data-bind="value: middleName" 
+								placeholder="Middle Name" />
+							<input type="text" class="input-xmedium" data-bind="value: lastName" 
+								placeholder="Last Name" />
+							<input type="text" class="input-xmedium" data-bind="value: degree" 
+								placeholder="Degree" />
 						</div>
 						<div class="marginBottom5">
-							<input type="text" class="input-xlarge" data-bind="value: reason" placeholder="Reason" />
-							<input type="text" data-bind="value: phone" placeholder="Phone" />
-							<input type="text" data-bind="value: fax" placeholder="Fax" />
+							<input type="text" class="input-xlarge" data-bind="value: reason" 
+								placeholder="Reason" />
+							<input type="text" class="input-xmedium" data-bind="value: phone" 
+								placeholder="Phone" />
+							<input type="text" class="input-xmedium" data-bind="value: fax" 
+								placeholder="Fax" />
 						</div>
 					</form> <!-- /ko -->
 				</div>
@@ -176,14 +211,20 @@
 					<!-- ko with: referencePcp -->
 					<form class="form-inline formPadding">
 						<div class="marginBottom5">
-							<input type="text" class="input-medium" data-bind="value: firstName" placeholder="First Name" />
-							<input type="text" class="input-medium" data-bind="value: middleName" placeholder="Middle Name" />
-							<input type="text" class="input-medium" data-bind="value: lastName" placeholder="Last Name" />
-							<input type="text" class="input-medium" data-bind="value: degree" placeholder="Degree" />
+							<input type="text" class="input-xmedium" data-bind="value: firstName" 
+								placeholder="First Name" />
+							<input type="text" class="input-xmedium" data-bind="value: middleName" 
+								placeholder="Middle Name" />
+							<input type="text" class="input-xmedium" data-bind="value: lastName" 
+								placeholder="Last Name" />
+							<input type="text" class="input-xmedium" data-bind="value: degree" 
+								placeholder="Degree" />
 						</div>
 						<div class="marginBottom5">
-							<input type="text" data-bind="value: phone" placeholder="Phone" />
-							<input type="text" data-bind="value: fax" placeholder="Fax" />
+							<input type="text" class="input-xmedium" data-bind="value: phone" 
+								placeholder="Phone" />
+							<input type="text" class="input-xmedium" data-bind="value: fax" 
+								placeholder="Fax" />
 						</div>
 					</form> <!-- /ko -->
 				</div>
@@ -192,14 +233,20 @@
 					<!-- ko with: referenceOther -->
 					<form class="form-inline formPadding">
 						<div class="marginBottom5">
-							<input type="text" class="input-medium" data-bind="value: firstName" placeholder="First Name" />
-							<input type="text" class="input-medium" data-bind="value: middleName" placeholder="Middle Name" />
-							<input type="text" class="input-medium" data-bind="value: lastName" placeholder="Last Name" />
-							<input type="text" class="input-medium" data-bind="value: degree" placeholder="Degree" />
+							<input type="text" class="input-xmedium" data-bind="value: firstName" 
+								placeholder="First Name" />
+							<input type="text" class="input-xmedium" data-bind="value: middleName" 
+								placeholder="Middle Name" />
+							<input type="text" class="input-xmedium" data-bind="value: lastName" 
+								placeholder="Last Name" />
+							<input type="text" class="input-xmedium" data-bind="value: degree" 
+								placeholder="Degree" />
 						</div>
 						<div class="marginBottom5">
-							<input type="text" data-bind="value: phone" placeholder="Phone" />
-							<input type="text" data-bind="value: fax" placeholder="Fax" />
+							<input type="text" class="input-xmedium" data-bind="value: phone" 
+								placeholder="Phone" />
+							<input type="text" class="input-xmedium" data-bind="value: fax" 
+								placeholder="Fax" />
 						</div>
 					</form> <!-- /ko -->
 				</div>
@@ -208,10 +255,13 @@
 					<!-- ko with: referencePersonal -->
 					<form class="form-inline formPadding">
 						<div class="marginBottom5">
-							<input type="text" class="input-medium" data-bind="value: firstName" placeholder="First Name" />
-							<input type="text" class="input-medium" data-bind="value: middleName" placeholder="Middle Name" />
-							<input type="text" class="input-medium" data-bind="value: lastName" placeholder="Last Name" />
-							<select class="pull-right" data-bind="value: referral">
+							<input type="text" class="input-xmedium" data-bind="value: firstName" 
+								placeholder="First Name" />
+							<input type="text" class="input-xmedium" data-bind="value: middleName" 
+								placeholder="Middle Name" />
+							<input type="text" class="input-xmedium" data-bind="value: lastName" 
+								placeholder="Last Name" />
+							<select class="input-xmedium" class="pull-right" data-bind="value: referral">
 								<option value="" disabled selected style="display:none;">Referral</option>
 								<option value="advertisement">Advertisement</option>
 								<option value="co-worker">Co-worker</option>
@@ -222,8 +272,10 @@
 							</select>
 						</div>
 						<div class="marginBottom5">
-							<input type="text" data-bind="value: phone" placeholder="Phone" />
-							<input type="text" data-bind="value: fax" placeholder="Email" />
+							<input type="text" class="input-xmedium" data-bind="value: phone" 
+								placeholder="Phone" />
+							<input type="text" class="input-xmedium" data-bind="value: fax" 
+								placeholder="Email" />
 						</div>
 					</form> <!-- /ko -->
 				</div><!-- End Personal Reference Tab -->

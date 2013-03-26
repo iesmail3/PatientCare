@@ -404,6 +404,7 @@ define(function(require) {
 			this.email				  = ko.observable(data.email);
 			this.insuranceName		  = ko.observable(data.insurance_name);
 			this.maritalStatus		  = ko.observable(data.marital_status);
+			this.numberOfChildren     = ko.observable(data.number_of_children);
 			this.insuredType 		  = ko.observable('not insured'); 
 		}
 		else {
@@ -439,6 +440,7 @@ define(function(require) {
 			this.email				  = ko.observable();
 			this.insuranceName		  = ko.observable();
 			this.maritalStatus		  = ko.observable();
+			this.numberOfChildren     = ko.observable();
 			this.insuredType 		  = ko.observable('not insured'); 
 		}
 		
