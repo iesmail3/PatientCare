@@ -2,6 +2,10 @@ legend {
 	font-size: 14pt;
 }
 
+.input-xmedium {
+	width: 120px 
+}
+
 .checkbox {
 	padding-bottom: 15px;
 }

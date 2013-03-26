@@ -139,7 +139,7 @@ define(function(require) {
 			var self = this;
 			// Add
 			if (serviceRecordState()) {
-				console.log("True");
+				console.log(data);
 			}
 			// Update
 			else {

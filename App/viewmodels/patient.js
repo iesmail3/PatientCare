@@ -30,7 +30,7 @@ define(function(require) {
 	 **********************************************************************************************/
 	var backend = new Backend();
 	var structures = new Structures();
-	var patient = ko.observable(new backend.Patient());
+	var patient = ko.observable(new structures.Patient());
 	var serviceRecords = ko.observableArray([]);
 	var patientId = ko.observable();
 	var practiceId = ko.observable();
@@ -175,14 +175,14 @@ define(function(require) {
             var backend = new Backend();
 			backend.getServiceRecords(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
-					var serviceRecord = $.map(data, function(item) {return new backend.ServiceRecord(item)});
+					var serviceRecord = $.map(data, function(item) {return new self.structures.ServiceRecord(item)});
 					self.serviceRecords(serviceRecord);
 				}
 			});
 
 			return backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
-					var p = new backend.Patient(data[0]);
+					var p = new self.structures.Patient(data[0]);
 					self.patient(p);
 				}
 			});
