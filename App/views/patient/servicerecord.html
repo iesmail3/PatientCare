@@ -28,7 +28,7 @@ Description:
 					<fieldset>
 						<legend>Edit Service Record</legend>
 						<div class="marginBottom5">
-							<input type="text" placeholder="Date of Service" data-bind="value: dateOfService, datepicker: true" />
+							<input type="text" placeholder="Date of Service" data-bind="value: dateOfService, enable: serviceRecordState(), datepicker: true" />
 							<select data-bind="foreach: physicians">
 								<option value="" disabled selected style="display:none;">Physician</option>
 								<option data-bind="text: firstName" value="value: id"></option>
@@ -38,9 +38,9 @@ Description:
 							<textarea class="commentSpan" rows="3" data-bind="value: reason" placeholder="Reason for Visit" /></textarea>
 						</div>
 						<div class="pull-right">
-							<button type="button" class="btn btn-small" data-bind="click: $root.serviceRecordAdd, visible: !$root.serviceRecordState()">Add</button>
-							<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.serviceRecordSave()">Save</button>
-							<button type="button" class="btn btn-small btn-warning" data-bind="click: $root.serviceRecordCancel, visible: $root.serviceRecordState()">Cancel</button>
+							<button type="button" class="btn btn-small btn-success" data-bind="click: serviceRecordAdd, visible: !serviceRecordState()">New</button>
+							<button type="submit" class="btn btn-small btn-primary" data-bind="click: serviceRecordSave()">Save</button>
+							<button type="button" class="btn btn-small btn-warning" data-bind="click: serviceRecordCancel, visible: serviceRecordState()">Cancel</button>
 						</div>
 					</fieldset>
 				</div>
@@ -57,11 +57,11 @@ Description:
 						</tr>
 					</thead>
 					<tbody data-bind="foreach: serviceRecords">
-						<tr data-bind="click: $root.setFields">
-							<td></td>
-							<td data-bind="text: date"></td>
-							<td data-bind="text: physicianId"></td>
-							<td data-bind="text: reason"></td>
+						<tr>
+							<td><a class="btn btn-small btn-primary" data-bind="attr: {href: goToRecord}">Go to Record</a></td>
+							<td data-bind="text: date, click: $root.setFields"></td>
+							<td data-bind="text: physicianId, click: $root.setFields"></td>
+							<td data-bind="text: reason, click: $root.setFields"></td>
 							<td><a class="btn btn-small btn-danger" data-bind="click: $root.deleteServiceRecord">Delete</a></td>
 						</tr>
 					</tbody>

@@ -146,7 +146,6 @@ define(function(require) {
 	// Add Personal Information for a Single Patient
 	patient.prototype.savePatient = function(id, data) {
 		var self = this;
-		
 		var fields = ['practice_id', 'id', 'first_name', 'middle_name', 'last_name', 'alias', 
 			'date_of_birth', 'id_number', 'id_type', 'physician_id', 'address', 'city', 'state',
 			'zip', 'province', 'country', 'phone', 'phone_ext', 'mobile', 'gender', 'marital_status',
@@ -192,7 +191,7 @@ define(function(require) {
 				table: 'patient',
 				fields: fields, 
 				values: values, 
-				where: "WHERE id='" + id + "'"
+				where: "WHERE id='" + id + "' AND practice_id='" + practiceId + "'"
 			});
 		}
 	}
@@ -316,66 +315,6 @@ define(function(require) {
 			mode: 'delete', 
 			table: 'patient', 
 			where: "WHERE id='" + id + "'"
-		});
-	}
-	
-	// Delete Insurance for a Single Patient
-	patient.prototype.deleteInsurance = function(id) {
-		return this.query({
-			mode: 'delete', 
-			table: 'insurance',
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Delete Guarantor for a Single Patient
-	patient.prototype.deleteGuarantor = function(id) {
-		return this.query({
-			mode: 'delete', 
-			table: 'guarantor',
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Delete Employer for a Single Patient
-	patient.prototype.deleteEmployer = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'delete', 
-			table: 'employer', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Delete Spouse for a Single Patient
-	patient.prototype.deleteSpouse = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'delete', 
-			table: 'spouse', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Delete Reference for a Single Patient
-	patient.prototype.deleteReference = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'delete', 
-			table: 'reference', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
 		});
 	}
 	

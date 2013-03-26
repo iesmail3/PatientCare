@@ -404,6 +404,7 @@ define(function(require) {
 			this.email				  = ko.observable(data.email);
 			this.insuranceName		  = ko.observable(data.insurance_name);
 			this.maritalStatus		  = ko.observable(data.marital_status);
+			this.numberOfChildren     = ko.observable(data.number_of_children);
 			this.insuredType 		  = ko.observable('not insured'); 
 		}
 		else {
@@ -439,6 +440,7 @@ define(function(require) {
 			this.email				  = ko.observable();
 			this.insuranceName		  = ko.observable();
 			this.maritalStatus		  = ko.observable();
+			this.numberOfChildren     = ko.observable();
 			this.insuredType 		  = ko.observable('not insured'); 
 		}
 		
@@ -448,6 +450,10 @@ define(function(require) {
 				return '';
 			else
 				return self.lastName() + ", " + self.firstName();
+		});
+		
+		this.goToRecord = ko.computed(function(element) {
+			return '#/patient/personalinformation/' + self.id();
 		});
 	}
 	
@@ -864,6 +870,8 @@ define(function(require) {
 	
 	// Service Record
 	patient.prototype.ServiceRecord = function(data) {
+		var self = this;
+		
 		if (data != null) {
 			this.id						    = ko.observable(data.id);
 			this.patientId				    = ko.observable(data.patient_id);
@@ -890,6 +898,10 @@ define(function(require) {
 			this.physicalExaminationComment = ko.observable();
 			this.planAndInstructions	    = ko.observable();
 		}
+		
+		this.goToRecord = ko.computed(function() {
+			return '#/patient/servicerecord/serviceview/' + self.patientId() + '/' + self.date();
+		});
 	}
 	
 	// Social History

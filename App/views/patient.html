@@ -19,13 +19,13 @@ Description: This view is the outer patient view. It will hold the tree
 						<div class="serviceRecords">
 							<ul data-bind="foreach: serviceRecords">
 								<!--<li data-bind="text: date"></li>-->
-								<li><a data-bind="text: date, attr: {href: $root.serviceviewUrl}"></a></li>
+								<li><a data-bind="text: date, attr: {href: $root.serviceviewUrl($data)}"></a></li>
 								<ul>
-									<li><a data-bind="attr: {href: $root.historyUrl}">History & Present Illness</a></li>
-									<li><a data-bind="attr: {href: $root.physicalUrl}">Physical Examinations</a></li>
-									<li><a data-bind="attr: {href: $root.reportUrl}">Labs & X-ray Reports</a></li>
-									<li><a data-bind="attr: {href: $root.diagnosisUrl}">Diagnosis, Plans, and Instructions</a></li>
-									<li><a data-bind="attr: {href: $root.orderUrl}">Orders</a></li>
+									<li><a data-bind="attr: {href: $root.historyUrl($data)}">History & Present Illness</a></li>
+									<li><a data-bind="attr: {href: $root.physicalUrl($data)}">Physical Examinations</a></li>
+									<li><a data-bind="attr: {href: $root.reportUrl($data)}">Labs & X-ray Reports</a></li>
+									<li><a data-bind="attr: {href: $root.diagnosisUrl($data)}">Diagnosis, Plans, and Instructions</a></li>
+									<li><a data-bind="attr: {href: $root.orderUrl($data)}">Orders</a></li>
 								</ul>
 							</ul>
 						</div>

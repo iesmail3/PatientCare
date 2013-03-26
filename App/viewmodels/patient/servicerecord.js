@@ -5,7 +5,7 @@
  **************************************************************************************************/
 define(function(require) { 
 	/*********************************************************************************************** 
-	 * Includes*
+	 * Includes
 	 **********************************************************************************************/
 	var system = require('durandal/system');				// System logger
 	var custom = require('durandal/customBindings');		// Custom bindings
@@ -16,13 +16,12 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
-	// var observable = ko.observable('');
-	// var observableArray = ko.observableArray([]);
 	var backend = new Backend();
 	var structure = new Structure();
 	var patient = ko.observable(new structure.Patient());
-	var patientId = ko.observable();
 	var practiceId = ko.observable();
+	var patientId = ko.observable();
+	var date = ko.observable();
 	var serviceRecordId = ko.observable();
 	var serviceRecord = ko.observable(new structure.ServiceRecord());
 	var serviceRecords = ko.observableArray([]);
@@ -35,11 +34,10 @@ define(function(require) {
 	var serviceRecordAdd = ko.observable();
 	var serviceRecordSave = ko.observable();
 	var serviceRecordCancel = ko.observable();
-
+	
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
-	 // var computedFunction = ko.computed(function() {});
 
 	/*********************************************************************************************** 
 	 * ViewModel
@@ -53,8 +51,9 @@ define(function(require) {
 		 *******************************************************************************************/
 		backend: backend,
 		patient: patient,
-		patientId: patientId,
 		practiceId: practiceId,
+		patientId: patientId,
+		date: date,
 		serviceRecordId: serviceRecordId,
 		serviceRecord: serviceRecord,
 		serviceRecords: serviceRecords,
@@ -86,18 +85,13 @@ define(function(require) {
 		},
 		// Loads when view is loaded
 		activate: function(data) {
-			// Code here
-			
-			// If you add any asynchronous code, make sure you return it. If you need to add multiple
-			// asynchronous code, return the functions chained together. If you don't return them,
-			// then Durandal will not wait for them to finish before loading the rest of the page.
-			// There might be issues when updating observables.
-			// Ex:
-			// return .get().getJSON().post();
 			var self = this;
 			
-			self.patientId(data.patientId);
+			// Get URL parameters
 			self.practiceId('1');
+			self.patientId(data.patientId);
+			self.date(data.date);
+			var view = data.view;
 			
 			var backend = new Backend();
 			backend.getServiceRecords(self.patientId(), self.practiceId()).success(function(data) {
@@ -143,7 +137,6 @@ define(function(require) {
 			}
 			// Update
 			else {
-				console.log("False");
 			}
 		},
 		serviceRecordCancel: function() {

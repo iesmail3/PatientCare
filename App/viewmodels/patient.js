@@ -5,7 +5,7 @@
  **************************************************************************************************/
 define(function(require) { 
 	/*********************************************************************************************** 
-	 * Includes*
+	 * Includes
 	 **********************************************************************************************/
 	var system     = require('durandal/system');			// System logger
 	var custom     = require('durandal/customBindings');	// Custom bindings
@@ -14,16 +14,16 @@ define(function(require) {
 	var Structures = require('modules/patientStructures'); 	// Patient Structures 
 	
 	// Subviews
-	var personal = require('viewmodels/patient/personalinformation');
-	var social   = require('viewmodels/patient/socialandfamily');
-	var service  = require('viewmodels/patient/servicerecord');
-	var followup = require('viewmodels/patient/followup');
+	var personal 	= require('viewmodels/patient/personalinformation');
+	var social   	= require('viewmodels/patient/socialandfamily');
+	var service  	= require('viewmodels/patient/servicerecord');
+	var followup 	= require('viewmodels/patient/followup');
 	var serviceview = require('viewmodels/patient/servicerecord/serviceview');
-	var history = require('viewmodels/patient/servicerecord/history');
-	var physical = require('viewmodels/patient/servicerecord/physical');
-	var report = require('viewmodels/patient/servicerecord/report');
-	var diagnosis = require('viewmodels/patient/servicerecord/diagnosis');
-	var order = require('viewmodels/patient/servicerecord/order');
+	var history 	= require('viewmodels/patient/servicerecord/history');
+	var physical 	= require('viewmodels/patient/servicerecord/physical');
+	var report 		= require('viewmodels/patient/servicerecord/report');
+	var diagnosis 	= require('viewmodels/patient/servicerecord/diagnosis');
+	var order 		= require('viewmodels/patient/servicerecord/order');
 	
 	/*********************************************************************************************** 
 	 * KO Observables
@@ -34,6 +34,7 @@ define(function(require) {
 	var serviceRecords = ko.observableArray([]);
 	var patientId = ko.observable();
 	var practiceId = ko.observable();
+	var date = ko.observable();
 	var currentView = viewModel.activator();
 	
 	/*********************************************************************************************** 
@@ -41,45 +42,45 @@ define(function(require) {
 	 **********************************************************************************************/
 	 // Personal information url generator
 	 var personalUrl = ko.computed(function(element) {
-	 	return '#/patient/personalinformation/' + practiceId() + '/' + patientId();
+	 	return '#/patient/personalinformation/' + patientId();
 	 });
 	 // Social and Family History url generator
 	 var socialUrl = ko.computed(function(element) {
-	 	return '#/patient/socialandfamily/' + practiceId() + '/' + patientId();
+	 	return '#/patient/socialandfamily/' + patientId();
 	 });
 	 // Service Record url generator
 	 var serviceUrl = ko.computed(function(element) {
-	 	return '#/patient/servicerecord/' + practiceId() + '/' + patientId();
+	 	return '#/patient/servicerecord/' + patientId();
 	 });
 	 // Follow Up url generator
 	 var followupUrl = ko.computed(function(element) {
-	 	return '#/patient/followup/' + practiceId() + '/' + patientId();
+	 	return '#/patient/followup/' + patientId();
 	 });
+	 
 	 // Service Record View url generator
-	 var serviceviewUrl = ko.computed(function(element) {
-		return '#/patient/serviceview/' + practiceId() + '/' + patientId();
-	 });
+	 var serviceviewUrl = function(element) {
+		return '#/patient/servicerecord/serviceview/' + patientId() + '/' + element.date();
+	 };
 	 // History Present Illness url generator
-	 var historyUrl = ko.computed(function(element) {
-		return '#/patient/history/' + practiceId() + '/' + patientId();
-	 });
+	 var historyUrl = function(element) {
+		return '#/patient/servicerecord/history/' + patientId() + '/' + element.date();
+	 };
 	 // Physical Examinations url generator
-	 var physicalUrl = ko.computed(function(element) {
-		return '#/patient/physical/' + practiceId() + '/' + patientId();
-	 });
+	 var physicalUrl = function(element) {
+		return '#/patient/servicerecord/physical/' + patientId() + '/' + element.date();
+	 };
 	 // Labs & X-ray Reports url generator
-	 var reportUrl = ko.computed(function(element) {
-		return '#/patient/report/' + practiceId() + '/' + patientId();
-	 });
+	 var reportUrl = function(element) {
+		return '#/patient/servicerecord/report/' + patientId() + '/' + element.date();
+	 };
 	 // Diagnosis Plan and Instructions url generator
-	 var diagnosisUrl = ko.computed(function(element) {
-		return '#/patient/diagnosis/' + practiceId() + '/' + patientId();
-	 });
+	 var diagnosisUrl = function(element) {
+		return '#/patient/servicerecord/diagnosis/' + patientId() + '/' + element.date();
+	 };
 	 // Orders url generator
-	 var orderUrl = ko.computed(function(element) {
-		return '#/patient/order/' + practiceId() + '/' + patientId();
-	 });
-
+	 var orderUrl = function(element) {
+		return '#/patient/servicerecord/order/' + patientId() + '/' + element.date();
+	 };
 	/*********************************************************************************************** 
 	 * ViewModel
 	 *
@@ -101,12 +102,7 @@ define(function(require) {
 		social: social,
 		service: service,
 		followup: followup,
-		serviceview: serviceview,
-		history: history,
-		physical: physical,
-		report: report,
-		diagnosis: diagnosis,
-		order: order,
+		date: date,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -133,6 +129,8 @@ define(function(require) {
 			self.patientId(data.patientId);
 			self.practiceId('1'); // Uncomment when adding login self.practiceId(data.practiceId);
             var view = data.view;
+            if(data.length > 3)
+            	self.date(data.date);
             
             if(self.patientId() == 'new')
             	self.patient(new self.structures.Patient());
