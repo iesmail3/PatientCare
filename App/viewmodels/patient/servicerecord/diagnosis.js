@@ -5,11 +5,11 @@
  **************************************************************************************************/
 define(function(require) { 
 	/*********************************************************************************************** 
-	 * Includes
+	 * Includes*
 	 **********************************************************************************************/
 	var system = require('durandal/system');			// System logger
 	var custom = require('durandal/customBindings');	// Custom bindings
-	var Backend = require('modules/moduleTemplate');	// Module
+	//var Backend = require('modules/moduleTemplate');	// Module
 	
 	/*********************************************************************************************** 
 	 * KO Observables
@@ -38,9 +38,16 @@ define(function(require) {
 		 *******************************************************************************************/
 		// This allow manipulation of the DOM
 		viewAttached: function() {
-			// Change the selected nav item 
-			$('.navItem').removeClass('active');
-			$('<Your nav item in the view>').addClass('active');
+			$('#serviceTab a').click(function(e) {
+				e.preventDefault();
+  				$(this).tab('show');
+			});
+			
+			// Resize tree and content pane
+			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+			$(window).resize(function() {
+				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+			});
 		},
 		// Loads when view is loaded
 		activate: function(data) {

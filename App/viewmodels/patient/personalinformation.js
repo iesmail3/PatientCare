@@ -81,7 +81,7 @@ define(function(require) {
 			$(window).resize(function() {
 				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
 				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-			});
+			});    
 			
 		}, // End viewAttached
 		// Loads when view is loaded
@@ -90,15 +90,15 @@ define(function(require) {
 			
 			// Patient ID
 			self.patientId(data.patientId);
-			self.practiceId(data.practiceId);
-			self.patient().practiceId(data.practiceId);
+			self.practiceId('1');
+			self.patient().practiceId(self.practiceId());
 			
 			/**************************************************************************************
 			 * Personal Information
 			 * 
 			 * Query the patient table to retrive peronsonal information for the patient.
 			 *************************************************************************************/
-			backend.getPatient(self.patientId()).success(function(data) {
+			backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					var p = new structures.Patient(data[0]);
 					p.practiceId(self.practiceId());
@@ -108,7 +108,7 @@ define(function(require) {
 			
 			if(self.patientId() == 'new') {
 				self.patient(new structures.Patient());
-				self.patient().practice(self.practiceId());
+				self.patient().practiceId(self.practiceId());
 			}
 			
 			/**************************************************************************************
@@ -231,10 +231,10 @@ define(function(require) {
 		}, // End activate
 		clickPersonal: function(data) {
 			var self = this;
-			self.backend.savePatient(self.patientId(), self.patient()).complete(function(data) {
+			self.backend.savePatient(self.patientId(), self.patient(), self.practiceId()).complete(function(data) {
 				if(data.responseText != "" && data.responseText != "failUpdate") {
 					self.patientId($.parseJSON(data.responseText)[0].id);
-					router.navigateTo('#/patient/personalinformation/' + self.practiceId() + '/' + (parseInt(self.patientId()) + 1));
+					//router.navigateTo('#/patient/personalinformation/' + self.practiceId() + '/' + (parseInt(self.patientId()) + 1));
 				}
 			});
 		}

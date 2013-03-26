@@ -48,6 +48,9 @@ define(function(require) {
 	 var phoneLogSave   = ko.observable(); 
 	 var phoneLogCancel = ko.observable(); 
 	 var showAssigned   = ko.observable(true); 
+	 var totalReceived  = ko.observable(); 
+	 var totalPaid      = ko.observable(); 
+	 var id             = ko.observable(); 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/  
@@ -60,6 +63,16 @@ define(function(require) {
         });
 	 	    
         return total;    
+   });
+   
+   var totalPayment = ko.computed(function() {     
+	 	
+	 	var total = 0;
+			for(var i = 0; i < paymentMethods().length; i++) {
+			   total += parseInt(paymentMethods()[i].amount());
+			}
+             //system.log('total is' + total); 
+			return total;    
    });
       
     
@@ -75,7 +88,7 @@ define(function(require) {
 		 *******************************************************************************************/
 			structures: structures,
 			followup: followup,
-			followups: followups, 
+			followups: followups,  
 			checkOut: checkOut,
 			checkOuts: checkOuts, 
 			phoneLog: phoneLog,
@@ -106,6 +119,9 @@ define(function(require) {
 			phoneLogSave: phoneLogSave,
 			phoneLogCancel: phoneLogCancel,
 			showAssigned: showAssigned,
+			totalReceived: totalReceived, 
+			totalPaid: totalPaid,
+			id: id, 
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -128,14 +144,13 @@ define(function(require) {
 				
 				//Patient ID
 				self.patientId(data.patientId); 
-				
 				//Pactice ID
 				self.practiceId('1'); 
 				
 				//checkOut ID 
-				self.checkOutId(data.checkOutId); 
-				
-				
+				//self.checkOutId(data.checkOutId); 
+				//self.id(data.id); 
+				//system.log('id is' + self.id()); 
 				
 			 // Add rows to the paymenyMethod table   
 			var Item = function(particulars, amount) {
@@ -165,18 +180,10 @@ define(function(require) {
 				if(data.length > 0) {
 				    var ch = $.map(data, function(item) {return new structures.Checkout(item) });
 					self.checkOuts(ch); 
-                    self.checkOut(ch[0]); 					
+                    self.checkOut(ch[0]);            
 				} 
 			});
 			
-			backend.getPaymentMethod(self.patientId(),self.checkOutId()).success(function(data) { 
-				if(data.length > 0) {
-				    var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
-					self.paymentMethods(p);	
-                    self.paymentmethods(p[0]); 					
-				} 
-			});
-							
 			backend.getPhoneLog(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
 					 var p = $.map(data, function(item) {return new structures.PhoneLog(item) });
@@ -206,16 +213,14 @@ define(function(require) {
         var test = ['Nathan Abraham', 'Ian Sinkler'];
         self.myArray(test);
         
-         backend.getInsurance(self.patientId(),self.practiceId()).success(function(data) { 
-		  system.log(data.length);
+         backend.getInsurance(self.patientId(),self.practiceId()).success(function(data) { 		 
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
 						var i = new structures.Insurance(data[count]);
 						
 						switch(i.type()) {
 	            			case 'primary':
-	            				self.primaryCo(i.copayment());
-                                system.log('primary co is' + i.copayment()); 								
+	            				self.primaryCo(i.copayment());								
 	            				break; 
 	            			case 'secondary': 
 	            				self.secondaryCo(i.copayment());   
@@ -230,46 +235,43 @@ define(function(require) {
 		   
       
 		},       
-		   	
 		setFields: function(data) {
 			followup(data);
 		},        
-		   
 		setCheckOutFields: function(data) { 
-			checkOut(data);                
-		},             
-				    
+			checkOut(data);
+			
+			backend.getPaymentMethod(data.id()).success(function(data) { 
+				if(data.length > 0) {
+				    var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
+					paymentMethod(p);	
+                    paymentmethods(p[0]); 					
+				} 
+			});                
+		},                
 		setPhoneLogFields: function(data) { 
 			phoneLog(data);
 			
 		}, 
-		
 		setDocumentFields: function(data) { 
 			doc(data); 
 		}, 
-		
 		setPaymentFields: function(data) { 
 			paymentMethod(data); 
 		},
-		
 		setPrescriptionFields: function(data) { 
 			prescription(data); 
 		},
-		
 		phoneLogCancel: function() {
 			phoneLogState(true);
 			phoneLog(tempPhoneLog());
-			showAssigned(true); 
-			
+			showAssigned(true);  
 		},
 		 phoneLogAdd: function() { 
 				phoneLogState(false);
 			   tempPhoneLog(phoneLog());
                phoneLog(new structures.PhoneLog());
 			   showAssigned(false); 
-		}
-		
-		   
-		
+		} 
 	};         
 });

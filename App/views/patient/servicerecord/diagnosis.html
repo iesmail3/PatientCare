@@ -1,0 +1,36 @@
+<!--
+View:
+Author(s):
+Description:
+-->
+<div>
+	<ul class="nav nav-tabs patientNavs" id="diagnosisTab">
+		<li class="active"><a data-toggle="tab" href="#diagnosis">Diagnosis</a></li>
+		<li><a data-toggle="tab" href="#plan">Plan & Instructions</a></li>
+		<li><a data-toggle="tab" href="#guidance">Guidance</a></li>
+		<li><a data-toggle="tab" href="#development">Development</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div class="tab-pane outerPane active" id="diagnosis">
+			<div data-bind="compose: 'patient/servicerecord/diagnosisTabs/diagnosisTab.html'" >
+				<!-- Diagnosis -->
+			</div>
+		</div>
+		<div class="tab-pane outerPane" id="plan">
+			<div data-bind="compose: 'patient/servicerecord/diagnosisTabs/planTab.html'" >
+				<!-- Plan & Instructions -->
+			</div>
+		</div>
+		<div class="tab-pane outerPane" id="guidance">
+			<div data-bind="compose: 'patient/servicerecord/diagnosisTabs/guidanceTab.html'" >
+				<!-- Guidance -->
+			</div>
+		</div>
+		<div class="tab-pane outerPane" id="development">
+			<div data-bind="compose: 'patient/servicerecord/diagnosisTabs/developmentTab.html'" >
+				<!-- Development -->
+			</div>
+		</div>
+	</div>
+</div>

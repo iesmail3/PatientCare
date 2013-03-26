@@ -1,0 +1,42 @@
+<!--
+View:
+Author(s):
+Description:
+-->
+<div>
+	<ul class="nav nav-tabs patientNavs" id="historyTab">
+		<li class="active"><a data-toggle="tab" href="#history">History</a></li>
+		<li><a data-toggle="tab" href="#review">Review of Systems</a></li>
+		<li><a data-toggle="tab" href="#problem">Medical Problems</a></li>
+		<li><a data-toggle="tab" href="#medication">Medication</a></li>
+		<li><a data-toggle="tab" href="#allergy">Allergies/Intolerance</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div class="tab-pane outerPane active" id="history">
+			<div data-bind="compose: 'patient/servicerecord/historyTabs/historyTab.html'" >
+				<!-- History -->
+			</div>
+		</div>
+		<div class="tab-pane outerPane" id="review">
+			<div data-bind="compose: 'patient/servicerecord/historyTabs/reviewTab.html'" >
+				<!-- Review Of Systems -->
+			</div>
+		</div>
+		<div class="tab-pane outerPane" id="problem">
+			<div data-bind="compose: 'patient/servicerecord/historyTabs/problemTab.html'" >
+				<!-- Medical Problems -->
+			</div>
+		</div>
+		<div class="tab-pane outerPane" id="medication">
+			<div data-bind="compose: 'patient/servicerecord/historyTabs/medicationTab.html'" >
+				<!-- Medication -->
+			</div>
+		</div>
+		<div class="tab-pane outerPane" id="allergy">
+			<div data-bind="compose: 'patient/servicerecord/historyTabs/allergyTab.html'" >
+				<!-- Allergies/Intolerance -->
+			</div>
+		</div>
+	</div>
+</div>

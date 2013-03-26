@@ -20,7 +20,6 @@
 	followup.prototype.Followup = function(data) {
 		var self = this; 	
 		if(data!= null) { 
-			//system.log(data.serviceDate);
 			self.patientId      = ko.observable(data.patient_id); 
 			self.practiceId     = ko.observable(data.practice_id); 
 			self.type 			= ko.observable(data.type); 
@@ -87,16 +86,18 @@
 		var self = this; 
 		
 		if(data!= null) { 
-			self.checkOutId            = ko.observable(data.checkout_id); 
+		    self.id                    = ko.observable(data.id); 
+			self.checkoutId            = ko.observable(data.checkout_id); 
 			self.mode                  = ko.observable(data.mode); 
 			self.particulars           = ko.observable(data.particulars); 
 			self.amount                = ko.observable(data.amount); 
 			}
 		else { 
-			self.checkOutId            = ko.observable(); 
+		    self.id                    = ko.observable(); 
+			self.checkoutId            = ko.observable(); 
 			self.mode                  = ko.observable(); 
 			self.particulars           = ko.observable(); 
-			self.amount                = ko.observable(); 
+			self.amount                 = ko.observable(); 
 			}
 	}
 	
@@ -121,6 +122,7 @@
 		var self = this; 
 		
 		if(data!=null) {  
+		    
 				self.patientId      = ko.observable(data.patient_id); 	
 				self.practiceId		= ko.observable(data.practice_id);
 				self.datetime       = ko.observable(data.datetime); 
@@ -214,12 +216,12 @@
 		});
 	}
 	
-	followup.prototype.getPaymentMethod = function(id, checkoutId) {
+	followup.prototype.getPaymentMethod = function(id) { 
 		return this.query({
 			mode: 'select',
 			table: 'payment_method',
 			fields: '*',
-			where: "WHERE patient_id='" + id + "' AND checkout_id='" + checkoutId + "'"
+			where: "WHERE checkout_id='" + id + "'"
 		});
 	}
 	
@@ -229,7 +231,9 @@
 			table: 'phone_log',
 			fields: '*',
 			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
+			
 		});
+		 
 	}
 	
 	followup.prototype.getDocument = function(id, practiceId) {
@@ -259,6 +263,27 @@
 			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
+	
+	/**********************************************************************************************
+	 * Save Methods
+	 * 
+	 * These methods save information to the database via INSERT and UPDATE queries
+	 *********************************************************************************************/
+	 
+	 
+	// // Add Employer for a Single Patient
+	// personal.prototype.save = function(id, data) {
+		// var values = $.map(data, function(k,v) {
+			// return [k];
+		// });
+		
+		// return this.query({
+			// mode: 'insert', 
+			// table: 'employer', 
+			// values: values, 
+			// where: "WHERE patient_id='" + id + "'"
+		// });
+	// }
 			
 	// /**********************************************************************************************
 	 // * Query

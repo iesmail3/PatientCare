@@ -117,7 +117,7 @@ define(function(require) {
 					newId = parseInt(item.id) + 1;
 				});
 				
-				values[1] = newId;
+				values[0] = newId;
 				
 				self.query({
 					mode: 'insert', 
@@ -134,7 +134,7 @@ define(function(require) {
 				table: 'patient',
 				fields: fields, 
 				values: values, 
-				where: "WHERE id='" + id + "'"
+				where: "WHERE id='" + id + "' AND practice_id='" + practiceId + "'"
 			});
 		}
 	}
