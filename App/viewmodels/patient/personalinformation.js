@@ -81,7 +81,7 @@ define(function(require) {
 			$(window).resize(function() {
 				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
 				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-			});
+			});    
 			
 		}, // End viewAttached
 		// Loads when view is loaded
@@ -98,7 +98,7 @@ define(function(require) {
 			 * 
 			 * Query the patient table to retrive peronsonal information for the patient.
 			 *************************************************************************************/
-			backend.getPatient(self.patientId()).success(function(data) {
+			backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					var p = new structures.Patient(data[0]);
 					p.practiceId(self.practiceId());

@@ -18,13 +18,20 @@ define(function(require) {
 	var social   = require('viewmodels/patient/socialandfamily');
 	var service  = require('viewmodels/patient/servicerecord');
 	var followup = require('viewmodels/patient/followup');
+	var serviceview = require('viewmodels/patient/servicerecord/serviceview');
+	var history = require('viewmodels/patient/servicerecord/history');
+	var physical = require('viewmodels/patient/servicerecord/physical');
+	var report = require('viewmodels/patient/servicerecord/report');
+	var diagnosis = require('viewmodels/patient/servicerecord/diagnosis');
+	var order = require('viewmodels/patient/servicerecord/order');
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
 	var backend = new Backend();
 	var structures = new Structures();
-	var patient = ko.observable('');
+	var patient = ko.observable(new backend.Patient());
+	var serviceRecords = ko.observableArray([]);
 	var patientId = ko.observable();
 	var practiceId = ko.observable();
 	var currentView = viewModel.activator();
@@ -48,6 +55,30 @@ define(function(require) {
 	 var followupUrl = ko.computed(function(element) {
 	 	return '#/patient/followup/' + practiceId() + '/' + patientId();
 	 });
+	 // Service Record View url generator
+	 var serviceviewUrl = ko.computed(function(element) {
+		return '#/patient/serviceview/' + practiceId() + '/' + patientId();
+	 });
+	 // History Present Illness url generator
+	 var historyUrl = ko.computed(function(element) {
+		return '#/patient/history/' + practiceId() + '/' + patientId();
+	 });
+	 // Physical Examinations url generator
+	 var physicalUrl = ko.computed(function(element) {
+		return '#/patient/physical/' + practiceId() + '/' + patientId();
+	 });
+	 // Labs & X-ray Reports url generator
+	 var reportUrl = ko.computed(function(element) {
+		return '#/patient/report/' + practiceId() + '/' + patientId();
+	 });
+	 // Diagnosis Plan and Instructions url generator
+	 var diagnosisUrl = ko.computed(function(element) {
+		return '#/patient/diagnosis/' + practiceId() + '/' + patientId();
+	 });
+	 // Orders url generator
+	 var orderUrl = ko.computed(function(element) {
+		return '#/patient/order/' + practiceId() + '/' + patientId();
+	 });
 
 	/*********************************************************************************************** 
 	 * ViewModel
@@ -62,6 +93,7 @@ define(function(require) {
 		backend: backend,
 		structures: structures,
 		patient: patient,
+		serviceRecords: serviceRecords,
 		patientId: patientId,
 		practiceId: practiceId,
 		currentView: viewModel.activator(),
@@ -69,6 +101,12 @@ define(function(require) {
 		social: social,
 		service: service,
 		followup: followup,
+		serviceview: serviceview,
+		history: history,
+		physical: physical,
+		report: report,
+		diagnosis: diagnosis,
+		order: order,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -98,7 +136,7 @@ define(function(require) {
             
             if(self.patientId() == 'new')
             	self.patient(new self.structures.Patient());
-            
+            	
             // Switch view
             switch(view) {
             	case 'socialandfamily': 
@@ -110,23 +148,55 @@ define(function(require) {
             	case 'followup': 
             		self.currentView.activateItem(followup, data);
             		break;
+				case 'serviceview':
+					self.currentView.activateItem(serviceview, data);
+					break;
+				case 'history': 
+					self.currentView.activateItem(history, data);
+					break;
+				case 'physical': 
+					self.currentView.activateItem(physical, data);
+					break;
+				case 'report': 
+					self.currentView.activateItem(report, data);
+					break;
+				case 'diagnosis':
+					self.currentView.activateItem(diagnosis, data);
+					break;
+				case 'order':
+					self.currentView.activateItem(order, data);
+					break;
             	default: 
             		self.currentView.activateItem(personal, data);
-            		break;				 	
+            		break;
             }
             
             // Load Patient information
-            return backend.getPatient(self.patientId()).success(function(data) {
-            	if(data.length > 0) {
-            		var p = new self.structures.Patient(data[0]);
-            		self.patient(p);
-            	}
-            });
+            var backend = new Backend();
+			backend.getServiceRecords(self.patientId(), self.practiceId()).success(function(data) {
+				if(data.length > 0) {
+					var serviceRecord = $.map(data, function(item) {return new backend.ServiceRecord(item)});
+					self.serviceRecords(serviceRecord);
+				}
+			});
+
+			return backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
+				if(data.length > 0) {
+					var p = new backend.Patient(data[0]);
+					self.patient(p);
+				}
+			});
 		},
 		// URL generators
 		personalUrl: personalUrl,
 		socialUrl: socialUrl,
 		serviceUrl: serviceUrl,
-		followupUrl: followupUrl
+		followupUrl: followupUrl,
+		serviceviewUrl: serviceviewUrl,
+		historyUrl: historyUrl,
+		physicalUrl: physicalUrl,
+		reportUrl: reportUrl,
+		diagnosisUrl: diagnosisUrl,
+		orderUrl: orderUrl
 	};
 });
