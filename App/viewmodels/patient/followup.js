@@ -25,7 +25,8 @@ define(function(require) {
 	 var checkOuts      = ko.observableArray([]); 
 	 var paymentMethod  = ko.observable(new structures.PaymentMethod()); 
 	 var paymentMethods = ko.observableArray([]);
-	 var phoneLog       = ko.observable(new structures.PhoneLog()); 
+	 var phoneLog       = ko.observable(new structures.PhoneLog());
+     var tempPhoneLog   = ko.observable(new structures.PhoneLog()); 	 
 	 var phoneLogs      = ko.observableArray([]);    
 	 var superBill      = ko.observable(new structures.Superbill());    
 	 var prescription   = ko.observable(new structures.Prescription());
@@ -44,7 +45,7 @@ define(function(require) {
 	 var otherInsurance = ko.observable("200");
 	 var selectedValues = ko.observableArray([]);
 	 var modes          = ko.observableArray([]); 
-	 var phoneLogState  = ko.observable(false); 
+	 var phoneLogState  = ko.observable(true); 
 	 var phoneLogAdd    = ko.observable(); 
 	 var phoneLogSave   = ko.observable(); 
 	 var phoneLogCancel = ko.observable(); 
@@ -73,82 +74,83 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
-		structures: structures,
-		followup: followup,
-		followups: followups, 
-		checkOut: checkOut,
-		checkOuts: checkOuts, 
-		phoneLog: phoneLog,
-		phoneLogs: phoneLogs, 
-		superBill: superBill, 
-		prescription: prescription,
-		prescriptions: prescriptions,
-		doc: doc,   
-		documents: documents,   
-		patientId: patientId,
-		practiceId: practiceId, 
-		checkOutId: checkOutId,
-		myArray: myArray,
-		primaryCo:primaryCo,
-		secondaryCo:secondaryCo, 
-		otherCo: otherCo,  
-		primaryInsurance:primaryInsurance,
-		secondaryInsurance:secondaryInsurance,    
-		otherInsurance:otherInsurance,
-		selectedValues: selectedValues,
-		copayment: copayment, 
-		paymentMethod: paymentMethod, 
-		paymentMethods: paymentMethods,
-		modes: modes,  
-		phoneLogState: phoneLogState, 
-		phoneLogAdd: phoneLogAdd, 
-		phoneLogSave: phoneLogSave,
-		phoneLogCancel: phoneLogCancel, 
+			structures: structures,
+			followup: followup,
+			followups: followups, 
+			checkOut: checkOut,
+			checkOuts: checkOuts, 
+			phoneLog: phoneLog,
+			phoneLogs: phoneLogs, 
+			tempPhoneLog: tempPhoneLog, 
+			superBill: superBill, 
+			prescription: prescription,
+			prescriptions: prescriptions,
+			doc: doc,   
+			documents: documents,   
+			patientId: patientId,
+			practiceId: practiceId, 
+			checkOutId: checkOutId,
+			myArray: myArray,
+			primaryCo:primaryCo,
+			secondaryCo:secondaryCo, 
+			otherCo: otherCo,  
+			primaryInsurance:primaryInsurance,
+			secondaryInsurance:secondaryInsurance,    
+			otherInsurance:otherInsurance,
+			selectedValues: selectedValues,
+			copayment: copayment, 
+			paymentMethod: paymentMethod, 
+			paymentMethods: paymentMethods,
+			modes: modes,  
+			phoneLogState: phoneLogState, 
+			phoneLogAdd: phoneLogAdd, 
+			phoneLogSave: phoneLogSave,
+			phoneLogCancel: phoneLogCancel,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
-		// This allow manipulation of the DOM
-		viewAttached: function() {           		
-			$('#followupTab a').click(function(e) {
-				e.preventDefault();
-  				$(this).tab('show');
-			});
-						
-			// Resize tree and content pane
-			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-			$(window).resize(function() {
+			// This allow manipulation of the DOM
+			viewAttached: function() {           		
+				$('#followupTab a').click(function(e) {
+					e.preventDefault();
+					$(this).tab('show');
+				});
+							
+				// Resize tree and content pane
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-			});	
-		},
-		// Loads when view is loaded
-		activate: function(data) {
-			var self = this; 
-			
-			//Patient ID
-			self.patientId(data.patientId); 
-			
-			//Pactice ID
-			self.practiceId('1'); 
-			
-			//checkOut ID 
-			self.checkOutId(data.checkOutId); 
-			
-			
-            
-         // Add rows to the paymenyMethod table   
-	    var Item = function(particulars, amount) {
-			var self = this;  
-			self.particulars = ko.observable(particulars); 
-			self.amount = ko.observable(amount); 
-			self.hasAddedRow = ko.observable(false);         
-			self.addRow = function(){    
-			  if(!self.hasAddedRow()){
-				self.hasAddedRow(true); 
-				modes.push(new Item('lala',0));   
-			  } 
-			};
-    };   
-    modes.push(new Item('first',0));
+				$(window).resize(function() {
+					$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+				});	
+			},
+			// Loads when view is loaded
+			activate: function(data) {
+				var self = this; 
+				
+				//Patient ID
+				self.patientId(data.patientId); 
+				
+				//Pactice ID
+				self.practiceId('1'); 
+				
+				//checkOut ID 
+				self.checkOutId(data.checkOutId); 
+				
+				
+				
+			 // Add rows to the paymenyMethod table   
+			var Item = function(particulars, amount) {
+				var self = this;  
+				self.particulars = ko.observable(particulars); 
+				self.amount = ko.observable(amount); 
+				self.hasAddedRow = ko.observable(false);         
+				self.addRow = function(){    
+				  if(!self.hasAddedRow()){
+					self.hasAddedRow(true); 
+					modes.push(new Item('lala',0));   
+				  } 
+				};
+			};   
+			modes.push(new Item('first',0));
 			
 			
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
@@ -236,7 +238,8 @@ define(function(require) {
 		},             
 				    
 		setPhoneLogFields: function(data) { 
-			phoneLog(data); 
+			phoneLog(data);
+			
 		}, 
 		
 		setDocumentFields: function(data) { 
@@ -251,13 +254,17 @@ define(function(require) {
 			prescription(data); 
 		},
 		
-		 phoneLogAdd: function() {
-				phoneLogState(true);
-				phoneLog(new structures.PhoneLog());   
-		},
 		phoneLogCancel: function() {
-			phoneLogState(false);
+			phoneLogState(true);
+			phoneLog(tempPhoneLog());
+			
+		},
+		 phoneLogAdd: function() { 
+				phoneLogState(false);
+			   tempPhoneLog(phoneLog());
+               phoneLog(new structures.PhoneLog());
 		}
+		
 		   
 		
 	};         

@@ -5,8 +5,8 @@
 						<fieldset>
 							<legend>Edit phone log details</legend>
 							<div class="marginBottom5">
-								<input type="text" class="input-medium" placeholder="Call Date"
-									data-bind="value: datetime,data-bind= datepicker: true"/>
+								<input type="text" class="input-small" placeholder="Call Date"
+									data-bind="value:datetime, datepicker: true" />
 								<select class="input-medium" data-bind="value:type">
 									<option>Call Type</option>
 									<option>Incoming</option>
@@ -32,9 +32,9 @@
 								</select>      
 							</div>     
 							<div class="marginBottom5 pull-right">
-								<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.phoneLogAdd(),visible: !$root.phoneLogState()">New</button>
+								<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.phoneLogAdd,visible: $root.phoneLogState()">New</button>
 								<button type="button" class="btn btn-small btn-primary" data-bind="visible: !$root.phoneLogSave()">Save</button>
-								<button type="button" id ="cancelButton" class="btn btn-small btn-danger" data-bind="click: $root.phoneLogCancel,visible: $root.phoneLogState()">Cancel</button>
+								<button type="button" id ="cancelButton" class="btn btn-small btn-danger" data-bind="click: $root.phoneLogCancel,visible: !$root.phoneLogState()">Cancel</button>
 							</div>
 						</fieldset>
 					</div>
