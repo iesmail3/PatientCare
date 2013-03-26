@@ -11,7 +11,7 @@ define(function(require) {
 	 **********************************************************************************************/
 	var system = require('durandal/system');				// System logger
 	var custom = require('durandal/customBindings');		// Custom bindings
-	var Backend = require('modules/patient');				// Database access
+	var Backend = require('modules/personalinformation');   // Database access
 	var Forms = require('modules/form');					// Common form elements
 	var router = require('durandal/plugins/router');    	// Router
 	var Structures = require('modules/patientStructures');  // Patient Structures
