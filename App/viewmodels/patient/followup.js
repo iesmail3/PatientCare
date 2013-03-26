@@ -10,25 +10,30 @@ define(function(require) {
 	var system = require('durandal/system');			// System logger
 	var custom = require('durandal/customBindings');	// Custom bindings
 	var Backend = require('modules/followup');			// Database access
+	var patientBackend = require('modules/patient');			// Database access
+	var Structures = require('modules/patientStructures'); 
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
 	 var backend = new Backend();
-	 var followup 		= ko.observable(new backend.Followup());
+	 var pb  = new patientBackend();
+	 var structures = new Structures();
+	 var followup 		= ko.observable(new structures.Followup());
 	 var followups      = ko.observableArray([]); 
-	 var checkOut 		= ko.observable(new backend.CheckOut()); 
+	 var checkOut 		= ko.observable(new structures.Checkout()); 
 	 var checkOuts      = ko.observableArray([]); 
-	 var paymentMethod  = ko.observable(new backend.PaymentMethod()); 
+	 var paymentMethod  = ko.observable(new structures.PaymentMethod()); 
 	 var paymentMethods = ko.observableArray([]);
-	 var phoneLog       = ko.observable(new backend.PhoneLog()); 
+	 var phoneLog       = ko.observable(new structures.PhoneLog()); 
 	 var phoneLogs      = ko.observableArray([]);    
-	 var superBill      = ko.observable(new backend.Superbill());    
-	 var prescription   = ko.observable(new backend.Prescription());
-	 var doc            = ko.observable(new backend.Document());
+	 var superBill      = ko.observable(new structures.Superbill());    
+	 var prescription   = ko.observable(new structures.Prescription());
+	 var doc            = ko.observable(new structures.Document());
 	 var documents      = ko.observableArray([]);          
 	 var patientId      = ko.observable(); 
 	 var practiceId     = ko.observable(); 
+	 var checkOutId     = ko.observable(); 
 	 var myArray        = ko.observableArray([]); 
 	 var primaryCo      = ko.observable(); 
 	 var secondaryCo    = ko.observable("23");   
@@ -67,6 +72,7 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
+		structures: structures,
 		followup: followup,
 		followups: followups, 
 		checkOut: checkOut,
@@ -79,6 +85,7 @@ define(function(require) {
 		documents: documents,   
 		patientId: patientId,
 		practiceId: practiceId, 
+		checkOutId: checkOutId,
 		myArray: myArray,
 		primaryCo:primaryCo,
 		secondaryCo:secondaryCo, 
@@ -99,13 +106,16 @@ define(function(require) {
 		 * Methods
 		 *******************************************************************************************/
 		 phoneLogAdd: function() {
+				var self = this;
+				
 				phoneLogState(true);
-			},
-			
-			phoneLogCancel: function() {
-				phoneLogState(false);
-			},
-		
+				self.phoneLog(new self.structures.PhoneLog());   
+				//system.log('messgae is' + phoneLog.message()); 
+				system.log('hello');
+		},
+		phoneLogCancel: function() {
+			phoneLogState(false);
+		},
 		// This allow manipulation of the DOM
 		viewAttached: function() {           		
 			$('#followupTab a').click(function(e) {
@@ -128,6 +138,11 @@ define(function(require) {
 			
 			//Pactice ID
 			self.practiceId('1'); 
+			
+			//checkOut ID 
+			self.checkOutId(data.checkOutId); 
+			
+			
             
          // Add rows to the paymenyMethod table   
 	    var Item = function(particulars, amount) {
@@ -144,125 +159,63 @@ define(function(require) {
     };   
     modes.push(new Item('first',0));
 			
-			//Module Object 
-			//var backend = new Backend();
-			return backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) {
-				system.log('inside followup length is' + data.length); 
+			
+			 backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
+			    system.log(data); 
 				if(data.length > 0) {
-					var s = new backend.Followup(data[0]);
-					//self.followup(s);
-					self.followups(self.followup(s)); 
-					system.log('inside followup loop length is' + data.length);
+				var f = $.map(data, function(item) {return new structures.Followup(item) });
+					self.followups(f);
+                    self.followup(f[0]); 					
+					//followups(s); 
+					 
+					//system.log('inside followup loop length is' + data.length);
 				}
-				system.log('followups is' + followups); 
+				//system.log('followups length is' + self.followups.length); 
 			});
 	         
-			var chArray = [
-			    new CheckOut({
-						patientId : 123, 
-						primary_insurance : '10',   
-						secondary_insurance: '20',
-						other_insurance: '30',   
-						date : '02/13/2013' ,
-						copay_amount : '60', 
-						other_copay : '30',
-						additional_charges : '10', 
-						insurance_portion : '50', 
-						total_receivable : '25',   
-						total_payment: '300', 
-						balance : '100',  
-						comment : 'This is a test comment.'
-			}), 
-			new CheckOut({
-						patientId : 123, 
-						primary_insurance : '5',   
-						secondary_insurance: '10',
-						other_insurance: '3',   
-						date : '02/13/2013' ,
-						copay_amount : '18',
-						other_copay : '90',
-						additional_charges : '100', 
-						insurance_portion : '150', 
-						total_receivable : '325',   
-						total_payment: '20',   
-						balance : '10',  
-						comment : 'This is a second test comment.'
-			})
-			];  
-			   
-			self.checkOuts(chArray);  
+            backend.getCheckOut(self.patientId(),self.practiceId()).success(function(data) {
+		   //system.log('inside checkout gt' + data.length); 
+				if(data.length > 0) {
+					self.checkOuts(new structures.Checkout(data[0]));
+					//self.checkOut(s);					 
+				} 
+			});
 			
-			var paymentMethodArr = [
-			new PaymentMethod({ 
-			checkout_id : '12',
-			mode: 'Credit',
-			particulars: 'dda',
-			amount: '12'
-			})
-			];
+			backend.getPaymentMethod(self.patientId(),self.checkOutId()).success(function(data) { 
+				if(data.length > 0) {
+					var s = new structures.PaymentMethod(data[0]);
+					self.paymentMethod(s);					 
+				} 
+			});
 			
-			self.paymentMethods(paymentMethodArr); 
-		
-		var phoneLogList = [
-		       new PhoneLog({
-		       	patientId : 123, 
-		       	datetime : '02/13/2013', 
-		       	caller : 'Bobby smith', 
-		       	attended_by : 'Marry Ann', 
-		       	message : 'appointment cancellation' , 
-		       	action_required : 'No', 
-		       	assigned_to  : 'Nathan Abraham', 
-		       	type: 'Incoming'
-		       	}), 
-		       	new PhoneLog({
-		       	patientId : 123, 
-		       	datetime : '02/19/2013',   
-		       	caller : 'Bobby smith', 
-		       	attended_by : 'Dan Walker', 
-		       	message : 'appointment fix' ,    
-		       	action_required : 'Yes', 
-		       	assigned_to  : 'Ian Sinkler',     
-		       	type: 'Outgoing'
-		       	})
-		]; 
-		    
-		   self.phoneLogs(phoneLogList); 
+				
+			backend.getPhoneLog(self.patientId(),self.practiceId()).success(function(data) { 
+				if(data.length > 0) {
+					var s = new structures.PhoneLog(data[0]);
+					self.phoneLog(s);					 
+				} 
+			});
+			
+			backend.getDocument(self.patientId(),self.practiceId()).success(function(data) { 
+				if(data.length > 0) {
+					var s = new structures.Document(data[0]);
+					self.doc(s);					 
+				} 
+			});
 		   
-		var documentList = [   
-			new Document({
-		       	patientId : 123, 
-		       	type : 'X-ray',   
-		       	DOS : '02/02/2013', 
-		       	date : '02/13/2013',    
-		       	is_reviewed : '' , 
-		       	comment : 'No comments'
-		       }),
-		       new Document({
-		       	patientId : 123, 
-		       	type : 'Lab',   
-		       	DOS : '10/02/2013', 
-		       	date : '21/13/2013',    
-		       	is_reviewed : '' , 
-		       	comment : 'No comments either'
-		       }) 
-		          
-		];        
-		
-		self.documents(documentList);  
-		
 		  
         var test = ['Nathan Abraham', 'Ian Sinkler'];
         self.myArray(test);
         
-        return backend.getInsurance(self.patientId(),self.practiceId()).success(function(data) {
+         pb.getInsurance(self.patientId(),self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
-						var i = new backend.Insurance(data[count]);
+						var i = new pb.Insurance(data[count]);
 						
 						switch(i.insuredType()) {
 	            			case 'primary':
 	            				self.primaryCo(i.copayment());    
-	            			  
+	            			    //system.log('inside primary' + i.copayment()); 
 	            				break; 
 	            			case 'secondary': 
 	            				self.secondaryCo(i.copayment());   

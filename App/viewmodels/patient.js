@@ -7,20 +7,23 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * Includes*
 	 **********************************************************************************************/
-	var system = require('durandal/system');			// System logger
-	var custom = require('durandal/customBindings');	// Custom bindings
-	var viewModel = require('durandal/viewModel');
-	var Backend = require('modules/patient');			// Backend
+	var system     = require('durandal/system');			// System logger
+	var custom     = require('durandal/customBindings');	// Custom bindings
+	var viewModel  = require('durandal/viewModel');      	// ViewModel
+	var Backend    = require('modules/patient');			// Backend
+	var Structures = require('modules/patientStructures'); 	// Patient Structures 
+	
 	// Subviews
 	var personal = require('viewmodels/patient/personalinformation');
-	var social = require('viewmodels/patient/socialandfamily');
-	var service = require('viewmodels/patient/servicerecord');
+	var social   = require('viewmodels/patient/socialandfamily');
+	var service  = require('viewmodels/patient/servicerecord');
 	var followup = require('viewmodels/patient/followup');
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
 	var backend = new Backend();
+	var structures = new Structures();
 	var patient = ko.observable('');
 	var patientId = ko.observable();
 	var practiceId = ko.observable();
@@ -57,6 +60,7 @@ define(function(require) {
 		 * Attributes
 		 *******************************************************************************************/
 		backend: backend,
+		structures: structures,
 		patient: patient,
 		patientId: patientId,
 		practiceId: practiceId,
@@ -93,7 +97,7 @@ define(function(require) {
             var view = data.view;
             
             if(self.patientId() == 'new')
-            	self.patient(new backend.Patient());
+            	self.patient(new self.structures.Patient());
             
             // Switch view
             switch(view) {
@@ -114,7 +118,7 @@ define(function(require) {
             // Load Patient information
             return backend.getPatient(self.patientId()).success(function(data) {
             	if(data.length > 0) {
-            		var p = new backend.Patient(data[0]);
+            		var p = new self.structures.Patient(data[0]);
             		self.patient(p);
             	}
             });

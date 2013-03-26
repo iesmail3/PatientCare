@@ -1,0 +1,163 @@
+<div class="formScroll">
+	<div class="form-inline">
+		<div class="row-fluid">
+			<fieldset>
+				<legend>Co-pay Details</legend>  
+				 <!-- ko with: checkOut -->
+				<div class="span5">
+					<div class="marginBottom5">
+						<span class="label">Select Co-Payment</span>
+						<div class="bigContainer"> 
+							<div class="marginBottom5">   
+								<label class="checkbox inline">
+									<input type="checkbox"  data-bind="checked: $root.selectedValues, value: $root.primaryCo"/><span>Primary</span> ($<span data-bind="text: $root.primaryCo"></span>)
+								</label>
+							</div>
+							<div class="marginBottom5">  
+								<label class="checkbox inline"> 
+									<input type="checkbox" data-bind="checked: $root.selectedValues, value:$root.secondaryCo"/><span>Secondary</span>($<span data-bind="text: $root.secondaryCo"></span>)  
+								</label>
+							</div>
+							<div class="marginBottom5"> 
+								<label class="checkbox inline">      
+									<input type="checkbox" data-bind="checked: $root.selectedValues, value:$root.otherCo"/><span>Other</span>($<span data-bind="text: $root.otherCo"></span>)
+								</label>      
+							</div> 
+						</div>         
+					</div>
+					<div class="marginBottom5">
+						<span class="label">Co-Payment amount</span>
+						<input type="text" class="input-medium" placeholder="0" data-bind="value:$root.copayment"/>
+					</div>
+					<div class="marginBottom5">   
+						<span class="label">Other Co-Pay</span>
+						<input type="text" class="input-medium" placeholder="0" data-bind="value: otherCopay"/>
+					</div>
+					<div class="marginBottom5">   
+						<label class="checkbox inline">
+							<input type="checkbox" data-bind="checked: editAdditionalCharge"/><span>Additional Charges</span>
+						</label> 
+						<input type="text" class="input-medium" placeholder="0" data-bind="enable: editAdditionalCharge() == true,
+						 value: additionalCharges"/>
+					</div>       
+					<div class="marginBottom5">     
+						<span class="label">Insurance Portion</span>  
+						<input type="text" class="input-medium" placeholder="0" data-bind="value: insurancePortion" />
+					</div>
+					<div class="marginBottom5">
+						<span class="label label-inverse">Total Receivable</span>
+						<input type="text" class="input-medium" placeholder="0" data-bind="value: totalReceivable"/>  
+					</div>
+					<div class="marginBottom5">
+						<input type="text" class="input-large" placeholder="Comments" data-bind="value: comment"/>
+					</div>
+					<div class="marginBottom5">
+						<a data-toggle="modal" href="insuranceDetails.html" data-target="#secondView">Additional Details</a>
+					</div>
+					<div id="secondView" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						  <div class="modal-header">
+						    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						    <h3 id="myModalLabel">Insurance Details</h3>
+						  </div>  
+						  <div class="modal-body"> 
+						  	 
+						      <table class="table table-bordered table-hover">      
+							<table class="table table-bordered table-hover">
+													<thead> 
+														<tr>  
+															<th>Reason</th>
+															<th>Covered</th>
+															<th>Copay($)</th>
+															<th>Comments</th>
+														</tr> 
+													</thead> 
+													 <tbody>
+													</tbody>
+									 </table>  
+						  </div>
+						  <div class="modal-footer">
+						    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>  
+						    <button class="btn btn-primary">Save changes</button>  
+						  </div>   
+					</div> 
+				</div> 
+				<!-- /ko -->  
+				<div class="offset1 span5">  
+					<!-- ko with: paymentMethod -->  
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>       
+								<th>Modes</th>   
+								<th>Particulars</th>
+								<th>Amount</th>
+							</tr>
+						</thead> 
+						<tbody data-bind="foreach: $root.modes">     
+							<tr>  
+								<td>
+									<select class="input-small" data-bind="event: { change: addRow}">
+										<option value="">Cash</option> 
+										<option value="">Credit</option>
+										<option value="">Debit</option>
+									</select>
+								</td>
+								<td><input class="input-small" data-bind='value: particulars'/></td> 
+								<td><input class="input-small" data-bind='value: amount'/></td> 
+							</tr> 
+						</tbody> 
+					</table> 
+					<!-- /ko -->  
+					 <!-- ko with: checkOut --> 
+					<div id="marginBottom5">
+					<span class="label label-inverse">Total Payment</span>
+					<input type="text" class="input-medium" placeholder="0" data-bind="value: totalPayment" />
+					</div>
+					<div id="marginBottom5">
+					<span class="label label-important">Balance</span>
+					<input type="text" class="input-medium" placeholder="0" data-bind="value: balance"/>
+					</div> 
+					<!-- /ko -->  
+				</div>     
+			</fieldset>      
+		</div>
+	</div>
+	 
+	</div>
+	 <!-- ko with: checkOut -->
+	<table class="table table-bordered table-hover">      
+		<thead>
+			<tr>
+				<th></th>
+				<th>Date of Service</th>        
+				<th>CoPay Amount</th>     
+				<th>Other Co-Pay</th>
+				<th>Insurance Portion</th>
+				<th>Additional Charges</th>  
+				<th>Paid Amount</th>
+				<th>Balance</th>
+				<th>Comments</th>
+			</tr> 
+		</thead> 
+		<tbody data-bind="foreach: $root.checkOuts">      
+				<tr data-bind="click: $root.setCheckOutFields">     
+					<td></td>  
+					<td data-bind="text: date"></td>   
+					<td data-bind="text: copayAmount"></td>
+					<td data-bind="text: otherCopay"></td> 
+					<td data-bind="text:insurancePortion"></td>
+					<td data-bind="text: additionalCharges"></td>
+					<td data-bind="text: totalPayment"></td>
+					<td data-bind="text: balance"></td>
+					<td data-bind="text: comment"></td>						     
+				</tr>          
+		</tbody> 
+	</table>
+	<!-- /ko --> 
+	<div class="row-fluid">
+	<div class="pull-right marginBottom5">
+		<button type="button" class="btn btn-small">Print Receipt</button>
+		<button type="button" class="btn btn-small">PrintOrder</button>
+		<button type="button" class="btn btn-small btn-primary">Save</button>
+		<button type="button" class="btn btn-small btn-danger">Cancel</button>
+	</div>
+	</div>

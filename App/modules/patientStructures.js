@@ -156,7 +156,7 @@ define(function(require) {
 	}
 	
 	// Follow Up
-	patient.prototype.FollowUp = function(data) {
+	patient.prototype.Followup = function(data) {
 		if (data != null) {
 			this.id			 = ko.observable(data.id);
 			this.patientId	 = ko.observable(data.patient_id);
