@@ -29,6 +29,7 @@ define(function(require) {
 	 var phoneLogs      = ko.observableArray([]);    
 	 var superBill      = ko.observable(new structures.Superbill());    
 	 var prescription   = ko.observable(new structures.Prescription());
+	 var prescriptions  = ko.observableArray([]); 
 	 var doc            = ko.observable(new structures.Document());
 	 var documents      = ko.observableArray([]);          
 	 var patientId      = ko.observable(); 
@@ -81,6 +82,7 @@ define(function(require) {
 		phoneLogs: phoneLogs, 
 		superBill: superBill, 
 		prescription: prescription,
+		prescriptions: prescriptions,
 		doc: doc,   
 		documents: documents,   
 		patientId: patientId,
@@ -105,17 +107,6 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
-		 phoneLogAdd: function() {
-				var self = this;
-				
-				phoneLogState(true);
-				self.phoneLog(new self.structures.PhoneLog());   
-				//system.log('messgae is' + phoneLog.message()); 
-				system.log('hello');
-		},
-		phoneLogCancel: function() {
-			phoneLogState(false);
-		},
 		// This allow manipulation of the DOM
 		viewAttached: function() {           		
 			$('#followupTab a').click(function(e) {
@@ -160,46 +151,53 @@ define(function(require) {
     modes.push(new Item('first',0));
 			
 			
-			 backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
+			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 			    system.log(data); 
 				if(data.length > 0) {
 				var f = $.map(data, function(item) {return new structures.Followup(item) });
 					self.followups(f);
                     self.followup(f[0]); 					
-					//followups(s); 
-					 
-					//system.log('inside followup loop length is' + data.length);
-				}
-				//system.log('followups length is' + self.followups.length); 
+				}				
 			});
 	         
-            backend.getCheckOut(self.patientId(),self.practiceId()).success(function(data) {
-		   //system.log('inside checkout gt' + data.length); 
+            backend.getCheckOut(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
-					self.checkOuts(new structures.Checkout(data[0]));
-					//self.checkOut(s);					 
+				    var ch = $.map(data, function(item) {return new structures.Checkout(item) });
+					self.checkOuts(ch); 
+                    self.checkOut(ch[0]); 					
 				} 
 			});
 			
 			backend.getPaymentMethod(self.patientId(),self.checkOutId()).success(function(data) { 
 				if(data.length > 0) {
-					var s = new structures.PaymentMethod(data[0]);
-					self.paymentMethod(s);					 
+				    var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
+					self.paymentMethods(p);	
+                    self.paymentmethods(p[0]); 					
 				} 
 			});
-			
-				
+							
 			backend.getPhoneLog(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
-					var s = new structures.PhoneLog(data[0]);
-					self.phoneLog(s);					 
+					 var p = $.map(data, function(item) {return new structures.PhoneLog(item) });
+					 self.phoneLogs(p);
+					 self.phoneLog(p[0]); 
+					
 				} 
 			});
 			
 			backend.getDocument(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
-					var s = new structures.Document(data[0]);
-					self.doc(s);					 
+					 var d = $.map(data, function(item) {return new structures.Document(item) });
+					 self.documents(d);
+                     self.doc(d[0]); 					 
+				} 
+			});
+							
+			backend.getPrescription(self.patientId(),self.practiceId()).success(function(data) { 
+				if(data.length > 0) {
+					 var p = $.map(data, function(item) {return new structures.Prescription(item) });
+					 self.prescriptions(p);
+                     self.prescription(p[0]); 					 
 				} 
 			});
 		   
@@ -210,12 +208,12 @@ define(function(require) {
          pb.getInsurance(self.patientId(),self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
-						var i = new pb.Insurance(data[count]);
+						var i = new structures.Insurance(data[count]);
 						
-						switch(i.insuredType()) {
+						switch(i.type()) {
 	            			case 'primary':
 	            				self.primaryCo(i.copayment());    
-	            			    //system.log('inside primary' + i.copayment()); 
+	            			    //system.log('inside primary' + i.copayment());
 	            				break; 
 	            			case 'secondary': 
 	            				self.secondaryCo(i.copayment());   
@@ -249,6 +247,20 @@ define(function(require) {
 		
 		setPaymentFields: function(data) { 
 			paymentMethod(data); 
+		},
+		
+		setPrescriptionFields: function(data) { 
+			prescription(data); 
+		},
+		
+		 phoneLogAdd: function() {
+				phoneLogState(true);
+				phoneLog(new structures.PhoneLog());   
+				//system.log('messgae is' + phoneLog.message()); 
+				system.log('kll');
+		},
+		phoneLogCancel: function() {
+			phoneLogState(false);
 		}
 		   
 		

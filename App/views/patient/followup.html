@@ -26,7 +26,6 @@ Description:
 					<table class="table table-bordered table-hover">
 						<thead>
 							<tr>
-								<th></th>
 								<th>Date</th>
 								<th>Medicine Name</th>
 								<th>Physician</th>
@@ -35,8 +34,15 @@ Description:
 								<th>Comments</th>
 							</tr>
 						</thead>
-						<tbody>
-						</tbody>
+						<tbody data-bind="foreach: prescriptions">     
+							<tr data-bind="click: $root.setPrescriptionFields">   
+								<td data-bind="text: date"></td>   
+								<td data-bind="text: medicine"></td>
+								<td data-bind="text: createdBy"></td>  
+								<td data-bind="text:mode"></td>
+								<td data-bind="text: comment"></td>						     
+							</tr>          
+					</tbody>
 					</table>
 				</div>
 			</div>
@@ -94,7 +100,6 @@ Description:
 				<table class="table table-bordered table-hover">
 					<thead>
 						<tr>  
-							<th></th>
 							<th>Call Date</th>
 							<th>Call Type</th>
 							<th>Caller</th>
@@ -104,7 +109,6 @@ Description:
 					</thead>  
 					<tbody data-bind="foreach: phoneLogs">     
 							<tr data-bind="click: $root.setPhoneLogFields">   
-								<td></td>  
 								<td data-bind="text: datetime"></td>   
 								<td data-bind="text: type"></td>
 								<td data-bind="text: caller"></td>  
@@ -210,7 +214,7 @@ Description:
 								<tbody data-bind="foreach: documents">     
 									<tr data-bind="click: $root.setDocumentFields">   
 										<td></td>  
-										<td data-bind="text: receivedDate"></td>      
+										<td data-bind="text: date"></td>      
 										<td data-bind="text: DOS"></td>
 										<td data-bind="text: type"></td>     
 										<td data-bind="text:isReviewed"></td>

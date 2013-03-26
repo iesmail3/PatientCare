@@ -241,8 +241,15 @@
 		});
 	}
 	
-	
-	
+	followup.prototype.getPrescription = function(id, practiceId) {
+		return this.query({
+			mode: 'select',
+			table: 'prescription',
+			fields: '*',
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
+		});
+	}
+			
 	// /**********************************************************************************************
 	 // * Query
 	 // * 
