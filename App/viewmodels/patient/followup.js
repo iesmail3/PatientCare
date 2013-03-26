@@ -152,7 +152,6 @@ define(function(require) {
 			
 			
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
-			    system.log(data); 
 				if(data.length > 0) {
 				var f = $.map(data, function(item) {return new structures.Followup(item) });
 					self.followups(f);
@@ -213,7 +212,6 @@ define(function(require) {
 						switch(i.type()) {
 	            			case 'primary':
 	            				self.primaryCo(i.copayment());    
-	            			    //system.log('inside primary' + i.copayment());
 	            				break; 
 	            			case 'secondary': 
 	            				self.secondaryCo(i.copayment());   
@@ -256,8 +254,6 @@ define(function(require) {
 		 phoneLogAdd: function() {
 				phoneLogState(true);
 				phoneLog(new structures.PhoneLog());   
-				//system.log('messgae is' + phoneLog.message()); 
-				system.log('kll');
 		},
 		phoneLogCancel: function() {
 			phoneLogState(false);
