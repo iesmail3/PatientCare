@@ -89,7 +89,7 @@ define(function(require) {
 		var self = this;
 		
 		var fields = ['practice_id', 'id', 'first_name', 'middle_name', 'last_name', 'alias', 
-			'date_of_birth', 'id_number', 'id_type', 'physician_id', 'saveress', 'city', 'state',
+			'date_of_birth', 'id_number', 'id_type', 'physician_id', 'address', 'city', 'state',
 			'zip', 'province', 'country', 'phone', 'phone_ext', 'mobile', 'gender', 'marital_status',
 			'family_history_type','family_history_comment', 'routine_exam_comment', 'insurance_type',
 			'record_status', 'contact_name', 'contact_phone', 'contact_mobile', 'contact_relationship',

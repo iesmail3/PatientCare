@@ -46,7 +46,7 @@
 			
 		if(data != null) { 
 			self.patientId         		= ko.observable(data.patient_id);
-		   // self.practiceId         	= ko.observable(data.practice_id);
+		    self.practiceId         	= ko.observable(data.practice_id);
 			self.primaryInsurance      	= ko.observable((data.primary_insurance)); 
 			self.secondaryInsurance 	= ko.observable(data.secondary_insurance); 
 			self.otherInsurance        	= ko.observable(data.other_insurance); 
@@ -65,7 +65,7 @@
 		}
 		else {    
 			self.patientId         		= ko.observable(); 
-			//self.practiceId         	= ko.observable(); 
+			self.practiceId         	= ko.observable(); 
 			self.primaryIsurance     	= ko.observable(); 
 			self.secondaryInsurance 	= ko.observable(); 
 			self.otherInsurance        	= ko.observable(); 
@@ -246,6 +246,16 @@
 			mode: 'select',
 			table: 'prescription',
 			fields: '*',
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
+		});
+	}
+	
+	// Get All Insurances for a Single Patient
+	followup.prototype.getInsurance = function(id,practiceId) {
+		return this.query({
+			mode: 'select', 
+			table: 'insurance', 
+			fields: '*', 
 			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}

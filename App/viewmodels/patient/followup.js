@@ -10,14 +10,12 @@ define(function(require) {
 	var system = require('durandal/system');			// System logger
 	var custom = require('durandal/customBindings');	// Custom bindings
 	var Backend = require('modules/followup');			// Database access
-	var patientBackend = require('modules/patient');			// Database access
 	var Structures = require('modules/patientStructures'); 
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
 	 var backend = new Backend();
-	 var pb  = new patientBackend();
 	 var structures = new Structures();
 	 var followup 		= ko.observable(new structures.Followup());
 	 var followups      = ko.observableArray([]); 
@@ -38,8 +36,8 @@ define(function(require) {
 	 var checkOutId     = ko.observable(); 
 	 var myArray        = ko.observableArray([]); 
 	 var primaryCo      = ko.observable(); 
-	 var secondaryCo    = ko.observable("23");   
-	 var otherCo        = ko.observable("21");  
+	 var secondaryCo    = ko.observable();   
+	 var otherCo        = ko.observable();  
 	 var primaryInsurance = ko.observable("500");   
 	 var secondaryInsurance = ko.observable("100");
 	 var otherInsurance = ko.observable("200");
@@ -49,6 +47,7 @@ define(function(require) {
 	 var phoneLogAdd    = ko.observable(); 
 	 var phoneLogSave   = ko.observable(); 
 	 var phoneLogCancel = ko.observable(); 
+	 var showAssigned   = ko.observable(true); 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/  
@@ -106,6 +105,7 @@ define(function(require) {
 			phoneLogAdd: phoneLogAdd, 
 			phoneLogSave: phoneLogSave,
 			phoneLogCancel: phoneLogCancel,
+			showAssigned: showAssigned,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -206,14 +206,16 @@ define(function(require) {
         var test = ['Nathan Abraham', 'Ian Sinkler'];
         self.myArray(test);
         
-         pb.getInsurance(self.patientId(),self.practiceId()).success(function(data) {
+         backend.getInsurance(self.patientId(),self.practiceId()).success(function(data) { 
+		  system.log(data.length);
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
 						var i = new structures.Insurance(data[count]);
 						
 						switch(i.type()) {
 	            			case 'primary':
-	            				self.primaryCo(i.copayment());    
+	            				self.primaryCo(i.copayment());
+                                system.log('primary co is' + i.copayment()); 								
 	            				break; 
 	            			case 'secondary': 
 	            				self.secondaryCo(i.copayment());   
@@ -257,12 +259,14 @@ define(function(require) {
 		phoneLogCancel: function() {
 			phoneLogState(true);
 			phoneLog(tempPhoneLog());
+			showAssigned(true); 
 			
 		},
 		 phoneLogAdd: function() { 
 				phoneLogState(false);
 			   tempPhoneLog(phoneLog());
                phoneLog(new structures.PhoneLog());
+			   showAssigned(false); 
 		}
 		
 		   
