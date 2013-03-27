@@ -7,10 +7,10 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * Includes*
 	 **********************************************************************************************/
-	var system = require('durandal/system');			// System logger
-	var custom = require('durandal/customBindings');	// Custom bindings
-	var Backend = require('modules/followup');			// Database access
-	var Structures = require('modules/patientStructures'); 
+	 var system = require('durandal/system');			// System logger
+	 var custom = require('durandal/customBindings');	// Custom bindings
+	 var Backend = require('modules/followup');			// Database access
+	 var Structures = require('modules/patientStructures'); 
 	
 	/*********************************************************************************************** 
 	 * KO Observables
@@ -19,8 +19,8 @@ define(function(require) {
 	 var structures = new Structures();
 	 var followup 		= ko.observable(new structures.Followup());
 	 var followups      = ko.observableArray([]); 
-	 var checkOut 		= ko.observable(new structures.Checkout()); 
-	 var checkOuts      = ko.observableArray([]); 
+	 var checkout 		= ko.observable(new structures.Checkout()); 
+	 var checkouts      = ko.observableArray([]); 
 	 var paymentMethod  = ko.observable(new structures.PaymentMethod()); 
 	 var paymentMethods = ko.observableArray([]);
 	 var phoneLog       = ko.observable(new structures.PhoneLog());
@@ -33,7 +33,7 @@ define(function(require) {
 	 var documents      = ko.observableArray([]);          
 	 var patientId      = ko.observable(); 
 	 var practiceId     = ko.observable(); 
-	 var checkOutId     = ko.observable(); 
+	 var checkoutId     = ko.observable(); 
 	 var myArray        = ko.observableArray([]); 
 	 var primaryCo      = ko.observable(); 
 	 var secondaryCo    = ko.observable();   
@@ -49,33 +49,36 @@ define(function(require) {
 	 var phoneLogCancel = ko.observable(); 
 	 var showAssigned   = ko.observable(true); 
 	 var totalReceived  = ko.observable(); 
-	 var totalPaid      = ko.observable(); 
 	 var id             = ko.observable(); 
+	 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/  
 	 var copayment = ko.computed(function() {     
-	 	
 	 	var total = 0;   	
 	     ko.utils.arrayForEach(selectedValues(), function (item) { 
             total += parseInt(item);
-           
-        });
-	 	    
+        }); 
         return total;    
-   });
+   	}); 
    
-   var totalPayment = ko.computed(function() {     
-	 	
-	 	var total = 0;
-			for(var i = 0; i < paymentMethods().length; i++) {
-			   total += parseInt(paymentMethods()[i].amount());
-			}
-             //system.log('total is' + total); 
-			return total;    
-   });
+   	var totalPay = ko.computed(function() {     
+		
+		var total = 0;
+			 for(var i = 0; i < paymentMethods().length; i++) {
+			    total += parseInt(paymentMethods()[i].amount());
+			 }
+		
+		return total;    
+   }); 
+   
+   var balance = ko.computed(function() {     
+		
+		//var difference = 0;
+		return 'test'; 
+		    
+   }); 
       
-    
 	/*********************************************************************************************** 
 	 * ViewModel
 	 *  
@@ -89,8 +92,8 @@ define(function(require) {
 			structures: structures,
 			followup: followup,
 			followups: followups,  
-			checkOut: checkOut,
-			checkOuts: checkOuts, 
+			checkout: checkout,
+			checkouts: checkouts, 
 			phoneLog: phoneLog,
 			phoneLogs: phoneLogs, 
 			tempPhoneLog: tempPhoneLog, 
@@ -101,7 +104,7 @@ define(function(require) {
 			documents: documents,   
 			patientId: patientId,
 			practiceId: practiceId, 
-			checkOutId: checkOutId,
+			checkoutId: checkoutId,
 			myArray: myArray,
 			primaryCo:primaryCo,
 			secondaryCo:secondaryCo, 
@@ -110,7 +113,6 @@ define(function(require) {
 			secondaryInsurance:secondaryInsurance,    
 			otherInsurance:otherInsurance,
 			selectedValues: selectedValues,
-			copayment: copayment, 
 			paymentMethod: paymentMethod, 
 			paymentMethods: paymentMethods,
 			modes: modes,  
@@ -120,8 +122,8 @@ define(function(require) {
 			phoneLogCancel: phoneLogCancel,
 			showAssigned: showAssigned,
 			totalReceived: totalReceived, 
-			totalPaid: totalPaid,
 			id: id, 
+			
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -147,25 +149,23 @@ define(function(require) {
 				//Pactice ID
 				self.practiceId('1'); 
 				
-				//checkOut ID 
-				//self.checkOutId(data.checkOutId); 
-				//self.id(data.id); 
-				//system.log('id is' + self.id()); 
-				
 			 // Add rows to the paymenyMethod table   
-			var Item = function(particulars, amount) {
-				var self = this;  
-				self.particulars = ko.observable(particulars); 
-				self.amount = ko.observable(amount); 
-				self.hasAddedRow = ko.observable(false);         
-				self.addRow = function(){    
-				  if(!self.hasAddedRow()){
-					self.hasAddedRow(true); 
-					modes.push(new Item('lala',0));   
-				  } 
-				};
-			};   
-			modes.push(new Item('first',0));
+			// var Item = function(particulars, amount) {
+			    // system.log('inside item'); 
+				// var self = this;  
+				// self.particulars = ko.observable(particulars); 
+				// self.amount = ko.observable(amount); 
+				// self.hasAddedRow = ko.observable(false);         
+				// self.addRow = function(){    
+				  	// system.log('inside add row'); 
+				  // if(!self.hasAddedRow()){
+					// self.hasAddedRow(true); 
+				
+					// paymentMethods.push(new Item('lala',0));   
+				  // } 
+				// };
+			// };   
+			//paymentMethods.push(new Item('first',0));
 			
 			
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
@@ -179,8 +179,8 @@ define(function(require) {
             backend.getCheckOut(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
 				    var ch = $.map(data, function(item) {return new structures.Checkout(item) });
-					self.checkOuts(ch); 
-                    self.checkOut(ch[0]);            
+					self.checkouts(ch); 
+                    //s	elf.checkOut(ch[0]);            
 				} 
 			});
 			
@@ -209,43 +209,39 @@ define(function(require) {
 				} 
 			});
 		   
-		  
-        var test = ['Nathan Abraham', 'Ian Sinkler'];
-        self.myArray(test);
-        
-         backend.getInsurance(self.patientId(),self.practiceId()).success(function(data) { 		 
+			var test = ['Nathan Abraham', 'Ian Sinkler'];
+			self.myArray(test);
+			
+			backend.getInsurance(self.patientId(),self.practiceId()).success(function(data) { 	 		 
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
 						var i = new structures.Insurance(data[count]);
 						
 						switch(i.type()) {
-	            			case 'primary':
-	            				self.primaryCo(i.copayment());								
-	            				break; 
-	            			case 'secondary': 
-	            				self.secondaryCo(i.copayment());   
-	            				break;
-	            			default:   
-	            				self.otherCo(i.copayment()); 
-	            				break;
-	            		}
-	            	}
+							case 'primary': 	self.primaryCo(i.copayment());								
+												break; 
+							case 'secondary': 	self.secondaryCo(i.copayment());   
+												break;
+							default:   			self.otherCo(i.copayment()); 
+												break;
+						}
+					}
 				}
 			}); 
-		   
-      
 		},       
+		copayment: copayment, 
+		totalPay:  totalPay,
+		balance:   balance,
 		setFields: function(data) {
 			followup(data);
 		},        
-		setCheckOutFields: function(data) { 
-			checkOut(data);
-			
-			backend.getPaymentMethod(data.id()).success(function(data) { 
+	
+		setCheckOutFields: function(data) {  
+			checkout(data); 
+			backend.getPaymentMethods(data.id()).success(function(data) {	
 				if(data.length > 0) {
 				    var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
-					paymentMethod(p);	
-                    paymentmethods(p[0]); 					
+					paymentMethods(p);						
 				} 
 			});                
 		},                

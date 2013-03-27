@@ -216,7 +216,7 @@
 		});
 	}
 	
-	followup.prototype.getPaymentMethod = function(id) { 
+	followup.prototype.getPaymentMethods = function(id) { 
 		return this.query({
 			mode: 'select',
 			table: 'payment_method',

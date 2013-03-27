@@ -99,7 +99,7 @@
 
 .bigContainer {
     border: 1px solid #aaa;  
-    width: 120px;
+    width: 130px;
     margin: 12px;      
 }
 .commentContainer {
@@ -108,4 +108,20 @@
 
 .commentSpan {
 	width: 100%;
+}
+
+.paymentTable { 
+   max-width: none;   
+}
+
+.paymentTable input, .paymentTable select {
+	width: 100%;
+}
+
+.paymentTable td {
+	padding: 5px;
+}
+
+.paymentTable th:last-child {
+	width: 15%;
 }
