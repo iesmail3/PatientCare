@@ -129,13 +129,15 @@ define(function(require) {
 			var self = this;
 			// New
 			if (serviceRecordState()) {
+				system.log("Got into here");
+				backend.addServiceRecord(self.serviceRecordId(), self.serviceRecord()).success(function(data) {
+					system.log("and here");
+				});
 			}
 			// Update
 			else {
-				system.log("In Saving");
-				system.log(self.serviceRecordId());
-				system.log(self.serviceRecord);
-				//self.backend.saveServiceRecord(self.serviceRecordId(), self.serviceRecord()).complete(function(data) {});
+				backend.saveServiceRecord(self.serviceRecordId(), self.serviceRecord()).complete(function(data) {
+				});
 			}
 		},
 		serviceRecordCancel: function() {

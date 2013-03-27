@@ -19,27 +19,6 @@ define(function(require) {
 	 * 
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/
-	// Get Patient ID
-	// Get All Patients
-	patient.prototype.getPatientId = function() {
-		return this.query({
-			mode: 'select', 
-			table: 'patient', 
-			fields: 'id',
-			order: 'ORDER BY id DESC',
-			limit: 'LIMIT 1'
-		});
-	}
-	
-	// Get All Patients
-	patient.prototype.getPatients = function() {
-		return this.query({
-			mode: 'select', 
-			table: 'patient', 
-			fields: '*'
-		});
-	}
-	
 	// Get Personal Information for a Single Patient
 	patient.prototype.getPatient = function(id, practiceId) {
 		return this.query({
@@ -47,56 +26,6 @@ define(function(require) {
 			table: 'patient', 
 			fields: '*', 
 			where: "WHERE id='" + id + "' AND practice_id='" + practiceId + "'"
-		});
-	}
-	
-	// Get All Insurances for a Single Patient
-	patient.prototype.getInsurance = function(id, practiceId) {
-		return this.query({
-			mode: 'select', 
-			table: 'insurance', 
-			fields: '*', 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Get Guarantor for a Single Patient
-	patient.prototype.getGuarantor = function(id, practiceId) {
-		return this.query({
-			mode: 'select', 
-			table: 'guarantor', 
-			fields: '*', 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Get Employer for a Single Patient
-	patient.prototype.getEmployer = function(id, practiceId) {
-		return this.query({
-			mode: 'select', 
-			table: 'employer', 
-			fields: '*', 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Get Spouse for a Single Patient
-	patient.prototype.getSpouse = function(id, practiceId) {
-		return this.query({
-			mode: 'select', 
-			table: 'spouse', 
-			fields: '*', 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Get Reference for a Single Patient
-	patient.prototype.getReference = function(id, practiceId) {
-		return this.query({
-			mode: 'select',
-			table: 'reference',
-			fields: '*',
-			where: "WHERE patient_id='" + id + "'"
 		});
 	}
 	
@@ -118,31 +47,12 @@ define(function(require) {
 		});
 	}
 	
-	// Get Service Record for a Single Patient
-	patient.prototype.getServiceRecord = function(id, practiceId, date) {
-		return this.query({
-			mode: 'select',
-			table: 'service_record',
-			fields: '*',
-			where: "WHERE patient_id='" + id + "' AND date='" + date + "'"
-		});
-	}
-	
 	patient.prototype.getPhysicians = function(practiceId) {
 		return this.query({
 			mode: 'select',
 			table: 'physician',
 			fields: '*',
 			where: "WHERE practice_id='" + practiceId + "'"
-		});
-	}
-	
-	patient.prototype.getPhysician = function(id, practiceId) {
-		return this.query({
-			mode: 'select',
-			table: 'physician',
-			fields: '*',
-			where: "WHERE id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
@@ -158,7 +68,11 @@ define(function(require) {
 			'plan_and_instructions'];
 		
 		var values = $.map(data, function(k,v) {
-			return [k];
+			if(k() == null || k() == undefined) {
+				return [''];
+			}
+			else
+				return [k()];
 		});
 		
 		return self.query({
@@ -170,80 +84,10 @@ define(function(require) {
 		});
 	}
 	
-	// Add Insurance for a Single Patient
-	patient.prototype.addInsurance = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'insert', 
-			table: 'insurance', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Add Guarantor for a Single Patient
-	patient.prototype.addGuarantor = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'insert', 
-			table: 'guarantor', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Add Employer for a Single Patient
-	patient.prototype.addEmployer = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'insert', 
-			table: 'employer', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Add Spouse for a Single Patient
-	patient.prototype.addSpouse = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'insert', 
-			table: 'spouse', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
-	// Add Reference for a Single Patient
-	patient.prototype.addReference = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'insert', 
-			table: 'reference', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
-	
 	// Add Service Record for a Single Patient
 	patient.prototype.addServiceRecord = function(id, data) {
 		var values = $.map(data, function(k,v) {
-			return [k];
+			return [k()];
 		});
 		
 		return this.query({
@@ -259,15 +103,6 @@ define(function(require) {
 	 * 
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
-	// Delete Personal Information for a Single Patient
-	patient.prototype.deletePatient = function(id) {
-		return this.query({
-			mode: 'delete', 
-			table: 'patient', 
-			where: "WHERE id='" + id + "'"
-		});
-	}
-	
 	// Delete Service Record for a Single Patient
 	patient.prototype.deleteServiceRecord = function(id) {
 		return this.query({
