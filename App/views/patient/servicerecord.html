@@ -28,17 +28,21 @@ Description:
 					<fieldset>
 						<legend>Edit Service Record</legend>
 						<div class="marginBottom5">
-							<input type="text" placeholder="Date of Service" data-bind="value: dateOfService, enable: serviceRecordState(), datepicker: true" />
+							<!-- ko with: serviceRecord -->
+							<input type="text" placeholder="Date of Service" data-bind="value: date, enable: $root.serviceRecordState(), datepicker: true" />
+							<!-- /ko -->
 							<select data-bind="foreach: physicians">
 								<option value="" disabled selected style="display:none;">Physician</option>
-								<option data-bind="text: firstName" value="value: id"></option>
+								<option data-bind="text: lastFirstName" value="value: lastFirstName"></option>
 							</select>
 						</div>
 						<div class="marginBottom5 commentContainer">
+							<!-- ko with: serviceRecord -->
 							<textarea class="commentSpan" rows="3" data-bind="value: reason" placeholder="Reason for Visit" /></textarea>
+							<!-- /ko -->
 						</div>
 						<div class="pull-right">
-							<button type="button" class="btn btn-small btn-success" data-bind="click: serviceRecordAdd, visible: !serviceRecordState()">New</button>
+							<button type="button" class="btn btn-small btn-success" data-bind="click: serviceRecordNew, visible: !serviceRecordState()">New</button>
 							<button type="submit" class="btn btn-small btn-primary" data-bind="click: serviceRecordSave()">Save</button>
 							<button type="button" class="btn btn-small btn-warning" data-bind="click: serviceRecordCancel, visible: serviceRecordState()">Cancel</button>
 						</div>
@@ -60,7 +64,7 @@ Description:
 						<tr>
 							<td><a class="btn btn-small btn-primary" data-bind="attr: {href: goToRecord}">Go to Record</a></td>
 							<td data-bind="text: date, click: $root.setFields"></td>
-							<td data-bind="text: physicianId, click: $root.setFields"></td>
+							<td data-bind="text: lastFirstName, click: $root.setFields"></td>
 							<td data-bind="text: reason, click: $root.setFields"></td>
 							<td><a class="btn btn-small btn-danger" data-bind="click: $root.deleteServiceRecord">Delete</a></td>
 						</tr>

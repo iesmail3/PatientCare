@@ -751,18 +751,30 @@ define(function(require) {
 	
 	// Physician
 	patient.prototype.Physician = function(data) {
+		var self = this;
+		
 		if (data != null) {
 			this.id		    = ko.observable(data.id);
 			this.practiceId = ko.observable(data.practice_id);
 			this.firstName  = ko.observable(data.first_name);
+			this.lastName   = ko.observable(data.last_name);
 			this.degree	    = ko.observable(data.degree);
 		}
 		else {
 			this.id		    = ko.observable();
 			this.practiceId = ko.observable();
 			this.firstName  = ko.observable();
+			this.lastName   = ko.observable();
 			this.degree	    = ko.observable();
 		}
+		
+		// This will return the name in the following format: Last, First
+		this.lastFirstName = ko.computed(function() {
+			if (self.lastName() == '' && self.firstName() == '')
+				return '';
+			else
+				return self.lastName() + ", " + self.firstName();
+		});
 	}
 	
 	// Prescription
@@ -876,6 +888,8 @@ define(function(require) {
 			this.id						    = ko.observable(data.id);
 			this.patientId				    = ko.observable(data.patient_id);
 			this.physicianId			    = ko.observable(data.physician_id);
+			this.physicianFirst			    = ko.observable(data.first_name);
+			this.physicianLast			    = ko.observable(data.last_name);
 			this.date					    = ko.observable(data.date);
 			this.reason					    = ko.observable(data.reason);
 			this.history				    = ko.observable(data.history);
@@ -889,6 +903,8 @@ define(function(require) {
 			this.id						    = ko.observable();
 			this.patientId				    = ko.observable();
 			this.physicianId			    = ko.observable();
+			this.physicianFirst			    = ko.observable();
+			this.physicianLast			    = ko.observable();
 			this.date					    = ko.observable();
 			this.reason					    = ko.observable();
 			this.history				    = ko.observable();
@@ -898,6 +914,14 @@ define(function(require) {
 			this.physicalExaminationComment = ko.observable();
 			this.planAndInstructions	    = ko.observable();
 		}
+		
+		// This will return the name in the following format: Last, First
+		this.lastFirstName = ko.computed(function() {
+			if (self.physicianLast() == '' && self.physicianFirst() == '')
+				return '';
+			else
+				return self.physicianLast() + ", " + self.physicianFirst();
+		});
 		
 		this.goToRecord = ko.computed(function() {
 			return '#/patient/servicerecord/serviceview/' + self.patientId() + '/' + self.date();
