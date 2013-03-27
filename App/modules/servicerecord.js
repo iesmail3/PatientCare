@@ -151,72 +151,14 @@ define(function(require) {
 	 * 
 	 * These methods add information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
-	// Add Personal Information for a Single Patient
-	patient.prototype.savePatient = function(id, data) {
-		var self = this;
-		var fields = ['practice_id', 'id', 'first_name', 'middle_name', 'last_name', 'alias', 
-			'date_of_birth', 'id_number', 'id_type', 'physician_id', 'address', 'city', 'state',
-			'zip', 'province', 'country', 'phone', 'phone_ext', 'mobile', 'gender', 'marital_status',
-			'family_history_type','family_history_comment', 'routine_exam_comment', 'insurance_type',
-			'record_status', 'contact_name', 'contact_phone', 'contact_mobile', 'contact_relationship',
-			'insurance_name', 'email'];
-		
-		var values = $.map(data, function(k,v) {
-			if(v != 'lastFirstName' && v!= 'insuredType')
-				if(k() == null || k() == undefined) {
-					return [''];
-				}
-				else
-					return [k()];
-		});
-
-		var newId = '';
-		if(id == 'new') {
-			return self.query({
-				mode: 'select',
-				table: 'patient',
-				fields: 'id',
-				order: 'ORDER BY id DESC',
-				limit: 'LIMIT 1'
-			}).success(function(data) {
-				$.each(data, function(key, item) {
-					newId = parseInt(item.id) + 1;
-				});
-				
-				values[1] = newId;
-				
-				self.query({
-					mode: 'insert', 
-					table: 'patient',
-					fields: fields, 
-					values: values
-				});
-			});
-		}
-		else {
-			return self.query({
-				mode: 'update', 
-				table: 'patient',
-				fields: fields, 
-				values: values, 
-				where: "WHERE id='" + id + "' AND practice_id='" + practiceId + "'"
-			});
-		}
-	}
-	
 	patient.prototype.saveServiceRecord = function(id, data) {
 		var self = this;
-		
 		var fields = ['id', 'practice_id', 'patient_id', 'physician_id', 'date', 'reason', 'history',
 			'systems_comment', 'no_known_allergies', 'allergies_verified', 'physical_examination_comment',
 			'plan_and_instructions'];
 		
 		var values = $.map(data, function(k,v) {
-			if(k() == null || k() == undefined) {
-				return [''];
-			}
-			else
-				return [k()];
+			return [k];
 		});
 		
 		return self.query({

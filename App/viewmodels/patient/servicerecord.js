@@ -21,7 +21,7 @@ define(function(require) {
 	var patient = ko.observable(new structures.Patient());
 	var practiceId = ko.observable();
 	var patientId = ko.observable();
-	var date = ko.observable();
+	var tempRecord = ko.observable(new structures.ServiceRecord());
 	var serviceRecordId = ko.observable();
 	var serviceRecord = ko.observable(new structures.ServiceRecord());
 	var serviceRecords = ko.observableArray([]);
@@ -50,6 +50,7 @@ define(function(require) {
 		patient: patient,
 		practiceId: practiceId,
 		patientId: patientId,
+		tempRecord: tempRecord,
 		serviceRecordId: serviceRecordId,
 		serviceRecord: serviceRecord,
 		serviceRecords: serviceRecords,
@@ -82,6 +83,7 @@ define(function(require) {
 			// Get URL parameters
 			self.practiceId('1');
 			self.patientId(data.patientId);
+			
 			var view = data.view;
 			
 			var backend = new Backend();
@@ -96,7 +98,10 @@ define(function(require) {
 			// Get a list of Physicians
 			backend.getPhysicians(self.practiceId()).success(function(data) {
 				if(data.length > 0) {
-					var p = $.map(data, function(item) {return new structures.Physician(item)});
+					var p = $.map(data, function(item) {
+						var name = item.first_name + " " + item.last_name;
+						return {'value' : item.id, 'text' : name};
+					});
 					self.physicians(p);
 				}
 			});
@@ -112,10 +117,12 @@ define(function(require) {
 		setFields: function(data) {
 			if (!serviceRecordState()) {
 				serviceRecord(data);
+				serviceRecordId(data.id());
 			}
 		},
 		serviceRecordNew: function(data) {
-			//serviceRecord().date();
+			tempRecord(serviceRecord());
+			serviceRecord(new structures.ServiceRecord());
 			serviceRecordState(true);
 		},
 		serviceRecordSave: function(data) {
@@ -125,9 +132,15 @@ define(function(require) {
 			}
 			// Update
 			else {
+				system.log("In Saving");
+				system.log(self.serviceRecordId());
+				system.log(self.serviceRecord);
+				//self.backend.saveServiceRecord(self.serviceRecordId(), self.serviceRecord()).complete(function(data) {});
 			}
 		},
 		serviceRecordCancel: function() {
+			serviceRecord(new structures.ServiceRecord());
+			serviceRecord(tempRecord());
 			serviceRecordState(false);
 		},
 		deleteServiceRecord: function(item) {
@@ -137,10 +150,8 @@ define(function(require) {
 				['Yes', 'No'])
 			.done(function(answer){
 				if(answer == 'Yes') {
-					console.log(answer);
 					backend.deleteServiceRecord(item.id()).complete(function(data) {
 						if(data.responseText == 'fail') {
-							console.log("failed");
 							app.showMessage('The service record could not be deleted.', 'Deletion Error');
 						}
 						else {

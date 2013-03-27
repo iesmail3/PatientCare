@@ -768,12 +768,12 @@ define(function(require) {
 			this.degree	    = ko.observable();
 		}
 		
-		// This will return the name in the following format: Last, First
-		this.lastFirstName = ko.computed(function() {
-			if (self.lastName() == '' && self.firstName() == '')
+		// This will return the name in the following format: First Last
+		this.physicianName = ko.computed(function() {
+			if (self.firstName() == '' && self.lastName() == '')
 				return '';
 			else
-				return self.lastName() + ", " + self.firstName();
+				return self.firstName() + " " + self.lastName();
 		});
 	}
 	
@@ -915,12 +915,12 @@ define(function(require) {
 			this.planAndInstructions	    = ko.observable();
 		}
 		
-		// This will return the name in the following format: Last, First
-		this.lastFirstName = ko.computed(function() {
-			if (self.physicianLast() == '' && self.physicianFirst() == '')
+		// This will return the name in the following format: First Last
+		this.physicianName = ko.computed(function() {
+			if (self.physicianFirst() == '' && self.physicianLast() == '')
 				return '';
 			else
-				return self.physicianLast() + ", " + self.physicianFirst();
+				return self.physicianFirst() + " " + self.physicianLast();
 		});
 		
 		this.goToRecord = ko.computed(function() {
