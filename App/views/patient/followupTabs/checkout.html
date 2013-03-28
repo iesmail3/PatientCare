@@ -34,7 +34,7 @@
 							<input type="text" class="input-medium" placeholder="0" data-bind="value: otherCopay"/>
 						</div>
 						<div class="marginBottom5">   
-							<label class="checkbox inline">
+							<label id="additionalCharges" class="checkbox inline">
 							<input data-bind="checked: editAdditionalCharge" type="checkbox" /><span>Additional Charges</span>
 							</label> 
 							<input type="text" class="input-medium" placeholder="0" data-bind="enable: editAdditionalCharge,
@@ -108,11 +108,11 @@
 					<!-- /ko -->  
 						<div class="marginBottom5 pull-right">
 							<span class="label label-inverse">Total Payment</span>
-							<input type="text" class="input-medium" placeholder="0" data-bind="value:$root.totalPay"/>
+							<input type="text"  class="input-medium" placeholder="0" data-bind="value:$root.totalPay"disabled/>
 						</div>
 						<div class="marginBottom5 pull-right">
 							<span class="label label-important">Balance</span>
-							<input type="text" class="input-medium" placeholder="0" data-bind="value: $root.balance"/>
+							<input type="text" class="input-medium" placeholder="0" data-bind="value: $root.balance" disabled/>
 						</div> 
 					</div>     
 			</fieldset>      

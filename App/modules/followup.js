@@ -53,7 +53,7 @@
 			self.copayAmount			= ko.observable(data.copay_amount); 
 			self.otherCopay				= ko.observable(data.other_copay);   
 			self.additionalCharges 		= ko.observable(data.additional_charges);   
-			self.editAdditionalCharge	= ko.observable((data.edit_additional_charge) == 'true');
+			self.editAdditionalCharge	= ko.observable(data.edit_additional_charge);
 			self.insurancePortion 		= ko.observable(data.insurance_portion); 
 			self.totalReceivable       	= ko.observable(data.total_receivable); 
 			self.totalPayment          	= ko.observable(data.total_payment);    

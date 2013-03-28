@@ -125,3 +125,18 @@
 .paymentTable th:last-child {
 	width: 15%;
 }
+
+.span5 .label, label.inline  {
+    display: inline-block;
+    width: 130px;   
+}
+
+.span6 .label, label.inline  {
+    display: inline-block;
+    width: 130px;   
+}
+
+#additionalCharges{ 
+ display: inline-block;
+    width: 139px;
+};

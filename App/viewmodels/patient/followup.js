@@ -20,7 +20,8 @@ define(function(require) {
 	 var followup 		= ko.observable(new structures.Followup());
 	 var followups      = ko.observableArray([]); 
 	 var checkout 		= ko.observable(new structures.Checkout()); 
-	 var checkouts      = ko.observableArray([]); 
+	 var checkouts      = ko.observableArray([]);
+     var checkoutId     = ko.observable(); 	 
 	 var paymentMethod  = ko.observable(new structures.PaymentMethod()); 
 	 var paymentMethods = ko.observableArray([]);
 	 var phoneLog       = ko.observable(new structures.PhoneLog());
@@ -51,7 +52,7 @@ define(function(require) {
 	 var id             = ko.observable();
      var primaryCheck   = ko.observable(false); 
      var secondaryCheck = ko.observable(false); 
-	 var otherCheck     = ko.observable(false); 
+	 var otherCheck     = ko.observable(false);	 
 	 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -68,17 +69,15 @@ define(function(require) {
 		 return total; 
    	}); 
    
-   	var totalPay = ko.computed(function() {     
-		
+   	 var totalPay = ko.computed(function() {     
 		var total = 0;
 			 for(var i = 0; i < paymentMethods().length; i++) {
 			    total += parseInt(paymentMethods()[i].amount());
-			 }
-		
+			 }	
 		return total;    
-   });
+    });
 
-   var totalReceivable = ko.computed(function() {     
+     var totalReceivable = ko.computed(function() {     
 		var total = 0;
 		total+= copayment();
 		if(checkout().additionalCharges() > 0) {
@@ -87,17 +86,16 @@ define(function(require) {
 		if(checkout().otherCopay() > 0)
 			 total +=parseInt(checkout().otherCopay());
 		return total; 
-   });    
+    });    
    
    var balance = ko.computed(function() {     
-		
 		var difference = 0;
 			difference = totalReceivable() - totalPay();
 		if(isNaN(difference))
 		  return '0';
 		else
 		  return difference;
-   });
+    });
    
       
       
@@ -147,7 +145,7 @@ define(function(require) {
 			primaryCheck: primaryCheck,
 			secondaryCheck: secondaryCheck,
 			otherCheck: otherCheck,
-			
+			checkoutId: checkoutId,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -171,8 +169,7 @@ define(function(require) {
 			},
 			// Loads when view is loaded
 			activate: function(data) {
-				var self = this; 
-				
+				var self = this;  
 				//Patient ID
 				self.patientId(data.patientId); 
 				//Pactice ID
@@ -195,8 +192,7 @@ define(function(require) {
 				// };
 			// };   
 			//paymentMethods.push(new Item('first',0));
-			
-			
+			 
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
 				var f = $.map(data, function(item) {return new structures.Followup(item) });
@@ -209,9 +205,7 @@ define(function(require) {
 				if(data.length > 0) {
 				    var ch = $.map(data, function(item) {return new structures.Checkout(item) });
 					self.checkouts(ch); 
-					self.checkout(ch[0]);
-                    system.log(checkout().additionalCharges());   
-                    system.log(checkout().editAdditionalCharge()); 					
+					self.checkout(ch[0]);  					
 				} 
 			});
 			
@@ -237,6 +231,15 @@ define(function(require) {
 					 var p = $.map(data, function(item) {return new structures.Prescription(item) });
 					 self.prescriptions(p);
                      self.prescription(p[0]); 					 
+				} 
+			});
+			
+			backend.getPaymentMethods(checkout().id()).success(function(data) {	
+			  system.log('checkoutid' + checkout().id());  
+				if(data.length > 0) {
+				    var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
+					paymentMethods(p);
+                    paymentMethod(p[0]); 					
 				} 
 			});
 		   
@@ -273,12 +276,15 @@ define(function(require) {
 	
 		setCheckOutFields: function(data) {  
 			checkout(data); 
+			//checkoutId(data.id()); 
 			backend.getPaymentMethods(data.id()).success(function(data) {	
 				if(data.length > 0) {
 				    var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
-					paymentMethods(p);						
+					paymentMethods(p);
+                    paymentMethod(p[0]); 					
 				} 
-			});                
+			});  
+            			
 		},                
 		setPhoneLogFields: function(data) { 
 			phoneLog(data);
