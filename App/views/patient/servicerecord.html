@@ -30,7 +30,7 @@ Description:
 					<div class="marginBottom5">
 						<input type="text" placeholder="Date of Service" 
 							data-bind="value: serviceRecord().date, enable: serviceRecordState(), 
-								datepicker: true" />
+								datepicker: true, datepickerOptions: { format: 'yyyy-mm-dd' }" />
 						<select data-bind="options: physicians(), optionsText: 'text', 
 							optionsValue: 'value', optionsCaption: 'Physicians',
 							value: serviceRecord().physicianId"></select>

@@ -9,13 +9,15 @@ define(function(require) {
 	 **********************************************************************************************/
 	var system = require('durandal/system');				// System logger
 	var custom = require('durandal/customBindings');		// Custom bindings
-	var Backend = require('modules/servicerecord');				// Backend
+	var Backend = require('modules/servicerecord');			// Backend
+	var Forms = require('modules/form');					// Common form elements
 	var Structures = require('modules/patientStructures');	// Structures
 	var app = require('durandal/app');
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
+	var form = new Forms();
 	var backend = new Backend();
 	var structures = new Structures();
 	var patient = ko.observable(new structures.Patient());
@@ -34,7 +36,7 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
-
+	
 	/*********************************************************************************************** 
 	 * ViewModel
 	 *
@@ -45,6 +47,7 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
+		form: form,
 		backend: backend,
 		structures: structures,
 		patient: patient,
@@ -84,13 +87,14 @@ define(function(require) {
 			self.practiceId('1');
 			self.patientId(data.patientId);
 			
-			var view = data.view;
-			
 			var backend = new Backend();
 			// Get the list of Service Records
 			backend.getServiceRecords(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
-					var s = $.map(data, function(item) {return new structures.ServiceRecord(item)});
+					var s = $.map(data, function(item) {
+						item.date = form.uiDate(item.date)
+						return new structures.ServiceRecord(item)
+					});
 					self.serviceRecords(s);
 				}
 			});
@@ -130,12 +134,26 @@ define(function(require) {
 			if (serviceRecordState()) {
 				serviceRecord().practiceId(practiceId());
 				serviceRecord().patientId(patientId());
-				backend.addServiceRecord(serviceRecord()).success(function(data) {
+				
+				// Check if date already exists
+				var newDate = true;
+				$.each(serviceRecords(), function(k, v) {
+					if (serviceRecord().date() == v.date())
+						newDate = false;
 				});
+				if (newDate) {
+					serviceRecord().date(form.dbDate(serviceRecord().date()));
+					backend.addServiceRecord(serviceRecord()).success(function(data) {});				}
+				else {
+					return app.showMessage(
+					'A service record for ' + serviceRecord().date() + ' already exists.')
+				}
 			}
 			// Update
 			else {
+				serviceRecord().date(form.dbDate(serviceRecord().date()));
 				backend.saveServiceRecord(serviceRecordId(), serviceRecord()).complete(function(data) {
+					serviceRecord().date(form.uiDate(serviceRecord().date()));
 				});
 			}
 		},
@@ -157,6 +175,7 @@ define(function(require) {
 						}
 						else {
 							serviceRecords.remove(item);
+							serviceRecord(new structures.ServiceRecord());
 						}
 					});
 				}

@@ -312,6 +312,20 @@ define(function(require) {
 		{'value' : 'ZW', 'text' : 'Zimbabwe'}
 	]);
 	
+	form.prototype.uiDate = function(date) {
+		if(date.indexOf('-') >= 0)
+			return date.substring(5,7) + "/" + date.substring(8,10) + "/" + date.substring(0,4);
+		else
+			return date;
+	}
+	
+	form.prototype.dbDate = function(date) {
+		if(date.indexOf('/') >= 0)
+			return date.substring(6,10) + "-" + date.substring(0,2) + "-" + date.substring(3,5);
+		else
+			return date;
+	}
+	
 	/**************************************************************************************************
 	 * Return class so it is usable.
 	 *************************************************************************************************/
