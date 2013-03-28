@@ -196,30 +196,6 @@ define(function(require) {
 		}
 	}
 	
-	patient.prototype.saveServiceRecord = function(id, data) {
-		var self = this;
-		
-		var fields = ['id', 'practice_id', 'patient_id', 'physician_id', 'date', 'reason', 'history',
-			'systems_comment', 'no_known_allergies', 'allergies_verified', 'physical_examination_comment',
-			'plan_and_instructions'];
-		
-		var values = $.map(data, function(k,v) {
-			if(k() == null || k() == undefined) {
-				return [''];
-			}
-			else
-				return [k()];
-		});
-		
-		return self.query({
-			mode: 'update',
-			table: 'service_record',
-			fields: fields,
-			values: values,
-			where: "Where id='" + id + "'"
-		});
-	}
-	
 	// Add Insurance for a Single Patient
 	patient.prototype.addInsurance = function(id, data) {
 		var values = $.map(data, function(k,v) {

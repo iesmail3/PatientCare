@@ -46,6 +46,9 @@ if(isset($_GET['order']))
 $limit = "";
 if(isset($_GET['limit']))
 	$limit  = $_GET['limit'];
+$join = "";
+if(isset($_GET['join']))
+	$join  = $_GET['join'];
 
 /***************************************************************************************************
  *  Database Parameters
@@ -63,9 +66,12 @@ try {
 	$db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 	
 	// If Select is chosen
-	if(strtolower($mode) == 'select') {
+	if(strtolower($mode) == 'select') {		
+		if(is_array($fields))
+			$fields = implode(',', $fields);
+		
 		// Compile query
-		$query = "SELECT $fields FROM $table $where $group $order $limit";
+		$query = "SELECT $fields FROM $table $join $where $group $order $limit";
 		
 		// Create query statement to run
 		$stmt = $db->query($query);
