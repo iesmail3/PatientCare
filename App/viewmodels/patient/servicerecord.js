@@ -1,3 +1,4 @@
+
 /***************************************************************************************************
  * ViewModel:
  * Author(s):
@@ -12,6 +13,7 @@ define(function(require) {
 	var Backend = require('modules/servicerecord');			// Backend
 	var Forms = require('modules/form');					// Common form elements
 	var Structures = require('modules/patientStructures');	// Structures
+	var router = require('durandal/plugins/router');		// Router
 	var app = require('durandal/app');
 	
 	/*********************************************************************************************** 
@@ -62,7 +64,7 @@ define(function(require) {
 		serviceRecordNew: serviceRecordNew,
 		serviceRecordSave: serviceRecordSave,
 		serviceRecordCancel: serviceRecordCancel,
-		
+		router: router,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -93,6 +95,11 @@ define(function(require) {
 				if(data.length > 0) {
 					var s = $.map(data, function(item) {
 						item.date = form.uiDate(item.date)
+						// Temporary fix for null names
+						if (item.first_name == null || item.first_name == undefined)
+							item.first_name = '';
+						if (item.last_name == null || item.last_name == undefined)
+							item.last_name = '';
 						return new structures.ServiceRecord(item)
 					});
 					self.serviceRecords(s);
@@ -114,6 +121,7 @@ define(function(require) {
 			return backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					var p = new structures.Patient(data[0]);
+					p.dob(form.uiDate(p.dob()));
 					self.patient(p);
 				}
 			});
@@ -130,6 +138,7 @@ define(function(require) {
 			serviceRecordState(true);
 		},
 		serviceRecordSave: function(data) {
+			system.log(data);
 			// New
 			if (serviceRecordState()) {
 				serviceRecord().practiceId(practiceId());
@@ -138,12 +147,19 @@ define(function(require) {
 				// Check if date already exists
 				var newDate = true;
 				$.each(serviceRecords(), function(k, v) {
+					system.log(serviceRecord().date() + " : " + v.date());
 					if (serviceRecord().date() == v.date())
 						newDate = false;
 				});
+				
 				if (newDate) {
+					serviceRecords.push(serviceRecord());
 					serviceRecord().date(form.dbDate(serviceRecord().date()));
-					backend.addServiceRecord(serviceRecord()).success(function(data) {});				}
+					backend.addServiceRecord(serviceRecord()).success(function(data) {
+						date = serviceRecord().date();
+						router.navigateTo('#/patient/servicerecord/serviceview/' + patientId() + '/' + date);
+					});
+				}
 				else {
 					return app.showMessage(
 					'A service record for ' + serviceRecord().date() + ' already exists.')
@@ -175,7 +191,7 @@ define(function(require) {
 						}
 						else {
 							serviceRecords.remove(item);
-							serviceRecord(new structures.ServiceRecord());
+							location.reload();
 						}
 					});
 				}

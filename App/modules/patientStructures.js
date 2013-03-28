@@ -8,11 +8,13 @@ define(function(require) {
 	 * Includes*
 	 **********************************************************************************************/
 	var system = require('durandal/system');			// System logger
+	var Forms = require('modules/form');				// Common form elements
 	
 	/**********************************************************************************************
 	 * Constructor
 	 *********************************************************************************************/
 	var patient = function() {};
+	var form = new Forms();
 	
 	/*********************************************************************************************** 
 	 * Structures
@@ -763,8 +765,8 @@ define(function(require) {
 		else {
 			this.id		    = ko.observable();
 			this.practiceId = ko.observable();
-			this.firstName  = ko.observable();
-			this.lastName   = ko.observable();
+			this.firstName  = ko.observable('');
+			this.lastName   = ko.observable('');
 			this.degree	    = ko.observable();
 		}
 		
@@ -905,7 +907,7 @@ define(function(require) {
 			this.practiceId				    = ko.observable();
 			this.patientId				    = ko.observable();
 			this.physicianId			    = ko.observable();
-			this.date					    = ko.observable();
+			this.date					    = ko.observable('');
 			this.reason					    = ko.observable();
 			this.history				    = ko.observable();
 			this.systemsComment			    = ko.observable();
@@ -913,8 +915,8 @@ define(function(require) {
 			this.allergiesVerified		    = ko.observable();
 			this.physicalExaminationComment = ko.observable();
 			this.planAndInstructions	    = ko.observable();
-			this.physicianFirst			    = ko.observable();
-			this.physicianLast			    = ko.observable();
+			this.physicianFirst			    = ko.observable('');
+			this.physicianLast			    = ko.observable('');
 		}
 		
 		// This will return the name in the following format: First Last
@@ -926,7 +928,7 @@ define(function(require) {
 		});
 		
 		this.goToRecord = ko.computed(function() {
-			return '#/patient/servicerecord/serviceview/' + self.patientId() + '/' + self.date();
+			return '#/patient/servicerecord/serviceview/' + self.patientId() + '/' + form.dbDate(self.date());
 		});
 	}
 	
