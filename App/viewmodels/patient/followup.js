@@ -47,19 +47,25 @@ define(function(require) {
 	 var phoneLogAdd    = ko.observable(); 
 	 var phoneLogSave   = ko.observable(); 
 	 var phoneLogCancel = ko.observable(); 
-	 var showAssigned   = ko.observable(true); 
-	 var totalReceived  = ko.observable(); 
-	 var id             = ko.observable(); 
+	 var showAssigned   = ko.observable(true);  
+	 var id             = ko.observable();
+     var primaryCheck   = ko.observable(false); 
+     var secondaryCheck = ko.observable(false); 
+	 var otherCheck     = ko.observable(false); 
 	 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/  
-	 var copayment = ko.computed(function() {     
-	 	var total = 0;   	
-	     ko.utils.arrayForEach(selectedValues(), function (item) { 
-            total += parseInt(item);
-        }); 
-        return total;    
+	 var copayment = ko.computed(function() { 
+       var total =0; 
+		if(primaryCheck() == true)	 
+			total += parseInt(primaryCo()); 
+		if(secondaryCheck() == true)
+			total+= parseInt(secondaryCo());
+		if(otherCheck() == true)
+			total+= parseInt(otherCo());
+			
+		 return total; 
    	}); 
    
    	var totalPay = ko.computed(function() {     
@@ -70,14 +76,30 @@ define(function(require) {
 			 }
 		
 		return total;    
-   }); 
+   });
+
+   var totalReceivable = ko.computed(function() {     
+		var total = 0;
+		total+= copayment();
+		if(checkout().additionalCharges() > 0) {
+			total += parseInt(checkout().additionalCharges());
+		}
+		if(checkout().otherCopay() > 0)
+			 total +=parseInt(checkout().otherCopay());
+		return total; 
+   });    
    
    var balance = ko.computed(function() {     
 		
-		//var difference = 0;
-		return 'test'; 
-		    
-   }); 
+		var difference = 0;
+			difference = totalReceivable() - totalPay();
+		if(isNaN(difference))
+		  return '0';
+		else
+		  return difference;
+   });
+   
+      
       
 	/*********************************************************************************************** 
 	 * ViewModel
@@ -121,8 +143,10 @@ define(function(require) {
 			phoneLogSave: phoneLogSave,
 			phoneLogCancel: phoneLogCancel,
 			showAssigned: showAssigned,
-			totalReceived: totalReceived, 
-			id: id, 
+			id: id,
+			primaryCheck: primaryCheck,
+			secondaryCheck: secondaryCheck,
+			otherCheck: otherCheck,
 			
 		/******************************************************************************************* 
 		 * Methods
@@ -139,6 +163,11 @@ define(function(require) {
 				$(window).resize(function() {
 					$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 				});	
+				
+				checkout().editAdditionalCharge.subscribe(function(newValue) {
+					if (!newValue)
+					checkout().additionalCharges("0");
+				}); 
 			},
 			// Loads when view is loaded
 			activate: function(data) {
@@ -180,7 +209,9 @@ define(function(require) {
 				if(data.length > 0) {
 				    var ch = $.map(data, function(item) {return new structures.Checkout(item) });
 					self.checkouts(ch); 
-                    //s	elf.checkOut(ch[0]);            
+					self.checkout(ch[0]);
+                    system.log(checkout().additionalCharges());   
+                    system.log(checkout().editAdditionalCharge()); 					
 				} 
 			});
 			
@@ -212,18 +243,21 @@ define(function(require) {
 			var test = ['Nathan Abraham', 'Ian Sinkler'];
 			self.myArray(test);
 			
-			backend.getInsurance(self.patientId(),self.practiceId()).success(function(data) { 	 		 
+			backend.getInsurance(self.patientId(),self.practiceId()).success(function(data) {      		
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
 						var i = new structures.Insurance(data[count]);
 						
 						switch(i.type()) {
-							case 'primary': 	self.primaryCo(i.copayment());								
-												break; 
-							case 'secondary': 	self.secondaryCo(i.copayment());   
-												break;
-							default:   			self.otherCo(i.copayment()); 
-												break;
+							case 'primary': 	self.primaryCo(i.copayment());
+							                    self.primaryCheck(true); 
+                                                break; 
+							case 'secondary': 	self.secondaryCo(i.copayment());
+												self.secondaryCheck(true);
+                                                break;
+							default:   			self.otherCo(i.copayment());
+												self.otherCheck(true);
+                                                break;
 						}
 					}
 				}
@@ -232,6 +266,7 @@ define(function(require) {
 		copayment: copayment, 
 		totalPay:  totalPay,
 		balance:   balance,
+		totalReceivable: totalReceivable,
 		setFields: function(data) {
 			followup(data);
 		},        
