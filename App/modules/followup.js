@@ -44,6 +44,7 @@
 		var self = this; 
 			
 		if(data != null) { 
+		    self.id                     = ko.observable(data.id); 
 			self.patientId         		= ko.observable(data.patient_id);
 		    self.practiceId         	= ko.observable(data.practice_id);
 			self.primaryInsurance      	= ko.observable((data.primary_insurance)); 
@@ -63,6 +64,7 @@
 			
 		}
 		else {    
+		    self.id                     = ko.observable(); 
 			self.patientId         		= ko.observable(); 
 			self.practiceId         	= ko.observable(); 
 			self.primaryIsurance     	= ko.observable(); 

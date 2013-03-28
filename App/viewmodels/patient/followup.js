@@ -273,18 +273,17 @@ define(function(require) {
 		setFields: function(data) {
 			followup(data);
 		},        
-	
 		setCheckOutFields: function(data) {  
 			checkout(data); 
 			//checkoutId(data.id()); 
-			backend.getPaymentMethods(data.id()).success(function(data) {	
+			backend.getPaymentMethods(data.id()).success(function(data) {
+                system.log(data[0].id); 			
 				if(data.length > 0) {
 				    var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
 					paymentMethods(p);
                     paymentMethod(p[0]); 					
 				} 
-			});  
-            			
+			});    			
 		},                
 		setPhoneLogFields: function(data) { 
 			phoneLog(data);
