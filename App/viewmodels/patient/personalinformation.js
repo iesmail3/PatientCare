@@ -231,10 +231,10 @@ define(function(require) {
 		}, // End activate
 		clickPersonal: function(data) {
 			var self = this;
-			self.backend.savePatient(self.patientId(), self.patient(), self.practiceId()).complete(function(data) {
+			self.backend.savePatient(self.patientId(), self.patient()).complete(function(data) {
 				if(data.responseText != "" && data.responseText != "failUpdate") {
 					self.patientId($.parseJSON(data.responseText)[0].id);
-					//router.navigateTo('#/patient/personalinformation/' + self.practiceId() + '/' + (parseInt(self.patientId()) + 1));
+					router.navigateTo('#/patient/personalinformation/' + self.practiceId() + '/' + (parseInt(self.patientId()) + 1));
 				}
 			});
 		}
