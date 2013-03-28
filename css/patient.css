@@ -90,3 +90,39 @@ legend {
 .commentSpan {
 	width: 100%;
 }
+
+/* Orders */
+.orderTable td div {
+	width: 15px;
+	margin: auto;
+}
+
+.orderTable tr {
+	cursor: default;
+}
+
+.orderTable td, .orderTable th {
+	text-align: center;
+}
+
+.orderBox {
+	min-width: 615px;
+}
+
+.orderForm textarea {
+	width: 97%;
+}
+
+.orderForm select {
+	width: 160px;
+}
+
+.orderTableHolder {
+	height: 250px;
+	overflow-y: auto;
+}
+
+.modal-body {
+	max-height: none;
+	min-height: 400px;
+}

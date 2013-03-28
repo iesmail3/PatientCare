@@ -69,7 +69,9 @@ define(function(require) {
 		{'value' : 'WY', 'text' : 'Wyoming'}
 	]);
 	
-	
+	/**************************************************************************************************
+	 * Countries
+	 *************************************************************************************************/
 	form.prototype.countries = ko.observableArray([
 		{'value' : 'AF', 'text' : 'Afghanistan'},
 		{'value' : 'AL', 'text' : 'Albania'},
@@ -310,6 +312,21 @@ define(function(require) {
 		{'value' : 'YE', 'text' : 'Yemen'},
 		{'value' : 'ZM', 'text' : 'Zambia'},
 		{'value' : 'ZW', 'text' : 'Zimbabwe'}
+	]);
+	
+	/**************************************************************************************************
+	 * Imaging Orders
+	 *************************************************************************************************/
+	form.prototype.ImagingOrders = ko.observableArray([
+		'Imaging-Radiology',
+		'Imaging-Ultrasound',
+		'Imaging-CT Scan',
+		'Imaging-MRI',
+		'Imaging-Fluroscopy',
+		'Imaging-Nuclear Med',
+		'Imaging-Mammogram',
+		'Imaging-Plain Fils',
+		'Imaging-Others'
 	]);
 	
 	/**************************************************************************************************

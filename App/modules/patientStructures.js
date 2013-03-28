@@ -367,6 +367,79 @@ define(function(require) {
 		}
 	}
 	
+	patient.prototype.OfficeProcedure = function(data) {
+		var self = this;
+		if (data != null) {
+			this.id					   = ko.observable(data.id);
+			this.orderId			   = ko.observable(data.order_id);
+			this.officeProcedureTypeId = ko.observable(data.office_procedure_type_id);
+			this.times				   = ko.observable(data.times);
+		}
+		else {
+			this.id					   = ko.observable();
+			this.orderId			   = ko.observable();
+			this.officeProcedureTypeId = ko.observable();
+			this.times				   = ko.observable();
+		}
+	}
+	
+	patient.prototype.OfficeProcedureType = function(data) {
+		var self = this;
+		if (data != null) {
+			this.id			 = ko.observable(data.id);
+			this.description = ko.observable(data.description);
+			this.unit		 = ko.observable(data.unit);
+		}
+		else {
+			this.id			 = ko.observable();
+			this.description = ko.observable();
+			this.unit		 = ko.observable();
+		}
+	}
+	
+	patient.prototype.OrderCategory = function(data) {
+		var self = this;
+		if (data != null) {
+			this.id			 = ko.observable(data.id);
+			this.type		 = ko.observable(data.type);
+			this.description = ko.observable(data.description);
+		}
+		else {
+			this.id			 = ko.observable();
+			this.type		 = ko.observable();
+			this.description = ko.observable();
+		}
+	}
+	
+	patient.prototype.Order = function(data) {
+		if(data != null) {
+			this.id 			 = ko.observable(data.id);
+			this.serviceRecordId = ko.observable(data.service_record_id);
+			this.orderCategoryId = ko.observable(data.order_category_id);
+			this.type 			 = ko.observable(data.type);
+			this.inOffice 		 = ko.observable(data.in_office);
+			this.instructions 	 = ko.observable(data.instructions);
+			this.assignedTo 	 = ko.observable(data.assigned_to);
+			this.date 			 = ko.observable(data.date);
+			this.comment 		 = ko.observable(data.comment);
+			this.description	 = ko.observable(data.description);
+			this.center			 = ko.observable(data.center);
+		}
+		else {
+			this.id 			 = ko.observable();
+			this.serviceRecordId = ko.observable();
+			this.orderCategoryId = ko.observable();
+			this.type 			 = ko.observable();
+			this.inOffice 		 = ko.observable();
+			this.instructions 	 = ko.observable();
+			this.assignedTo 	 = ko.observable();
+			this.date 			 = ko.observable();
+			this.comment 		 = ko.observable();
+			this.description	 = ko.observable();
+			this.center			 = ko.observable();
+		}
+	}
+	
 	// Patient
 	patient.prototype.Patient = function(data) {
 		var self = this;
