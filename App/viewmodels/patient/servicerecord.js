@@ -126,17 +126,16 @@ define(function(require) {
 			serviceRecordState(true);
 		},
 		serviceRecordSave: function(data) {
-			var self = this;
 			// New
 			if (serviceRecordState()) {
-				system.log("Got into here");
-				backend.addServiceRecord(self.serviceRecordId(), self.serviceRecord()).success(function(data) {
-					system.log("and here");
+				serviceRecord().practiceId(practiceId());
+				serviceRecord().patientId(patientId());
+				backend.addServiceRecord(serviceRecord()).success(function(data) {
 				});
 			}
 			// Update
 			else {
-				backend.saveServiceRecord(self.serviceRecordId(), self.serviceRecord()).complete(function(data) {
+				backend.saveServiceRecord(serviceRecordId(), serviceRecord()).complete(function(data) {
 				});
 			}
 		},

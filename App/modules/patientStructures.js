@@ -886,10 +886,9 @@ define(function(require) {
 		
 		if (data != null) {
 			this.id						    = ko.observable(data.id);
+			this.practiceId				    = ko.observable(data.practice_id);
 			this.patientId				    = ko.observable(data.patient_id);
 			this.physicianId			    = ko.observable(data.physician_id);
-			this.physicianFirst			    = ko.observable(data.first_name);
-			this.physicianLast			    = ko.observable(data.last_name);
 			this.date					    = ko.observable(data.date);
 			this.reason					    = ko.observable(data.reason);
 			this.history				    = ko.observable(data.history);
@@ -898,13 +897,14 @@ define(function(require) {
 			this.allergiesVerified		    = ko.observable(data.allergies_verified);
 			this.physicalExaminationComment = ko.observable(data.physical_examination_comment);
 			this.planAndInstructions	    = ko.observable(data.plan_and_instructions);
+			this.physicianFirst			    = ko.observable(data.first_name);
+			this.physicianLast			    = ko.observable(data.last_name);
 		}
 		else {
 			this.id						    = ko.observable();
+			this.practiceId				    = ko.observable();
 			this.patientId				    = ko.observable();
 			this.physicianId			    = ko.observable();
-			this.physicianFirst			    = ko.observable();
-			this.physicianLast			    = ko.observable();
 			this.date					    = ko.observable();
 			this.reason					    = ko.observable();
 			this.history				    = ko.observable();
@@ -913,6 +913,8 @@ define(function(require) {
 			this.allergiesVerified		    = ko.observable();
 			this.physicalExaminationComment = ko.observable();
 			this.planAndInstructions	    = ko.observable();
+			this.physicianFirst			    = ko.observable();
+			this.physicianLast			    = ko.observable();
 		}
 		
 		// This will return the name in the following format: First Last
