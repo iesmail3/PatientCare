@@ -174,7 +174,7 @@ define(function(require) {
 				self.patientId(data.patientId); 
 				//Pactice ID
 				self.practiceId('1'); 
-				
+				//self.checkoutId('11'); 
 			 // Add rows to the paymenyMethod table   
 			// var Item = function(particulars, amount) {
 			    // system.log('inside item'); 
@@ -192,7 +192,7 @@ define(function(require) {
 				// };
 			// };   
 			//paymentMethods.push(new Item('first',0));
-			 
+			
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
 				var f = $.map(data, function(item) {return new structures.Followup(item) });
@@ -202,11 +202,20 @@ define(function(require) {
 			});
 	         
             backend.getCheckOut(self.patientId(),self.practiceId()).success(function(data) { 
+				checkoutId(data[0].id);  				
 				if(data.length > 0) {
 				    var ch = $.map(data, function(item) {return new structures.Checkout(item) });
 					self.checkouts(ch); 
 					self.checkout(ch[0]);  					
 				} 
+			    
+				backend.getPaymentMethods(self.checkoutId()).success(function(data) {	 
+					if(data.length > 0) {
+						var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
+						paymentMethods(p);
+						paymentMethod(p[0]); 					
+					} 
+			    });
 			});
 			
 			backend.getPhoneLog(self.patientId(),self.practiceId()).success(function(data) { 
@@ -234,14 +243,7 @@ define(function(require) {
 				} 
 			});
 			
-			backend.getPaymentMethods(checkout().id()).success(function(data) {	
-			  system.log('checkoutid' + checkout().id());  
-				if(data.length > 0) {
-				    var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
-					paymentMethods(p);
-                    paymentMethod(p[0]); 					
-				} 
-			});
+			
 		   
 			var test = ['Nathan Abraham', 'Ian Sinkler'];
 			self.myArray(test);
@@ -274,10 +276,8 @@ define(function(require) {
 			followup(data);
 		},        
 		setCheckOutFields: function(data) {  
-			checkout(data); 
-			//checkoutId(data.id()); 
-			backend.getPaymentMethods(data.id()).success(function(data) {
-                system.log(data[0].id); 			
+			checkout(data);  
+			backend.getPaymentMethods(data.id()).success(function(data) {		
 				if(data.length > 0) {
 				    var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
 					paymentMethods(p);
