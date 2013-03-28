@@ -3,8 +3,8 @@ define(function(require) {
 	var Order = require('./order');
 	
 	return {
-		showOrder: function(message, title, options) {
-			return modalDialog.show(new Order(message, title, options));
+		showOrder: function(order, centers, orderTypes, practiceId, title, options) {
+			return modalDialog.show(new Order(order, centers, orderTypes, practiceId, title, options));
 		}
 	};
 });

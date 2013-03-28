@@ -73,6 +73,19 @@ define(function(require) {
 		}
 	}
 	
+	// Diagnostic Center
+	patient.prototype.DiagnosticCenter = function(data) {
+		if(data != null) {
+			this.practiceId = ko.observable(data.practice_id);
+			this.center     = ko.observable(data.center);
+		}
+		else {
+			this.practiceId = ko.observable();
+			this.center     = ko.observable();
+		}
+		
+	}
+	
 	// Document
 	patient.prototype.Document = function(data) {
 		if (data != null) {

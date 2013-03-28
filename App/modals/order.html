@@ -9,16 +9,11 @@
 			<div class="row-fluid">
 				<div class="span7">
 					<select class="input-medium" data-bind="value: type,
-						options: $root.orderTypes">
-						<option>Order Type</option>
-						<option>One</option>
-						<option>Two</option>
-						<option value="Imaging-Radiology">Imaging-Radiology</option>
+						options: $root.orderTypes, optionsCaption: 'Type',
+						event: {change: $root.updateOrders}">
 					</select>
-					<select class="input-medium" data-bind="value: center">
-						<option>Diagnostic Center</option>
-						<option value="One">One</option>
-						<option>Two</option>
+					<select class="input-medium" data-bind="value: center,
+						options: $root.centers, optionsCaption: 'Diagnostic Center'">
 					</select>
 					<label class="checkbox">
 						<input type="checkbox"data-bind="checked: inOffice">In Office
@@ -54,20 +49,20 @@
 			<table class="table table-hover table-bordered">
 				<thead>
 					<tr>
+						<th></th>
 						<th>Category</th>
 						<th>Description</th>
 						<th>Code</th>
 						<th>Times</th>
-						<th></th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody data-bind="foreach: orders">
 					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
 						<td><input type="checkbox" /></td>
+						<td data-bind="text: type"></td>
+						<td data-bind="text: description"></td>
+						<td></td>
+						<td></td>
 					</tr>
 				</tbody>
 			</table>

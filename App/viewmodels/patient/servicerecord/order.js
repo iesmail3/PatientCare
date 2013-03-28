@@ -21,6 +21,8 @@ define(function(require) {
 	var structures = new Structures();
 	var form = new form();
 	var orders = ko.observableArray([]);
+	var centers = ko.observableArray([]);
+	var practiceId = ko.observable();
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -40,7 +42,9 @@ define(function(require) {
 		backend: backend,
 		structures: structures,
 		orders: orders,
+		centers: centers,
 		form: form,
+		practiceId: practiceId,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -61,6 +65,8 @@ define(function(require) {
 		activate: function(data) {
 			var self = this;
 			
+			self.practiceId('1');
+			
 			var o = [
 				new structures.Order({
 					id: '1',
@@ -78,9 +84,14 @@ define(function(require) {
 			];
 			
 			self.orders(o);
+			
+			backend.getCenters(self.practiceId()).success(function(data){
+				var c = $.map(data, function(item) { return item.center; });
+				self.centers(c);
+			});
 		},
 		selectRow: function(data) {
-			modal.showOrder(data, form.ImagingOrders, 'Imaging Order');
+			modal.showOrder(data, centers, form.ImagingOrders, practiceId(), 'Imaging Order');
 		}
 	};
 });

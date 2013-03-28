@@ -50,91 +50,22 @@ define(function(require) {
 		});
 	}
 	
-	// Get All Insurances for a Single Patient
-	order.prototype.getInsurance = function(id, practiceId) {
-		return this.query({
-			mode: 'select', 
-			table: 'insurance', 
-			fields: '*', 
-			where: "WHERE order_id='" + id + "'"
-		});
-	}
-	
-	// Get Guarantor for a Single Patient
-	order.prototype.getGuarantor = function(id, practiceId) {
-		return this.query({
-			mode: 'select', 
-			table: 'guarantor', 
-			fields: '*', 
-			where: "WHERE order_id='" + id + "'"
-		});
-	}
-	
-	// Get Employer for a Single Patient
-	order.prototype.getEmployer = function(id, practiceId) {
-		return this.query({
-			mode: 'select', 
-			table: 'employer', 
-			fields: '*', 
-			where: "WHERE order_id='" + id + "'"
-		});
-	}
-	
-	// Get Spouse for a Single Patient
-	order.prototype.getSpouse = function(id, practiceId) {
-		return this.query({
-			mode: 'select', 
-			table: 'spouse', 
-			fields: '*', 
-			where: "WHERE order_id='" + id + "'"
-		});
-	}
-	
-	// Get Reference for a Single Patient
-	order.prototype.getReference = function(id, practiceId) {
+	// Get Diagnostic Centers
+	order.prototype.getCenters = function(id) {
 		return this.query({
 			mode: 'select',
-			table: 'reference',
+			table: 'diagnostic_center',
 			fields: '*',
-			where: "WHERE order_id='" + id + "'"
+			where: "WHERE practice_id='" + id + "'"
 		});
 	}
 	
-	// Get Service Records for a Single Patient
-	order.prototype.getServiceRecords = function(id, practiceId) {
+	order.prototype.getOrderTypes = function(id, type) {
 		return this.query({
 			mode: 'select',
-			table: 'service_record',
+			table: 'order_category',
 			fields: '*',
-			where: "WHERE order_id='" + id + "' AND practice_id='" + practiceId + "'"
-		});
-	}
-	
-	// Get Service Record for a Single Patient
-	order.prototype.getServiceRecord = function(id, practiceId, date) {
-		return this.query({
-			mode: 'select',
-			table: 'service_record',
-			fields: '*',
-			where: "WHERE order_id='" + id + "' AND date='" + date + "'"
-		});
-	}
-	
-	order.prototype.getPhysicians = function(practiceId) {
-		return this.query({
-			mode: 'select',
-			table: 'physician',
-			fields: '*',
-			where: "WHERE practice_id='" + practiceId + "'"
-		});
-	}
-	
-	order.prototype.getPhysician = function(id, practiceId) {
-		return this.query({
-			mode: 'select',
-			table: 'physician',
-			fields: '*',
-			where: "WHERE id='" + id + "' AND practice_id='" + practiceId + "'"
+			where: "WHERE practice_id='" + id + "' AND type='" + type + "'"
 		});
 	}
 	
