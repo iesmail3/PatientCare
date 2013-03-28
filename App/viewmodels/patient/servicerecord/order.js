@@ -7,20 +7,27 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * Includes*
 	 **********************************************************************************************/
-	var system = require('durandal/system');			// System logger
-	var custom = require('durandal/customBindings');	// Custom bindings
-	//var Backend = require('modules/moduleTemplate');	// Module
+	var system     = require('durandal/system');			// System logger
+	var custom     = require('durandal/customBindings');	// Custom bindings
+	var Backend    = require('modules/order');				// Module
+	var Structures = require('modules/patientStructures'); 	// Structures
+	var modal	   = require('modals/modals');				// Modals
+	var form	   = require('modules/form');				// Common form data
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
-	// var observable = ko.observable('');
-	// var observableArray = ko.observableArray([]);
+	var backend = new Backend();
+	var structures = new Structures();
+	var form = new form();
+	var orders = ko.observableArray([]);
+	var centers = ko.observableArray([]);
+	var practiceId = ko.observable();
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
-	 // var computedFunction = ko.computed(function() {});
+
 
 	/*********************************************************************************************** 
 	 * ViewModel
@@ -32,7 +39,12 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
-		
+		backend: backend,
+		structures: structures,
+		orders: orders,
+		centers: centers,
+		form: form,
+		practiceId: practiceId,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -51,14 +63,35 @@ define(function(require) {
 		},
 		// Loads when view is loaded
 		activate: function(data) {
-			// Code here
+			var self = this;
 			
-			// If you add any asynchronous code, make sure you return it. If you need to add multiple
-			// asynchronous code, return the functions chained together. If you don't return them,
-			// then Durandal will not wait for them to finish before loading the rest of the page.
-			// There might be issues when updating observables.
-			// Ex:
-			// return .get().getJSON().post();
+			self.practiceId('1');
+			
+			var o = [
+				new structures.Order({
+					id: '1',
+					service_record_id: '1',
+					order_category_id: '1',
+					in_office: 1,
+					assigned_to: 'Mordin Mackelmore',
+					date: '2013-03-01',
+					type: 'Imaging-Radiology',
+					description: 'Chest 2v',
+					comment: "Test comment",
+					center: 'One',
+					instructions: 'INSTRUCTIONS'
+				})
+			];
+			
+			self.orders(o);
+			
+			backend.getCenters(self.practiceId()).success(function(data){
+				var c = $.map(data, function(item) { return item.center; });
+				self.centers(c);
+			});
+		},
+		selectRow: function(data) {
+			modal.showOrder(data, centers, form.ImagingOrders, practiceId(), 'Imaging Order');
 		}
 	};
 });

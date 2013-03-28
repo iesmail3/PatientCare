@@ -1,9 +1,8 @@
 <div class="formScroll formPadding">
 	<div class="row-fluid">
-		<table class="table table-bordered table-hover">
+		<table class="table table-bordered table-hover orderTable">
 			<thead>
 				<tr>
-					<th></th>
 					<th>Order Date</th>
 					<th>Order Type</th>
 					<th>Description</th>
@@ -12,9 +11,23 @@
 					<th></th>
 				</tr>
 			</thead>
+			<tbody data-bind="foreach: orders">
+				<tr data-bind="click: $root.selectRow">
+					<td data-bind="text: date"></td>
+					<td data-bind="text: type"></td>
+					<td data-bind="text: description"></td>
+					<td>
+						<div data-bind="visible: inOffice" >
+							<i class="icon-ok"></i>
+						</div>
+					</td>
+					<td data-bind="text: comment"></td>
+					<td><button type="button" class="btn btn-small btn-danger">Delete</button></td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
 </div>
 <div class="pull-right">
-	<button type="button" class="btn btn-small">Add</button>
+	<button type="button" class="btn btn-small btn-success">New</button>
 </div>

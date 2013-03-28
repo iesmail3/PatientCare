@@ -87,13 +87,15 @@ define(function(require) {
 	// Add Personal Information for a Single Patient
 	personal.prototype.savePatient = function(id, data) {
 		var self = this;
+		var practiceId = data.practiceId();
+		system.log(practiceId);
 		
-		var fields = ['practice_id', 'id', 'first_name', 'middle_name', 'last_name', 'alias', 
-			'date_of_birth', 'id_number', 'id_type', 'physician_id', 'address', 'city', 'state',
-			'zip', 'province', 'country', 'phone', 'phone_ext', 'mobile', 'gender', 'marital_status',
-			'family_history_type','family_history_comment', 'routine_exam_comment', 'insurance_type',
-			'record_status', 'contact_name', 'contact_phone', 'contact_mobile', 'contact_relationship',
-			'insurance_name', 'email'];
+		var fields = ['id', 'practice_id', 'physician_id', 'id_number', 'id_type', 'first_name', 
+			'middle_name', 'last_name', 'address', 'city', 'state', 'zip', 'province', 'country', 
+			'phone', 'phone_ext', 'mobile', 'date_of_birth', 'alias', 'gender', 'family_history_type',
+			'family_history_comment', 'routine_exam_comment', 'insurance_type', 'record_status', 
+			'contact_name', 'contact_phone', 'contact_mobile', 'contact_relationship',
+			'email', 'insurance_name', 'marital_status'];
 		
 		var values = $.map(data, function(k,v) {
 			if(v != 'lastFirstName' && v!= 'insuredType')
