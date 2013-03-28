@@ -138,7 +138,6 @@ define(function(require) {
 			serviceRecordState(true);
 		},
 		serviceRecordSave: function(data) {
-			system.log(data);
 			// New
 			if (serviceRecordState()) {
 				serviceRecord().practiceId(practiceId());
@@ -147,7 +146,6 @@ define(function(require) {
 				// Check if date already exists
 				var newDate = true;
 				$.each(serviceRecords(), function(k, v) {
-					system.log(serviceRecord().date() + " : " + v.date());
 					if (serviceRecord().date() == v.date())
 						newDate = false;
 				});
