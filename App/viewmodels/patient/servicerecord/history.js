@@ -7,15 +7,20 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * Includes*
 	 **********************************************************************************************/
-	var system = require('durandal/system');			// System logger
-	var custom = require('durandal/customBindings');	// Custom bindings
-	var Backend = require('modules/patient');			// Module
+	var system = require('durandal/system');				// System logger
+	var custom = require('durandal/customBindings');		// Custom bindings
+	var Backend = require('modules/history');				// Module
+	var Structures = require('modules/patientStructures');	// Structures
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
-	// var observable = ko.observable('');
-	// var observableArray = ko.observableArray([]);
+	var backend = new Backend();
+	var structures = new Structures();
+	var patientId = ko.observable();
+	var practiceId = ko.observable();
+	var date = ko.observable();
+	var serviceRecord = ko.observable(new structures.ServiceRecord());
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -32,6 +37,12 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
+		backend: backend,
+		structures: structures,
+		patientId: patientId,
+		practiceId: practiceId,
+		date: date,
+		serviceRecord: serviceRecord,
 		
 		/******************************************************************************************* 
 		 * Methods
@@ -51,14 +62,28 @@ define(function(require) {
 		},
 		// Loads when view is loaded
 		activate: function(data) {
-			// Code here
+			var self = this;
 			
-			// If you add any asynchronous code, make sure you return it. If you need to add multiple
-			// asynchronous code, return the functions chained together. If you don't return them,
-			// then Durandal will not wait for them to finish before loading the rest of the page.
-			// There might be issues when updating observables.
-			// Ex:
-			// return .get().getJSON().post();
+			self.practiceId('1');
+			self.patientId(data.patientId);
+			self.date(data.date);
+			
+			var backend = new Backend();
+			return backend.getServiceRecord(self.patientId(), self.practiceId(), self.date()).success(function(data) {
+				if(data.length > 0) {
+					var s = new self.structures.ServiceRecord(data[0]);
+					self.serviceRecord(s);
+				}
+			});
+		},
+		serviceRecordSave: function(data) {
+			system.log(serviceRecord().history());
+			backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord()).success(function(data) {
+				// Saved the service record
+			});
+		},
+		serviceRecordClear: function(data) {
+			serviceRecord().history('');
 		}
 	};
 });
