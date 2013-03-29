@@ -242,9 +242,7 @@ define(function(require) {
                      self.prescription(p[0]); 					 
 				} 
 			});
-			
-			
-		   
+		 
 			var test = ['Nathan Abraham', 'Ian Sinkler'];
 			self.myArray(test);
 			

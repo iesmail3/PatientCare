@@ -1,0 +1,44 @@
+<div class="messageBox orderBox">
+	<div class="modal-body">
+		<div class="marginBottom5">
+		<input type="text" data-bind="datepicker: true" class="input-medium"  placeholder="Prescription Date" />
+		<select class="input-medium pull-right" data-bind="value:">
+				<option value="" disabled selected style="display:none;">Prescription Mode</option>
+				<option value="male">Office</option>
+				<option value="female">Phone</option>
+				<option value="female">Fax</option>
+				<option value="female">e Prescription</option>
+			</select>
+		</div>
+		<div class="row-fluid">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>Medicine Name</th>
+						<th>Dose</th>
+						<th>Sigs</th>
+						<th>Strength</th>
+						<th>Dispense Qty</th>
+						<th>Refill Qty</th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach: prescriptions">     
+					<tr>   
+						<td data-bind="text: date"></td>   
+						<td data-bind="text: medicine"></td>
+						<td data-bind="text: physician"></td>
+						<td data-bind="text: createdBy"></td>  
+						<td data-bind="text:mode"></td>
+						<td data-bind="text: comment"></td>						     
+					</tr>          
+			</tbody>
+			</table>
+		</div>
+		<div class="marginBottom5 commentContainer">
+			<textarea class="commentSpan" rows="3" placeholder="Comments"></textarea>
+		</div>
+		<div class=" modal-footer pull-right marginBottom5">
+				<button type="button" class="btn btn-danger">Cancel</button>
+		</div>
+	</div>
+</div>
