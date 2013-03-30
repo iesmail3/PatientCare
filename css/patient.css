@@ -173,7 +173,18 @@
 	overflow-y: auto;
 }
 
-.modal-body {
+.orderBox .modal-body {
 	max-height: none;
 	min-height: 400px;
+}
+
+/* Followup */
+.superBox { 
+min-width: 800px;
+height: 600px;
+}
+
+.superBox .modal-body {
+   height: 521px;
+   overflow-y: auto;
 }
