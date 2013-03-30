@@ -11,7 +11,7 @@ define(function(require) {
 	 var custom = require('durandal/customBindings');	// Custom bindings
 	 var Backend = require('modules/followup');			// Database access
 	 var Structures = require('modules/patientStructures'); 
-	
+	 var modal	   = require('modals/modals');				// Modals
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
@@ -306,6 +306,10 @@ define(function(require) {
 			   tempPhoneLog(phoneLog());
                phoneLog(new structures.PhoneLog());
 			   showAssigned(false); 
-		} 
+		},
+		selectRow: function(data) {
+		    //system.log('inside select row'); 
+			modal.showPrescription(data,'Prescription Details');
+		}
 	};         
 });
