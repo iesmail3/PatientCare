@@ -308,8 +308,7 @@ define(function(require) {
 			   showAssigned(false); 
 		},
 		selectRow: function(data) {
-		    //system.log('inside select row'); 
-			modal.showPrescription(data,'Prescription Details');
+			modal.showPrescription(data,patientId(),practiceId(),'Prescription Details');
 		}
 	};         
 });
