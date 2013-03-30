@@ -315,6 +315,15 @@ define(function(require) {
 		},
 		selectSuperbill: function(data) {
 			modal.showSuperbill('Superbill');
+		},
+		clickFollowup: function(data) {
+			var self = this;
+			self.backend.savePatient(self.patientId(), self.followup()).complete(function(data) {
+				if(data.responseText != "" && data.responseText != "failUpdate") {
+					self.patientId($.parseJSON(data.responseText)[0].id);
+					// router.navigateTo('#/patient/personalinformation/' + self.practiceId() + '/' + (parseInt(self.patientId()) + 1));
+				}
+			});
 		}
 	};         
 });
