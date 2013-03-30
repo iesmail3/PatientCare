@@ -93,20 +93,24 @@
 	 
 	 
 	// Add Employer for a Single Patient
-	personal.prototype.save = function(id, data) {
+	followup.prototype.save = function(id, data) {
 	    var self = this; 
 		var practiceId = data.practiceId(); 
 		var patientId = data.patientid(); 
+		
+		var fields = ['id','patient_id','service_record_id','type','value','unit','comment','service_date','plan'];
+		
 		var values = $.map(data, function(k,v) {
 			return [k];
 		});
 		
-		return this.query({
-			mode: 'insert', 
-			table: 'employer', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
+		return self.query({
+				mode:  'update', 
+				table: 'followup',
+				fields: fields, 
+				values: values, 
+				where: "WHERE id='" + id + "' AND patient_id='" + patientId + "'"
+			});
 	}
 			
 	// /**********************************************************************************************
