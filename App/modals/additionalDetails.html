@@ -1,3 +1,4 @@
+<div class="messageBox orderBox">
 	<div class="modal-header">
 		<h3 data-bind="html: title"></h3>
 	</div>
@@ -17,7 +18,8 @@
 			</table>  
 		</div>
 	</div>
-	<div class="modal-footer">  
-		<button class="btn btn-primary">Save changes</button>  
-	</div> 
-	
+	<div class="modal-footer" data-bind="foreach: options">
+		<button class="btn" data-bind="click: function() { $parent.selectOption($data); }, 
+			html: $data, css: {'btn-primary': $index() == 0, autofocus: $index() == 0, 'btn-danger': $data == 'Cancel'}"></button>
+	</div>
+</div>

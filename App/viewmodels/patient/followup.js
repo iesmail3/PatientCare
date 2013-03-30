@@ -309,6 +309,9 @@ define(function(require) {
 		},
 		selectRow: function(data) {
 			modal.showPrescription(data,patientId(),practiceId(),'Prescription Details');
+		},
+		selectLink: function(data) {
+			modal.showAdditionalDetails('Additional Details');
 		}
 	};         
 });
