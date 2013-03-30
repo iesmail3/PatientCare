@@ -92,19 +92,22 @@
 	 *********************************************************************************************/
 	 
 	 
-	// // Add Employer for a Single Patient
-	// personal.prototype.save = function(id, data) {
-		// var values = $.map(data, function(k,v) {
-			// return [k];
-		// });
+	// Add Employer for a Single Patient
+	personal.prototype.save = function(id, data) {
+	    var self = this; 
+		var practiceId = data.practiceId(); 
+		var patientId = data.patientid(); 
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
 		
-		// return this.query({
-			// mode: 'insert', 
-			// table: 'employer', 
-			// values: values, 
-			// where: "WHERE patient_id='" + id + "'"
-		// });
-	// }
+		return this.query({
+			mode: 'insert', 
+			table: 'employer', 
+			values: values, 
+			where: "WHERE patient_id='" + id + "'"
+		});
+	}
 			
 	// /**********************************************************************************************
 	 // * Query
