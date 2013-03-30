@@ -3,6 +3,8 @@ define(function(require) {
 	var Order = require('./order');
 	var Prescription = require('./prescription');
 	var AdditionalDetails = require('./additionalDetails');
+    var Superbill = require('./superbill');
+	
 	return {
 		showOrder: function(order, centers, orderTypes, practiceId, title, options) {
 			return modalDialog.show(new Order(order, centers, orderTypes, practiceId, title, options));
@@ -12,6 +14,9 @@ define(function(require) {
 		},
 		showAdditionalDetails: function(title,options) {		      
 			return modalDialog.show(new AdditionalDetails(title,options));
+		},
+		showSuperbill: function(title,options) {		      
+			return modalDialog.show(new Superbill(title,options));
 		}
 	};
 });

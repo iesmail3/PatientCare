@@ -307,11 +307,14 @@ define(function(require) {
                phoneLog(new structures.PhoneLog());
 			   showAssigned(false); 
 		},
-		selectRow: function(data) {
+		selectRow: function(data) { 
 			modal.showPrescription(data,patientId(),practiceId(),'Prescription Details');
 		},
 		selectLink: function(data) {
 			modal.showAdditionalDetails('Additional Details');
+		},
+		selectSuperbill: function(data) {
+			modal.showSuperbill('Superbill');
 		}
 	};         
 });
