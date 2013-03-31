@@ -70,13 +70,16 @@ define(function(require) {
 		 return total; 
    	}); 
    
-   	 var totalPay = ko.computed(function() {     
+   	 var totalPay = ko.computed(function() {      
 		var total = 0;
 			for(var i = 0; i < paymentMethods().length; i++) {
 				var p = paymentMethods()[i];
-				if(!isNaN(p))
+				if(!isNaN(parseInt(p.amount()))){
+				    system.log('amount is ' + p.amount()); 
 					total += parseInt(p.amount());
+					}
 			}
+			system.log(total); 
 		return total;    
     });
 
@@ -201,9 +204,7 @@ define(function(require) {
 						self.paymentMethod(p[0]);
 						self.paymentMethods.push(new structures.PaymentMethod()); 					
 					} 
-				});
-				self.paymentMethods.push(new structures.PaymentMethod({mode: '', particulars: '', amount: '0'})); 
-				system.log(paymentMethods()[2]);
+				}); 
 			});
 			
 			backend.getPhoneLog(self.patientId(),self.practiceId()).success(function(data) { 
@@ -324,6 +325,19 @@ define(function(require) {
 					});
 				}
 			});
+		},
+		addRow: function(data) { 
+			var last = paymentMethods()[paymentMethods().length - 1];
+			if(last.mode()!='' && last.amount()!='')
+			{ 
+				system.log('test');
+			   paymentMethods.push(new structures.PaymentMethod()); 
+			}	
+		},
+		
+		removePaymentMethod: function(data) {
+			paymentMethods.remove(data); 
+			backend.deletePaymentMethod(data.id()); 
 		}
 	};         
 });

@@ -67,17 +67,30 @@
 									</tr>
 								</thead> 
 								<tbody data-bind="foreach: $root.paymentMethods">     
-									 <tr data-bind="click: $root.addRow"> 
+									 <tr> 
 										<td>
-											<select class="input-small" data-bind='value: mode'>
+											<select class="input-small" data-bind="event: {change: $root.addRow},value: mode">
 												<option value=""></option> 
-												<option>Cash</option> 
-												<option>Credit</option>
-												<option>Debit</option>
+												<option value="Cash">Cash</option> 
+												<option value="Credit">Credit</option>
+												<option value="Debit">Debit</option>
 											</select>
 										</td>
-										<td><input class="input-medium" data-bind='value: particulars'/></td> 
-										<td><input class="input-small" data-bind='value: amount'/></td> 
+										<td>
+											<input class="input-medium"	data-bind="
+												event: {keyup: $root.addRow},
+												value: particulars, 
+												valueUpdate: 'afterkeydown'" />
+										</td> 
+										<td>
+											<input class="input-small" data-bind="
+												event: {keyup: $root.addRow},
+												value: amount, 
+												valueUpdate: 'afterkeydown'" />
+										</td> 
+										<td>
+											<a class="btn" data-bind="click:$root.removePaymentMethod"><i class="icon-remove"></i></a>
+										</td>
 									</tr> 
 								</tbody> 
 						</table> 

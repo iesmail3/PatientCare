@@ -114,12 +114,20 @@
 	 * 
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
-	 // Delete Personal Information for a Single Patient
-	followup.prototype.deleteFollowup = function(id) {
-	  system.log('id inside query is'+ id); 
+	 // Delete followup
+	followup.prototype.deleteFollowup = function(id) { 
 		return this.query({
 			mode: 'delete', 
 			table: 'follow_up', 
+			where: "WHERE id='" + id + "'"
+		});
+	}
+	
+	 // Delete Payment Method 
+	followup.prototype.deletePaymentMethod = function(id) {
+		return this.query({
+			mode: 'delete', 
+			table: 'payment_method', 
 			where: "WHERE id='" + id + "'"
 		});
 	}
