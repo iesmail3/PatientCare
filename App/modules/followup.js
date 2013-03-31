@@ -8,7 +8,7 @@
 	 * Includes*
 	 **********************************************************************************************/
 	var system = require('durandal/system');			// System logger
-	
+
 	/**********************************************************************************************
 	 * Constructor
 	 *********************************************************************************************/
@@ -90,9 +90,7 @@
 	 * 
 	 * These methods save information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
-	 
-	 
-	// Add Employer for a Single Patient
+	// Update a single followup 
 	followup.prototype.saveFollowup = function(id, data) {
 		var self = this; 
 		var patientId = data.patientId();  
@@ -109,6 +107,21 @@
 				values: values, 
 				where: "WHERE id='" + id + "' AND patient_id='" + patientId + "'"
 			});
+	}
+	
+	/**********************************************************************************************
+	 * Delete Methods
+	 * 
+	 * These methods remove information from the database via DELETE queries
+	 *********************************************************************************************/
+	 // Delete Personal Information for a Single Patient
+	followup.prototype.deleteFollowup = function(id) {
+	  system.log('id inside query is'+ id); 
+		return this.query({
+			mode: 'delete', 
+			table: 'follow_up', 
+			where: "WHERE id='" + id + "'"
+		});
 	}
 			
 	// /**********************************************************************************************

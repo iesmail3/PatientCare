@@ -12,6 +12,7 @@ define(function(require) {
 	 var Backend = require('modules/followup');			// Database access
 	 var Structures = require('modules/patientStructures'); 
 	 var modal	   = require('modals/modals');				// Modals
+	 	var app = require('durandal/app');
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
@@ -321,6 +322,23 @@ define(function(require) {
 			$('.followupAlert').addClass('alert alert-success');
 			$('.followupAlert').animate({opacity: 0.25}, 5000).html('SUCCESSFULL');
 			//$('.followupAlert').removeClass().addClass().html().wait().fadeOut();
+		},
+		clickDelete: function(item, test) {
+			return app.showMessage(
+				'Are you sure you want to delete followup with service date ' + item.serviceDate() +'?', 
+				'Delete', 
+				['Yes', 'No'])
+			.done(function(answer){
+				if(answer == 'Yes') {
+					backend.deleteFollowup(item.id()).complete(function(data) {
+						if(data.responseText == 'fail') {
+							app.showMessage('The followup could not be deleted.', 'Deletion Error');
+						}
+						else
+							followups.remove(item);
+					});
+				}
+			});
 		}
 	};         
 });
