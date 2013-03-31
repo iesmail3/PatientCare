@@ -175,7 +175,7 @@ define(function(require) {
 		if (data != null) {
 			this.id			 = ko.observable(data.id);
 			this.patientId	 = ko.observable(data.patient_id);
-			this.serviceRecordId   = ko.onservable(data.service_record_id); 
+			this.serviceRecordId   = ko.observable(data.service_record_id); 
 			this.type		 = ko.observable(data.type);
 			this.value		 = ko.observable(data.value);
 			this.unit		 = ko.observable(data.unit);

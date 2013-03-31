@@ -317,10 +317,11 @@ define(function(require) {
 			modal.showSuperbill('Superbill');
 		},
 		clickFollowup: function(data) {
-			var self = this;
-			self.backend.savePatient(self.patientId(), self.followup()).complete(function(data) {
+			//var self = this;
+			system.log('follwup is'+ followup()[0]); 
+			backend.saveFollowup(followup().id(), followup()).complete(function(data) {
 				if(data.responseText != "" && data.responseText != "failUpdate") {
-					self.patientId($.parseJSON(data.responseText)[0].id);
+					//patientId($.parseJSON(data.responseText)[0].id);
 					// router.navigateTo('#/patient/personalinformation/' + self.practiceId() + '/' + (parseInt(self.patientId()) + 1));
 				}
 			});

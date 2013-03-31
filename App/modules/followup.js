@@ -93,11 +93,10 @@
 	 
 	 
 	// Add Employer for a Single Patient
-	followup.prototype.save = function(id, data) {
-	    var self = this; 
-		var practiceId = data.practiceId(); 
-		var patientId = data.patientid(); 
-		
+	followup.prototype.saveFollowup = function(id, data) {
+		var self = this; 
+		var patientId = data.patientId(); 
+		system.log('patient value is' + data.length); 
 		var fields = ['id','patient_id','service_record_id','type','value','unit','comment','service_date','plan'];
 		
 		var values = $.map(data, function(k,v) {
@@ -106,7 +105,7 @@
 		
 		return self.query({
 				mode:  'update', 
-				table: 'followup',
+				table: 'follow_up',
 				fields: fields, 
 				values: values, 
 				where: "WHERE id='" + id + "' AND patient_id='" + patientId + "'"
