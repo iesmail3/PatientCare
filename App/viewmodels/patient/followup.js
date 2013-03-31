@@ -316,15 +316,11 @@ define(function(require) {
 		selectSuperbill: function(data) {
 			modal.showSuperbill('Superbill');
 		},
-		clickFollowup: function(data) {
-			//var self = this;
-			system.log('follwup is'+ followup()[0]); 
-			backend.saveFollowup(followup().id(), followup()).complete(function(data) {
-				if(data.responseText != "" && data.responseText != "failUpdate") {
-					//patientId($.parseJSON(data.responseText)[0].id);
-					// router.navigateTo('#/patient/personalinformation/' + self.practiceId() + '/' + (parseInt(self.patientId()) + 1));
-				}
-			});
+		clickFollowup: function(data) { 
+			backend.saveFollowup(followup().id(), followup());
+			$('.followupAlert').addClass('alert alert-success');
+			$('.followupAlert').animate({opacity: 0.25}, 5000).html('SUCCESSFULL');
+			//$('.followupAlert').removeClass().addClass().html().wait().fadeOut();
 		}
 	};         
 });
