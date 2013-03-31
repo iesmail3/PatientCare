@@ -180,11 +180,16 @@
 
 /* Followup */
 .superBox { 
-min-width: 800px;
-height: 600px;
+	min-width: 800px;
+	height: 600px;
 }
 
 .superBox .modal-body {
    height: 521px;
    overflow-y: auto;
+}
+
+.followupAlert { 
+	height:55px;
+	display: block;
 }

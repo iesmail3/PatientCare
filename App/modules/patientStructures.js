@@ -557,11 +557,11 @@ define(function(require) {
 			this.amount		 = ko.observable(data.amount);
 		}
 		else {
-			this.id			 = ko.observable();
-			this.checkoutId	 = ko.observable();
-			this.mode		 = ko.observable();
-			this.particulars = ko.observable();
-			this.amount		 = ko.observable();
+			this.id			 = ko.observable('');
+			this.checkoutId	 = ko.observable('');
+			this.mode		 = ko.observable('');
+			this.particulars = ko.observable('');
+			this.amount		 = ko.observable('');
 		}
 	}
 	

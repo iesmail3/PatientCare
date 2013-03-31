@@ -24,7 +24,7 @@ define(function(require) {
 	 var checkouts      = ko.observableArray([]);
      var checkoutId     = ko.observable(); 	 
 	 var paymentMethod  = ko.observable(new structures.PaymentMethod()); 
-	 var paymentMethods = ko.observableArray([]);
+	 var paymentMethods = ko.observableArray([new structures.PaymentMethod()]);
 	 var phoneLog       = ko.observable(new structures.PhoneLog());
      var tempPhoneLog   = ko.observable(new structures.PhoneLog()); 	 
 	 var phoneLogs      = ko.observableArray([]);    
@@ -72,9 +72,11 @@ define(function(require) {
    
    	 var totalPay = ko.computed(function() {     
 		var total = 0;
-			 for(var i = 0; i < paymentMethods().length; i++) {
-			    total += parseInt(paymentMethods()[i].amount());
-			 }	
+			for(var i = 0; i < paymentMethods().length; i++) {
+				var p = paymentMethods()[i];
+				if(!isNaN(p))
+					total += parseInt(p.amount());
+			}
 		return total;    
     });
 
@@ -175,24 +177,6 @@ define(function(require) {
 				self.patientId(data.patientId); 
 				//Pactice ID
 				self.practiceId('1'); 
-				//self.checkoutId('11'); 
-			 // Add rows to the paymenyMethod table   
-			// var Item = function(particulars, amount) {
-			    // system.log('inside item'); 
-				// var self = this;  
-				// self.particulars = ko.observable(particulars); 
-				// self.amount = ko.observable(amount); 
-				// self.hasAddedRow = ko.observable(false);         
-				// self.addRow = function(){    
-				  	// system.log('inside add row'); 
-				  // if(!self.hasAddedRow()){
-					// self.hasAddedRow(true); 
-				
-					// paymentMethods.push(new Item('lala',0));   
-				  // } 
-				// };
-			// };   
-			//paymentMethods.push(new Item('first',0));
 			
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
@@ -213,10 +197,13 @@ define(function(require) {
 				backend.getPaymentMethods(self.checkoutId()).success(function(data) {	 
 					if(data.length > 0) {
 						var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
-						paymentMethods(p);
-						paymentMethod(p[0]); 					
+						self.paymentMethods(p);
+						self.paymentMethod(p[0]);
+						self.paymentMethods.push(new structures.PaymentMethod()); 					
 					} 
-			    });
+				});
+				self.paymentMethods.push(new structures.PaymentMethod({mode: '', particulars: '', amount: '0'})); 
+				system.log(paymentMethods()[2]);
 			});
 			
 			backend.getPhoneLog(self.patientId(),self.practiceId()).success(function(data) { 
@@ -317,13 +304,11 @@ define(function(require) {
 		selectSuperbill: function(data) {
 			modal.showSuperbill('Superbill');
 		},
-		clickFollowup: function(data) { 
+		saveFollowup: function(data) { 
 			backend.saveFollowup(followup().id(), followup());
-			$('.followupAlert').addClass('alert alert-success');
-			$('.followupAlert').animate({opacity: 0.25}, 5000).html('SUCCESSFULL');
-			//$('.followupAlert').removeClass().addClass().html().wait().fadeOut();
+			$('.followupAlert').removeClass().addClass('alert alert-success').html('Success!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
 		},
-		clickDelete: function(item, test) {
+		deleteFollowup: function(item, test) {
 			return app.showMessage(
 				'Are you sure you want to delete followup with service date ' + item.serviceDate() +'?', 
 				'Delete', 

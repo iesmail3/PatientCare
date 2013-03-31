@@ -67,7 +67,7 @@
 									</tr>
 								</thead> 
 								<tbody data-bind="foreach: $root.paymentMethods">     
-									<tr>  
+									 <tr data-bind="click: $root.addRow"> 
 										<td>
 											<select class="input-small" data-bind='value: mode'>
 												<option value=""></option> 
