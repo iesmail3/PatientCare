@@ -113,7 +113,7 @@ define(function(require) {
 				mode: 'insert',
 				table: 'service_record',
 				fields: fields,
-				values: values,
+				values: values
 			});
 		});
 	}

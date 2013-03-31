@@ -1,39 +1,55 @@
 <div class="formScroll formPadding">
 	<form class="form-inline">
 		<div class="row-fluid">
-			<div class="marginBottom5">
-				<span>Add New System</span>
-				<input type="text" placeholder="Particular" />
-				<label class="radio inline">
-					<input type="radio" name="type" value="1" /><span>Not&nbsp;Done</span>
-				</label>
-				<label class="radio inline">
-					<input type="radio" name="type" value="2" /><span>Negative</span>
-				</label>
-				<label class="radio inline">
-					<input type="radio" name="type" value="3" /><span>Positive</span>
-				</label>
-				<textarea rows="1" placeholder="Comments" /></textarea>
-				<button type="submit" class="btn btn-primary">Add</button>
+			<div class="marginBottom5 commentContainer">
+				<span>Add New Customer</span>
+				<input type="text" placeholder="Particular" data-bind="value: systemParticular">
+				<select class="input-xmedium" data-bind="value: systemType">
+					<option value="" disabled="" selected="" style="display:none;">Type</option>
+					<option value="notdone">Not Done</option> 
+					<option value="negative">Negative</option>
+					<option value="positive">Positive</option>
+				</select>
+				<textarea rows="1" placeholder="Comments" data-bind="value: systemComment" /></textarea>
+				<button type="submit" class="btn btn-primary" data-bind="click: $root.addReviewOfSystem">Add</button>
 			</div>
 		</div>
 	</form>
+	<div class="alert">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<span>Insufficient data.</span>
+	</div>
+	<div class="alert">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<span>An entry for that particular already exists.</span>
+	</div>
 	<div class="row-fluid">
-		<table class="table table-hover">
+		<table class="table table-bordered table-hover">
 			<thead>
 				<tr>
-					<th></th>
 					<th>Particulars</th>
-					<th>Not Done/Negative/Positive</th>
+					<th>Type</th>
 					<th>Comment</th>
 					<th></th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody data-bind="foreach: reviewOfSystems">
 				<tr>
-					<td></td>
-					
-					<td></td>
+					<td>
+						<input type="text" class="input-small" placeholder="Particular" data-bind="value: particulars">
+					</td>
+					<td>
+						<select class="input-xmedium" data-bind="value: type">
+							<option value="" disabled="" selected="" style="display:none;">Type</option>
+							<option value="notdone">Not Done</option> 
+							<option value="negative">Negative</option>
+							<option value="positive">Positive</option>
+						</select>
+					</td>
+					<td>
+						<textarea rows="1" placeholder="Comments" data-bind="value: comment" /></textarea>
+					</td>
+					<td><a class="btn btn-small btn-danger" data-bind="click: $root.deleteReviewOfSystem">Delete</a></td>
 				</tr>
 			</tbody>
 		</table>
@@ -41,12 +57,12 @@
 	<form class="form-inline">
 		<div class="row-fluid">
 			<div class="marginBottom5 commentContainer">
-				<textarea class="commentSpan" rows="3" placeholder="Comments" /></textarea>
+				<textarea class="commentSpan" rows="3" placeholder="Comments" data-bind="value: serviceRecord().systemsComment" /></textarea>
 			</div>
 		</div>
 	</form>
 </div>
 <div class="pull-right">
-	<button type="submit" class="btn btn-small btn-primary">Save</button>
-	<button type="button" class="btn btn-small btn-warning">Clear</button>
+	<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.saveReviewOfSystems">Save</button>
+	<button type="button" class="btn btn-small btn-warning" data-bind="click: $root.clearReviewOfSystems">Clear</button>
 </div>
