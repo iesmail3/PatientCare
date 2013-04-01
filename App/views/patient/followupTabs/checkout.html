@@ -2,7 +2,8 @@
 	<div class="form-inline">
 		<div class="row-fluid">
 			<fieldset>
-				<legend>Co-pay Details</legend>  
+				<legend>Co-pay Details</legend>
+				<div class="checkoutAlert"></div>
 				 <!-- ko with: checkout -->
 					<div class="span5">
 						<div class="marginBottom5">
@@ -142,7 +143,7 @@
 	<div class="pull-right marginBottom5">
 		<button type="button" class="btn btn-small">Print Receipt</button>
 		<button type="button" class="btn btn-small">PrintOrder</button>
-		<button type="button" class="btn btn-small btn-primary">Save</button>
+		<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.savePaymentMethod">Save</button>
 		<button type="button" class="btn btn-small btn-danger">Cancel</button>
 	</div>
 </div>

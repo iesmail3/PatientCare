@@ -75,11 +75,9 @@ define(function(require) {
 			for(var i = 0; i < paymentMethods().length; i++) {
 				var p = paymentMethods()[i];
 				if(!isNaN(parseInt(p.amount()))){
-				    system.log('amount is ' + p.amount()); 
 					total += parseInt(p.amount());
 					}
 			}
-			system.log(total); 
 		return total;    
     });
 
@@ -206,7 +204,7 @@ define(function(require) {
 					} 
 				}); 
 			});
-			
+			   
 			backend.getPhoneLog(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
 					 var p = $.map(data, function(item) {return new structures.PhoneLog(item) });
@@ -330,14 +328,34 @@ define(function(require) {
 			var last = paymentMethods()[paymentMethods().length - 1];
 			if(last.mode()!='' && last.amount()!='')
 			{ 
-				system.log('test');
 			   paymentMethods.push(new structures.PaymentMethod()); 
 			}	
 		},
-		
 		removePaymentMethod: function(data) {
 			paymentMethods.remove(data); 
 			backend.deletePaymentMethod(data.id()); 
-		}
+		},
+		savePaymentMethod: function(data) { 
+			paymentMethods.remove(paymentMethods()[paymentMethods().length - 1]);		 
+			
+			$.each(paymentMethods(), function(k, v) {
+				var validRow = true;
+				if (v.id() == '' || v.id() == 'undefined') {
+					validRow = false;
+				}
+				
+				if(validRow) {
+				    system.log('inside if'); 
+					backend.updatePaymentMethod(v);
+				}
+				else {
+					system.log('inside else'); 
+					v.checkoutId = checkout().id(); 
+					backend.savePaymentMethod(v); 
+				}
+			});
+			$('.checkoutAlert').removeClass().addClass('alert alert-success').html('Success!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
+			//paymentMethods.push(new structures.PaymentMethod());
+		} 
 	};         
 });

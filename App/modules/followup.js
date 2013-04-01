@@ -109,6 +109,46 @@
 			});
 	}
 	
+	followup.prototype.updatePaymentMethod = function(data) { 
+		var self = this; 
+		var fields = ['id','checkout_id','mode','particulars','amount'];
+		
+		var values = $.map(data, function(k,v) {
+			if(k == null || k == undefined) {
+				return[''];
+			}
+			else {
+				return [k];
+			}
+		});
+		return self.query({
+				mode:  'update', 
+				table: 'payment_method',
+				fields: fields, 
+				values: values,
+				where: "WHERE id='" + data.id() + "'"
+			});
+	}
+	
+	followup.prototype.savePaymentMethod = function(data) { 
+		var self = this; 
+		var fields = ['id','checkout_id','mode','particulars','amount'];
+		
+		var values = $.map(data, function(k,v) {
+			if(k == null || k == undefined) {
+				return[''];
+			}
+			else {
+				return [k];
+			}
+		});
+		return self.query({
+				mode:  'insert', 
+				table: 'payment_method',
+				fields: fields, 
+				values: values
+			});
+	}
 	/**********************************************************************************************
 	 * Delete Methods
 	 * 

@@ -88,7 +88,6 @@ define(function(require) {
 	personal.prototype.savePatient = function(id, data) {
 		var self = this;
 		var practiceId = data.practiceId();
-		system.log(practiceId);
 		
 		var fields = ['id', 'practice_id', 'physician_id', 'id_number', 'id_type', 'first_name', 
 			'middle_name', 'last_name', 'address', 'city', 'state', 'zip', 'province', 'country', 
