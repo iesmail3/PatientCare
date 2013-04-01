@@ -336,26 +336,56 @@ define(function(require) {
 			backend.deletePaymentMethod(data.id()); 
 		},
 		savePaymentMethod: function(data) { 
-			paymentMethods.remove(paymentMethods()[paymentMethods().length - 1]);		 
-			
+		    //loop for each row in the payment table
 			$.each(paymentMethods(), function(k, v) {
-				var validRow = true;
-				if (v.id() == '' || v.id() == 'undefined') {
-					validRow = false;
-				}
+				var validRow = true; 
+				var addRow = false; 
+			     //if the row is blank, skip to the next row
+				 if(v.mode() == '' && v.particulars() == '' && v.amount() == '') {
+				        system.log('inside all blank id is ' + v.id()); 
+						return true; 	
+				} 
+				//the row is invalid if mode or amount is null, show error message
+				else if(v.mode() == '' || v.amount() == '' )
+				{
+				         system.log('inside invlaid row id is ' + v.id()); 
+				         validRow = false; 
+				         $('.checkoutAlert').removeClass('alert alert-success alert alert-error').addClass('alert alert-error').html('Please fill out the required fields in the payment table!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
+			    }
+				// row is valid
+				else 
+				      validRow = true; 
+					  
+				if(validRow) 
+				{
+				    //row is new 
+					if (v.id() == '' || v.id() == 'undefined') 
+					 addRow = true;
+				   //if new, add it to the database and update the observable array 
+			        if(addRow) {
+				     system.log('inside addRow id is' + v.id()); 
+					 v.checkoutId = checkout().id(); 
+					 backend.savePaymentMethod(v);
+					 backend.getPaymentMethods(checkout().id()).success(function(data) {	 
+					if(data.length > 0) {
+						var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
+						 paymentMethods(p);
+						 paymentMethod(p[0]);
+						 paymentMethods.push(new structures.PaymentMethod()); 					
+					} 
+				}); 
+				     } 
 				
-				if(validRow) {
-				    system.log('inside if'); 
-					backend.updatePaymentMethod(v);
+					//else update the row
+				    else {
+					 system.log('inside updateRow id is ' + v.id()); 
+					  backend.updatePaymentMethod(v); 
+				  }
+				  
+				  $('.checkoutAlert').removeClass('alert alert-error alert alert-success').addClass('alert alert-success').html('Success!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
 				}
-				else {
-					system.log('inside else'); 
-					v.checkoutId = checkout().id(); 
-					backend.savePaymentMethod(v); 
-				}
-			});
-			$('.checkoutAlert').removeClass().addClass('alert alert-success').html('Success!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
-			//paymentMethods.push(new structures.PaymentMethod());
+            });
+		      
 		} 
 	};         
 });
