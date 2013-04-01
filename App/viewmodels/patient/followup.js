@@ -98,12 +98,13 @@ define(function(require) {
 		var difference = 0;
 			difference = totalReceivable() - totalPay();
 		if(isNaN(difference)){
-		  checkout.balance('0'); 
+		  checkout().balance('0'); 
 		  return '0';
 		}
 		else{
 		  checkout().balance(difference); 
 		  return difference;
+		}
     });
    
       
@@ -344,15 +345,15 @@ define(function(require) {
 		  var validInput = true; 
 		  //loop through the table and check to see if there is any invalid input 
 		  $.each(paymentMethods(), function(k, v) {
-			if(v.mode() == '' && v.particulars() == '' && v.amount() == '') {
+			if(v.mode().trim() == '' && v.particulars().trim() == '' && v.amount().trim() == '') {
 				       // system.log('inside all blank id is ' + v.id()); 
 						return true; 	
 			}
-			if(v.mode() == '' || v.amount() == '' ) {
+			if(v.mode().trim() == '' || v.amount().trim() == '' ) {
 			system.log('inside mode and amount'); 
 			   validInput = false;
 			}
-			if(checkout().additionalCharges() == '' || checkout().otherCopay() == '') { 
+			if(checkout().additionalCharges().trim() == '' || checkout().otherCopay().trim() == '') { 
 			system.log('inside addit and copay'); 
 				validInput = false;
 			}
