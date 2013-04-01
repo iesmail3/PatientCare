@@ -29,14 +29,31 @@ define(function(require) {
 		});
 	}
 	
+	// Get Review of Systems for a Single Service Record
 	history.prototype.getReviewOfSystems = function(patientId, practiceId, date) {
 		var self = this;
-		var fields = ['review_of_systems.service_record_id', 'review_of_systems.particulars', 'review_of_systems.type', 'review_of_systems.comment'];
+		var fields = ['review_of_systems.service_record_id', 'review_of_systems.particulars', 'review_of_systems.type',
+			'review_of_systems.comment'];
 		
-		return this.query({
+		return self.query({
 			mode: 'select',
 			table: 'review_of_systems',
 			join: "LEFT JOIN service_record ON review_of_systems.service_record_id=service_record.id",
+			fields: fields,
+			where: "WHERE service_record.patient_id='" + patientId + "' AND service_record.practice_id='" + practiceId + "' AND service_record.date='" + date + "'"
+		});
+	}
+	
+	// Get Medical Problems for a Single Service Record
+	history.prototype.getMedicalProblems = function(patientId, practiceId, date) {
+		var self = this;
+		var fields = ['medical_problem.id', 'medical_problem.service_record_id', 'medical_problem.type', 'medical_problem.description',
+			'medical_problem.onset_date', 'medical_problem.resolution_date'];
+		
+		return self.query({
+			mode: 'select',
+			table: 'medical_problem',
+			join: "LEFT JOIN service_record ON medical_problem.service_record_id=service_record.id",
 			fields: fields,
 			where: "WHERE service_record.patient_id='" + patientId + "' AND service_record.practice_id='" + practiceId + "' AND service_record.date='" + date + "'"
 		});
@@ -72,6 +89,7 @@ define(function(require) {
 		});
 	}
 	
+	// Save all provided Review of Systems
 	history.prototype.saveReviewOfSystems = function(data) {
 		var self = this;
 		var fields = ['service_record_id', 'particulars', 'type', 'comment'];
@@ -94,6 +112,7 @@ define(function(require) {
 		});
 	}
 	
+	// Add a Review of System
 	history.prototype.addReviewOfSystem = function(patientId, practiceId, date, data) {
 		var self = this;
 		var fields = ['service_record_id', 'particulars', 'type', 'comment'];
@@ -134,11 +153,21 @@ define(function(require) {
 	 * 
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
+	// Delete a Review of System
 	history.prototype.deleteReviewOfSystem = function(serviceRecordId, particular) {
 		return this.query({
 			mode: 'delete', 
 			table: 'review_of_systems', 
 			where: "WHERE service_record_id='" + serviceRecordId + "' AND particulars='" + particular + "'"
+		});
+	}
+	
+	// Delete a Medical Problem
+	history.prototype.deleteMedicalProblem = function(id, serviceRecordId) {
+		return this.query({
+			mode: 'delete',
+			table: 'medical_problem',
+			where: "WHERE id='" + id + "' AND service_record_id='" + serviceRecordId + "'"
 		});
 	}
 	

@@ -80,6 +80,50 @@ define(function(require) {
 		});
 	}
 	
+	// Add a Checkout for a Single Patient
+	servicerecord.prototype.addCheckout = function(patientId, practiceId, date) {
+		var self = this;
+		var fields = ['id', 'practice_id', 'patient_id', 'primary_insurance', 'secondary_insurance',
+			'other_insurance', 'date', 'copay_amount', 'other_copay', 'additional_charges', 'edit_additional_charge',
+			'insurance_portion', 'total_receivable', 'total_payment', 'balance', 'comment']
+		
+		var values = [];
+		$.each(fields, function(k, v) {
+			if (v == 'practice_id')
+				values.push(practiceId);
+			else if (v == 'patient_id')
+				values.push(patientId);
+			else if (v == 'date')
+				values.push(date);
+			else
+				values.push('');
+		});
+		
+		values[6] = date;
+		
+		var newId = '';
+		return self.query({
+			mode: 'select',
+			table: 'service_record',
+			fields: 'id',
+			order: 'ORDER BY id DESC',
+			limit: 'LIMIT 1'
+		}).success(function(data) {
+			$.each(data, function(key, item) {
+				newId = parseInt(item.id) + 1;
+			});
+			
+			values[0] = newId;
+			
+			self.query({
+				mode: 'insert',
+				table: 'checkout',
+				fields: fields,
+				values: values
+			});
+		});
+	}
+	
 	// Add Service Record for a Single Patient
 	servicerecord.prototype.addServiceRecord = function(data) {
 		var self = this;

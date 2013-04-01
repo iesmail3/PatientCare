@@ -3,7 +3,9 @@
 		<div class="marginBottom5">
 			<select>
 				<option value="" disabled selected style="display:none;">Problem Type</option>
-				<option value="placeholder">placeholder</option>
+				<option value="placeholder">Current Medical Problem</option>
+				<option value="placeholder">Other Medical Problem</option>
+				<option value="placeholder">Past Surgical History</option>
 			</select>
 		</div>
 		<div class="marginBottom5 commentContainer">
@@ -24,6 +26,7 @@
 			</label>
 		</div>
 		<div class="pull-right">
+			<button type="button" class="btn btn-small btn-success">New</button>
 			<button type="submit" class="btn btn-small btn-primary">Save</button>
 			<button type="button" class="btn btn-small btn-warning">Cancel</button>
 		</div>
@@ -33,7 +36,6 @@
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
-				<th></th>
 				<th>Type of Problem</th>
 				<th>Description</th>
 				<th>Onset Date</th>
@@ -41,5 +43,14 @@
 				<th></th>
 			</tr>
 		</thead>
+		<tbody data-bind="foreach: medicalProblems">
+			<tr>
+				<td data-bind="text: type"></td>
+				<td data-bind="text: description"></td>
+				<td data-bind="text: onsetDate"></td>
+				<td data-bind="text: resolutionDate"></td>
+				<td><a class="btn btn-small btn-danger" data-bind="click: $root.deleteMedicalProblem">Delete</a></td>
+			</tr>
+		</tbody>
 	</table>
 </div>

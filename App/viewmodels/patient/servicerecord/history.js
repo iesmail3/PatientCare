@@ -10,12 +10,14 @@ define(function(require) {
 	var system = require('durandal/system');				// System logger
 	var custom = require('durandal/customBindings');		// Custom bindings
 	var Backend = require('modules/history');				// Module
+	var Forms = require('modules/form');					// Common form elements
 	var Structures = require('modules/patientStructures');	// Structures
 	var app = require('durandal/app');
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
+	var form = new Forms();
 	var backend = new Backend();
 	var structures = new Structures();
 	var patientId = ko.observable();
@@ -27,6 +29,10 @@ define(function(require) {
 	var systemComment = ko.observable();
 	var reviewOfSystem = ko.observable(new structures.ReviewOfSystems());
 	var reviewOfSystems = ko.observableArray([]);
+	var tempMedicalProblem = ko.observable(new structures.MedicalProblem());
+	var medicalProblem = ko.observable(new structures.MedicalProblem());
+	var medicalProblems = ko.observableArray([]);
+	var medicalProblemsState = ko.observable(false);
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -43,6 +49,7 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
+		form: form,
 		backend: backend,
 		structures: structures,
 		patientId: patientId,
@@ -54,6 +61,10 @@ define(function(require) {
 		systemComment: systemComment,
 		reviewOfSystem: reviewOfSystem,
 		reviewOfSystems: reviewOfSystems,
+		tempMedicalProblem: tempMedicalProblem,
+		medicalProblem: medicalProblem,
+		medicalProblems: medicalProblems,
+		medicalProblemsState: medicalProblemsState,
 		
 		/******************************************************************************************* 
 		 * Methods
@@ -80,6 +91,7 @@ define(function(require) {
 			self.date(data.date); 
 			
 			var backend = new Backend();
+			// Get the current Service Record
 			backend.getServiceRecord(self.patientId(), self.practiceId(), self.date()).success(function(data) {
 				if(data.length > 0) {
 					var s = new structures.ServiceRecord(data[0]);
@@ -87,23 +99,40 @@ define(function(require) {
 				}
 			});
 			
-			return backend.getReviewOfSystems(self.patientId(), self.practiceId(), self.date()).success(function(data) {
+			// Get the Review of Systems for the Service Record
+			backend.getReviewOfSystems(self.patientId(), self.practiceId(), self.date()).success(function(data) {
 				if(data.length > 0) {
 					var r = $.map(data, function(item) {return new structures.ReviewOfSystems(item)});
 					self.reviewOfSystems(r);
 				}
 			});
-		},
-		serviceRecordSave: function(data) {
-			backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord()).success(function(data) {
-				// Saved the service record
+			
+			return backend.getMedicalProblems(self.patientId(), self.practiceId(), self.date()).success(function(data) {
+				if(data.length > 0) {
+					var p = $.map(data, function(item) {
+						item.onset_date = form.uiDate(item.onset_date);
+						item.resolution_date = form.uiDate(item.resolution_date);
+						return new structures.MedicalProblem(item)}
+					);
+					self.medicalProblems(p);
+				}
 			});
 		},
+		// Saves the Service Record History
+		serviceRecordSave: function(data) {
+			backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord()).success(function(data) {
+				// Saves the Service Record
+			});
+		},
+		// Clears the Service Record History
 		serviceRecordClear: function(data) {
 			serviceRecord().history('');
 		},
+		// Adds a System Review to the table
 		addReviewOfSystem: function(item) {
+			// Check for empty fields.
 			if(systemParticular() != 'undefined' && systemParticular() != '' && systemType() != '') {
+				// Check for duplicate particulars
 				var newParticular = true;
 				$.each(reviewOfSystems(), function(k, v) {
 					if(systemParticular() == v.particulars()) {
@@ -120,16 +149,15 @@ define(function(require) {
 					});
 				}
 				else {
-					// Do an alert here
-					system.log("Particular already exists");
+					$('.reviewAlert').removeClass().addClass('alert').html('Particular already exists.').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
 				}
 			}
 			else {
-				// Do an alert here
-				system.log("Insufficient data");
+				$('.reviewAlert').removeClass().addClass('alert').html('Insufficient data.').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
 				
 			}
 		},
+		// Save the Review of Systems and Systems Comment
 		saveReviewOfSystems: function(data) {
 			$.each(reviewOfSystems(), function(k, v) {
 				backend.saveReviewOfSystems(v).success(function(data) {
@@ -141,9 +169,11 @@ define(function(require) {
 				// Save the systems comment.
 			});
 		},
+		// Clears the Systems Comment
 		clearReviewOfSystems: function(data) {
 			serviceRecord().systemsComment('');
 		},
+		// Delete a Review of System entry
 		deleteReviewOfSystem: function(item) {
 			return app.showMessage(
 				'Are you sure you want to delete the review for ' + item.particulars() + '?',
@@ -162,5 +192,39 @@ define(function(require) {
 				}
 			});
 		},
+		// Delete a Medical Problem entry
+		deleteMedicalProblem: function(item) {
+			return app.showMessage(
+				'Are you sure you want to delete the medical problem for "' + item.description() + '"?',
+				'Delete',
+				['Yes', 'No'])
+			.done(function(answer){
+				if(answer == 'Yes') {
+					backend.deleteMedicalProblem(item.id(), item.serviceRecordId()).complete(function(data) {
+						if(data.responseText == 'fail') {
+							app.showMessage('The medical problem for "' + item.description() + '" could not be deleted.', 'Deletion Error');
+						}
+						else {
+							medicalProblems.remove(item);
+						}
+					});
+				}
+			});
+		},
+		// Set fields for Medical Problems
+		medicalProblemsSetFields: function(data) {
+			medicalProblem(data);
+		},
+		// New button for Medical Problems
+		medicalProblemsNew: function(data) {
+			
+		},
+		// Save button for Medical Problems
+		medicalProblemsSave: function(data) {
+			
+		},
+		medicalProblemsCancel: function(data) {
+			
+		}
 	};
 });
