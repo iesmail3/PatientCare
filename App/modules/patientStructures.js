@@ -42,9 +42,9 @@ define(function(require) {
 		if (data != null) {
 			this.id					  = ko.observable(data.id);
 			this.patientId			  = ko.observable(data.patient_id);
-			this.primaryInsurance	  = ko.observable(data.primary_insurance);
-			this.secondaryInsurance	  = ko.observable(data.secondary_insurance);
-			this.otherInsurance		  = ko.observable(data.other_insurance);
+			//this.primaryInsurance	  = ko.observable(data.primary_insurance);
+			//this.secondaryInsurance	  = ko.observable(data.secondary_insurance);
+			//this.otherInsurance		  = ko.observable(data.other_insurance);
 			this.date				  = ko.observable(data.date);
 			this.copayAmount		  = ko.observable(data.copay_amount);
 			this.otherCopay			  = ko.observable(data.other_copay);
@@ -59,9 +59,9 @@ define(function(require) {
 		else {
 			this.id					  = ko.observable();
 			this.patientId			  = ko.observable();
-			this.primaryInsurance	  = ko.observable();
-			this.secondaryInsurance	  = ko.observable();
-			this.otherInsurance		  = ko.observable();
+			//this.primaryInsurance	  = ko.observable();
+			//this.secondaryInsurance	  = ko.observable();
+			//this.otherInsurance		  = ko.observable();
 			this.date				  = ko.observable();
 			this.copayAmount		  = ko.observable();
 			this.otherCopay			  = ko.observable();

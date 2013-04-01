@@ -40,9 +40,9 @@ define(function(require) {
 	 var primaryCo      = ko.observable(); 
 	 var secondaryCo    = ko.observable();   
 	 var otherCo        = ko.observable();  
-	 var primaryInsurance = ko.observable("500");   
-	 var secondaryInsurance = ko.observable("100");
-	 var otherInsurance = ko.observable("200");
+	 // var primaryInsurance = ko.observable("500");   
+	 // var secondaryInsurance = ko.observable("100");
+	 // var otherInsurance = ko.observable("200");
 	 var selectedValues = ko.observableArray([]);
 	 var modes          = ko.observableArray([]); 
 	 var phoneLogState  = ko.observable(true); 
@@ -66,7 +66,7 @@ define(function(require) {
 			total+= parseInt(secondaryCo());
 		if(otherCheck() == true)
 			total+= parseInt(otherCo());
-			
+		checkout().copayAmount(total); 
 		 return total; 
    	}); 
    
@@ -78,6 +78,7 @@ define(function(require) {
 					total += parseInt(p.amount());
 					}
 			}
+		checkout().totalPayment(total); 
 		return total;    
     });
 
@@ -89,15 +90,19 @@ define(function(require) {
 		}
 		if(checkout().otherCopay() > 0)
 			 total +=parseInt(checkout().otherCopay());
+		checkout().totalReceivable(total); 
 		return total; 
     });    
    
    var balance = ko.computed(function() {     
 		var difference = 0;
 			difference = totalReceivable() - totalPay();
-		if(isNaN(difference))
+		if(isNaN(difference)){
+		  checkout.balance('0'); 
 		  return '0';
-		else
+		}
+		else{
+		  checkout().balance(difference); 
 		  return difference;
     });
    
@@ -133,9 +138,9 @@ define(function(require) {
 			primaryCo:primaryCo,
 			secondaryCo:secondaryCo, 
 			otherCo: otherCo,  
-			primaryInsurance:primaryInsurance,
-			secondaryInsurance:secondaryInsurance,    
-			otherInsurance:otherInsurance,
+			// primaryInsurance:primaryInsurance,
+			// secondaryInsurance:secondaryInsurance,    
+			// otherInsurance:otherInsurance,
 			selectedValues: selectedValues,
 			paymentMethod: paymentMethod, 
 			paymentMethods: paymentMethods,
@@ -335,57 +340,66 @@ define(function(require) {
 			paymentMethods.remove(data); 
 			backend.deletePaymentMethod(data.id()); 
 		},
-		savePaymentMethod: function(data) { 
+	  savePaymentMethod: function(data) { 
+		  var validInput = true; 
+		  //loop through the table and check to see if there is any invalid input 
+		  $.each(paymentMethods(), function(k, v) {
+			if(v.mode() == '' && v.particulars() == '' && v.amount() == '') {
+				       // system.log('inside all blank id is ' + v.id()); 
+						return true; 	
+			}
+			if(v.mode() == '' || v.amount() == '' ) {
+			system.log('inside mode and amount'); 
+			   validInput = false;
+			}
+			if(checkout().additionalCharges() == '' || checkout().otherCopay() == '') { 
+			system.log('inside addit and copay'); 
+				validInput = false;
+			}
+		 }); 
+		  
+		 if(validInput) {
+		    //update checkout fields
+			backend.updateCheckout(checkout());
+			
 		    //loop for each row in the payment table
 			$.each(paymentMethods(), function(k, v) {
-				var validRow = true; 
 				var addRow = false; 
-			     //if the row is blank, skip to the next row
-				 if(v.mode() == '' && v.particulars() == '' && v.amount() == '') {
-				        system.log('inside all blank id is ' + v.id()); 
+			    //if the row is blank, skip to the next row
+				if(v.mode() == '' && v.particulars() == '' && v.amount() == '') {
+				       // system.log('inside all blank id is ' + v.id()); 
 						return true; 	
-				} 
-				//the row is invalid if mode or amount is null, show error message
-				else if(v.mode() == '' || v.amount() == '' )
-				{
-				         system.log('inside invlaid row id is ' + v.id()); 
-				         validRow = false; 
-				         $('.checkoutAlert').removeClass('alert alert-success alert alert-error').addClass('alert alert-error').html('Please fill out the required fields in the payment table!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
-			    }
-				// row is valid
-				else 
-				      validRow = true; 
-					  
-				if(validRow) 
-				{
-				    //row is new 
-					if (v.id() == '' || v.id() == 'undefined') 
-					 addRow = true;
-				   //if new, add it to the database and update the observable array 
-			        if(addRow) {
-				     system.log('inside addRow id is' + v.id()); 
+				} 	  
+				 //row is new 
+				if (v.id() == '' || v.id() == 'undefined') 
+				  addRow = true;
+			   //if new, add it to the database and update the observable array 
+				if(addRow) {
+					// system.log('inside addRow id is' + v.id()); 
 					 v.checkoutId = checkout().id(); 
 					 backend.savePaymentMethod(v);
 					 backend.getPaymentMethods(checkout().id()).success(function(data) {	 
-					if(data.length > 0) {
-						var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
-						 paymentMethods(p);
-						 paymentMethod(p[0]);
-						 paymentMethods.push(new structures.PaymentMethod()); 					
-					} 
-				}); 
-				     } 
+						if(data.length > 0) {
+							var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
+							 paymentMethods(p);
+							 paymentMethod(p[0]);
+							 paymentMethods.push(new structures.PaymentMethod()); 					
+						} 
+					}); 
+				} 
 				
-					//else update the row
-				    else {
-					 system.log('inside updateRow id is ' + v.id()); 
-					  backend.updatePaymentMethod(v); 
-				  }
-				  
-				  $('.checkoutAlert').removeClass('alert alert-error alert alert-success').addClass('alert alert-success').html('Success!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
+				//else update the row
+				else {
+				 //system.log('inside updateRow id is ' + v.id()); 
+				  backend.updatePaymentMethod(v); 
 				}
-            });
-		      
+            });    
 		} 
-	};         
+		
+		if(validInput)
+			 $('.checkoutAlert').removeClass('alert-error alert-success').addClass('alert-success').html('Success!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
+		else
+			$('.checkoutAlert').removeClass('alert-success alert-error').addClass('alert-error').html('Please fill out the required fields!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
+	}
+ }
 });

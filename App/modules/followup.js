@@ -149,6 +149,28 @@
 				values: values
 			});
 	}
+	
+	followup.prototype.updateCheckout = function(data) { 
+		var self = this; 
+		var fields = ['id','patient_id','date','copay_amount','other_copay','additional_charges','edit_additional_charge','insurance_portion','total_receivable','total_payment','balance','comment'];
+		 
+		var values = $.map(data, function(k,v) {
+			if(k == null || k == undefined) {
+				return[''];
+			}
+			else {
+				return [k];
+			}
+		});
+		
+		return self.query({
+				mode:  'update', 
+				table: 'checkout',
+				fields: fields, 
+				values: values,
+				where: "WHERE id='" + data.id() + "'"
+			});
+	}	
 	/**********************************************************************************************
 	 * Delete Methods
 	 * 
