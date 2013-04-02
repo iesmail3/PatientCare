@@ -23,6 +23,7 @@ define(function(require) {
 	var orders = ko.observableArray([]);
 	var centers = ko.observableArray([]);
 	var practiceId = ko.observable();
+	var groupOrders = ko.observableArray([]);
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -79,7 +80,36 @@ define(function(require) {
 					description: 'Chest 2v',
 					comment: "Test comment",
 					center: 'One',
-					instructions: 'INSTRUCTIONS'
+					instructions: 'INSTRUCTIONS',
+					group: '1'
+				}),
+				new structures.Order({
+					id: '2',
+					service_record_id: '1',
+					order_category_id: '1',
+					in_office: 1,
+					assigned_to: 'Mordin Mackelmore',
+					date: '2013-03-01',
+					type: 'Imaging-Radiology',
+					description: 'Chest 2v',
+					comment: "Test comment",
+					center: 'One',
+					instructions: 'INSTRUCTIONS',
+					group: '2'
+				}),
+				new structures.Order({
+					id: '3',
+					service_record_id: '1',
+					order_category_id: '2',
+					in_office: 1,
+					assigned_to: 'Mordin Mackelmore',
+					date: '2013-03-01',
+					type: 'Imaging-Radiology',
+					description: 'Test',
+					comment: "Test comment",
+					center: 'One',
+					instructions: 'INSTRUCTIONS',
+					group: '1'
 				})
 			];
 			
@@ -91,7 +121,13 @@ define(function(require) {
 			});
 		},
 		selectRow: function(data) {
-			modal.showOrder(data, centers, form.ImagingOrders, practiceId(), 'Imaging Order');
+			$.each(orders(), function(k, v) {
+				var group = v.group();
+				if(group == data.group())
+					groupOrders.push(v.orderCategoryId());
+			});
+			
+			modal.showOrder(data, centers, orders, groupOrders, form.ImagingOrders, practiceId(), 'Imaging Order');
 		}
 	};
 });

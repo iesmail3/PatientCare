@@ -416,11 +416,13 @@ define(function(require) {
 			this.id			 = ko.observable(data.id);
 			this.type		 = ko.observable(data.type);
 			this.description = ko.observable(data.description);
+			this.selected	 = ko.observable();
 		}
 		else {
 			this.id			 = ko.observable();
 			this.type		 = ko.observable();
 			this.description = ko.observable();
+			this.selected    = ko.observable();
 		}
 	}
 	
@@ -437,6 +439,7 @@ define(function(require) {
 			this.comment 		 = ko.observable(data.comment);
 			this.description	 = ko.observable(data.description);
 			this.center			 = ko.observable(data.center);
+			this.group			 = ko.observable(data.group);
 		}
 		else {
 			this.id 			 = ko.observable();
@@ -450,6 +453,7 @@ define(function(require) {
 			this.comment 		 = ko.observable();
 			this.description	 = ko.observable();
 			this.center			 = ko.observable();
+			this.selected		 = ko.observable();
 		}
 	}
 	
