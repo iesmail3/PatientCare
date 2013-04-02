@@ -51,12 +51,12 @@ define(function(require) {
      var primaryCheck   = ko.observable(false); 
      var secondaryCheck = ko.observable(false); 
 	 var otherCheck     = ko.observable(false);	 
-	 
+	 var physicianName  = ko.observable(); 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/  
 	 var copayment = ko.computed(function() { 
-       var total =0; 
+       var total =0;  
 		if(checkout().primaryInsurance())	 
 			total += parseInt(primaryCo()); 
 		if(checkout().secondaryInsurance())
@@ -150,6 +150,7 @@ define(function(require) {
 			secondaryCheck: secondaryCheck,
 			otherCheck: otherCheck,
 			checkoutId: checkoutId,
+			physicianName: physicianName,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -169,7 +170,9 @@ define(function(require) {
 				checkout().editAdditionalCharge.subscribe(function(newValue) {
 					if (!newValue)
 					checkout().additionalCharges("0");
-				}); 
+				});
+				
+				$( ".currentDate" ).datepicker({dateFormat:"mm/dd/yy"}).datepicker("setDate",new Date());
 			},
 			// Loads when view is loaded
 			activate: function(data) {
@@ -178,6 +181,13 @@ define(function(require) {
 				self.patientId(data.patientId); 
 				//Pactice ID
 				self.practiceId('1'); 
+			
+			// backend.getPhysician(checkout()).success(function(data) { 
+				// // if(data.length  >0) { 
+					// // physicianName(data); 
+				// // }
+				// // system.log('physician name is ' + physicianName()); 
+			// });
 			
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
@@ -263,8 +273,7 @@ define(function(require) {
 		// setFields: function(data) {
 			// followup(data);
 		// },        
-		setCheckOutFields: function(data) {
-			system.log(data); 
+		setCheckOutFields: function(data) { 
 			checkout(data);  
 			backend.getPaymentMethods(data.id()).success(function(data) {		
 				if(data.length > 0) {
@@ -343,24 +352,35 @@ define(function(require) {
 			paymentMethods.remove(data); 
 			backend.deletePaymentMethod(data.id()); 
 		},
-	  savePaymentMethod: function(data) { 
-		  var validInput = true; 
-		  //loop through the table and check to see if there is any invalid input 
-		  $.each(paymentMethods(), function(k, v) {
-			if(v.mode().trim() == '' && v.particulars().trim() == '' && v.amount().trim() == '') {
-				       // system.log('inside all blank id is ' + v.id()); 
-						return true; 	
-			}
-			if(v.mode().trim() == '' || v.amount().trim() == '' ) {
-			//system.log('inside mode and amount'); 
-			   validInput = false;
-			}
-			if(checkout().additionalCharges().trim() == '' || checkout().otherCopay().trim() == '') { 
-			//system.log('inside addit and copay'); 
-				validInput = false;
-			}
-		 }); 
-		  
+		savePaymentMethod: function(data) { 
+			// Save Checkout
+			backend.saveCheckout(checkout());
+			
+			// Get payment methods with data
+			$.each(paymentMethods(), function(k, v) {
+				if(!(v.mode() == '' && v.particulars() == '' && v.amount() == ''))
+					backend.savePaymentMethod(checkout().id(), v);	
+			});
+			
+			
+			/*
+			var validInput = true; 
+			//loop through the table and check to see if there is any invalid input 
+			$.each(paymentMethods(), function(k, v) {
+				if(v.mode().trim() == '' && v.particulars().trim() == '' && v.amount().trim() == '') {
+					// system.log('inside all blank id is ' + v.id()); 
+					return true; 	
+				}
+				if(v.mode().trim() == '' || v.amount().trim() == '' ) {
+				//system.log('inside mode and amount'); 
+				   validInput = false;
+				}
+				if(checkout().additionalCharges().trim() == '' || checkout().otherCopay().trim() == '') { 
+				//system.log('inside addit and copay'); 
+					validInput = false;
+				}
+			}); 
+		//  checkout().primaryInsurance = ko.observable((checkout().primaryInsurance() == true ? 1 : 0));
 		 if(validInput) {
 		    //update checkout fields
 			backend.saveCheckout(checkout());
@@ -403,6 +423,7 @@ define(function(require) {
 			 $('.checkoutAlert').removeClass('alert-error alert-success').addClass('alert-success').html('Success!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
 		else
 			$('.checkoutAlert').removeClass('alert-success alert-error').addClass('alert-error').html('Please fill out the required fields!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
+			*/
 	}
  }
 });

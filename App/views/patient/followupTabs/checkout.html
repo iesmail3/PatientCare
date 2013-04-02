@@ -1,4 +1,4 @@
-<div class="formScroll">
+<div>
 	<div class="form-inline">
 		<div class="row-fluid">
 			<fieldset>
@@ -8,7 +8,7 @@
 					<div class="span5">
 						<div class="marginBottom5">
 							<span class="label">Select Co-Payment</span>
-							<div class="bigContainer"> 
+							<div class="insuranceOptions"> 
 								<div class="marginBottom5">   
 									<label class="checkbox inline">
 										<input type="checkbox"  data-bind="checked: primaryInsurance" />
@@ -31,26 +31,26 @@
 						</div>
 						<div class="marginBottom5">
 							<span class="label">Co-Payment amount</span>
-							<input type="text" class="input-medium" placeholder="0" data-bind="value:$root.copayment"disabled/>
+							<input type="text" class="input-small" placeholder="0" data-bind="value:$root.copayment"disabled/>
 						</div>
 						<div class="marginBottom5">   
 							<span class="label">Other Co-Pay</span>
-							<input type="text" class="input-medium" placeholder="0" data-bind="value: otherCopay"/>
+							<input type="text" class="input-small" placeholder="0" data-bind="value: otherCopay"/>
 						</div>
 						<div class="marginBottom5">   
 							<label id="additionalCharges" class="checkbox inline">
 							<input data-bind="checked: editAdditionalCharge" type="checkbox" /><span>Additional Charges</span>
 							</label> 
-							<input type="text" class="input-medium" placeholder="0" data-bind="enable: editAdditionalCharge,
+							<input type="text" class="input-small" placeholder="0" data-bind="enable: editAdditionalCharge,
 							 value: additionalCharges"/>
 						</div>       
 						<div class="marginBottom5">     
 							<span class="label">Insurance Portion</span>  
-							<input type="text" class="input-medium" placeholder="0" data-bind="value: insurancePortion" disabled/>
+							<input type="text" class="input-small" placeholder="0" data-bind="value: insurancePortion" disabled/>
 						</div>
 						<div class="marginBottom5">
 							<span class="label label-inverse">Total Receivable</span>
-							<input type="text" class="input-medium" placeholder="0" data-bind="value: $root.totalReceivable"disabled/>  
+							<input type="text" class="input-small" placeholder="0" data-bind="value: $root.totalReceivable"disabled/>  
 						</div>
 						<div class="marginBottom5">
 							<input type="text" class="input-large" placeholder="Comments" data-bind="value: comment"/>
@@ -73,7 +73,7 @@
 								</thead> 
 								<tbody data-bind="foreach: $root.paymentMethods">     
 									 <tr> 
-										<td>
+										<td class="input-small">
 											<select class="input-small" data-bind="event: {change: $root.addRow},value: mode">
 												<option value=""></option> 
 												<option value="Cash">Cash</option> 
@@ -81,13 +81,13 @@
 												<option value="Debit">Debit</option>
 											</select>
 										</td>
-										<td>
+										<td class="input-small">
 											<input class="input-medium"	data-bind="
 												event: {keyup: $root.addRow},
 												value: particulars, 
 												valueUpdate: 'afterkeydown'" />
 										</td> 
-										<td>
+										<td class="input-small">
 											<input class="input-small" data-bind="
 												event: {keyup: $root.addRow},
 												value: amount, 
@@ -102,17 +102,16 @@
 					<!-- /ko -->  
 						<div class="marginBottom5 pull-right">
 							<span class="label label-inverse">Total Payment</span>
-							<input type="text"  class="input-medium" placeholder="0" data-bind="value:$root.totalPay"disabled/>
+							<input type="text"  class="input-small" placeholder="0" data-bind="value:$root.totalPay"disabled/>
 						</div>
 						<div class="marginBottom5 pull-right">
 							<span class="label label-important">Balance</span>
-							<input type="text" class="input-medium" placeholder="0" data-bind="value: $root.balance" disabled/>
+							<input type="text" class="input-small" placeholder="0" data-bind="value: $root.balance" disabled/>
 						</div> 
 					</div>     
 			</fieldset>      
 		</div>
 	</div>
-</div>
 <!-- ko with: checkout -->
 <table class="table table-bordered table-hover">      
 	<thead>
@@ -150,4 +149,5 @@
 		<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.savePaymentMethod">Save</button>
 		<button type="button" class="btn btn-small btn-danger">Cancel</button>
 	</div>
+</div>
 </div>

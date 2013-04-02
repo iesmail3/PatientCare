@@ -98,10 +98,14 @@
 	margin-bottom: 5px;
 }
 
-.bigContainer {
+.insuranceOptions {
     border: 1px solid #aaa;  
-    width: 130px;
+    width: 160px;
     margin: 12px;      
+}
+
+.insuranceOptions label {
+   width: 140px !important;
 }
 .commentContainer {
 	padding-right: 15px;
@@ -197,4 +201,8 @@
 .checkoutAlert { 
 	height:40px;
 	display: block;
+}
+
+.checkoutPane {
+   overflow-y: auto;
 }

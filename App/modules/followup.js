@@ -85,6 +85,16 @@
 		});
 	}
 	
+	// followup.prototype.getPhysician = function(data) { 
+		// var fields = ['physician.first_name','physician.last_name']; 
+		// return self.query({
+			// mode: 'select',
+			// table: 'service-record',
+			// join: "JOIN physician ON service_record.physician_id=physician.id",
+			// fields: fields,
+			// where: "WHERE service_record.date='" + data.date() + "'"
+		// });
+	// }
 	/**********************************************************************************************
 	 * Save Methods
 	 * 
@@ -109,67 +119,107 @@
 			});
 	}
 	
-	followup.prototype.updatePaymentMethod = function(data) { 
-		var self = this; 
-		var fields = ['id','checkout_id','mode','particulars','amount'];
+	// followup.prototype.updatePaymentMethod = function(data) { 
+		// var self = this; 
+		// var fields = ['id','checkout_id','mode','particulars','amount'];
 		
-		var values = $.map(data, function(k,v) {
-			if(k == null || k == undefined) {
-				return[''];
-			}
-			else {
-				return [k];
-			}
-		});
-		return self.query({
-				mode:  'update', 
-				table: 'payment_method',
-				fields: fields, 
-				values: values,
-				where: "WHERE id='" + data.id() + "'"
-			});
-	}
+		// var values = $.map(data, function(k,v) {
+			// if(k == null || k == undefined) {
+				// return[''];
+			// }
+			// else {
+				// return [k];
+			// }
+		// });
+		// return self.query({
+				// mode:  'update', 
+				// table: 'payment_method',
+				// fields: fields, 
+				// values: values,
+				// where: "WHERE id='" + data.id() + "'"
+			// });
+	// }
 	
-	followup.prototype.savePaymentMethod = function(data) { 
+	// followup.prototype.savePaymentMethod = function(data) { 
+		// var self = this; 
+		// var fields = ['id','checkout_id','mode','particulars','amount'];
+		
+		// var values = $.map(data, function(k,v) {
+			// if(k == null || k == undefined) {
+				// return[''];
+			// }
+			// else {
+				// return [k];
+			// }
+		// });
+		// return self.query({
+				// mode:  'insert', 
+				// table: 'payment_method',
+				// fields: fields, 
+				// values: values
+			// });
+	// }
+	
+	followup.prototype.savePaymentMethod = function(checkoutId, data) { 
 		var self = this; 
 		var fields = ['id','checkout_id','mode','particulars','amount'];
-		
 		var values = $.map(data, function(k,v) {
 			if(k == null || k == undefined) {
 				return[''];
 			}
 			else {
-				return [k];
+				return [k()];
 			}
 		});
-		return self.query({
+		
+		if(data.id() == undefined || data.id() == '') { 
+			return self.query({
 				mode:  'insert', 
 				table: 'payment_method',
 				fields: fields, 
 				values: values
 			});
-	}
-	
-	followup.prototype.saveCheckout = function(data) { 
+		}
+		else { 
+			return self.query({
+				mode:  'update', 
+				table: 'payment_method',
+				fields: fields, 
+				values: values,
+				where: "WHERE id='" + data.id() + "'"
+			});	
+		}  
+	}	
+		
+	followup.prototype.saveCheckout = function(data) {  
 		var self = this; 
-		var fields = ['id','patient_id','date','copay_amount','other_copay','additional_charges','edit_additional_charge','insurance_portion','total_receivable','total_payment','balance','comment','primary_insurance','secondary_insurance','other_insurance'];
+		var fields = ['id','practice_id','patient_id','date','copay_amount',
+			'other_copay','additional_charges','edit_additional_charge','insurance_portion',
+			'total_receivable','total_payment','balance','comment','primary_insurance',
+			'secondary_insurance','other_insurance'];
+		
+		// Convert true/false back to 1/0
+		data.editAdditionalCharge(data.editAdditionalCharge() ? 1 : 0);
+		data.primaryInsurance(data.primaryInsurance() ? 1 : 0);
+		data.secondaryInsurance(data.secondaryInsurance() ? 1 : 0);
+		data.otherInsurance(data.otherInsurance() ? 1 : 0);
 		 
 		var values = $.map(data, function(k,v) {
 			if(k == null || k == undefined) {
 				return[''];
 			}
 			else {
-				return [k];
+				return [k()];
 			}
 		});
 		
 		return self.query({
-				mode:  'update', 
-				table: 'checkout',
-				fields: fields, 
-				values: values,
-				where: "WHERE id='" + data.id() + "'"
-			});
+			mode:  'update', 
+			table: 'checkout',
+			fields: fields, 
+			values: values,
+			where: "WHERE id='" + data.id() + "'"
+		});
 	}	
 	/**********************************************************************************************
 	 * Delete Methods

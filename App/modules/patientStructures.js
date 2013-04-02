@@ -41,27 +41,26 @@ define(function(require) {
 	patient.prototype.Checkout = function(data) {
 		if (data != null) {
 			this.id					  = ko.observable(data.id);
+			this.practiceId    		  = ko.observable(data.practice_id); 
 			this.patientId			  = ko.observable(data.patient_id);
-			this.primaryInsurance     = ko.observable((data.primary_insurance == 1 ? true : false));
-			this.secondaryInsurance	  = ko.observable((data.secondary_insurance == 1 ? true : false));
-			this.otherInsurance		  = ko.observable((data.other_insurance == 1 ? true : false));
 			this.date				  = ko.observable(data.date);
 			this.copayAmount		  = ko.observable(data.copay_amount);
 			this.otherCopay			  = ko.observable(data.other_copay);
 			this.additionalCharges	  = ko.observable(data.additional_charges);
-			this.editAdditionalCharge = ko.observable(data.edit_additional_charge);
+			this.editAdditionalCharge = ko.observable((data.edit_additional_charge == 1 ? true : false));
 			this.insurancePortion	  = ko.observable(data.insurance_portion);
 			this.totalReceivable	  = ko.observable(data.total_receivable);
 			this.totalPayment		  = ko.observable(data.total_payment);
 			this.balance			  = ko.observable(data.balance);
 			this.comment			  = ko.observable(data.comment);
+			this.primaryInsurance     = ko.observable((data.primary_insurance == 1 ? true : false));
+			this.secondaryInsurance	  = ko.observable((data.secondary_insurance == 1 ? true : false));
+			this.otherInsurance		  = ko.observable((data.other_insurance == 1 ? true : false));
 		}
 		else {
 			this.id					  = ko.observable();
 			this.patientId			  = ko.observable();
-			this.primaryInsurance	  = ko.observable();
-			this.secondaryInsurance	  = ko.observable();
-			this.otherInsurance		  = ko.observable();
+			this.practiceId 		  = ko.observable(); 
 			this.date				  = ko.observable();
 			this.copayAmount		  = ko.observable();
 			this.otherCopay			  = ko.observable();
@@ -72,6 +71,9 @@ define(function(require) {
 			this.totalPayment		  = ko.observable();
 			this.balance			  = ko.observable();
 			this.comment			  = ko.observable();
+			this.primaryInsurance	  = ko.observable();
+			this.secondaryInsurance	  = ko.observable();
+			this.otherInsurance		  = ko.observable();
 		}
 		
 	}
