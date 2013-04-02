@@ -83,25 +83,59 @@ define(function(require) {
 	// Add a Checkout for a Single Patient
 	servicerecord.prototype.addCheckout = function(patientId, practiceId, date) {
 		var self = this;
-		var fields = ['id', 'practice_id', 'patient_id', 'primary_insurance', 'secondary_insurance',
-			'other_insurance', 'date', 'copay_amount', 'other_copay', 'additional_charges', 'edit_additional_charge',
-			'insurance_portion', 'total_receivable', 'total_payment', 'balance', 'comment']
+		var fields = ['id', 'practice_id', 'patient_id', 'date', 'copay_amount', 'other_copay',
+			'additional_charges', 'edit_additional_charge', 'insurance_portion', 'total_receivable',
+			'total_payment', 'balance', 'comment']
 		
 		var values = [];
 		$.each(fields, function(k, v) {
-			if (v == 'practice_id')
-				values.push(practiceId);
-			else if (v == 'patient_id')
-				values.push(patientId);
-			else if (v == 'date')
-				values.push(date);
-			else
-				values.push('');
+			switch(v) {
+				case 'practice_id':
+					values.push(practiceId);
+					break;
+				case 'patient_id':
+					values.push(patientId);
+					break;
+				case 'date':
+					values.push(date);
+					break;
+				default:
+					values.push('');
+					break;
+			}
+		});
+			
+		return self.query({
+			mode: 'insert',
+			table: 'checkout',
+			fields: fields,
+			values: values
+		});
+	}
+	
+	servicerecord.prototype.addFollowUp = function(patientId, practiceId, date) {
+		var self = this;
+		var fields = ['id', 'practice_id', 'patient_id', 'service_record_id', 'type', 'value', 'unit', 'comment', 'service_date', 'plan'];
+		
+		var values = [];
+		$.each(fields, function(k, v) {
+			switch(v) {
+				case 'practice_id':
+					values.push(practiceId);
+					break;
+				case 'patient_id':
+					values.push(patientId);
+					break;
+				case 'service_date':
+					values.push(date);
+					break;
+				default:
+					values.push('');
+					break;
+			}
 		});
 		
-		values[6] = date;
-		
-		var newId = '';
+		var serviceId = '';
 		return self.query({
 			mode: 'select',
 			table: 'service_record',
@@ -109,15 +143,16 @@ define(function(require) {
 			order: 'ORDER BY id DESC',
 			limit: 'LIMIT 1'
 		}).success(function(data) {
-			$.each(data, function(key, item) {
-				newId = parseInt(item.id) + 1;
+			$.each(data, function(k, v) {
+				system.log(v.id);
+				serviceId = v.id;
 			});
 			
-			values[0] = newId;
+			values[3] = serviceId;
 			
 			self.query({
 				mode: 'insert',
-				table: 'checkout',
+				table: 'follow_up',
 				fields: fields,
 				values: values
 			});

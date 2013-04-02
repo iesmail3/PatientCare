@@ -217,14 +217,18 @@ define(function(require) {
 		},
 		// New button for Medical Problems
 		medicalProblemsNew: function(data) {
-			
+			tempMedicalProblem(medicalProblem());
+			medicalProblem(new structures.MedicalProblem());
+			system.log(medicalProblem().type());
+			medicalProblemsState(true);
 		},
 		// Save button for Medical Problems
 		medicalProblemsSave: function(data) {
 			
 		},
 		medicalProblemsCancel: function(data) {
-			
+			medicalProblem(tempMedicalProblem());
+			medicalProblemsState(false);
 		}
 	};
 });

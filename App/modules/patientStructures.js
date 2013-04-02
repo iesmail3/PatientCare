@@ -309,7 +309,7 @@ define(function(require) {
 		else {
 			this.id				 = ko.observable();
 			this.serviceRecordId = ko.observable();
-			this.type			 = ko.observable();
+			this.type			 = ko.observable('');
 			this.description	 = ko.observable();
 			this.onsetDate		 = ko.observable();
 			this.resolutionDate	 = ko.observable();

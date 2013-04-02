@@ -104,11 +104,11 @@ define(function(require) {
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
 	// Delete Service Record for a Single Patient
-	serviceview.prototype.deleteServiceRecord = function(date) {
+	serviceview.prototype.deleteServiceRecord = function(patientId, practiceId, date) {
 		return this.query({
 			mode: 'delete', 
 			table: 'service_record', 
-			where: "WHERE date='" + date + "'"
+			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "' AND date='" + date + "'"
 		});
 	}
 	

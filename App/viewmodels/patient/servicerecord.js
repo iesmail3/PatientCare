@@ -147,12 +147,14 @@ define(function(require) {
 				if (newDate) {
 					serviceRecords.push(serviceRecord());
 					serviceRecord().date(form.dbDate(serviceRecord().date()));
+					backend.addServiceRecord(serviceRecord()).success(function(data) {
+						// Add a Service Record.
+					});
 					backend.addCheckout(patientId(), practiceId(), serviceRecord().date()).success(function(data) {
 						// Add a Checkout for each Service Record
 					});
-					backend.addServiceRecord(serviceRecord()).success(function(data) {
-						date = serviceRecord().date();
-						router.navigateTo('#/patient/servicerecord/serviceview/' + patientId() + '/' + date);
+					backend.addFollowUp(patientId(), practiceId(), serviceRecord().date()).success(function(data) {
+						router.navigateTo('#/patient/servicerecord/serviceview/' + patientId() + '/' + serviceRecord().date());
 					});
 				}
 				else {
@@ -169,7 +171,7 @@ define(function(require) {
 			}
 		},
 		serviceRecordCancel: function() {
-			serviceRecord(new structures.ServiceRecord());
+			serviceRecord(new structures.ServiceRecord()); // Can remove this.
 			serviceRecord(tempRecord());
 			serviceRecordState(false);
 		},
