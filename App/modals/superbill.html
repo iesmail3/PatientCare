@@ -105,7 +105,6 @@
 			<div class="marginBottom5">
 				<fieldset>
 					<legend>Drugs</legend>
-					<a class="pull-right">Modify</a>
 					<table class="table table-bordered table-hover">
 							<thead>
 								<tr>       
@@ -129,7 +128,6 @@
 			<div class="marginBottom5">
 				<fieldset>
 					<legend>Office Orders</legend>
-					<a class="pull-right">Modify</a>
 					<table class="table table-bordered table-hover">
 							<thead>
 								<tr>       
@@ -153,7 +151,6 @@
 			<div class="marginBottom5">
 				<fieldset>
 					<legend>Supplies</legend>
-					<a class="pull-right">Modify</a>
 					<table class="table table-bordered table-hover">
 							<thead>
 								<tr>       
@@ -177,4 +174,8 @@
 		</div>
 	</div>
 </div>
+</div>
+<div class="modal-footer" data-bind="foreach: options">
+	<button class="btn" data-bind="click: function() { $parent.selectOption($data); }, 
+		html: $data, css: {'btn-primary': $index() == 0, autofocus: $index() == 0, 'btn-danger': $data == 'Cancel'}"></button>
 </div>

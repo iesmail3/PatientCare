@@ -91,6 +91,22 @@ define(function(require) {
 		
 	}
 	
+	//Diagnosis
+	patient.prototype.Diagnosis = function(data) { 
+		if(data!= null) { 
+			this.id					= ko.observable(data.id); 
+			this.serviceRecordId	= ko.observable(data.service_record_id); 
+			this.diagnosis			= ko.observable(data.diagnosis); 
+			this.code				= ko.observable(data.code); 
+		}
+		else {
+			this.id 				= ko.observable(); 
+			this.serviceRecordId	= ko.observable(); 
+			this.diagnosis			= ko.observable(); 
+			this.code				= ko.observable(); 
+		}
+	}
+	
 	// Document
 	patient.prototype.Document = function(data) {
 		if (data != null) {
