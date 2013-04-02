@@ -40,9 +40,6 @@ define(function(require) {
 	 var primaryCo      = ko.observable(); 
 	 var secondaryCo    = ko.observable();   
 	 var otherCo        = ko.observable();  
-	 // var primaryInsurance = ko.observable("500");   
-	 // var secondaryInsurance = ko.observable("100");
-	 // var otherInsurance = ko.observable("200");
 	 var selectedValues = ko.observableArray([]);
 	 var modes          = ko.observableArray([]); 
 	 var phoneLogState  = ko.observable(true); 
@@ -60,11 +57,11 @@ define(function(require) {
 	 **********************************************************************************************/  
 	 var copayment = ko.computed(function() { 
        var total =0; 
-		if(primaryCheck() == true)	 
+		if(checkout().primaryInsurance())	 
 			total += parseInt(primaryCo()); 
-		if(secondaryCheck() == true)
+		if(checkout().secondaryInsurance())
 			total+= parseInt(secondaryCo());
-		if(otherCheck() == true)
+		if(checkout().otherInsurance())
 			total+= parseInt(otherCo());
 		checkout().copayAmount(total); 
 		 return total; 
@@ -139,9 +136,6 @@ define(function(require) {
 			primaryCo:primaryCo,
 			secondaryCo:secondaryCo, 
 			otherCo: otherCo,  
-			// primaryInsurance:primaryInsurance,
-			// secondaryInsurance:secondaryInsurance,    
-			// otherInsurance:otherInsurance,
 			selectedValues: selectedValues,
 			paymentMethod: paymentMethod, 
 			paymentMethods: paymentMethods,
@@ -207,7 +201,10 @@ define(function(require) {
 						self.paymentMethods(p);
 						self.paymentMethod(p[0]);
 						self.paymentMethods.push(new structures.PaymentMethod()); 					
-					} 
+					}
+					else { 
+						paymentMethods(new structures.PaymentMethod()); 
+				    }
 				}); 
 			});
 			   
@@ -263,17 +260,22 @@ define(function(require) {
 		totalPay:  totalPay,
 		balance:   balance,
 		totalReceivable: totalReceivable,
-		setFields: function(data) {
-			followup(data);
-		},        
-		setCheckOutFields: function(data) {  
+		// setFields: function(data) {
+			// followup(data);
+		// },        
+		setCheckOutFields: function(data) {
+			system.log(data); 
 			checkout(data);  
 			backend.getPaymentMethods(data.id()).success(function(data) {		
 				if(data.length > 0) {
 				    var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
 					paymentMethods(p);
-                    paymentMethod(p[0]); 					
+                    paymentMethod(p[0]); 	
+					paymentMethods.push(new structures.PaymentMethod()); 	
 				} 
+				else { 
+					paymentMethods(new structures.PaymentMethod()); 
+				}
 			});    			
 		},                
 		setPhoneLogFields: function(data) { 
@@ -350,18 +352,18 @@ define(function(require) {
 						return true; 	
 			}
 			if(v.mode().trim() == '' || v.amount().trim() == '' ) {
-			system.log('inside mode and amount'); 
+			//system.log('inside mode and amount'); 
 			   validInput = false;
 			}
 			if(checkout().additionalCharges().trim() == '' || checkout().otherCopay().trim() == '') { 
-			system.log('inside addit and copay'); 
+			//system.log('inside addit and copay'); 
 				validInput = false;
 			}
 		 }); 
 		  
 		 if(validInput) {
 		    //update checkout fields
-			backend.updateCheckout(checkout());
+			backend.saveCheckout(checkout());
 			
 		    //loop for each row in the payment table
 			$.each(paymentMethods(), function(k, v) {

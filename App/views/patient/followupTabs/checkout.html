@@ -11,17 +11,20 @@
 							<div class="bigContainer"> 
 								<div class="marginBottom5">   
 									<label class="checkbox inline">
-										<input type="checkbox"  data-bind="checked:$root.primaryCheck, value: $root.primaryCo"/><span>Primary</span> ($<span data-bind="text: $root.primaryCo"></span>)
+										<input type="checkbox"  data-bind="checked: primaryInsurance" />
+										<span>Primary</span>($<span data-bind="text: $root.primaryCo"></span>)
 									</label>
 								</div>
 								<div class="marginBottom5">  
 									<label class="checkbox inline"> 
-										<input type="checkbox" data-bind="checked: $root.secondaryCheck, value:$root.secondaryCo"/><span>Secondary</span>($<span data-bind="text: $root.secondaryCo"></span>)  
+										<input type="checkbox" data-bind="checked: secondaryInsurance" />
+										<span>Secondary</span>($<span data-bind="text: $root.secondaryCo"></span>)  
 									</label>
 								</div>
 								<div class="marginBottom5"> 
 									<label class="checkbox inline">      
-										<input type="checkbox" data-bind="checked: $root.otherCheck, value:$root.otherCo"/><span>Other</span>($<span data-bind="text: $root.otherCo"></span>)
+										<input type="checkbox" data-bind="checked: otherInsurance" />
+										<span>Other</span>($<span data-bind="text: $root.otherCo"></span>)
 									</label>      
 								</div> 
 							</div>         
@@ -65,6 +68,7 @@
 										<th>Modes</th>   
 										<th>Particulars</th>
 										<th>Amount</th>
+										<th></th>
 									</tr>
 								</thead> 
 								<tbody data-bind="foreach: $root.paymentMethods">     

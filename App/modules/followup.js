@@ -150,9 +150,9 @@
 			});
 	}
 	
-	followup.prototype.updateCheckout = function(data) { 
+	followup.prototype.saveCheckout = function(data) { 
 		var self = this; 
-		var fields = ['id','patient_id','date','copay_amount','other_copay','additional_charges','edit_additional_charge','insurance_portion','total_receivable','total_payment','balance','comment'];
+		var fields = ['id','patient_id','date','copay_amount','other_copay','additional_charges','edit_additional_charge','insurance_portion','total_receivable','total_payment','balance','comment','primary_insurance','secondary_insurance','other_insurance'];
 		 
 		var values = $.map(data, function(k,v) {
 			if(k == null || k == undefined) {
