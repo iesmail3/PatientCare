@@ -33,7 +33,7 @@
 							</div>     
 							<div class="marginBottom5 pull-right">
 								<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.phoneLogAdd,visible: $root.phoneLogState()">New</button>
-								<button type="button" class="btn btn-small btn-primary" data-bind="visible: !$root.phoneLogSave()">Save</button>
+								<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.savePhoneLog,visible: !$root.phoneLogSave()">Save</button>
 								<button type="button" id ="cancelButton" class="btn btn-small btn-danger" data-bind="click: $root.phoneLogCancel,visible: !$root.phoneLogState()">Cancel</button>
 							</div>
 						</fieldset>

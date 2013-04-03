@@ -837,6 +837,7 @@ define(function(require) {
 		if (data != null) {
 			this.id			    = ko.observable(data.id);
 			this.patientId	    = ko.observable(data.patient_id);
+			this.practiceId     = ko.observable(data.practice_id);
 			this.datetime	    = ko.observable(data.datetime);
 			this.caller		    = ko.observable(data.caller);
 			this.attendedBy	    = ko.observable(data.attended_by);
@@ -848,6 +849,7 @@ define(function(require) {
 		else {
 			this.id			    = ko.observable();
 			this.patientId	    = ko.observable();
+			this.practiceid     = ko.observable(); 
 			this.datetime	    = ko.observable();
 			this.caller		    = ko.observable();
 			this.attendedBy	    = ko.observable();
@@ -1110,6 +1112,8 @@ define(function(require) {
 			this.levelOfService  = ko.observable(data.level_of_service);
 			this.serviceCode	 = ko.observable(data.service_code);
 			this.isComplete		 = ko.observable(data.is_complete);
+			this.comment         = ko.observable(data.physical_examination_comment); 
+			this.date            = ko.observable(data.date); 
 		}
 		else {
 			this.serviceRecordId = ko.observable();
@@ -1118,6 +1122,8 @@ define(function(require) {
 			this.levelOfService  = ko.observable();
 			this.serviceCode	 = ko.observable();
 			this.isComplete		 = ko.observable();
+			this.comment         = ko.observable(); 
+			this.date            = ko.observable(); 
 		}
 	}
 	

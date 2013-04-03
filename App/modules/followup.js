@@ -28,6 +28,35 @@
 		});
 	} 
 	
+	 // Get Personal Information for a Single Patient
+	// followup.prototype.getDiagnosis = function(data) {
+		// return this.query({
+			// mode: 'select',
+			// table: 'diagnosis',
+			// fields: '*',
+			// where: "WHERE service_record_id='" + data.serviceRecordId + "'"
+		// });
+	// } 
+	followup.prototype.getPhysician = function(practiceId) {  
+		return this.query({
+			mode: 'select',
+			table: 'physician',
+			fields: '*',
+			where: "WHERE practice_id='" + practiceId + "'"
+		});
+	}
+	
+	followup.prototype.getSuperBill = function() {
+	system.log('inside uperbill'); 
+	var fields = ['service_record.date','service_record.physical_examination_comment','superbill.is_complete']; 
+		return this.query({
+			mode: 'select',
+			table: 'service_record',
+			join: "JOIN superbill ON service_record.id=superbill.service_record_id",
+			fields: fields
+		});
+	}
+	
 	followup.prototype.getCheckOut = function(id, practiceId) {
 		return this.query({
 			mode: 'select',
@@ -119,47 +148,6 @@
 			});
 	}
 	
-	// followup.prototype.updatePaymentMethod = function(data) { 
-		// var self = this; 
-		// var fields = ['id','checkout_id','mode','particulars','amount'];
-		
-		// var values = $.map(data, function(k,v) {
-			// if(k == null || k == undefined) {
-				// return[''];
-			// }
-			// else {
-				// return [k];
-			// }
-		// });
-		// return self.query({
-				// mode:  'update', 
-				// table: 'payment_method',
-				// fields: fields, 
-				// values: values,
-				// where: "WHERE id='" + data.id() + "'"
-			// });
-	// }
-	
-	// followup.prototype.savePaymentMethod = function(data) { 
-		// var self = this; 
-		// var fields = ['id','checkout_id','mode','particulars','amount'];
-		
-		// var values = $.map(data, function(k,v) {
-			// if(k == null || k == undefined) {
-				// return[''];
-			// }
-			// else {
-				// return [k];
-			// }
-		// });
-		// return self.query({
-				// mode:  'insert', 
-				// table: 'payment_method',
-				// fields: fields, 
-				// values: values
-			// });
-	// }
-	
 	followup.prototype.savePaymentMethod = function(checkoutId, data) { 
 		var self = this; 
 		var fields = ['id','checkout_id','mode','particulars','amount'];
@@ -189,7 +177,45 @@
 				where: "WHERE id='" + data.id() + "'"
 			});	
 		}  
-	}	
+	}
+	
+	followup.prototype.savePhoneLog = function(patientId,practiceId,data) { 
+	    system.log('patientId is' + patientId); 
+		var self = this; 
+		var fields = ['id','patient_id','practice_id','datetime','caller','attended_by','message','action_required','assigned_to','type'];
+		var values = $.map(data, function(k,v) {
+			if(k == null || k == undefined) {
+				return[''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		values[1] = patientId;
+		values[2] = practiceId; 
+		for(var i = 0; i < fields.length; i++) 
+		system.log(fields[i] + ":" + values[i]); 
+		
+		if(data.id() == undefined || data.id() == '') { 
+			return self.query({
+				mode:  'insert', 
+				table: 'phone_log',
+				fields: fields, 
+				values: values
+			});
+		}
+		else { 
+			return self.query({
+				mode:  'update', 
+				table: 'phone_log',
+				fields: fields, 
+				values: values,
+				where: "WHERE id='" + data.id() + "'"
+			});	
+		}  
+	}
+	
+	
 		
 	followup.prototype.saveCheckout = function(data) {  
 		var self = this; 

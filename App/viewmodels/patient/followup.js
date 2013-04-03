@@ -10,12 +10,14 @@ define(function(require) {
 	 var system = require('durandal/system');			// System logger
 	 var custom = require('durandal/customBindings');	// Custom bindings
 	 var Backend = require('modules/followup');			// Database access
-	 var Structures = require('modules/patientStructures'); 
+	 var Forms = require('modules/form');					// Common form elements
+	var Structures = require('modules/patientStructures'); 
 	 var modal	   = require('modals/modals');				// Modals
 	 	var app = require('durandal/app');
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
+	 var form = new Forms();
 	 var backend = new Backend();
 	 var structures = new Structures();
 	 var followup 		= ko.observable(new structures.Followup());
@@ -29,6 +31,7 @@ define(function(require) {
      var tempPhoneLog   = ko.observable(new structures.PhoneLog()); 	 
 	 var phoneLogs      = ko.observableArray([]);    
 	 var superBill      = ko.observable(new structures.Superbill());    
+	 var superBills      = ko.observableArray([]); 
 	 var prescription   = ko.observable(new structures.Prescription());
 	 var prescriptions  = ko.observableArray([]); 
 	 var doc            = ko.observable(new structures.Document());
@@ -124,7 +127,8 @@ define(function(require) {
 			phoneLog: phoneLog,
 			phoneLogs: phoneLogs, 
 			tempPhoneLog: tempPhoneLog, 
-			superBill: superBill, 
+			superBill: superBill,
+			superBills: superBills,
 			prescription: prescription,
 			prescriptions: prescriptions,
 			doc: doc,   
@@ -151,6 +155,7 @@ define(function(require) {
 			otherCheck: otherCheck,
 			checkoutId: checkoutId,
 			physicianName: physicianName,
+			form: form,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -218,12 +223,24 @@ define(function(require) {
 				}); 
 			});
 			   
-			backend.getPhoneLog(self.patientId(),self.practiceId()).success(function(data) { 
+			backend.getPhoneLog(self.patientId(),self.practiceId()).success(function(data) {			
 				if(data.length > 0) {
-					 var p = $.map(data, function(item) {return new structures.PhoneLog(item) });
+					 var p = $.map(data, function(item) {
+					 item.datetime = form.uiDate(item.datetime)
+					 return new structures.PhoneLog(item) });
+					
 					 self.phoneLogs(p);
 					 self.phoneLog(p[0]); 
 					
+				} 
+			}); 
+			
+			backend.getSuperBill().success(function(data) { 
+				system.log('inside superbill'); 
+				if(data.length > 0) {
+					 var p = $.map(data, function(item) {return new structures.Superbill(item) }); 
+					 self.superBills(p);
+					 self.superBill(p[0]);
 				} 
 			});
 			
@@ -243,9 +260,12 @@ define(function(require) {
 				} 
 			});
 		 
-			var test = ['Nathan Abraham', 'Ian Sinkler'];
-			self.myArray(test);
-			
+			backend.getPhysician(self.practiceId()).success(function(data) {
+				if(data.length > 0) {
+					var p = $.map(data, function(item) { return item.first_name + " " + item.last_name }); 
+					self.myArray(p); 
+				} 
+			}); 
 			backend.getInsurance(self.patientId(),self.practiceId()).success(function(data) {      		
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
@@ -424,6 +444,12 @@ define(function(require) {
 		else
 			$('.checkoutAlert').removeClass('alert-success alert-error').addClass('alert-error').html('Please fill out the required fields!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
 			*/
-	}
+	},
+	savePhoneLog: function(data) { 
+		phoneLog().datetime(form.dbDate(phoneLog().datetime()));
+	    system.log('inside save method'); 
+		backend.savePhoneLog(patientId(),practiceId(),phoneLog()); 
+		showAssigned(true);
+	} 
  }
 });
