@@ -99,7 +99,24 @@ define(function(require) {
 					groupOrders.push(v.orderCategoryId());
 			});
 			
-			modal.showOrder(data, centers, orders, groupOrders, form.ImagingOrders, practiceId(), 'Imaging Order');
+			modal.showOrder(data, centers, orders, groupOrders, form.ImagingOrders, 
+				practiceId(), serviceRecord().id(), 'Imaging Order');
+		},
+		newOrder: function(data) {
+			var self = data;
+			backend.getOrderGroup(self.serviceRecord().id()).success(function(data) {
+				var group = parseInt(data[0].group) + 1;
+				var order = new self.structures.Order();
+				order.group(group);
+				
+				modal.showOrder(order, centers, orders, ko.observableArray([]), 
+					form.ImagingOrders, practiceId(), serviceRecord().id(), 'Imaging Order');
+			});
+		},
+		deleteOrder: function(data) {
+			var order = data;
+			orders.remove(order);
+			backend.deleteOrder(data.orderCategoryId(), data.group());
 		}
 	};
 });

@@ -7,31 +7,20 @@ define(function(require) {
 	var u = require('../../Scripts/underscore');
 	var self;
 	
-	var Order = function(order, centers, orders, groupOrders, orderTypes, practiceId, serviceRecordId, 
-						 title, options) {
-		self = this;
-		this.order = ko.observable(order);
-		this.centers = centers;
-		this.orders = orders;
-		this.groupOrders = groupOrders;
-		this.oldGroup = [];
-		$.each(groupOrders(), function(k,v) {
-			self.oldGroup.push(v);
-		})
-		this.orderTypes = orderTypes;
-		this.title = title || Order.defaultTitle;
-		this.options = options || Order.defaultOptions;
+	var OfficeProcedure = function(practiceId, title, options) {
 		this.practiceId = practiceId;
-		this.orderCategories = ko.observableArray([]);
-		this.updateOrders(this.order());
-		this.serviceRecordId = serviceRecordId;
+		this.title = title || OfficeProcedure.defaultTitle;
+		this.options = options || OfficeProcedure.defaultOptions;
+		this.officeProcedures = ko.observableArray([]);
+		system.log(this.practiceId);
+		//this.updateOfficeProcedures(this.practiceId);
 	};
 	
-	Order.prototype.selectOption = function(dialogResult) {
-		if(dialogResult == 'Save') {
+	OfficeProcedure.prototype.selectOption = function(dialogResult) {
+		/*if(dialogResult == 'Save') {
 			// Save orders
 			// Add new orders			
-			$.each(self.groupOrders(), function(k, v) {
+			$.each(self.groupOfficeProcedures(), function(k, v) {
 				if($.inArray(v, self.oldGroup) == -1) {
 					// Filter the categories to find the correct one
 					var cat = _.filter(self.orderCategories(), function(x) {
@@ -42,7 +31,7 @@ define(function(require) {
 					// Date
 					date = new Date();
 					date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-					var o = new structures.Order({
+					var o = new structures.OfficeProcedure({
 						service_record_id: self.serviceRecordId,
 						order_category_id: v,
 						description: description,
@@ -58,14 +47,14 @@ define(function(require) {
 					
 					// Add to array
 					self.orders.push(o);		
-					backend.saveOrder(o, "insert");
+					backend.saveOfficeProcedure(o, "insert");
 				}
 			});
 	
 			// Update old orders
-			var old = _.intersection(self.oldGroup, self.groupOrders());
+			var old = _.intersection(self.oldGroup, self.groupOfficeProcedures());
 			$.each(old, function(k, v) {
-				var o = new structures.Order({
+				var o = new structures.OfficeProcedure({
 						service_record_id: self.order().serviceRecordId(),
 						order_category_id: v,
 						description: self.orderCategories()[k].description(),
@@ -78,28 +67,23 @@ define(function(require) {
 						center: self.order().center(),
 						group: self.order().group()									
 					});
-				backend.saveOrder(o, "update");
+				backend.saveOfficeProcedure(o, "update");
 			});
 			
 		}
-				
+		*/
 		this.modal.close(dialogResult);
 	};
 	
-	Order.prototype.updateOrders = function(data) {
-		backend.getOrderTypes(self.practiceId, data.type()).success(function(data){
-			var o = $.map(data, function(item){ return new structures.OrderCategory(item); });
-			self.orderCategories(o);
+	OfficeProcedure.prototype.updateOfficeProcedures = function(data) {
+		backend.getOfficeProcedureTypes(self.practiceId, data.type()).success(function(data){
+			var o = $.map(data, function(item){ return new structures.OfficeProcedure(item); });
+			self.officeProcedures(o);
 		});
 	}
 	
-	Order.prototype.goToDrugs = function(data) {
-		var modal = require('modals/modals');
-		modal.showOfficeProcedure(self.practiceId, 'Office Procedures');
-	}
+	OfficeProcedure.defaultTitle = '';
+	OfficeProcedure.defaultOptions = ['Save', 'Cancel'];
 	
-	Order.defaultTitle = '';
-	Order.defaultOptions = ['Save', 'Cancel'];
-	
-	return Order;	
+	return OfficeProcedure;	
 });

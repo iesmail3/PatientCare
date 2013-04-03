@@ -67,8 +67,18 @@ try {
 	
 	// If Select is chosen
 	if(strtolower($mode) == 'select') {
+		$fieldString = "";
+		if(is_array($fields)) {
+			foreach($fields as $field) {
+				$fieldString .= "$field,";
+			}
+			$fieldString = substr_replace($fieldString ,"",-1);
+		}
+		else {
+			$fieldString = $fields;
+		}
 		// Compile query
-		$query = "SELECT $fields FROM $table $join $where $group $order $limit";
+		$query = "SELECT $fieldString FROM $table $join $where $group $order $limit";
 		//echo $query;
 		// Create query statement to run
 		$stmt = $db->query($query);

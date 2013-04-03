@@ -89,6 +89,10 @@ define(function(require) {
 	}
 	
 	order.prototype.getOrders = function(id) {
+		var fields = ['orders.id', 'orders.service_record_id', 'orders.in_office', 'orders.instructions', 
+			'orders.assigned_to', 'orders.date', 'orders.order_category_id', 'order_category.description',
+			'orders.type', 'orders.comment', 'orders.center', 'orders.group'
+		];
 		return this.query({
 			mode: 'select',
 			table: 'orders',
@@ -97,6 +101,17 @@ define(function(require) {
 					'orders.type, orders.comment, orders.center, orders.group',
 			join: "LEFT JOIN order_category ON orders.order_category_id=order_category.id",
 			where: "WHERE service_record_id='" + id + "'"
+		});
+	}
+	
+	order.prototype.getOrderGroup = function(id) {
+		return this.query({
+			mode: 'select',
+			table: 'orders',
+			fields: '`group`',
+			where: "WHERE service_record_id='" + id + "'",
+			order: "ORDER BY `group` DESC",
+			limit: "LIMIT 1"
 		});
 	}
 	
@@ -197,6 +212,9 @@ define(function(require) {
 				return [k()];
 		});
 		
+		for(var i = 0; i < fields.length; i++)
+			system.log(values[0] + " : " + fields[i] + " - " + values[i]);
+		
 		if(method == "update") {
 			self.query({
 				mode: 'update',
@@ -237,6 +255,15 @@ define(function(require) {
 			mode: 'delete', 
 			table: 'service_record', 
 			where: "WHERE id='" + id + "'"
+		});
+	}
+	
+	// Delete Order
+	order.prototype.deleteOrder = function(id, group) {
+		return this.query({
+			mode: 'delete',
+			table: 'orders',
+			where: "WHERE order_category_id='" + id + "' AND `group`='" + group + "'"
 		});
 	}
 	

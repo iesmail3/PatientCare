@@ -1,10 +1,20 @@
 define(function(require) {
 	var modalDialog = require('durandal/modalDialog');
 	var Order = require('./order');
+	var OfficeProcedure = require('./officeProcedure');
 	
 	return {
-		showOrder: function(order, centers, orders, groupOrders, orderTypes, practiceId, title, options) {
-			return modalDialog.show(new Order(order, centers, orders, groupOrders, orderTypes, practiceId, title, options));
+		showOrder: function(order, centers, orders, groupOrders, orderTypes, practiceId, 
+							serviceRecordId, title, options) {
+			return modalDialog.show(
+				new Order(order, centers, orders, groupOrders, orderTypes, practiceId, 
+						  serviceRecordId, title, options)
+			);
+		},
+		showOfficeProcedure: function(practiceId, title, options) {
+			return modalDialog.show(
+				new OfficeProcedure(practiceId, title, options)
+			);
 		}
 	};
 });

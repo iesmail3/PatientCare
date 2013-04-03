@@ -25,6 +25,9 @@ legend {
 	padding: 5px;
 }
 
+.tabScroll {
+	overflow-y: auto;
+}
 
 .fill {
 	height: 100%;
@@ -93,6 +96,10 @@ legend {
 }
 
 /* Orders */
+.mainOrderTableHolder {
+	height: 450px;
+	overflow-y: auto;
+}
 .orderTable td div {
 	width: 15px;
 	margin: auto;
