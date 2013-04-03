@@ -12,16 +12,22 @@
 			<textarea class="commentSpan" rows="3" placeholder="Description" data-bind="value: medicalProblem().description" /></textarea>
 		</div>
 		<div class="marginBottom5">
-			<input type="text" placeholder="Onset Date" data-bind="datepicker: true, value: medicalProblem().onsetDate" />
+			<input type="text" placeholder="Onset Date"
+				data-bind="datepicker: true,
+				value: medicalProblem().onsetDate,
+				enable: medicalProblem().type() == 'current' || medicalProblem().type() == 'other'" />
 			<label class="checkbox inline">
-				<input type="checkbox" />
+				<input type="checkbox" data-bind="checked: medicalProblem().onsetUnknown" />
 				<span>Unknown</span>
 			</label>
 		</div>
 		<div class="marginBottom5">
-			<input type="text" placeholder="Resolution Date" data-bind="datepicker: true, value: medicalProblem().resolutionDate" />
+			<input type="text" placeholder="Resolution Date"
+				data-bind="datepicker: true,
+				value: medicalProblem().resolutionDate,
+				enable: medicalProblem().type() == 'other' || medicalProblem().type() == 'past'" />
 			<label class="checkbox inline">
-				<input type="checkbox" />
+				<input type="checkbox" data-bind="checked: medicalProblem().resolutionUnknown" />
 				<span>Unknown</span>
 			</label>
 		</div>
@@ -30,7 +36,8 @@
 				data-bind="visible: !$root.medicalProblemsState(), click: $root.medicalProblemsNew">
 				New
 			</button>
-			<button type="submit" class="btn btn-small btn-primary">
+			<button type="submit" class="btn btn-small btn-primary"
+				data-bind="click: $root.medicalProblemsSave">
 				Save
 			</button>
 			<button type="button" class="btn btn-small btn-warning"

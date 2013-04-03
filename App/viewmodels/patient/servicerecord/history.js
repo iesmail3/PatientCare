@@ -214,17 +214,85 @@ define(function(require) {
 		// Set fields for Medical Problems
 		medicalProblemsSetFields: function(data) {
 			medicalProblem(data);
+			system.log(medicalProblem().onsetUnknown());
+			system.log(medicalProblem().resolutionUnknown());
 		},
 		// New button for Medical Problems
 		medicalProblemsNew: function(data) {
 			tempMedicalProblem(medicalProblem());
 			medicalProblem(new structures.MedicalProblem());
-			system.log(medicalProblem().type());
 			medicalProblemsState(true);
 		},
 		// Save button for Medical Problems
 		medicalProblemsSave: function(data) {
-			
+			// New
+			if (medicalProblemsState()) {
+				var now = $.datepicker.formatDate('yy-mm-dd', new Date());
+				var onsetDate = $.datepicker.formatDate('yy-mm-dd', new Date(medicalProblem().onsetDate()));
+				var resolutionDate = $.datepicker.formatDate('yy-mm-dd', new Date(medicalProblem().resolutionDate()));
+				
+				system.log(medicalProblem().onsetUnknown());
+				system.log(medicalProblem().resolutionUnknown());
+				
+				var validDate = false;
+				if (medicalProblem().type() == 'current') {
+					if (onsetDate <= now) {
+						system.log("Valid date");
+						validDate = true;
+					}
+					else {
+						system.log("Invalid date");
+					}
+				}
+				else if (medicalProblem().type() == 'other') {
+					if (onsetDate <= resolutionDate && resolutionDate <= now) {
+						system.log("Valid date");
+						validDate = true;
+					}
+					else {
+						system.log("Invalid date");
+					}
+				}
+				else if (medicalProblem().type() == 'past') {
+					if (resolutionDate <= now) {
+						system.log("Valid date");
+						validDate = true;
+					}
+					else {
+						system.log("Invalid date");
+					}
+				}
+				else {
+					system.log("Invalid type");
+				}
+				
+				if (validDate) {
+					medicalProblems.push(medicalProblem());
+					medicalProblem().serviceRecordId(serviceRecord().id());
+					medicalProblem().onsetDate(form.dbDate(medicalProblem().onsetDate()));
+					medicalProblem().resolutionDate(form.dbDate(medicalProblem().resolutionDate()));
+					backend.addMedicalProblem(medicalProblem()).complete(function(data) {
+						medicalProblem().onsetDate(form.uiDate(medicalProblem().onsetDate()));
+						medicalProblem().resolutionDate(form.uiDate(medicalProblem().resolutionDate()));
+					});
+				}
+				
+			}
+			// Update
+			else {
+				medicalProblem().onsetDate(form.dbDate(medicalProblem().onsetDate()));
+				medicalProblem().resolutionDate(form.dbDate(medicalProblem().resolutionDate()));
+				//system.log(medicalProblem().id());
+				//system.log(medicalProblem().serviceRecordId());
+				//system.log(medicalProblem().type());
+				//system.log(medicalProblem().description());
+				//system.log(medicalProblem().onsetDate());
+				//system.log(medicalProblem().resolutionDate());
+				backend.saveMedicalProblem(medicalProblem().id(), medicalProblem()).complete(function(data) {
+					medicalProblem().onsetDate(form.uiDate(medicalProblem().onsetDate()));
+					medicalProblem().resolutionDate(form.uiDate(medicalProblem().resolutionDate()));
+				});
+			}
 		},
 		medicalProblemsCancel: function(data) {
 			medicalProblem(tempMedicalProblem());

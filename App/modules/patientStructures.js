@@ -299,20 +299,26 @@ define(function(require) {
 	// Medical Problem
 	patient.prototype.MedicalProblem = function(data) {
 		if (data != null) {
-			this.id				 = ko.observable(data.id);
-			this.serviceRecordId = ko.observable(data.service_record_id);
-			this.type			 = ko.observable(data.type);
-			this.description	 = ko.observable(data.description);
-			this.onsetDate		 = ko.observable(data.onset_date);
-			this.resolutionDate	 = ko.observable(data.resolution_date);
+			this.id				   = ko.observable(data.id);
+			this.serviceRecordId   = ko.observable(data.service_record_id);
+			this.type			   = ko.observable(data.type);
+			this.description	   = ko.observable(data.description);
+			this.onsetDate		   = ko.observable(data.onset_date);
+			this.onsetUnknown	   = ko.observable(data.onset_unknown);
+			this.resolutionDate	   = ko.observable(data.resolution_date);
+			this.resolutionUnknown = ko.observable(data.resolution_unknown);
+			this.notApplicable	   = ko.observable(data.not_applicable);
 		}
 		else {
-			this.id				 = ko.observable();
-			this.serviceRecordId = ko.observable();
-			this.type			 = ko.observable('');
-			this.description	 = ko.observable();
-			this.onsetDate		 = ko.observable();
-			this.resolutionDate	 = ko.observable();
+			this.id				   = ko.observable();
+			this.serviceRecordId   = ko.observable();
+			this.type			   = ko.observable('');
+			this.description	   = ko.observable();
+			this.onsetDate		   = ko.observable();
+			this.onsetUnknown	   = ko.observable();
+			this.resolutionDate	   = ko.observable();
+			this.resolutionUnknown = ko.observable();
+			this.notApplicable	   = ko.observable();
 		}
 	}
 	

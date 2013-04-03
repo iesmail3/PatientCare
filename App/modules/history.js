@@ -47,8 +47,9 @@ define(function(require) {
 	// Get Medical Problems for a Single Service Record
 	history.prototype.getMedicalProblems = function(patientId, practiceId, date) {
 		var self = this;
-		var fields = ['medical_problem.id', 'medical_problem.service_record_id', 'medical_problem.type', 'medical_problem.description',
-			'medical_problem.onset_date', 'medical_problem.resolution_date'];
+		var fields = ['medical_problem.id', 'medical_problem.service_record_id', 'medical_problem.type',
+			'medical_problem.description', 'medical_problem.onset_date', 'medical_problem.onset_unknown',
+			'medical_problem.resolution_date', 'medical_problem.resolution_unknown', 'medical_problem.not_applicable'];
 		
 		return self.query({
 			mode: 'select',
@@ -112,6 +113,28 @@ define(function(require) {
 		});
 	}
 	
+	history.prototype.saveMedicalProblem = function(id, data) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'type', 'description', 'onset_date', 'resolution_date'];
+		
+		var values = $.map(data, function(k,v) {
+			if(k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return[k()];
+			}
+		});
+		
+		return self.query({
+			mode: 'update',
+			table: 'medical_problem',
+			fields: fields,
+			values: values,
+			where: "WHERE id='" + id + "'"
+		});
+	}
+	
 	// Add a Review of System
 	history.prototype.addReviewOfSystem = function(patientId, practiceId, date, data) {
 		var self = this;
@@ -145,6 +168,28 @@ define(function(require) {
 				fields: fields,
 				values: values
 			});
+		});
+	}
+	
+	history.prototype.addMedicalProblem = function(data) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'type', 'description', 'onset_date',
+			'onset_unknown', 'resolution_date', 'resolution_unknown', 'not_applicable'];
+		
+		var values = $.map(data, function(k,v) {
+			if(k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		
+		return self.query({
+			mode: 'insert',
+			table: 'medical_problem',
+			fields: fields,
+			values: values
 		});
 	}
 	
