@@ -46,6 +46,9 @@ if(isset($_GET['order']))
 $limit = "";
 if(isset($_GET['limit']))
 	$limit  = $_GET['limit'];
+$join = "";
+if(isset($_GET['join']))
+	$join  = $_GET['join'];
 
 /***************************************************************************************************
  *  Database Parameters
@@ -65,8 +68,8 @@ try {
 	// If Select is chosen
 	if(strtolower($mode) == 'select') {
 		// Compile query
-		$query = "SELECT $fields FROM $table $where $group $order $limit";
-		
+		$query = "SELECT $fields FROM $table $join $where $group $order $limit";
+		//echo $query;
 		// Create query statement to run
 		$stmt = $db->query($query);
 		// Fetch method
@@ -87,13 +90,12 @@ try {
 				$values = array_values($values);
 			}
 		}
-		
 		// Create nameholders
 		$nameholders = "(";
 		$fieldString = "(";
 		foreach($fields as $field) {
 			$nameholders .= ":$field,";
-			$fieldString .= "$field,";
+			$fieldString .= "`$field`,";
 		}
 		$nameholders = substr_replace($nameholders ,"",-1) . ")";
 		$fieldString = substr_replace($fieldString ,"",-1) . ")";
@@ -104,7 +106,7 @@ try {
 		// Bind parameters
 		for($i = 0; $i < count($fields); $i++) {
 			$stmt->bindParam(":" . $fields[$i], $values[$i]);
-			echo $fields[$i] . " => " . $values[$i] . "<br />";
+			//echo $fields[$i] . " => " . $values[$i] . "<br />";
 		}
 		$stmt->execute();
 		
@@ -144,13 +146,12 @@ try {
 		// Create nameholders
 		$set = "";
 		for($i = 0; $i < count($fields); $i++) {
-			$set .= "{$fields[$i]}='{$values[$i]}', ";
+			$set .= "`{$fields[$i]}`='{$values[$i]}', ";
 		}
 		// Remove last AND
 		$set = substr_replace($set, "", -2, strlen($set));
 		
-		$query = "UPDATE $table SET $set $where";
-		
+		$query = "UPDATE `$table` SET $set $where";
 		// Run Query
 		$stmt = $db->prepare($query);
 		// Bind parameters

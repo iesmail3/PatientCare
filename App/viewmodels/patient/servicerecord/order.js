@@ -17,13 +17,16 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
-	var backend = new Backend();
-	var structures = new Structures();
-	var form = new form();
-	var orders = ko.observableArray([]);
-	var centers = ko.observableArray([]);
-	var practiceId = ko.observable();
+	var backend     = new Backend();
+	var structures  = new Structures();
+	var form        = new form();
+	var orders      = ko.observableArray([]);
+	var centers     = ko.observableArray([]);
+	var serviceDate = ko.observable();
+	var patientId   = ko.observable();
+	var practiceId  = ko.observable();
 	var groupOrders = ko.observableArray([]);
+	var serviceRecord = ko.observable();
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -45,7 +48,10 @@ define(function(require) {
 		orders: orders,
 		centers: centers,
 		form: form,
+		serviceDate: serviceDate,
+		patientId: patientId,
 		practiceId: practiceId,
+		serviceRecord: serviceRecord,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -66,56 +72,22 @@ define(function(require) {
 		activate: function(data) {
 			var self = this;
 			
+			self.patientId(data.patientId);
+			self.serviceDate(data.date);
 			self.practiceId('1');
 			
-			var o = [
-				new structures.Order({
-					id: '1',
-					service_record_id: '1',
-					order_category_id: '1',
-					in_office: 1,
-					assigned_to: 'Mordin Mackelmore',
-					date: '2013-03-01',
-					type: 'Imaging-Radiology',
-					description: 'Chest 2v',
-					comment: "Test comment",
-					center: 'One',
-					instructions: 'INSTRUCTIONS',
-					group: '1'
-				}),
-				new structures.Order({
-					id: '2',
-					service_record_id: '1',
-					order_category_id: '1',
-					in_office: 1,
-					assigned_to: 'Mordin Mackelmore',
-					date: '2013-03-01',
-					type: 'Imaging-Radiology',
-					description: 'Chest 2v',
-					comment: "Test comment",
-					center: 'One',
-					instructions: 'INSTRUCTIONS',
-					group: '2'
-				}),
-				new structures.Order({
-					id: '3',
-					service_record_id: '1',
-					order_category_id: '2',
-					in_office: 1,
-					assigned_to: 'Mordin Mackelmore',
-					date: '2013-03-01',
-					type: 'Imaging-Radiology',
-					description: 'Test',
-					comment: "Test comment",
-					center: 'One',
-					instructions: 'INSTRUCTIONS',
-					group: '1'
-				})
-			];
+			self.backend.getServiceRecord(patientId(), practiceId(), serviceDate()).success(function(data){
+				self.serviceRecord(new self.structures.ServiceRecord(data[0]));
+			}).then(function() {
+				var id = self.serviceRecord().id();
+				self.backend.getOrders(id).success(function(data){
+					var o = $.map(data, function(item) { return new self.structures.Order(item); });
+					system.log(data);
+					self.orders(o);
+				});
+			});
 			
-			self.orders(o);
-			
-			backend.getCenters(self.practiceId()).success(function(data){
+			return backend.getCenters(self.practiceId()).success(function(data){
 				var c = $.map(data, function(item) { return item.center; });
 				self.centers(c);
 			});

@@ -330,6 +330,33 @@ define(function(require) {
 	]);
 	
 	/**************************************************************************************************
+	 * Dates
+	 *************************************************************************************************/
+	form.prototype.uiDate = function(date) {
+		if(date != null || date != undefined) {
+			if(date.indexOf('-') >= 0)
+				return date.substring(5,7) + "/" + date.substring(8,10) + "/" + date.substring(0,4);
+			else
+				return date;
+		}
+		else {
+			return '';
+		}
+	}
+	
+	form.prototype.dbDate = function(date) {
+		if(date != null || date != undefined) {
+			if(date.indexOf('/') >= 0)
+				return date.substring(6,10) + "-" + date.substring(0,2) + "-" + date.substring(3,5);
+			else
+				return date;
+		}
+		else {
+			return '';
+		}
+	}
+	
+	/**************************************************************************************************
 	 * Return class so it is usable.
 	 *************************************************************************************************/
 	return form;

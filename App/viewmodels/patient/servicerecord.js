@@ -1,3 +1,4 @@
+
 /***************************************************************************************************
  * ViewModel:
  * Author(s):
@@ -9,36 +10,32 @@ define(function(require) {
 	 **********************************************************************************************/
 	var system = require('durandal/system');				// System logger
 	var custom = require('durandal/customBindings');		// Custom bindings
-	var Backend = require('modules/patient');				// Backend
-	var Structure = require('modules/patientStructures');	// Structures
+	var Backend = require('modules/servicerecord');			// Backend
+	var Forms = require('modules/form');					// Common form elements
+	var Structures = require('modules/patientStructures');	// Structures
+	var router = require('durandal/plugins/router');		// Router
 	var app = require('durandal/app');
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
+	var form = new Forms();
 	var backend = new Backend();
-	var structure = new Structure();
-	var patient = ko.observable(new structure.Patient());
+	var structures = new Structures();
+	var patient = ko.observable(new structures.Patient());
 	var practiceId = ko.observable();
 	var patientId = ko.observable();
-	var date = ko.observable();
+	var tempRecord = ko.observable(new structures.ServiceRecord());
 	var serviceRecordId = ko.observable();
-	var serviceRecord = ko.observable(new structure.ServiceRecord());
+	var serviceRecord = ko.observable(new structures.ServiceRecord());
 	var serviceRecords = ko.observableArray([]);
-	var physician = ko.observable(new structure.Physician());
 	var physicians = ko.observableArray([]);
-	var dateOfService = ko.observable();
-	var physicianName = ko.observable();
-	var reason = ko.observable();
 	var serviceRecordState = ko.observable(false);
-	var serviceRecordAdd = ko.observable();
-	var serviceRecordSave = ko.observable();
-	var serviceRecordCancel = ko.observable();
 	
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
-
+	
 	/*********************************************************************************************** 
 	 * ViewModel
 	 *
@@ -49,24 +46,19 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
+		form: form,
 		backend: backend,
+		structures: structures,
 		patient: patient,
 		practiceId: practiceId,
 		patientId: patientId,
-		date: date,
+		tempRecord: tempRecord,
 		serviceRecordId: serviceRecordId,
 		serviceRecord: serviceRecord,
 		serviceRecords: serviceRecords,
-		physician: physician,
 		physicians: physicians,
-		dateOfService: dateOfService,
-		physicianName: physicianName,
-		reason: reason,
 		serviceRecordState: serviceRecordState,
-		serviceRecordAdd: serviceRecordAdd,
-		serviceRecordSave: serviceRecordSave,
-		serviceRecordCancel: serviceRecordCancel,
-		
+		router: router,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -90,60 +82,97 @@ define(function(require) {
 			// Get URL parameters
 			self.practiceId('1');
 			self.patientId(data.patientId);
-			self.date(data.date);
-			var view = data.view;
 			
 			var backend = new Backend();
+			// Get the list of Service Records
 			backend.getServiceRecords(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
-					var serviceRecordEntry = $.map(data, function(item) {return new structure.ServiceRecord(item)});
-					self.serviceRecords(serviceRecordEntry);
+					var s = $.map(data, function(item) {
+						item.date = form.uiDate(item.date)
+						// Temporary fix for null names
+						if (item.first_name == null || item.first_name == undefined)
+							item.first_name = '';
+						if (item.last_name == null || item.last_name == undefined)
+							item.last_name = '';
+						return new structures.ServiceRecord(item)
+					});
+					self.serviceRecords(s);
 				}
 			});
 			
+			// Get a list of Physicians
 			backend.getPhysicians(self.practiceId()).success(function(data) {
 				if(data.length > 0) {
-					var physicianEntry = $.map(data, function(item) {return new structure.Physician(item)});
-					self.physicians(physicianEntry);
+					var p = $.map(data, function(item) {
+						var name = item.first_name + " " + item.last_name;
+						return {'value' : item.id, 'text' : name};
+					});
+					self.physicians(p);
 				}
 			});
 			
+			// Get the Patient information
 			return backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
-					var p = new structure.Patient(data[0]);
+					var p = new structures.Patient(data[0]);
+					p.dob(form.uiDate(p.dob()));
 					self.patient(p);
 				}
 			});
 		},
 		setFields: function(data) {
 			if (!serviceRecordState()) {
-				dateOfService(data.date());
-				physicianName(data.physicianId());
-				reason(data.reason());
+				serviceRecord(data);
+				serviceRecordId(data.id());
 			}
 		},
-		serviceRecordAdd: function() {
-			var self = this;
-			self.dateOfService('');
-			self.physicianName('');
-			self.reason('');
+		serviceRecordNew: function(data) {
+			tempRecord(serviceRecord());
+			serviceRecord(new structures.ServiceRecord());
 			serviceRecordState(true);
 		},
 		serviceRecordSave: function(data) {
-			var self = this;
-			// Add
+			// New
 			if (serviceRecordState()) {
-				console.log(data);
+				serviceRecord().practiceId(practiceId());
+				serviceRecord().patientId(patientId());
+				
+				// Check if date already exists
+				var newDate = true;
+				$.each(serviceRecords(), function(k, v) {
+					if (serviceRecord().date() == v.date())
+						newDate = false;
+				});
+				
+				if (newDate) {
+					serviceRecords.push(serviceRecord());
+					serviceRecord().date(form.dbDate(serviceRecord().date()));
+					backend.addServiceRecord(serviceRecord()).success(function(data) {
+						// Add a Service Record.
+					});
+					backend.addCheckout(patientId(), practiceId(), serviceRecord().date()).success(function(data) {
+						// Add a Checkout for each Service Record
+					});
+					backend.addFollowUp(patientId(), practiceId(), serviceRecord().date()).success(function(data) {
+						router.navigateTo('#/patient/servicerecord/serviceview/' + patientId() + '/' + serviceRecord().date());
+					});
+				}
+				else {
+					return app.showMessage(
+					'A service record for ' + serviceRecord().date() + ' already exists.')
+				}
 			}
 			// Update
 			else {
+				serviceRecord().date(form.dbDate(serviceRecord().date()));
+				backend.saveServiceRecord(serviceRecordId(), serviceRecord()).complete(function(data) {
+					serviceRecord().date(form.uiDate(serviceRecord().date()));
+				});
 			}
 		},
 		serviceRecordCancel: function() {
-			var self = this;
-			self.dateOfService('');
-			self.physicianName('');
-			self.reason('');
+			serviceRecord(new structures.ServiceRecord()); // Can remove this.
+			serviceRecord(tempRecord());
 			serviceRecordState(false);
 		},
 		deleteServiceRecord: function(item) {
@@ -153,14 +182,13 @@ define(function(require) {
 				['Yes', 'No'])
 			.done(function(answer){
 				if(answer == 'Yes') {
-					console.log(answer);
 					backend.deleteServiceRecord(item.id()).complete(function(data) {
 						if(data.responseText == 'fail') {
-							console.log("failed");
 							app.showMessage('The service record could not be deleted.', 'Deletion Error');
 						}
 						else {
 							serviceRecords.remove(item);
+							location.reload();
 						}
 					});
 				}

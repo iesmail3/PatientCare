@@ -4,6 +4,7 @@ define(function(require) {
 	var Structures = require('modules/patientStructures');
 	var backend = new Backend();
 	var structures = new Structures();
+	var u = require('../../Scripts/underscore');
 	var self;
 	
 	var Order = function(order, centers, orders, groupOrders, orderTypes, practiceId, title, options) {
@@ -26,10 +27,11 @@ define(function(require) {
 	
 	Order.prototype.selectOption = function(dialogResult) {
 		if(dialogResult == 'Save') {
+			// Save orders
+			// Add new orders			
 			$.each(self.groupOrders(), function(k, v) {
 				if($.inArray(v, self.oldGroup) == -1) {
-					self.orders.push(new structures.Order({
-						id: '2',
+					var o = new structures.Order({
 						service_record_id: self.order().serviceRecordId(),
 						order_category_id: v,
 						description: self.orderCategories()[k].description(),
@@ -41,8 +43,32 @@ define(function(require) {
 						comment: self.order().comment(),
 						center: self.order().center(),
 						group: self.order().group()									
-					}));
+					});
+					
+					// Add to array
+					self.orders.push(o);		
+					backend.saveOrder(o, "insert");
 				}
+			});
+			
+			// Update old orders
+			var old = _.intersection(self.oldGroup, self.groupOrders());
+			$.each(old, function(k, v) {
+				var o = new structures.Order({
+						id: self.order().id(),
+						service_record_id: self.order().serviceRecordId(),
+						order_category_id: v,
+						description: self.orderCategories()[k].description(),
+						in_office: self.order().inOffice(),
+						instructions: self.order().instructions(),
+						assigned_to: self.order().assignedTo(),
+						date: self.order().date(),
+						type: self.order().type(),
+						comment: self.order().comment(),
+						center: self.order().center(),
+						group: self.order().group()									
+					});
+				backend.saveOrder(o, "update");
 			});
 		}
 				
