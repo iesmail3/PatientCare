@@ -404,11 +404,13 @@ define(function(require) {
 			this.id			 = ko.observable(data.id);
 			this.description = ko.observable(data.description);
 			this.unit		 = ko.observable(data.unit);
+			this.times		 = ko.observable(0);
 		}
 		else {
 			this.id			 = ko.observable();
 			this.description = ko.observable();
 			this.unit		 = ko.observable();
+			this.times       = ko.observable(0);
 		}
 	}
 	

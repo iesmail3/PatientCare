@@ -100,6 +100,17 @@ legend {
 	height: 450px;
 	overflow-y: auto;
 }
+
+.mainOrderTableHolder tr,
+.orderTableHolder tr,
+.officeTableHolder tr {
+	cursor: default;
+}
+
+.orderForm a {
+	cursor: pointer;
+}
+
 .orderTable td div {
 	width: 15px;
 	margin: auto;
@@ -133,4 +144,19 @@ legend {
 .modal-body {
 	max-height: none;
 	min-height: 400px;
+}
+
+.officeTableHolder {
+	height: 400px;
+	overflow-y: auto;
+}
+
+.inputCell {
+	padding: 0 !important;
+}
+.inputCell input {
+	padding: 4px;
+	margin: 0px;
+	height: 100%;
+	border: none;
 }

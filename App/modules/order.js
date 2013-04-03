@@ -115,6 +115,24 @@ define(function(require) {
 		});
 	}
 	
+	order.prototype.getOfficeProcedureTypes = function(id) {
+		return this.query({
+			mode: 'select',
+			table: 'office_procedure_type',
+			fields: '*',
+			where: "WHERE practice_id='" + id + "'"
+		});
+	}
+	
+	order.prototype.getOfficeProcedures = function(id) {
+		return this.query({
+			mode: 'select',
+			table: 'office_procedure',
+			fields: '*',
+			where: "WHERE order_id='" + id + "'"
+		});
+	}
+		
 	/**********************************************************************************************
 	 * Save Methods
 	 * 
@@ -212,9 +230,6 @@ define(function(require) {
 				return [k()];
 		});
 		
-		for(var i = 0; i < fields.length; i++)
-			system.log(values[0] + " : " + fields[i] + " - " + values[i]);
-		
 		if(method == "update") {
 			self.query({
 				mode: 'update',
@@ -229,6 +244,39 @@ define(function(require) {
 			self.query({
 				mode: 'insert', 
 				table: 'orders',
+				fields: fields, 
+				values: values
+			});
+		}
+	}
+	
+	order.prototype.saveOfficeProcedure = function(data, method) {
+		var self = this;
+		var fields = ['id', 'order_id', 'office_procedure_type_id', 'times'];
+		var values = $.map(data, function(k,v) {
+			if(v == 'description') 
+				return null;
+			if(k() == null || k() == undefined) {
+				return [''];
+			}
+			else
+				return [k()];
+		});
+		
+		if(method == "update") {
+			self.query({
+				mode: 'update',
+				table: 'orders',
+				fields: fields,
+				values: values,
+				where: "Where `group`='" + data.group() + "' AND `order_category_id`='" 
+				+ data.orderCategoryId() + "'"
+			});
+		}
+		else {
+			self.query({
+				mode: 'insert', 
+				table: 'office_procedure',
 				fields: fields, 
 				values: values
 			});

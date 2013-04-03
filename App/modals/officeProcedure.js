@@ -7,50 +7,41 @@ define(function(require) {
 	var u = require('../../Scripts/underscore');
 	var self;
 	
-	var OfficeProcedure = function(practiceId, title, options) {
+	var OfficeProcedure = function(practiceId, orderId, procedures, title, options) {
+		self = this;
 		this.practiceId = practiceId;
+		this.orderId = orderId;
+		this.procedures = procedures;
+		this.ids = _.pluck(procedures, 'id');
+		this.oldIds = $.map(this.ids, function(x) { return x }); 
 		this.title = title || OfficeProcedure.defaultTitle;
 		this.options = options || OfficeProcedure.defaultOptions;
-		this.officeProcedures = ko.observableArray([]);
-		system.log(this.practiceId);
-		//this.updateOfficeProcedures(this.practiceId);
+		this.officeProcedureTypes = ko.observableArray([]);
+		// Populate table
+		this.updateOfficeProcedureTypes(this.practiceId);
+		
 	};
 	
 	OfficeProcedure.prototype.selectOption = function(dialogResult) {
-		/*if(dialogResult == 'Save') {
+		if(dialogResult == 'Save') {
 			// Save orders
 			// Add new orders			
-			$.each(self.groupOfficeProcedures(), function(k, v) {
-				if($.inArray(v, self.oldGroup) == -1) {
-					// Filter the categories to find the correct one
-					var cat = _.filter(self.orderCategories(), function(x) {
+			$.each(self.ids, function(k, v) {
+				if($.inArray(v, self.oldIds) == -1) {
+					// Filter the office procedures to find new ones
+					var o = _.filter(self.officeProcedureTypes(), function(x) {
 						return x.id() == v;
 					});
-					// Grab the description
-					var description = cat[0].description();
-					// Date
-					date = new Date();
-					date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-					var o = new structures.OfficeProcedure({
-						service_record_id: self.serviceRecordId,
-						order_category_id: v,
-						description: description,
-						in_office: self.order().inOffice(),
-						instructions: self.order().instructions(),
-						assigned_to: self.order().assignedTo(),
-						date: date,
-						type: self.order().type(),
-						comment: self.order().comment(),
-						center: self.order().center(),
-						group: self.order().group()									
+					var procedure = o[0];
+					o = new structures.OfficeProcedure({
+						order_id: self.orderId,
+						office_procedure_type_id: procedure.id(),
+						times: procedure.times()								
 					});
-					
-					// Add to array
-					self.orders.push(o);		
 					backend.saveOfficeProcedure(o, "insert");
 				}
 			});
-	
+	/*
 			// Update old orders
 			var old = _.intersection(self.oldGroup, self.groupOfficeProcedures());
 			$.each(old, function(k, v) {
@@ -69,16 +60,23 @@ define(function(require) {
 					});
 				backend.saveOfficeProcedure(o, "update");
 			});
-			
+		*/	
 		}
-		*/
+		
 		this.modal.close(dialogResult);
-	};
+	}
 	
-	OfficeProcedure.prototype.updateOfficeProcedures = function(data) {
-		backend.getOfficeProcedureTypes(self.practiceId, data.type()).success(function(data){
-			var o = $.map(data, function(item){ return new structures.OfficeProcedure(item); });
-			self.officeProcedures(o);
+	OfficeProcedure.prototype.updateOfficeProcedureTypes = function(data) {
+		backend.getOfficeProcedureTypes(self.practiceId).success(function(data){
+			var o = $.map(data, function(item){ return new structures.OfficeProcedureType(item); });
+			self.officeProcedureTypes(o);
+			
+			// Add times to the selected times
+			$.each(self.officeProcedureTypes(), function(k, v) {
+				var i = self.ids.indexOf(v.id());
+				if(i >= 0)
+					v.times(self.procedures[i].times);
+			})
 		});
 	}
 	

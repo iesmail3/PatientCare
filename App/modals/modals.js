@@ -11,9 +11,9 @@ define(function(require) {
 						  serviceRecordId, title, options)
 			);
 		},
-		showOfficeProcedure: function(practiceId, title, options) {
+		showOfficeProcedure: function(practiceId, orderId, procedures, title, options) {
 			return modalDialog.show(
-				new OfficeProcedure(practiceId, title, options)
+				new OfficeProcedure(practiceId, orderId, procedures, title, options)
 			);
 		}
 	};

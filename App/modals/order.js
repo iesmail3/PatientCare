@@ -95,7 +95,12 @@ define(function(require) {
 	
 	Order.prototype.goToDrugs = function(data) {
 		var modal = require('modals/modals');
-		modal.showOfficeProcedure(self.practiceId, 'Office Procedures');
+		backend.getOfficeProcedures(self.order().id()).success(function(data) {
+			var op = $.map(data, function(item) { 
+				return {id: item.id, times: item.times}
+			});
+			modal.showOfficeProcedure(self.practiceId, self.order().id(), op, 'Office Procedures');
+		})
 	}
 	
 	Order.defaultTitle = '';
