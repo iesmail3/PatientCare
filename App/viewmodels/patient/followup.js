@@ -238,9 +238,11 @@ define(function(require) {
 			backend.getSuperBill().success(function(data) { 
 				system.log('inside superbill'); 
 				if(data.length > 0) {
+				system.log('inside if statement'); 
 					 var p = $.map(data, function(item) {return new structures.Superbill(item) }); 
 					 self.superBills(p);
 					 self.superBill(p[0]);
+					 system.log('date is ' + superBill().date()); 
 				} 
 			});
 			
@@ -326,7 +328,7 @@ define(function(require) {
 			showAssigned(true);  
 		},
 		 phoneLogAdd: function() { 
-				phoneLogState(false);
+			   phoneLogState(false);
 			   tempPhoneLog(phoneLog());
                phoneLog(new structures.PhoneLog());
 			   showAssigned(false); 
@@ -446,10 +448,27 @@ define(function(require) {
 			*/
 	},
 	savePhoneLog: function(data) { 
-		phoneLog().datetime(form.dbDate(phoneLog().datetime()));
-	    system.log('inside save method'); 
-		backend.savePhoneLog(patientId(),practiceId(),phoneLog()); 
-		showAssigned(true);
+	   
+			//check if id already exist 
+			var newId = true; 
+			$.each(phoneLogs(), function(k, v) {
+			   system.log('v.id() is ' + v.id()); 
+						if (phoneLog().id() == v.id())
+							newId = false;
+			});
+			if(newId) {
+				phoneLogs().push(phoneLog()); 
+				phoneLog().datetime(form.dbDate(phoneLog().datetime()));
+				system.log('inside new'); 
+				backend.savePhoneLog(patientId(),practiceId(),phoneLog()); 
+				showAssigned(true);
+			}
+			else {
+					phoneLog().datetime(form.dbDate(phoneLog().datetime()));
+					system.log('inside update'); 
+					backend.savePhoneLog(patientId(),practiceId(),phoneLog()); 
+					showAssigned(true);		 
+			}
 	} 
  }
 });

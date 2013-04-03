@@ -1,181 +1,181 @@
 <div class="messageBox superBox">
-<div class="modal-header">
-	 <h3 data-bind="html: title"></h3>
-</div>
-<div class="modal-body">
-		<div class="row-fluid">
-		<form class="orderForm">
+	<div class="modal-header">
+		 <h3 data-bind="html: title"></h3>
+	</div>
+	<div class="modal-body">
 			<div class="row-fluid">
-				<div class="marginBottom5">
-					<select class="">
-						<option value="">Visit Type</option> 
-						<option value="">Office Visit</option>
-					</select>
-					<select class="offset2">
-						<option value="">level of Service</option> 
-						<option value=""></option>
-					</select>	
+			<form class="orderForm">
+				<div class="row-fluid">
+					<div class="marginBottom5">
+						<select class="">
+							<option value="">Visit Type</option> 
+							<option value="">Office Visit</option>
+						</select>
+						<select class="offset2">
+							<option value="">level of Service</option> 
+							<option value=""></option>
+						</select>	
+					</div>
+					<div class="marginBottom5">
+						<input type="text" class="input-medium" placeholder="code"/>
+						<input type="text" class="input-medium offset2" placeholder="code"/>
+					</div>
+					<div class="marginBottom5 pull-right">
+						<label class="checkbox inline">
+							<input type="checkbox"/>
+							<span>Is&nbsp;Complete&nbsp;?</span>
+						</label>
+						<button type="button" class="btn btn-small btn-primary">Save</button>
+						<button type="button" class="btn btn-small btn-primary">HCFA</button>
+					</div>
 				</div>
-				<div class="marginBottom5">
-					<input type="text" class="input-medium" placeholder="code"/>
-					<input type="text" class="input-medium offset2" placeholder="code"/>
-				</div>
-				<div class="marginBottom5 pull-right">
-					<label class="checkbox inline">
-						<input type="checkbox"/>
-						<span>Is&nbsp;Complete&nbsp;?</span>
-					</label>
-					<button type="button" class="btn btn-small btn-primary">Save</button>
-					<button type="button" class="btn btn-small btn-primary">HCFA</button>
-				</div>
-		    </div>
-		</form>   
-        </div>
+			</form>   
+			</div>
+			<div class="row-fluid">
+				<fieldset>
+					<legend>Diagnosis</legend>
+					<a class="pull-right">Modify</a>
+					<table class="table table-bordered table-hover">
+							<thead>
+								<tr>       
+									<th>Diagnosis</th>   
+									<th>ICD Code</th>
+								</tr>
+							</thead> 
+							<tbody>     
+								<tr>  
+									<td></td>
+									<td></td> 
+								</tr> 
+							</tbody> 
+					</table> 
+				</fieldset>
+			</div>
+		<!-- Left Column -->
 		<div class="row-fluid">
-			<fieldset>
-				<legend>Diagnosis</legend>
-				<a class="pull-right">Modify</a>
-				<table class="table table-bordered table-hover">
-						<thead>
-							<tr>       
-								<th>Diagnosis</th>   
-								<th>ICD Code</th>
-							</tr>
-						</thead> 
-						<tbody>     
-							<tr>  
-								<td></td>
-								<td></td> 
-							</tr> 
-						</tbody> 
-				</table> 
-			</fieldset>
-		</div>
-	<!-- Left Column -->
-	<div class="row-fluid">
-		<div class="span5">
-		   <div class="marginBottom5">
-			<fieldset>
-				<legend>Procedure</legend>
-				<a class="pull-right">Modify</a>
-				<table class="table table-bordered table-hover">
-						<thead>
-							<tr>       
-								<th>Procedure</th>   
-								<th>Description</th>
-								<th>Code</th>
-								<th>Times</th>
-							</tr>
-						</thead> 
-						<tbody>     
-							<tr>  
-								<td></td>
-								<td></td> 
-								<td></td> 
-								<td></td> 
-							</tr> 
-						</tbody> 
-				</table> 
-			</fieldset>
-		   </div>
-		    <div class="marginBottom5">
-			<fieldset>
-				<legend>Orders</legend>
-				<a class="pull-right">Modify</a>
-				<table class="table table-bordered table-hover">
-						<thead>
-							<tr>       
-								<th>Order</th>   
-								<th>Description</th>
-								<th>Code</th>
-							</tr>
-						</thead> 
-						<tbody>     
-							<tr>  
-								<td></td>
-								<td></td> 
-								<td></td> 
-							</tr> 
-						</tbody> 
-				</table> 
-			</fieldset>
-		    </div>
-	    </div>
-		<div class="offset1 span5">
-			<div class="marginBottom5">
+			<div class="span5">
+			   <div class="marginBottom5">
 				<fieldset>
-					<legend>Drugs</legend>
+					<legend>Procedure</legend>
+					<a class="pull-right">Modify</a>
 					<table class="table table-bordered table-hover">
 							<thead>
 								<tr>       
-									<th>Description</th>   
+									<th>Procedure</th>   
+									<th>Description</th>
 									<th>Code</th>
-									<th>Unit</th>
-									<th>Dose</th>
+									<th>Times</th>
 								</tr>
 							</thead> 
 							<tbody>     
 								<tr>  
 									<td></td>
 									<td></td> 
-									<td></td>
+									<td></td> 
 									<td></td> 
 								</tr> 
 							</tbody> 
 					</table> 
 				</fieldset>
+			   </div>
+				<div class="marginBottom5">
+				<fieldset>
+					<legend>Orders</legend>
+					<a class="pull-right">Modify</a>
+					<table class="table table-bordered table-hover">
+							<thead>
+								<tr>       
+									<th>Order</th>   
+									<th>Description</th>
+									<th>Code</th>
+								</tr>
+							</thead> 
+							<tbody>     
+								<tr>  
+									<td></td>
+									<td></td> 
+									<td></td> 
+								</tr> 
+							</tbody> 
+					</table> 
+				</fieldset>
+				</div>
 			</div>
-			<div class="marginBottom5">
-				<fieldset>
-					<legend>Office Orders</legend>
-					<table class="table table-bordered table-hover">
-							<thead>
-								<tr>       
-									<th>Description</th>   
-									<th>Code</th>
-									<th>Unit</th>
-									<th>Quantity</th>
-								</tr>
-							</thead> 
-							<tbody>     
-								<tr>  
-									<td></td>
-									<td></td> 
-									<td></td>
-									<td></td> 
-								</tr> 
-							</tbody> 
-					</table> 
-				</fieldset>
-			</div>
-			<div class="marginBottom5">
-				<fieldset>
-					<legend>Supplies</legend>
-					<table class="table table-bordered table-hover">
-							<thead>
-								<tr>       
-									<th>Description</th>   
-									<th>Code</th>
-									<th>Unit</th>
-									<th>Quantity</th>
-								</tr>
-							</thead> 
-							<tbody>     
-								<tr>  
-									<td></td>
-									<td></td> 
-									<td></td>
-									<td></td> 
-								</tr> 
-							</tbody> 
-					</table> 
-				</fieldset>
+			<div class="offset1 span5">
+				<div class="marginBottom5">
+					<fieldset>
+						<legend>Drugs</legend>
+						<table class="table table-bordered table-hover">
+								<thead>
+									<tr>       
+										<th>Description</th>   
+										<th>Code</th>
+										<th>Unit</th>
+										<th>Dose</th>
+									</tr>
+								</thead> 
+								<tbody>     
+									<tr>  
+										<td></td>
+										<td></td> 
+										<td></td>
+										<td></td> 
+									</tr> 
+								</tbody> 
+						</table> 
+					</fieldset>
+				</div>
+				<div class="marginBottom5">
+					<fieldset>
+						<legend>Office Orders</legend>
+						<table class="table table-bordered table-hover">
+								<thead>
+									<tr>       
+										<th>Description</th>   
+										<th>Code</th>
+										<th>Unit</th>
+										<th>Quantity</th>
+									</tr>
+								</thead> 
+								<tbody>     
+									<tr>  
+										<td></td>
+										<td></td> 
+										<td></td>
+										<td></td> 
+									</tr> 
+								</tbody> 
+						</table> 
+					</fieldset>
+				</div>
+				<div class="marginBottom5">
+					<fieldset>
+						<legend>Supplies</legend>
+						<table class="table table-bordered table-hover">
+								<thead>
+									<tr>       
+										<th>Description</th>   
+										<th>Code</th>
+										<th>Unit</th>
+										<th>Quantity</th>
+									</tr>
+								</thead> 
+								<tbody>     
+									<tr>  
+										<td></td>
+										<td></td> 
+										<td></td>
+										<td></td> 
+									</tr> 
+								</tbody> 
+						</table> 
+					</fieldset>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-</div>
-<div class="modal-footer" data-bind="foreach: options">
-	<button class="btn" data-bind="click: function() { $parent.selectOption($data); }, 
-		html: $data, css: {'btn-primary': $index() == 0, autofocus: $index() == 0, 'btn-danger': $data == 'Cancel'}"></button>
+	<div class="modal-footer" data-bind="foreach: options">
+		<button class="btn" data-bind="click: function() { $parent.selectOption($data); }, 
+			html: $data, css: {'btn-primary': $index() == 0, autofocus: $index() == 0, 'btn-danger': $data == 'Cancel'}"></button>
+	</div>
 </div>
