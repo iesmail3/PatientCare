@@ -42,27 +42,26 @@ define(function(require) {
 	patient.prototype.Checkout = function(data) {
 		if (data != null) {
 			this.id					  = ko.observable(data.id);
+			this.practiceId    		  = ko.observable(data.practice_id); 
 			this.patientId			  = ko.observable(data.patient_id);
-			this.primaryInsurance	  = ko.observable(data.primary_insurance);
-			this.secondaryInsurance	  = ko.observable(data.secondary_insurance);
-			this.otherInsurance		  = ko.observable(data.other_insurance);
 			this.date				  = ko.observable(data.date);
 			this.copayAmount		  = ko.observable(data.copay_amount);
 			this.otherCopay			  = ko.observable(data.other_copay);
 			this.additionalCharges	  = ko.observable(data.additional_charges);
-			this.editAdditionalCharge = ko.observable(data.edit_additional_charge);
+			this.editAdditionalCharge = ko.observable((data.edit_additional_charge == 1 ? true : false));
 			this.insurancePortion	  = ko.observable(data.insurance_portion);
 			this.totalReceivable	  = ko.observable(data.total_receivable);
 			this.totalPayment		  = ko.observable(data.total_payment);
 			this.balance			  = ko.observable(data.balance);
 			this.comment			  = ko.observable(data.comment);
+			this.primaryInsurance     = ko.observable((data.primary_insurance == 1 ? true : false));
+			this.secondaryInsurance	  = ko.observable((data.secondary_insurance == 1 ? true : false));
+			this.otherInsurance		  = ko.observable((data.other_insurance == 1 ? true : false));
 		}
 		else {
 			this.id					  = ko.observable();
 			this.patientId			  = ko.observable();
-			this.primaryInsurance	  = ko.observable();
-			this.secondaryInsurance	  = ko.observable();
-			this.otherInsurance		  = ko.observable();
+			this.practiceId 		  = ko.observable(); 
 			this.date				  = ko.observable();
 			this.copayAmount		  = ko.observable();
 			this.otherCopay			  = ko.observable();
@@ -73,7 +72,11 @@ define(function(require) {
 			this.totalPayment		  = ko.observable();
 			this.balance			  = ko.observable();
 			this.comment			  = ko.observable();
+			this.primaryInsurance	  = ko.observable();
+			this.secondaryInsurance	  = ko.observable();
+			this.otherInsurance		  = ko.observable();
 		}
+		
 	}
 	
 	// Diagnostic Center
@@ -87,6 +90,22 @@ define(function(require) {
 			this.center     = ko.observable();
 		}
 		
+	}
+	
+	//Diagnosis
+	patient.prototype.Diagnosis = function(data) { 
+		if(data!= null) { 
+			this.id					= ko.observable(data.id); 
+			this.serviceRecordId	= ko.observable(data.service_record_id); 
+			this.diagnosis			= ko.observable(data.diagnosis); 
+			this.code				= ko.observable(data.code); 
+		}
+		else {
+			this.id 				= ko.observable(); 
+			this.serviceRecordId	= ko.observable(); 
+			this.diagnosis			= ko.observable(); 
+			this.code				= ko.observable(); 
+		}
 	}
 	
 	// Document
@@ -173,12 +192,14 @@ define(function(require) {
 	
 	// Follow Up
 	patient.prototype.Followup = function(data) {
+		var self = this; 
 		if (data != null) {
 			this.id			 = ko.observable(data.id);
 			this.patientId	 = ko.observable(data.patient_id);
+			this.serviceRecordId   = ko.observable(data.service_record_id); 
 			this.type		 = ko.observable(data.type);
-			this.value		 = ko.observable(data.value);
-			this.unit		 = ko.observable(data.unit);
+			this.value		 = ko.observable(data.value).extend({required: true});
+			this.unit		 = ko.observable(data.unit).extend({required: true});
 			this.comment	 = ko.observable(data.comment);
 			this.serviceDate = ko.observable(data.service_date);
 			this.plan		 = ko.observable(data.plan);
@@ -186,13 +207,16 @@ define(function(require) {
 		else {
 			this.id			 = ko.observable();
 			this.patientId	 = ko.observable();
+			this.serviceRecordId = ko.observable(); 
 			this.type		 = ko.observable();
-			this.value		 = ko.observable();
-			this.unit		 = ko.observable();
+			this.value		 = ko.observable().extend({required: true});
+			this.unit		 = ko.observable().extend({required: true});
 			this.comment	 = ko.observable();
 			this.serviceDate = ko.observable();
 			this.plan		 = ko.observable();
 		}
+		
+		self.errors = ko.validation.group(self, {messagesOnModified: false});
 	}
 	
 	// Guarantor
@@ -480,8 +504,8 @@ define(function(require) {
 			this.idNumber			  = ko.observable(data.id_number);
 			this.idType				  = ko.observable(data.id_type);
 			this.firstName			  = ko.observable(data.first_name).extend({required: true});
-			this.middleName			  = ko.observable(data.middle_name);
-			this.lastName			  = ko.observable(data.last_name);
+			this.middleName			  = ko.observable(data.middle_name).extend({required: true});;
+			this.lastName			  = ko.observable(data.last_name).extend({required: true});;
 			this.address			  = ko.observable(data.address);
 			this.city				  = ko.observable(data.city);
 			this.state				  = ko.observable(data.state);
@@ -564,20 +588,22 @@ define(function(require) {
 	
 	// Payment Method
 	patient.prototype.PaymentMethod = function(data) {
+		var self = this; 
 		if (data != null) {
 			this.id			 = ko.observable(data.id);
 			this.checkoutId	 = ko.observable(data.checkout_id);
-			this.mode		 = ko.observable(data.mode);
-			this.particulars = ko.observable(data.particulars);
-			this.amount		 = ko.observable(data.amount);
+			this.mode		 = ko.observable(data.mode).extend({required: true});
+			this.particulars = ko.observable(data.particulars).extend({required: true});
+			this.amount		 = ko.observable(data.amount).extend({required: true});
 		}
 		else {
-			this.id			 = ko.observable();
-			this.checkoutId	 = ko.observable();
-			this.mode		 = ko.observable();
-			this.particulars = ko.observable();
-			this.amount		 = ko.observable();
+			this.id			 = ko.observable('');
+			this.checkoutId	 = ko.observable('');
+			this.mode		 = ko.observable('').extend({required: true});
+			this.particulars = ko.observable('').extend({required: true});
+			this.amount		 = ko.observable('').extend({required: true});
 		}
+		self.errors = ko.validation.group(self, {messagesOnModified: false});
 	}
 	
 	// Physical Examination: Abd
@@ -833,6 +859,7 @@ define(function(require) {
 		if (data != null) {
 			this.id			    = ko.observable(data.id);
 			this.patientId	    = ko.observable(data.patient_id);
+			this.practiceId     = ko.observable(data.practice_id);
 			this.datetime	    = ko.observable(data.datetime);
 			this.caller		    = ko.observable(data.caller);
 			this.attendedBy	    = ko.observable(data.attended_by);
@@ -844,6 +871,7 @@ define(function(require) {
 		else {
 			this.id			    = ko.observable();
 			this.patientId	    = ko.observable();
+			this.practiceid     = ko.observable(); 
 			this.datetime	    = ko.observable();
 			this.caller		    = ko.observable();
 			this.attendedBy	    = ko.observable();
@@ -1112,6 +1140,8 @@ define(function(require) {
 			this.levelOfService  = ko.observable(data.level_of_service);
 			this.serviceCode	 = ko.observable(data.service_code);
 			this.isComplete		 = ko.observable(data.is_complete);
+			this.comment         = ko.observable(data.physical_examination_comment); 
+			this.date            = ko.observable(data.date); 
 		}
 		else {
 			this.serviceRecordId = ko.observable();
@@ -1120,6 +1150,8 @@ define(function(require) {
 			this.levelOfService  = ko.observable();
 			this.serviceCode	 = ko.observable();
 			this.isComplete		 = ko.observable();
+			this.comment         = ko.observable(); 
+			this.date            = ko.observable(); 
 		}
 	}
 	
