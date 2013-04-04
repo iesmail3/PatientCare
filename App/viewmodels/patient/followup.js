@@ -236,13 +236,13 @@ define(function(require) {
 			}); 
 			
 			backend.getSuperBill().success(function(data) { 
-				system.log('inside superbill'); 
+				//system.log('inside superbill'); 
 				if(data.length > 0) {
-				system.log('inside if statement'); 
+				//system.log('inside if statement'); 
 					 var p = $.map(data, function(item) {return new structures.Superbill(item) }); 
 					 self.superBills(p);
 					 self.superBill(p[0]);
-					 system.log('date is ' + superBill().date()); 
+					 //system.log('date is ' + superBill().date()); 
 				} 
 			});
 			
@@ -449,26 +449,8 @@ define(function(require) {
 	},
 	savePhoneLog: function(data) { 
 	   
-			//check if id already exist 
-			var newId = true; 
-			$.each(phoneLogs(), function(k, v) {
-			   system.log('v.id() is ' + v.id()); 
-						if (phoneLog().id() == v.id())
-							newId = false;
-			});
-			if(newId) {
-				phoneLogs().push(phoneLog()); 
-				phoneLog().datetime(form.dbDate(phoneLog().datetime()));
-				system.log('inside new'); 
-				backend.savePhoneLog(patientId(),practiceId(),phoneLog()); 
-				showAssigned(true);
-			}
-			else {
-					phoneLog().datetime(form.dbDate(phoneLog().datetime()));
-					system.log('inside update'); 
-					backend.savePhoneLog(patientId(),practiceId(),phoneLog()); 
-					showAssigned(true);		 
-			}
+			  backend.savePhoneLog(phoneLog,phoneLogs,practiceId(),patientId(),showAssigned);
+              system.log('showAssigned is' + showAssigned()); 			  
 	} 
  }
 });

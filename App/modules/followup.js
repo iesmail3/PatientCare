@@ -8,7 +8,8 @@
 	 * Includes*
 	 **********************************************************************************************/
 	var system = require('durandal/system');			// System logger
-
+	var Forms = require('modules/form');					// Common form elements
+	var form = new Forms(); 
 	/**********************************************************************************************
 	 * Constructor
 	 *********************************************************************************************/
@@ -84,6 +85,16 @@
 			
 		});
 		 
+	}
+	
+	followup.prototype.getLastPhoneLog = function() { 
+		return this.query({
+			mode: 'select',
+			table: 'phone_log',
+			fields: 'id',
+			order: 'ORDER BY id DESC',
+			limit: 'LIMIT 1'
+		}); 
 	}
 	
 	followup.prototype.getDocument = function(id, practiceId) {
@@ -179,41 +190,61 @@
 		}  
 	}
 	
-	followup.prototype.savePhoneLog = function(patientId,practiceId,data) { 
-	    system.log('patientId is' + patientId); 
-		var self = this; 
-		var fields = ['id','patient_id','practice_id','datetime','caller','attended_by','message','action_required','assigned_to','type'];
-		var values = $.map(data, function(k,v) {
-			if(k == null || k == undefined) {
-				return[''];
-			}
-			else {
-				return [k()];
-			}
-		});
-		values[1] = patientId;
-		values[2] = practiceId; 
-		for(var i = 0; i < fields.length; i++) 
-		system.log(fields[i] + ":" + values[i]); 
-		
-		if(data.id() == undefined || data.id() == '') { 
-			return self.query({
-				mode:  'insert', 
-				table: 'phone_log',
-				fields: fields, 
-				values: values
+	followup.prototype.savePhoneLog = function(phoneLog,phoneLogs,practiceId,patientId,showAssigned) { 
+	        system.log('inside query it is' + showAssigned()); 
+			var self = this; 
+			var fields = ['id','patient_id','practice_id','datetime','caller','attended_by','message','action_required','assigned_to','type'];
+			var values = $.map(phoneLog(), function(k,v) {
+					if(k == null || k == undefined) {
+							return[''];
+					}
+					else {
+							return [k()];
+					}
 			});
-		}
-		else { 
+			values[1] = patientId;
+			values[2] = practiceId;  
+			values[3] = form.dbDate(phoneLog().datetime()); 
+			if(phoneLog().id() == undefined || phoneLog().id() == '') {
+             showAssigned(true); 
+			 system.log('inside new'); 			
+			   var newId = '';
 			return self.query({
-				mode:  'update', 
-				table: 'phone_log',
-				fields: fields, 
-				values: values,
-				where: "WHERE id='" + data.id() + "'"
-			});	
-		}  
-	}
+					mode: 'select',
+					table: 'phone_log',
+					fields: 'id',
+					order: 'ORDER BY id DESC',
+					limit: 'LIMIT 1'
+			}).success(function(data) {
+					$.each(data, function(key, item) {
+							newId = parseInt(item.id) + 1;
+					});
+					
+					values[0] = newId;
+					phoneLog().id(newId); 
+					self.query({
+							mode: 'insert',
+							table: 'phone_log',
+							fields: fields,
+							values: values,
+					});
+					
+					phoneLogs.push(phoneLog()); 
+			   });
+		}
+			
+		   
+			else { 
+			   system.log('inside update');
+					return self.query({
+							mode:  'update', 
+							table: 'phone_log',
+							fields: fields, 
+							values: values,
+							where: "WHERE id='" + phoneLog().id() + "'"
+					});        
+			}  
+    }
 	
 	
 		
