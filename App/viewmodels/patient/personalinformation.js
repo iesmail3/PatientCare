@@ -7,7 +7,7 @@
 
 define(function(require) {    
 	/*********************************************************************************************** 
-	 * Includes*
+	 * Includes
 	 **********************************************************************************************/
 	var system = require('durandal/system');				// System logger
 	var custom = require('durandal/customBindings');		// Custom bindings
@@ -15,6 +15,17 @@ define(function(require) {
 	var Forms = require('modules/form');					// Common form elements
 	var router = require('durandal/plugins/router');    	// Router
 	var Structures = require('modules/patientStructures');  // Patient Structures
+	
+	/*********************************************************************************************** 
+	 * Validation Configuration
+	 **********************************************************************************************/
+	ko.validation.init({
+		insertMessages: false,
+		parseInputAttributes: true,
+		grouping: {deep: true, observable: true},
+		decorateElement: true,
+		messagesOnModified: false
+	});
 	
 	/*********************************************************************************************** 
 	 * KO Observables
@@ -42,7 +53,7 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * ViewModel
 	 **********************************************************************************************/
-	return {
+	var vm =  {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
@@ -81,8 +92,7 @@ define(function(require) {
 			$(window).resize(function() {
 				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
 				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-			});    
-			
+			});
 		}, // End viewAttached
 		// Loads when view is loaded
 		activate: function(data) {
@@ -109,6 +119,7 @@ define(function(require) {
 			if(self.patientId() == 'new') {
 				self.patient(new structures.Patient());
 				self.patient().practiceId(self.practiceId());
+				// Set Validation
 			}
 			
 			/**************************************************************************************
@@ -231,12 +242,27 @@ define(function(require) {
 		}, // End activate
 		clickPersonal: function(data) {
 			var self = this;
+			if(self.patient().errors().length == 0) {
+				alert('thank you');
+			/*
 			self.backend.savePatient(self.patientId(), self.patient()).complete(function(data) {
 				if(data.responseText != "" && data.responseText != "failUpdate") {
 					self.patientId($.parseJSON(data.responseText)[0].id);
-					router.navigateTo('#/patient/personalinformation/' + self.practiceId() + '/' + (parseInt(self.patientId()) + 1));
+					router.navigateTo('#/patient/personalinformation/' + (parseInt(self.patientId()) + 1));
 				}
 			});
+			*/
+			}
+			else {
+				$('.personalAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+				system.log(ko.validation);
+				self.errors.showAllMessages();
+			}
 		}
 	}; // End ViewModel
+	
+	// Turn validation on
+	var errors = vm['formErrors'] = ko.validation.group(vm);
+	vm.patient().errors.showAllMessages();
+	return vm;
 }); // End file

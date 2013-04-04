@@ -154,8 +154,13 @@ define(function(require) {
 					serviceRecords.push(serviceRecord());
 					serviceRecord().date(form.dbDate(serviceRecord().date()));
 					backend.addServiceRecord(serviceRecord()).success(function(data) {
-						date = serviceRecord().date();
-						router.navigateTo('#/patient/servicerecord/serviceview/' + patientId() + '/' + date);
+						// Add a Service Record.
+					});
+					backend.addCheckout(patientId(), practiceId(), serviceRecord().date()).success(function(data) {
+						// Add a Checkout for each Service Record
+					});
+					backend.addFollowUp(patientId(), practiceId(), serviceRecord().date()).success(function(data) {
+						router.navigateTo('#/patient/servicerecord/serviceview/' + patientId() + '/' + serviceRecord().date());
 					});
 				}
 				else {
@@ -172,7 +177,6 @@ define(function(require) {
 			}
 		},
 		serviceRecordCancel: function() {
-			serviceRecord(new structures.ServiceRecord());
 			serviceRecord(tempRecord());
 			serviceRecordState(false);
 		},

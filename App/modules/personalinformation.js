@@ -107,6 +107,7 @@ define(function(require) {
 
 		var newId = '';
 		if(id == 'new') {
+			system.log('test');
 			return self.query({
 				mode: 'select',
 				table: 'patient',

@@ -65,14 +65,21 @@ try {
 	$db = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
 	$db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 	
-	// If Select is chosen
-	if(strtolower($mode) == 'select') {		
-		if(is_array($fields))
-			$fields = implode(',', $fields);
-		
+	// If Select is chosens
+	if(strtolower($mode) == 'select') {
+		$fieldString = "";
+		if(is_array($fields)) {
+			foreach($fields as $field) {
+				$fieldString .= "$field,";
+			}
+			$fieldString = substr_replace($fieldString ,"",-1);
+		}
+		else {
+			$fieldString = $fields;
+		}
 		// Compile query
-		$query = "SELECT $fields FROM $table $join $where $group $order $limit";
-		
+		$query = "SELECT $fieldString FROM $table $join $where $group $order $limit";
+		//echo $query;
 		// Create query statement to run
 		$stmt = $db->query($query);
 		// Fetch method
@@ -93,13 +100,12 @@ try {
 				$values = array_values($values);
 			}
 		}
-		
 		// Create nameholders
 		$nameholders = "(";
 		$fieldString = "(";
 		foreach($fields as $field) {
 			$nameholders .= ":$field,";
-			$fieldString .= "$field,";
+			$fieldString .= "`$field`,";
 		}
 		$nameholders = substr_replace($nameholders ,"",-1) . ")";
 		$fieldString = substr_replace($fieldString ,"",-1) . ")";
@@ -110,7 +116,7 @@ try {
 		// Bind parameters
 		for($i = 0; $i < count($fields); $i++) {
 			$stmt->bindParam(":" . $fields[$i], $values[$i]);
-			echo $fields[$i] . " => " . $values[$i] . "<br />";
+			//echo $fields[$i] . " => " . $values[$i] . "<br />";
 		}
 		$stmt->execute();
 		
@@ -150,13 +156,12 @@ try {
 		// Create nameholders
 		$set = "";
 		for($i = 0; $i < count($fields); $i++) {
-			$set .= "{$fields[$i]}='{$values[$i]}', ";
+			$set .= "`{$fields[$i]}`='{$values[$i]}', ";
 		}
 		// Remove last AND
 		$set = substr_replace($set, "", -2, strlen($set));
 		
-		$query = "UPDATE $table SET $set $where";
-		
+		$query = "UPDATE `$table` SET $set $where";
 		// Run Query
 		$stmt = $db->prepare($query);
 		// Bind parameters

@@ -22,7 +22,7 @@
 				<div class="span5">
 					<div class="row-fluid">
 						<div class="span6">
-							<a>Drugs Order</a>
+							<a data-bind="click: $root.goToDrugs">Drugs Order</a>
 						</div>
 						<div class="span6">
 							<a>Office Procedures</a>
@@ -56,9 +56,9 @@
 						<th>Times</th>
 					</tr>
 				</thead>
-				<tbody data-bind="foreach: orders">
+				<tbody data-bind="foreach: orderCategories">
 					<tr>
-						<td><input type="checkbox" /></td>
+						<td><input type="checkbox" data-bind="attr: {value: id}, checked: $root.groupOrders" /></td>
 						<td data-bind="text: type"></td>
 						<td data-bind="text: description"></td>
 						<td></td>
