@@ -315,26 +315,26 @@ define(function(require) {
 	]);
 	
 	form.prototype.uiDate = function(date) {
-		if(date != null || date != undefined) {
+		if(date != null && date != undefined && date != '' && date != '0000-00-00') {
 			if(date.indexOf('-') >= 0)
 				return date.substring(5,7) + "/" + date.substring(8,10) + "/" + date.substring(0,4);
 			else
 				return date;
 		}
 		else {
-			return '';
+			return null;
 		}
 	}
 	
 	form.prototype.dbDate = function(date) {
-		if(date != null || date != undefined) {
+		if(date != null && date != undefined && date != '' && date != '0000/00/00') {
 			if(date.indexOf('/') >= 0)
 				return date.substring(6,10) + "-" + date.substring(0,2) + "-" + date.substring(3,5);
 			else
 				return date;
 		}
 		else {
-			return '';
+			return null;
 		}
 	}
 	

@@ -1,7 +1,8 @@
 <form class="form-inline formPadding">
 	<div class="row-fluid">
+		<!-- ko with: medicalProblem -->
 		<div class="marginBottom5">
-			<select data-bind="value: medicalProblem().type">
+			<select data-bind="value: type">
 				<option value="" disabled selected style="display:none;">Problem Type</option>
 				<option value="current">Current Medical Problem</option>
 				<option value="other">Other Medical Problem</option>
@@ -9,28 +10,35 @@
 			</select>
 		</div>
 		<div class="marginBottom5 commentContainer">
-			<textarea class="commentSpan" rows="3" placeholder="Description" data-bind="value: medicalProblem().description" /></textarea>
+			<textarea class="commentSpan" rows="3" placeholder="Description" data-bind="value: description" /></textarea>
 		</div>
 		<div class="marginBottom5">
 			<input type="text" placeholder="Onset Date"
 				data-bind="datepicker: true,
-				value: medicalProblem().onsetDate,
-				enable: medicalProblem().type() == 'current' || medicalProblem().type() == 'other'" />
+				value: onsetDate,
+				enable: (type() == 'current' || type() == 'other') && !onsetUnknown()" />
 			<label class="checkbox inline">
-				<input type="checkbox" data-bind="checked: medicalProblem().onsetUnknown" />
+				<input type="checkbox" data-bind="checked: onsetUnknown,
+					enable: type() == 'current' || type() == 'other'" />
 				<span>Unknown</span>
 			</label>
 		</div>
 		<div class="marginBottom5">
 			<input type="text" placeholder="Resolution Date"
 				data-bind="datepicker: true,
-				value: medicalProblem().resolutionDate,
-				enable: medicalProblem().type() == 'other' || medicalProblem().type() == 'past'" />
+				value: resolutionDate,
+				enable: (type() == 'other' || type() == 'past') && !resolutionUnknown() && !notApplicable()" />
 			<label class="checkbox inline">
-				<input type="checkbox" data-bind="checked: medicalProblem().resolutionUnknown" />
+				<input type="checkbox" data-bind="checked: resolutionUnknown,
+					enable: (type() == 'other' || type() == 'past') && !notApplicable()" />
 				<span>Unknown</span>
 			</label>
+			<label class="checkbox inline" data-bind="visible: type() == 'other'">
+				<input type="checkbox" data-bind="checked: notApplicable" />
+				<span>Not Applicable</span>
+			</label>
 		</div>
+		<!-- /ko -->
 		<div class="pull-right">
 			<button type="button" class="btn btn-small btn-success"
 				data-bind="visible: !$root.medicalProblemsState(), click: $root.medicalProblemsNew">
@@ -59,11 +67,11 @@
 			</tr>
 		</thead>
 		<tbody data-bind="foreach: medicalProblems">
-			<tr data-bind="click: $root.medicalProblemsSetFields">
-				<td data-bind="text: type"></td>
-				<td data-bind="text: description"></td>
-				<td data-bind="text: onsetDate"></td>
-				<td data-bind="text: resolutionDate"></td>
+			<tr>
+				<td data-bind="text: type, click: $root.medicalProblemsSetFields"></td>
+				<td data-bind="text: description, click: $root.medicalProblemsSetFields"></td>
+				<td data-bind="text: onsetDate, click: $root.medicalProblemsSetFields"></td>
+				<td data-bind="text: resolutionDate, click: $root.medicalProblemsSetFields"></td>
 				<td><a class="btn btn-small btn-danger" data-bind="click: $root.deleteMedicalProblem">Delete</a></td>
 			</tr>
 		</tbody>

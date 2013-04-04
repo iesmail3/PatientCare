@@ -24,10 +24,8 @@ define(function(require) {
 	var practiceId = ko.observable();
 	var date = ko.observable();
 	var serviceRecord = ko.observable(new structures.ServiceRecord());
-	var systemParticular = ko.observable();
-	var systemType = ko.observable();
-	var systemComment = ko.observable();
 	var reviewOfSystem = ko.observable(new structures.ReviewOfSystems());
+	var defaultReviewOfSystems = ko.observableArray([]);
 	var reviewOfSystems = ko.observableArray([]);
 	var tempMedicalProblem = ko.observable(new structures.MedicalProblem());
 	var medicalProblem = ko.observable(new structures.MedicalProblem());
@@ -56,10 +54,8 @@ define(function(require) {
 		practiceId: practiceId,
 		date: date,
 		serviceRecord: serviceRecord,
-		systemParticular: systemParticular,
-		systemType: systemType,
-		systemComment: systemComment,
 		reviewOfSystem: reviewOfSystem,
+		defaultReviewOfSystems: defaultReviewOfSystems,
 		reviewOfSystems: reviewOfSystems,
 		tempMedicalProblem: tempMedicalProblem,
 		medicalProblem: medicalProblem,
@@ -88,7 +84,7 @@ define(function(require) {
 			
 			self.practiceId('1');
 			self.patientId(data.patientId);
-			self.date(data.date); 
+			self.date(data.date);
 			
 			var backend = new Backend();
 			// Get the current Service Record
@@ -98,6 +94,83 @@ define(function(require) {
 					self.serviceRecord(s);
 				}
 			});
+			
+			var d = [
+				new structures.ReviewOfSystems({
+					service_record_id: self.serviceRecord().id(),
+					particulars: 'GEN',
+					type: '',
+					comment: ''
+				}),
+				new structures.ReviewOfSystems({
+					service_record_id: self.serviceRecord().id(),
+					particulars: 'EYE',
+					type: '',
+					comment: ''
+				}),
+				new structures.ReviewOfSystems({
+					service_record_id: self.serviceRecord().id(),
+					particulars: 'ENT',
+					type: '',
+					comment: ''
+				}),
+				new structures.ReviewOfSystems({
+					service_record_id: self.serviceRecord().id(),
+					particulars: 'RESP',
+					type: '',
+					comment: ''
+				}),
+				new structures.ReviewOfSystems({
+					service_record_id: self.serviceRecord().id(),
+					particulars: 'CVS',
+					type: '',
+					comment: ''
+				}),
+				new structures.ReviewOfSystems({
+					service_record_id: self.serviceRecord().id(),
+					particulars: 'GI',
+					type: '',
+					comment: ''
+				}),
+				new structures.ReviewOfSystems({
+					service_record_id: self.serviceRecord().id(),
+					particulars: 'GU',
+					type: '',
+					comment: ''
+				}),
+				new structures.ReviewOfSystems({
+					service_record_id: self.serviceRecord().id(),
+					particulars: 'MS',
+					type: '',
+					comment: ''
+				}),
+				new structures.ReviewOfSystems({
+					service_record_id: self.serviceRecord().id(),
+					particulars: 'NEURO',
+					type: '',
+					comment: ''
+				}),
+				new structures.ReviewOfSystems({
+					service_record_id: self.serviceRecord().id(),
+					particulars: 'SKIN',
+					type: '',
+					comment: ''
+				}),
+				new structures.ReviewOfSystems({
+					service_record_id: self.serviceRecord().id(),
+					particulars: 'PHYCH',
+					type: '',
+					comment: ''
+				}),
+				new structures.ReviewOfSystems({
+					service_record_id: self.serviceRecord().id(),
+					particulars: 'GYN',
+					type: '',
+					comment: ''
+				})
+			];
+			
+			self.defaultReviewOfSystems(d);
 			
 			// Get the Review of Systems for the Service Record
 			backend.getReviewOfSystems(self.patientId(), self.practiceId(), self.date()).success(function(data) {
@@ -131,20 +204,27 @@ define(function(require) {
 		// Adds a System Review to the table
 		addReviewOfSystem: function(item) {
 			// Check for empty fields.
-			if(systemParticular() != 'undefined' && systemParticular() != '' && systemType() != '') {
+			if (reviewOfSystem().type() == '' || reviewOfSystem().type() == undefined || reviewOfSystem().type() == null)
+				reviewOfSystem().type('notdone');
+			if (reviewOfSystem().particulars() != '' && reviewOfSystem().particulars() != undefined && reviewOfSystem().particulars() != null) {
 				// Check for duplicate particulars
 				var newParticular = true;
-				$.each(reviewOfSystems(), function(k, v) {
-					if(systemParticular() == v.particulars()) {
+				$.each(defaultReviewOfSystems(), function(k, v) {
+					if(reviewOfSystem().particulars() == v.particulars()) {
 						newParticular = false;
 					}
 				});
+				if (newParticular) {
+					$.each(reviewOfSystems(), function(k, v) {
+						if(reviewOfSystem().particulars() == v.particulars()) {
+							newParticular = false;
+						}
+					});
+				}
 				
 				if (newParticular) {
-					reviewOfSystem().particulars(systemParticular());
-					reviewOfSystem().type(systemType());
-					reviewOfSystem().comment(systemComment());
-					backend.addReviewOfSystem(patientId(), practiceId(), date(), reviewOfSystem()).success(function(data) {
+					reviewOfSystem().serviceRecordId(serviceRecord().id());
+					backend.addReviewOfSystem(reviewOfSystem()).complete(function(data) {
 						reviewOfSystems.push(reviewOfSystem());
 					});
 				}
@@ -154,7 +234,6 @@ define(function(require) {
 			}
 			else {
 				$('.reviewAlert').removeClass().addClass('alert').html('Insufficient data.').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
-				
 			}
 		},
 		// Save the Review of Systems and Systems Comment
@@ -206,6 +285,7 @@ define(function(require) {
 						}
 						else {
 							medicalProblems.remove(item);
+							medicalProblem(new structures.MedicalProblem());
 						}
 					});
 				}
@@ -213,9 +293,12 @@ define(function(require) {
 		},
 		// Set fields for Medical Problems
 		medicalProblemsSetFields: function(data) {
-			medicalProblem(data);
-			system.log(medicalProblem().onsetUnknown());
-			system.log(medicalProblem().resolutionUnknown());
+			if (!medicalProblemsState()) {
+				medicalProblem(data);
+				medicalProblem().onsetUnknown(parseInt(data.onsetUnknown()));
+				medicalProblem().resolutionUnknown(parseInt(data.resolutionUnknown()));
+				medicalProblem().notApplicable(parseInt(data.notApplicable()));
+			}
 		},
 		// New button for Medical Problems
 		medicalProblemsNew: function(data) {
@@ -225,69 +308,31 @@ define(function(require) {
 		},
 		// Save button for Medical Problems
 		medicalProblemsSave: function(data) {
-			// New
+			if (medicalProblem().onsetUnknown())
+				medicalProblem().onsetDate('');
+			if (medicalProblem().resolutionUnknown() || medicalProblem().notApplicable())
+				medicalProblem().resolutionDate('');
+			if (medicalProblem().onsetDate() == '' || medicalProblem().onsetDate() == undefined || medicalProblem().onsetDate() == null)
+				medicalProblem().onsetUnknown(1);
+			if (medicalProblem().resolutionDate() == '' || medicalProblem().resolutionDate() == undefined || medicalProblem().resolutionDate() == null)
+				medicalProblem().resolutionUnknown(1);
 			if (medicalProblemsState()) {
-				var now = $.datepicker.formatDate('yy-mm-dd', new Date());
-				var onsetDate = $.datepicker.formatDate('yy-mm-dd', new Date(medicalProblem().onsetDate()));
-				var resolutionDate = $.datepicker.formatDate('yy-mm-dd', new Date(medicalProblem().resolutionDate()));
-				
-				system.log(medicalProblem().onsetUnknown());
-				system.log(medicalProblem().resolutionUnknown());
-				
-				var validDate = false;
-				if (medicalProblem().type() == 'current') {
-					if (onsetDate <= now) {
-						system.log("Valid date");
-						validDate = true;
-					}
-					else {
-						system.log("Invalid date");
-					}
-				}
-				else if (medicalProblem().type() == 'other') {
-					if (onsetDate <= resolutionDate && resolutionDate <= now) {
-						system.log("Valid date");
-						validDate = true;
-					}
-					else {
-						system.log("Invalid date");
-					}
-				}
-				else if (medicalProblem().type() == 'past') {
-					if (resolutionDate <= now) {
-						system.log("Valid date");
-						validDate = true;
-					}
-					else {
-						system.log("Invalid date");
-					}
-				}
-				else {
-					system.log("Invalid type");
-				}
-				
-				if (validDate) {
-					medicalProblems.push(medicalProblem());
+				if (medicalProblem().type() != '') {
 					medicalProblem().serviceRecordId(serviceRecord().id());
 					medicalProblem().onsetDate(form.dbDate(medicalProblem().onsetDate()));
 					medicalProblem().resolutionDate(form.dbDate(medicalProblem().resolutionDate()));
 					backend.addMedicalProblem(medicalProblem()).complete(function(data) {
+						medicalProblems.push(medicalProblem());
 						medicalProblem().onsetDate(form.uiDate(medicalProblem().onsetDate()));
 						medicalProblem().resolutionDate(form.uiDate(medicalProblem().resolutionDate()));
 					});
 				}
-				
+				else
+					system.log("invalid type");
 			}
-			// Update
 			else {
 				medicalProblem().onsetDate(form.dbDate(medicalProblem().onsetDate()));
 				medicalProblem().resolutionDate(form.dbDate(medicalProblem().resolutionDate()));
-				//system.log(medicalProblem().id());
-				//system.log(medicalProblem().serviceRecordId());
-				//system.log(medicalProblem().type());
-				//system.log(medicalProblem().description());
-				//system.log(medicalProblem().onsetDate());
-				//system.log(medicalProblem().resolutionDate());
 				backend.saveMedicalProblem(medicalProblem().id(), medicalProblem()).complete(function(data) {
 					medicalProblem().onsetDate(form.uiDate(medicalProblem().onsetDate()));
 					medicalProblem().resolutionDate(form.uiDate(medicalProblem().resolutionDate()));

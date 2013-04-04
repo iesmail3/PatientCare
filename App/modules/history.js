@@ -115,11 +115,16 @@ define(function(require) {
 	
 	history.prototype.saveMedicalProblem = function(id, data) {
 		var self = this;
-		var fields = ['id', 'service_record_id', 'type', 'description', 'onset_date', 'resolution_date'];
+		var fields = ['id', 'service_record_id', 'type', 'description', 'onset_date', 'onset_unknown', 'resolution_date', 'resolution_unknown', 'not_applicable'];
 		
 		var values = $.map(data, function(k,v) {
 			if(k() == null || k() == undefined) {
-				return [''];
+				if (v == 'onsetDate' || v == 'resolutionDate') {
+					return [k()];
+				}
+				else {
+					return [''];
+				}
 			}
 			else {
 				return[k()];
@@ -136,7 +141,7 @@ define(function(require) {
 	}
 	
 	// Add a Review of System
-	history.prototype.addReviewOfSystem = function(patientId, practiceId, date, data) {
+	history.prototype.addReviewOfSystem = function(data) {
 		var self = this;
 		var fields = ['service_record_id', 'particulars', 'type', 'comment'];
 		
@@ -149,25 +154,11 @@ define(function(require) {
 			}
 		});
 		
-		var serviceRecordId = '';
 		return self.query({
-			mode: 'select',
-			table: 'service_record',
-			fields: 'id',
-			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "' AND date='" + date + "'"
-		}).success(function(data) {
-			$.each(data, function(key, item) {
-				serviceRecordId = item.id;
-			});
-			
-			values[0] = serviceRecordId;
-			
-			self.query({
-				mode: 'insert',
-				table: 'review_of_systems',
-				fields: fields,
-				values: values
-			});
+			mode: 'insert',
+			table: 'review_of_systems',
+			fields: fields,
+			values: values,
 		});
 	}
 	

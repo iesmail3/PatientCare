@@ -1,20 +1,4 @@
 <div class="formScroll formPadding">
-	<form class="form-inline">
-		<div class="row-fluid">
-			<div class="marginBottom5 commentContainer">
-				<span>Add New Customer</span>
-				<input type="text" placeholder="Particular" data-bind="value: systemParticular">
-				<select class="input-xmedium" data-bind="value: systemType">
-					<option value="" disabled="" selected="" style="display:none;">Type</option>
-					<option value="notdone">Not Done</option> 
-					<option value="negative">Negative</option>
-					<option value="positive">Positive</option>
-				</select>
-				<textarea rows="1" placeholder="Comments" data-bind="value: systemComment" /></textarea>
-				<button type="submit" class="btn btn-primary" data-bind="click: $root.addReviewOfSystem">Add</button>
-			</div>
-		</div>
-	</form>
 	<div class="reviewAlert"></div>
 	<div class="row-fluid">
 		<table class="table table-bordered table-hover">
@@ -26,6 +10,25 @@
 					<th></th>
 				</tr>
 			</thead>
+			<tbody data-bind="foreach: defaultReviewOfSystems">
+				<tr>
+					<td>
+						<input type="text" class="input-small" placeholder="Particular" data-bind="value: particulars">
+					</td>
+					<td>
+						<select class="input-xmedium" data-bind="value: type">
+							<option value="" disabled="" selected="" style="display:none;">Type</option>
+							<option value="notdone">Not Done</option> 
+							<option value="negative">Negative</option>
+							<option value="positive">Positive</option>
+						</select>
+					</td>
+					<td>
+						<textarea rows="1" placeholder="Comments" data-bind="value: comment" /></textarea>
+					</td>
+					<td></td>
+				</tr>
+			</tbody>
 			<tbody data-bind="foreach: reviewOfSystems">
 				<tr>
 					<td>
@@ -49,6 +52,20 @@
 	</div>
 	<form class="form-inline">
 		<div class="row-fluid">
+			<div class="marginBottom5 commentContainer">
+				<span>Add New Particular</span>
+				<div>
+					<input type="text" placeholder="Particular" data-bind="value: reviewOfSystem().particulars">
+					<select class="input-xmedium" data-bind="value: reviewOfSystem().type">
+						<option value="" disabled="" selected="" style="display:none;">Type</option>
+						<option value="notdone">Not Done</option> 
+						<option value="negative">Negative</option>
+						<option value="positive">Positive</option>
+					</select>
+					<textarea rows="1" placeholder="Comments" data-bind="value: reviewOfSystem().comment" /></textarea>
+					<button type="submit" class="btn btn-primary" data-bind="click: $root.addReviewOfSystem">Add</button>
+				</div>
+			</div>
 			<div class="marginBottom5 commentContainer">
 				<textarea class="commentSpan" rows="3" placeholder="Comments" data-bind="value: serviceRecord().systemsComment" /></textarea>
 			</div>
