@@ -65,7 +65,7 @@ try {
 	$db = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
 	$db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 	
-	// If Select is chosen
+	// If Select is chosens
 	if(strtolower($mode) == 'select') {
 		$fieldString = "";
 		if(is_array($fields)) {

@@ -1,4 +1,4 @@
-legend {
+.legend {
 	font-size: 14pt;
 	margin-bottom: 3px;
 }
@@ -21,10 +21,10 @@ legend {
 	overflow-y: scroll;
 }
 
-.contentPane {
+.contentPane {        
 	background-color: rgb(250,250,250);
 	margin-top: 10px;
-}
+}    
 
 .contentPane .container-fluid {
 	padding: 5px;
@@ -35,8 +35,8 @@ legend {
 }
 
 .fill {
-	height: 100%;
-}
+	height: 100%;   
+}                               
 
 .patientRecordNav {
 	margin-left: 10px !important;
@@ -86,18 +86,58 @@ legend {
 	overflow-y: auto;
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 5px;
+
 }
+
+.employedPerson {
+	margin: 12px;        
+}
+     
+.referenceTabs {
+	clear: both;      
+}             
+
+
+#referringphysician form {       
+	padding: 10px; 
+}        
 
 .marginBottom5 {
 	margin-bottom: 5px;
 }
 
+.bigContainer {
+    border: 1px solid #aaa;  
+    width: 130px;
+    margin: 12px;      
+}
 .commentContainer {
 	padding-right: 15px;
 }
 
 .commentSpan {
 	width: 100%;
+}
+
+.paymentTable { 
+   max-width: none;   
+}
+
+.paymentTable input, .paymentTable select {
+	width: 100%;
+}
+
+.paymentTable td {
+	padding: 5px;
+}
+
+.paymentTable th:last-child {
+	width: 15%;
+}
+
+.span5 .label, label.inline  {
+    display: inline-block;
+    width: 130px;   
 }
 
 .alertHolder {
@@ -117,6 +157,16 @@ legend {
 	height: 20px;
 	display: none;
 }
+
+.span6 .label, label.inline  {
+    display: inline-block;
+    width: 130px;   
+}
+
+#additionalCharges { 
+ display: inline-block;
+    width: 139px;
+};
 
 /* Orders */
 .mainOrderTableHolder {
@@ -164,7 +214,7 @@ legend {
 	overflow-y: auto;
 }
 
-.modal-body {
+.orderBox .modal-body {
 	max-height: none;
 	min-height: 400px;
 }
@@ -182,4 +232,14 @@ legend {
 	margin: 0px;
 	height: 100%;
 	border: none;
+
+/* Followup */
+.superBox { 
+min-width: 800px;
+height: 600px;
+}
+
+.superBox .modal-body {
+   height: 521px;
+   overflow-y: auto;
 }

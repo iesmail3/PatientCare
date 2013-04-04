@@ -1,36 +1,36 @@
 <!--
 View:
-Author(s):
+Author(s):    
 Description:
 -->
 <div>
 	<ul class="nav nav-tabs patientNavs" id="followupTab">
 	  <li class="active"><a href="#followup">Follow Up</a></li>
-	  <li><a href="#checkout">Checkout</a></li>
+	  <li><a href="#checkout">Checkout</a></li>  
 	  <li><a href="#prescriptions">Prescriptions</a></li>
 	  <li><a href="#phonelog">Phone Log</a></li>
 	  <li><a href="#superbill">Superbill</a></li>
 	  <li><a href="#docs">Misc Docs</a></li>
 	</ul>
- 
+       
 	<div class="tab-content">
-	  <div class="tab-pane active" id="followup">
-	  	<h2>Follow Up</h2>
-	  </div>
-	  <div class="tab-pane" id="checkout">
-	  	<h2>Checkout</h2>
-	  </div>
-	  <div class="tab-pane" id="prescriptions">
-	  	<h2>Prescriptions</h2>
-	  </div>
-	  <div class="tab-pane" id="phonelog">
-	  	<h2>Phone Log</h2>
-	  </div>
-	  <div class="tab-pane" id="superbill">
-	  	<h2>Superbill</h2>
-	  </div>
-	  <div class="tab-pane" id="docs">
-	  	<h2>Misc Docs</h2>
-	  </div>
+		<div class="tab-pane active" id="followup">
+			<div data-bind="compose: 'patient/followupTabs/followup.html'"></div>  
+		</div>
+		<div class="tab-pane outerPane" id="checkout">
+			<div data-bind="compose: 'patient/followupTabs/checkout.html'"></div>
+		</div>    
+		<div class="tab-pane outerPane" id="prescriptions"> 
+			<div data-bind="compose: 'patient/followupTabs/prescription.html'"></div>
+		</div>
+		<div class="tab-pane outerPane" id="phonelog">
+			<div data-bind="compose: 'patient/followupTabs/phoneLog.html'"></div>
+		</div>
+		<div class="tab-pane" id="superbill">
+			<div data-bind="compose: 'patient/followupTabs/superbill.html'"></div>
+		</div>
+		<div class="tab-pane" id="docs">
+		   <div data-bind="compose: 'patient/followupTabs/document.html'"></div>		                   
+		</div>
 	</div>
 </div>

@@ -1,0 +1,31 @@
+<div class="formScroll formPadding">
+				<div class="row-fluid">
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th>Date</th>
+								<th>Medicine Name</th>
+								<th>Physician</th>
+								<th>Created By</th>
+								<th>Mode</th>
+								<th>Comments</th>
+							</tr>
+						</thead>
+						<tbody data-bind="foreach: prescriptions">     
+							<tr data-bind="click: $root.selectRow">   
+								<td data-bind="text: date"></td>   
+								<td data-bind="text: medicine"></td>
+								<td data-bind="text: physician"></td>
+								<td data-bind="text: createdBy"></td>  
+								<td data-bind="text:mode"></td>
+								<td data-bind="text: comment"></td>						     
+							</tr>          
+					</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="pull-right marginBottom5">
+					<button type="button" class="btn btn-small">Print</button>
+					<button type="button" class="btn btn-small">Add</button>
+					<button type="button" class="btn btn-small btn-primary">Delete</button>
+		    </div>

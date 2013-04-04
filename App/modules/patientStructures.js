@@ -15,6 +15,7 @@ define(function(require) {
 	 * Constructor
 	 *********************************************************************************************/
 	var patient = function() {};
+	var form = new Forms();
 	
 	/*********************************************************************************************** 
 	 * Structures
@@ -171,7 +172,7 @@ define(function(require) {
 	}
 	
 	// Follow Up
-	patient.prototype.FollowUp = function(data) {
+	patient.prototype.Followup = function(data) {
 		if (data != null) {
 			this.id			 = ko.observable(data.id);
 			this.patientId	 = ko.observable(data.patient_id);
@@ -849,18 +850,30 @@ define(function(require) {
 	
 	// Physician
 	patient.prototype.Physician = function(data) {
+		var self = this;
+		
 		if (data != null) {
 			this.id		    = ko.observable(data.id);
 			this.practiceId = ko.observable(data.practice_id);
 			this.firstName  = ko.observable(data.first_name);
+			this.lastName   = ko.observable(data.last_name);
 			this.degree	    = ko.observable(data.degree);
 		}
 		else {
 			this.id		    = ko.observable();
 			this.practiceId = ko.observable();
-			this.firstName  = ko.observable();
+			this.firstName  = ko.observable('');
+			this.lastName   = ko.observable('');
 			this.degree	    = ko.observable();
 		}
+		
+		// This will return the name in the following format: First Last
+		this.physicianName = ko.computed(function() {
+			if (self.firstName() == '' && self.lastName() == '')
+				return '';
+			else
+				return self.firstName() + " " + self.lastName();
+		});
 	}
 	
 	// Prescription

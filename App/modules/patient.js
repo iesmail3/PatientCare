@@ -19,18 +19,6 @@ define(function(require) {
 	 * 
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/
-	// Get Patient ID
-	// Get All Patients
-	patient.prototype.getPatientId = function() {
-		return this.query({
-			mode: 'select', 
-			table: 'patient', 
-			fields: 'id',
-			order: 'ORDER BY id DESC',
-			limit: 'LIMIT 1'
-		});
-	}
-	
 	// Get All Patients
 	patient.prototype.getPatients = function() {
 		return this.query({
@@ -56,7 +44,7 @@ define(function(require) {
 			mode: 'select', 
 			table: 'insurance', 
 			fields: '*', 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "'" 
 		});
 	}
 	
@@ -161,10 +149,10 @@ define(function(require) {
 				else
 					return [k()];
 		});
-
+		
 		var newId = '';
 		if(id == 'new') {
-			return self.query({
+			self.query({
 				mode: 'select',
 				table: 'patient',
 				fields: 'id',
@@ -185,6 +173,7 @@ define(function(require) {
 				});
 			});
 		}
+
 		else {
 			return self.query({
 				mode: 'update', 
@@ -194,30 +183,6 @@ define(function(require) {
 				where: "WHERE id='" + id + "' AND practice_id='" + practiceId + "'"
 			});
 		}
-	}
-	
-	patient.prototype.saveServiceRecord = function(id, data) {
-		var self = this;
-		
-		var fields = ['id', 'practice_id', 'patient_id', 'physician_id', 'date', 'reason', 'history',
-			'systems_comment', 'no_known_allergies', 'allergies_verified', 'physical_examination_comment',
-			'plan_and_instructions'];
-		
-		var values = $.map(data, function(k,v) {
-			if(k() == null || k() == undefined) {
-				return [''];
-			}
-			else
-				return [k()];
-		});
-		
-		return self.query({
-			mode: 'update',
-			table: 'service_record',
-			fields: fields,
-			values: values,
-			where: "Where id='" + id + "'"
-		});
 	}
 	
 	// Add Insurance for a Single Patient
