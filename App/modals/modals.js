@@ -5,6 +5,7 @@ define(function(require) {
 	var Prescription = require('./prescription');
 	var AdditionalDetails = require('./additionalDetails');
     var Superbill = require('./superbill');
+    var Supplies = require('./supplies');
 	
 	return {
 		showOrder: function(order, centers, orders, groupOrders, orderTypes, practiceId, 
@@ -17,6 +18,11 @@ define(function(require) {
 		showOfficeProcedure: function(practiceId, orderId, procedures, title, options) {
 			return modalDialog.show(
 				new OfficeProcedure(practiceId, orderId, procedures, title, options)
+			);
+		},
+		showSupplies: function(practiceId, orderId, supplies, title, options) {
+			return modalDialog.show(
+				new Supplies(practiceId, orderId, supplies, title, options)
 			);
 		},
 		showPrescription: function(prescription,patientId,practiceId,title,options) {

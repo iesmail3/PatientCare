@@ -474,8 +474,8 @@ define(function(require) {
 			this.idNumber			  = ko.observable(data.id_number);
 			this.idType				  = ko.observable(data.id_type);
 			this.firstName			  = ko.observable(data.first_name).extend({required: true});
-			this.middleName			  = ko.observable(data.middle_name);
-			this.lastName			  = ko.observable(data.last_name);
+			this.middleName			  = ko.observable(data.middle_name).extend({required: true});
+			this.lastName			  = ko.observable(data.last_name).extend({required: true});
 			this.address			  = ko.observable(data.address);
 			this.city				  = ko.observable(data.city);
 			this.state				  = ko.observable(data.state);
@@ -1108,6 +1108,40 @@ define(function(require) {
 			this.levelOfService  = ko.observable();
 			this.serviceCode	 = ko.observable();
 			this.isComplete		 = ko.observable();
+		}
+	}
+	
+	// Supply
+	patient.prototype.Supply = function(data) {
+		if(data != null) {
+			this.id 	  	  = ko.observable(data.id);
+			this.orderId 	  = ko.observable(data.order_id);
+			this.supplyTypeId = ko.observable(data.supply_type_id);
+			this.quantity 	  = ko.observable(data.quantity);
+		}
+		else {
+			this.id 	  	  = ko.observable();
+			this.orderId 	  = ko.observable();
+			this.supplyTypeId = ko.observable();
+			this.quantity 	  = ko.observable();
+		}
+	}
+	
+	// SupplyType
+	patient.prototype.SupplyType = function(data) {
+		if(data != null) {
+			this.id 	  	  = ko.observable(data.id);
+			this.practiceId   = ko.observable(data.practice_id);
+			this.description  = ko.observable(data.description);
+			this.unit	 	  = ko.observable(data.unit);
+			this.quantity	  = ko.observable(0);
+		}
+		else {
+			this.id 	  	  = ko.observable();
+			this.practiceId   = ko.observable();
+			this.description  = ko.observable();
+			this.unit	 	  = ko.observable();
+			this.quantity	  = ko.observable(0);
 		}
 	}
 	
