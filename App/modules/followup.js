@@ -29,15 +29,6 @@
 		});
 	} 
 	
-	 // Get Personal Information for a Single Patient
-	// followup.prototype.getDiagnosis = function(data) {
-		// return this.query({
-			// mode: 'select',
-			// table: 'diagnosis',
-			// fields: '*',
-			// where: "WHERE service_record_id='" + data.serviceRecordId + "'"
-		// });
-	// } 
 	followup.prototype.getPhysician = function(practiceId) {  
 		return this.query({
 			mode: 'select',
@@ -48,7 +39,6 @@
 	}
 	
 	followup.prototype.getSuperBill = function() {
-	system.log('inside uperbill'); 
 	var fields = ['service_record.date','service_record.physical_examination_comment','superbill.is_complete']; 
 		return this.query({
 			mode: 'select',
@@ -171,9 +161,7 @@
 			}
 		});
          values[1] = checkoutId;
-		for(var i =0; i < fields.length;i++) { 
-			system.log(fields[i] + ' ' + values[i]); 
-		}
+		 
 		if(paymentMethod.id() == undefined || paymentMethod.id() == '') { 
 			
 			 

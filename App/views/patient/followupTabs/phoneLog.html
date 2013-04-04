@@ -1,4 +1,4 @@
-<div class="formScroll">
+<div>
 				<!-- ko with: phoneLog -->
 				<form class="form-inline">
 					<div class="row-fluid">
@@ -26,7 +26,7 @@
 									<input type="radio" name="actionRequired"  data-bind="checked: actionRequired" value="Yes" /><span>Yes</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" name="actionRequired"   data-bind="checked:actionRequired"value="No" /><span>No</span>
+									<input type="radio" name="actionRequired" data-bind="checked:actionRequired"value="No" /><span>No</span>
 								</label>  
 								<select class="input-medium" data-bind='options: $root.myArray,optionsCaption: "Assigned to",value:assignedTo,visible:$root.showAssigned'>      
 								</select>      

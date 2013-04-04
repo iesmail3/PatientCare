@@ -4,7 +4,9 @@
 					<div class="row-fluid">
 						<fieldset>
 							<legend>Schedule a FollowUp</legend>
-							<div class="followupAlert"></div>
+							<div class="alertHolder">
+								<div class="alert alert-danger followupAlert">You have are missing required fields.</div>
+							</div>
 							<div class="marginBottom5">  
 								<label class="radio inline">
 									<input type="radio" name="followup" value="1"
@@ -12,7 +14,8 @@
 									Followup in
 								</label>
 								<input type="text" placeholder="0" 
-									data-bind="value: value, visible: type() == '1'" />  
+									data-bind="value: value, visible: type() == '1'" /> 
+								<span class="required" data-bind="visible: type() == '1'">*</span>
 								<select class="input-small" 
 									data-bind="value: unit, visible: type() == '1'">
 									<option value="">Time Period</option>         
@@ -20,7 +23,8 @@
 									<option value="Weeks">Weeks</option>            
 									<option value="Months">Months</option>  
 								    <option value="Years">Years</option> 
-								</select>         
+								</select>   
+								<span class="required" data-bind="visible: type() == '1'">*</span>
 								<input type="text" placeholder="Comment" 
 									data-bind="value: comment, visible: type() == '1'" />
 							</div>

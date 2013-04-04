@@ -1,9 +1,11 @@
-<div>
+<div class="formScroll">
 	<div class="form-inline">
 		<div class="row-fluid">
 			<fieldset>
 				<legend>Co-pay Details</legend>
-				<div class="checkoutAlert"></div>
+				<div class="alertHolder">
+					<div class="alert alert-danger checkoutAlert">You have are missing required fields.</div>
+				</div>
 				 <!-- ko with: checkout -->
 					<div class="span5">
 						<div class="marginBottom5">
@@ -64,6 +66,7 @@
 					<!-- ko with: paymentMethod -->  
 						<table class="paymentTable table table-bordered table-hover">
 								<thead>
+								<span class="required">*</span>
 									<tr>       
 										<th>Modes</th>   
 										<th>Particulars</th>
@@ -73,21 +76,21 @@
 								</thead> 
 								<tbody data-bind="foreach: $root.paymentMethods">     
 									 <tr> 
-										<td class="input-small">
-											<select class="input-small" data-bind="event: {change: $root.addRow},value: mode">
+										<td class="input-small">											
+											<select class="input-small" data-bind="event: {select: $root.addRow},value: mode">
 												<option value=""></option> 
 												<option value="Cash">Cash</option> 
 												<option value="Credit">Credit</option>
 												<option value="Debit">Debit</option>
 											</select>
 										</td>
-										<td class="input-small">
+										<td class="input-small">											 
 											<input class="input-medium"	data-bind="
 												event: {keyup: $root.addRow},
 												value: particulars, 
 												valueUpdate: 'afterkeydown'" />
 										</td> 
-										<td class="input-small">
+										<td class="input-small">									
 											<input class="input-small" data-bind="
 												event: {keyup: $root.addRow},
 												value: amount, 
@@ -141,7 +144,8 @@
 			</tr>          
 	</tbody> 
 </table>
-	<!-- /ko --> 
+<!-- /ko --> 
+</div> 
 <div class="footer">
 	<div class="pull-right marginBottom5">
 		<button type="button" class="btn btn-small">Print Receipt</button>
@@ -150,4 +154,4 @@
 		<button type="button" class="btn btn-small btn-danger">Cancel</button>
 	</div>
 </div>
-</div>
+

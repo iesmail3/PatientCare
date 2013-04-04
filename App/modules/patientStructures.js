@@ -192,13 +192,14 @@ define(function(require) {
 	
 	// Follow Up
 	patient.prototype.Followup = function(data) {
+		var self = this; 
 		if (data != null) {
 			this.id			 = ko.observable(data.id);
 			this.patientId	 = ko.observable(data.patient_id);
 			this.serviceRecordId   = ko.observable(data.service_record_id); 
 			this.type		 = ko.observable(data.type);
-			this.value		 = ko.observable(data.value);
-			this.unit		 = ko.observable(data.unit);
+			this.value		 = ko.observable(data.value).extend({required: true});
+			this.unit		 = ko.observable(data.unit).extend({required: true});
 			this.comment	 = ko.observable(data.comment);
 			this.serviceDate = ko.observable(data.service_date);
 			this.plan		 = ko.observable(data.plan);
@@ -208,12 +209,14 @@ define(function(require) {
 			this.patientId	 = ko.observable();
 			this.serviceRecordId = ko.observable(); 
 			this.type		 = ko.observable();
-			this.value		 = ko.observable();
-			this.unit		 = ko.observable();
+			this.value		 = ko.observable().extend({required: true});
+			this.unit		 = ko.observable().extend({required: true});
 			this.comment	 = ko.observable();
 			this.serviceDate = ko.observable();
 			this.plan		 = ko.observable();
 		}
+		
+		self.errors = ko.validation.group(self, {messagesOnModified: false});
 	}
 	
 	// Guarantor
@@ -495,8 +498,8 @@ define(function(require) {
 			this.idNumber			  = ko.observable(data.id_number);
 			this.idType				  = ko.observable(data.id_type);
 			this.firstName			  = ko.observable(data.first_name).extend({required: true});
-			this.middleName			  = ko.observable(data.middle_name);
-			this.lastName			  = ko.observable(data.last_name);
+			this.middleName			  = ko.observable(data.middle_name).extend({required: true});;
+			this.lastName			  = ko.observable(data.last_name).extend({required: true});;
 			this.address			  = ko.observable(data.address);
 			this.city				  = ko.observable(data.city);
 			this.state				  = ko.observable(data.state);
@@ -579,20 +582,22 @@ define(function(require) {
 	
 	// Payment Method
 	patient.prototype.PaymentMethod = function(data) {
+		var self = this; 
 		if (data != null) {
 			this.id			 = ko.observable(data.id);
 			this.checkoutId	 = ko.observable(data.checkout_id);
-			this.mode		 = ko.observable(data.mode);
-			this.particulars = ko.observable(data.particulars);
-			this.amount		 = ko.observable(data.amount);
+			this.mode		 = ko.observable(data.mode).extend({required: true});
+			this.particulars = ko.observable(data.particulars).extend({required: true});
+			this.amount		 = ko.observable(data.amount).extend({required: true});
 		}
 		else {
 			this.id			 = ko.observable('');
 			this.checkoutId	 = ko.observable('');
-			this.mode		 = ko.observable('');
-			this.particulars = ko.observable('');
-			this.amount		 = ko.observable('');
+			this.mode		 = ko.observable('').extend({required: true});
+			this.particulars = ko.observable('').extend({required: true});
+			this.amount		 = ko.observable('').extend({required: true});
 		}
+		self.errors = ko.validation.group(self, {messagesOnModified: false});
 	}
 	
 	// Physical Examination: Abd

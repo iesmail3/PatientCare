@@ -13,9 +13,20 @@ define(function(require) {
 	 var Forms = require('modules/form');					// Common form elements
 	var Structures = require('modules/patientStructures'); 
 	 var modal	   = require('modals/modals');				// Modals
-	 	var app = require('durandal/app');
+	 var app = require('durandal/app');
 	/*********************************************************************************************** 
-	 * KO Observables
+	 /*********************************************************************************************** 
+	 * Validation Configuration
+	 **********************************************************************************************/
+	ko.validation.init({
+		insertMessages: false,
+		parseInputAttributes: true,
+		grouping: {deep: true, observable: true},
+		decorateElement: true,
+		messagesOnModified: false
+	});
+	 
+	/* KO Observables
 	 **********************************************************************************************/
 	 var form = new Forms();
 	 var backend = new Backend();
@@ -115,7 +126,7 @@ define(function(require) {
 	 * For including ko observables and computed functions, add an attribute of the same name.
 	 * Ex: observable: observable
 	 **********************************************************************************************/
-	return {
+	return{
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
@@ -178,6 +189,13 @@ define(function(require) {
 				});
 				
 				$( ".currentDate" ).datepicker({dateFormat:"mm/dd/yy"}).datepicker("setDate",new Date());
+				
+				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
+				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
+				$(window).resize(function() {
+				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
+				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
+});
 			},
 			// Loads when view is loaded
 			activate: function(data) {
@@ -215,7 +233,8 @@ define(function(require) {
 						var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
 						self.paymentMethods(p);
 						self.paymentMethod(p[0]);
-						self.paymentMethods.push(new structures.PaymentMethod()); 					
+						self.paymentMethods.push(new structures.PaymentMethod()); 
+						
 					}
 					else { 
 						paymentMethods(new structures.PaymentMethod()); 
@@ -342,10 +361,16 @@ define(function(require) {
 		selectSuperbill: function(data) {
 			modal.showSuperbill('Superbill');
 		},
-		saveFollowup: function(data) { 
-			backend.saveFollowup(followup().id(), followup());
-			$('.followupAlert').removeClass().addClass('alert alert-success').html('Success!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
-		},
+		 saveFollowup: function(data) {
+			if(followup().errors().length == 0) {
+			     system.log('inside if'); 
+				backend.saveFollowup(followup().id(), followup());
+				// $('.followupAlert').removeClass().addClass('alert alert-success').html('Success!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
+		   }
+		   else {
+				$('.followupAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+			}
+		 },
 		deleteFollowup: function(item, test) {
 			return app.showMessage(
 				'Are you sure you want to delete followup with service date ' + item.serviceDate() +'?', 
@@ -363,9 +388,9 @@ define(function(require) {
 				}
 			});
 		},
-		addRow: function(data) { 
+		addRow: function(data) {  
 			var last = paymentMethods()[paymentMethods().length - 1];
-			if(last.mode()!='' && last.amount()!='')
+			if(last.mode()!='')
 			{ 
 			   paymentMethods.push(new structures.PaymentMethod()); 
 			}	
@@ -375,79 +400,28 @@ define(function(require) {
 			backend.deletePaymentMethod(data.id()); 
 		},
 		savePaymentMethod: function(data) { 
-			// Save Checkout
-			backend.saveCheckout(checkout());
-			
-			// Get payment methods with data
+			 var isValid = true;
+			 var pm = paymentMethods()[paymentMethods().length-1]; 
+			if(pm.particulars().trim() == '' && pm.amount().trim() == '') {
+				paymentMethods.remove(pm);
+			}
 			$.each(paymentMethods(), function(k, v) {
-				if(v.mode().trim() != '' && v.amount().trim() != '') {
-				     system.log('inside all empty'); 
-					backend.savePaymentMethod(checkout().id(),v);
-				}
-			});
-			
-			
-			/*
-			var validInput = true; 
-			//loop through the table and check to see if there is any invalid input 
-			$.each(paymentMethods(), function(k, v) {
-				if(v.mode().trim() == '' && v.particulars().trim() == '' && v.amount().trim() == '') {
-					// system.log('inside all blank id is ' + v.id()); 
-					return true; 	
-				}
-				if(v.mode().trim() == '' || v.amount().trim() == '' ) {
-				//system.log('inside mode and amount'); 
-				   validInput = false;
-				}
-				if(checkout().additionalCharges().trim() == '' || checkout().otherCopay().trim() == '') { 
-				//system.log('inside addit and copay'); 
-					validInput = false;
+				if(v.errors().length != 0) {
+						isValid = false;
 				}
 			}); 
-		//  checkout().primaryInsurance = ko.observable((checkout().primaryInsurance() == true ? 1 : 0));
-		 if(validInput) {
-		    //update checkout fields
-			backend.saveCheckout(checkout());
 			
-		    //loop for each row in the payment table
-			$.each(paymentMethods(), function(k, v) {
-				var addRow = false; 
-			    //if the row is blank, skip to the next row
-				if(v.mode() == '' && v.particulars() == '' && v.amount() == '') {
-				       // system.log('inside all blank id is ' + v.id()); 
-						return true; 	
-				} 	  
-				 //row is new 
-				if (v.id() == '' || v.id() == 'undefined') 
-				  addRow = true;
-			   //if new, add it to the database and update the observable array 
-				if(addRow) {
-					// system.log('inside addRow id is' + v.id()); 
-					 v.checkoutId = checkout().id(); 
-					 backend.savePaymentMethod(v);
-					 backend.getPaymentMethods(checkout().id()).success(function(data) {	 
-						if(data.length > 0) {
-							var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
-							 paymentMethods(p);
-							 paymentMethod(p[0]);
-							 paymentMethods.push(new structures.PaymentMethod()); 					
-						} 
-					}); 
-				} 
-				
-				//else update the row
-				else {
-				 //system.log('inside updateRow id is ' + v.id()); 
-				  backend.updatePaymentMethod(v); 
-				}
-            });    
-		} 
-		
-		if(validInput)
-			 $('.checkoutAlert').removeClass('alert-error alert-success').addClass('alert-success').html('Success!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
-		else
-			$('.checkoutAlert').removeClass('alert-success alert-error').addClass('alert-error').html('Please fill out the required fields!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
-			*/
+			if(isValid) {
+				$.each(paymentMethods(), function(k, v) {
+				  backend.savePaymentMethod(checkout().id(),v);
+				}); 
+			}
+			
+			else { 
+					$('.checkoutAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+			}
+			
+			paymentMethods.push(new structures.PaymentMethod()); 
 	},
 	savePhoneLog: function(data) { 
 	   
@@ -455,4 +429,9 @@ define(function(require) {
               system.log('showAssigned is' + showAssigned()); 			  
 	} 
  }
+ 
+ //Turn validation on
+	// var errors = vm['formErrors'] = ko.validation.group(vm);
+	// vm.followup().errors.showAllMessages();
+	// return vm;
 });

@@ -236,7 +236,8 @@
 	margin: 0px;
 	height: 100%;
 	border: none;
-
+}
+/*********************************************************/
 /* Followup */
 .superBox { 
 	min-width: 800px;
@@ -248,14 +249,14 @@
    overflow-y: auto;
 }
 
-.followupAlert { 
-	height:55px;
-	display: block;
+.followupAlert {
+	height: 20px;
+	display: none;
 }
 
 .checkoutAlert { 
-	height:40px;
-	display: block;
+	height: 20px;
+	display: none;
 }
 
 .checkoutPane {
