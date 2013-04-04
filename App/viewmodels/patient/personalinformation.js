@@ -243,15 +243,12 @@ define(function(require) {
 		clickPersonal: function(data) {
 			var self = this;
 			if(self.patient().errors().length == 0) {
-				alert('thank you');
-			/*
-			self.backend.savePatient(self.patientId(), self.patient()).complete(function(data) {
-				if(data.responseText != "" && data.responseText != "failUpdate") {
-					self.patientId($.parseJSON(data.responseText)[0].id);
-					router.navigateTo('#/patient/personalinformation/' + (parseInt(self.patientId()) + 1));
-				}
-			});
-			*/
+				self.backend.savePatient(self.patientId(), self.patient()).complete(function(data) {
+					if(data.responseText != "" && data.responseText != "failUpdate") {
+						self.patientId($.parseJSON(data.responseText)[0].id);
+						router.navigateTo('#/patient/personalinformation/' + (parseInt(self.patientId()) + 1));
+					}
+				});
 			}
 			else {
 				$('.personalAlert').fadeIn('slow').delay(2000).fadeOut('slow');
