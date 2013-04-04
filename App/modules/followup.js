@@ -145,7 +145,7 @@
 		var self = this; 
 		var patientId = data.patientId();  
 		var fields = ['id','patient_id','service_record_id','type','value','unit','comment','service_date','plan'];
-		
+
 		var values = $.map(data, function(k,v) {
 			return [k];
 		});
@@ -159,10 +159,10 @@
 			});
 	}
 	
-	followup.prototype.savePaymentMethod = function(checkoutId, data) { 
+	followup.prototype.savePaymentMethod = function(checkoutId, paymentMethod) { 
 		var self = this; 
 		var fields = ['id','checkout_id','mode','particulars','amount'];
-		var values = $.map(data, function(k,v) {
+		var values = $.map(paymentMethod, function(k,v) {
 			if(k == null || k == undefined) {
 				return[''];
 			}
@@ -170,13 +170,33 @@
 				return [k()];
 			}
 		});
-		
-		if(data.id() == undefined || data.id() == '') { 
+         values[1] = checkoutId;
+		for(var i =0; i < fields.length;i++) { 
+			system.log(fields[i] + ' ' + values[i]); 
+		}
+		if(paymentMethod.id() == undefined || paymentMethod.id() == '') { 
+			
+			 
+		    var newId = '';
 			return self.query({
-				mode:  'insert', 
-				table: 'payment_method',
-				fields: fields, 
-				values: values
+					mode: 'select',
+					table: 'payment_method',
+					fields: 'id',
+					order: 'ORDER BY id DESC',
+					limit: 'LIMIT 1'
+			}).success(function(data) {
+					$.each(data, function(key, item) {
+							newId = parseInt(item.id) + 1;
+					});
+					
+					values[0] = newId;
+					paymentMethod.id(newId); 
+					self.query({
+							mode: 'insert',
+							table: 'payment_method',
+							fields: fields,
+							values: values,
+					});
 			});
 		}
 		else { 
@@ -185,7 +205,7 @@
 				table: 'payment_method',
 				fields: fields, 
 				values: values,
-				where: "WHERE id='" + data.id() + "'"
+				where: "WHERE id='" + paymentMethod.id() + "'"
 			});	
 		}  
 	}

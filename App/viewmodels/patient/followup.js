@@ -292,9 +292,9 @@ define(function(require) {
 		totalPay:  totalPay,
 		balance:   balance,
 		totalReceivable: totalReceivable,
-		// setFields: function(data) {
-			// followup(data);
-		// },        
+		setFields: function(data) {
+			followup(data);
+		},        
 		setCheckOutFields: function(data) { 
 			checkout(data);  
 			backend.getPaymentMethods(data.id()).success(function(data) {		
@@ -380,8 +380,10 @@ define(function(require) {
 			
 			// Get payment methods with data
 			$.each(paymentMethods(), function(k, v) {
-				if(!(v.mode() == '' && v.particulars() == '' && v.amount() == ''))
-					backend.savePaymentMethod(checkout().id(), v);	
+				if(v.mode().trim() != '' && v.amount().trim() != '') {
+				     system.log('inside all empty'); 
+					backend.savePaymentMethod(checkout().id(),v);
+				}
 			});
 			
 			
