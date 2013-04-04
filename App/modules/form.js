@@ -315,18 +315,112 @@ define(function(require) {
 	]);
 	
 	form.prototype.uiDate = function(date) {
-		if(date.indexOf('-') >= 0)
-			return date.substring(5,7) + "/" + date.substring(8,10) + "/" + date.substring(0,4);
-		else
-			return date;
+		if(date != null && date != undefined && date != '' && date != '0000-00-00') {
+			if(date.indexOf('-') >= 0)
+				return date.substring(5,7) + "/" + date.substring(8,10) + "/" + date.substring(0,4);
+			else
+				return date;
+		}
+		else {
+			return null;
+		}
 	}
 	
 	form.prototype.dbDate = function(date) {
-		if(date.indexOf('/') >= 0)
-			return date.substring(6,10) + "-" + date.substring(0,2) + "-" + date.substring(3,5);
-		else
-			return date;
+		if(date != null && date != undefined && date != '' && date != '0000/00/00') {
+			if(date.indexOf('/') >= 0)
+				return date.substring(6,10) + "-" + date.substring(0,2) + "-" + date.substring(3,5);
+			else
+				return date;
+		}
+		else {
+			return null;
+		}
 	}
+	
+	/**************************************************************************************************
+	 * Medication Routes
+	 *************************************************************************************************/
+	form.prototype.routes = ko.observable([
+		{'value' : 'IM', 'text' : 'IM'},
+		{'value' : 'Inhalational', 'text' : 'Inhalational'},
+		{'value' : 'IV-Push', 'text' : 'IV-Push'},
+		{'value' : 'IV-Infusion', 'text' : 'IV-Infusion'},
+		{'value' : 'Local', 'text' : 'Local'},
+		{'value' : 'PO', 'text' : 'PO'},
+		{'value' : 'Rectally', 'text' : 'Rectally'},
+		{'value' : 'SC', 'text' : 'SC'},
+		{'value' : 'Sublingually', 'text' : 'Sublingually'},
+		{'value' : 'Through-Tube', 'text' : 'Through-Tube'},
+		{'value' : 'Transdermal', 'text' : 'Transdermal'}
+	]);
+	
+	/**************************************************************************************************
+	 * Medication Sig Codes
+	 *************************************************************************************************/
+	form.prototype.sigCodes = ko.observableArray([
+		{'value' : '2h', 'text' : '2h'},
+		{'value' : '2h pm', 'text' : '2h pm'},
+		{'value' : '5xd', 'text' : '5xd'},
+		{'value' : '6xd', 'text' : '6xd'},
+		{'value' : 'As Directed', 'text' : 'As Directed'},
+		{'value' : 'At 4 PM', 'text' : 'At 4 PM'},
+		{'value' : 'At noon', 'text' : 'At noon'},
+		{'value' : 'bid', 'text' : 'bid'},
+		{'value' : 'biw', 'text' : 'biw'},
+		{'value' : 'hs', 'text' : 'hs'},
+		{'value' : 'pc', 'text' : 'pc'},
+		{'value' : 'pm', 'text' : 'pm'},
+		{'value' : 'q10h', 'text' : 'q10h'},
+		{'value' : 'q12h', 'text' : 'q12h'},
+		{'value' : 'q18h', 'text' : 'q18h'},
+		{'value' : 'q1h', 'text' : 'q1h'},
+		{'value' : 'q1mo', 'text' : 'q1mo'},
+		{'value' : 'q2-3h', 'text' : 'q2-3h'},
+		{'value' : 'q24h', 'text' : 'q24h'},
+		{'value' : 'q2-4h', 'text' : 'q2-4h'},
+		{'value' : 'q2d', 'text' : 'q2d'},
+		{'value' : 'q2h', 'text' : 'q2h'},
+		{'value' : 'q2wk', 'text' : 'q2wk'},
+		{'value' : 'q3-4h', 'text' : 'q3-4h'},
+		{'value' : 'q3-4wk', 'text' : 'q3-4wk'},
+		{'value' : 'q36h', 'text' : 'q36h'},
+		{'value' : 'q3d', 'text' : 'q3d'},
+		{'value' : 'q3h', 'text' : 'q3h'},
+		{'value' : 'q3wk', 'text' : 'q3wk'},
+		{'value' : 'q4-6h', 'text' : 'q4-6h'},
+		{'value' : 'q4-6h pm', 'text' : 'q4-6h pm'},
+		{'value' : 'q48h', 'text' : 'q48h'},
+		{'value' : 'q4d', 'text' : 'q4d'},
+		{'value' : 'q4h', 'text' : 'q4h'},
+		{'value' : 'q4h pm', 'text' : 'q4h pm'},
+		{'value' : 'q4wk', 'text' : 'q4wk'},
+		{'value' : 'q5d', 'text' : 'q5d'},
+		{'value' : 'q5h', 'text' : 'q5h'},
+		{'value' : 'q6-8h', 'text' : 'q6-8h'},
+		{'value' : 'q6-8h pm', 'text' : 'q6-8h pm'},
+		{'value' : 'q6d', 'text' : 'q6d'},
+		{'value' : 'q6h', 'text' : 'q6h'},
+		{'value' : 'q7d', 'text' : 'q7d'},
+		{'value' : 'q7h', 'text' : 'q7h'},
+		{'value' : 'q8-12h', 'text' : 'q8-12h'},
+		{'value' : 'q8h', 'text' : 'q8h'},
+		{'value' : 'q9', 'text' : 'q9'},
+		{'value' : 'qac', 'text' : 'qac'},
+		{'value' : 'qam', 'text' : 'qam'},
+		{'value' : 'qd', 'text' : 'qd'},
+		{'value' : 'Qday', 'text' : 'Qday'},
+		{'value' : 'qhs', 'text' : 'qhs'},
+		{'value' : 'qid', 'text' : 'qid'},
+		{'value' : 'qnoc', 'text' : 'qnoc'},
+		{'value' : 'qod', 'text' : 'qod'},
+		{'value' : 'qpm', 'text' : 'qpm'},
+		{'value' : 'qwk', 'text' : 'qwk'},
+		{'value' : 'stat', 'text' : 'stat'},
+		{'value' : 'tid', 'text' : 'tid'},
+		{'value' : 'tiw', 'text' : 'tiw'},
+		{'value' : 'x1', 'text' : 'x1'}
+	]);
 	
 	/**************************************************************************************************
 	 * Imaging Orders

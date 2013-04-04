@@ -83,7 +83,6 @@ define(function(require) {
 				var id = self.serviceRecord().id();
 				self.backend.getOrders(id).success(function(data){
 					var o = $.map(data, function(item) { return new self.structures.Order(item); });
-					system.log(data);
 					self.orders(o);
 				});
 			});

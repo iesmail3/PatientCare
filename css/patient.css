@@ -114,10 +114,14 @@
 	margin-bottom: 15px;
 }
 
-.bigContainer {
+.insuranceOptions {
     border: 1px solid #aaa;  
-    width: 130px;
+    width: 160px;
     margin: 12px;      
+}
+
+.insuranceOptions label {
+   width: 140px !important;
 }
 .commentContainer {
 	padding-right: 15px;
@@ -162,6 +166,11 @@
 
 /* Personal Information */
 .personalAlert {
+	height: 20px;
+	display: none;
+}
+
+.reviewAlert {
 	height: 20px;
 	display: none;
 }
@@ -272,14 +281,27 @@
 	border: none;
 }
 
-
 /* Followup */
 .superBox { 
-min-width: 800px;
-height: 600px;
+	min-width: 800px;
+	height: 500px;
 }
 
 .superBox .modal-body {
    height: 521px;
+   overflow-y: auto;
+}
+
+.followupAlert {
+	height: 20px;
+	display: none;
+}
+
+.checkoutAlert { 
+	height: 20px;
+	display: none;
+}
+
+.checkoutPane {
    overflow-y: auto;
 }

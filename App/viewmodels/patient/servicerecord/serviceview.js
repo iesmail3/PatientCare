@@ -108,8 +108,9 @@ define(function(require) {
 				'Delete',
 				['Yes', 'No'])
 			.done(function(answer){
+				system.log(item);
 				if(answer == 'Yes') {
-					backend.deleteServiceRecord(item.date()).complete(function(data) {
+					backend.deleteServiceRecord(item.patientId(), item.practiceId(), item.date()).complete(function(data) {
 						if(data.responseText == 'fail') {
 							app.showMessage('The service record could not be deleted.', 'Deletion Error');
 						}
