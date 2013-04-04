@@ -119,6 +119,8 @@ define(function(require) {
 	}
 	
 	Order.prototype.goToDrugs = function(data) {
+		var modal = require('modals/modals');
+		modal.showDrugOrder(self.practiceId, self.serviceRecordId, self.order().id(), 'Drug Order');
 	}
 	
 	Order.prototype.goToFlow = function(data) {

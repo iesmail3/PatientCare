@@ -50,6 +50,32 @@ define(function(require) {
 		});
 	}
 	
+	// Get Patient information from ServiceRecord
+	order.prototype.getPatientFromService = function(id) {
+		var fields = [
+			'patient.id', 'patient.practice_id', 'patient.physician_id', 'id_number', 'id_type',
+			'first_name', 'middle_name', 'last_name', 'address', 'city', 'state', 'zip', 'province',
+			'country', 'phone', 'phone_ext', 'mobile', 'date_of_birth', 'alias', 'gender'
+		];
+		return this.query({
+			mode: 'select',
+			table: 'service_record',
+			fields: fields,
+			join: "LEFT JOIN patient ON service_record.patient_id=patient.id",
+			where: "WHERE service_record.id='" + id + "'"
+		})
+	}
+	
+	// Get Vital Signs
+	order.prototype.getVitals = function(id) {
+		return this.query({
+			mode: 'select',
+			table: 'vital_signs',
+			fields: '*',
+			where: "WHERE service_record_id='" + id + "'" 
+		});
+	}
+	
 	order.prototype.getServiceRecord = function(patientId, practiceId, date) {
 		return this.query({
 			mode: 'select',
