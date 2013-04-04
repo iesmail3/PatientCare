@@ -1,9 +1,14 @@
 .legend {
 	font-size: 14pt;
+	margin-bottom: 3px;
 }
 
 .input-xmedium {
 	width: 119px;
+}
+
+.input-mediumLarge {
+	width: 150px;
 }
 
 .checkbox {
@@ -24,7 +29,10 @@
 .contentPane .container-fluid {
 	padding: 5px;
 }
-     
+
+.tabScroll {
+	overflow-y: auto;
+}
 
 .fill {
 	height: 100%;   
@@ -132,17 +140,50 @@
     width: 130px;   
 }
 
+.alertHolder {
+	height: 45px;
+}
+
+.validationElement { 
+	border: solid 1px red !important;
+}
+
+.required {
+	color: red;
+}
+
+/* Personal Information */
+.personalAlert {
+	height: 20px;
+	display: none;
+}
+
 .span6 .label, label.inline  {
     display: inline-block;
     width: 130px;   
 }
 
-#additionalCharges{ 
+#additionalCharges { 
  display: inline-block;
     width: 139px;
 };
 
 /* Orders */
+.mainOrderTableHolder {
+	height: 450px;
+	overflow-y: auto;
+}
+
+.mainOrderTableHolder tr,
+.orderTableHolder tr,
+.officeTableHolder tr {
+	cursor: default;
+}
+
+.orderForm a {
+	cursor: pointer;
+}
+
 .orderTable td div {
 	width: 15px;
 	margin: auto;
@@ -173,7 +214,32 @@
 	overflow-y: auto;
 }
 
-.modal-body {
+.orderBox .modal-body {
 	max-height: none;
 	min-height: 400px;
+}
+
+.officeTableHolder {
+	height: 400px;
+	overflow-y: auto;
+}
+
+.inputCell {
+	padding: 0 !important;
+}
+.inputCell input {
+	padding: 4px;
+	margin: 0px;
+	height: 100%;
+	border: none;
+
+/* Followup */
+.superBox { 
+min-width: 800px;
+height: 600px;
+}
+
+.superBox .modal-body {
+   height: 521px;
+   overflow-y: auto;
 }

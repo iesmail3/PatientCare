@@ -11,7 +11,7 @@ define(function(require) {
 	 var custom = require('durandal/customBindings');	// Custom bindings
 	 var Backend = require('modules/followup');			// Database access
 	 var Structures = require('modules/patientStructures'); 
-	
+	 var modal	   = require('modals/modals');				// Modals
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
@@ -242,9 +242,7 @@ define(function(require) {
                      self.prescription(p[0]); 					 
 				} 
 			});
-			
-			
-		   
+		 
 			var test = ['Nathan Abraham', 'Ian Sinkler'];
 			self.myArray(test);
 			
@@ -308,6 +306,15 @@ define(function(require) {
 			   tempPhoneLog(phoneLog());
                phoneLog(new structures.PhoneLog());
 			   showAssigned(false); 
-		} 
+		},
+		selectRow: function(data) { 
+			modal.showPrescription(data,patientId(),practiceId(),'Prescription Details');
+		},
+		selectLink: function(data) {
+			modal.showAdditionalDetails('Additional Details');
+		},
+		selectSuperbill: function(data) {
+			modal.showSuperbill('Superbill');
+		}
 	};         
 });

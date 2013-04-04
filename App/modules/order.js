@@ -44,9 +44,19 @@ define(function(require) {
 	order.prototype.getPatient = function(id, practiceId) {
 		return this.query({
 			mode: 'select', 
-			table: 'order', 
+			table: 'patient', 
 			fields: '*', 
 			where: "WHERE id='" + id + "' AND practice_id='" + practiceId + "'"
+		});
+	}
+	
+	order.prototype.getServiceRecord = function(patientId, practiceId, date) {
+		return this.query({
+			mode: 'select',
+			table: 'service_record',
+			fields: '*',
+			where: "WHERE patient_id='" + patientId + "' AND practice_id='" 
+			+ practiceId + "' AND date='" + date + "'"
 		});
 	}
 	
@@ -69,6 +79,60 @@ define(function(require) {
 		});
 	}
 	
+	order.prototype.getOrder = function(id) {
+		return this.query({
+			mode: 'select',
+			table: 'orders',
+			fields: '*',
+			where: "WHERE id='" + id + "'"
+		});
+	}
+	
+	order.prototype.getOrders = function(id) {
+		var fields = ['orders.id', 'orders.service_record_id', 'orders.in_office', 'orders.instructions', 
+			'orders.assigned_to', 'orders.date', 'orders.order_category_id', 'order_category.description',
+			'orders.type', 'orders.comment', 'orders.center', 'orders.group'
+		];
+		return this.query({
+			mode: 'select',
+			table: 'orders',
+			fields: 'orders.id, orders.service_record_id, orders.in_office, orders.instructions,' + 
+					'orders.assigned_to, orders.date, orders.order_category_id, order_category.description,' +
+					'orders.type, orders.comment, orders.center, orders.group',
+			join: "LEFT JOIN order_category ON orders.order_category_id=order_category.id",
+			where: "WHERE service_record_id='" + id + "'"
+		});
+	}
+	
+	order.prototype.getOrderGroup = function(id) {
+		return this.query({
+			mode: 'select',
+			table: 'orders',
+			fields: '`group`',
+			where: "WHERE service_record_id='" + id + "'",
+			order: "ORDER BY `group` DESC",
+			limit: "LIMIT 1"
+		});
+	}
+	
+	order.prototype.getOfficeProcedureTypes = function(id) {
+		return this.query({
+			mode: 'select',
+			table: 'office_procedure_type',
+			fields: '*',
+			where: "WHERE practice_id='" + id + "'"
+		});
+	}
+	
+	order.prototype.getOfficeProcedures = function(id) {
+		return this.query({
+			mode: 'select',
+			table: 'office_procedure',
+			fields: '*',
+			where: "WHERE order_id='" + id + "'"
+		});
+	}
+		
 	/**********************************************************************************************
 	 * Save Methods
 	 * 
@@ -119,7 +183,7 @@ define(function(require) {
 		else {
 			return self.query({
 				mode: 'update', 
-				table: 'order',
+				table: '`order`',
 				fields: fields, 
 				values: values, 
 				where: "WHERE id='" + id + "' AND practice_id='" + practiceId + "'"
@@ -151,88 +215,72 @@ define(function(require) {
 		});
 	}
 	
-	// Add Insurance for a Single Patient
-	order.prototype.addInsurance = function(id, data) {
+	order.prototype.saveOrder = function(data, method) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'order_category_id',
+			'type', 'in_office', 'instructions', 'assigned_to', 'date',
+			'comment', 'center', 'group'];
 		var values = $.map(data, function(k,v) {
-			return [k];
+			if(v == 'description') 
+				return null;
+			if(k() == null || k() == undefined) {
+				return [''];
+			}
+			else
+				return [k()];
 		});
 		
-		return this.query({
-			mode: 'insert', 
-			table: 'insurance', 
-			values: values, 
-			where: "WHERE order_id='" + id + "'"
-		});
+		if(method == "update") {
+			self.query({
+				mode: 'update',
+				table: 'orders',
+				fields: fields,
+				values: values,
+				where: "Where `group`='" + data.group() + "' AND `order_category_id`='" 
+				+ data.orderCategoryId() + "'"
+			});
+		}
+		else {
+			self.query({
+				mode: 'insert', 
+				table: 'orders',
+				fields: fields, 
+				values: values
+			});
+		}
 	}
 	
-	// Add Guarantor for a Single Patient
-	order.prototype.addGuarantor = function(id, data) {
+	order.prototype.saveOfficeProcedure = function(data, method) {
+		var self = this;
+		var fields = ['id', 'order_id', 'office_procedure_type_id', 'times'];
 		var values = $.map(data, function(k,v) {
-			return [k];
+			if(v == 'description') 
+				return null;
+			if(k() == null || k() == undefined) {
+				return [''];
+			}
+			else
+				return [k()];
 		});
 		
-		return this.query({
-			mode: 'insert', 
-			table: 'guarantor', 
-			values: values, 
-			where: "WHERE order_id='" + id + "'"
-		});
-	}
-	
-	// Add Employer for a Single Patient
-	order.prototype.addEmployer = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'insert', 
-			table: 'employer', 
-			values: values, 
-			where: "WHERE order_id='" + id + "'"
-		});
-	}
-	
-	// Add Spouse for a Single Patient
-	order.prototype.addSpouse = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'insert', 
-			table: 'spouse', 
-			values: values, 
-			where: "WHERE order_id='" + id + "'"
-		});
-	}
-	
-	// Add Reference for a Single Patient
-	order.prototype.addReference = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'insert', 
-			table: 'reference', 
-			values: values, 
-			where: "WHERE order_id='" + id + "'"
-		});
-	}
-	
-	// Add Service Record for a Single Patient
-	order.prototype.addServiceRecord = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
-		return this.query({
-			mode: 'insert', 
-			table: 'service_record', 
-			values: values, 
-			where: "WHERE id='" + id + "'"
-		});
+		if(method == "update") {
+			self.query({
+				mode: 'update',
+				table: 'orders',
+				fields: fields,
+				values: values,
+				where: "Where `group`='" + data.group() + "' AND `order_category_id`='" 
+				+ data.orderCategoryId() + "'"
+			});
+		}
+		else {
+			self.query({
+				mode: 'insert', 
+				table: 'office_procedure',
+				fields: fields, 
+				values: values
+			});
+		}
 	}
 	
 	/**********************************************************************************************
@@ -255,6 +303,15 @@ define(function(require) {
 			mode: 'delete', 
 			table: 'service_record', 
 			where: "WHERE id='" + id + "'"
+		});
+	}
+	
+	// Delete Order
+	order.prototype.deleteOrder = function(id, group) {
+		return this.query({
+			mode: 'delete',
+			table: 'orders',
+			where: "WHERE order_category_id='" + id + "' AND `group`='" + group + "'"
 		});
 	}
 	

@@ -5,10 +5,16 @@
 		<div class="row-fluid">
 			<fieldset>
 				<legend>Personal Details</legend>
+				<div class="alertHolder">
+					<div class="alert alert-danger personalAlert">You have are missing required fields.</div>
+				</div>
 				<div class="marginBottom5">
-					<input type="text" data-bind="value: lastName" placeholder="Last Name" />
-					<input type="text" data-bind="value: middleName" placeholder="Middle Name" />
-					<input type="text" data-bind="value: firstName" placeholder="First Name" />
+					<input type="text" class="input-mediumLarge" id="lastName" data-bind="value: lastName" placeholder="Last Name" required="true">
+					<span class="required">*</span>
+					<input type="text" class="input-mediumLarge" id="middleName" data-bind="value: middleName" placeholder="Middle Name" required>
+					<span class="required">*</span>
+					<input type="text" class="input-mediumLarge" id="firstName" data-bind="value: firstName" placeholder="First Name" required>
+					<span class="required">*</span>
 				</div>
 				<div class="marginBottom5">
 					<input type="text" data-bind="value: alias" placeholder="Alias" />

@@ -8,7 +8,8 @@ define(function(require) {
 	 * Includes*
 	 **********************************************************************************************/
 	var system = require('durandal/system');			// System logger
-	var Forms = require('modules/form');				// Common form elements
+	var Forms   = require('modules/form');
+	var form = new Forms();
 	
 	/**********************************************************************************************
 	 * Constructor
@@ -410,11 +411,13 @@ define(function(require) {
 			this.id			 = ko.observable(data.id);
 			this.description = ko.observable(data.description);
 			this.unit		 = ko.observable(data.unit);
+			this.times		 = ko.observable(0);
 		}
 		else {
 			this.id			 = ko.observable();
 			this.description = ko.observable();
 			this.unit		 = ko.observable();
+			this.times       = ko.observable(0);
 		}
 	}
 	
@@ -424,11 +427,13 @@ define(function(require) {
 			this.id			 = ko.observable(data.id);
 			this.type		 = ko.observable(data.type);
 			this.description = ko.observable(data.description);
+			this.selected	 = ko.observable();
 		}
 		else {
 			this.id			 = ko.observable();
 			this.type		 = ko.observable();
 			this.description = ko.observable();
+			this.selected    = ko.observable();
 		}
 	}
 	
@@ -438,13 +443,14 @@ define(function(require) {
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.orderCategoryId = ko.observable(data.order_category_id);
 			this.type 			 = ko.observable(data.type);
-			this.inOffice 		 = ko.observable(data.in_office);
+			this.inOffice 		 = ko.observable(data.in_office == '1' ? 1 : 0);
 			this.instructions 	 = ko.observable(data.instructions);
 			this.assignedTo 	 = ko.observable(data.assigned_to);
 			this.date 			 = ko.observable(data.date);
 			this.comment 		 = ko.observable(data.comment);
 			this.description	 = ko.observable(data.description);
 			this.center			 = ko.observable(data.center);
+			this.group			 = ko.observable(data.group);
 		}
 		else {
 			this.id 			 = ko.observable();
@@ -458,6 +464,8 @@ define(function(require) {
 			this.comment 		 = ko.observable();
 			this.description	 = ko.observable();
 			this.center			 = ko.observable();
+			this.selected		 = ko.observable();
+			this.group			 = ko.observable();
 		}
 	}
 	
@@ -471,7 +479,7 @@ define(function(require) {
 			this.physicianId		  = ko.observable(data.physician_id);
 			this.idNumber			  = ko.observable(data.id_number);
 			this.idType				  = ko.observable(data.id_type);
-			this.firstName			  = ko.observable(data.first_name);
+			this.firstName			  = ko.observable(data.first_name).extend({required: true});
 			this.middleName			  = ko.observable(data.middle_name);
 			this.lastName			  = ko.observable(data.last_name);
 			this.address			  = ko.observable(data.address);
@@ -507,9 +515,9 @@ define(function(require) {
 			this.physicianId		  = ko.observable();
 			this.idNumber			  = ko.observable();
 			this.idType				  = ko.observable();
-			this.firstName			  = ko.observable('');
-			this.middleName			  = ko.observable('');
-			this.lastName			  = ko.observable('');
+			this.firstName			  = ko.observable().extend({required: true});
+			this.middleName			  = ko.observable().extend({required: true});
+			this.lastName			  = ko.observable().extend({required: true});
 			this.address			  = ko.observable();
 			this.city				  = ko.observable();
 			this.state				  = ko.observable();
@@ -540,7 +548,8 @@ define(function(require) {
 		
 		// This will return the name in the following format: Last, First
 		this.lastFirstName = ko.computed(function() {
-			if (self.lastName() == '' && self.firstName() == '')
+			if ((self.lastName() == '' && self.firstName() == '') ||
+				(self.lastName() == undefined && self.firstName() == undefined))
 				return '';
 			else
 				return self.lastName() + ", " + self.firstName();
@@ -549,6 +558,8 @@ define(function(require) {
 		this.goToRecord = ko.computed(function(element) {
 			return '#/patient/personalinformation/' + self.id();
 		});
+		
+		self.errors = ko.validation.group(self, {messagesOnModified: false});
 	}
 	
 	// Payment Method

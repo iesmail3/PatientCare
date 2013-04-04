@@ -171,7 +171,6 @@ define(function(require) {
 			}
 		},
 		serviceRecordCancel: function() {
-			serviceRecord(new structures.ServiceRecord()); // Can remove this.
 			serviceRecord(tempRecord());
 			serviceRecordState(false);
 		},
