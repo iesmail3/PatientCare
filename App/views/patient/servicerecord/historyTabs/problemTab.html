@@ -41,15 +41,15 @@
 		<!-- /ko -->
 		<div class="pull-right">
 			<button type="button" class="btn btn-small btn-success"
-				data-bind="visible: !$root.medicalProblemsState(), click: $root.medicalProblemsNew">
+				data-bind="visible: !$root.medicalProblemsState(), click: $root.medicalProblemNew">
 				New
 			</button>
 			<button type="submit" class="btn btn-small btn-primary"
-				data-bind="click: $root.medicalProblemsSave">
+				data-bind="click: $root.medicalProblemSave">
 				Save
 			</button>
 			<button type="button" class="btn btn-small btn-warning"
-				data-bind="visible: $root.medicalProblemsState(), click: $root.medicalProblemsCancel">
+				data-bind="visible: $root.medicalProblemsState(), click: $root.medicalProblemCancel">
 				Cancel
 			</button>
 		</div>
@@ -68,11 +68,11 @@
 		</thead>
 		<tbody data-bind="foreach: medicalProblems">
 			<tr>
-				<td data-bind="text: type, click: $root.medicalProblemsSetFields"></td>
-				<td data-bind="text: description, click: $root.medicalProblemsSetFields"></td>
-				<td data-bind="text: onsetDate, click: $root.medicalProblemsSetFields"></td>
-				<td data-bind="text: resolutionDate, click: $root.medicalProblemsSetFields"></td>
-				<td><a class="btn btn-small btn-danger" data-bind="click: $root.deleteMedicalProblem">Delete</a></td>
+				<td data-bind="text: type, click: $root.medicalProblemSetFields"></td>
+				<td data-bind="text: description, click: $root.medicalProblemSetFields"></td>
+				<td data-bind="text: onsetDate, click: $root.medicalProblemSetFields"></td>
+				<td data-bind="text: resolutionDate, click: $root.medicalProblemSetFields"></td>
+				<td><a class="btn btn-small btn-danger" data-bind="click: $root.medicalProblemDelete">Delete</a></td>
 			</tr>
 		</tbody>
 	</table>

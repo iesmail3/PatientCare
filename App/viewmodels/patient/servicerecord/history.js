@@ -36,12 +36,15 @@ define(function(require) {
 	var date = ko.observable();
 	var serviceRecord = ko.observable(new structures.ServiceRecord());
 	var reviewOfSystem = ko.observable(new structures.ReviewOfSystems());
-	var defaultReviewOfSystems = ko.observableArray([]);
 	var reviewOfSystems = ko.observableArray([]);
 	var tempMedicalProblem = ko.observable(new structures.MedicalProblem());
 	var medicalProblem = ko.observable(new structures.MedicalProblem());
 	var medicalProblems = ko.observableArray([]);
 	var medicalProblemsState = ko.observable(false);
+	var tempAllergiesIntolerance = ko.observable(new structures.AllergiesIntolerance());
+	var allergiesIntolerance = ko.observable(new structures.AllergiesIntolerance());
+	var allergiesIntolerances = ko.observableArray([]);
+	var allergiesIntoleranceState = ko.observable(false);
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -63,12 +66,15 @@ define(function(require) {
 		date: date,
 		serviceRecord: serviceRecord,
 		reviewOfSystem: reviewOfSystem,
-		defaultReviewOfSystems: defaultReviewOfSystems,
 		reviewOfSystems: reviewOfSystems,
 		tempMedicalProblem: tempMedicalProblem,
 		medicalProblem: medicalProblem,
 		medicalProblems: medicalProblems,
 		medicalProblemsState: medicalProblemsState,
+		tempAllergiesIntolerance: tempAllergiesIntolerance,
+		allergiesIntolerance: allergiesIntolerance,
+		allergiesIntolerances: allergiesIntolerances,
+		allergiesIntoleranceState: allergiesIntoleranceState,
 		
 		/******************************************************************************************* 
 		 * Methods
@@ -145,6 +151,9 @@ define(function(require) {
 				}
 			});
 		}, // End Activate
+		/******************************************************************************************* 
+		 * History Methods
+		 *******************************************************************************************/
 		// Saves the Service Record History
 		serviceRecordSave: function(data) {
 			backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord()).success(function(data) {
@@ -155,8 +164,11 @@ define(function(require) {
 		serviceRecordClear: function(data) {
 			serviceRecord().history('');
 		},
+		/******************************************************************************************* 
+		 * Review of Systems Methods
+		 *******************************************************************************************/
 		// Adds a System Review to the table
-		addReviewOfSystem: function(item) {
+		reviewOfSystemsAdd: function(item) {
 			// Check for empty fields.
 			//if (reviewOfSystem().particulars() != '' && reviewOfSystem().particulars() != undefined && reviewOfSystem().particulars() != null) {
 			if (reviewOfSystem().errors().length == 0) {
@@ -189,7 +201,7 @@ define(function(require) {
 			}
 		},
 		// Save the Review of Systems and Systems Comment
-		saveReviewOfSystems: function(data) {
+		reviewOfSystemsSave: function(data) {
 			$.each(reviewOfSystems(), function(k, v) {
 				//system.log(v);
 				backend.saveReviewOfSystems(v, reviewOfSystems).success(function(data) {
@@ -202,11 +214,11 @@ define(function(require) {
 			});
 		},
 		// Clears the Systems Comment
-		clearReviewOfSystems: function(data) {
+		reviewOfSystemsClear: function(data) {
 			serviceRecord().systemsComment('');
 		},
 		// Delete a Review of System entry
-		deleteReviewOfSystem: function(item) {
+		reviewOfSystemsDelete: function(item) {
 			return app.showMessage(
 				'Are you sure you want to delete the review for ' + item.particulars() + '?',
 				'Delete',
@@ -224,8 +236,11 @@ define(function(require) {
 				}
 			});
 		},
+		/******************************************************************************************* 
+		 * Medical Problems Methods
+		 *******************************************************************************************/
 		// Delete a Medical Problem entry
-		deleteMedicalProblem: function(item) {
+		medicalProblemDelete: function(item) {
 			return app.showMessage(
 				'Are you sure you want to delete the medical problem for "' + item.description() + '"?',
 				'Delete',
@@ -245,7 +260,7 @@ define(function(require) {
 			});
 		},
 		// Set fields for Medical Problems
-		medicalProblemsSetFields: function(data) {
+		medicalProblemSetFields: function(data) {
 			if (!medicalProblemsState()) {
 				medicalProblem(data);
 				medicalProblem().onsetUnknown(data.onsetUnknown());
@@ -254,13 +269,13 @@ define(function(require) {
 			}
 		},
 		// New button for Medical Problems
-		medicalProblemsNew: function(data) {
+		medicalProblemNew: function(data) {
 			tempMedicalProblem(medicalProblem());
 			medicalProblem(new structures.MedicalProblem());
 			medicalProblemsState(true);
 		},
 		// Save button for Medical Problems
-		medicalProblemsSave: function(data) {
+		medicalProblemSave: function(data) {
 			if (medicalProblem().onsetUnknown())
 				medicalProblem().onsetDate('');
 			if (medicalProblem().resolutionUnknown() || medicalProblem().notApplicable())
@@ -293,9 +308,24 @@ define(function(require) {
 				});
 			}
 		},
-		medicalProblemsCancel: function(data) {
+		medicalProblemCancel: function(data) {
 			medicalProblem(tempMedicalProblem());
 			medicalProblemsState(false);
+		},
+		allergiesIntoleranceSetFields: function(data) {
+		
+		},
+		allergiesIntoleranceNew: function(data) {
+			allergiesIntoleranceState(true);
+		},
+		allergiesIntoleranceSave: function(data) {
+		
+		},
+		allergiesIntoleranceCancel: function(data) {
+			allergiesIntoleranceState(false);
+		},
+		allergiesIntoleranceDelete: function(data) {
+			
 		}
 	}; // End ViewModel
 	

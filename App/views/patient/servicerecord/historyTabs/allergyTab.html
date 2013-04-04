@@ -3,11 +3,11 @@
 		<div class="marginBottom5">
 			<label class="checkbox inline">
 				<input type="checkbox" />
-				<span>No Known Allergies</span>
+				<span>No&nbsp;Known&nbsp;Allergies</span>
 			</label>
 			<label class="checkbox inline">
 				<input type="checkbox" />
-				<span>Allergies Verified</span>
+				<span>Allergies&nbsp;Verified</span>
 			</label>
 		</div>
 		<div class="marginBottom5 commentContainer">
@@ -16,16 +16,28 @@
 		<div class="marginBottom5">
 			<select>
 				<option value="" disabled selected style="display:none;">Type</option>
-				<option value="placeholder">placeholder</option>
+				<option value="allergy">Allergy</option>
+				<option value="intolerance">Intolerance</option>
 			</select>
 			<select>
 				<option value="" disabled selected style="display:none;">Status</option>
-				<option value="placeholder">Active</option>
+				<option value="active">Active</option>
+				<option value="inactive">Inactive</option>
 			</select>
 		</div>
 		<div class="pull-right">
-			<button type="submit" class="btn btn-small btn-primary">Save</button>
-			<button type="button" class="btn btn-small btn-warning">Cancel</button>
+			<button type="button" class="btn btn-small btn-success"
+				data-bind="click: $root.allergiesIntoleranceNew, visible: !$root.allergiesIntoleranceState()">
+				New
+			</button>
+			<button type="submit" class="btn btn-small btn-primary"
+				data-bind="click: $root.allergiesIntoleranceSave">
+				Save
+			</button>
+			<button type="button" class="btn btn-small btn-warning"
+				data-bind="click: $root.allergiesIntoleranceCancel, visible: $root.allergiesIntoleranceState()">
+				Cancel
+			</button>
 		</div>
 	</div>
 </form>
@@ -33,7 +45,6 @@
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
-				<th></th>
 				<th>Type</th>
 				<th>Details</th>
 				<th>Status</th>
@@ -41,5 +52,14 @@
 				<th></th>
 			</tr>
 		</thead>
+		<tbody>
+			<tr>
+				<td data-bind="click: $root.allergiesIntoleranceSetFields"></td>
+				<td data-bind="click: $root.allergiesIntoleranceSetFields"></td>
+				<td data-bind="click: $root.allergiesIntoleranceSetFields"></td>
+				<td data-bind="click: $root.allergiesIntoleranceSetFields"></td>
+				<td><a class="btn btn-small btn-danger" data-bind="click: $root.allergiesIntoleranceDelete">Delete</a></td>
+			</tr>
+		</tbody>
 	</table>
 </div>

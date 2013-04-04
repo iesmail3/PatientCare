@@ -24,7 +24,7 @@
 						<td>
 							<textarea rows="1" placeholder="Comments" data-bind="value: comment" /></textarea>
 						</td>
-						<td><a class="btn btn-small btn-danger" data-bind="click: $root.deleteReviewOfSystem,
+						<td><a class="btn btn-small btn-danger" data-bind="click: $root.reviewOfSystemsDelete,
 							visible: !defaultParticulate()">
 							Delete
 						</a></td>
@@ -48,7 +48,7 @@
 						<option value="positive">Positive</option>
 					</select>
 					<textarea rows="1" placeholder="Comments" data-bind="value: reviewOfSystem().comment" /></textarea>
-					<button type="submit" class="btn btn-primary" data-bind="click: $root.addReviewOfSystem">Add</button>
+					<button type="submit" class="btn btn-primary" data-bind="click: $root.reviewOfSystemsAdd">Add</button>
 				</div>
 			</div>
 			<div class="marginBottom5 commentContainer">
@@ -59,6 +59,6 @@
 	</form>
 </div>
 <div class="pull-right">
-	<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.saveReviewOfSystems">Save</button>
-	<button type="button" class="btn btn-small btn-warning" data-bind="click: $root.clearReviewOfSystems">Clear</button>
+	<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.reviewOfSystemsSave">Save</button>
+	<button type="button" class="btn btn-small btn-warning" data-bind="click: $root.reviewOfSystemsClear">Clear</button>
 </div>
