@@ -2,26 +2,22 @@
 	<div class="row-fluid">
 		<div class="marginBottom5">
 			<input type="text" placeholder="Medicine" />
-			<select>
-				<option value="" disabled selected style="display:none;">Strength</option>
-				<option value="placeholder">placeholder</option>
-			</select>
+			<input type="text" placeholder="Strength" />
 		</div>
 		<div class="marginBottom5">
 			<input type="text" placeholder="Quantity" />
-			<select>
-				<option value="" disabled selected style="display:none;">Route</option>
-				<option value="placeholder">placeholder</option>
+			<select data-bind="options: $root.form.routes, optionsText: 'text',
+				optionsValue: 'value', optionsCaption: 'Route'" class="input-xmedium">
 			</select>
-			<select>
-				<option value="" disabled selected style="display:none;">Sigs</option>
-				<option value="placeholder">placeholder</option>
+			<select data-bind="options: $root.form.sigCodes, optionsText: 'text',
+				optionsValue: 'value', optionsCaption: 'Sigs'" class="input-xmedium">
 			</select>
 		</div>
 		<div class="marginBottom5">
 			<select>
 				<option value="" disabled selected style="display:none;">Status</option>
-				<option value="placeholder">placeholder</option>
+				<option value="current">Current</option>
+				<option value="discontinued">Discontinued</option>
 			</select>
 		</div>
 		<div class="marginBottom5">
@@ -43,7 +39,6 @@
 	<table class="table table-bordered table-hover">
 		<thead>
 			<tr>
-				<th></th>
 				<th>Medicine Name</th>
 				<th>Strength</th>
 				<th>Quantity</th>

@@ -15,6 +15,17 @@ define(function(require) {
 	var app = require('durandal/app');
 	
 	/*********************************************************************************************** 
+	 * Validation Configuration
+	 **********************************************************************************************/
+	ko.validation.init({
+		insertMessages: false,
+		parseInputAttributes: true,
+		grouping: {deep: true, observable: true},
+		decorateElement: true,
+		messagesOnModified: false
+	});
+	
+	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
 	var form = new Forms();
@@ -39,11 +50,8 @@ define(function(require) {
 
 	/*********************************************************************************************** 
 	 * ViewModel
-	 *
-	 * For including ko observables and computed functions, add an attribute of the same name.
-	 * Ex: observable: observable
 	 **********************************************************************************************/
-	return {
+	var vm = {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
@@ -74,8 +82,10 @@ define(function(require) {
 			
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
 			});
 		},
 		// Loads when view is loaded
@@ -95,88 +105,32 @@ define(function(require) {
 				}
 			});
 			
-			var d = [
-				new structures.ReviewOfSystems({
-					service_record_id: self.serviceRecord().id(),
-					particulars: 'GEN',
-					type: '',
-					comment: ''
-				}),
-				new structures.ReviewOfSystems({
-					service_record_id: self.serviceRecord().id(),
-					particulars: 'EYE',
-					type: '',
-					comment: ''
-				}),
-				new structures.ReviewOfSystems({
-					service_record_id: self.serviceRecord().id(),
-					particulars: 'ENT',
-					type: '',
-					comment: ''
-				}),
-				new structures.ReviewOfSystems({
-					service_record_id: self.serviceRecord().id(),
-					particulars: 'RESP',
-					type: '',
-					comment: ''
-				}),
-				new structures.ReviewOfSystems({
-					service_record_id: self.serviceRecord().id(),
-					particulars: 'CVS',
-					type: '',
-					comment: ''
-				}),
-				new structures.ReviewOfSystems({
-					service_record_id: self.serviceRecord().id(),
-					particulars: 'GI',
-					type: '',
-					comment: ''
-				}),
-				new structures.ReviewOfSystems({
-					service_record_id: self.serviceRecord().id(),
-					particulars: 'GU',
-					type: '',
-					comment: ''
-				}),
-				new structures.ReviewOfSystems({
-					service_record_id: self.serviceRecord().id(),
-					particulars: 'MS',
-					type: '',
-					comment: ''
-				}),
-				new structures.ReviewOfSystems({
-					service_record_id: self.serviceRecord().id(),
-					particulars: 'NEURO',
-					type: '',
-					comment: ''
-				}),
-				new structures.ReviewOfSystems({
-					service_record_id: self.serviceRecord().id(),
-					particulars: 'SKIN',
-					type: '',
-					comment: ''
-				}),
-				new structures.ReviewOfSystems({
-					service_record_id: self.serviceRecord().id(),
-					particulars: 'PHYCH',
-					type: '',
-					comment: ''
-				}),
-				new structures.ReviewOfSystems({
-					service_record_id: self.serviceRecord().id(),
-					particulars: 'GYN',
-					type: '',
-					comment: ''
-				})
-			];
-			
-			self.defaultReviewOfSystems(d);
-			
 			// Get the Review of Systems for the Service Record
 			backend.getReviewOfSystems(self.patientId(), self.practiceId(), self.date()).success(function(data) {
 				if(data.length > 0) {
 					var r = $.map(data, function(item) {return new structures.ReviewOfSystems(item)});
-					self.reviewOfSystems(r);
+					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GEN',type:'',comment:'',default_particulate:'1'}));
+					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'EYE',type:'',comment:'',default_particulate:'1'}));
+					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'ENT',type:'',comment:'',default_particulate:'1'}));
+					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'RESP',type:'',comment:'',default_particulate:'1'}));
+					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'CSV',type:'',comment:'',default_particulate:'1'}));
+					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GI',type:'',comment:'',default_particulate:'1'}));
+					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GU',type:'',comment:'',default_particulate:'1'}));
+					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'MS',type:'',comment:'',default_particulate:'1'}));
+					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'NEURO',type:'',comment:'',default_particulate:'1'}));
+					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'SKIN',type:'',comment:'',default_particulate:'1'}));
+					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'PSYCH',type:'',comment:'',default_particulate:'1'}));
+					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GYN',type:'',comment:'',default_particulate:'1'}));
+					for (var i = 0; i < r.length; i++) {
+						if (r[i].defaultParticulate()) {
+							for (var j = 0; j < self.reviewOfSystems().length; j++) {
+								if (r[i].particulars() == self.reviewOfSystems()[j].particulars())
+									self.reviewOfSystems()[j] = r[i];
+							}
+						}
+						else
+							self.reviewOfSystems.push(r[i]);
+					}
 				}
 			});
 			
@@ -190,7 +144,7 @@ define(function(require) {
 					self.medicalProblems(p);
 				}
 			});
-		},
+		}, // End Activate
 		// Saves the Service Record History
 		serviceRecordSave: function(data) {
 			backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord()).success(function(data) {
@@ -204,42 +158,41 @@ define(function(require) {
 		// Adds a System Review to the table
 		addReviewOfSystem: function(item) {
 			// Check for empty fields.
-			if (reviewOfSystem().type() == '' || reviewOfSystem().type() == undefined || reviewOfSystem().type() == null)
-				reviewOfSystem().type('notdone');
-			if (reviewOfSystem().particulars() != '' && reviewOfSystem().particulars() != undefined && reviewOfSystem().particulars() != null) {
+			//if (reviewOfSystem().particulars() != '' && reviewOfSystem().particulars() != undefined && reviewOfSystem().particulars() != null) {
+			if (reviewOfSystem().errors().length == 0) {
+				if (reviewOfSystem().type() == '' || reviewOfSystem().type() == undefined || reviewOfSystem().type() == null)
+					reviewOfSystem().type('notdone');
+				
 				// Check for duplicate particulars
 				var newParticular = true;
-				$.each(defaultReviewOfSystems(), function(k, v) {
+				$.each(reviewOfSystems(), function(k,v) {
 					if(reviewOfSystem().particulars() == v.particulars()) {
 						newParticular = false;
 					}
 				});
-				if (newParticular) {
-					$.each(reviewOfSystems(), function(k, v) {
-						if(reviewOfSystem().particulars() == v.particulars()) {
-							newParticular = false;
-						}
-					});
-				}
 				
 				if (newParticular) {
 					reviewOfSystem().serviceRecordId(serviceRecord().id());
-					backend.addReviewOfSystem(reviewOfSystem()).complete(function(data) {
-						reviewOfSystems.push(reviewOfSystem());
+					//system.log(reviewOfSystem());
+					backend.saveReviewOfSystems(reviewOfSystem(), reviewOfSystems).complete(function(data) {
+						reviewOfSystem(new structures.ReviewOfSystems());
 					});
 				}
 				else {
-					$('.reviewAlert').removeClass().addClass('alert').html('Particular already exists.').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
+					// Particular already exists
 				}
 			}
 			else {
-				$('.reviewAlert').removeClass().addClass('alert').html('Insufficient data.').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
+				// Particular already exists
+				$('.reviewAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+				errors.showAllMessages();
 			}
 		},
 		// Save the Review of Systems and Systems Comment
 		saveReviewOfSystems: function(data) {
 			$.each(reviewOfSystems(), function(k, v) {
-				backend.saveReviewOfSystems(v).success(function(data) {
+				//system.log(v);
+				backend.saveReviewOfSystems(v, reviewOfSystems).success(function(data) {
 					// Save each entry.
 				});
 			});
@@ -295,9 +248,9 @@ define(function(require) {
 		medicalProblemsSetFields: function(data) {
 			if (!medicalProblemsState()) {
 				medicalProblem(data);
-				medicalProblem().onsetUnknown(parseInt(data.onsetUnknown()));
-				medicalProblem().resolutionUnknown(parseInt(data.resolutionUnknown()));
-				medicalProblem().notApplicable(parseInt(data.notApplicable()));
+				medicalProblem().onsetUnknown(data.onsetUnknown());
+				medicalProblem().resolutionUnknown(data.resolutionUnknown());
+				medicalProblem().notApplicable(data.notApplicable());
 			}
 		},
 		// New button for Medical Problems
@@ -314,17 +267,18 @@ define(function(require) {
 				medicalProblem().resolutionDate('');
 			if (medicalProblem().onsetDate() == '' || medicalProblem().onsetDate() == undefined || medicalProblem().onsetDate() == null)
 				medicalProblem().onsetUnknown(1);
-			if (medicalProblem().resolutionDate() == '' || medicalProblem().resolutionDate() == undefined || medicalProblem().resolutionDate() == null)
+			if ((medicalProblem().resolutionDate() == '' || medicalProblem().resolutionDate() == undefined ||
+				medicalProblem().resolutionDate() == null) && !medicalProblem().notApplicable())
 				medicalProblem().resolutionUnknown(1);
 			if (medicalProblemsState()) {
 				if (medicalProblem().type() != '') {
 					medicalProblem().serviceRecordId(serviceRecord().id());
 					medicalProblem().onsetDate(form.dbDate(medicalProblem().onsetDate()));
 					medicalProblem().resolutionDate(form.dbDate(medicalProblem().resolutionDate()));
-					backend.addMedicalProblem(medicalProblem()).complete(function(data) {
-						medicalProblems.push(medicalProblem());
+					backend.saveMedicalProblem(medicalProblem, medicalProblems).complete(function(data) {
 						medicalProblem().onsetDate(form.uiDate(medicalProblem().onsetDate()));
 						medicalProblem().resolutionDate(form.uiDate(medicalProblem().resolutionDate()));
+						medicalProblem(new structures.MedicalProblem());
 					});
 				}
 				else
@@ -333,7 +287,7 @@ define(function(require) {
 			else {
 				medicalProblem().onsetDate(form.dbDate(medicalProblem().onsetDate()));
 				medicalProblem().resolutionDate(form.dbDate(medicalProblem().resolutionDate()));
-				backend.saveMedicalProblem(medicalProblem().id(), medicalProblem()).complete(function(data) {
+				backend.saveMedicalProblem(medicalProblem, medicalProblems).complete(function(data) {
 					medicalProblem().onsetDate(form.uiDate(medicalProblem().onsetDate()));
 					medicalProblem().resolutionDate(form.uiDate(medicalProblem().resolutionDate()));
 				});
@@ -343,5 +297,10 @@ define(function(require) {
 			medicalProblem(tempMedicalProblem());
 			medicalProblemsState(false);
 		}
-	};
+	}; // End ViewModel
+	
+	// Turn validation on
+	var errors = vm['formErrors'] = ko.validation.group(vm);
+	vm.reviewOfSystem().errors.showAllMessages();
+	return vm;
 });

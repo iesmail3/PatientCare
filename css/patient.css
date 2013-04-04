@@ -158,6 +158,11 @@
 	display: none;
 }
 
+.reviewAlert {
+	height: 20px;
+	display: none;
+}
+
 .span6 .label, label.inline  {
     display: inline-block;
     width: 130px;   

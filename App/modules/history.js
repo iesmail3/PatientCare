@@ -32,8 +32,8 @@ define(function(require) {
 	// Get Review of Systems for a Single Service Record
 	history.prototype.getReviewOfSystems = function(patientId, practiceId, date) {
 		var self = this;
-		var fields = ['review_of_systems.service_record_id', 'review_of_systems.particulars', 'review_of_systems.type',
-			'review_of_systems.comment'];
+		var fields = ['review_of_systems.service_record_id', 'review_of_systems.particulars',
+			'review_of_systems.type', 'review_of_systems.comment', 'review_of_systems.default_particulate'];
 		
 		return self.query({
 			mode: 'select',
@@ -91,97 +91,99 @@ define(function(require) {
 	}
 	
 	// Save all provided Review of Systems
-	history.prototype.saveReviewOfSystems = function(data) {
+	history.prototype.saveReviewOfSystems = function(review, reviews) {
 		var self = this;
 		var fields = ['service_record_id', 'particulars', 'type', 'comment'];
 		
-		var values = $.map(data, function(k,v) {
-			if(k() == null || k() == undefined) {
+		var values = $.map(review, function(k,v) {
+			if(k == null || k == undefined) {
 				return [''];
 			}
 			else {
-				return [k()];
+				return [k];
 			}
 		});
 		
 		return self.query({
-			mode: 'update',
+			mode: 'select',
 			table: 'review_of_systems',
-			fields: fields,
-			values: values,
-			where: "WHERE service_record_id='" + data.serviceRecordId() + "' AND particulars='" + data.particulars() + "'"
-		});
-	}
-	
-	history.prototype.saveMedicalProblem = function(id, data) {
-		var self = this;
-		var fields = ['id', 'service_record_id', 'type', 'description', 'onset_date', 'onset_unknown', 'resolution_date', 'resolution_unknown', 'not_applicable'];
-		
-		var values = $.map(data, function(k,v) {
-			if(k() == null || k() == undefined) {
-				if (v == 'onsetDate' || v == 'resolutionDate') {
-					return [k()];
+			fields: '*',
+			where: "WHERE service_record_id='" + review.serviceRecordId() + "' AND particulars='" + review.particulars() + "'"
+		}).success(function(data) {
+			// Save
+			if (data.length > 0) {
+				self.query({
+					mode: 'update',
+					table: 'review_of_systems',
+					fields: fields,
+					values: values,
+					where: "WHERE service_record_id='" + review.serviceRecordId() + "' AND particulars='" + review.particulars() + "'"
+				});
+			}
+			// Add
+			else if ((review.defaultParticulate() && (review.type() != '')) || !review.defaultParticulate()) {
+				if (review.defaultParticulate()) {
+					system.log(review.particulars());
 				}
-				else {
-					return [''];
-				}
+				self.query({
+					mode: 'insert',
+					table: 'review_of_systems',
+					fields: fields,
+					values: values,
+				});
+				reviews.push(review);
 			}
-			else {
-				return[k()];
-			}
-		});
-		
-		return self.query({
-			mode: 'update',
-			table: 'medical_problem',
-			fields: fields,
-			values: values,
-			where: "WHERE id='" + id + "'"
 		});
 	}
 	
-	// Add a Review of System
-	history.prototype.addReviewOfSystem = function(data) {
-		var self = this;
-		var fields = ['service_record_id', 'particulars', 'type', 'comment'];
-		
-		var values = $.map(data, function(k,v) {
-			if(k() == null || k() == undefined) {
-				return [''];
-			}
-			else {
-				return [k()];
-			}
-		});
-		
-		return self.query({
-			mode: 'insert',
-			table: 'review_of_systems',
-			fields: fields,
-			values: values,
-		});
-	}
-	
-	history.prototype.addMedicalProblem = function(data) {
+	history.prototype.saveMedicalProblem = function(medicalProblem, medicalProblems) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'description', 'onset_date',
 			'onset_unknown', 'resolution_date', 'resolution_unknown', 'not_applicable'];
-		
-		var values = $.map(data, function(k,v) {
-			if(k() == null || k() == undefined) {
+		var values = $.map(medicalProblem(), function(k,v) {
+			if(k == null || k == undefined) {
 				return [''];
 			}
 			else {
-				return [k()];
+				return[k];
 			}
 		});
 		
-		return self.query({
-			mode: 'insert',
-			table: 'medical_problem',
-			fields: fields,
-			values: values
-		});
+		// Add a Medical Problem
+		if (medicalProblem().id() == undefined || medicalProblem().id() == '') {
+			var newId = '';
+			return self.query({
+				mode: 'select',
+				table: 'medical_problem',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				$.each(data, function(k,v) {
+					newId = parseInt(v.id) + 1;
+				});
+				
+				values[0] = newId;
+				medicalProblem().id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'medical_problem',
+					fields: fields,
+					values: values
+				});
+				medicalProblems.push(medicalProblem());
+			});
+		}
+		
+		else {
+			return self.query({
+				mode: 'update',
+				table: 'medical_problem',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + medicalProblem().id() + "'"
+			});
+		}
 	}
 	
 	/**********************************************************************************************
