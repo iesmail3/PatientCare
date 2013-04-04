@@ -94,7 +94,7 @@
 												valueUpdate: 'afterkeydown'" />
 										</td> 
 										<td>
-											<a class="btn" data-bind="click:$root.removePaymentMethod"><i class="icon-remove"></i></a>
+											<a class="btn" data-bind="visible: mode()!='',click:$root.removePaymentMethod"><i class="icon-remove"></i></a>
 										</td>
 									</tr> 
 								</tbody> 
