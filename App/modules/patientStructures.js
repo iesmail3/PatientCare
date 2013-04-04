@@ -472,7 +472,7 @@ define(function(require) {
 			this.physicianId		  = ko.observable(data.physician_id);
 			this.idNumber			  = ko.observable(data.id_number);
 			this.idType				  = ko.observable(data.id_type);
-			this.firstName			  = ko.observable(data.first_name);
+			this.firstName			  = ko.observable(data.first_name).extend({required: true});
 			this.middleName			  = ko.observable(data.middle_name);
 			this.lastName			  = ko.observable(data.last_name);
 			this.address			  = ko.observable(data.address);
@@ -508,9 +508,9 @@ define(function(require) {
 			this.physicianId		  = ko.observable();
 			this.idNumber			  = ko.observable();
 			this.idType				  = ko.observable();
-			this.firstName			  = ko.observable('');
-			this.middleName			  = ko.observable('');
-			this.lastName			  = ko.observable('');
+			this.firstName			  = ko.observable().extend({required: true});
+			this.middleName			  = ko.observable().extend({required: true});
+			this.lastName			  = ko.observable().extend({required: true});
 			this.address			  = ko.observable();
 			this.city				  = ko.observable();
 			this.state				  = ko.observable();
@@ -541,7 +541,8 @@ define(function(require) {
 		
 		// This will return the name in the following format: Last, First
 		this.lastFirstName = ko.computed(function() {
-			if (self.lastName() == '' && self.firstName() == '')
+			if ((self.lastName() == '' && self.firstName() == '') ||
+				(self.lastName() == undefined && self.firstName() == undefined))
 				return '';
 			else
 				return self.lastName() + ", " + self.firstName();
@@ -550,6 +551,8 @@ define(function(require) {
 		this.goToRecord = ko.computed(function(element) {
 			return '#/patient/personalinformation/' + self.id();
 		});
+		
+		self.errors = ko.validation.group(self, {messagesOnModified: false});
 	}
 	
 	// Payment Method

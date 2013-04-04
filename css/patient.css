@@ -1,9 +1,14 @@
 legend {
 	font-size: 14pt;
+	margin-bottom: 3px;
 }
 
 .input-xmedium {
 	width: 119px;
+}
+
+.input-mediumLarge {
+	width: 150px;
 }
 
 .checkbox {
@@ -93,6 +98,24 @@ legend {
 
 .commentSpan {
 	width: 100%;
+}
+
+.alertHolder {
+	height: 45px;
+}
+
+.validationElement { 
+	border: solid 1px red !important;
+}
+
+.required {
+	color: red;
+}
+
+/* Personal Information */
+.personalAlert {
+	height: 20px;
+	display: none;
 }
 
 /* Orders */
