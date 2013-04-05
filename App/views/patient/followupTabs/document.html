@@ -27,13 +27,17 @@
 							<legend>Details</legend>      
 							<div class="marginBottom5">
 								<input type="text" class="input-medium" placeholder="Document Type" data-bind="value: type"/>
-							   <div class="fileupload fileupload-new pull-right" data-provides="fileupload">
+							       <div id="fine-uploader-basic" class="btn btn-success">
+										<i class="icon-upload icon-white"></i> Click to upload
+									</div>
+									<div id="messages"></div>
+							 <!--  <div class="fileupload fileupload-new pull-right" data-provides="fileupload">
                                  <div class="input-append">
                                      <div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div>
                                      <span class="btn btn-file"><span class="fileupload-new">Select file</span><span class="fileupload-exists">Change</span>
                                      <input type="file" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
                                  </div>
-                             </div>
+                             </div> -->
 							</div>
 							<div class="marginBottom5">
 								<textarea class="input-xxlarge" rows="3" placeholder="Comment" data-bind="value: comment"></textarea>

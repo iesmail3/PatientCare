@@ -19,7 +19,8 @@
 	 * 
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/
-     // Get Personal Information for a Single Patient
+	
+	 // Get Personal Information for a Single Patient
 	followup.prototype.getFollowup = function(patientId, practiceId) {
 		return this.query({
 			mode: 'select',
@@ -47,6 +48,19 @@
 			fields: fields
 		});
 	}
+	
+	 //Get PrescriptionDetails 
+	 followup.prototype.getPrescriptionDetails = function() { 
+		var fields = ['medicine_list.medicine_name','medication_order.quantity','medication_order.sigs',
+					  'medication_order.strength','medication_order.dispensed_quantity',
+					  'medication_order.refill_quantity']; 
+			return this.query({
+				mode: 'select',
+				table:'medication_order',
+				join: "JOIN medicine_list ON medication_order.medicine_list=medicine_list.id",
+				fields:fields
+		});
+	 }
 	
 	followup.prototype.getCheckOut = function(id, practiceId) {
 		return this.query({

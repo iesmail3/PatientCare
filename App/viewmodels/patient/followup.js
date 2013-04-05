@@ -205,12 +205,29 @@ define(function(require) {
 				//Pactice ID
 				self.practiceId('1'); 
 			
-			// backend.getPhysician(checkout()).success(function(data) { 
-				// // if(data.length  >0) { 
-					// // physicianName(data); 
-				// // }
-				// // system.log('physician name is ' + physicianName()); 
-			// });
+			 function createUploader() {
+            var uploader = new qq.FineUploader({
+              debug: true,  
+              // Pass the HTML element here
+             // element: document.getElementById('fine-uploader'),
+              // or, if using jQuery
+               element: $('#fine-uploader-basic')[0],
+              // Use the relevant server script url here
+              // if it's different from the default “/server/upload”
+              request: {
+                endpoint: 'php/fileupload.php'
+
+              }
+            });
+          }
+			window.onload = createUploader;
+			
+			backend.getPrescriptionDetails().success(function(data) { 
+			   system.log(data.length); 
+				if(data.length > 0) { 
+				system.log('data length > 0'); 
+				}
+			}); 
 			
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
