@@ -57,8 +57,8 @@
 			return this.query({
 				mode: 'select',
 				table:'medication_order',
-				join: "JOIN medicine_list ON medication_order.medicine_list=medicine_list.id",
-				fields:fields
+				join: "JOIN medicine_list ON medication_order.medicine_list_id=medicine_list.id",
+				fields:'*'
 		});
 	 }
 	

@@ -46,7 +46,9 @@ define(function(require) {
 	 var prescription   = ko.observable(new structures.Prescription());
 	 var prescriptions  = ko.observableArray([]); 
 	 var doc            = ko.observable(new structures.Document());
-	 var documents      = ko.observableArray([]);          
+	 var documents      = ko.observableArray([]); 
+	 var medicationOrder           = ko.observable(new structures.MedicationOrder());
+	// var medicationOrders      = ko.observableArray([]); 
 	 var patientId      = ko.observable(); 
 	 var practiceId     = ko.observable(); 
 	 var checkoutId     = ko.observable(); 
@@ -167,6 +169,8 @@ define(function(require) {
 			checkoutId: checkoutId,
 			physicianName: physicianName,
 			form: form,
+			medicationOrder: medicationOrder,
+			//medicationOrders:medicationOrders,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -222,12 +226,17 @@ define(function(require) {
           }
 			window.onload = createUploader;
 			
-			backend.getPrescriptionDetails().success(function(data) { 
-			   system.log(data.length); 
-				if(data.length > 0) { 
-				system.log('data length > 0'); 
-				}
-			}); 
+			// backend.getPrescriptionDetails().success(function(data) { 
+				// if(data.length > 0) { 
+				    // system.log("inside it"); 
+					// var m = $.map(data, function(item) {return new structures.MedicationOrder(item) });
+					// self.medicationOrders(m);  
+					// self.medicationOrder(m[0]);
+					// system.log(medicationOrder().id());
+					// system.log(medicationOrder().serviceRecordId()); 
+					// system.log(medicationOrder().medicineName()); 
+				// }
+			// }); 
 			
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {

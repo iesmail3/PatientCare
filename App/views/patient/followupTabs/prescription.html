@@ -11,14 +11,14 @@
 								<th>Comments</th>
 							</tr>
 						</thead>
-						<tbody data-bind="foreach: prescriptions">     
+						<tbody data-bind="foreach: $root.medicationOrders">     
 							<tr data-bind="click: $root.selectRow">   
-								<td data-bind="text: date"></td>   
-								<td data-bind="text: medicine"></td>
-								<td data-bind="text: physician"></td>
-								<td data-bind="text: createdBy"></td>  
-								<td data-bind="text:mode"></td>
-								<td data-bind="text: comment"></td>						     
+								<td data-bind="text: dispensedQuantity"></td>   
+								<td data-bind="text: medicineName"></td>
+								<td data-bind="text: quantity"></td>
+								<td data-bind="text: strength"></td>  
+								<td data-bind="text:sigs"></td>
+								<td data-bind="text: refillQuantity"></td>						     
 							</tr>          
 					</tbody>
 					</table>
@@ -26,6 +26,6 @@
 			</div>
 			<div class="pull-right marginBottom5">
 					<button type="button" class="btn btn-small">Print</button>
-					<button type="button" class="btn btn-small">Add</button>
+					<button type="button" class="btn btn-small" data-bind="click:$root.selectRow">Add</button>
 					<button type="button" class="btn btn-small btn-primary">Delete</button>
 		    </div>
