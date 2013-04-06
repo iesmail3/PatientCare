@@ -331,6 +331,6 @@ define(function(require) {
 	
 	// Turn validation on
 	var errors = vm['formErrors'] = ko.validation.group(vm);
-	vm.reviewOfSystem().errors.showAllMessages();
+	//vm.reviewOfSystem().errors.showAllMessages();
 	return vm;
 });

@@ -19,7 +19,12 @@ define(function(require) {
 	};
 	
 	Prescription.prototype.selectOption = function(dialogResult) {
-		this.modal.close(dialogResult);
+	     if(dialogResult == 'Save') {
+		 system.log('save clicked'); 
+		 }
+		 else {
+		     this.modal.close(dialogResult);
+		}
 	};
 	
 Prescription.prototype.updatePrescriptions = function(data) {

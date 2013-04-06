@@ -436,14 +436,12 @@ define(function(require) {
 			}
 			
 			paymentMethods.push(new structures.PaymentMethod()); 
-		},
-		savePhoneLog: function(data) { 
+	},
+	savePhoneLog: function(data) { 
+	   
 			  backend.savePhoneLog(phoneLog,phoneLogs,practiceId(),patientId(),showAssigned);
               system.log('showAssigned is' + showAssigned()); 			  
-		},
-		addPrescription: function(data) {
-			system.log('button clicked'); 
-		}
+	} 
  }
  
  //Turn validation on
