@@ -62,10 +62,11 @@ define(function(require) {
   				$(this).tab('show');
 			});
 			
-			// Resize tree and content pane
-			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+			$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
+			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
 			$(window).resize(function() {
-				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
+				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
 			});
 		},
 		// Loads when view is loaded
@@ -82,7 +83,6 @@ define(function(require) {
 				var id = self.serviceRecord().id();
 				self.backend.getOrders(id).success(function(data){
 					var o = $.map(data, function(item) { return new self.structures.Order(item); });
-					system.log(data);
 					self.orders(o);
 				});
 			});

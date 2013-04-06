@@ -93,14 +93,37 @@ define(function(require) {
 		});
 	}
 	
-	Order.prototype.goToDrugs = function(data) {
+	Order.prototype.goToOffice = function(data) {
 		var modal = require('modals/modals');
 		backend.getOfficeProcedures(self.order().id()).success(function(data) {
 			var op = $.map(data, function(item) { 
-				return {id: item.id, times: item.times}
+				return {id: item.office_procedure_type_id, times: item.times}
 			});
 			modal.showOfficeProcedure(self.practiceId, self.order().id(), op, 'Office Procedures');
-		})
+		});
+	}
+	
+	Order.prototype.goToSupplies = function(data) {
+		var modal = require('modals/modals');
+		backend.getSupplies(self.order().id()).success(function(data) {
+			var s = $.map(data, function(item) {
+				// Remove decimals if whole number
+				if(item.quantity.substr(-3) == "000") {
+					var i = item.quantity.indexOf('.');
+					item.quantity = item.quantity.substr(0, i);
+				} 
+				return {id: item.supply_type_id, quantity: item.quantity}
+			});
+			modal.showSupplies(self.practiceId, self.order().id(), s, 'Supplies');
+		});
+	}
+	
+	Order.prototype.goToDrugs = function(data) {
+		var modal = require('modals/modals');
+		modal.showDrugOrder(self.practiceId, self.serviceRecordId, self.order().id(), 'Drug Order');
+	}
+	
+	Order.prototype.goToFlow = function(data) {
 	}
 	
 	Order.defaultTitle = '';

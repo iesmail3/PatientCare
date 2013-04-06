@@ -31,9 +31,6 @@ define(function(require) {
 	var serviceRecords = ko.observableArray([]);
 	var physicians = ko.observableArray([]);
 	var serviceRecordState = ko.observable(false);
-	var serviceRecordNew = ko.observable();
-	var serviceRecordSave = ko.observable();
-	var serviceRecordCancel = ko.observable();
 	
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -61,9 +58,6 @@ define(function(require) {
 		serviceRecords: serviceRecords,
 		physicians: physicians,
 		serviceRecordState: serviceRecordState,
-		serviceRecordNew: serviceRecordNew,
-		serviceRecordSave: serviceRecordSave,
-		serviceRecordCancel: serviceRecordCancel,
 		router: router,
 		/******************************************************************************************* 
 		 * Methods

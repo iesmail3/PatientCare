@@ -12,7 +12,7 @@ define(function(require) {
 	/**********************************************************************************************
 	 * Constructor
 	 *********************************************************************************************/
-	var patient = function() {};
+	var serviceview = function() {};
 	
 	/**********************************************************************************************
 	 * Get Methods
@@ -20,7 +20,7 @@ define(function(require) {
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/
 	// Get Personal Information for a Single Patient
-	patient.prototype.getPatient = function(id, practiceId) {
+	serviceview.prototype.getPatient = function(id, practiceId) {
 		return this.query({
 			mode: 'select', 
 			table: 'patient', 
@@ -30,7 +30,7 @@ define(function(require) {
 	}
 	
 	// Get Service Records for a Single Patient
-	patient.prototype.getServiceRecord = function(id, practiceId, date) {
+	serviceview.prototype.getServiceRecord = function(id, practiceId, date) {
 		var self = this;
 		var fields = ['service_record.id', 'service_record.patient_id', 'service_record.physician_id',
 			'physician.first_name', 'physician.last_name', 'service_record.date', 'service_record.reason',
@@ -47,7 +47,7 @@ define(function(require) {
 		});
 	}
 	
-	patient.prototype.getPhysicians = function(practiceId) {
+	serviceview.prototype.getPhysicians = function(practiceId) {
 		return this.query({
 			mode: 'select',
 			table: 'physician',
@@ -61,7 +61,7 @@ define(function(require) {
 	 * 
 	 * These methods add information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
-	patient.prototype.saveServiceRecord = function(id, data) {
+	serviceview.prototype.saveServiceRecord = function(id, data) {
 		var self = this;
 		var fields = ['id', 'practice_id', 'patient_id', 'physician_id', 'date', 'reason', 'history',
 			'systems_comment', 'no_known_allergies', 'allergies_verified', 'physical_examination_comment',
@@ -85,7 +85,7 @@ define(function(require) {
 	}
 	
 	// Add Service Record for a Single Patient
-	patient.prototype.addServiceRecord = function(id, data) {
+	serviceview.prototype.addServiceRecord = function(id, data) {
 		var values = $.map(data, function(k,v) {
 			return [k()];
 		});
@@ -104,11 +104,11 @@ define(function(require) {
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
 	// Delete Service Record for a Single Patient
-	patient.prototype.deleteServiceRecord = function(date) {
+	serviceview.prototype.deleteServiceRecord = function(patientId, practiceId, date) {
 		return this.query({
 			mode: 'delete', 
 			table: 'service_record', 
-			where: "WHERE date='" + date + "'"
+			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "' AND date='" + date + "'"
 		});
 	}
 	
@@ -117,12 +117,12 @@ define(function(require) {
 	 * 
 	 * This method is used by all other methods to execute the ajax call.
 	 *********************************************************************************************/ 
-	patient.prototype.query = function(data) {
+	serviceview.prototype.query = function(data) {
 		return $.getJSON('php/query.php',data);
 	}
 	
 	/**************************************************************************************************
 	 * Return class so it is usable.
 	 *************************************************************************************************/
-	return patient;
+	return serviceview;
 });
