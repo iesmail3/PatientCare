@@ -48,7 +48,6 @@ define(function(require) {
 	 var doc            = ko.observable(new structures.Document());
 	 var documents      = ko.observableArray([]); 
 	 var medicationOrder           = ko.observable(new structures.MedicationOrder());
-	// var medicationOrders      = ko.observableArray([]); 
 	 var patientId      = ko.observable(); 
 	 var practiceId     = ko.observable(); 
 	 var checkoutId     = ko.observable(); 
@@ -68,6 +67,7 @@ define(function(require) {
      var secondaryCheck = ko.observable(false); 
 	 var otherCheck     = ko.observable(false);	 
 	 var physicianName  = ko.observable(); 
+	 var isAdded        = ko.observable(false);
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/  
@@ -170,7 +170,7 @@ define(function(require) {
 			physicianName: physicianName,
 			form: form,
 			medicationOrder: medicationOrder,
-			//medicationOrders:medicationOrders,
+			isAdded: isAdded,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -225,18 +225,6 @@ define(function(require) {
             });
           }
 			window.onload = createUploader;
-			
-			// backend.getPrescriptionDetails().success(function(data) { 
-				// if(data.length > 0) { 
-				    // system.log("inside it"); 
-					// var m = $.map(data, function(item) {return new structures.MedicationOrder(item) });
-					// self.medicationOrders(m);  
-					// self.medicationOrder(m[0]);
-					// system.log(medicationOrder().id());
-					// system.log(medicationOrder().serviceRecordId()); 
-					// system.log(medicationOrder().medicineName()); 
-				// }
-			// }); 
 			
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
@@ -448,12 +436,14 @@ define(function(require) {
 			}
 			
 			paymentMethods.push(new structures.PaymentMethod()); 
-	},
-	savePhoneLog: function(data) { 
-	   
+		},
+		savePhoneLog: function(data) { 
 			  backend.savePhoneLog(phoneLog,phoneLogs,practiceId(),patientId(),showAssigned);
               system.log('showAssigned is' + showAssigned()); 			  
-	} 
+		},
+		addPrescription: function(data) {
+			system.log('button clicked'); 
+		}
  }
  
  //Turn validation on

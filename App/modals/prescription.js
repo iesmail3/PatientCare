@@ -35,7 +35,7 @@ Prescription.prototype.updatePrescriptions = function(data) {
 }
 
 	Prescription.defaultTitle = 'dfdfbfdb';
-	Prescription.defaultOptions = ['Cancel'];
+	Prescription.defaultOptions = ['Save','Cancel'];
 	
 	return Prescription;	
 });
