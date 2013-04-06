@@ -385,12 +385,17 @@ define(function(require) {
 			this.quantity 		  = ko.observable(data.quantity); 
 			this.route 			  = ko.observable(data.route); 
 			this.sigs 			  = ko.observable(data.sigs); 
+			this.order            = ko.observable(data.order); 
 			this.dispensedQuantity = ko.observable(data.dispensed_quantity); 
 			this.refill 		  = ko.observable(data.refill); 
 			this.refillQuantity   = ko.observable(data.refill_quantity); 
 			this.comment          = ko.observable(data.comment); 
-			this.isAdded          = ko.observable(data.is_added); 
-			this.medicineName     = ko.observable(data.medicine_name); 
+			this.isAdded          = ko.observable((data.is_added == 1 ? true : false));
+			this.medicineName     = ko.observable(data.medicine_name);
+            this.mode             = ko.observable(data.mode); 
+			this.date             = ko.observable(data.date); 
+			this.prescribedBy     = ko.observable(data.prescribed_by); 
+			this.createdBy        = ko.observable(data.created_by); 
 		}
 		
 		else {
@@ -400,13 +405,18 @@ define(function(require) {
 			this.strength 		  = ko.observable(); 
 			this.quantity 		  = ko.observable(); 
 			this.route 			  = ko.observable(); 
-			this.sigs 			  = ko.observable(); 
+			this.sigs 			  = ko.observable();
+			this.order            = ko.observable(); 
 			this.dispensedQuantity = ko.observable(); 
 			this.refill 		  = ko.observable(); 
 			this.refillQuantity   = ko.observable(); 
 			this.comment          = ko.observable();
 			this.isAdded          = ko.observable();
-			this.medicineName     = ko.observable(); 
+			this.medicineName     = ko.observable();
+			this.mode             = ko.observable(); 
+			this.date             = ko.observable();
+			this.prescribedBy     = ko.observable(); 
+			this.createdBy        = ko.observable(); 
 		}
 	}
 			
@@ -942,14 +952,13 @@ define(function(require) {
 	// Prescription
 	patient.prototype.Prescription = function(data) {
 		if (data != null) {
-			this.patientId		   = ko.observable(data.patient_id);
 			this.medicine		   = ko.observable(data.medicine);
 			this.strength		   = ko.observable(data.strength);
 			this.quantity		   = ko.observable(data.quantity);
 			this.route			   = ko.observable(data.route);
 			this.sigs			   = ko.observable(data.sigs);
 			this.order			   = ko.observable(data.order);
-			this.quantityDispensed = ko.observable(data.quantity_dispensed);
+			this.dispensedQuantity = ko.observable(data.dispensed_quantity);
 			this.refill			   = ko.observable(data.refill);
 			this.refillQuantity	   = ko.observable(data.refill_quantity);
 			this.physician		   = ko.observable(data.physician);
@@ -957,16 +966,16 @@ define(function(require) {
 			this.date			   = ko.observable(data.date);
 			this.mode			   = ko.observable(data.mode);
 			this.comment		   = ko.observable(data.comment);
+			this.medicationOrderId = ko.observable(data.medication_order_id); 
 		}
 		else {
-			this.patientId		   = ko.observable();
 			this.medicine		   = ko.observable();
 			this.strength		   = ko.observable();
 			this.quantity		   = ko.observable();
 			this.route			   = ko.observable();
 			this.sigs			   = ko.observable();
 			this.order			   = ko.observable();
-			this.quantityDispensed = ko.observable();
+			this.dispensedQuantity = ko.observable();
 			this.refill			   = ko.observable();
 			this.refillQuantity	   = ko.observable();
 			this.physician		   = ko.observable();
@@ -974,6 +983,7 @@ define(function(require) {
 			this.date			   = ko.observable();
 			this.mode			   = ko.observable();
 			this.comment		   = ko.observable();
+			this.medicationOrderId = ko.observable(); 
 		}
 	}
 	

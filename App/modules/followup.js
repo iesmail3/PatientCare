@@ -51,14 +51,15 @@
 	
 	 //Get PrescriptionDetails 
 	 followup.prototype.getPrescriptionDetails = function() { 
-		var fields = ['medicine_list.medicine_name','medication_order.quantity','medication_order.sigs',
-					  'medication_order.strength','medication_order.dispensed_quantity',
-					  'medication_order.refill_quantity']; 
+		var fields = ['medication_order.id,medicine_list.medicine_name','medication_order.quantity',
+					  'medication_order.sigs','medication_order.strength','medication_order.dispensed_quantity',
+					  'medication_order.refill_quantity,medication_order.is_added','medication_order.prescribed_by',
+					  'medication_order.created_by','medication_order.mode','medication_order.date','medication_order.comment']; 
 			return this.query({
 				mode: 'select',
 				table:'medication_order',
 				join: "JOIN medicine_list ON medication_order.medicine_list_id=medicine_list.id",
-				fields:'*'
+				fields:fields
 		});
 	 }
 	
@@ -129,6 +130,14 @@
 		});
 	}
 	
+	followup.prototype.getMedicationOrder = function(id) { 
+		return this.query({
+			mode: 'select',
+			table: 'medication_order',
+			fields: '*',
+			where: "WHERE id='" + id + "'"
+		});
+	}
 	// followup.prototype.getPhysician = function(data) { 
 		// var fields = ['physician.first_name','physician.last_name']; 
 		// return self.query({
@@ -299,7 +308,49 @@
 			values: values,
 			where: "WHERE id='" + data.id() + "'"
 		});
-	}	
+	}
+	
+
+	followup.prototype.savePrescription = function(data) {
+		var self = this; 
+		var fields = ['medicine','strength','quantity','route','sigs','order','dispensed_quantity','refill'
+		,'refill_quantity','physician','created_by','date','mode','comment','medication_order_id'];
+		var values = $.map(data, function(k,v) {
+			if(k == null || k == undefined) {
+				return[''];
+			}
+			else {
+				return [k()];
+			}	
+		});
+		$.each(data, function(k, v) {
+		  values[0] = data.medicineName(); 
+		  values[1] = data.strength();
+          values[2] = data.quantity();  
+          values[3] = data.route(); 
+		  values[4] = data.sigs(); 
+		  values[5] = data.order(); 
+		  values[6] = data.dispensedQuantity(); 
+		  values[7] = data.refill(); 
+		  values[8] = data.refillQuantity();
+		  values[9] = data.prescribedBy();
+		  values[10] = data.createdBy();
+		  values[11] = data.date(); 
+		  values[12] = data.mode(); 
+		  values[13] = data.comment(); 
+		  values[14] = data.id(); 
+		 }); 
+		   
+		for(var i =0; i < fields.length; i++) 
+		   system.log(fields[i] + ':' + values[i]); 
+		// return self.query({
+				// mode:  'insert', 
+				// table: 'prescription',
+				// fields: fields, 
+				// values: values,
+		// });	
+	}
+		
 	/**********************************************************************************************
 	 * Delete Methods
 	 * 

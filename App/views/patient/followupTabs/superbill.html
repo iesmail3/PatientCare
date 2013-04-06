@@ -16,7 +16,7 @@
 			<tbody data-bind="foreach: $root.superBills">
 				<tr data-bind="click:$root.selectSuperbill">
 					<td data-bind="text: date"></td>
-					<td style="text-align: center; vertical-align: middle;"><input type="checkbox" name=""data-bind="checked: isComplete"></td>
+					<td style="text-align: center; vertical-align: middle;"><input type="checkbox" data-bind="checked: isComplete" /><td>
 					<td data-bind="text: comment"></td>
 				</tr>
 			</tbody>

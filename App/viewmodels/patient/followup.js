@@ -67,7 +67,6 @@ define(function(require) {
      var secondaryCheck = ko.observable(false); 
 	 var otherCheck     = ko.observable(false);	 
 	 var physicianName  = ko.observable(); 
-	 var isAdded        = ko.observable(false);
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/  
@@ -170,7 +169,6 @@ define(function(require) {
 			physicianName: physicianName,
 			form: form,
 			medicationOrder: medicationOrder,
-			isAdded: isAdded,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -367,7 +365,7 @@ define(function(require) {
 			   showAssigned(false); 
 		},
 		selectRow: function(data) { 
-			modal.showPrescription(data,patientId(),practiceId(),'Prescription Details');
+			modal.showPrescription(medicationOrder,'Prescription Details');
 		},
 		selectLink: function(data) {
 			modal.showAdditionalDetails('Additional Details');

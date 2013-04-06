@@ -31,13 +31,13 @@
 				</thead>
 				<tbody data-bind="foreach: medicationOrders">     
 					<tr>   
-						<td style="text-align: center; vertical-align: middle;"><input type="checkbox" name=""></td>
-						<td data-bind="text: medicineName"></td>   
-						<td data-bind="text: quantity"></td>
-						<td data-bind="text: sigs"></td>
-						<td data-bind="text: strength"></td>  
-						<td data-bind="text: dispensedQuantity"></td>
-						<td data-bind="text: refillQuantity"></td>						     
+						<td><input type="checkbox" data-bind="checked: isAdded" /></td>
+						<td data-bind="click: setFields"><span data-bind="text: medicineName"></span></td>   
+						<td data-bind="click: setFields"><span data-bind="text: quantity"></span></td>   
+						<td data-bind="click: setFields"><span data-bind="text: sigs"></span></td>   
+						<td data-bind="click: setFields"><span data-bind="text: strength"></span></td>   
+						<td data-bind="click: setFields"><span data-bind="text: dispensedQuantity"></span></td>   
+						<td data-bind="click: setFields"><span data-bind="text: refillQuantity"></span></td>   					     
 					</tr>          
 			</tbody>
 			</table>

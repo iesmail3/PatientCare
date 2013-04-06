@@ -11,6 +11,7 @@ define(function(require) {
          self = this; 	
 		this.title = title || Prescription.defaultTitle;
 		this.prescription = ko.observable(prescription);
+		this.medicationOrder = ko.observable(new structures.MedicationOrder());
 		this.patientId = patientId;
 		this.practiceId = practiceId;
 		this.options = options || Prescription.defaultOptions;
@@ -20,24 +21,46 @@ define(function(require) {
 	
 	Prescription.prototype.selectOption = function(dialogResult) {
 	     if(dialogResult == 'Save') {
-		 system.log('save clicked'); 
+			
+			 $.each(self.medicationOrders(), function(k, v) {
+				if(v.isAdded()) {
+					 backend.savePrescription(v); 
+					      // system.log('before if'); 
+						 // if(data.length > 0) {
+						     // system.log('inside it'); 
+							 // // var m = $.map(data, function(item) {return new structures.Document(item) });
+							 // // self.medicationOrders(m) 					 
+						 // } 
+					// });
+				}
+			}); 
 		 }
 		 else {
 		     this.modal.close(dialogResult);
 		}
-	};
+	}
 	
-Prescription.prototype.updatePrescriptions = function(data) {
-	backend.getPrescriptionDetails().success(function(data) { 
-	   
-		if(data.length > 0) { 
-		 system.log('inside details' + data.length);
-			var m = $.map(data, function(item) {return new structures.MedicationOrder(item) });
-			self.medicationOrders(m); 
-			system.log(m[0]); 
-		}
-	});
-}
+	Prescription.prototype.updatePrescriptions = function(data) {
+		backend.getPrescriptionDetails().success(function(data) { 
+		   
+			if(data.length > 0) { 
+				var m = $.map(data, function(item) {return new structures.MedicationOrder(item) });
+				self.medicationOrders(m); 
+				self.medicationOrder(m[0]); 
+				system.log(m[0]); 
+			}
+		});
+	}
+	
+	setFields = function(data) { 
+		// system.log(self.medicationOrder().id());
+		self.medicationOrder(data);
+		//system.log(self.medicationOrder().id());
+		//system.log(self.medicationOrder().isAdded()); 
+       //system.log(self.medicationOrder().medicineName()); 		
+    }
+
+
 
 	Prescription.defaultTitle = 'dfdfbfdb';
 	Prescription.defaultOptions = ['Save','Cancel'];
