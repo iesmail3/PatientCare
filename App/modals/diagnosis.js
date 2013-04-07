@@ -21,6 +21,14 @@ define(function(require) {
 		
 		this.modal.close(dialogResult);
 	};
+	
+	/**********************************************************************************************
+	 * Delete diagnosis
+	 *********************************************************************************************/
+	Diagnosis.prototype.deleteDiagnosis = function(data) {
+	   system.log(data.id); 
+		//modal.showDiagnosis('Diagnosis Details',self.diagnosis());
+	}
 
 	Diagnosis.defaultTitle = '';
 	Diagnosis.defaultOptions = ['Save','Cancel'];
