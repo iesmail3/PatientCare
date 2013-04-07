@@ -25,37 +25,25 @@ define(function(require) {
 	};
 	
 	Prescription.prototype.selectOption = function(dialogResult) {
-	     if(dialogResult == 'Save') {
-			 if(self.medicationOrders().length > 0) {
+	     if(dialogResult == 'Save') { 
 				 $.each(self.groupOrders(), function(k, v) {
 					 if($.inArray(v, self.oldGroup) == -1) {
 						// // Filter the categories to find the correct one
 						 var cat = _.filter(self.medicationOrders(), function(x) {
 							 return x.id() == v;
 						});
-						  system.log('inside inarray');
-						 // backend.savePrescription(cat[0]); 
-						// self.medicationOrders.remove(cat[0]); 
+						  backend.savePrescription(cat[0]); 
+					      backend.getPrescription().success(function(data) { 
+							if(data.length > 0) {
+								var p = $.map(data, function(item) {return new structures.Prescription(item) });
+								self.prescriptions(p); 
+							}
+						 });					
 					}
 				}); 
-			 }
-			 // $.each(self.medicationOrders(), function(k, v) {
-				// if(v.isAdded()) { 
-					  // backend.savePrescription(v);
-					 // self.medicationOrders.remove(v);
-                     // backend.getPrescription().success(function(data) { 
-						// if(data.length > 0) {
-						   // system.log('inside > 0' + data.length); 
-							// var p = $.map(data, function(item) {return new structures.Prescription(item) });
-							// self.prescriptions(p); 
-						// }
-					 // });
-				// }
-			// }); 
 		 }
-		 else {
-		     this.modal.close(dialogResult);
-		}
+		 this.modal.close(dialogResult);
+		 
 	}
 	
 	Prescription.prototype.updatePrescriptions = function(data) {

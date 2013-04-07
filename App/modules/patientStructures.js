@@ -378,45 +378,47 @@ define(function(require) {
 	//Medication Order
 	patient.prototype.MedicationOrder = function(data) { 
 		if(data != null) { 
-			this.id				  = ko.observable(data.id);  
-			this.serviceRecordId  = ko.observable(data.service_record_id); 
-			this.medicineListId	  = ko.observable(data.medicine_list_id); 
-			this.strength 		  = ko.observable(data.strength); 
-			this.quantity 		  = ko.observable(data.quantity); 
-			this.route 			  = ko.observable(data.route); 
-			this.sigs 			  = ko.observable(data.sigs); 
-			this.order            = ko.observable(data.order); 
-			this.dispensedQuantity = ko.observable(data.dispensed_quantity); 
-			this.refill 		  = ko.observable(data.refill); 
-			this.refillQuantity   = ko.observable(data.refill_quantity); 
-			this.comment          = ko.observable(data.comment); 
-			this.isAdded          = ko.observable((data.is_added == 1 ? true : false));
-			this.medicineName     = ko.observable(data.medicine_name);
-            this.mode             = ko.observable(data.mode); 
-			this.date             = ko.observable(data.date); 
-			this.prescribedBy     = ko.observable(data.prescribed_by); 
-			this.createdBy        = ko.observable(data.created_by); 
+			this.id				  	   = ko.observable(data.id);  
+			this.serviceRecordId  	   = ko.observable(data.service_record_id); 
+			this.medicineListId	 	   = ko.observable(data.medicine_list_id); 
+			this.strength 		  	   = ko.observable(data.strength); 
+			this.quantity 		  	   = ko.observable(data.quantity); 
+			this.route 			  	   = ko.observable(data.route); 
+			this.sigs 			  	   = ko.observable(data.sigs); 
+			this.order            	   = ko.observable(data.order); 
+			this.dispensedQuantity 	   = ko.observable(data.dispensed_quantity); 
+			this.refill 		  	   = ko.observable(data.refill); 
+			this.refillQuantity  	   = ko.observable(data.refill_quantity); 
+			this.orderComment          = ko.observable(data.order_comment); 
+			this.prescriptionComment   = ko.observable(data.prescription_comment); 
+			this.isAdded          	   = ko.observable((data.is_added == 1 ? true : false));
+			this.medicineName          = ko.observable(data.medicine_name);
+            this.mode                  = ko.observable(data.mode); 
+			this.date                  = ko.observable(data.date); 
+			this.prescribedBy          = ko.observable(data.prescribed_by); 
+			this.createdBy             = ko.observable(data.created_by); 
 		}
 		
 		else {
-			this.id				  = ko.observable(); 
-			this.serviceRecordId  = ko.observable(); 
-			this.medicineListId	  = ko.observable(); 
-			this.strength 		  = ko.observable(); 
-			this.quantity 		  = ko.observable(); 
-			this.route 			  = ko.observable(); 
-			this.sigs 			  = ko.observable();
-			this.order            = ko.observable(); 
-			this.dispensedQuantity = ko.observable(); 
-			this.refill 		  = ko.observable(); 
-			this.refillQuantity   = ko.observable(); 
-			this.comment          = ko.observable();
-			this.isAdded          = ko.observable();
-			this.medicineName     = ko.observable();
-			this.mode             = ko.observable(); 
-			this.date             = ko.observable();
-			this.prescribedBy     = ko.observable(); 
-			this.createdBy        = ko.observable(); 
+			this.id				  	   = ko.observable(); 
+			this.serviceRecordId       = ko.observable(); 
+			this.medicineListId	       = ko.observable(); 
+			this.strength 		       = ko.observable(); 
+			this.quantity 		       = ko.observable(); 
+			this.route 			       = ko.observable(); 
+			this.sigs 			       = ko.observable();
+			this.order                 = ko.observable(); 
+			this.dispensedQuantity     = ko.observable(); 
+			this.refill 		  	   = ko.observable(); 
+			this.refillQuantity  	   = ko.observable(); 
+			this.orderComment          = ko.observable();
+			this.prescriptionComent    = ko.observable();
+			this.isAdded               = ko.observable();
+			this.medicineName          = ko.observable();
+			this.mode                  = ko.observable(); 
+			this.date                  = ko.observable();
+			this.prescribedBy          = ko.observable(); 
+			this.createdBy             = ko.observable(); 
 		}
 	}
 			
