@@ -172,6 +172,24 @@
 			});
 	}
 	
+	// Update a single followup 
+	followup.prototype.saveDiagnosis = function(id, data) {
+		var self = this;   
+		var fields = ['id','service_record_id','diagnosis','code'];
+
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return self.query({
+				mode:  'update', 
+				table: 'diagnosis',
+				fields: fields, 
+				values: values, 
+				where: "WHERE id='" + id + "'"
+			});
+	}
+	
 	followup.prototype.savePaymentMethod = function(checkoutId, paymentMethod) { 
 		var self = this; 
 		var fields = ['id','checkout_id','mode','particulars','amount'];
