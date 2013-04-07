@@ -310,7 +310,7 @@
 	}
 	
 
-	followup.prototype.savePrescription = function(data) {
+	followup.prototype.savePrescription = function(data,date,comment) {
 		var self = this; 
 		var fields = ['medicine','strength','quantity','route','sigs','order','dispensed_quantity','refill'
 		,'refill_quantity','physician','created_by','date','mode','comment','medication_order_id'];
@@ -334,9 +334,9 @@
 		  values[8] = data.refillQuantity();
 		  values[9] = data.prescribedBy();
 		  values[10] = data.createdBy();
-		  values[11] = data.date(); 
+		  values[11] = date 
 		  values[12] = data.mode(); 
-		  values[13] = data.comment(); 
+		  values[13] = comment 
 		  values[14] = data.id(); 
 		 }); 
 		   

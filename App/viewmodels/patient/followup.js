@@ -283,7 +283,7 @@ define(function(require) {
 			
 			backend.getDocument(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
-					 var d = $.map(data, function(item) {return new structures.Document(item) });
+					 var d = $.map(data, function(item) { return new structures.Document(item) });
 					 self.documents(d);
                      self.doc(d[0]); 					 
 				} 
@@ -291,7 +291,9 @@ define(function(require) {
 							
 			backend.getPrescription().success(function(data) { 
 				if(data.length > 0) {
-					 var p = $.map(data, function(item) {return new structures.Prescription(item) });
+					 var p = $.map(data, function(item) {
+					  item.date = form.uiDate(item.date)
+					 return new structures.Prescription(item) });
 					 self.prescriptions(p);
                      self.prescription(p[0]); 					 
 				} 

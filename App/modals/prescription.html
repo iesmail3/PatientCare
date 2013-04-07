@@ -4,7 +4,7 @@
 	</div>
 	<div class="modal-body">
 		<div class="marginBottom5">
-		<input type="text" data-bind="datepicker: true" class="input-medium"  placeholder="Prescription Date" />
+		<input type="text" data-bind="datepicker: true,value:date" class="input-medium"  placeholder="Prescription Date" />
 		<select class="input-large pull-right">
 				<option value="" disabled selected style="display:none;">Prescription Mode</option>
 				<option value="male">Office</option>
@@ -44,7 +44,7 @@
 		</div>
 		 
 		<div class="marginBottom5 commentContainer">
-			<textarea class="commentSpan" rows="3" placeholder="Comments" ></textarea>
+			<textarea class="commentSpan" rows="3" placeholder="Comments" data-bind="value:comment"></textarea>
 		</div>
 		
 		<div class="modal-footer" data-bind="foreach: options">
