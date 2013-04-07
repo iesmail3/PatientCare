@@ -7,6 +7,7 @@ define(function(require) {
     var Superbill = require('./superbill');
     var Supplies = require('./supplies');
     var DrugOrder = require('./drugorder');
+	var Diagnosis = require('./diagnosis');
 	
 	return {
 		showOrder: function(order, centers, orders, groupOrders, orderTypes, practiceId, 
@@ -39,6 +40,9 @@ define(function(require) {
 		},
 		showSuperbill: function(title,options) {		      
 			return modalDialog.show(new Superbill(title,options));
+		},
+		showDiagnosis: function(title) { 
+			return modalDialog.show(new Diagnosis(title)); 
 		}
 	};
 });

@@ -23,6 +23,7 @@ define(function(require) {
 		this.medicationOrders = ko.observableArray([]);
 		this.date = ko.observable();
 		this.comment = ko.observable();
+		this.mode = ko.observable();
 		this.updatePrescriptions(this.prescription());
 	};
 	
@@ -35,7 +36,7 @@ define(function(require) {
 							 return x.id() == v;
 						});
 						  self.date(form.dbDate(self.date()));
-						  backend.savePrescription(cat[0],self.date(),self.comment()); 							 
+						  backend.savePrescription(cat[0],self.date(),self.comment(),self.mode()); 							 
 					}
 			});
 			 //Populate the prescription observable array

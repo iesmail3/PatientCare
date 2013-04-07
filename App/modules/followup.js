@@ -54,7 +54,7 @@
 		var fields = ['medication_order.id,medicine_list.medicine_name','medication_order.quantity',
 					  'medication_order.sigs','medication_order.strength','medication_order.dispensed_quantity',
 					  'medication_order.refill_quantity,medication_order.is_added','medication_order.prescribed_by',
-					  'medication_order.created_by','medication_order.mode','medication_order.date','medication_order.comment','medication_order.refill','medication_order.route',
+					  'medication_order.created_by','medication_order.date','medication_order.comment','medication_order.refill','medication_order.route',
 					  'medication_order.order']; 
 			return this.query({
 				mode: 'select',
@@ -138,16 +138,7 @@
 			where: "WHERE id='" + id + "'"
 		});
 	}
-	// followup.prototype.getPhysician = function(data) { 
-		// var fields = ['physician.first_name','physician.last_name']; 
-		// return self.query({
-			// mode: 'select',
-			// table: 'service-record',
-			// join: "JOIN physician ON service_record.physician_id=physician.id",
-			// fields: fields,
-			// where: "WHERE service_record.date='" + data.date() + "'"
-		// });
-	// }
+
 	/**********************************************************************************************
 	 * Save Methods
 	 * 
@@ -310,7 +301,7 @@
 	}
 	
 
-	followup.prototype.savePrescription = function(data,date,comment) {
+	followup.prototype.savePrescription = function(data,date,comment,mode) {
 		var self = this; 
 		var fields = ['medicine','strength','quantity','route','sigs','order','dispensed_quantity','refill'
 		,'refill_quantity','physician','created_by','date','mode','comment','medication_order_id'];
@@ -334,9 +325,9 @@
 		  values[8] = data.refillQuantity();
 		  values[9] = data.prescribedBy();
 		  values[10] = data.createdBy();
-		  values[11] = date 
-		  values[12] = data.mode(); 
-		  values[13] = comment 
+		  values[11] = date;
+		  values[12] = mode ;
+		  values[13] = comment ;
 		  values[14] = data.id(); 
 		 }); 
 		   

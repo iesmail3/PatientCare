@@ -392,7 +392,6 @@ define(function(require) {
 			this.comment               = ko.observable(data.comment); 
 			this.isAdded          	   = ko.observable((data.is_added == 1 ? true : false));
 			this.medicineName          = ko.observable(data.medicine_name);
-            this.mode                  = ko.observable(data.mode); 
 			this.date                  = ko.observable(data.date); 
 			this.prescribedBy          = ko.observable(data.prescribed_by); 
 			this.createdBy             = ko.observable(data.created_by); 
@@ -413,7 +412,6 @@ define(function(require) {
 			this.comment               = ko.observable();
 			this.isAdded               = ko.observable();
 			this.medicineName          = ko.observable();
-			this.mode                  = ko.observable(); 
 			this.date                  = ko.observable();
 			this.prescribedBy          = ko.observable(); 
 			this.createdBy             = ko.observable(); 

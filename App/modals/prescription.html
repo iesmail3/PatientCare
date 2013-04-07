@@ -5,12 +5,12 @@
 	<div class="modal-body">
 		<div class="marginBottom5">
 		<input type="text" data-bind="datepicker: true,value:date" class="input-medium"  placeholder="Prescription Date" />
-		<select class="input-large pull-right">
+		<select class="input-large pull-right" data-bind="value:mode">
 				<option value="" disabled selected style="display:none;">Prescription Mode</option>
-				<option value="male">Office</option>
-				<option value="female">Phone</option>
-				<option value="female">Fax</option>
-				<option value="female">e-Prescription</option>
+				<option value="Office">Office</option>
+				<option value="Phone">Phone</option>
+				<option value="Fax">Fax</option>
+				<option value="e-Prescription">e-Prescription</option>
 			</select>
 		</div>
 		<div class="marginBottom5">
