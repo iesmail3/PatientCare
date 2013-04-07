@@ -28,13 +28,15 @@ define(function(require) {
 			this.type			 = ko.observable(data.type);
 			this.status			 = ko.observable(data.status);
 			this.details		 = ko.observable(data.details);
+			this.dateRecorded	 = ko.observable(data.date_recorded);
 		}
 		else {
 			this.id				 = ko.observable();
 			this.serviceRecordId = ko.observable();
-			this.type			 = ko.observable();
-			this.status			 = ko.observable();
+			this.type			 = ko.observable('');
+			this.status			 = ko.observable('');
 			this.details		 = ko.observable();
+			this.dateRecorded	 = ko.observable();
 		}
 	}
 	
@@ -1032,8 +1034,8 @@ define(function(require) {
 			this.reason					    = ko.observable(data.reason);
 			this.history				    = ko.observable(data.history);
 			this.systemsComment			    = ko.observable(data.systems_comment);
-			this.noKnownAllergies		    = ko.observable(data.no_known_allergies);
-			this.allergiesVerified		    = ko.observable(data.allergies_verified);
+			this.noKnownAllergies		    = ko.observable(data.no_known_allergies == '1' ? 1 : 0);
+			this.allergiesVerified		    = ko.observable(data.allergies_verified == '1' ? 1 : 0);
 			this.physicalExaminationComment = ko.observable(data.physical_examination_comment);
 			this.planAndInstructions	    = ko.observable(data.plan_and_instructions);
 			this.physicianFirst			    = ko.observable(data.first_name);

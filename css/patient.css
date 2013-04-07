@@ -167,6 +167,11 @@
 	display: none;
 }
 
+.allergiesCheckbox {
+	display: inline-block;
+	width: 140px;
+};
+
 .span6 .label, label.inline  {
     display: inline-block;
     width: 130px;   

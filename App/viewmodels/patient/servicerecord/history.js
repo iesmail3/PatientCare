@@ -140,7 +140,7 @@ define(function(require) {
 				}
 			});
 			
-			return backend.getMedicalProblems(self.patientId(), self.practiceId(), self.date()).success(function(data) {
+			backend.getMedicalProblems(self.patientId(), self.practiceId(), self.date()).success(function(data) {
 				if(data.length > 0) {
 					var p = $.map(data, function(item) {
 						item.onset_date = form.uiDate(item.onset_date);
@@ -148,6 +148,16 @@ define(function(require) {
 						return new structures.MedicalProblem(item)}
 					);
 					self.medicalProblems(p);
+				}
+			});
+			
+			return backend.getAllergiesIntolerance(self.patientId(), self.practiceId(), self.date()).success(function(data) {
+				if(data.length > 0) {
+					var a = $.map(data, function(item) {
+						item.date_recorded = form.uiDate(item.date_recorded);
+						return new structures.AllergiesIntolerance(item)
+					});
+					self.allergiesIntolerances(a);
 				}
 			});
 		}, // End Activate
@@ -312,20 +322,62 @@ define(function(require) {
 			medicalProblem(tempMedicalProblem());
 			medicalProblemsState(false);
 		},
+		/******************************************************************************************* 
+		 * Allergys Intolerance Methods
+		 *******************************************************************************************/
 		allergiesIntoleranceSetFields: function(data) {
-		
+			if (!allergiesIntoleranceState()) {
+				allergiesIntolerance(data);
+			}
 		},
 		allergiesIntoleranceNew: function(data) {
+			tempAllergiesIntolerance(allergiesIntolerance());
+			allergiesIntolerance(new structures.AllergiesIntolerance());
 			allergiesIntoleranceState(true);
 		},
 		allergiesIntoleranceSave: function(data) {
-		
+			backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord()).success(function(data) {
+				// Saves the Service Record
+			});
+			if (allergiesIntolerance().id() != undefined && allergiesIntolerance().id() != '') {
+				if (allergiesIntoleranceState()) {
+					allergiesIntolerance().serviceRecordId(serviceRecord().id());
+					allergiesIntolerance().dateRecorded(form.dbDate(form.currentDate()));
+					backend.saveAllergiesIntolerance(allergiesIntolerance, allergiesIntolerances).complete(function(data) {
+						allergiesIntolerance().dateRecorded(form.uiDate(allergiesIntolerance().dateRecorded()));
+						allergiesIntolerance(new structures.AllergiesIntolerance());
+					});
+				}
+				else {
+					allergiesIntolerance().dateRecorded(form.dbDate(allergiesIntolerance().dateRecorded()));
+					backend.saveAllergiesIntolerance(allergiesIntolerance, allergiesIntolerances).complete(function(data) {
+						allergiesIntolerance().dateRecorded(form.uiDate(allergiesIntolerance().dateRecorded()));
+					});
+				}
+			}
 		},
 		allergiesIntoleranceCancel: function(data) {
+			allergiesIntolerance(tempAllergiesIntolerance());
 			allergiesIntoleranceState(false);
 		},
-		allergiesIntoleranceDelete: function(data) {
-			
+		allergiesIntoleranceDelete: function(item) {
+			return app.showMessage(
+				'Are you sure you want to delete the allergy/intolerance for "' + item.details() + '"?',
+				'Delete',
+				['Yes', 'No'])
+			.done(function(answer){
+				if(answer == 'Yes') {
+					backend.deleteAllergiesIntolerance(item.id(), item.serviceRecordId()).complete(function(data) {
+						if(data.responseText == 'fail') {
+							app.showMessage('The allergy/intolerance for "' + item.details() + '" could not be deleted.', 'Deletion Error');
+						}
+						else {
+							allergiesIntolerances.remove(item);
+							allergiesIntolerance(new structures.MedicalProblem());
+						}
+					});
+				}
+			});
 		}
 	}; // End ViewModel
 	
