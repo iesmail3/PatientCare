@@ -39,7 +39,7 @@ define(function(require) {
 	 *********************************************************************************************/
 	Superbill.prototype.goToDiagnosis = function(data) {
 		var modal = require('modals/modals');
-		modal.showDiagnosis('Diagnosis Details',self.diagnosis());
+		modal.showDiagnosis('Diagnosis Details',self.diagnosis);
 	}
 	Superbill.defaultTitle = '';
 	Superbill.defaultOptions = ['Cancel'];

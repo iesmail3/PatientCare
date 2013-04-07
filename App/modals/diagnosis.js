@@ -14,7 +14,7 @@ define(function(require) {
 	
 	Diagnosis.prototype.selectOption = function(dialogResult) {
 		if(dialogResult == 'Save') {
-			$.each(self.diagnosis, function(k, v) {
+			$.each(self.diagnosis(), function(k, v) {
 				backend.saveDiagnosis(v.id(),v);
 			}); 
 		}
@@ -26,8 +26,8 @@ define(function(require) {
 	 * Delete diagnosis
 	 *********************************************************************************************/
 	Diagnosis.prototype.deleteDiagnosis = function(data) {
-	   system.log(data.id); 
-		//modal.showDiagnosis('Diagnosis Details',self.diagnosis());
+		backend.deleteDiagnosis(data.id); 
+		self.diagnosis.remove(data); 
 	}
 
 	Diagnosis.defaultTitle = '';

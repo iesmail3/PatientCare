@@ -382,6 +382,15 @@
 		});
 	}
 	
+	// Delete diagnosis
+	followup.prototype.deleteDiagnosis = function(id) { 
+		return this.query({
+			mode: 'delete', 
+			table: 'diagnosis', 
+			where: "WHERE id='" + id() + "'"
+		});
+	}
+	
 	 // Delete Payment Method 
 	followup.prototype.deletePaymentMethod = function(id) {
 		return this.query({
