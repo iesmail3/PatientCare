@@ -372,6 +372,15 @@
 			where: "WHERE id='" + id + "'"
 		});
 	}
+	
+	followup.prototype.deletePrescription = function(id) {
+		system.log('ready to delete id' + id); 
+		return this.query({
+			mode:'delete',
+			table:'prescription',
+			where:"WHERE medication_order_id='" + id + "'"
+		});
+	}
 			
 	// /**********************************************************************************************
 	 // * Query

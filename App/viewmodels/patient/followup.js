@@ -225,6 +225,12 @@ define(function(require) {
           }
 			window.onload = createUploader;
 			
+			$('#file_upload').uploadify({
+                'swf'      : 'Scripts/uploadify.swf',
+                 'uploader' : 'php/uploadify.php'
+        // Put your options here
+         });
+			
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
 				var f = $.map(data, function(item) {return new structures.Followup(item) });
@@ -268,13 +274,10 @@ define(function(require) {
 			}); 
 			
 			backend.getSuperBill().success(function(data) { 
-				//system.log('inside superbill'); 
-				if(data.length > 0) {
-				//system.log('inside if statement'); 
+				if(data.length > 0) { 
 					 var p = $.map(data, function(item) {return new structures.Superbill(item) }); 
 					 self.superBills(p);
-					 self.superBill(p[0]);
-					 //system.log('date is ' + superBill().date()); 
+					 self.superBill(p[0]); 
 				} 
 			});
 			
@@ -366,6 +369,9 @@ define(function(require) {
 			   showAssigned(false); 
 		},
 		selectRow: function(data) {
+			// Clear group
+			groupOrders([]);
+			//Repopulate the group
 			$.each(prescriptions(), function(k, v) {
 					groupOrders.push(v.medicationOrderId());
 			});
@@ -415,6 +421,11 @@ define(function(require) {
 			paymentMethods.remove(data); 
 			backend.deletePaymentMethod(data.id()); 
 		},
+		deletePrescription: function(data) {
+			 var prescription = data;
+			 prescriptions.remove(prescription);
+			 backend.deletePrescription(data.medicationOrderId());
+		},
 		savePaymentMethod: function(data) { 
 			 var isValid = true;
 			 var pm = paymentMethods()[paymentMethods().length-1]; 
@@ -443,7 +454,17 @@ define(function(require) {
 	   
 			  backend.savePhoneLog(phoneLog,phoneLogs,practiceId(),patientId(),showAssigned);
               system.log('showAssigned is' + showAssigned()); 			  
-	} 
+	},
+
+	uploadFile: function(data) { 
+	   var uploader = new qq.FineUploader({
+        element: $('#fine-uploader-basic')[0],
+        debug: true,
+        request: {
+            endpoint: "php/fileupload.php"
+        }
+    });
+	}
  }
  
  //Turn validation on

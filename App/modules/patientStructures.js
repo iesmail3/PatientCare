@@ -389,8 +389,7 @@ define(function(require) {
 			this.dispensedQuantity 	   = ko.observable(data.dispensed_quantity); 
 			this.refill 		  	   = ko.observable(data.refill); 
 			this.refillQuantity  	   = ko.observable(data.refill_quantity); 
-			this.orderComment          = ko.observable(data.order_comment); 
-			this.prescriptionComment   = ko.observable(data.prescription_comment); 
+			this.comment               = ko.observable(data.comment); 
 			this.isAdded          	   = ko.observable((data.is_added == 1 ? true : false));
 			this.medicineName          = ko.observable(data.medicine_name);
             this.mode                  = ko.observable(data.mode); 
@@ -411,8 +410,7 @@ define(function(require) {
 			this.dispensedQuantity     = ko.observable(); 
 			this.refill 		  	   = ko.observable(); 
 			this.refillQuantity  	   = ko.observable(); 
-			this.orderComment          = ko.observable();
-			this.prescriptionComent    = ko.observable();
+			this.comment               = ko.observable();
 			this.isAdded               = ko.observable();
 			this.medicineName          = ko.observable();
 			this.mode                  = ko.observable(); 

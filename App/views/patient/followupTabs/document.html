@@ -26,11 +26,18 @@
 						<fieldset>   
 							<legend>Details</legend>      
 							<div class="marginBottom5">
-								<input type="text" class="input-medium" placeholder="Document Type" data-bind="value: type"/>
-							       <div id="fine-uploader-basic" class="btn btn-success">
+							<!-- <form action="php/fileupload.php" method="post"
+									enctype="multipart/form-data">
+									<label for="file">Filename:</label>
+									<input type="file" name="file" id="file"><br>
+									<input type="submit" name="submit" value="Submit">
+							</form> -->
+							<input type="file" name="file_upload" id="file_upload" />
+								<!-- <input type="text" class="input-medium" placeholder="Document Type" data-bind="value: type"/>
+							       <div id="fine-uploader-basic" class="btn btn-success" data-bind="click:$root.uploadFile">
 										<i class="icon-upload icon-white"></i> Click to upload
 									</div>
-									<div id="messages"></div>
+									<div id="messages"></div> -->
 							 <!--  <div class="fileupload fileupload-new pull-right" data-provides="fileupload">
                                  <div class="input-append">
                                      <div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div>
