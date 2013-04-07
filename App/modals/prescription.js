@@ -5,15 +5,20 @@ define(function(require) {
 	var structures = new Structures();
 	var backend = new Backend(); 
 	var self;
-	//var medicationOrders = ko.observableArray([]);
-	
-	var Prescription = function(prescription,patientId,practiceId,title,options) {
+
+	//grouporders refers to the rows in the prescription table
+	var Prescription = function(prescription,prescriptions,groupOrders,title,options) {
          self = this; 	
 		this.title = title || Prescription.defaultTitle;
 		this.prescription = ko.observable(prescription);
+		this.prescriptions = prescriptions;
+		this.groupOrders = groupOrders;	
+         system.log('group order is' + groupOrders()); 		
+		this.oldGroup = [];
+		$.each(groupOrders(), function(k,v) {
+			self.oldGroup.push(v);
+		})
 		this.medicationOrder = ko.observable(new structures.MedicationOrder());
-		this.patientId = patientId;
-		this.practiceId = practiceId;
 		this.options = options || Prescription.defaultOptions;
 		this.medicationOrders = ko.observableArray([]);
 		this.updatePrescriptions(this.prescription());
@@ -21,19 +26,32 @@ define(function(require) {
 	
 	Prescription.prototype.selectOption = function(dialogResult) {
 	     if(dialogResult == 'Save') {
-			
-			 $.each(self.medicationOrders(), function(k, v) {
-				if(v.isAdded()) {
-					 backend.savePrescription(v); 
-					      // system.log('before if'); 
-						 // if(data.length > 0) {
-						     // system.log('inside it'); 
-							 // // var m = $.map(data, function(item) {return new structures.Document(item) });
-							 // // self.medicationOrders(m) 					 
-						 // } 
-					// });
-				}
-			}); 
+			 if(self.medicationOrders().length > 0) {
+				 $.each(self.groupOrders(), function(k, v) {
+					 if($.inArray(v, self.oldGroup) == -1) {
+						// // Filter the categories to find the correct one
+						 var cat = _.filter(self.medicationOrders(), function(x) {
+							 return x.id() == v;
+						});
+						  system.log('inside inarray');
+						 // backend.savePrescription(cat[0]); 
+						// self.medicationOrders.remove(cat[0]); 
+					}
+				}); 
+			 }
+			 // $.each(self.medicationOrders(), function(k, v) {
+				// if(v.isAdded()) { 
+					  // backend.savePrescription(v);
+					 // self.medicationOrders.remove(v);
+                     // backend.getPrescription().success(function(data) { 
+						// if(data.length > 0) {
+						   // system.log('inside > 0' + data.length); 
+							// var p = $.map(data, function(item) {return new structures.Prescription(item) });
+							// self.prescriptions(p); 
+						// }
+					 // });
+				// }
+			// }); 
 		 }
 		 else {
 		     this.modal.close(dialogResult);
@@ -45,23 +63,12 @@ define(function(require) {
 		   
 			if(data.length > 0) { 
 				var m = $.map(data, function(item) {return new structures.MedicationOrder(item) });
-				self.medicationOrders(m); 
-				self.medicationOrder(m[0]); 
-				system.log(m[0]); 
+				self.medicationOrders(m);  
 			}
 		});
 	}
 	
-	setFields = function(data) { 
-		// system.log(self.medicationOrder().id());
-		self.medicationOrder(data);
-		//system.log(self.medicationOrder().id());
-		//system.log(self.medicationOrder().isAdded()); 
-       //system.log(self.medicationOrder().medicineName()); 		
-    }
-
-
-
+	
 	Prescription.defaultTitle = 'dfdfbfdb';
 	Prescription.defaultOptions = ['Save','Cancel'];
 	

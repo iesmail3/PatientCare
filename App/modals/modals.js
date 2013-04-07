@@ -31,8 +31,8 @@ define(function(require) {
 				new DrugOrder(practiceId, serviceRecordId, orderId, title, options)
 			);
 		},
-		showPrescription: function(prescription,title,options) {
-			return modalDialog.show(new Prescription(prescription,title,options));
+		showPrescription: function(prescription,prescriptions,groupOrders,title,options) {
+			return modalDialog.show(new Prescription(prescription,prescriptions,groupOrders,title,options));
 		},
 		showAdditionalDetails: function(title,options) {		      
 			return modalDialog.show(new AdditionalDetails(title,options));

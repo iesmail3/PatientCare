@@ -67,6 +67,7 @@ define(function(require) {
      var secondaryCheck = ko.observable(false); 
 	 var otherCheck     = ko.observable(false);	 
 	 var physicianName  = ko.observable(); 
+	 var groupOrders = ko.observableArray([]);
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/  
@@ -285,7 +286,7 @@ define(function(require) {
 				} 
 			});
 							
-			backend.getPrescription(self.patientId(),self.practiceId()).success(function(data) { 
+			backend.getPrescription().success(function(data) { 
 				if(data.length > 0) {
 					 var p = $.map(data, function(item) {return new structures.Prescription(item) });
 					 self.prescriptions(p);
@@ -364,8 +365,11 @@ define(function(require) {
                phoneLog(new structures.PhoneLog());
 			   showAssigned(false); 
 		},
-		selectRow: function(data) { 
-			modal.showPrescription(medicationOrder,'Prescription Details');
+		selectRow: function(data) {
+			$.each(prescriptions(), function(k, v) {
+					groupOrders.push(v.medicationOrderId());
+			});
+			modal.showPrescription(medicationOrder,prescriptions,groupOrders,'Prescription Details');
 		},
 		selectLink: function(data) {
 			modal.showAdditionalDetails('Additional Details');

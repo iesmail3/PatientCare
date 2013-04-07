@@ -54,7 +54,8 @@
 		var fields = ['medication_order.id,medicine_list.medicine_name','medication_order.quantity',
 					  'medication_order.sigs','medication_order.strength','medication_order.dispensed_quantity',
 					  'medication_order.refill_quantity,medication_order.is_added','medication_order.prescribed_by',
-					  'medication_order.created_by','medication_order.mode','medication_order.date','medication_order.comment']; 
+					  'medication_order.created_by','medication_order.mode','medication_order.date','medication_order.comment','medication_order.refill','medication_order.route',
+					  'medication_order.order']; 
 			return this.query({
 				mode: 'select',
 				table:'medication_order',
@@ -111,12 +112,11 @@
 		});
 	}
 	
-	followup.prototype.getPrescription = function(id, practiceId) {
+	followup.prototype.getPrescription = function() {
 		return this.query({
 			mode: 'select',
 			table: 'prescription',
-			fields: '*',
-			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
+			fields: '*'
 		});
 	}
 	
@@ -237,8 +237,7 @@
 			values[2] = practiceId;  
 			values[3] = form.dbDate(phoneLog().datetime()); 
 			if(phoneLog().id() == undefined || phoneLog().id() == '') {
-             showAssigned(true); 
-			 system.log('inside new'); 			
+             showAssigned(true);  			
 			   var newId = '';
 			return self.query({
 					mode: 'select',
@@ -341,14 +340,14 @@
 		  values[14] = data.id(); 
 		 }); 
 		   
-		for(var i =0; i < fields.length; i++) 
-		   system.log(fields[i] + ':' + values[i]); 
-		// return self.query({
-				// mode:  'insert', 
-				// table: 'prescription',
-				// fields: fields, 
-				// values: values,
-		// });	
+		 // for(var i =0; i < fields.length; i++) 
+		   // system.log(fields[i] + ':' + values[i]); 
+		return self.query({
+				mode:  'insert', 
+				table: 'prescription',
+				fields: fields,  
+				values: values,
+		});	
 	}
 		
 	/**********************************************************************************************

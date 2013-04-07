@@ -40,7 +40,7 @@ define(function(require) {
 					// Grab the description
 					var description = cat[0].description();
 					// Date
-					date = new Date();
+					date = new Date();   
 					date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
 					var o = new structures.Order({
 						service_record_id: self.serviceRecordId,
