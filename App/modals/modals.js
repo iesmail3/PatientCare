@@ -38,11 +38,11 @@ define(function(require) {
 		showAdditionalDetails: function(title,options) {		      
 			return modalDialog.show(new AdditionalDetails(title,options));
 		},
-		showSuperbill: function(title,options) {		      
-			return modalDialog.show(new Superbill(title,options));
+		showSuperbill: function(superBill,title,options) {		      
+			return modalDialog.show(new Superbill(superBill,title,options));
 		},
-		showDiagnosis: function(title) { 
-			return modalDialog.show(new Diagnosis(title)); 
+		showDiagnosis: function(title,diagnosis,options) { 
+			return modalDialog.show(new Diagnosis(title,diagnosis,options)); 
 		}
 	};
 });

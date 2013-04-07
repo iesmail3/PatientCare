@@ -138,6 +138,7 @@
 			where: "WHERE id='" + id + "'"
 		});
 	}
+	
 	followup.prototype.getDiagnosis = function() { 
 		return this.query({
 			mode: 'select',

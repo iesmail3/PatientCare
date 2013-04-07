@@ -5,12 +5,17 @@ define(function(require) {
 	var backend = new Backend(); 
 	var self = this; 
 	
-	var Diagnosis = function(title,options) { 
+	var Diagnosis = function(title,diagnosis,options) { 
 		this.title = title || Diagnosis.defaultTitle; 
 		this.options = options || Diagnosis.defaultOptions;
+		this.diagnosis = diagnosis;
+		system.log(diagnosis); 
 	};
 	
 	Diagnosis.prototype.selectOption = function(dialogResult) {
+	
+	
+	
 		this.modal.close(dialogResult);
 	};
 

@@ -383,7 +383,7 @@ define(function(require) {
 			modal.showAdditionalDetails('Additional Details');
 		},
 		selectSuperbill: function(data) {
-			modal.showSuperbill('Superbill');
+			modal.showSuperbill(superBill,'Superbill');
 		},
 		 saveFollowup: function(data) {
 			if(followup().errors().length == 0) {
