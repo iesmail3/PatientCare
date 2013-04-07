@@ -9,6 +9,7 @@
 					<tr>
 						<th>Diagnosis</th>
 						<th>ICD Code</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody data-bind="foreach: diagnosis">  
@@ -19,6 +20,11 @@
 					 <td class="input-small">											 
 						<input class="input-small" data-bind="value:code"/>
 					 </td> 
+					 <td>
+						<button type="button" class="btn btn-small btn-danger" >
+						 Delete
+						</button>
+					</td>
 					</tr>
 				</tbody>
 			</table>

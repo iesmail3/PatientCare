@@ -18,11 +18,12 @@ define(function(require) {
 				backend.saveDiagnosis(v.id(),v);
 			}); 
 		}
+		
 		this.modal.close(dialogResult);
 	};
 
 	Diagnosis.defaultTitle = '';
-	Diagnosis.defaultOptions = ['Save','Delete','Cancel'];
+	Diagnosis.defaultOptions = ['Save','Cancel'];
 	
 	return Diagnosis;	
 });
