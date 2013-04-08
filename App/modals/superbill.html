@@ -20,6 +20,7 @@
 						<input type="text" class="input-medium" placeholder="code"/>
 						<input type="text" class="input-medium offset2" placeholder="code"/>
 					</div>
+					<!-- ko with: superBill -->
 					<div class="marginBottom5 pull-right">
 						<label class="checkbox inline">
 							<input type="checkbox"/>
@@ -28,6 +29,7 @@
 						<button type="button" class="btn btn-small btn-primary">Save</button>
 						<button type="button" class="btn btn-small btn-primary">HCFA</button>
 					</div>
+					<!-- /ko -->
 				</div>
 			</form>   
 			</div>
@@ -57,7 +59,7 @@
 			   <div class="marginBottom5">
 				<fieldset>
 					<legend>Procedure</legend>
-					<a class="pull-right">Modify</a>
+					<a class="pull-right" data-bind="click:$root.goToProcedure">Modify</a>
 					<table class="table table-bordered table-hover">
 							<thead>
 								<tr>       

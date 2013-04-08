@@ -1,8 +1,5 @@
 <div class="row-fluid">
-	<div class="borderBottom5 offset9">
-		<!-- <label class="checkbox inline">
-			<input type="checkbox"/><span>Complete</span>
-		</label>  -->   
+	<div class="borderBottom5 offset9">   
 	</div>
 	<div class="borderBottom5">
 		<table class="table table-bordered table-hover">
@@ -16,7 +13,11 @@
 			<tbody data-bind="foreach: $root.superBills">
 				<tr data-bind="click:$root.selectSuperbill">
 					<td data-bind="text: date"></td>
-					<td style="text-align: center; vertical-align: middle;"><input type="checkbox" data-bind="checked: isComplete" /><td>
+					<td>
+						<div data-bind="visible: isComplete" >
+							<i class="icon-ok"></i>
+						</div>
+					</td>
 					<td data-bind="text: comment"></td>
 				</tr>
 			</tbody>

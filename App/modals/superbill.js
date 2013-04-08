@@ -41,6 +41,13 @@ define(function(require) {
 		var modal = require('modals/modals');
 		modal.showDiagnosis('Diagnosis Details',self.diagnosis);
 	}
+	/**********************************************************************************************
+	 * Open Drugs Procedure modal
+	 *********************************************************************************************/
+	Superbill.prototype.goToProcedure = function(data) {
+		var modal = require('modals/modals');
+		modal.showProcedure('Modal Detials');
+	}
 	Superbill.defaultTitle = '';
 	Superbill.defaultOptions = ['Cancel'];
 	

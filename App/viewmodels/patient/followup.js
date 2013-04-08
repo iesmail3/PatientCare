@@ -275,7 +275,9 @@ define(function(require) {
 			
 			backend.getSuperBill().success(function(data) { 
 				if(data.length > 0) { 
-					 var p = $.map(data, function(item) {return new structures.Superbill(item) }); 
+					 var p = $.map(data, function(item) {
+					 item.date = form.uiDate(item.date)
+					 return new structures.Superbill(item) }); 
 					 self.superBills(p);
 					 self.superBill(p[0]); 
 				} 

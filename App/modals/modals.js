@@ -8,6 +8,7 @@ define(function(require) {
     var Supplies = require('./supplies');
     var DrugOrder = require('./drugorder');
 	var Diagnosis = require('./diagnosis');
+	var Procedure = require('./procedure');
 	
 	return {
 		showOrder: function(order, centers, orders, groupOrders, orderTypes, practiceId, 
@@ -43,6 +44,9 @@ define(function(require) {
 		},
 		showDiagnosis: function(title,diagnosis,options) { 
 			return modalDialog.show(new Diagnosis(title,diagnosis,options)); 
+		},
+		showProcedure: function(title,options) { 
+			return modalDialog.show(new Procedure(title,options)); 
 		}
 	};
 });

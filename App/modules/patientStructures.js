@@ -1170,7 +1170,7 @@ define(function(require) {
 			this.visitCode		 = ko.observable(data.visit_code);
 			this.levelOfService  = ko.observable(data.level_of_service);
 			this.serviceCode	 = ko.observable(data.service_code);
-			this.isComplete		 = ko.observable(data.is_complete);
+			this.isComplete		 = ko.observable(data.is_complete == '1' ? 1 : 0);
 			this.comment         = ko.observable(data.physical_examination_comment); 
 			this.date            = ko.observable(data.date); 
 		}
