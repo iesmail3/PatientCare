@@ -336,7 +336,11 @@ define(function(require) {
 			allergiesIntoleranceState(true);
 		},
 		allergiesIntoleranceSave: function(data) {
-			backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord()).success(function(data) {
+			if (serviceRecord().noKnownAllergies())
+				serviceRecord().noKnownAllergies(1);
+			if (serviceRecord().allergiesVerified())
+				serviceRecord().allergiesVerified(1);
+			backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord()).complete(function(data) {
 				// Saves the Service Record
 			});
 			if (allergiesIntolerance().id() != undefined && allergiesIntolerance().id() != '') {

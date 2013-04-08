@@ -12,15 +12,19 @@
 		</div>
 		<div class="marginBottom5 commentContainer">
 			<textarea class="commentSpan" rows="3" placeholder="Allergy Details" 
-				data-bind="value: allergiesIntolerance().details" /></textarea>
+				data-bind="value: allergiesIntolerance().details,
+				enable: !serviceRecord().noKnownAllergies()" />
+			</textarea>
 		</div>
 		<div class="marginBottom5">
-			<select data-bind="value: allergiesIntolerance().type">
+			<select data-bind="value: allergiesIntolerance().type,
+				enable: !serviceRecord().noKnownAllergies()" >
 				<option value="" disabled selected style="display:none;">Type</option>
 				<option value="allergy">Allergy</option>
 				<option value="intolerance">Intolerance</option>
 			</select>
-			<select data-bind="value: allergiesIntolerance().status">
+			<select data-bind="value: allergiesIntolerance().status,
+				enable: !serviceRecord().noKnownAllergies()">
 				<option value="" disabled selected style="display:none;">Status</option>
 				<option value="active">Active</option>
 				<option value="inactive">Inactive</option>
