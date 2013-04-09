@@ -12,16 +12,13 @@ define(function(require) {
 		this.practiceId = practiceId;
 		this.serviceRecordId = serviceRecordId;
 		this.orderId = orderId;
-		//this.supplies = supplies;
-		//system.log(supplies);
-		//this.ids = _.pluck(this.supplies, 'id');
-		//this.oldIds = $.map(this.ids, function(x) { return x }); 
 		this.title = title || Supply.defaultTitle;
 		this.options = options || Supply.defaultOptions;
-		this.scr = ko.observable();
-		
+		this.drugOrder = ko.observable(new structures.DrugOrder());
 		this.patient = ko.observable(new structures.Patient());
 		this.vitalSigns = ko.observable(new structures.VitalSigns());
+		this.medicines = ko.observableArray([]);
+		this.getMedicines();
 		this.getPatient(this.serviceRecordId);
 		this.getVitals(this.serviceRecordId);
 		
@@ -73,7 +70,7 @@ define(function(require) {
 			var years = age / 1000 / 60 / 60 / 24 / 365;
 			years = Math.floor(years);
 			var ibw = parseFloat(self.ibw());
-			var scr = parseFloat(self.scr());
+			var scr = parseFloat(self.drugOrder().scr());
 			if(!isNaN(scr) && !isNaN(age)) {
 				return ((140 - years) * ibw / (scr * 72)).toFixed(2);
 			}
@@ -136,6 +133,15 @@ define(function(require) {
 		}
 		*/
 		this.modal.close(dialogResult);
+	}
+	
+	Supply.prototype.getMedicines = function() {
+		backend.getMedicines().success(function(data) {
+			if(data.length > 0) {
+				var m = $.map(data, function(item) {return item.medicine_name});
+				self.medicines(m);
+			}
+		});
 	}
 	
 	Supply.prototype.getPatient = function(id) {

@@ -8,7 +8,7 @@ define(function(require) {
 	var self;
 	
 	/**********************************************************************************************
-	 * Constructors
+	 * Constructor
 	 *********************************************************************************************/
 	var Order = function(order, centers, orders, groupOrders, orderTypes, practiceId, serviceRecordId, 
 						 title, options) {

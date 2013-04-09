@@ -5,6 +5,7 @@
 	</div>
 	<div class="modal-body">
 		<form class="form form-inline drugsForm">
+			<!-- ko with: drugOrder -->
 			<fieldset>
 				<legend>Creatine Clearance Calculator</legend>
 				<div class="marginBottom5">
@@ -15,19 +16,19 @@
 					</select>
 					<input type="text" data-bind="value: scr, valueUpdate: 'afterkeydown'" 
 						   class="input-small" placeholder="Scr (ml/dL)" />
-					&nbsp;&nbsp;&nbsp;Age: <span style="font-weight: bold;" data-bind="text: age"></span>
+					&nbsp;&nbsp;&nbsp;Age: <span style="font-weight: bold;" data-bind="text: $root.age"></span>
 				</div>
 				<div class="marginBottom15">
 					<span>CRCL <span class="smallText">(Crockcroft and Gault)</span> 
 					<input data-bind="value: crcl" type="text" class="span1" disabled /> ml/min</span>
-					<span>ABW(Kg) <input type="text" class="span1" data-bind="value: abw" disabled /></span>
-					<span>IBW(Kg) <input type="text" class="span1" data-bind="value: ibw" disabled /></span>
-					<span>BSA(m2) <input type="text" class="span1" data-bind="value: bsa" disabled /></span>
+					<span>ABW(Kg) <input type="text" class="span1" data-bind="value: $root.abw" disabled /></span>
+					<span>IBW(Kg) <input type="text" class="span1" data-bind="value: $root.ibw" disabled /></span>
+					<span>BSA(m2) <input type="text" class="span1" data-bind="value: $root.bsa" disabled /></span>
 				</div>
 			</fieldset>
 			<fieldset>
 				<div class="marginBottom5">
-					<input type="text" placeholder="Medicine" />
+					<input type="text" data-bind="typeahead: {value: medicine, source: $root.medicines}" placeholder="Medicine" />
 					<input type="text" class="input-small" placeholder="Dose" />
 					<select class="input-small">
 						<option value="">Basis</option>
@@ -67,6 +68,7 @@
 				</div>
 				<textarea class="drugsInstructions" placeholder="Instructions"></textarea>
 			</fieldset>
+			<!-- /ko -->
 		</form>
 		<div data-bind="foreach: options" class="pull-right drugsButtons">
 			<button class="btn" data-bind="click: function() { $parent.selectOption($data); }, 

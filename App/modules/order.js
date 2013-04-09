@@ -177,6 +177,14 @@ define(function(require) {
 		});
 	}
 		
+	order.prototype.getMedicines = function() {
+		return this.query({
+			mode: 'select',
+			fields: 'medicine_name',
+			table: 'medicine_list',
+		});
+	}	
+		
 	/**********************************************************************************************
 	 * Save Methods
 	 * 
