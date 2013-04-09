@@ -12,6 +12,9 @@ define(function(require) {
 	};
 	
 	Procedure.prototype.selectOption = function(dialogResult) {
+			if(dialogResult == 'Add') { 
+				//order.selectRow();
+			}
 		this.modal.close(dialogResult);
 	};
 

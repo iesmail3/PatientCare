@@ -19,9 +19,9 @@ define(function(require) {
 		this.modal.close(dialogResult);
 	};
 	
-	/**********************************************************************************************
-	 * Retrieve data for diagnosis
-	 *********************************************************************************************/
+	// /**********************************************************************************************
+	 // * Retrieve data for diagnosis
+	 // *********************************************************************************************/
 	
 	Superbill.prototype.updateDiagnosis = function(data) {
 		backend.getDiagnosis().success(function(data) { 
@@ -34,23 +34,25 @@ define(function(require) {
 		});
 	}
 	
-	/**********************************************************************************************
-	 * Open Drugs Diagnosis modal
-	 *********************************************************************************************/
+	// /**********************************************************************************************
+	 // * Open Drugs Diagnosis modal
+	 // *********************************************************************************************/
 	Superbill.prototype.goToDiagnosis = function(data) {
 		var modal = require('modals/modals');
 		modal.showDiagnosis('Diagnosis Details',self.diagnosis);
 	}
-	/**********************************************************************************************
-	 * Open Drugs Procedure modal
-	 *********************************************************************************************/
-	Superbill.prototype.goToProcedure = function(data) {
-		var modal = require('modals/modals');
-		modal.showProcedure('Modal Detials');
-	}
-	Superbill.defaultTitle = '';
-	Superbill.defaultOptions = ['Cancel'];
+	// /**********************************************************************************************
+	 // * Open Drugs Procedure modal
+	 // // *********************************************************************************************/
+	// // Superbill.prototype.goToProcedure = function(data) {
+		// // system.log('clicked vm');
+		// // modalDialog.show(new Order(data));
+		// // // var modal = require('modals/modals');
+		// // // modal.showProcedure('Modal Detials');
+	// // }
+	 Superbill.defaultTitle = '';
+	 Superbill.defaultOptions = ['Cancel'];
 	
 	
-	return Superbill;	
-});
+	 return Superbill;	
+ });
