@@ -41,6 +41,11 @@ define(function(require) {
 	var medicalProblem = ko.observable(new structures.MedicalProblem());
 	var medicalProblems = ko.observableArray([]);
 	var medicalProblemsState = ko.observable(false);
+	var tempMedication = ko.observable(new structures.Medication());
+	var medicines = ko.observableArray([]);
+	var medication = ko.observable(new structures.Medication());
+	var medications = ko.observableArray([]);
+	var medicationState = ko.observable(false);
 	var tempAllergiesIntolerance = ko.observable(new structures.AllergiesIntolerance());
 	var allergiesIntolerance = ko.observable(new structures.AllergiesIntolerance());
 	var allergiesIntolerances = ko.observableArray([]);
@@ -71,6 +76,11 @@ define(function(require) {
 		medicalProblem: medicalProblem,
 		medicalProblems: medicalProblems,
 		medicalProblemsState: medicalProblemsState,
+		tempMedication: tempMedication,
+		medicines: medicines,
+		medication: medication,
+		medications: medications,
+		medicationState: medicationState,
 		tempAllergiesIntolerance: tempAllergiesIntolerance,
 		allergiesIntolerance: allergiesIntolerance,
 		allergiesIntolerances: allergiesIntolerances,
@@ -140,14 +150,43 @@ define(function(require) {
 				}
 			});
 			
-			return backend.getMedicalProblems(self.patientId(), self.practiceId(), self.date()).success(function(data) {
+			backend.getMedicalProblems(self.patientId(), self.practiceId(), self.date()).success(function(data) {
 				if(data.length > 0) {
 					var p = $.map(data, function(item) {
 						item.onset_date = form.uiDate(item.onset_date);
 						item.resolution_date = form.uiDate(item.resolution_date);
-						return new structures.MedicalProblem(item)}
-					);
+						return new structures.MedicalProblem(item)
+					});
 					self.medicalProblems(p);
+				}
+			});
+			
+			backend.getMedication(self.patientId(), self.practiceId(), self.date()).success(function(data) {
+				if(data.length > 0) {
+					var m = $.map(data, function(item) {
+						item.prescribed_date = form.uiDate(item.prescribed_date);
+						item.discontinued_date = form.uiDate(item.discontinued_date);
+						item.date = form.uiDate(item.date);
+						return new structures.Medication(item);
+					});
+					self.medications(m);
+				}
+			});
+			
+			backend.getMedicineList().success(function(data) {
+				if(data.length > 0) {
+					var m = $.map(data, function(item) {return item.medicine_name});
+					self.medicines(m);
+				}
+			});
+			
+			return backend.getAllergiesIntolerance(self.patientId(), self.practiceId(), self.date()).success(function(data) {
+				if(data.length > 0) {
+					var a = $.map(data, function(item) {
+						item.date_recorded = form.uiDate(item.date_recorded);
+						return new structures.AllergiesIntolerance(item)}
+					);
+					self.allergiesIntolerances(a);
 				}
 			});
 		}, // End Activate
@@ -312,20 +351,78 @@ define(function(require) {
 			medicalProblem(tempMedicalProblem());
 			medicalProblemsState(false);
 		},
+		/******************************************************************************************* 
+		 * Medication Methods
+		 *******************************************************************************************/
+		medicationSetFields: function(data) {
+			if (!medicationState())
+				medication(data);
+		},
+		medicationNew: function(data) {
+			tempMedication(medication());
+			medication(new structures.Medication());
+			medicationState(true);
+		},
+		medicationSave: function(data) {
+			
+		},
+		medicationCancel: function(data) {
+			medication(tempMedication());
+			medicationState(false);
+		},
+		medicationDelete: function(item) {
+			
+		},
+		/******************************************************************************************* 
+		 * Allergies Intolerance Methods
+		 *******************************************************************************************/
 		allergiesIntoleranceSetFields: function(data) {
-		
+			if (!allergiesIntoleranceState())
+				allergiesIntolerance(data)
 		},
 		allergiesIntoleranceNew: function(data) {
+			tempAllergiesIntolerance(allergiesIntolerance());
+			allergiesIntolerance(new structures.AllergiesIntolerance());
 			allergiesIntoleranceState(true);
 		},
 		allergiesIntoleranceSave: function(data) {
-		
+			if (allergiesIntoleranceState()) {
+				allergiesIntolerance().serviceRecordId(serviceRecord().id());
+				allergiesIntolerance().dateRecorded(form.dbDate(form.currentDate()));
+				backend.saveAllergiesIntolerance(allergiesIntolerance(), allergiesIntolerances).complete(function(data) {
+					allergiesIntolerance().dateRecorded(form.uiDate(allergiesIntolerance().dateRecorded()));
+					allergiesIntolerance(new structures.AllergiesIntolerance());
+				});
+			}
+			else {
+				allergiesIntolerance().dateRecorded(form.dbDate(allergiesIntolerance().dateRecorded()));
+				backend.saveAllergiesIntolerance(allergiesIntolerance(), allergiesIntolerances).complete(function(data) {
+					allergiesIntolerance().dateRecorded(form.uiDate(allergiesIntolerance().dateRecorded()));
+				});
+			}
 		},
 		allergiesIntoleranceCancel: function(data) {
+			allergiesIntolerance(tempAllergiesIntolerance());
 			allergiesIntoleranceState(false);
 		},
-		allergiesIntoleranceDelete: function(data) {
-			
+		allergiesIntoleranceDelete: function(item) {
+			return app.showMessage(
+				'Are you sure you want to delete the allergy for "' + item.details() + '"?',
+				'Delete',
+				['Yes', 'No'])
+			.done(function(answer){
+				if(answer == 'Yes') {
+					backend.deleteAllergiesIntolerance(item.id(), item.serviceRecordId()).complete(function(data) {
+						if(data.responseText == 'fail') {
+							app.showMessage('The allergy for "' + item.details() + '" could not be deleted.', 'Deletion Error');
+						}
+						else {
+							allergiesIntolerances.remove(item);
+							allergiesIntolerance(new structures.AllergiesIntolerance());
+						}
+					});
+				}
+			});
 		}
 	}; // End ViewModel
 	

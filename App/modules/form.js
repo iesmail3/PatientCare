@@ -464,6 +464,14 @@ define(function(require) {
 		}
 	}
 	
+	form.prototype.currentDate = function() {
+		var date = new Date();
+		var year = date.getFullYear().toString();
+		var month = (date.getMonth()+1).toString();
+		var day = date.getDate().toString();
+		return (month[1] ? month : "0" + month[0]) + "/" + (day[1] ? day : "0" + day[0]) + "/" + year
+	}
+	
 	/**************************************************************************************************
 	 * Return class so it is usable.
 	 *************************************************************************************************/

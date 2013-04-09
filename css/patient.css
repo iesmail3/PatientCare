@@ -159,6 +159,11 @@
     width: 130px;   
 }
 
+.allergiesCheckbox  {
+    display: inline-block;
+    width: 138px;   
+}
+
 .alertHolder {
 	height: 45px;
 }

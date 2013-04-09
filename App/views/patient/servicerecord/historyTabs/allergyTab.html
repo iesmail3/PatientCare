@@ -1,25 +1,27 @@
 <form class="form-inline formPadding">
 	<div class="row-fluid">
 		<div class="marginBottom5">
-			<label class="checkbox inline">
+			<label class="checkbox allergiesCheckbox">
 				<input type="checkbox" />
 				<span>No&nbsp;Known&nbsp;Allergies</span>
 			</label>
-			<label class="checkbox inline">
+			<label class="checkbox allergiesCheckbox">
 				<input type="checkbox" />
 				<span>Allergies&nbsp;Verified</span>
 			</label>
 		</div>
 		<div class="marginBottom5 commentContainer">
-			<textarea class="commentSpan" rows="3" placeholder="Allergy Details" /></textarea>
+			<textarea class="commentSpan" rows="3" placeholder="Allergy Details" 
+				data-bind="value: allergiesIntolerance().details" />
+			</textarea>
 		</div>
 		<div class="marginBottom5">
-			<select>
+			<select data-bind="value: allergiesIntolerance().type">
 				<option value="" disabled selected style="display:none;">Type</option>
 				<option value="allergy">Allergy</option>
 				<option value="intolerance">Intolerance</option>
 			</select>
-			<select>
+			<select data-bind="value: allergiesIntolerance().status">
 				<option value="" disabled selected style="display:none;">Status</option>
 				<option value="active">Active</option>
 				<option value="inactive">Inactive</option>
@@ -52,12 +54,12 @@
 				<th></th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody data-bind="foreach: allergiesIntolerances">
 			<tr>
-				<td data-bind="click: $root.allergiesIntoleranceSetFields"></td>
-				<td data-bind="click: $root.allergiesIntoleranceSetFields"></td>
-				<td data-bind="click: $root.allergiesIntoleranceSetFields"></td>
-				<td data-bind="click: $root.allergiesIntoleranceSetFields"></td>
+				<td data-bind="click: $root.allergiesIntoleranceSetFields, text: type"></td>
+				<td data-bind="click: $root.allergiesIntoleranceSetFields, text: details"></td>
+				<td data-bind="click: $root.allergiesIntoleranceSetFields, text: status"></td>
+				<td data-bind="click: $root.allergiesIntoleranceSetFields, text: dateRecorded"></td>
 				<td><a class="btn btn-small btn-danger" data-bind="click: $root.allergiesIntoleranceDelete">Delete</a></td>
 			</tr>
 		</tbody>
