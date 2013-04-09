@@ -183,7 +183,15 @@ define(function(require) {
 			fields: 'medicine_name',
 			table: 'medicine_list',
 		});
-	}	
+	}
+	
+	order.prototype.getDiluents = function() {
+		return this.query({
+			mode: 'select',
+			fields: 'diluent',
+			table: 'diluent_list',
+		});
+	}		
 		
 	/**********************************************************************************************
 	 * Save Methods

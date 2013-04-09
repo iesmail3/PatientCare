@@ -142,13 +142,11 @@ define(function(require) {
 		if (data != null) {
 			this.id			    = ko.observable(data.id);
 			this.orderId	    = ko.observable(data.order_id);
-			this.drugCategoryId = ko.observable(data.drug_category_id);
 			this.scr		    = ko.observable(data.scr);
 			this.crcl		    = ko.observable(data.crcl);
 			this.medicine	    = ko.observable(data.medicine);
 			this.dose		    = ko.observable(data.dose);
 			this.basis		    = ko.observable(data.basis);
-			this.calculatedDose = ko.observable(data.calculated_dose);
 			this.prescribedDose = ko.observable(data.prescribed_dose);
 			this.route		    = ko.observable(data.route);
 			this.diluent	    = ko.observable(data.diluent);
@@ -161,13 +159,11 @@ define(function(require) {
 		else {
 			this.id				= ko.observable();
 			this.orderId		= ko.observable();
-			this.drugCategoryId = ko.observable();
 			this.scr			= ko.observable();
 			this.crcl			= ko.observable();
 			this.medicine		= ko.observable();
 			this.dose			= ko.observable();
 			this.basis			= ko.observable();
-			this.calculatedDose = ko.observable();
 			this.prescribedDose = ko.observable();
 			this.route			= ko.observable();
 			this.diluent		= ko.observable();
@@ -177,6 +173,19 @@ define(function(require) {
 			this.days			= ko.observable();
 			this.instructions	= ko.observable();
 		}
+		
+		this.calculatedDose = ko.computed(function() {
+			var dose = parseFloat(self.dose());
+			if(!isNaN(dose)) {
+				if(self.basis() == '/m2')
+					return dose * 1.84;
+				if(self.basis() == '/Kg')
+					return dose * 72.57;
+				if(self.basis() == '/auc')
+					return 0;
+			}
+			return '';
+		})
 	}
 	
 	// Employer

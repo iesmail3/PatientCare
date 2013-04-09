@@ -20,7 +20,7 @@
 				</div>
 				<div class="marginBottom15">
 					<span>CRCL <span class="smallText">(Crockcroft and Gault)</span> 
-					<input data-bind="value: crcl" type="text" class="span1" disabled /> ml/min</span>
+					<input data-bind="value: $root.crcl" type="text" class="span1" disabled /> ml/min</span>
 					<span>ABW(Kg) <input type="text" class="span1" data-bind="value: $root.abw" disabled /></span>
 					<span>IBW(Kg) <input type="text" class="span1" data-bind="value: $root.ibw" disabled /></span>
 					<span>BSA(m2) <input type="text" class="span1" data-bind="value: $root.bsa" disabled /></span>
@@ -28,20 +28,24 @@
 			</fieldset>
 			<fieldset>
 				<div class="marginBottom5">
-					<input type="text" data-bind="typeahead: {value: medicine, source: $root.medicines}" placeholder="Medicine" />
-					<input type="text" class="input-small" placeholder="Dose" />
-					<select class="input-small">
+					<input type="text" placeholder="Medicine" 
+						   data-bind="typeahead: {value: medicine, source: $root.medicines}" />
+					<input type="text" class="input-small" placeholder="Dose" 
+						   data-bind="value: dose, valueUpdate: 'afterkeydown'" />
+					
+					<select data-bind="value: basis" class="input-small">
 						<option value="">Basis</option>
 						<option value="/m2">/m2</option>
 						<option value="/Kg">/Kg</option>
 						<option value="auc">AUC</option>
 					</select> per day
-					<button class="btn">Calculate Dose</button>
 				</div>
 				<div class="marginBottom5">
-					Calculated Dose <input type="text" class="input-small" disabled />
-					<input type="text" class="input-mini" placeholder="Prescribed Dose" />
-					<select class="input-small">
+					Calculated Dose <input type="text" data-bind="value: calculatedDose" 
+									       class="input-small" disabled />
+					<input type="text" data-bind="value: prescribedDose" class="input-medium" 
+						   placeholder="Prescribed Dose" />
+					<select data-bind="value: route" class="input-small">
 						<option value="">Route</option>
 						<option value="C IVI">C IVI</option>
 						<option value="C IAI">C IAI</option>
@@ -60,13 +64,13 @@
 					</select>
 				</div>
 				<div class="marginBottom5">
-					<input type="text" placeholder="Diluent" />
-					<input type="text" class="input-mini" placeholder="Volume" />
-					<input type="text" class="input-mini" placeholder="Duration" />
-					<input type="text" class="input-mini" placeholder="Seq" />
-					<input type="text" class="input-mini" placeholder="Days" />
+					<input type="text" data-bind="typeahead: {value: diluent, source: $root.diluents}" placeholder="Diluent" />
+					<input type="text" data-bind="value: volume" class="input-mini" placeholder="Volume" />
+					<input type="text" data-bind="value: duration" class="input-mini" placeholder="Duration" />
+					<input type="text" data-bind="value: seq" class="input-mini" placeholder="Seq" />
+					<input type="text" data-bind="value: days" class="input-mini" placeholder="Days" />
 				</div>
-				<textarea class="drugsInstructions" placeholder="Instructions"></textarea>
+				<textarea data-bind="value: instructions" class="drugsInstructions" placeholder="Instructions"></textarea>
 			</fieldset>
 			<!-- /ko -->
 		</form>
