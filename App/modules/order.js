@@ -191,7 +191,16 @@ define(function(require) {
 			fields: 'diluent',
 			table: 'diluent_list',
 		});
-	}		
+	}
+	
+	order.prototype.getDrugOrders = function(id) {
+		return this.query({
+			mode: 'select',
+			fields: '*',
+			table: 'drug_order',
+			where: "WHERE order_id='" + id + "'"
+		});
+	}			
 		
 	/**********************************************************************************************
 	 * Save Methods
@@ -376,6 +385,50 @@ define(function(require) {
 		}
 	}
 	
+	order.prototype.saveDrugOrder = function(order, orders) {
+		var self = this;
+		var fields = ['id', 'order_id', 'scr', 'crcl', 'medicine', 'dose', 'basis', 
+					  'prescribed_dose', 'route', 'diluent', 'volume', 'duration', 
+					  'seq', 'days', 'instructions', 'calculated_dose'];
+		var values = $.map(order, function(k, v) {
+			if(k() == null || k() == undefined)
+				return [''];
+			else
+				return [k()];
+		});
+
+		
+		if(values[0] != "") {
+			return self.query({
+				mode: 'update',
+				table: 'drug_order',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + order.id() + "'"
+			});	
+		}
+		else {
+			return self.query({
+				mode: 'select',
+				table: 'drug_order',
+				fields: 'id',
+				where: "WHERE order_id='" + order.orderId() + "'",
+				order: "ORDER BY id DESC",
+				LIMIT: "LIMIT 1" 
+			}).success(function(data) {
+				var id = data[0].id;
+				order.id(id);
+				return self.query({
+					mode: 'insert',
+					table: 'drug_order',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		
+	}
+	
 	/**********************************************************************************************
 	 * Delete Methods
 	 * 
@@ -423,6 +476,15 @@ define(function(require) {
 			mode: 'delete',
 			table: 'supplies',
 			where: "WHERE order_id='" + data.orderId() + "' AND supply_type_id='" + data.supplyTypeId() + "'"
+		});
+	}
+	
+	// Delete Drug Order
+	order.prototype.deleteDrugOrder = function(id) {
+		return this.query({
+			mode: 'delete',
+			table: 'drug_order',
+			where: "WHERE id='" + id + "'"
 		});
 	}
 	

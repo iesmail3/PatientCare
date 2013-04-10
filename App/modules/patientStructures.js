@@ -178,9 +178,9 @@ define(function(require) {
 			var dose = parseFloat(self.dose());
 			if(!isNaN(dose)) {
 				if(self.basis() == '/m2')
-					return dose * 1.84;
+					return (dose * 1.84).toFixed(2);
 				if(self.basis() == '/Kg')
-					return dose * 72.57;
+					return (dose * 72.57).toFixed(2);
 				if(self.basis() == '/auc')
 					return 0;
 			}

@@ -249,22 +249,33 @@
 }
 
 .drugHolder {
-	min-width: 783px;
+	width: 800px;
 	height: 580px;
 }
 
-.drugHolder .modal-body {
-	height: 505px;
-	max-height: 505px;
-	padding: 13px;
+.drugHolder .modal-header {
+	padding: 1px 15px;
 }
 
+.drugHolder .modal-body {
+	height: 550px;
+	max-height: 550px;
+	padding: 13px;
+	padding-top: 0;
+}
+
+
+
 .drugsInstructions {
-	width: 90%;
+	width: 98%;
 }
 
 .drugsForm {
 	margin: 0 0 4px;
+}
+
+.drugsForm legend {
+	margin-bottom: 5px;
 }
 
 .drugsButtons {
@@ -274,7 +285,7 @@
 .drugsTable {
 	overflow-y: auto;
 	clear: both;
-	height: 170px;
+	height: 190px;
 }
 
 .inputCell {

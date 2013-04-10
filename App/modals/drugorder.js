@@ -18,10 +18,14 @@ define(function(require) {
 		this.title = title || DrugOrder.defaultTitle;
 		this.options = options || DrugOrder.defaultOptions;
 		this.drugOrder = ko.observable(new structures.DrugOrder());
+		this.drugOrders = ko.observableArray([]);
 		this.patient = ko.observable(new structures.Patient());
 		this.vitalSigns = ko.observable(new structures.VitalSigns());
 		this.medicines = ko.observableArray([]);
 		this.diluents = ko.observableArray([]);
+		this.tempOrder = ko.observable();
+		this.newButton = ko.observable(true);
+		this.cancelButton = ko.observable(false);
 		
 		/******************************************************************************************
 		 * Initialize Observables
@@ -30,7 +34,7 @@ define(function(require) {
 		this.getDiluents();
 		this.getPatient(this.serviceRecordId);
 		this.getVitals(this.serviceRecordId);
-		
+		this.getDrugOrders(this.orderId);
 		
 		/******************************************************************************************
 		 * Computed Functions
@@ -101,64 +105,15 @@ define(function(require) {
 	/**********************************************************************************************
 	 * Select Option
      *********************************************************************************************/
-	DrugOrder.prototype.selectOption = function(dialogResult) {
-		self.drugOrder().orderId(self.orderId);
-		self.drugOrder().crcl(self.crcl());
-		for(var p in self.drugOrder())
-			system.log(p + " : " + self.drugOrder()[p]());
-		/*
-		if(dialogResult == 'Save') {
-			// Save supplies
-			// Add new supplies			
-			$.each(self.ids, function(k, v) {
-				if($.inArray(v, self.oldIds) == -1) {
-					// Filter the office procedures to find new ones
-					var o = _.filter(self.supplyTypes(), function(x) {
-						return x.id() == v;
-					});
-					var supply = o[0];
-					o = new structures.DrugOrder({
-						order_id: self.orderId,
-						supply_type_id: supply.id(),
-						quantity: supply.quantity()								
-					});
-					backend.saveDrugOrder(o, "insert");
-				}
+	DrugOrder.prototype.saveOrder = function(dialogResult) {
+			var id = self.drugOrder().id();
+			// Place globals into order
+			self.drugOrder().orderId(self.orderId);
+			self.drugOrder().crcl(self.crcl());
+			backend.saveDrugOrder(self.drugOrder(), self.drugOrders).success(function(data) {
+				if(id == undefined)
+					self.drugOrders.push(self.drugOrder());
 			});
-			// Update old orders
-			var old = _.intersection(self.oldIds, self.ids);
-			$.each(old, function(k, v) {
-				// Filter the supplies to find new ones
-				var o = _.filter(self.supplyTypes(), function(x) {
-					return x.id() == v;
-				});
-				var supply = o[0];
-				o = new structures.DrugOrder({
-					order_id: self.orderId,
-					supply_type_id: supply.id(),
-					quantity: supply.quantity()								
-				});
-				backend.saveDrugOrder(o, "update");
-			});
-			
-			var del = _.difference(self.oldIds, old);
-			$.each(del, function(k, v) {
-				// Filter the supplies for deletion
-				var o = _.filter(self.supplyTypes(), function(x) {
-					return x.id() == v;
-				});
-				var supply = o[0];
-				o = new structures.DrugOrder({
-					order_id: self.orderId,
-					supply_type_id: supply.id(),
-					times: supply.quantity()								
-				});
-				backend.deleteDrugOrder(o);
-			});
-		}
-		
-		this.modal.close(dialogResult);
-		*/
 	}
 	
 	/**********************************************************************************************
@@ -204,8 +159,49 @@ define(function(require) {
 		})
 	}
 	
+	/**********************************************************************************************
+	 * Get Drug Orders
+     *********************************************************************************************/
+	DrugOrder.prototype.getDrugOrders = function(id) {
+		backend.getDrugOrders(id).success(function(data) {
+			var d = $.map(data, function(item) { return new structures.DrugOrder(item)});
+			self.drugOrders(d);
+		})
+	}
+	
+	DrugOrder.prototype.selectRow = function(order) {
+		self.drugOrder(order);
+	}
+	
+	DrugOrder.prototype.deleteRow = function(order) {
+		backend.deleteDrugOrder(order.id());
+		self.drugOrders.remove(order);
+	}
+	
+	DrugOrder.prototype.clickNew = function(data) {
+		self.tempOrder(self.drugOrder());
+		self.drugOrder(new structures.DrugOrder());
+		self.newButton(false);
+		self.cancelButton(true);
+	}
+	
+	DrugOrder.prototype.clickCancel = function(data) {
+		self.drugOrder(self.tempOrder());
+		self.tempOrder('');
+		self.newButton(true);
+		self.cancelButton(false);
+	}
+	
+	DrugOrder.prototype.closeWindow = function(data) {
+		this.modal.close("close");
+	}
+	
+	DrugOrder.prototype.keyClose = function(data, event) {
+		self.closeWindow();
+	}
+	
 	DrugOrder.defaultTitle = '';
-	DrugOrder.defaultOptions = ['New', 'Save', 'Cancel', 'Delete'];
+	DrugOrder.defaultOptions = ['New', 'Save', 'Cancel'];
 	
 	return DrugOrder;	
 });
