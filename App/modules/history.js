@@ -100,10 +100,19 @@ define(function(require) {
 	history.prototype.getMedicineList = function() {
 		return this.query({
 			mode: 'select',
-			fields: 'medicine_name',
-			table: 'medicine_list'
+			table: 'medicine_list',
+			fields: 'medicine_name'
 		});
-	}	
+	}
+	
+	history.prototype.getPhysicians = function(practiceId) {
+		return this.query({
+			mode: 'select',
+			table: 'physician',
+			fields: '*',
+			where: "WHERE practice_id='" + practiceId + "'"
+		});
+	}
 	
 	/**********************************************************************************************
 	 * Save Methods
@@ -231,6 +240,57 @@ define(function(require) {
 		}
 	}
 	
+	history.prototype.saveMedication = function(medication, medications) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'medicine', 'strength', 'quantity',
+			'route', 'sigs', 'status', 'prescribed_by', 'prescribed_date', 'discontinued_by',
+			'discontinued_date', 'comment', 'order', 'dispensed_quantity', 'refill', 'refill_quantity',
+			'is_added', 'date', 'created_by'];
+		
+		var values = $.map(medication(), function(k,v) {
+			if(k == null || k == undefined) {
+				return [''];
+			}
+			else {
+				return[k];
+			}
+		});
+		
+		if (medication().id() == undefined || medication().id() == '') {
+			var newId = '';
+			return self.query({
+				mode: 'select',
+				table: 'medication',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				$.each(data, function(k,v) {
+					newId = parseInt(v.id) + 1;
+				});
+				
+				values[0] = newId;
+				medication().id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'medication',
+					fields: fields,
+					values: values
+				});
+				medications.push(medication());
+			});
+		}
+		else {
+			return self.query({
+				mode: 'update',
+				table: 'medication',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + medication().id() + "'"
+			});
+		}
+	}
+	
 	history.prototype.saveAllergiesIntolerance = function(allergiesIntolerance, allergiesIntolerances) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'status', 'details', 'date_recorded'];
@@ -305,6 +365,14 @@ define(function(require) {
 		return this.query({
 			mode: 'delete',
 			table: 'allergies_intolerance',
+			where: "WHERE id='" + id + "' AND service_record_id='" + serviceRecordId + "'"
+		});
+	}
+	
+	history.prototype.deleteMedication = function(id, serviceRecordId) {
+		return this.query({
+			mode: 'delete',
+			table: 'medication',
 			where: "WHERE id='" + id + "' AND service_record_id='" + serviceRecordId + "'"
 		});
 	}

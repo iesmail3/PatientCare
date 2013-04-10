@@ -43,6 +43,7 @@ define(function(require) {
 	var medicalProblemsState = ko.observable(false);
 	var tempMedication = ko.observable(new structures.Medication());
 	var medicines = ko.observableArray([]);
+	var physicians = ko.observableArray([]);
 	var medication = ko.observable(new structures.Medication());
 	var medications = ko.observableArray([]);
 	var medicationState = ko.observable(false);
@@ -78,6 +79,7 @@ define(function(require) {
 		medicalProblemsState: medicalProblemsState,
 		tempMedication: tempMedication,
 		medicines: medicines,
+		physicians: physicians,
 		medication: medication,
 		medications: medications,
 		medicationState: medicationState,
@@ -177,6 +179,13 @@ define(function(require) {
 				if(data.length > 0) {
 					var m = $.map(data, function(item) {return item.medicine_name});
 					self.medicines(m);
+				}
+			});
+			
+			backend.getPhysicians(self.practiceId()).success(function(data) {
+				if(data.length > 0) {
+					var p = $.map(data, function(item) {return new structures.Physician(item).physicianName()});
+					self.physicians(p);
 				}
 			});
 			
@@ -364,14 +373,51 @@ define(function(require) {
 			medicationState(true);
 		},
 		medicationSave: function(data) {
-			
+			if (medicationState()) {
+				medication().serviceRecordId(serviceRecord().id());
+				medication().date(form.dbDate(form.currentDate()));
+				medication().prescribedDate(form.dbDate(medication().prescribedDate()));
+				medication().discontinuedDate(form.dbDate(medication().discontinuedDate()));
+				backend.saveMedication(medication, medications).complete(function(data) {
+					medication().date(form.uiDate(medication().date()));
+					medication().prescribedDate(form.uiDate(medication().prescribedDate()));
+					medication().discontinuedDate(form.uiDate(medication().discontinuedDate()));
+					medication(new structures.Medication());
+				});
+			}
+			else {
+				medication().date(form.dbDate(medication().date()));
+				medication().prescribedDate(form.dbDate(medication().prescribedDate()));
+				medication().discontinuedDate(form.dbDate(medication().discontinuedDate()));
+				backend.saveMedication(medication, medications).complete(function(data) {
+					medication().date(form.uiDate(medication().date()));
+					medication().prescribedDate(form.uiDate(medication().prescribedDate()));
+					medication().discontinuedDate(form.uiDate(medication().discontinuedDate()));
+				});
+			}
 		},
 		medicationCancel: function(data) {
 			medication(tempMedication());
 			medicationState(false);
 		},
 		medicationDelete: function(item) {
-			
+			return app.showMessage(
+				'Are you sure you want to delete the medication for "' + item.medicine() + '"?',
+				'Delete',
+				['Yes', 'No'])
+			.done(function(answer){
+				if(answer == 'Yes') {
+					backend.deleteMedication(item.id(), item.serviceRecordId()).complete(function(data) {
+						if(data.responseText == 'fail') {
+							app.showMessage('The allergy for "' + item.medicine() + '" could not be deleted.', 'Deletion Error');
+						}
+						else {
+							medications.remove(item);
+							medication(new structures.Medication());
+						}
+					});
+				}
+			});
 		},
 		/******************************************************************************************* 
 		 * Allergies Intolerance Methods
