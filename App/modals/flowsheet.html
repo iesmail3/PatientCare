@@ -7,76 +7,67 @@
 		<h3 data-bind="html: title"></h3>
 	</div>
 	<div class="modal-body">
-		<form class="form form-inline drugsForm">
-			<!-- ko with: drugOrder -->
-			<fieldset>
-				<legend>Creatine Clearance Calculator</legend>
-				<div class="marginBottom5">
-					<select>
-						<option value="">Drug Category</option>
-						<option value="chemo">Drugs Chemo</option>
-						<option value="nonchemo">Drugs Non-Chemo</option>
-					</select>
-					<input type="text" data-bind="value: scr, valueUpdate: 'afterkeydown'" 
-						   class="input-small" placeholder="Scr (ml/dL)" />
-					&nbsp;&nbsp;&nbsp;Age: 
-					<span style="font-weight: bold;" data-bind="text: $root.age"></span>
-				</div>
-				<div class="marginBottom15">
-					<span>CRCL <span class="smallText">(Crockcroft and Gault)</span> 
-						<input data-bind="value: $root.crcl" type="text" class="span1" 
-						       disabled /> ml/min
-					</span>
-					<span>
-						ABW(Kg) 
-						<input type="text" class="span1" data-bind="value: $root.abw" disabled />
-					</span>
-					<span>
-						IBW(Kg) 
-						<input type="text" class="span1" data-bind="value: $root.ibw" disabled />
-					</span>
-					<span>
-						BSA(m2) 
-						<input type="text" class="span1" data-bind="value: $root.bsa" disabled />
-					</span>
+		<form class="form form-inline flowForm">
+			<fieldset class="venousFields">
+				<legend>Venous Access</legend>
+				<div class="marginBottom5 form-inline">
+					<input type="text" class="input-mini" placeholder="Day" />
+					Port Access
+					<label class="radio">
+						<input type="radio" name="portAccess" value="one" /> One
+					</label>
+					<label class="radio">
+						<input type="radio" name="portAccess" value="two" /> Two
+					</label>
+					<label class="radio">
+						<input type="radio" name="portAccess" value="alreadyAccessed" /> Port Already Accessed
+					</label>
+					<label class="radio">
+						<input type="radio" name="portAccess" value="iv" /> Peripheral IV Access
+					</label>
+					<label class="radio">
+						<input type="radio" name="portAccess" value="venous" /> Central Venous Access
+					</label>
 				</div>
 			</fieldset>
 			<fieldset>
+				<legend>Vitals</legend>
+				<div class="marginBottom5 form-inline">
+					<input type="text" class="input-mini" placeholder="Pulse" />
+					<input type="text" class="input-mini" placeholder="Temp" />
+					<input type="text" class="input-mini" placeholder="BP" />
+					<input type="text" class="input-mini"
+						   data-bind="timepicker: true" />
+					<button class="btn btn-primary btn-mini">Save</button>
+				</div>
+				<table class="table table-hover table-bordered table-striped">
+					<thead>
+						<th>Pulse</th>
+						<th>Temp</th>
+						<th>BP</th>
+						<th>Time</th>
+						<th></th>
+					</thead>
+					<tbody>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td><button class="btn btn-danger btn-mini">Delete</button></td>
+					</tbody>
+				</table>
+			</fieldset>
+			<!-- ko with: drugOrder -->
+			<fieldset class="marginTopMinus15">
+				<legend>Medications</legend>
 				<div class="marginBottom5">
 					<input type="text" class="input-xlarge" placeholder="Medicine" 
 						   data-bind="typeahead: {value: medicine, source: $root.medicines}" />
 					<input type="text" class="input-small" placeholder="Dose" 
 						   data-bind="value: dose, valueUpdate: 'afterkeydown'" />
-					
-					<select data-bind="value: basis" class="input-small">
-						<option value="">Basis</option>
-						<option value="/m2">/m2</option>
-						<option value="/Kg">/Kg</option>
-						<option value="auc">AUC</option>
-					</select> per day
-				</div>
-				<div class="marginBottom5">
-					Calculated Dose <input type="text" data-bind="value: calculatedDose" 
-									       class="input-small" disabled />
-					<input type="text" data-bind="value: prescribedDose" class="input-medium" 
-						   placeholder="Prescribed Dose" />
-					<select data-bind="value: route" class="input-small">
-						<option value="">Route</option>
-						<option value="C IVI">C IVI</option>
-						<option value="C IAI">C IAI</option>
-						<option value="IAP">IAP</option>
-						<option value="IM">IM</option>
-						<option value="INHL">INHL</option>
-						<option value="IVP">IVP</option>
-						<option value="IVI">IVI</option>
-						<option value="Local">Local</option>
-						<option value="PO">PO</option>
-						<option value="PR">PR</option>
-						<option value="SC">SC</option>
-						<option value="S/L">S/L</option>
-						<option value="PEG Tube">PEG TUBE</option>
-						<option value="TDM">TDM</option>
-					</select>
+					<input type="text" class="input-small" placeholder="Qty" />
+					<input type="text" data-bind="value: seq" class="input-mini" placeholder="Seq" />
+					<input type="text" class="input-small" data-bind="timepicker: true" />
 				</div>
 				<div class="marginBottom5">
 					<input type="text" data-bind="typeahead: {value: diluent, source: $root.diluents}" 
@@ -85,11 +76,14 @@
 					             placeholder="Volume" />
 					<input type="text" data-bind="value: duration" class="input-mini" 
 						         placeholder="Duration" />
-					<input type="text" data-bind="value: seq" class="input-mini" placeholder="Seq" />
-					<input type="text" data-bind="value: days" class="input-mini" placeholder="Days" />
+					<input type="text" data-bind="timepicker: true" class="input-mini" />
 				</div>
-				<textarea data-bind="value: instructions" class="drugsInstructions" 
+				<div class="marginBottom5">
+					<textarea data-bind="value: instructions" class="drugsInstructions" 
 						  placeholder="Instructions"></textarea>
+				</div>
+					<textarea  class="drugsInstructions" 
+						  placeholder="Comments"></textarea>
 			</fieldset>
 			<!-- /ko -->
 		</form>

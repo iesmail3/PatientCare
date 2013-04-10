@@ -121,6 +121,10 @@
 	margin-bottom: 15px;
 }
 
+.marginTopMinus15 {
+	margin-top: -15px;
+}
+
 .insuranceOptions {
     border: 1px solid #aaa;  
     width: 160px;
@@ -264,8 +268,6 @@
 	padding-top: 0;
 }
 
-
-
 .drugsInstructions {
 	width: 98%;
 }
@@ -297,6 +299,22 @@
 	margin: 0px;
 	height: 100%;
 	border: none;
+}
+
+.flowForm fieldset legend {
+	margin-bottom: 5px;
+	padding-top: 10px;
+	font-size: 17px;
+	line-height: 20px;
+}
+
+.flowForm .venousFields input[type="text"] {
+	width: 35px;
+}
+
+.flowForm .venousFields .radio {
+	font-size: 12px;
+	margin: 0 5px;
 }
 
 /* Followup */
