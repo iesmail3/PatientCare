@@ -50,6 +50,32 @@ define(function(require) {
 		});
 	}
 	
+	// Get Patient information from ServiceRecord
+	order.prototype.getPatientFromService = function(id) {
+		var fields = [
+			'patient.id', 'patient.practice_id', 'patient.physician_id', 'id_number', 'id_type',
+			'first_name', 'middle_name', 'last_name', 'address', 'city', 'state', 'zip', 'province',
+			'country', 'phone', 'phone_ext', 'mobile', 'date_of_birth', 'alias', 'gender'
+		];
+		return this.query({
+			mode: 'select',
+			table: 'service_record',
+			fields: fields,
+			join: "LEFT JOIN patient ON service_record.patient_id=patient.id",
+			where: "WHERE service_record.id='" + id + "'"
+		})
+	}
+	
+	// Get Vital Signs
+	order.prototype.getVitals = function(id) {
+		return this.query({
+			mode: 'select',
+			table: 'vital_signs',
+			fields: '*',
+			where: "WHERE service_record_id='" + id + "'" 
+		});
+	}
+	
 	order.prototype.getServiceRecord = function(patientId, practiceId, date) {
 		return this.query({
 			mode: 'select',
@@ -132,6 +158,32 @@ define(function(require) {
 			where: "WHERE order_id='" + id + "'"
 		});
 	}
+	
+	order.prototype.getSupplyTypes = function(id) {
+		return this.query({
+			mode: 'select',
+			table: 'supply_type',
+			fields: '*',
+			where: "WHERE practice_id='" + id + "'"
+		});
+	}
+	
+	order.prototype.getSupplies = function(id) {
+		return this.query({
+			mode: 'select',
+			table: 'supplies',
+			fields: '*',
+			where: "WHERE order_id='" + id + "'"
+		});
+	}
+		
+	order.prototype.getMedicines = function() {
+		return this.query({
+			mode: 'select',
+			fields: 'medicine_name',
+			table: 'medicine_list',
+		});
+	}	
 		
 	/**********************************************************************************************
 	 * Save Methods
@@ -266,17 +318,50 @@ define(function(require) {
 		if(method == "update") {
 			self.query({
 				mode: 'update',
-				table: 'orders',
+				table: 'office_procedure',
 				fields: fields,
 				values: values,
-				where: "Where `group`='" + data.group() + "' AND `order_category_id`='" 
-				+ data.orderCategoryId() + "'"
+				where: "Where `order_id`='" + data.orderId() + "' AND `office_procedure_type_id`='" 
+				+ data.officeProcedureTypeId() + "'"
 			});
 		}
 		else {
 			self.query({
 				mode: 'insert', 
 				table: 'office_procedure',
+				fields: fields, 
+				values: values
+			});
+		}
+	}
+	
+	order.prototype.saveSupply = function(data, method) {
+		var self = this;
+		var fields = ['id', 'order_id', 'supply_type_id', 'quantity'];
+		var values = $.map(data, function(k,v) {
+			if(v == 'description') 
+				return null;
+			if(k() == null || k() == undefined) {
+				return [''];
+			}
+			else
+				return [k()];
+		});
+		
+		if(method == "update") {
+			self.query({
+				mode: 'update',
+				table: 'supplies',
+				fields: fields,
+				values: values,
+				where: "Where `order_id`='" + data.orderId() + "' AND `supply_type_id`='" 
+				+ data.supplyTypeId() + "'"
+			});
+		}
+		else {
+			self.query({
+				mode: 'insert', 
+				table: 'supplies',
 				fields: fields, 
 				values: values
 			});
@@ -312,6 +397,24 @@ define(function(require) {
 			mode: 'delete',
 			table: 'orders',
 			where: "WHERE order_category_id='" + id + "' AND `group`='" + group + "'"
+		});
+	}
+	
+	// Delete Office Procedure
+	order.prototype.deleteOfficeProcedure = function(data) {
+		return this.query({
+			mode: 'delete',
+			table: 'office_procedure',
+			where: "WHERE order_id='" + data.orderId() + "' AND office_procedure_type_id='" + data.officeProcedureTypeId() + "'"
+		});
+	}
+	
+	// Delete Supplies
+	order.prototype.deleteSupply = function(data) {
+		return this.query({
+			mode: 'delete',
+			table: 'supplies',
+			where: "WHERE order_id='" + data.orderId() + "' AND supply_type_id='" + data.supplyTypeId() + "'"
 		});
 	}
 	

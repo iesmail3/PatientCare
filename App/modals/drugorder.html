@@ -1,0 +1,152 @@
+<div class="messageBox drugHolder">
+	<div class="modal-header">
+		<button type="button" class="close" aria-hidden="true">&times;</button>
+		<h3 data-bind="html: title"></h3>
+	</div>
+	<div class="modal-body">
+		<form class="form form-inline drugsForm">
+			<!-- ko with: drugOrder -->
+			<fieldset>
+				<legend>Creatine Clearance Calculator</legend>
+				<div class="marginBottom5">
+					<select>
+						<option value="">Drug Category</option>
+						<option value="chemo">Drugs Chemo</option>
+						<option value="nonchemo">Drugs Non-Chemo</option>
+					</select>
+					<input type="text" data-bind="value: scr, valueUpdate: 'afterkeydown'" 
+						   class="input-small" placeholder="Scr (ml/dL)" />
+					&nbsp;&nbsp;&nbsp;Age: <span style="font-weight: bold;" data-bind="text: $root.age"></span>
+				</div>
+				<div class="marginBottom15">
+					<span>CRCL <span class="smallText">(Crockcroft and Gault)</span> 
+					<input data-bind="value: crcl" type="text" class="span1" disabled /> ml/min</span>
+					<span>ABW(Kg) <input type="text" class="span1" data-bind="value: $root.abw" disabled /></span>
+					<span>IBW(Kg) <input type="text" class="span1" data-bind="value: $root.ibw" disabled /></span>
+					<span>BSA(m2) <input type="text" class="span1" data-bind="value: $root.bsa" disabled /></span>
+				</div>
+			</fieldset>
+			<fieldset>
+				<div class="marginBottom5">
+					<input type="text" data-bind="typeahead: {value: medicine, source: $root.medicines}" placeholder="Medicine" />
+					<input type="text" class="input-small" placeholder="Dose" />
+					<select class="input-small">
+						<option value="">Basis</option>
+						<option value="/m2">/m2</option>
+						<option value="/Kg">/Kg</option>
+						<option value="auc">AUC</option>
+					</select> per day
+					<button class="btn">Calculate Dose</button>
+				</div>
+				<div class="marginBottom5">
+					Calculated Dose <input type="text" class="input-small" disabled />
+					<input type="text" class="input-mini" placeholder="Prescribed Dose" />
+					<select class="input-small">
+						<option value="">Route</option>
+						<option value="C IVI">C IVI</option>
+						<option value="C IAI">C IAI</option>
+						<option value="IAP">IAP</option>
+						<option value="IM">IM</option>
+						<option value="INHL">INHL</option>
+						<option value="IVP">IVP</option>
+						<option value="IVI">IVI</option>
+						<option value="Local">Local</option>
+						<option value="PO">PO</option>
+						<option value="PR">PR</option>
+						<option value="SC">SC</option>
+						<option value="S/L">S/L</option>
+						<option value="PEG Tube">PEG TUBE</option>
+						<option value="TDM">TDM</option>
+					</select>
+				</div>
+				<div class="marginBottom5">
+					<input type="text" placeholder="Diluent" />
+					<input type="text" class="input-mini" placeholder="Volume" />
+					<input type="text" class="input-mini" placeholder="Duration" />
+					<input type="text" class="input-mini" placeholder="Seq" />
+					<input type="text" class="input-mini" placeholder="Days" />
+				</div>
+				<textarea class="drugsInstructions" placeholder="Instructions"></textarea>
+			</fieldset>
+			<!-- /ko -->
+		</form>
+		<div data-bind="foreach: options" class="pull-right drugsButtons">
+			<button class="btn" data-bind="click: function() { $parent.selectOption($data); }, 
+				html: $data, css: {'btn-primary': $index() == 1, autofocus: $index() == 0, 
+				'btn-success': $data == 'New', 'btn-warning': $data == 'Cancel', 
+				'btn-danger': $data == 'Delete'}"></button>
+		</div>
+		<div class="drugsTable">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<th>Medicine</th>
+					<th>Dose</th>
+					<th>Pres. Dose</th>
+					<th>Route</th>
+					<th>Seq</th>
+					<th>Diluent</th>
+					<th>Volume</th>
+					<th>Duration</th>
+					<th>Day</th>
+				</thead>
+				<tbody>
+					<tr>
+						<th>Test</th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr>
+						<th>Test</th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr>
+						<th>Test</th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr>
+						<th>Test</th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr>
+						<th>Test</th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

@@ -11,8 +11,19 @@
 	width: 150px;
 }
 
+.smallText {
+	font-size: 10px;
+}
+
 .checkbox {
 	padding-bottom: 15px;
+}
+
+.checkboxIcon {
+	display: block;
+	width: 15px;
+	margin: auto;
+	margin-top: 5px;
 }
 
 .patientTree {
@@ -104,6 +115,10 @@
 
 .marginBottom5 {
 	margin-bottom: 5px;
+}
+
+.marginBottom15 {
+	margin-bottom: 15px;
 }
 
 .insuranceOptions {
@@ -238,16 +253,46 @@
 	overflow-y: auto;
 }
 
+.drugHolder {
+	min-width: 783px;
+	height: 580px;
+}
+
+.drugHolder .modal-body {
+	height: 505px;
+	max-height: 505px;
+	padding: 13px;
+}
+
+.drugsInstructions {
+	width: 90%;
+}
+
+.drugsForm {
+	margin: 0 0 4px;
+}
+
+.drugsButtons {
+	margin-bottom: 4px;
+}
+
+.drugsTable {
+	overflow-y: auto;
+	clear: both;
+	height: 170px;
+}
+
 .inputCell {
 	padding: 0 !important;
 }
+
 .inputCell input {
 	padding: 4px;
 	margin: 0px;
 	height: 100%;
 	border: none;
 }
-/*********************************************************/
+
 /* Followup */
 .superBox { 
 	min-width: 800px;
