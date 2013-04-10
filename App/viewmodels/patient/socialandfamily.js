@@ -7,20 +7,34 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * Includes*
 	 **********************************************************************************************/
-	var system = require('durandal/system');			// System logger
-	var custom = require('durandal/customBindings');	// Custom bindings
-	//var Backend = require('modules/moduleTemplate');	// Module
+	var system = require('durandal/system');				// System logger
+	var custom = require('durandal/customBindings');		// Custom bindings
+	var Backend = require('modules/socialandfamily');		// Module
+	var Structures = require('modules/patientStructures');	// Structures
+	
+	/*********************************************************************************************** 
+	 * Validation Configuration
+	 **********************************************************************************************/
+	ko.validation.init({
+		insertMessages: false,
+		parseInputAttributes: true,
+		grouping: {deep: true, observable: true},
+		decorateElement: true,
+		messagesOnModified: false
+	});
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
-	// var observable = ko.observable('');
-	// var observableArray = ko.observableArray([]);
-
+	var backend = new Backend();
+	var structures = new Structures();
+	var patientId = ko.observable();
+	var practiceId = ko.observable();
+	var socialHistory = ko.observable(new structures.SocialHistory());
+	
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
-	 // var computedFunction = ko.computed(function() {});
 
 	/*********************************************************************************************** 
 	 * ViewModel
@@ -28,10 +42,15 @@ define(function(require) {
 	 * For including ko observables and computed functions, add an attribute of the same name.
 	 * Ex: observable: observable
 	 **********************************************************************************************/
-	return {
+	var vm = {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
+		backend: backend,
+		structures: structures,
+		patientId: patientId,
+		practiceId: practiceId,
+		socialHistory: socialHistory,
 		
 		/******************************************************************************************* 
 		 * Methods
@@ -51,14 +70,23 @@ define(function(require) {
 		},
 		// Loads when view is loaded
 		activate: function(data) {
-			// Code here
+			var self = this;
 			
-			// If you add any asynchronous code, make sure you return it. If you need to add multiple
-			// asynchronous code, return the functions chained together. If you don't return them,
-			// then Durandal will not wait for them to finish before loading the rest of the page.
-			// There might be issues when updating observables.
-			// Ex:
-			// return .get().getJSON().post();
+			self.practiceId('1');
+			self.patientId(data.patientId);
+			
+			var backend = new Backend();
+			return backend.getSocialHistory(self.patientId(), self.practiceId()).success(function(data) {
+				if(data.length > 0) {
+					var s = new structures.SocialHistory(data[0]);
+					self.socialHistory(s);
+				}
+			});
 		}
 	};
+	
+	// Turn validation on
+	//var errors = vm['formErrors'] = ko.validation.group(vm);
+	//vm.reviewOfSystem().errors.showAllMessages();
+	return vm;
 });

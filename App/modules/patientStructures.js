@@ -1125,30 +1125,32 @@ define(function(require) {
 		if (data != null) {
 			this.patientId		   = ko.observable(data.patient_id);
 			this.smoking		   = ko.observable(data.smoking);
-			this.smokingComment	   = ko.observable(data.smoking_comment);
-			this.smokingCounseling = ko.observable(data.smoking_counseling);
+			this.smokingWeekly	   = ko.observable(data.smoking_weekly);
+			this.smokingCounseling = ko.observable(data.smoking_counseling == '1' ? 1 : 0);
 			this.alcohol		   = ko.observable(data.alcohol);
-			this.alcoholComment	   = ko.observable(data.alcohol_comment);
-			this.alcoholCounseling = ko.observable(data.alcohol_counseling);
+			this.alcoholWeekly	   = ko.observable(data.alcohol_weekly);
+			this.alcoholCounseling = ko.observable(data.alcohol_counseling == '1' ? 1 : 0);
 			this.drugAbuse		   = ko.observable(data.drug_abuse);
 			this.drugComment	   = ko.observable(data.drug_comment);
 			this.bloodExposure	   = ko.observable(data.blood_exposure);
 			this.chemicalExposure  = ko.observable(data.chemical_exposure);
 			this.comment		   = ko.observable(data.comment);
+			this.historyChanged	   = ko.observable(data.history_changed == '1' ? 1 : 0);
 		}
 		else {
 			this.patientId		   = ko.observable();
-			this.smoking		   = ko.observable();
-			this.smokingComment	   = ko.observable();
+			this.smoking		   = ko.observable('');
+			this.smokingWeekly	   = ko.observable();
 			this.smokingCounseling = ko.observable();
-			this.alcohol		   = ko.observable();
-			this.alcoholComment	   = ko.observable();
+			this.alcohol		   = ko.observable('');
+			this.alcoholWeekly	   = ko.observable();
 			this.alcoholCounseling = ko.observable();
 			this.drugAbuse		   = ko.observable();
 			this.drugComment	   = ko.observable();
 			this.bloodExposure	   = ko.observable();
 			this.chemicalExposure  = ko.observable();
 			this.comment		   = ko.observable();
+			this.historyChanged	   = ko.observable();
 		}
 	}
 	
