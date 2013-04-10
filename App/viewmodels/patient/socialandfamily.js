@@ -11,6 +11,7 @@ define(function(require) {
 	var custom = require('durandal/customBindings');		// Custom bindings
 	var Backend = require('modules/socialandfamily');		// Module
 	var Structures = require('modules/patientStructures');	// Structures
+	var app = require('durandal/app');
 	
 	/*********************************************************************************************** 
 	 * Validation Configuration
@@ -30,7 +31,11 @@ define(function(require) {
 	var structures = new Structures();
 	var patientId = ko.observable();
 	var practiceId = ko.observable();
+	var tempSocialHistory = ko.observable(new structures.SocialHistory());
 	var socialHistory = ko.observable(new structures.SocialHistory());
+	var patient = ko.observable(new structures.Patient());
+	var familyHistory = ko.observable(new structures.FamilyHistory());
+	var familyHistories = ko.observableArray([]);
 	
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -50,7 +55,11 @@ define(function(require) {
 		structures: structures,
 		patientId: patientId,
 		practiceId: practiceId,
+		tempSocialHistory: tempSocialHistory,
 		socialHistory: socialHistory,
+		patient: patient,
+		familyHistory: familyHistory,
+		familyHistories: familyHistories,
 		
 		/******************************************************************************************* 
 		 * Methods
@@ -76,12 +85,75 @@ define(function(require) {
 			self.patientId(data.patientId);
 			
 			var backend = new Backend();
-			return backend.getSocialHistory(self.patientId(), self.practiceId()).success(function(data) {
-				if(data.length > 0) {
+			backend.getSocialHistory(self.patientId(), self.practiceId()).success(function(data) {
+				if (data.length > 0) {
 					var s = new structures.SocialHistory(data[0]);
+					var t = new structures.SocialHistory(data[0]);
 					self.socialHistory(s);
+					self.tempSocialHistory(t);
 				}
 			});
+			
+			backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
+				if (data.length > 0) {
+					var p = new structures.Patient(data[0]);
+					self.patient(p);
+				}
+			});
+			
+			return backend.getFamilyHistory(self.patientId(), self.practiceId()).success(function(data) {
+				if (data.length > 0) {
+					var f = $.map(data, function(item) {return new structures.FamilyHistory(item)});
+					self.familyHistories(f);
+					self.familyHistory(f[0]);
+				}
+			});
+		},
+		/******************************************************************************************* 
+		 * Social History Methods
+		 *******************************************************************************************/
+		socialSave: function(data) {
+			socialHistory().patientId(patientId());
+			socialHistory().practiceId(practiceId());
+			socialHistory().smokingCounseling(+socialHistory().smokingCounseling());
+			socialHistory().alcoholCounseling(+socialHistory().alcoholCounseling());
+			socialHistory().historyChanged(+socialHistory().historyChanged());
+			backend.saveSocialHistory(patientId(), practiceId(), socialHistory()).complete(function(data) {
+				// Save social history
+			});
+		},
+		socialCancel: function(data) {
+			return app.showMessage(
+				'Are you sure you want to cancel any changes made?',
+				'Cancel',
+				['Yes', 'No'])
+			.done(function(answer){
+				if(answer == 'Yes') {
+					socialHistory(tempSocialHistory());
+					socialHistory().patientId(patientId());
+					socialHistory().practiceId(practiceId());
+					backend.saveSocialHistory(patientId(), practiceId(), socialHistory()).complete(function(data) {
+						// Save social history
+					});
+				}
+			});
+		},
+		/******************************************************************************************* 
+		 * Family History Methods
+		 *******************************************************************************************/
+		familyStatusSave: function(data) {
+			backend.savePatient(patientId(), practiceId(), patient()).complete(function(data) {
+				// Save family status
+			});
+		},
+		familyHistorySetFields: function(data) {
+		
+		},
+		familyHistorySave: function(data) {
+		
+		},
+		familyHistoryDelete: function(data) {
+		
 		}
 	};
 	

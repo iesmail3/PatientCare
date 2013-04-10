@@ -1,7 +1,7 @@
 <div class="formScroll">
-	<!-- ko with: socialHistory -->
 	<form class="form-inline formPadding">
 		<div class="row-fluid">
+			<!-- ko with: socialHistory -->
 			<div class="marginBottom5">
 				<select data-bind="value: smoking">
 					<option value="" disabled selected style="display:none;">Smoking Habits</option>
@@ -20,7 +20,7 @@
 			<div class="marginBottom5">
 				<select data-bind="value: alcohol">
 					<option value="" disabled selected style="display:none;">Drinking Habits</option>
-					<option value="occasional">Never Drinks</option>
+					<option value="never">Never Drinks</option>
 					<option value="past">Past Drinker</option>
 					<option value="regular">Regular Drinker</option>
 					<option value="social">Social Drinker</option>
@@ -28,7 +28,7 @@
 				<input type="number" class="input-small" placeholder="Drinks per week"
 					data-bind="value: alcoholWeekly" />
 				<label class="checkbox inline">
-					<input type="checkbox" data-bind="value: alcoholCounseling" />
+					<input type="checkbox" data-bind="checked: alcoholCounseling" />
 					<span>Counseling&nbsp;provided</span>
 				</label>
 			</div>
@@ -82,11 +82,11 @@
 					<span>Social&nbsp;History&nbsp;Changed</span>
 				</label>
 			</div>
+			<!-- /ko -->
 			<div class="pull-right">
-				<button type="submit" class="btn btn-small btn-primary">Save</button>
-				<button type="button" class="btn btn-small btn-warning">Cancel</button>
+				<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.socialSave">Save</button>
+				<button type="button" class="btn btn-small btn-warning" data-bind="click: $root.socialCancel">Cancel</button>
 			</div>
 		</div>
 	</form>
-	<!-- /ko -->
 </div>

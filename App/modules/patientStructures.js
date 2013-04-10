@@ -213,17 +213,19 @@ define(function(require) {
 	patient.prototype.FamilyHistory = function(data) {
 		if (data != null) {
 			this.id			  = ko.observable(data.id);
+			this.practiceId	  = ko.observable(data.practice_id);
 			this.patientId	  = ko.observable(data.patient_id);
 			this.firstName	  = ko.observable(data.first_name);
 			this.lastName	  = ko.observable(data.last_name);
 			this.relationship = ko.observable(data.relationship);
 			this.dateOfBirth  = ko.observable(data.date_of_birth);
-			this.isAlive	  = ko.observable(data.is_alive);
+			this.isAlive	  = ko.observable(data.is_alive == '1' ? 1 : 0);
 			this.comment	  = ko.observable(data.comment);
 			this.lastUpdated  = ko.observable(data.last_updated);
 		}
 		else {
 			this.id			  = ko.observable();
+			this.practiceId	  = ko.observable();
 			this.patientId	  = ko.observable();
 			this.firstName	  = ko.observable();
 			this.lastName	  = ko.observable();
@@ -1124,6 +1126,7 @@ define(function(require) {
 	patient.prototype.SocialHistory = function(data) {
 		if (data != null) {
 			this.patientId		   = ko.observable(data.patient_id);
+			this.practiceId		   = ko.observable(data.practice_id);
 			this.smoking		   = ko.observable(data.smoking);
 			this.smokingWeekly	   = ko.observable(data.smoking_weekly);
 			this.smokingCounseling = ko.observable(data.smoking_counseling == '1' ? 1 : 0);
@@ -1139,6 +1142,7 @@ define(function(require) {
 		}
 		else {
 			this.patientId		   = ko.observable();
+			this.practiceId		   = ko.observable();
 			this.smoking		   = ko.observable('');
 			this.smokingWeekly	   = ko.observable();
 			this.smokingCounseling = ko.observable();
