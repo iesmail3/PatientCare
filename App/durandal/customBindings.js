@@ -17,11 +17,11 @@ define(function(require) {
 	ko.bindingHandlers.timepicker = {
 		init: function(element, valueAccessor) {
 			var value = valueAccessor(); 
-
-			$(element).timepicker();
+			var options = {};
 			for(var key in value) {
-				$(element).timepicker("option", key, value[key]);
+				options[key] = value[key];
 			}
+			$(element).timepicker(options);
 		}	
 	};
 	

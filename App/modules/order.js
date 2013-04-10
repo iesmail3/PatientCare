@@ -200,6 +200,15 @@ define(function(require) {
 			table: 'drug_order',
 			where: "WHERE order_id='" + id + "'"
 		});
+	}
+	
+	order.prototype.getVenousAccess = function(id) {
+		return this.query({
+			mode: 'select',
+			fields: '*',
+			table: 'venous_access',
+			where: "WHERE order_id='" + id + "'"
+		});
 	}			
 		
 	/**********************************************************************************************
@@ -416,11 +425,57 @@ define(function(require) {
 				order: "ORDER BY id DESC",
 				LIMIT: "LIMIT 1" 
 			}).success(function(data) {
-				var id = data[0].id;
+				var id = 1;
+				if(data.length > 0)
+					var id = data[0].id;
 				order.id(id);
 				return self.query({
 					mode: 'insert',
 					table: 'drug_order',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		
+	}
+	
+	order.prototype.saveVenousAccess = function(venous) {
+		var self = this;
+		var fields = ['id', 'order_id', 'day', 'port_access', 'pulse', 'temp', 'bp', 'time'];
+		var values = $.map(venous, function(k, v) {
+			if(k() == null || k() == undefined)
+				return [''];
+			else
+				return [k()];
+		});
+
+		
+		if(values[0] != "") {
+			return self.query({
+				mode: 'update',
+				table: 'venous_access',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + venous.id() + "'"
+			});	
+		}
+		else {
+			return self.query({
+				mode: 'select',
+				table: 'venous_access',
+				fields: 'id',
+				where: "WHERE order_id='" + venous.orderId() + "'",
+				order: "ORDER BY id DESC",
+				LIMIT: "LIMIT 1" 
+			}).success(function(data) {
+				var id = 1;
+				if(data.length > 0)
+					var id = data[0].id;
+				venous.id(id);
+				return self.query({
+					mode: 'insert',
+					table: 'venous_access',
 					fields: fields,
 					values: values
 				});
@@ -488,6 +543,15 @@ define(function(require) {
 		});
 	}
 	
+	// Delete Vital
+	order.prototype.deleteVital = function(id) {
+		return this.query({
+			mode: 'delete',
+			table: 'venous_access',
+			where: "WHERE id='" + id + "'"
+		});
+	}
+		
 	/**********************************************************************************************
 	 * Query
 	 * 

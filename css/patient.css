@@ -301,6 +301,37 @@
 	border: none;
 }
 
+.flowHolder {
+	width: 800px;
+	overflow-y: auto;
+}
+
+.flowHolder .modal-header {
+	padding: 1px 15px;
+}
+
+.flowHolder .modal-body {
+	height: 550px;
+	max-height: 550px;
+	padding: 13px;
+	padding-top: 0;
+	overflow-y: visible;
+}
+
+.flowTableHolder {
+	max-height: 150px;
+	overflow-y: auto;
+}
+
+.venousTableHolder {
+	max-height: 150px;
+	overflow-y: auto;
+}
+
+.venousTableHolder .last {
+	width: 7%;
+}
+
 .flowForm fieldset legend {
 	margin-bottom: 5px;
 	padding-top: 10px;

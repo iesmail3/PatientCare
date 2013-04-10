@@ -116,15 +116,16 @@ try {
 		// Bind parameters
 		for($i = 0; $i < count($fields); $i++) {
 			$stmt->bindParam(":" . $fields[$i], $values[$i]);
-			//echo $fields[$i] . " => " . $values[$i] . "<br />";
 		}
 		$stmt->execute();
 		
 		// Check for failure
 		$rows_affected = $stmt->rowCount(); 
 		if($rows_affected < 1) {
-			echo "fail";
+			echo "insertFail";
 		}
+		else
+			echo 'insertSuccess';
 	}
 	// If delete is Chosen
 	else if($mode == 'delete') {
@@ -137,7 +138,10 @@ try {
 			// Check for failure
 			$rows_affected = $stmt->rowCount(); 
 			if($rows_affected < 1) {
-				echo "fail";
+				echo "deleteFail";
+			}
+			else {
+				echo 'deleteSuccess';
 			}
 		}
 	}
@@ -173,7 +177,10 @@ try {
 		// Check for failure
 		$rows_affected = $stmt->rowCount(); 
 		if($rows_affected < 1) {
-			echo 'failUpdate';
+			echo 'updateFail';
+		}
+		else {
+			echo 'updateSuccess';
 		}
 	}
 }

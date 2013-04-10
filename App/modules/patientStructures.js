@@ -1247,6 +1247,29 @@ define(function(require) {
 		}
 	}
 	
+	patient.prototype.VenousAccess = function(data) {
+		if(data != null) {
+			this.id			= ko.observable(data.id);
+			this.orderId	= ko.observable(data.order_id);
+			this.day		= ko.observable(data.day);
+			this.portAccess = ko.observable(data.port_access);
+			this.pulse		= ko.observable(data.pulse);
+			this.temp		= ko.observable(data.temp);
+			this.bp			= ko.observable(data.bp);
+			this.time		= ko.observable(data.time);
+		}
+		else {
+			this.id			= ko.observable();
+			this.orderId	= ko.observable();
+			this.day		= ko.observable();
+			this.portAccess = ko.observable();
+			this.pulse		= ko.observable();
+			this.temp		= ko.observable();
+			this.bp			= ko.observable();
+			this.time		= ko.observable('');
+		}
+	}
+	
 	// Vital Signs
 	patient.prototype.VitalSigns = function(data) {
 		if (data != null) {
