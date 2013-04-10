@@ -1,5 +1,5 @@
 define(function(require) {
-	var system = ('./system');
+	var system = require('./system');
 	
 	// Datepicker
 	ko.bindingHandlers.datepicker = {
@@ -48,4 +48,21 @@ define(function(require) {
     		elem.val(value.value());
   		}
 	};
+	
+	ko.bindingHandlers.uploader = {
+		init: function(element, valueAccessor, allBindingsAccessor, vm, bindingContext) {
+			var value = valueAccessor();
+			var m = $(element).fineUploader({
+		    	request: {
+		        	endpoint: 'php/handleUploads.php'
+		      	},
+		      	autoUpload: false,
+		     	text: {
+		      		uploadButton: 'Select File'
+             	},
+			});	
+		}, 
+		update: function(element, valueAccessor) { 
+		}	
+    };
 });

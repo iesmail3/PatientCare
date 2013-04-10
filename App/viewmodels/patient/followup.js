@@ -11,7 +11,7 @@ define(function(require) {
 	 var custom = require('durandal/customBindings');	// Custom bindings
 	 var Backend = require('modules/followup');			// Database access
 	 var Forms = require('modules/form');					// Common form elements
-	var Structures = require('modules/patientStructures'); 
+	 var Structures = require('modules/patientStructures'); 
 	 var modal	   = require('modals/modals');				// Modals
 	 var app = require('durandal/app');
 	/*********************************************************************************************** 
@@ -28,9 +28,9 @@ define(function(require) {
 	 
 	/* KO Observables
 	 **********************************************************************************************/
-	 var form = new Forms();
-	 var backend = new Backend();
-	 var structures = new Structures();
+	 var form 			= new Forms();
+	 var backend 		= new Backend();
+	 var structures 	= new Structures();
 	 var followup 		= ko.observable(new structures.Followup());
 	 var followups      = ko.observableArray([]); 
 	 var checkout 		= ko.observable(new structures.Checkout()); 
@@ -42,12 +42,12 @@ define(function(require) {
      var tempPhoneLog   = ko.observable(new structures.PhoneLog()); 	 
 	 var phoneLogs      = ko.observableArray([]);    
 	 var superBill      = ko.observable(new structures.Superbill());    
-	 var superBills      = ko.observableArray([]); 
+	 var superBills     = ko.observableArray([]); 
 	 var prescription   = ko.observable(new structures.Prescription());
 	 var prescriptions  = ko.observableArray([]); 
 	 var doc            = ko.observable(new structures.Document());
 	 var documents      = ko.observableArray([]); 
-	 var medicationOrder           = ko.observable(new structures.MedicationOrder());
+	 var medicationOrder= ko.observable(new structures.MedicationOrder());
 	 var patientId      = ko.observable(); 
 	 var practiceId     = ko.observable(); 
 	 var checkoutId     = ko.observable(); 
@@ -67,7 +67,8 @@ define(function(require) {
      var secondaryCheck = ko.observable(false); 
 	 var otherCheck     = ko.observable(false);	 
 	 var physicianName  = ko.observable(); 
-	 var groupOrders = ko.observableArray([]);
+	 var groupOrders 	= ko.observableArray([]);
+	 var file 			= ko.observable(); 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/  
@@ -132,105 +133,83 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
-			structures: structures,
-			followup: followup,
-			followups: followups,  
-			checkout: checkout,
-			checkouts: checkouts, 
-			phoneLog: phoneLog,
-			phoneLogs: phoneLogs, 
-			tempPhoneLog: tempPhoneLog, 
-			superBill: superBill,
-			superBills: superBills,
-			prescription: prescription,
-			prescriptions: prescriptions,
-			doc: doc,   
-			documents: documents,   
-			patientId: patientId,
-			practiceId: practiceId, 
-			checkoutId: checkoutId,
-			myArray: myArray,
-			primaryCo:primaryCo,
-			secondaryCo:secondaryCo, 
-			otherCo: otherCo,  
-			selectedValues: selectedValues,
-			paymentMethod: paymentMethod, 
-			paymentMethods: paymentMethods,
-			modes: modes,  
-			phoneLogState: phoneLogState, 
-			phoneLogAdd: phoneLogAdd, 
-			phoneLogSave: phoneLogSave,
-			phoneLogCancel: phoneLogCancel,
-			showAssigned: showAssigned,
-			id: id,
-			primaryCheck: primaryCheck,
-			secondaryCheck: secondaryCheck,
-			otherCheck: otherCheck,
-			checkoutId: checkoutId,
-			physicianName: physicianName,
-			form: form,
-			medicationOrder: medicationOrder,
+		structures: structures,
+		followup: followup,
+		followups: followups,  
+		checkout: checkout,
+		checkouts: checkouts, 
+		phoneLog: phoneLog,
+		phoneLogs: phoneLogs, 
+		tempPhoneLog: tempPhoneLog, 
+		superBill: superBill,
+		superBills: superBills,
+		prescription: prescription,
+		prescriptions: prescriptions,
+		doc: doc,   
+		documents: documents,   
+		patientId: patientId,
+		practiceId: practiceId, 
+		checkoutId: checkoutId,
+		myArray: myArray,
+		primaryCo:primaryCo,
+		secondaryCo:secondaryCo, 
+		otherCo: otherCo,  
+		selectedValues: selectedValues,
+		paymentMethod: paymentMethod, 
+		paymentMethods: paymentMethods,
+		modes: modes,  
+		phoneLogState: phoneLogState, 
+		phoneLogAdd: phoneLogAdd, 
+		phoneLogSave: phoneLogSave,
+		phoneLogCancel: phoneLogCancel,
+		showAssigned: showAssigned,
+		id: id,
+		primaryCheck: primaryCheck,
+		secondaryCheck: secondaryCheck,
+		otherCheck: otherCheck,
+		checkoutId: checkoutId,
+		physicianName: physicianName,
+		form: form,
+		medicationOrder: medicationOrder,
+		file: file,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
-			// This allow manipulation of the DOM
-			viewAttached: function() {           		
-				$('#followupTab a').click(function(e) {
-					e.preventDefault();
-					$(this).tab('show');
-				});
-							
-				// Resize tree and content pane
+		// This allow manipulation of the DOM
+		viewAttached: function() {           		
+			$('#followupTab a').click(function(e) {
+				e.preventDefault();
+				$(this).tab('show');
+			});
+						
+			// Resize tree and content pane
+			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-				$(window).resize(function() {
-					$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-				});	
-				
-				checkout().editAdditionalCharge.subscribe(function(newValue) {
-					if (!newValue)
-					checkout().additionalCharges("0");
-				});
-				
-				$( ".currentDate" ).datepicker({dateFormat:"mm/dd/yy"}).datepicker("setDate",new Date());
-				
+			});	
+			
+			checkout().editAdditionalCharge.subscribe(function(newValue) {
+				if (!newValue)
+				checkout().additionalCharges("0");
+			});
+			
+			$( ".currentDate" ).datepicker({dateFormat:"mm/dd/yy"}).datepicker("setDate",new Date());
+			
+			$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
+			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
+			$(window).resize(function() {
 				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
 				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-				$(window).resize(function() {
-				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
-				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-});
-			},
-			// Loads when view is loaded
-			activate: function(data) {
-				var self = this;  
-				//Patient ID
-				self.patientId(data.patientId); 
-				//Pactice ID
-				self.practiceId('1'); 
-			
-			 function createUploader() {
-            var uploader = new qq.FineUploader({
-              debug: true,  
-              // Pass the HTML element here
-             // element: document.getElementById('fine-uploader'),
-              // or, if using jQuery
-               element: $('#fine-uploader-basic')[0],
-              // Use the relevant server script url here
-              // if it's different from the default “/server/upload”
-              request: {
-                endpoint: 'php/fileupload.php'
-
-              }
-            });
-          }
-			window.onload = createUploader;
-			
-			$('#file_upload').uploadify({
-                'swf'      : 'Scripts/uploadify.swf',
-                 'uploader' : 'php/uploadify.php'
-        // Put your options here
-         });
-			
+			});
+		},
+		// Loads when view is loaded
+		activate: function(data) {
+			var self = this;  
+			//Patient ID
+			self.patientId(data.patientId); 
+			//Pactice ID
+			self.practiceId('1'); 
+		
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
 				var f = $.map(data, function(item) {return new structures.Followup(item) });
@@ -238,7 +217,7 @@ define(function(require) {
                     self.followup(f[0]); 					
 				}				
 			});
-	         
+         
             backend.getCheckOut(self.patientId(),self.practiceId()).success(function(data) { 
 				checkoutId(data[0].id);  				
 				if(data.length > 0) {
@@ -285,7 +264,10 @@ define(function(require) {
 			
 			backend.getDocument(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
-					 var d = $.map(data, function(item) { return new structures.Document(item) });
+					 var d = $.map(data, function(item) { 
+					  item.date = form.uiDate(item.date)
+					  item.DOS = form.uiDate(item.DOS)
+					 return new structures.Document(item) });
 					 self.documents(d);
                      self.doc(d[0]); 					 
 				} 
@@ -307,7 +289,8 @@ define(function(require) {
 					self.myArray(p); 
 				} 
 			}); 
-			backend.getInsurance(self.patientId(),self.practiceId()).success(function(data) {      		
+			
+			return backend.getInsurance(self.patientId(),self.practiceId()).success(function(data) {      		
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
 						var i = new structures.Insurance(data[count]);
@@ -340,7 +323,7 @@ define(function(require) {
 				if(data.length > 0) {
 				    var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
 					paymentMethods(p);
-                    paymentMethod(p[0]); 	
+	                paymentMethod(p[0]); 	
 					paymentMethods.push(new structures.PaymentMethod()); 	
 				} 
 				else { 
@@ -366,10 +349,10 @@ define(function(require) {
 			phoneLog(tempPhoneLog());
 			showAssigned(true);  
 		},
-		 phoneLogAdd: function() { 
+		phoneLogAdd: function() { 
 			   phoneLogState(false);
 			   tempPhoneLog(phoneLog());
-               phoneLog(new structures.PhoneLog());
+	           phoneLog(new structures.PhoneLog());
 			   showAssigned(false); 
 		},
 		selectRow: function(data) {
@@ -387,16 +370,15 @@ define(function(require) {
 		selectSuperbill: function(data) {
 			modal.showSuperbill(superBill,'Superbill');
 		},
-		 saveFollowup: function(data) {
-			if(followup().errors().length == 0) {
-			     system.log('inside if'); 
+		saveFollowup: function(data) {
+			if(followup().errors().length == 0) { 
 				backend.saveFollowup(followup().id(), followup());
 				// $('.followupAlert').removeClass().addClass('alert alert-success').html('Success!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
 		   }
 		   else {
 				$('.followupAlert').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
-		 },
+		},
 		deleteFollowup: function(item, test) {
 			return app.showMessage(
 				'Are you sure you want to delete followup with service date ' + item.serviceDate() +'?', 
@@ -416,10 +398,8 @@ define(function(require) {
 		},
 		addRow: function(data) {  
 			var last = paymentMethods()[paymentMethods().length - 1];
-			if(last.mode()!='')
-			{ 
+			if(last.mode()!='') 
 			   paymentMethods.push(new structures.PaymentMethod()); 
-			}	
 		},
 		removePaymentMethod: function(data) {
 			paymentMethods.remove(data); 
@@ -431,15 +411,14 @@ define(function(require) {
 			 backend.deletePrescription(data.medicationOrderId());
 		},
 		savePaymentMethod: function(data) { 
-			 var isValid = true;
-			 var pm = paymentMethods()[paymentMethods().length-1]; 
+			var isValid = true;
+			var pm = paymentMethods()[paymentMethods().length-1]; 
 			if(pm.particulars().trim() == '' && pm.amount().trim() == '') {
 				paymentMethods.remove(pm);
 			}
 			$.each(paymentMethods(), function(k, v) {
-				if(v.errors().length != 0) {
+				if(v.errors().length != 0)
 						isValid = false;
-				}
 			}); 
 			
 			if(isValid) {
@@ -447,29 +426,19 @@ define(function(require) {
 				  backend.savePaymentMethod(checkout().id(),v);
 				}); 
 			}
-			
-			else { 
-					$('.checkoutAlert').fadeIn('slow').delay(2000).fadeOut('slow');
-			}
+			else
+				$('.checkoutAlert').fadeIn('slow').delay(2000).fadeOut('slow');
 			
 			paymentMethods.push(new structures.PaymentMethod()); 
-	},
-	savePhoneLog: function(data) { 
-	   
-			  backend.savePhoneLog(phoneLog,phoneLogs,practiceId(),patientId(),showAssigned);
-              system.log('showAssigned is' + showAssigned()); 			  
-	},
-
-	uploadFile: function(data) { 
-	   var uploader = new qq.FineUploader({
-        element: $('#fine-uploader-basic')[0],
-        debug: true,
-        request: {
-            endpoint: "php/fileupload.php"
-        }
-    });
-	}
- }
+		},
+		savePhoneLog: function(data) {    
+		  backend.savePhoneLog(phoneLog,phoneLogs,practiceId(),patientId(),showAssigned); 			  
+		},
+		uploadFile: function(data) {
+			//system.log(file());
+      		$('.fileupload').fineUploader('uploadStoredFiles');  
+		}
+ 	}
  
  //Turn validation on
 	// var errors = vm['formErrors'] = ko.validation.group(vm);

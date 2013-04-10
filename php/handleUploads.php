@@ -1,12 +1,9 @@
 <?php
-
-if($_POST['key'] != 'qw4l5ihqwilnaf98aj98') {
-	echo json_encode(array(
-		"success" => false,
-		"error" => "Key is invalid",
-	));
-	return;
-}
+/**************************************************************************************************
+ * Session variables
+ *************************************************************************************************/
+$practiceId = 1;
+ 
 // Include the uploader class
 require_once 'qqFileUploader.php';
 
@@ -25,7 +22,7 @@ $uploader->inputName = 'qqfile';
 $uploader->chunksFolder = 'chunks';
 
 // Call handleUpload() with the name of the folder, relative to PHP's getcwd()
-$result = $uploader->handleUpload('../uploads');
+$result = $uploader->handleUpload("../uploads/$practiceId");
 
 // To save the upload with a specified name, set the second parameter.
 // $result = $uploader->handleUpload('uploads/', md5(mt_rand()).'_'.$uploader->getName());

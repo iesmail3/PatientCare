@@ -112,6 +112,14 @@
 		});
 	}
 	
+	followup.prototype.getDocumentByType = function(type) {
+		return this.query({
+			mode: 'select',
+			table: 'document',
+			fields: '*',
+			where: "WHERE type='" + type + "'"
+		});
+	}
 	followup.prototype.getPrescription = function() {
 		return this.query({
 			mode: 'select',

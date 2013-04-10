@@ -25,7 +25,23 @@
 					<div class="row-fluid">
 						<fieldset>   
 							<legend>Details</legend>      
-							<div id="jquery-wrapped-fine-uploader" data-bind="click:$root.uploadFile"></div> 
+							<div class="marginBottom5">
+								<input type="text" class="input-medium" placeholder="Document Type" data-bind="value: type"/>
+							   	<div class="fileupload fileupload-new pull-right" data-bind="uploader: true">
+                                	<!-- <div class="input-append">
+                                     	<div class="uneditable-input span3">
+                                     		<i class="icon-file fileupload-exists"></i> 
+                                     		<span class="fileupload-preview"></span>
+                                     	</div>
+                               			<span class="btn btn-file">
+                               				<span class="fileupload-new">Select file</span>
+                               				<span class="fileupload-exists">Change</span>
+                                   			<input data-bind="value: $root.file" type="file" />
+                                   		</span>
+                                   		<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                                 </div> -->
+                                 </div>
+                            </div> 
 							<div class="marginBottom5">
 								<textarea class="input-xxlarge" rows="3" placeholder="Comment" data-bind="value: comment"></textarea>
 							</div>  
@@ -33,7 +49,7 @@
 								<label class="checkbox inline">
 									<input type="checkbox" data-bind="checked:isReviewed"/><span>Is Reviewed?</span>
 								</label>      
-								<button type="button"class="btn btn-small btn-primary pull-right" >Save</button>
+								<button type="button" data-bind="click: $root.uploadFile" class="btn btn-small btn-primary pull-right" >Save</button>
 							</div>
 						</fieldset>  
 					</div>     
