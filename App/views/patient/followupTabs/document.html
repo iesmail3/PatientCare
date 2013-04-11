@@ -1,45 +1,28 @@
 <div class="formScroll">
-			     <!-- ko with: doc -->
 				<form class="form-inline">
 					<div class="row-fluid">
 						<fieldset>
 							<legend>Search</legend>
 							<div class="marginBottom5">
-								<select class="input-medium">
-									<option>Document Type</option>
-									<option>All</option>
-									<option>Labs</option>
-									<option>X-Ray</option>
-									<option>Pathology</option>
-									<option>Procedures</option>
-									<option>Other</option>
+								<select class="input-medium" data-bind="value:documentType,event:{ change:searchByType}">
+									<option value="Document Type">Document Type</option>
+									<option value="All">All</option>
+									<option value="Labs">Labs</option>
+									<option value="X-Ray">X-Ray</option>
+									<option value="Pathology">Pathology</option>
+									<option value="Procedures">Procedures</option>
+									<option value="Other">Other</option>
 								</select>
-								<div class="pull-right">   
-									<button type="button"class="btn btn-small">Search</button>
-									<button type="button"class="btn btn-small btn-warning">Clear</button>
-								</div>
 							</div>
 						</fieldset>   
 					</div>
-				 
+				     <!-- ko with: doc -->
 					<div class="row-fluid">
 						<fieldset>   
 							<legend>Details</legend>      
 							<div class="marginBottom5">
 								<input type="text" class="input-medium" placeholder="Document Type" data-bind="value: type"/>
-							   	<div class="fileupload fileupload-new pull-right" data-bind="uploader: true">
-                                	<!-- <div class="input-append">
-                                     	<div class="uneditable-input span3">
-                                     		<i class="icon-file fileupload-exists"></i> 
-                                     		<span class="fileupload-preview"></span>
-                                     	</div>
-                               			<span class="btn btn-file">
-                               				<span class="fileupload-new">Select file</span>
-                               				<span class="fileupload-exists">Change</span>
-                                   			<input data-bind="value: $root.file" type="file" />
-                                   		</span>
-                                   		<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-                                 </div> -->
+							   	<div class="fileupload fileupload-new pull-right" data-bind="uploader: true">    
                                  </div>
                             </div> 
 							<div class="marginBottom5">
@@ -49,18 +32,17 @@
 								<label class="checkbox inline">
 									<input type="checkbox" data-bind="checked:isReviewed"/><span>Is Reviewed?</span>
 								</label>      
-								<button type="button" data-bind="click: $root.uploadFile" class="btn btn-small btn-primary pull-right" >Save</button>
+								<button type="button" data-bind="click: $root.saveDocument" class="btn btn-small btn-primary pull-right" >Save</button>
 							</div>
 						</fieldset>  
-					</div>     
+					</div> 
+				 <!-- /ko -->
 				</form>
-				<!-- /ko -->
 				<div class="row-fluid">
 					<div class="marginBottom5">
 						<table class="table table-bordered table-hover">   
 							<thead>
 								<tr>
-									<th></th>
 									<th>Received Date</th>
 									<th>DOS</th>
 									<th>Doc Type</th>
@@ -70,11 +52,14 @@
 							</thead>    
 								<tbody data-bind="foreach: documents">     
 									<tr data-bind="click: $root.setDocumentFields">   
-										<td></td>  
 										<td data-bind="text: date"></td>      
 										<td data-bind="text: DOS"></td>
 										<td data-bind="text: type"></td>     
-										<td data-bind="text:isReviewed"></td>
+										<td>
+											<div data-bind="visible: isReviewed">
+												<i class="icon-ok checkboxIcon"></i>
+											</div>
+										</td>
 										<td data-bind="text: comment"></td>	    					     
 									</tr>            
 								</tbody>               

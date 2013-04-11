@@ -69,6 +69,7 @@ define(function(require) {
 	 var physicianName  = ko.observable(); 
 	 var groupOrders 	= ko.observableArray([]);
 	 var file 			= ko.observable(); 
+	 var documentType   = ko.observable();
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/  
@@ -172,6 +173,7 @@ define(function(require) {
 		form: form,
 		medicationOrder: medicationOrder,
 		file: file,
+		documentType: documentType,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -268,6 +270,7 @@ define(function(require) {
 					  item.date = form.uiDate(item.date)
 					  item.DOS = form.uiDate(item.DOS)
 					 return new structures.Document(item) });
+					 system.log(d[0].isReviewed()); 
 					 self.documents(d);
                      self.doc(d[0]); 					 
 				} 
@@ -434,10 +437,23 @@ define(function(require) {
 		savePhoneLog: function(data) {    
 		  backend.savePhoneLog(phoneLog,phoneLogs,practiceId(),patientId(),showAssigned); 			  
 		},
-		uploadFile: function(data) {
-			//system.log(file());
+		saveDocument: function(data) {
+			backend.saveDocument(doc()); 
       		$('.fileupload').fineUploader('uploadStoredFiles');  
-		}
+		},
+		searchByType: function(data) {   
+			backend.getDocumentByType(documentType(), patientId()).success(function(data) { 
+				if(data.length > 0) { 
+					 var d = $.map(data, function(item) {
+					 item.date = form.uiDate(item.date)
+					 item.DOS = form.uiDate(item.DOS)
+					 return new structures.Document(item) });
+						documents(d);
+						doc(d[0]); 
+				}
+			}); 
+			
+	    }
  	}
  
  //Turn validation on

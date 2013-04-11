@@ -112,12 +112,12 @@
 		});
 	}
 	
-	followup.prototype.getDocumentByType = function(type) {
+	followup.prototype.getDocumentByType = function(patientId,type) {
 		return this.query({
 			mode: 'select',
 			table: 'document',
 			fields: '*',
-			where: "WHERE type='" + type + "'"
+			where: "WHERE type='" + type + "' AND patient_id='" + patientId + "'"
 		});
 	}
 	followup.prototype.getPrescription = function() {
@@ -374,6 +374,54 @@
 				fields: fields,  
 				values: values,
 		});	
+	}
+	
+	followup.prototype.saveDocument = function(doc) {
+		var self = this;
+		// Convert true/false to 1/0
+		doc.isReviewed(doc.isReviewed() ? 1 : 0);
+		
+		var fields = ['id', 'patient_id', 'service_record_id', 'location', 'type', 'date', 'comment', 
+					  'is_reviewed', 'is_report', 'date_of_service'];
+		var values = $.map(order, function(k, v) {
+			if(k() == null || k() == undefined)
+				return [''];
+			else
+				return [k()];
+		});
+
+		
+		if(values[0] != "") {
+			return self.query({
+				mode: 'update',
+				table: 'document',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + order.id() + "'"
+			});	
+		}
+		else {
+			return self.query({
+				mode: 'select',
+				table: 'document',
+				fields: 'id',
+				where: "WHERE practice_id='" + doc.practiceId() + "'",
+				order: "ORDER BY id DESC",
+				LIMIT: "LIMIT 1" 
+			}).success(function(data) {
+				var id = 1;
+				if(data.length > 0)
+					var id = data[0].id;
+				order.id(id);
+				return self.query({
+					mode: 'insert',
+					table: 'document',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		
 	}
 		
 	/**********************************************************************************************
