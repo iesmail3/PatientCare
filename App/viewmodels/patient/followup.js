@@ -455,11 +455,16 @@ define(function(require) {
 			
 			paymentMethods.push(new structures.PaymentMethod()); 
 		},
-		savePhoneLog: function(data) {    
-		  backend.savePhoneLog(phoneLog,phoneLogs,practiceId(),patientId(),showAssigned); 			  
+		savePhoneLog: function(data) {
+			if(phoneLog().errors().length == 0) { 
+				backend.savePhoneLog(phoneLog,phoneLogs,practiceId(),patientId(),showAssigned); 
+			}
+			else { 
+					$('.phoneLogAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+			}
 		},
 		saveDocument: function(data) {
-			backend.saveDocument(doc()); 
+			backend.saveDocument(doc(),documents,practiceId,patientId); 
       		$('.fileupload').fineUploader('uploadStoredFiles');  
 		},
 		searchByType: function(data) {   

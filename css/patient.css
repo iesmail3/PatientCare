@@ -304,6 +304,11 @@
 	display: none;
 }
 
+.phoneLogAlert {
+	height: 20px;
+	display: none;
+}
+
 .checkoutAlert { 
 	height: 20px;
 	display: none;

@@ -113,6 +113,7 @@ define(function(require) {
 		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.patientId		 = ko.observable(data.patient_id);
+			this.practiceId      = ko.observable(data.practice_id); 
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.location		 = ko.observable(data.location);
 			this.type			 = ko.observable(data.type);
@@ -125,6 +126,7 @@ define(function(require) {
 		else {
 			this.id				 = ko.observable();
 			this.patientId		 = ko.observable();
+			this.practiceId      = ko.observable(); 
 			this.serviceRecordId = ko.observable();
 			this.location		 = ko.observable();
 			this.type			 = ko.observable();
@@ -893,30 +895,32 @@ define(function(require) {
 	
 	// Phone Log
 	patient.prototype.PhoneLog = function(data) {
+		var self = this; 
 		if (data != null) {
 			this.id			    = ko.observable(data.id);
 			this.patientId	    = ko.observable(data.patient_id);
 			this.practiceId     = ko.observable(data.practice_id);
-			this.datetime	    = ko.observable(data.datetime);
-			this.caller		    = ko.observable(data.caller);
-			this.attendedBy	    = ko.observable(data.attended_by);
+			this.datetime	    = ko.observable(data.datetime).extend({required: true});
+			this.caller		    = ko.observable(data.caller).extend({required: true});
+			this.attendedBy	    = ko.observable(data.attended_by).extend({required: true});
 			this.message	    = ko.observable(data.message);
-			this.actionRequired = ko.observable(data.action_required);
+			this.actionRequired = ko.observable(data.action_required).extend({required: true});
 			this.assignedTo	    = ko.observable(data.assigned_to);
-			this.type		    = ko.observable(data.type);
+			this.type		    = ko.observable(data.type).extend({required: true});;
 		}
 		else {
 			this.id			    = ko.observable();
 			this.patientId	    = ko.observable();
 			this.practiceid     = ko.observable(); 
-			this.datetime	    = ko.observable();
-			this.caller		    = ko.observable();
-			this.attendedBy	    = ko.observable();
+			this.datetime	    = ko.observable().extend({required: true});
+			this.caller		    = ko.observable().extend({required: true});
+			this.attendedBy	    = ko.observable().extend({required: true});
 			this.message	    = ko.observable();
-			this.actionRequired = ko.observable();
+			this.actionRequired = ko.observable().extend({required: true});
 			this.assignedTo	    = ko.observable();
-			this.type		    = ko.observable();
+			this.type		    = ko.observable().extend({required: true});
 		}
+		self.errors = ko.validation.group(self, {messagesOnModified: false});
 	}
 	
 	// Physician

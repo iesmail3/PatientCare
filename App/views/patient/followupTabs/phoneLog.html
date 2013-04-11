@@ -4,18 +4,25 @@
 					<div class="row-fluid">
 						<fieldset>
 							<legend>Edit phone log details</legend>
+							<div class="alertHolder">
+								<div class="alert alert-danger phoneLogAlert">You have are missing required fields.</div>
+							</div>
 							<div class="marginBottom5">
 								<input type="text" class="input-small" placeholder="Call Date"
 									data-bind="value:datetime, datepicker: true" />
+								<span class="required">*</span>
 								<select class="input-medium" data-bind="value:type">
 									<option>Call Type</option>
 									<option>Incoming</option>
 									<option>Outgoing</option>
 								</select>
+								<span class="required">*</span>
 							</div>
 							<div class="marginBottom5">
 								<input type="text" class="input-medium" placeholder="Caller" data-bind="value: caller"/>
+								<span class="required">*</span>
 								<input type="text" class="input-medium" placeholder="Attended By" data-bind="value: attendedBy"/>
+								<span class="required">*</span>
 							</div>
 							<div class="marginBottom5">
 								<textarea class="input-xxlarge" rows="3" placeholder="Message" data-bind="value: message"></textarea>
@@ -28,8 +35,8 @@
 								<label class="radio inline">
 									<input type="radio" name="actionRequired" data-bind="checked:actionRequired"value="No" /><span>No</span>
 								</label>  
-								<select class="input-medium" data-bind='options: $root.myArray,optionsCaption: "Assigned to",value:assignedTo,visible:$root.showAssigned'>      
-								</select>      
+								<select class="input-large" data-bind='options: $root.myArray,optionsCaption: "Assigned to",value:assignedTo,visible:$root.showAssigned'>      
+								</select>  
 							</div>     
 							<div class="marginBottom5 pull-right">
 								<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.phoneLogAdd,visible: $root.phoneLogState()">New</button>
