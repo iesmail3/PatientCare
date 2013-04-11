@@ -147,7 +147,7 @@ define(function(require) {
 	// Save all provided Review of Systems
 	history.prototype.saveReviewOfSystems = function(review, reviews) {
 		var self = this;
-		var fields = ['service_record_id', 'particulars', 'type', 'comment'];
+		var fields = ['service_record_id', 'particulars', 'type', 'comment', 'default_particulate'];
 		
 		var values = $.map(review, function(k,v) {
 			if(k == null || k == undefined) {
@@ -176,16 +176,14 @@ define(function(require) {
 			}
 			// Add
 			else if ((review.defaultParticulate() && (review.type() != '')) || !review.defaultParticulate()) {
-				if (review.defaultParticulate()) {
-					system.log(review.particulars());
-				}
 				self.query({
 					mode: 'insert',
 					table: 'review_of_systems',
 					fields: fields,
 					values: values,
 				});
-				reviews.push(review);
+				if (!review.defaultParticulate())
+					reviews.push(review);
 			}
 		});
 	}
