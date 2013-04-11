@@ -104,11 +104,10 @@ define(function(require) {
 			return backend.getFamilyHistory(self.patientId(), self.practiceId()).success(function(data) {
 				if (data.length > 0) {
 					var f = $.map(data, function(item) {return new structures.FamilyHistory(item)});
-					self.familyHistories.push(new structures.FamilyHistory({relationship:'father'}));
-					self.familyHistories.push(new structures.FamilyHistory({relationship:'mother'}));
+					self.familyHistories.push(new structures.FamilyHistory({relationship:'father',age:''}));
+					self.familyHistories.push(new structures.FamilyHistory({relationship:'mother',age:''}));
 					for (var i = 0; i < f.length; i++) {
 						if (f[i].relationship() == 'father' || f[i].relationship() == 'mother') {
-							system.log("Got in here: " + f[i].relationship());
 							for (var j = 0; j < self.familyHistories().length; j++) {
 								if (f[i].relationship() == self.familyHistories()[j].relationship())
 									self.familyHistories()[j] = f[i];
@@ -167,25 +166,25 @@ define(function(require) {
 		familyHistorySave: function(data) {
 			var isValid = true;
 			var lastRow = familyHistories()[familyHistories().length - 1];
-			
 			if (lastRow.relationship() == '' && lastRow.age().trim() == '')
 				familyHistories.remove(lastRow);
 			
 			$.each(familyHistories(), function(k,v) {
-				if (v.errors().length != 0)
+				if (v.relationship() != 'father' && v.relationship() != 'mother' && v.errors().length != 0)
 					isValid = false;
 			});
 			
 			if (isValid) {
 				$.each(familyHistories(), function(k,v) {
-					system.log(v.relationship());
-					//backend.saveFamilyHistory(
+					v.patientId(patientId());
+					v.practiceId(practiceId());
+					v.isAlive(+v.isAlive());
+					backend.saveFamilyHistory(v, familyHistories);
 				});
+				familyHistories.push(new structures.FamilyHistory());
 			}
 			else
 				$('.familyAlert').fadeIn('slow').delay(2000).fadeOut('slow');
-			
-			familyHistories.push(new structures.FamilyHistory());
 		},
 		familyHistoryDelete: function(data) {
 			familyHistories.remove(data);

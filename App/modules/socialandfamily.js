@@ -118,7 +118,67 @@ define(function(require) {
 		});
 	}
 	
-	//socialandfamily.prototype.saveFamilyHistory = function(
+	socialandfamily.prototype.saveFamilyHistory = function(familyHistory, familyHistories) {
+		var self = this;
+		var fields = ['id', 'practice_id', 'patient_id', 'relationship', 'age', 'is_alive',
+			'comment', 'last_updated'];
+		
+		var values = $.map(familyHistory, function(k,v) {
+			if (k == null || k == undefined) {
+				return [''];
+			}
+			else {
+				return [k];
+			}
+		});
+		
+		var defaultRelationship = false;
+		var validAge = false;
+		if (familyHistory.relationship() == 'father' || familyHistory.relationship() == 'mother') {
+			system.log(familyHistory.relationship() + " is a default relationship.");
+			defaultRelationship = true;
+			if (familyHistory.age() != '' && familyHistory.age() != undefined) {
+				validAge = true;
+				system.log(familyHistory.relationship() + " has a valid age.");
+			}
+		}
+		
+		if (familyHistory.id() == undefined || familyHistory.id() == '') {
+			system.log(familyHistory.age());
+			if ((defaultRelationship && validAge) || !defaultRelationship) {
+				var newId = '';
+				return self.query({
+					mode: 'select',
+					table: 'family_history',
+					fields: 'id',
+					order: 'ORDER BY id DESC',
+					limit: 'LIMIT 1'
+				}).success(function(data) {
+					$.each(data, function(k,v) {
+						newId = parseInt(v.id) + 1;
+					});
+					
+					values[0] = newId;
+					familyHistory.id(newId);
+					self.query({
+						mode: 'insert',
+						table: 'family_history',
+						fields: fields,
+						values: values
+					});
+				});
+			}
+		}
+		else {
+			return self.query({
+				mode: 'update',
+				table: 'family_history',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + familyHistory.id() + "'"
+			});
+		}
+	}
 	
 	/**********************************************************************************************
 	 * Delete Methods

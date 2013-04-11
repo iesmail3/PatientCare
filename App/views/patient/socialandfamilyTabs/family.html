@@ -52,7 +52,9 @@
 								<select class="input-xmedium" data-bind="
 									event: {select: $root.familyHistoryAddRow},
 									value: relationship,
-									enable: relationship() != 'father' && relationship() != 'mother'" required>
+									enable: relationship() != 'father' &&
+											relationship() != 'mother' &&
+											$root.patient().familyHistoryType() == 3" required>
 									<option value="" disabled selected style="display:none;">Relationship</option>
 									<option value="father" data-bind="visible: false">Father</option>
 									<option value="mother" data-bind="visible: false">Mother</option>
@@ -66,13 +68,15 @@
 								<input type="number" class="input-mini" placeholder="Age" data-bind="
 									event: {keyup: $root.familyHistoryAddRow},
 									value: age,
-									valueUpdate: 'afterkeydown'" required>
+									valueUpdate: 'afterkeydown',
+									enable: $root.patient().familyHistoryType() == 3" required>
 								<span class="required">*</span>
 							</td>
 							<td>
 								<label class="checkbox inline">
 									<input type="checkbox" data-bind="
-										checked: isAlive" />
+										checked: isAlive,
+										enable: $root.patient().familyHistoryType() == 3" />
 									<span>Is&nbsp;Alive</span>
 								</label>
 							</td>
@@ -80,11 +84,12 @@
 								<textarea class="input-small" rows="1" placeholder="Comments" data-bind="
 									event: {keyup: $root.familyHistoryAddRow},
 									value: comment,
-									valueUpdate: 'afterkeydown'">
+									valueUpdate: 'afterkeydown',
+									enable: $root.patient().familyHistoryType() == 3">
 								</textarea>
 							</td>
-							<td><a class="btn btn-small btn-danger"
-								data-bind="click: $root.familyHistoryDelete,
+							<td><a class="btn btn-small btn-danger" data-bind="
+								click: $root.familyHistoryDelete,
 								visible: (relationship() != 'father' && relationship() != 'mother') && relationship() != ''">
 								Delete
 							</a></td>
