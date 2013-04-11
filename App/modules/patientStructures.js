@@ -211,14 +211,15 @@ define(function(require) {
 	
 	// Family History
 	patient.prototype.FamilyHistory = function(data) {
+		var self = this;
 		if (data != null) {
 			this.id			  = ko.observable(data.id);
 			this.practiceId	  = ko.observable(data.practice_id);
 			this.patientId	  = ko.observable(data.patient_id);
 			this.firstName	  = ko.observable(data.first_name);
 			this.lastName	  = ko.observable(data.last_name);
-			this.relationship = ko.observable(data.relationship);
-			this.age		  = ko.observable(data.age);
+			this.relationship = ko.observable(data.relationship).extend({required: true});
+			this.age		  = ko.observable(data.age).extend({required: true});
 			this.isAlive	  = ko.observable(data.is_alive == '1' ? 1 : 0);
 			this.comment	  = ko.observable(data.comment);
 			this.lastUpdated  = ko.observable(data.last_updated);
@@ -229,12 +230,14 @@ define(function(require) {
 			this.patientId	  = ko.observable();
 			this.firstName	  = ko.observable();
 			this.lastName	  = ko.observable();
-			this.relationship = ko.observable();
-			this.age		  = ko.observable();
+			this.relationship = ko.observable('').extend({required: true});
+			this.age		  = ko.observable('').extend({required: true});
 			this.isAlive	  = ko.observable();
 			this.comment	  = ko.observable();
 			this.lastUpdated  = ko.observable();
 		}
+		
+		self.errors = ko.validation.group(self, {messagesOnModified: false});
 	}
 	
 	// Follow Up

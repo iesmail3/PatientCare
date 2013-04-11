@@ -108,6 +108,7 @@ define(function(require) {
 					self.familyHistories.push(new structures.FamilyHistory({relationship:'mother'}));
 					for (var i = 0; i < f.length; i++) {
 						if (f[i].relationship() == 'father' || f[i].relationship() == 'mother') {
+							system.log("Got in here: " + f[i].relationship());
 							for (var j = 0; j < self.familyHistories().length; j++) {
 								if (f[i].relationship() == self.familyHistories()[j].relationship())
 									self.familyHistories()[j] = f[i];
@@ -164,10 +165,27 @@ define(function(require) {
 				familyHistories.push(new structures.FamilyHistory());
 		},
 		familyHistorySave: function(data) {
+			var isValid = true;
+			var lastRow = familyHistories()[familyHistories().length - 1];
+			
+			if (lastRow.relationship() == '' && lastRow.age().trim() == '')
+				familyHistories.remove(lastRow);
+			
 			$.each(familyHistories(), function(k,v) {
-				system.log(v.relationship());
-				//backend.saveFamilyHistory(
+				if (v.errors().length != 0)
+					isValid = false;
 			});
+			
+			if (isValid) {
+				$.each(familyHistories(), function(k,v) {
+					system.log(v.relationship());
+					//backend.saveFamilyHistory(
+				});
+			}
+			else
+				$('.familyAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+			
+			familyHistories.push(new structures.FamilyHistory());
 		},
 		familyHistoryDelete: function(data) {
 			familyHistories.remove(data);
@@ -176,7 +194,7 @@ define(function(require) {
 	};
 	
 	// Turn validation on
-	//var errors = vm['formErrors'] = ko.validation.group(vm);
-	//vm.reviewOfSystem().errors.showAllMessages();
+	var errors = vm['formErrors'] = ko.validation.group(vm);
+	vm.familyHistory().errors.showAllMessages();
 	return vm;
 });

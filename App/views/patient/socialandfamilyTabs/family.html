@@ -52,7 +52,7 @@
 								<select class="input-xmedium" data-bind="
 									event: {select: $root.familyHistoryAddRow},
 									value: relationship,
-									enable: relationship() != 'father' && relationship() != 'mother'">
+									enable: relationship() != 'father' && relationship() != 'mother'" required>
 									<option value="" disabled selected style="display:none;">Relationship</option>
 									<option value="father" data-bind="visible: false">Father</option>
 									<option value="mother" data-bind="visible: false">Mother</option>
@@ -60,12 +60,14 @@
 									<option value="sister">Sister</option>
 									<option value="other">Other</option>
 								</select>
+								<span class="required">*</span>
 							</td>
 							<td>
 								<input type="number" class="input-mini" placeholder="Age" data-bind="
 									event: {keyup: $root.familyHistoryAddRow},
 									value: age,
-									valueUpdate: 'afterkeydown'">
+									valueUpdate: 'afterkeydown'" required>
+								<span class="required">*</span>
 							</td>
 							<td>
 								<label class="checkbox inline">
@@ -89,6 +91,9 @@
 						</tr>
 					</tbody>
 				</table>
+				<div class="alertHolder">
+					<div class="alert alert-danger familyAlert">You have are missing required fields.</div>
+				</div>
 				<div class="pull-right">
 					<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.familyHistorySave">Save</button>
 				</div>
