@@ -32,7 +32,9 @@
 								<label class="checkbox inline">
 									<input type="checkbox" data-bind="checked:isReviewed"/><span>Is Reviewed?</span>
 								</label>      
-								<button type="button" data-bind="click: $root.saveDocument" class="btn btn-small btn-primary pull-right" >Save</button>
+								<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.documentAdd,visible: $root.documentState()">New</button>
+								<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.saveDocument,visible: !$root.documentSave()">Save</button>
+								<button type="button" id ="cancelButton" class="btn btn-small btn-danger" data-bind="click:$root.documentCancel,visible:!$root.documentState()">Cancel</button>
 							</div>
 						</fieldset>  
 					</div> 
@@ -53,7 +55,7 @@
 								<tbody data-bind="foreach: documents">     
 									<tr data-bind="click: $root.setDocumentFields">   
 										<td data-bind="text: date"></td>      
-										<td data-bind="text: DOS"></td>
+										<td data-bind="text: dateOfService"></td>
 										<td data-bind="text: type"></td>     
 										<td>
 											<div data-bind="visible: isReviewed">

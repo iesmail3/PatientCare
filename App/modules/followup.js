@@ -380,16 +380,18 @@
 		var self = this;
 		// Convert true/false to 1/0
 		doc.isReviewed(doc.isReviewed() ? 1 : 0);
-		
+
 		var fields = ['id', 'patient_id', 'service_record_id', 'location', 'type', 'date', 'comment', 
 					  'is_reviewed', 'is_report', 'date_of_service'];
-		var values = $.map(order, function(k, v) {
+		var values = $.map(doc, function(k, v) {
 			if(k() == null || k() == undefined)
 				return [''];
 			else
 				return [k()];
 		});
-
+          
+		values[5] = form.dbDate(doc.date());
+		values[9] = form.dbDate(doc.dateOfService());
 		
 		if(values[0] != "") {
 			return self.query({
@@ -397,7 +399,7 @@
 				table: 'document',
 				fields: fields,
 				values: values,
-				where: "WHERE id='" + order.id() + "'"
+				where: "WHERE id='" + doc.id() + "'"
 			});	
 		}
 		else {
@@ -405,7 +407,7 @@
 				mode: 'select',
 				table: 'document',
 				fields: 'id',
-				where: "WHERE practice_id='" + doc.practiceId() + "'",
+				where: "WHERE id='" + doc.practiceId() + "'",
 				order: "ORDER BY id DESC",
 				LIMIT: "LIMIT 1" 
 			}).success(function(data) {

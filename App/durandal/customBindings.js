@@ -52,7 +52,6 @@ define(function(require) {
 	ko.bindingHandlers.uploader = {
 		init: function(element, valueAccessor, allBindingsAccessor, vm, bindingContext) {
 			var value = valueAccessor();
-			system.log('value is ' + value); 
 			var m = $(element).fineUploader({
 		    	request: {
 		        	endpoint: 'php/handleUploads.php'

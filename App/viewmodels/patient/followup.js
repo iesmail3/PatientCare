@@ -39,7 +39,8 @@ define(function(require) {
 	 var paymentMethod  = ko.observable(new structures.PaymentMethod()); 
 	 var paymentMethods = ko.observableArray([new structures.PaymentMethod()]);
 	 var phoneLog       = ko.observable(new structures.PhoneLog());
-     var tempPhoneLog   = ko.observable(new structures.PhoneLog()); 	 
+     var tempPhoneLog   = ko.observable(new structures.PhoneLog()); 
+	 var tempDocument   = ko.observable(new structures.Document()); 
 	 var phoneLogs      = ko.observableArray([]);    
 	 var superBill      = ko.observable(new structures.Superbill());    
 	 var superBills     = ko.observableArray([]); 
@@ -61,6 +62,10 @@ define(function(require) {
 	 var phoneLogAdd    = ko.observable(); 
 	 var phoneLogSave   = ko.observable(); 
 	 var phoneLogCancel = ko.observable(); 
+	 var documentState  = ko.observable(true); 
+	 var documentAdd    = ko.observable(); 
+	 var documentSave   = ko.observable(); 
+	 var documentCancel = ko.observable(); 
 	 var showAssigned   = ko.observable(true);  
 	 var id             = ko.observable();
      var primaryCheck   = ko.observable(false); 
@@ -141,7 +146,8 @@ define(function(require) {
 		checkouts: checkouts, 
 		phoneLog: phoneLog,
 		phoneLogs: phoneLogs, 
-		tempPhoneLog: tempPhoneLog, 
+		tempPhoneLog: tempPhoneLog,
+		tempDocument: tempDocument, 
 		superBill: superBill,
 		superBills: superBills,
 		prescription: prescription,
@@ -163,6 +169,10 @@ define(function(require) {
 		phoneLogAdd: phoneLogAdd, 
 		phoneLogSave: phoneLogSave,
 		phoneLogCancel: phoneLogCancel,
+		documentState: documentState, 
+		documentAdd: documentAdd, 
+		documentSave: documentSave, 
+		documentCancel: documentCancel, 
 		showAssigned: showAssigned,
 		id: id,
 		primaryCheck: primaryCheck,
@@ -268,7 +278,7 @@ define(function(require) {
 				if(data.length > 0) {
 					 var d = $.map(data, function(item) { 
 					  item.date = form.uiDate(item.date)
-					  item.DOS = form.uiDate(item.DOS)
+					  item.date_of_service = form.uiDate(item.date_of_service)
 					 return new structures.Document(item) });
 					 system.log(d[0].isReviewed()); 
 					 self.documents(d);
@@ -358,6 +368,17 @@ define(function(require) {
 	           phoneLog(new structures.PhoneLog());
 			   showAssigned(false); 
 		},
+		documentCancel: function() {
+			documentState(true);
+			doc(tempDocument()); 
+		},
+		documentAdd: function() { 
+			   documentState(false);
+			   tempDocument(doc());
+	          doc(new structures.Document());
+			   //showAssigned(false); 
+		},
+		
 		selectRow: function(data) {
 			// Clear group
 			groupOrders([]);
@@ -446,7 +467,7 @@ define(function(require) {
 				if(data.length > 0) { 
 					 var d = $.map(data, function(item) {
 					 item.date = form.uiDate(item.date)
-					 item.DOS = form.uiDate(item.DOS)
+					 item.dateOfService = form.uiDate(item.dateOfService)
 					 return new structures.Document(item) });
 						documents(d);
 						doc(d[0]); 
