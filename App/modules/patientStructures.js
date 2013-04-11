@@ -218,7 +218,7 @@ define(function(require) {
 			this.firstName	  = ko.observable(data.first_name);
 			this.lastName	  = ko.observable(data.last_name);
 			this.relationship = ko.observable(data.relationship);
-			this.dateOfBirth  = ko.observable(data.date_of_birth);
+			this.age		  = ko.observable(data.age);
 			this.isAlive	  = ko.observable(data.is_alive == '1' ? 1 : 0);
 			this.comment	  = ko.observable(data.comment);
 			this.lastUpdated  = ko.observable(data.last_updated);
@@ -230,7 +230,7 @@ define(function(require) {
 			this.firstName	  = ko.observable();
 			this.lastName	  = ko.observable();
 			this.relationship = ko.observable();
-			this.dateOfBirth  = ko.observable();
+			this.age		  = ko.observable();
 			this.isAlive	  = ko.observable();
 			this.comment	  = ko.observable();
 			this.lastUpdated  = ko.observable();

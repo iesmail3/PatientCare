@@ -104,8 +104,20 @@ define(function(require) {
 			return backend.getFamilyHistory(self.patientId(), self.practiceId()).success(function(data) {
 				if (data.length > 0) {
 					var f = $.map(data, function(item) {return new structures.FamilyHistory(item)});
-					self.familyHistories(f);
+					self.familyHistories.push(new structures.FamilyHistory({relationship:'father'}));
+					self.familyHistories.push(new structures.FamilyHistory({relationship:'mother'}));
+					for (var i = 0; i < f.length; i++) {
+						if (f[i].relationship() == 'father' || f[i].relationship() == 'mother') {
+							for (var j = 0; j < self.familyHistories().length; j++) {
+								if (f[i].relationship() == self.familyHistories()[j].relationship())
+									self.familyHistories()[j] = f[i];
+							}
+						}
+						else
+							self.familyHistories.push(f[i]);
+					}
 					self.familyHistory(f[0]);
+					self.familyHistories.push(new structures.FamilyHistory());
 				}
 			});
 		},
@@ -146,14 +158,20 @@ define(function(require) {
 				// Save family status
 			});
 		},
-		familyHistorySetFields: function(data) {
-		
+		familyHistoryAddRow: function(data) {
+			var lastRow = familyHistories()[familyHistories().length - 1];
+			if (lastRow.relationship() != '')
+				familyHistories.push(new structures.FamilyHistory());
 		},
 		familyHistorySave: function(data) {
-		
+			$.each(familyHistories(), function(k,v) {
+				system.log(v.relationship());
+				//backend.saveFamilyHistory(
+			});
 		},
 		familyHistoryDelete: function(data) {
-		
+			familyHistories.remove(data);
+			backend.deleteFamilyHistory(data.id());
 		}
 	};
 	

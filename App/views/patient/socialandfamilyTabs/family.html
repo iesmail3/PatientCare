@@ -28,11 +28,11 @@
 						<input type="checkbox" />
 						<span>Family&nbsp;History&nbsp;Changed</span>
 					</label>
+					<div class="pull-right">
+						<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.familyStatusSave">Save</button>
+					</div>
 				</div>
 				<!-- /ko -->
-				<div class="pull-right">
-					<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.familyStatusSave">Save</button>
-				</div>
 			</fieldset>
 			<fieldset>
 				<legend>Family History Details</legend>
@@ -49,7 +49,9 @@
 					<tbody data-bind="foreach: familyHistories">
 						<tr>
 							<td>
-								<select class="input-small" data-bind="value: relationship,
+								<select class="input-xmedium" data-bind="
+									event: {select: $root.familyHistoryAddRow},
+									value: relationship,
 									enable: relationship() != 'father' && relationship() != 'mother'">
 									<option value="" disabled selected style="display:none;">Relationship</option>
 									<option value="father" data-bind="visible: false">Father</option>
@@ -60,30 +62,35 @@
 								</select>
 							</td>
 							<td>
-								<input type="number" class="input-mini" placeholder="Age"
-									data-bind="value: age">
+								<input type="number" class="input-mini" placeholder="Age" data-bind="
+									event: {keyup: $root.familyHistoryAddRow},
+									value: age,
+									valueUpdate: 'afterkeydown'">
 							</td>
 							<td>
 								<label class="checkbox inline">
-									<input type="checkbox" data-bind="checked: isAlive" />
+									<input type="checkbox" data-bind="
+										checked: isAlive" />
 									<span>Is&nbsp;Alive</span>
 								</label>
 							</td>
 							<td>
-								<textarea class="input-small" rows="1" placeholder="Comments"
-									data-bind="value: comment">
+								<textarea class="input-small" rows="1" placeholder="Comments" data-bind="
+									event: {keyup: $root.familyHistoryAddRow},
+									value: comment,
+									valueUpdate: 'afterkeydown'">
 								</textarea>
 							</td>
 							<td><a class="btn btn-small btn-danger"
 								data-bind="click: $root.familyHistoryDelete,
-								visible: relationship() != 'father' && relationship() != 'mother'">
+								visible: (relationship() != 'father' && relationship() != 'mother') && relationship() != ''">
 								Delete
 							</a></td>
 						</tr>
 					</tbody>
 				</table>
 				<div class="pull-right">
-					<button type="submit" class="btn btn-small btn-primary">Save</button>
+					<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.familyHistorySave">Save</button>
 				</div>
 			</fieldset>
 		</div>

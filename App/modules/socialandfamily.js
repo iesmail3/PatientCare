@@ -123,7 +123,13 @@ define(function(require) {
 	 * 
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
-	
+	socialandfamily.prototype.deleteFamilyHistory = function(id) {
+		return this.query({
+			mode: 'delete',
+			table: 'family_history',
+			where: "WHERE id='" + id + "'"
+		});
+	}
 	
 	/**********************************************************************************************
 	 * Query
