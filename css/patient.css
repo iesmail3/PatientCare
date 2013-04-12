@@ -3,21 +3,13 @@
 	margin-bottom: 3px;
 }
 
-.input-xmedium {
-	width: 119px;
-}
+.input-xmedium { width: 119px; }
 
-.input-mediumLarge {
-	width: 150px;
-}
+.input-mediumLarge { width: 150px; }
 
-.smallText {
-	font-size: 10px;
-}
+.smallText { font-size: 10px; }
 
-.checkbox {
-	padding-bottom: 15px;
-}
+.checkbox { padding-bottom: 15px; }
 
 .checkboxIcon {
 	display: block;
@@ -37,30 +29,20 @@
 	margin-top: 10px;
 }    
 
-.contentPane .container-fluid {
-	padding: 5px;
-}
+.contentPane .container-fluid { padding: 5px; }
 
-.tabScroll {
-	overflow-y: auto;
-}
+.tabScroll { overflow-y: auto; }
 
-.fill {
-	height: 100%;   
-}                               
+.fill { height: 100%; }                               
 
-.patientRecordNav {
-	margin-left: 10px !important;
-}
+.patientRecordNav { margin-left: 10px !important; }
 
 .patientRecordNav li a {
 	color: #000;
 	text-decoration: none;
 }
 
-.patientRecordNav li a:hover {
-	text-decoration: none;
-}
+.patientRecordNav li a:hover { text-decoration: none; }
 
 .patientName {
 	text-align: center;
@@ -70,13 +52,9 @@
 	margin-bottom: 10px;
 }
 
-.patientNavs {
-	margin-top: 15px;
-}
+.patientNavs { margin-top: 15px; }
 
-.nav-tabs {
-	margin-bottom: -1px;
-}
+.nav-tabs { margin-bottom: -1px; }
 
 .tab-pane {
 	background-color: #fff;   
@@ -85,13 +63,9 @@
 	padding: 0 10px;
 }
 
-.formTabs {
-	clear: both;
-}
+.formTabs { clear: both; }
 
-.formPadding {
-	padding: 10px;   
-}
+.formPadding { padding: 10px; }
 
 .formScroll {
 	overflow-y: auto;
@@ -100,30 +74,15 @@
 
 }
 
-.employedPerson {
-	margin: 12px;        
-}
+.employedPerson { margin: 12px; }
      
-.referenceTabs {
-	clear: both;      
-}             
+.referenceTabs { clear: both; }             
 
+#referringphysician form { padding: 10px; }        
 
-#referringphysician form {       
-	padding: 10px; 
-}        
-
-.marginBottom5 {
-	margin-bottom: 5px;
-}
-
-.marginBottom15 {
-	margin-bottom: 15px;
-}
-
-.marginTopMinus15 {
-	margin-top: -15px;
-}
+.marginBottom5 { margin-bottom: 5px; }
+.marginBottom15 { margin-bottom: 15px; }
+.marginTopMinus15 { margin-top: -15px; }
 
 .insuranceOptions {
     border: 1px solid #aaa;  
@@ -131,49 +90,27 @@
     margin: 12px;      
 }
 
-.insuranceOptions label {
-   width: 140px !important;
-}
-.commentContainer {
-	padding-right: 15px;
-}
+.insuranceOptions label { width: 140px !important; }
 
-.commentSpan {
-	width: 100%;
-}
+.commentContainer { padding-right: 15px; }
 
-.paymentTable { 
-   max-width: none;   
-}
+.commentSpan { width: 100%; }
 
-.paymentTable input, .paymentTable select {
-	width: 100%;
-}
-
-.paymentTable td {
-	padding: 5px;
-}
-
-.paymentTable th:last-child {
-	width: 15%;
-}
+.paymentTable { max-width: none; }
+.paymentTable input, .paymentTable select { width: 100%; }
+.paymentTable td { padding: 5px; }
+.paymentTable th:last-child { width: 15%; }
 
 .span5 .label, label.inline  {
     display: inline-block;
     width: 130px;   
 }
 
-.alertHolder {
-	height: 45px;
-}
+.alertHolder { height: 45px; }
 
-.validationElement { 
-	border: solid 1px red !important;
-}
+.validationElement { border: solid 1px red !important; }
 
-.required {
-	color: red;
-}
+.required { color: red; }
 
 /* Personal Information */
 .personalAlert {
@@ -208,34 +145,21 @@
 	cursor: default;
 }
 
-.orderForm a {
-	cursor: pointer;
-}
+.orderForm a { cursor: pointer; }
 
 .orderTable td div {
 	width: 15px;
 	margin: auto;
 }
-
-.orderTable tr {
-	cursor: default;
-}
-
+.orderTable tr { cursor: default; }
 .orderTable td, .orderTable th {
 	text-align: center;
 }
 
-.orderBox {
-	min-width: 615px;
-}
+.orderBox { min-width: 615px; }
 
-.orderForm textarea {
-	width: 97%;
-}
-
-.orderForm select {
-	width: 160px;
-}
+.orderForm textarea { width: 97%; }
+.orderForm select { width: 160px; }
 
 .orderTableHolder {
 	height: 250px;
@@ -256,11 +180,7 @@
 	width: 800px;
 	height: 580px;
 }
-
-.drugHolder .modal-header {
-	padding: 1px 15px;
-}
-
+.drugHolder .modal-header { padding: 1px 15px; }
 .drugHolder .modal-body {
 	height: 550px;
 	max-height: 550px;
@@ -268,21 +188,12 @@
 	padding-top: 0;
 }
 
-.drugsInstructions {
-	width: 98%;
-}
+.drugsInstructions { width: 98%; }
 
-.drugsForm {
-	margin: 0 0 4px;
-}
+.drugsForm { margin: 0 0 4px; }
+.drugsForm legend { margin-bottom: 5px; }
 
-.drugsForm legend {
-	margin-bottom: 5px;
-}
-
-.drugsButtons {
-	margin-bottom: 4px;
-}
+.drugsButtons { margin-bottom: 4px; }
 
 .drugsTable {
 	overflow-y: auto;
@@ -290,9 +201,7 @@
 	height: 190px;
 }
 
-.inputCell {
-	padding: 0 !important;
-}
+.inputCell { padding: 0 !important; }
 
 .inputCell input {
 	padding: 4px;
@@ -306,9 +215,7 @@
 	overflow-y: auto;
 }
 
-.flowHolder .modal-header {
-	padding: 1px 15px;
-}
+.flowHolder .modal-header { padding: 1px 15px; }
 
 .flowHolder .modal-body {
 	height: 550px;
@@ -328,9 +235,7 @@
 	overflow-y: auto;
 }
 
-.venousTableHolder .last {
-	width: 7%;
-}
+.venousTableHolder .last { width: 7%; }
 
 .flowForm fieldset legend {
 	margin-bottom: 5px;
@@ -339,9 +244,7 @@
 	line-height: 20px;
 }
 
-.flowForm .venousFields input[type="text"] {
-	width: 35px;
-}
+.flowForm .venousFields input[type="text"] { width: 35px; }
 
 .flowForm .venousFields .radio {
 	font-size: 12px;
@@ -369,6 +272,4 @@
 	display: none;
 }
 
-.checkoutPane {
-   overflow-y: auto;
-}
+.checkoutPane { overflow-y: auto; }

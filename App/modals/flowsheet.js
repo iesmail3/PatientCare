@@ -189,6 +189,18 @@ define(function(require) {
 		self.cancelButton(false);
 	}
 	
+	Flowsheet.prototype.clickPrint = function(data) {
+		var height = $('.flowHolder').height();
+		var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
+					   'menubar=no, status=no, titlebar=no, toolbar=no';
+		var win = window.open(
+			'php/printFlowsheet.php/?orderId=' + self.orderId + '&serviceRecordId=' + 
+			self.serviceRecordId + '&practiceId=' + self.practiceId, 
+			'',
+			settings
+		);
+	}
+	
 	Flowsheet.prototype.closeWindow = function(data) {
 		this.modal.close("close");
 	}
