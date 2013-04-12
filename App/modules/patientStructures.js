@@ -440,8 +440,8 @@ define(function(require) {
 			this.orderId	    = ko.observable(data.order_id);
 			this.medicine	    = ko.observable(data.medicine);
 			this.quantity	    = ko.observable(data.quantity);
-			this.actualDose	    = ko.observable(data.actual_dose);
-			this.sequenceNumber = ko.observable(data.sequence_number);
+			this.dose		    = ko.observable(data.actual_dose);
+			this.seq		    = ko.observable(data.sequence_number);
 			this.startTime	    = ko.observable(data.start_time);
 			this.diluent	    = ko.observable(data.diluent);
 			this.volume		    = ko.observable(data.volume);
@@ -454,8 +454,8 @@ define(function(require) {
 			this.orderId	    = ko.observable();
 			this.medicine	    = ko.observable();
 			this.quantity	    = ko.observable();
-			this.actualDose	    = ko.observable();
-			this.sequenceNumber = ko.observable();
+			this.dose	    	= ko.observable();
+			this.seq			= ko.observable();
 			this.startTime	    = ko.observable();
 			this.diluent	    = ko.observable();
 			this.volume		    = ko.observable();

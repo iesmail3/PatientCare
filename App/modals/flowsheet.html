@@ -84,17 +84,22 @@
 				</div>
 			</fieldset>
 			<!-- /ko -->
-			<!-- ko with: drugOrder -->
 			<fieldset class="marginTopMinus15">
+				<!-- ko with: medicationOrderLog -->
 				<legend>Medications</legend>
 				<div class="marginBottom5">
 					<input type="text" class="input-xlarge" placeholder="Medicine" 
 						   data-bind="typeahead: {value: medicine, source: $root.medicines}" />
 					<input type="text" class="input-small" placeholder="Dose" 
-						   data-bind="value: dose, valueUpdate: 'afterkeydown'" />
-					<input type="text" class="input-small" placeholder="Qty" />
+						   data-bind="value: dose" />
+					<input type="text" class="input-small" placeholder="Qty" 
+					 	   data-bind="value: quantity" />
 					<input type="text" data-bind="value: seq" class="input-mini" placeholder="Seq" />
-					<input type="text" class="input-small" data-bind="timepicker: true" />
+					<div class="input-append bootstrap-timepicker">
+						<input class="timepicker input-small" 
+							data-bind="value: startTime, timepicker: {defaultTime: false}" type="text" />
+						<span class="add-on"><i class="icon-time"></i></span>
+					</div>
 				</div>
 				<div class="marginBottom5">
 					<input type="text" data-bind="typeahead: {value: diluent, source: $root.diluents}" 
@@ -103,32 +108,36 @@
 					             placeholder="Volume" />
 					<input type="text" data-bind="value: duration" class="input-mini" 
 						         placeholder="Duration" />
-					<input type="text" data-bind="timepicker: true" class="input-mini" />
+					<div class="input-append bootstrap-timepicker">
+						<input class="timepicker input-small" 
+							data-bind="value: endTime, timepicker: {defaultTime: false}" type="text" />
+						<span class="add-on"><i class="icon-time"></i></span>
+					</div>
 				</div>
 				<div class="pull-right drugsButtons">
-					<button class="btn btn-mini">
-						Print
-					</button>
 					<button class="btn btn-success btn-mini" 
 						    data-bind="click: $root.clickNew, visible: $root.newButton">
 						New
-					</button>
-					<button class="btn btn-primary btn-mini" data-bind="click: $root.saveOrder">
-						Save
 					</button>
 					<button class="btn btn-warning btn-mini" 
 						    data-bind="click: $root.clickCancel, visible: $root.cancelButton">
 						Cancel
 					</button>
+					<button class="btn btn-mini">
+						Print
+					</button>
+					<button class="btn btn-primary btn-mini" data-bind="click: $root.saveMOL">
+						Save
+					</button>
 				</div>
 				<div class="marginBottom5">
-					<textarea data-bind="value: instructions" class="drugsInstructions" 
+					<textarea data-bind="value: $root.instructions" class="drugsInstructions" 
 						  placeholder="Instructions" disabled></textarea>
 				</div>
-					<textarea  class="drugsInstructions" 
+					<textarea  class="drugsInstructions" data-bind="value: comment" 
 						  placeholder="Comments"></textarea>
+				<!-- /ko -->
 			</fieldset>
-			<!-- /ko -->
 			<fieldset>
 				<legend>Medication Orders</legend>
 				<div class="flowTableHolder">
@@ -143,24 +152,18 @@
 							<th>Volume</th>
 							<th>Duration</th>
 							<th>Day</th>
-							<th></th>
 						</thead>
 						<tbody data-bind="foreach: drugOrders">
 							<tr>
-								<td data-bind="text: medicine, click: $root.selectRow"></td>
-								<td data-bind="text: dose, click: $root.selectRow""></td>
-								<td data-bind="text: prescribedDose, click: $root.selectRow""></td>
-								<td data-bind="text: route, click: $root.selectRow""></td>
-								<td data-bind="text: seq, click: $root.selectRow""></td>
-								<td data-bind="text: diluent, click: $root.selectRow""></td>
-								<td data-bind="text: volume, click: $root.selectRow""></td>
-								<td data-bind="text: duration, click: $root.selectRow""></td>
-								<td data-bind="text: days, click: $root.selectRow""></td>
-								<td>
-									<button data-bind="click: $root.deleteRow" class="btn btn-danger btn-mini">
-										X
-									</button>
-								</td>
+								<td data-bind="text: medicine, click: $root.selectMO"></td>
+								<td data-bind="text: dose, click: $root.selectMO"></td>
+								<td data-bind="text: prescribedDose, click: $root.selectRow"></td>
+								<td data-bind="text: route, click: $root.selectMo"></td>
+								<td data-bind="text: seq, click: $root.selectMO"></td>
+								<td data-bind="text: diluent, click: $root.selectMO"></td>
+								<td data-bind="text: volume, click: $root.selectMO"></td>
+								<td data-bind="text: duration, click: $root.selectMO"></td>
+								<td data-bind="text: days, click: $root.selectMO"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -182,20 +185,19 @@
 							<th>End Time</th>
 							<th></th>
 						</thead>
-						<tbody data-bind="foreach: drugOrders">
+						<tbody data-bind="foreach: medicationOrderLogs">
 							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td data-bind="text: medicine, click: $root.selectMOL"></td>
+								<td data-bind="text: dose, click: $root.selectMOL"></td>
+								<td data-bind="text: quantity, click: $root.selectMOL"></td>
+								<td data-bind="text: seq, click: $root.selectMOL"></td>
+								<td data-bind="text: diluent, click: $root.selectMOL"></td>
+								<td data-bind="text: volume, click: $root.selectMOL"></td>
+								<td data-bind="text: duration, click: $root.selectMOL"></td>
+								<td data-bind="text: startTime, click: $root.selectMOL"></td>
+								<td data-bind="text: endTime, click: $root.selectMOL"></td>
 								<td>
-									<button data-bind="click: $root.deleteRow" class="btn btn-danger btn-mini">
+									<button data-bind="click: $root.deleteMOL" class="btn btn-danger btn-mini">
 										X
 									</button>
 								</td>

@@ -202,6 +202,15 @@ define(function(require) {
 		});
 	}
 	
+	order.prototype.getMedicationOrderLogs = function(id) {
+		return this.query({
+			mode: 'select',
+			fields: '*',
+			table: 'medication_order_log',
+			where: "WHERE order_id='" + id + "'"
+		});
+	}
+	
 	order.prototype.getVenousAccess = function(id) {
 		return this.query({
 			mode: 'select',
@@ -427,8 +436,9 @@ define(function(require) {
 			}).success(function(data) {
 				var id = 1;
 				if(data.length > 0)
-					var id = data[0].id;
+					id = parseInt(data[0].id) + 1;
 				order.id(id);
+				values[0] = id;
 				return self.query({
 					mode: 'insert',
 					table: 'drug_order',
@@ -471,11 +481,58 @@ define(function(require) {
 			}).success(function(data) {
 				var id = 1;
 				if(data.length > 0)
-					var id = data[0].id;
+					id = parseInt(data[0].id) + 1;
 				venous.id(id);
+				values[0] = id;
 				return self.query({
 					mode: 'insert',
 					table: 'venous_access',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		
+	}
+	
+	order.prototype.saveMedicationOrderLog = function(order) {
+		var self = this;
+		var fields = ['id', 'order_id', 'medicine', 'quantity', 'actual_dose', 'sequence_number',
+					  'start_time', 'diluent', 'volume', 'duration', 'end_time', 'comment'];
+		var values = $.map(order, function(k, v) {
+			if(k() == null || k() == undefined)
+				return [''];
+			else
+				return [k()];
+		});
+
+		
+		if(values[0] != "") {
+			return self.query({
+				mode: 'update',
+				table: 'medication_order_log',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + order.id() + "'"
+			});	
+		}
+		else {
+			return self.query({
+				mode: 'select',
+				table: 'medication_order_log',
+				fields: 'id',
+				where: "WHERE order_id='" + order.orderId() + "'",
+				order: "ORDER BY id DESC",
+				LIMIT: "LIMIT 1" 
+			}).success(function(data) {
+				var id = 1;
+				if(data.length > 0)
+					id = parseInt(data[0].id) + 1;
+				order.id(id);
+				values[0] = id;
+				return self.query({
+					mode: 'insert',
+					table: 'medication_order_log',
 					fields: fields,
 					values: values
 				});
@@ -551,6 +608,15 @@ define(function(require) {
 			where: "WHERE id='" + id + "'"
 		});
 	}
+		
+	// Delete Medication Order Log
+	order.prototype.deleteMedicationOrderLog = function(id) {
+		return this.query({
+			mode: 'delete',
+			table: 'medication_order_log',
+			where: "WHERE id='" + id + "'"
+		});
+	}	
 		
 	/**********************************************************************************************
 	 * Query

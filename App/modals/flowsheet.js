@@ -19,7 +19,6 @@ define(function(require) {
 		this.options = options || Flowsheet.defaultOptions;
 		this.drugOrder = ko.observable(new structures.DrugOrder());
 		this.drugOrders = ko.observableArray([]);
-		this.patient = ko.observable(new structures.Patient());
 		this.venousAccess = ko.observable(new structures.VenousAccess());
 		this.venousAccesses = ko.observableArray([]);
 		this.medicines = ko.observableArray([]);
@@ -27,6 +26,10 @@ define(function(require) {
 		this.tempOrder = ko.observable();
 		this.newButton = ko.observable(true);
 		this.cancelButton = ko.observable(false);
+		this.instructions = ko.observable();
+		this.medicationOrderLog = ko.observable(new structures.MedicationOrderLog);
+		this.medicationOrderLogs = ko.observableArray();
+		this.tempMOL = ko.observable();
 		
 		/******************************************************************************************
 		 * Initialize Observables
@@ -34,9 +37,8 @@ define(function(require) {
 		this.getMedicines();
 		this.getDiluents();
 		this.getVenousAccess(this.orderId);
-		this.getPatient(this.serviceRecordId);
-		this.getDrugOrder(this.orderId);
-		
+		this.getDrugOrders(this.orderId);
+		this.getMedicationOrderLogs(this.orderId);
 	}
 	
 	/**********************************************************************************************
@@ -86,13 +88,6 @@ define(function(require) {
 			}
 		});
 	}
-	
-	Flowsheet.prototype.getPatient = function(id) {
-		backend.getPatientFromService(id).success(function(data) {
-			if(data.length > 0)
-				self.patient(new structures.Patient(data[0]));
-		});
-	}
 
 	Flowsheet.prototype.getVitals = function(id) {
 		backend.getVitals(id).success(function(data){
@@ -100,10 +95,17 @@ define(function(require) {
 		})
 	}
 	
-	Flowsheet.prototype.getDrugOrder = function(id) {
+	Flowsheet.prototype.getDrugOrders = function(id) {
 		backend.getDrugOrders(id).success(function(data) {
 			var d = $.map(data, function(item) { return new structures.DrugOrder(item)});
 			self.drugOrders(d);
+		})
+	}
+	
+	Flowsheet.prototype.getMedicationOrderLogs = function(id) {
+		backend.getMedicationOrderLogs(id).success(function(data) {
+			var d = $.map(data, function(item) { return new structures.MedicationOrderLog(item)});
+			self.medicationOrderLogs(d);
 		})
 	}
 	
@@ -130,15 +132,17 @@ define(function(require) {
 		});
 	}
 	
-	Flowsheet.prototype.saveOrder = function(dialogResult) {
-			var id = self.drugOrder().id();
-			// Place globals into order
-			self.drugOrder().orderId(self.orderId);
-			self.drugOrder().crcl(self.crcl());
-			backend.saveFlowsheet(self.drugOrder(), self.drugOrders).success(function(data) {
-				if(id == undefined)
-					self.drugOrders.push(self.drugOrder());
-			});
+	Flowsheet.prototype.saveMOL = function(dialogResult) {
+		var id = self.medicationOrderLog().id();
+		// Place globals into order
+		self.medicationOrderLog().orderId(self.orderId);
+		backend.saveMedicationOrderLog(self.medicationOrderLog()).success(function(data) {
+			if(id == undefined)
+				self.medicationOrderLogs.push(self.medicationOrderLog());	
+		});
+		// Reset buttons
+		self.newButton(true);
+		self.cancelButton(false);
 	}
 	
 	/**********************************************************************************************
@@ -149,16 +153,21 @@ define(function(require) {
 		self.venousAccesses.remove(vital);
 	}
 	
-	Flowsheet.prototype.deleteRow = function(order) {
-		backend.deleteFlowsheet(order.id());
-		self.drugOrders.remove(order);
+	Flowsheet.prototype.deleteMOL = function(order) {
+		backend.deleteMedicationOrderLog(order.id());
+		self.medicationOrderLogs.remove(order);
 	}
 		
 	/**********************************************************************************************
 	 * Click Methods
 	 *********************************************************************************************/
-	Flowsheet.prototype.selectRow = function(order) {
-		self.drugOrder(order);
+	// Select Medication Order
+	Flowsheet.prototype.selectMO = function(order) {
+		self.instructions(order.instructions());
+	}
+	
+	Flowsheet.prototype.selectMOL = function(order) {
+		self.medicationOrderLog(order);
 	}
 	
 	Flowsheet.prototype.selectVital = function(data) {
@@ -167,15 +176,15 @@ define(function(require) {
 	}
 	
 	Flowsheet.prototype.clickNew = function(data) {
-		self.tempOrder(self.drugOrder());
-		self.drugOrder(new structures.DrugOrder());
+		self.tempMOL(self.medicationOrderLog());
+		self.medicationOrderLog(new structures.MedicationOrderLog());
 		self.newButton(false);
 		self.cancelButton(true);
 	}
 	
 	Flowsheet.prototype.clickCancel = function(data) {
-		self.drugOrder(self.tempOrder());
-		self.tempOrder('');
+		self.medicationOrderLog(self.tempMOL());
+		self.tempMOL('');
 		self.newButton(true);
 		self.cancelButton(false);
 	}
