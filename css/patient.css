@@ -187,6 +187,11 @@
 	display: none;
 }
 
+.examAlert {
+	height: 20px;
+	display: none;
+}
+
 .allergiesCheckbox {
 	display: inline-block;
 	width: 140px;

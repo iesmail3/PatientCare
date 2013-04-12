@@ -1,1 +1,52 @@
-<h2>Exams</h2>
+<div class="formScroll">
+	<form class="form-inline formPadding">
+		<div class="row-fluid">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>Exam Name</th>
+						<th>Status</th>
+						<th>Last Done</th>
+						<th>Comments</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<input type="text" class="input-small" placeholder="Name" />
+						</td>
+						<td>
+							<label class="radio inline">
+								<input type="radio" name="routineExamLastDone" value="1" />
+								<span>Never Done</span>
+							</label>
+							<label class="radio inline">
+								<input type="radio" name="routineExamLastDone" value="2" />
+								<span>Unknown</span>
+							</label>
+							<label class="radio inline">
+								<input type="radio" name="routineExamLastDone" value="3" />
+								<span>Last Done</span>
+							</label>
+						</td>
+						<td>
+							<input type="text" data-bind="datepicker: true" class="input-small"  placeholder="Last Done" />
+						</td>
+						<td>
+							<textarea class="input-small" rows="1" placeholder="Comments"></textarea>
+						</td>
+						<td><a class="btn btn-small btn-danger" data-bind="click: $root.routineExamDelete">Delete</a></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="alertHolder">
+				<div class="alert alert-danger examAlert">You have are missing required fields.</div>
+			</div>
+			<div class="pull-right">
+				<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.routineExamSave">Save</button>
+				<button type="button" class="btn btn-small btn-warning" data-bind="click: $root.routineExamCancel">Cancel</button>
+			</div>
+		</div>
+	</form>
+</div>
