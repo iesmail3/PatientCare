@@ -389,10 +389,14 @@
 			else
 				return [k()];
 		});
+		
         values[1] = patientId();
-		//values[2] = practiceId;  
-		values[5] = form.dbDate(doc.date());
-		values[9] = form.dbDate(doc.dateOfService());
+		values[2] = practiceId();  
+		values[6] = form.dbDate(doc.date());
+		values[10] = form.dbDate(doc.dateOfService());
+		
+		for(var i = 0; i < fields.length; i++) 
+		    system.log(fields[i] + ' : ' + values[i]); 
 		
 		if(values[0] != "") {
 			return self.query({
@@ -427,10 +431,6 @@
 				documents.push(doc());
 			});
 		}
-		for(var i = 0; i < fields.length; i++) 
-		    system.log(fields[i] + ' : ' + values[i]); 
-		
-		
 	}
 		
 	/**********************************************************************************************

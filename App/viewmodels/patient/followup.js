@@ -8,7 +8,7 @@ define(function(require) {
 	 * Includes*
 	 **********************************************************************************************/
 	 var system = require('durandal/system');			// System logger
-	 var custom = require('durandal/customBindings');	// Custom bindings
+	 var Custom = require('durandal/customBindings');	// Custom bindings
 	 var Backend = require('modules/followup');			// Database access
 	 var Forms = require('modules/form');					// Common form elements
 	 var Structures = require('modules/patientStructures'); 
@@ -464,15 +464,17 @@ define(function(require) {
 			}
 		},
 		saveDocument: function(data) {
-			backend.saveDocument(doc(),documents,practiceId,patientId); 
-      		$('.fileupload').fineUploader('uploadStoredFiles');  
+			doc().location(file()); 
+			system.log(doc().location());  
+			 backend.saveDocument(doc(),documents,practiceId,patientId); 
+      		 $('.fileupload').fineUploader('uploadStoredFiles');  
 		},
-		searchByType: function(data) {   
-			backend.getDocumentByType(documentType(), patientId()).success(function(data) { 
-				if(data.length > 0) { 
+		searchByType: function(data) { 
+			backend.getDocumentByType(patientId(),documentType()).success(function(data) { 
+				if(data.length > 0) {  
 					 var d = $.map(data, function(item) {
 					 item.date = form.uiDate(item.date)
-					 item.dateOfService = form.uiDate(item.dateOfService)
+					 item.date_of_service = form.uiDate(item.dateOfService)
 					 return new structures.Document(item) });
 						documents(d);
 						doc(d[0]); 
