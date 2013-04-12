@@ -59,6 +59,16 @@ class PDF extends FPDI_CellFit {
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);
 			while($row = $stmt->fetch())
 				$this->physician = $row;
+			
+			// Patient
+ 		 	$stmt = $db->query("SELECT patient.*, service_record.date 
+ 		 					    FROM service_record 
+ 		 					    LEFT JOIN patient 
+ 		 					    ON service_record.patient_id=patient.id 
+ 		 					    WHERE service_record.id='$this->serviceRecordId'");
+			$stmt->setFetchMode(PDO::FETCH_ASSOC);
+			$rows = $stmt->fetchAll();
+			$this->patient = $rows[0];
  		 }
 		 catch (PDOException $e) {
 		 	echo $e->getMessage() . "<br>";
@@ -91,9 +101,10 @@ class PDF extends FPDI_CellFit {
 		$this->SetFont('Arial', '', 11);
 		$y = $this->GetY();
 		$this->SetY($y - 11);
-		$this->Cell(0, 11, date('n') . '/' . date('j') . '/' . date('Y'), 0, 1, 'R');
+		$this->Cell(0, 11, date('n/j/Y'), 0, 1, 'R');
 		$this->SetY($y);
-		$this->Cell(0, 4, 'License No: X 77777, NPI: 98989898989, DEA: YY747373', 0, 1);
+		$this->CellFit(0, 4, 'License No: ' . $this->physician['license'] . ', NPI: ' . 
+				       $this->physician['npi'] . ', DEA: ' . $this->physician['dea'], 0, 1);
 		if($this->PageNo() == 1)
 			$this->Line(11, 48, 199, 48);
 		else
@@ -102,11 +113,15 @@ class PDF extends FPDI_CellFit {
 		/******************************************************************************************
  		 * Patient Information
  		 *****************************************************************************************/
+ 		 $dob = date($this->patient['date_of_birth']);
  		 if($this->PageNo() == 1)
 		 	$this->SetY(49);
 		 else
 		 	$this->SetY(28);
- 		 $this->CellFit(0, 8, 'Patient Name: John Adam Smith, DOB: 9/1/1978, Age: 34 yrs., Gender: Male', 0, 1);
+ 		 $this->CellFit(0, 8, 'Patient Name: ' . $this->patient['first_name'] . ' ' . 
+ 		                $this->patient['middle_name'] . ' ' . $this->patient['last_name'] . ', DOB: ' .
+ 		                 $dob . ', Age: ' . $this->dobToAge($dob) . ', Gender: ' . 
+ 		                 ucfirst($this->patient['gender']), 0, 1);
 		 $this->SetFont('Arial', 'B', 11);
 		 $this->Cell(30, 4, 'Date of Service: ');
 		 $this->SetFont('Arial', '', 11);
@@ -124,6 +139,13 @@ class PDF extends FPDI_CellFit {
 	    $this->SetFont('Arial','',8);
 	    // Page number
 	    $this->Cell(0,10,'Page '.$this->PageNo().' of {nb}',0,0,'C');
+	}
+	
+	function dobToAge($date) {
+		$today = date('Y-m-d');
+		$dif = abs(strtotime($today) - strtotime($date));
+		$years = floor($dif / 365 / 60 / 60 / 24);
+		return $years . ' yrs.';
 	}
 }
 
