@@ -1,52 +1,50 @@
 <div class="formScroll">
 	<form class="form-inline formPadding">
 		<div class="row-fluid">
-			<table class="table table-bordered table-hover">
-				<thead>
-					<tr>
-						<th>Exam Name</th>
-						<th>Status</th>
-						<th>Last Done</th>
-						<th>Comments</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							<input type="text" class="input-small" placeholder="Name" />
-						</td>
-						<td>
-							<label class="radio inline">
-								<input type="radio" name="routineExamLastDone" value="1" />
-								<span>Never Done</span>
-							</label>
-							<label class="radio inline">
-								<input type="radio" name="routineExamLastDone" value="2" />
-								<span>Unknown</span>
-							</label>
-							<label class="radio inline">
-								<input type="radio" name="routineExamLastDone" value="3" />
-								<span>Last Done</span>
-							</label>
-						</td>
-						<td>
-							<input type="text" data-bind="datepicker: true" class="input-small"  placeholder="Last Done" />
-						</td>
-						<td>
-							<textarea class="input-small" rows="1" placeholder="Comments"></textarea>
-						</td>
-						<td><a class="btn btn-small btn-danger" data-bind="click: $root.routineExamDelete">Delete</a></td>
-					</tr>
-				</tbody>
-			</table>
+			<div data-bind="foreach: routineExams">
+				<div>
+					<input type="text" class="input-small" placeholder="Name" data-bind="
+						value: name,
+						valueUpdate: 'afterkeydown',
+						event: {keyup: $root.routineExamAddRow},
+						enable: name() != 'Colonoscopy' && name() != 'PSA' && name() != 'Physical'" required/>
+					<span class="required">*</span>
+					<label class="radio inline">
+						<input type="radio" name="$index" value="1" data-bind="
+							checked: lastDone" />
+						<span>Never Done</span>
+					</label>
+					<label class="radio inline">
+						<input type="radio" name="$index" value="2" data-bind="
+							checked: lastDone" />
+						<span>Unknown</span>
+					</label>
+					<label class="radio inline">
+						<input type="radio" name="$index" value="3" data-bind="
+							checked: lastDone" />
+						<span>Last Done</span>
+					</label>
+					<span class="required">*</span>
+					<input type="text" class="input-small" placeholder="Last Done" data-bind="
+						datepicker: {dateFormat: 'mm-yy', changeMonth: true, changeYear: true},
+						enable: lastDone() == 3" />
+					<textarea class="input-small" rows="1" placeholder="Comments" data-bind="
+						value: comment">
+					</textarea>
+					<button type="button" class="btn btn-small btn-danger" data-bind="
+						click: $root.routineExamDelete,
+						visible: name() != 'Colonoscopy' && name() != 'PSA' && name() != 'Physical'">
+						Delete
+					</button>
+				</div>
+			</div>
 			<div class="alertHolder">
 				<div class="alert alert-danger examAlert">You have are missing required fields.</div>
 			</div>
-			<div class="pull-right">
-				<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.routineExamSave">Save</button>
-				<button type="button" class="btn btn-small btn-warning" data-bind="click: $root.routineExamCancel">Cancel</button>
-			</div>
 		</div>
 	</form>
+</div>
+<div class="pull-right">
+	<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.routineExamSave">Save</button>
+	<button type="button" class="btn btn-small btn-warning" data-bind="click: $root.routineExamCancel">Cancel</button>
 </div>

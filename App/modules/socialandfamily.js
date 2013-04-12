@@ -49,6 +49,15 @@ define(function(require) {
 		});
 	}
 	
+	socialandfamily.prototype.getRoutineExam = function(patientId) {
+		return this.query({
+			mode: 'select',
+			table: 'routine_exam',
+			fields: '*',
+			where: "WHERE patient_id='" + patientId + "'"
+		});
+	}
+	
 	/**********************************************************************************************
 	 * Save Methods
 	 * 

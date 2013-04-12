@@ -1055,16 +1055,16 @@ define(function(require) {
 	patient.prototype.RoutineExam = function(data) {
 		if (data != null) {
 			this.patientId = ko.observable(data.patient_id);
-			this.name	   = ko.observable(data.name);
-			this.lastDone  = ko.observable(data.last_done);
+			this.name	   = ko.observable(data.name).extend({required: true});
+			this.lastDone  = ko.observable(data.last_done).extend({required: true});
 			this.month	   = ko.observable(data.month);
 			this.year	   = ko.observable(data.year);
 			this.comment   = ko.observable(data.comment);
 		}
 		else {
 			this.patientId = ko.observable();
-			this.name	   = ko.observable();
-			this.lastDone  = ko.observable();
+			this.name	   = ko.observable('').extend({required: true});
+			this.lastDone  = ko.observable('2').extend({required: true});
 			this.month	   = ko.observable();
 			this.year	   = ko.observable();
 			this.comment   = ko.observable();

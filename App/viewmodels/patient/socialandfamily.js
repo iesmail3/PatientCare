@@ -36,6 +36,8 @@ define(function(require) {
 	var patient = ko.observable(new structures.Patient());
 	var familyHistory = ko.observable(new structures.FamilyHistory());
 	var familyHistories = ko.observableArray([]);
+	var routineExam = ko.observable(new structures.RoutineExam());
+	var routineExams = ko.observableArray([]);
 	
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -60,6 +62,8 @@ define(function(require) {
 		patient: patient,
 		familyHistory: familyHistory,
 		familyHistories: familyHistories,
+		routineExam: routineExam,
+		routineExams: routineExams,
 		
 		/******************************************************************************************* 
 		 * Methods
@@ -73,8 +77,10 @@ define(function(require) {
 			
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
 			});
 		},
 		// Loads when view is loaded
@@ -101,11 +107,11 @@ define(function(require) {
 				}
 			});
 			
-			return backend.getFamilyHistory(self.patientId(), self.practiceId()).success(function(data) {
+			backend.getFamilyHistory(self.patientId(), self.practiceId()).success(function(data) {
+				self.familyHistories.push(new structures.FamilyHistory({relationship:'father',age:''}));
+				self.familyHistories.push(new structures.FamilyHistory({relationship:'mother',age:''}));
 				if (data.length > 0) {
 					var f = $.map(data, function(item) {return new structures.FamilyHistory(item)});
-					self.familyHistories.push(new structures.FamilyHistory({relationship:'father',age:''}));
-					self.familyHistories.push(new structures.FamilyHistory({relationship:'mother',age:''}));
 					for (var i = 0; i < f.length; i++) {
 						if (f[i].relationship() == 'father' || f[i].relationship() == 'mother') {
 							for (var j = 0; j < self.familyHistories().length; j++) {
@@ -117,8 +123,29 @@ define(function(require) {
 							self.familyHistories.push(f[i]);
 					}
 					self.familyHistory(f[0]);
-					self.familyHistories.push(new structures.FamilyHistory());
 				}
+				self.familyHistories.push(new structures.FamilyHistory());
+			});
+			
+			return backend.getRoutineExam(self.patientId()).success(function(data) {
+				self.routineExams.push(new structures.RoutineExam({name:'Colonoscopy',last_done:'2'}));
+				self.routineExams.push(new structures.RoutineExam({name:'PSA',last_done:'2'}));
+				self.routineExams.push(new structures.RoutineExam({name:'Physical',last_done:'2'}));
+				if (data.length > 0) {
+					var r = $.map(data, function(item) {return new structures.RoutineExam(item)});
+					for (var i = 0; i < r.length; i++) {
+						if (r[i].name() == 'Colonoscopy' || r[i].name() == 'PSA' || r[i].name() == 'Physical') {
+							for (var j = 0; j < self.routineExams().length; j++) {
+								if (r[i].name() == self.routineExams()[j].name())
+									self.routineExams()[j] = r[i];
+							}
+						}
+						else
+							self.routineExams.push(r[i]);
+					}
+					self.routineExam(r[0]);
+				}
+				self.routineExams.push(new structures.RoutineExam());
 			});
 		},
 		/******************************************************************************************* 
@@ -189,7 +216,24 @@ define(function(require) {
 		familyHistoryDelete: function(data) {
 			familyHistories.remove(data);
 			backend.deleteFamilyHistory(data.id());
-		}
+		},
+		/******************************************************************************************* 
+		 * Routine Exams Methods
+		 *******************************************************************************************/
+		routineExamAddRow: function(data) {
+			var lastRow = routineExams()[routineExams().length - 1];
+			if (lastRow.name() != '')
+				routineExams.push(new structures.RoutineExam());
+		},
+		routineExamSave: function(data) {
+			var isValid = true;
+		},
+		routineExamCancel: function(data) {
+		
+		},
+		routineExamDelete: function(data) {
+		
+		},
 	};
 	
 	// Turn validation on
