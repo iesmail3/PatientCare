@@ -74,7 +74,7 @@ define(function(require) {
 	 var physicianName  = ko.observable(); 
 	 var groupOrders 	= ko.observableArray([]);
 	 var file 			= ko.observable(); 
-	 var documentType   = ko.observable();
+	 var documentType   = ko.observable("Document Type");
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/  
@@ -474,10 +474,14 @@ define(function(require) {
 				if(data.length > 0) {  
 					 var d = $.map(data, function(item) {
 					 item.date = form.uiDate(item.date)
-					 item.date_of_service = form.uiDate(item.dateOfService)
+					 item.date_of_service = form.uiDate(item.date_of_service)
 					 return new structures.Document(item) });
 						documents(d);
 						doc(d[0]); 
+				}
+				else {
+						documents(new structures.Document());
+						doc(new structures.Document());
 				}
 			}); 
 			
