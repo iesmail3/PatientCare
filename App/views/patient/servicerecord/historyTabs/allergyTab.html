@@ -58,25 +58,27 @@
 		</div>
 	</div>
 </form>
-<div class="row-fluid">
-	<table class="table table-bordered table-hover">
-		<thead>
-			<tr>
-				<th>Type</th>
-				<th>Details</th>
-				<th>Status</th>
-				<th>Date Recorded</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody data-bind="foreach: allergiesIntolerances">
-			<tr>
-				<td data-bind="click: $root.allergiesIntoleranceSetFields, text: type"></td>
-				<td data-bind="click: $root.allergiesIntoleranceSetFields, text: details"></td>
-				<td data-bind="click: $root.allergiesIntoleranceSetFields, text: status"></td>
-				<td data-bind="click: $root.allergiesIntoleranceSetFields, text: dateRecorded"></td>
-				<td><a class="btn btn-small btn-danger" data-bind="click: $root.allergiesIntoleranceDelete">Delete</a></td>
-			</tr>
-		</tbody>
-	</table>
+<div class="allergyFormScroll">
+	<div class="row-fluid">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th>Details</th>
+					<th>Status</th>
+					<th>Date Recorded</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody data-bind="foreach: allergiesIntolerances">
+				<tr>
+					<td data-bind="click: $root.allergiesIntoleranceSetFields, text: type"></td>
+					<td data-bind="click: $root.allergiesIntoleranceSetFields, text: details"></td>
+					<td data-bind="click: $root.allergiesIntoleranceSetFields, text: status"></td>
+					<td data-bind="click: $root.allergiesIntoleranceSetFields, text: dateRecorded"></td>
+					<td><a class="btn btn-small btn-danger" data-bind="click: $root.allergiesIntoleranceDelete">Delete</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

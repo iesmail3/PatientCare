@@ -101,9 +101,15 @@ define(function(require) {
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
+			$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 321);
+			$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 326);
+			$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 281);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
+				$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 321);
+				$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 326);
+				$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 281);
 			});
 		},
 		// Loads when view is loaded
