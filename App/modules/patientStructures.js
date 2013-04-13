@@ -1059,15 +1059,15 @@ define(function(require) {
 		if (data != null) {
 			this.serviceRecordId    = ko.observable(data.service_record_id);
 			this.particulars	    = ko.observable(data.particulars).extend({required: true});
-			this.type			    = ko.observable(data.type);
-			this.comment		    = ko.observable(data.comment);
+			this.type			    = ko.observable(data.type).extend({notEqual: 'not done'});
+			this.comment		    = ko.observable(data.comment).extend({required: true});
 			this.defaultParticulate = ko.observable(data.default_particulate == '1' ? 1 : 0);
 		}
 		else {
 			this.serviceRecordId    = ko.observable();
-			this.particulars	    = ko.observable().extend({required: true});
-			this.type			    = ko.observable('not done');
-			this.comment		    = ko.observable();
+			this.particulars	    = ko.observable('').extend({required: true});
+			this.type			    = ko.observable('not done').extend({notEqual: 'not done'});
+			this.comment		    = ko.observable('').extend({required: true});
 			this.defaultParticulate = ko.observable();
 		}
 		

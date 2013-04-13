@@ -175,15 +175,13 @@ define(function(require) {
 				});
 			}
 			// Add
-			else if ((review.defaultParticulate() && (review.type() != '')) || !review.defaultParticulate()) {
+			else if ((review.defaultParticulate() && review.errors().length == 0) || !review.defaultParticulate()) {
 				self.query({
 					mode: 'insert',
 					table: 'review_of_systems',
 					fields: fields,
 					values: values,
 				});
-				if (!review.defaultParticulate())
-					reviews.push(review);
 			}
 		});
 	}

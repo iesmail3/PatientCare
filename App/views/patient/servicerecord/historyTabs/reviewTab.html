@@ -3,33 +3,36 @@
 		<div class="row-fluid">
 			<div data-bind="foreach: reviewOfSystems">
 				<div class="reviewOfSystem">
-					<input type="text" class="input-small" data-bind="
+					<input type="text" class="input-xsmall" placeholder="Particular" data-bind="
 						value: particulars,
 						enable: !defaultParticulate(),
 						event: {keyup: $root.reviewOfSystemsAddRow},
-						valueUpdate: 'afterkeydown'"/>
+						valueUpdate: 'afterkeydown'" required />
+					<span class="required">*</span>
 					<div class="reviewPushRight">
 						<label class="radio reviewRadio">
 							<input type="radio" value="not done" data-bind="
 								checked: type,
-								attr: {name: name}" />
+								attr: {name: name}" required />
 							<span>Not Done</span>
 						</label>
 						<label class="radio reviewRadio">
 							<input type="radio" value="negative" data-bind="
 								checked: type,
-								attr: {name: name}" />
+								attr: {name: name}" required />
 							<span>Negative</span>
 						</label>
 						<label class="radio reviewRadio">
 							<input type="radio" value="positive" data-bind="
 								checked: type,
-								attr: {name: name}" />
+								attr: {name: name}" required />
 							<span>Positive</span>
+							<span class="required">*</span>
 						</label>
 						<input type="text" class="reviewComment" placeholder="Comments" data-bind="
 							value: comment,
-							enable: type() != 'not done'" />
+							enable: type() != 'not done'" required />
+						<span class="required">*</span>
 						<button class="btn btn-small btn-danger" data-bind="
 							click: $root.reviewOfSystemsDelete,
 							visible: !defaultParticulate()">
