@@ -1066,10 +1066,14 @@ define(function(require) {
 		else {
 			this.serviceRecordId    = ko.observable();
 			this.particulars	    = ko.observable().extend({required: true});
-			this.type			    = ko.observable();
+			this.type			    = ko.observable('not done');
 			this.comment		    = ko.observable();
 			this.defaultParticulate = ko.observable();
 		}
+		
+		this.name = ko.computed(function() {
+			return 'reviewOfSystemType' + self.particulars();
+		});
 		
 		self.errors = ko.validation.group(self, {messagesOnModified: false});
 	}

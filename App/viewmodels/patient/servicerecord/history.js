@@ -125,20 +125,20 @@ define(function(require) {
 			
 			// Get the Review of Systems for the Service Record
 			backend.getReviewOfSystems(self.patientId(), self.practiceId(), self.date()).success(function(data) {
+				self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GEN',type:'not done',default_particulate:1}));
+				self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'EYE',type:'not done',default_particulate:1}));
+				self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'ENT',type:'not done',default_particulate:1}));
+				self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'RESP',type:'not done',default_particulate:1}));
+				self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'CSV',type:'not done',default_particulate:1}));
+				self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GI',type:'not done',default_particulate:1}));
+				self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GU',type:'not done',default_particulate:1}));
+				self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'MS',type:'not done',default_particulate:1}));
+				self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'NEURO',type:'not done',default_particulate:1}));
+				self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'SKIN',type:'not done',default_particulate:1}));
+				self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'PSYCH',type:'not done',default_particulate:1}));
+				self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GYN',type:'not done',default_particulate:1}));
 				if(data.length > 0) {
 					var r = $.map(data, function(item) {return new structures.ReviewOfSystems(item)});
-					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GEN',type:'',comment:'',default_particulate:1}));
-					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'EYE',type:'',comment:'',default_particulate:1}));
-					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'ENT',type:'',comment:'',default_particulate:1}));
-					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'RESP',type:'',comment:'',default_particulate:1}));
-					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'CSV',type:'',comment:'',default_particulate:1}));
-					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GI',type:'',comment:'',default_particulate:1}));
-					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GU',type:'',comment:'',default_particulate:1}));
-					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'MS',type:'',comment:'',default_particulate:1}));
-					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'NEURO',type:'',comment:'',default_particulate:1}));
-					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'SKIN',type:'',comment:'',default_particulate:1}));
-					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'PSYCH',type:'',comment:'',default_particulate:1}));
-					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GYN',type:'',comment:'',default_particulate:1}));
 					for (var i = 0; i < r.length; i++) {
 						if (r[i].defaultParticulate()) {
 							for (var j = 0; j < self.reviewOfSystems().length; j++) {
@@ -150,6 +150,7 @@ define(function(require) {
 							self.reviewOfSystems.push(r[i]);
 					}
 				}
+				self.reviewOfSystems.push(new structures.ReviewOfSystems());
 			});
 			
 			backend.getMedicalProblems(self.patientId(), self.practiceId(), self.date()).success(function(data) {

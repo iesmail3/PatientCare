@@ -208,6 +208,27 @@
 	display: none;
 }
 
+.reviewOfSystem {
+	margin-bottom: 5px;
+}
+
+.reviewPushRight {
+	float: right;
+	width: 534px;
+}
+
+.reviewRadio {
+	display: inline-block;
+	width: 80px;
+}
+
+.reviewComment {
+	width: 200px;
+	height: 20px;
+	max-width: 200px;
+	max-height: 20px;
+}
+
 .problemAlert {
 	height: 20px;
 	display: none;
