@@ -1257,6 +1257,7 @@ define(function(require) {
 			this.temp		= ko.observable(data.temp);
 			this.bp			= ko.observable(data.bp);
 			this.time		= ko.observable(data.time);
+			this.date		= ko.observable(data.date);
 		}
 		else {
 			this.id			= ko.observable();
@@ -1267,6 +1268,7 @@ define(function(require) {
 			this.temp		= ko.observable();
 			this.bp			= ko.observable();
 			this.time		= ko.observable('');
+			this.date		= ko.observable();
 		}
 	}
 	

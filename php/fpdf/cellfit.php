@@ -13,7 +13,11 @@ class FPDI_CellFit extends FPDI {
         //Calculate ratio to fit cell
         if($w==0)
             $w = $this->w-$this->rMargin-$this->x;
-        $ratio = ($w-$this->cMargin*2)/$str_width;
+		if($str_width)
+        	$ratio = ($w-$this->cMargin*2)/$str_width;
+		else {
+			$ratio = 0;
+		}
 
         $fit = ($ratio < 1 || ($ratio > 1 && $force));
         if ($fit)

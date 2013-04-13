@@ -8,6 +8,8 @@ define(function(require) {
 	 * Includes*
 	 **********************************************************************************************/
 	var system = require('durandal/system');			// System logger
+	var Forms = require('modules/form');
+	var forms = new Forms();
 	
 	/**********************************************************************************************
 	 * Constructor
@@ -452,7 +454,10 @@ define(function(require) {
 	
 	order.prototype.saveVenousAccess = function(venous) {
 		var self = this;
-		var fields = ['id', 'order_id', 'day', 'port_access', 'pulse', 'temp', 'bp', 'time'];
+		// Get date
+		venous.date(forms.dbDate(forms.currentDate()));
+		
+		var fields = ['id', 'order_id', 'day', 'port_access', 'pulse', 'temp', 'bp', 'time', 'date'];
 		var values = $.map(venous, function(k, v) {
 			if(k() == null || k() == undefined)
 				return [''];
@@ -492,7 +497,6 @@ define(function(require) {
 				});
 			});
 		}
-		
 	}
 	
 	order.prototype.saveMedicationOrderLog = function(order) {

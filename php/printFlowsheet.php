@@ -1,8 +1,14 @@
 <?php
+/**************************************************************************************************
+ * File: printFlowsheet.php
+ * Author: Sean Malone
+ * Description: This script creates a pdf containing information for the Flow Sheet
+ *************************************************************************************************/
+ 
 header("charset=utf-8");
-/***************************************************************************************************
+/**************************************************************************************************
  * Includes
- **************************************************************************************************/
+ *************************************************************************************************/
 // Mysql
 include('connect_to_mysql.php');
 // FPDF
@@ -10,52 +16,45 @@ include_once('fpdf/fpdf.php');
 include_once('fpdf/fpdi.php');
 include_once('fpdf/cellfit.php');
 
-/***************************************************************************************************
- * Main Object Variables
- **************************************************************************************************/
+/**************************************************************************************************
+ * Get Variables
+ *************************************************************************************************/
 $practiceId         = $_GET['practiceId'];
 $orderId            = $_GET['orderId'];
 $serviceRecordId    = $_GET['serviceRecordId'];
-$serviceRecord      = array();
-$vitals             = array();
-$drugOrders   		= array();
-$diagnosis          = array();
-$orders				= array();
-$officeProcedures   = array();
 
-/***************************************************************************************************
+/**************************************************************************************************
  * Custom PDF Class
- **************************************************************************************************/
+ *************************************************************************************************/
 class PDF extends FPDI_CellFit {
-	private $practiceId;
-	private $orderId;
-	private $serviceRecordId;
-	private $physicianId;
-	private $practice  = array();
-	private $physician = array();
-	private $patient   = array();
 	
 	function Header() {
+ 		$practiceId         = $_GET['practiceId'];
+		$serviceRecordId    = $_GET['serviceRecordId'];
+		$orderid			= $_GET['orderId'];
+		$practice  = array();
+		$physician = array();
+		$patient   = array();
+		$diagnosis = array();
+ 
 		/******************************************************************************************
  		 * Get needed data from database
  		 *****************************************************************************************/
- 		$this->practiceId         = $_GET['practiceId'];
-		$this->serviceRecordId    = $_GET['serviceRecordId'];
- 		 try {
+ 		try {
  		 	// Connection script
  		 	require('connect_to_mysql.php');
 			// Practice
- 		 	$stmt = $db->query("SELECT * FROM practice WHERE id='$this->practiceId'");
+ 		 	$stmt = $db->query("SELECT * FROM practice WHERE id='$practiceId'");
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);
 			while($row = $stmt->fetch())
-				$this->practice = $row;
+				$practice = $row;
 			
 			// Physician
  		 	$stmt = $db->query("SELECT physician.* 
  		 					    FROM service_record 
  		 					    LEFT JOIN physician 
  		 					    ON service_record.physician_id=physician.id 
- 		 					    WHERE service_record.id='$this->serviceRecordId'");
+ 		 					    WHERE service_record.id='$serviceRecordId'");
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);
 			while($row = $stmt->fetch())
 				$this->physician = $row;
@@ -65,14 +64,14 @@ class PDF extends FPDI_CellFit {
  		 					    FROM service_record 
  		 					    LEFT JOIN patient 
  		 					    ON service_record.patient_id=patient.id 
- 		 					    WHERE service_record.id='$this->serviceRecordId'");
+ 		 					    WHERE service_record.id='$serviceRecordId'");
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);
 			$rows = $stmt->fetchAll();
-			$this->patient = $rows[0];
- 		 }
-		 catch (PDOException $e) {
-		 	echo $e->getMessage() . "<br>";
-		 }
+			$patient = $rows[0];
+ 		}
+		catch (PDOException $e) {
+			echo $e->getMessage() . "<br>";
+		}
 			
 		/******************************************************************************************
  		 * Clinic Info - Only on first page.
@@ -82,14 +81,14 @@ class PDF extends FPDI_CellFit {
 			$this->Cell(0, 9, 'Chemotherapy Orders Status', 0, 2, 'C');
 			$this->SetFont('Arial', 'B', 12);
 			$this->SetX(70);
-			$this->Cell(0,4, $this->practice['name'], 0, 1);
+			$this->Cell(0,4, $practice['name'], 0, 1);
 			$this->SetFont('Arial', '', 11);
 			$this->SetX(70);
-			$this->Cell(0,4, $this->practice['address'] . ', ' . $this->practice['city'] . ', '
-					    . $this->practice['state'] . '-' . $this->practice['zip'], 0, 1);
+			$this->Cell(0,4, $practice['address'] . ', ' . $practice['city'] . ', '
+					    . $practice['state'] . '-' . $practice['zip'], 0, 1);
 			$this->SetX(70);
-			$this->Cell(0,4, 'Phone: ' . $this->practice['phone'] . ', Fax: ' 
-						. $this->practice['fax'], 0, 1);
+			$this->Cell(0,4, 'Phone: ' . $practice['phone'] . ', Fax: ' 
+						. $practice['fax'], 0, 1);
 		}
 
 		/******************************************************************************************
@@ -113,15 +112,15 @@ class PDF extends FPDI_CellFit {
 		/******************************************************************************************
  		 * Patient Information
  		 *****************************************************************************************/
- 		 $dob = date($this->patient['date_of_birth']);
+ 		 $dob = date($patient['date_of_birth']);
  		 if($this->PageNo() == 1)
 		 	$this->SetY(49);
 		 else
 		 	$this->SetY(28);
- 		 $this->CellFit(0, 8, 'Patient Name: ' . $this->patient['first_name'] . ' ' . 
- 		                $this->patient['middle_name'] . ' ' . $this->patient['last_name'] . ', DOB: ' .
+ 		 $this->CellFit(0, 8, 'Patient Name: ' . $patient['first_name'] . ' ' . 
+ 		                $patient['middle_name'] . ' ' . $patient['last_name'] . ', DOB: ' .
  		                 $dob . ', Age: ' . $this->dobToAge($dob) . ', Gender: ' . 
- 		                 ucfirst($this->patient['gender']), 0, 1);
+ 		                 ucfirst($patient['gender']), 0, 1);
 		 $this->SetFont('Arial', 'B', 11);
 		 $this->Cell(30, 4, 'Date of Service: ');
 		 $this->SetFont('Arial', '', 11);
@@ -150,14 +149,260 @@ class PDF extends FPDI_CellFit {
 }
 
 /***************************************************************************************************
+ * Pull Data from Database
+ **************************************************************************************************/
+// Diagnosis
+$stmt = $db->query("SELECT * 
+					FROM diagnosis
+				    WHERE service_record_id='$serviceRecordId'");
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
+$rows = $stmt->fetchAll();
+$diagnosis = $rows;
+
+// Vitals
+$stmt = $db->query("SELECT * 
+					FROM venous_access
+				    WHERE order_id='$orderId'");
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
+$rows = $stmt->fetchAll();
+$vitals = $rows;
+
+// Order
+$stmt = $db->query("SELECT * 
+					FROM orders
+					LEFT JOIN order_category
+					ON orders.order_category_id=order_category.id
+				    WHERE orders.id='$orderId'");
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
+$rows = $stmt->fetchAll();
+$order = $rows[0];
+
+// Drugs
+$stmt = $db->query("SELECT medication_order_log.*, medicine_list.code 
+					FROM orders
+					LEFT JOIN medication_order_log
+					ON medication_order_log.order_id=orders.id
+					LEFT JOIN medicine_list
+					ON medication_order_log.medicine=medicine_list.medicine_name
+				    WHERE orders.group='{$order['group']}'");
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
+$rows = $stmt->fetchAll();
+$drugs = $rows;
+
+// Office Procedures
+$stmt = $db->query("SELECT * 
+					FROM orders
+					RIGHT JOIN office_procedure
+					ON office_procedure.order_id=orders.id
+					LEFT JOIN office_procedure_type
+					ON office_procedure.office_procedure_type_id=office_procedure_type.id
+				    WHERE orders.group='{$order['group']}'");
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
+$officeProcedures = $stmt->fetchAll();
+
+// Supplies
+$stmt = $db->query("SELECT * 
+					FROM orders
+					RIGHT JOIN supplies
+					ON supplies.order_id=orders.id
+					LEFT JOIN supply_type
+					ON supplies.supply_type_id=supply_type.id
+				    WHERE orders.group='{$order['group']}'");
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
+$supplies = $stmt->fetchAll();
+
+/***************************************************************************************************
  * Setup PDF
  **************************************************************************************************/
 $pdf = new PDF();
 $pdf->AliasNbPages();
 $pdf->AddPage();
-for($i = 1; $i < 40; $i++)
-	$pdf->Cell(0,10, 'Printing line number' . $i, 0, 1);
 
+/***************************************************************************************************
+ * Diagnosis
+ **************************************************************************************************/
+// Heading
+$pdf->SetY(65);
+$pdf->SetFont('Arial','B',10);
+$pdf->Cell(90, 5, 'Diagnosis');
+$pdf->Cell(90, 5, 'ICD Code', 0, 1);
+
+// Data
+$count = 1;
+$pdf->SetFont('Arial','',10);
+foreach($diagnosis as $d) {
+	$pdf->Cell(90, 5, $count . ' ' . $d['diagnosis']);
+	$pdf->Cell(90, 5, $d['code'], 0, 1);
+	$count++;
+}
+$y = $pdf->GetY() + 3;
+
+// Separator
+$pdf->Line(11, $y, 199, $y);	
+
+/***************************************************************************************************
+ * Vitals
+ **************************************************************************************************/
+// Last Access
+$pdf->SetY($y + 2);
+$pdf->SetFont('Arial','B',10);
+$pdf->Cell(10, 5, 'Day: ');
+$pdf->SetFont('Arial','',10);
+$pdf->Cell(20, 5, $vitals[count($vitals)-1]['day']);
+$pdf->SetFont('Arial','B',10);
+$pdf->Cell(30, 5, 'Venous Access: ');
+$pdf->SetFont('Arial','',10);
+$pdf->Cell(90, 5, $vitals[count($vitals)-1]['port_access'], 0, 1);
+
+// Heading
+$pdf->SetFont('Arial','BU',10);
+$pdf->Cell(30, 5, 'Vitals', 0, 1);
+$pdf->SetFont('Arial','',10);
+$pdf->Cell(40, 5, 'Time');
+$pdf->Cell(35, 5, 'BP');
+$pdf->Cell(35, 5, 'Pulse');
+$pdf->Cell(16, 5, 'Temp (F)', 0, 1);
+
+// Data
+foreach($vitals as $v) {
+	$date = date('n/j/Y', strtotime($v['date']));
+	$pdf->Cell(40, 5, $date . ' ' . $v['time']);
+	$pdf->Cell(35, 5, $v['bp']);
+	$pdf->Cell(35, 5, $v['pulse']);
+	$pdf->Cell(16, 5, $v['temp'], 0, 1, 'R');
+} 
+ 
+/***************************************************************************************************
+ * Order
+ **************************************************************************************************/
+// Type
+$pdf->SetY($pdf->GetY() + 5);
+$pdf->SetFont('Arial','B',10);
+$pdf->Cell(12, 5, 'Order: ');
+$pdf->SetFont('Arial','',10);
+$pdf->Cell(10, 5, $order['type'], 0, 1);
+
+// Heading
+$pdf->SetY($pdf->GetY() + 2);
+$pdf->SetFont('Arial','BU',10);
+$pdf->Cell(30, 5, 'Description');
+$pdf->Cell(30, 5, 'Code');
+$pdf->Cell(30, 5, 'Unit');
+$pdf->Cell(30, 5, 'Cost', 0, 1);
+
+// Data
+$pdf->SetFont('Arial','',10);
+$pdf->Cell(30, 5, $order['description']);
+$pdf->Cell(30, 5, $order['code']);
+$pdf->Cell(15, 5, $order['unit']);
+$pdf->Cell(25, 5, '$' . $order['cost'], 0, 1, 'R');
+   
+// Separator
+$y = $pdf->GetY() + 3;
+$pdf->Line(11, $y, 199, $y);
+
+/***************************************************************************************************
+ * Drugs
+ **************************************************************************************************/
+if(count($drugs) > 0) {
+	// Type
+	$pdf->SetY($pdf->GetY() + 5);
+	$pdf->SetFont('Arial','B',10);
+	$pdf->Cell(12, 5, 'Drugs', 0, 1);
+	$pdf->SetFont('Arial','',10);
+	
+	// Heading
+	$pdf->SetY($pdf->GetY() + 2);
+	$pdf->SetFont('Arial','BU', 10);
+	$pdf->Cell(35, 5, 'Description');
+	$pdf->Cell(20, 5, 'Code');
+	$pdf->Cell(20, 5, 'Dose');
+	$pdf->Cell(35, 5, 'Diluent');
+	$pdf->Cell(20, 5, 'Volume');
+	$pdf->Cell(20, 5, 'Seq#');
+	$pdf->Cell(22, 5, 'Start Time');
+	$pdf->Cell(22, 5, 'End Time', 0, 1);
+	
+	// Data
+	$pdf->SetFont('Arial','',9);
+	foreach($drugs as $d) {
+		$pdf->CellFit(35, 6, $d['medicine']);
+		$pdf->CellFit(20, 6, $d['code']);
+		$pdf->CellFit(20, 6, $d['actual_dose']);
+		$pdf->CellFit(35, 6, $d['diluent']);
+		$pdf->CellFit(20, 6, $d['volume']);
+		$pdf->CellFit(20, 6, $d['sequence_number']);
+		$pdf->CellFit(22, 6, $d['start_time']);
+		$pdf->CellFit(22, 6, $d['end_time'], 0, 1);
+	}
+	
+	// Separator
+	$y = $pdf->GetY() + 3;
+	$pdf->Line(11, $y, 199, $y);
+}
+
+/***************************************************************************************************
+ * Office Procedures
+ **************************************************************************************************/
+if(count($officeProcedures) > 0) {
+	// Type
+	$pdf->SetY($pdf->GetY() + 5);
+	$pdf->SetFont('Arial','B',10);
+	$pdf->Cell(12, 5, 'Office Procedures', 0, 1);
+	$pdf->SetFont('Arial','',10);
+	
+	// Heading
+	$pdf->SetY($pdf->GetY() + 2);
+	$pdf->SetFont('Arial','BU', 10);
+	$pdf->Cell(50, 5, 'Description');
+	$pdf->Cell(30, 5, 'Code');
+	$pdf->Cell(30, 5, 'Times');
+	$pdf->Cell(30, 5, 'Cost', 0, 1);
+	
+	// Data
+	$pdf->SetFont('Arial','',9);
+	foreach($officeProcedures as $o) {
+		$cost = number_format(floatval($o['times']) * floatval($o['cost']), 2);
+		$pdf->CellFit(50, 6, $o['description']);
+		$pdf->CellFit(30, 6, $o['code']);
+		$pdf->CellFit(15, 6, $o['times'], 0);
+		$pdf->CellFit(25, 6, '$' . $cost, 0, 1, 'R');
+	}
+	
+	// Separator
+	$y = $pdf->GetY() + 3;
+	$pdf->Line(11, $y, 199, $y);
+}
+
+/***************************************************************************************************
+ * Supplies
+ **************************************************************************************************/
+if(count($supplies) > 0) {
+	// Type
+	$pdf->SetY($pdf->GetY() + 5);
+	$pdf->SetFont('Arial','B',10);
+	$pdf->Cell(12, 5, 'Supplies', 0, 1);
+	$pdf->SetFont('Arial','',10);
+	
+	// Heading
+	$pdf->SetY($pdf->GetY() + 2);
+	$pdf->SetFont('Arial','BU', 10);
+	$pdf->Cell(50, 5, 'Description');
+	$pdf->Cell(30, 5, 'Code');
+	$pdf->Cell(30, 5, 'Units');
+	$pdf->Cell(30, 5, 'Cost', 0, 1);
+	
+	// Data
+	$pdf->SetFont('Arial','',9);
+	foreach($supplies as $s) {
+		$cost = number_format(floatval($s['quantity']) * floatval($s['cost']), 2);
+		$pdf->CellFit(50, 6, $s['description']);
+		$pdf->CellFit(30, 6, $s['code']);
+		$pdf->CellFit(15, 6, $s['quantity'], 0);
+		$pdf->CellFit(25, 6, '$' . $cost, 0, 1, 'R');
+	}
+}
+  
 /***************************************************************************************************
  * Output PDF
  **************************************************************************************************/
