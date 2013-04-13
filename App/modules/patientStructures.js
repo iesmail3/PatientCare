@@ -22,22 +22,25 @@ define(function(require) {
 	 **********************************************************************************************/
 	// Allergies/Intelerance
 	patient.prototype.AllergiesIntolerance = function(data) {
+		var self = this;
 		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
-			this.type			 = ko.observable(data.type);
-			this.status			 = ko.observable(data.status);
-			this.details		 = ko.observable(data.details);
+			this.type			 = ko.observable(data.type).extend({required: true});
+			this.status			 = ko.observable(data.status).extend({required: true});
+			this.details		 = ko.observable(data.details).extend({required: true});
 			this.dateRecorded	 = ko.observable(data.date_recorded);
 		}
 		else {
 			this.id				 = ko.observable();
 			this.serviceRecordId = ko.observable();
-			this.type			 = ko.observable('');
-			this.status			 = ko.observable('');
-			this.details		 = ko.observable();
+			this.type			 = ko.observable('').extend({required: true});
+			this.status			 = ko.observable('').extend({required: true});
+			this.details		 = ko.observable().extend({required: true});
 			this.dateRecorded	 = ko.observable();
 		}
+		
+		self.errors = ko.validation.group(self, {messagesOnModified: false});
 	}
 	
 	// Checkout
@@ -368,11 +371,12 @@ define(function(require) {
 	
 	// Medical Problem
 	patient.prototype.MedicalProblem = function(data) {
+		var self = this;
 		if (data != null) {
 			this.id				   = ko.observable(data.id);
 			this.serviceRecordId   = ko.observable(data.service_record_id);
-			this.type			   = ko.observable(data.type);
-			this.description	   = ko.observable(data.description);
+			this.type			   = ko.observable(data.type).extend({required: true});
+			this.description	   = ko.observable(data.description).extend({required: true});
 			this.onsetDate		   = ko.observable(data.onset_date);
 			this.onsetUnknown	   = ko.observable(data.onset_unknown == '1' ? 1 : 0);
 			this.resolutionDate	   = ko.observable(data.resolution_date);
@@ -382,27 +386,30 @@ define(function(require) {
 		else {
 			this.id				   = ko.observable();
 			this.serviceRecordId   = ko.observable();
-			this.type			   = ko.observable('');
-			this.description	   = ko.observable();
+			this.type			   = ko.observable('').extend({required: true});
+			this.description	   = ko.observable().extend({required: true});
 			this.onsetDate		   = ko.observable();
 			this.onsetUnknown	   = ko.observable();
 			this.resolutionDate	   = ko.observable();
 			this.resolutionUnknown = ko.observable();
 			this.notApplicable	   = ko.observable();
 		}
+		
+		self.errors = ko.validation.group(self, {messagesOnModified: false});
 	}
 	
 	// Medication
 	patient.prototype.Medication = function(data) {
+		var self = this;
 		if (data != null) {
 			this.id				   = ko.observable(data.id);
 			this.serviceRecordId   = ko.observable(data.service_record_id);
-			this.medicine		   = ko.observable(data.medicine);
+			this.medicine		   = ko.observable(data.medicine).extend({required: true});
 			this.strength		   = ko.observable(data.strength);
 			this.quantity		   = ko.observable(data.quantity);
 			this.route			   = ko.observable(data.route);
-			this.sigs			   = ko.observable(data.sigs);
-			this.status			   = ko.observable(data.status);
+			this.sigs			   = ko.observable(data.sigs).extend({required: true});
+			this.status			   = ko.observable(data.status).extend({required: true});
 			this.prescribedBy	   = ko.observable(data.prescribed_by);
 			this.prescribedDate    = ko.observable(data.prescribed_date);
 			this.discontinuedBy    = ko.observable(data.discontinued_by);
@@ -419,12 +426,12 @@ define(function(require) {
 		else {
 			this.id				   = ko.observable();
 			this.serviceRecordId   = ko.observable();
-			this.medicine		   = ko.observable();
+			this.medicine		   = ko.observable().extend({required: true});
 			this.strength		   = ko.observable();
 			this.quantity		   = ko.observable();
 			this.route			   = ko.observable('');
-			this.sigs			   = ko.observable('');
-			this.status			   = ko.observable('');
+			this.sigs			   = ko.observable('').extend({required: true});
+			this.status			   = ko.observable('').extend({required: true});
 			this.prescribedBy	   = ko.observable();
 			this.prescribedDate    = ko.observable();
 			this.discontinuedBy    = ko.observable();
@@ -438,6 +445,8 @@ define(function(require) {
 			this.date			   = ko.observable();
 			this.createdBy		   = ko.observable();
 		}
+		
+		self.errors = ko.validation.group(self, {messagesOnModified: false});
 	}
 	
 	// Medication Order Log
@@ -1095,10 +1104,10 @@ define(function(require) {
 			this.physicianId			    = ko.observable(data.physician_id);
 			this.date					    = ko.observable(data.date);
 			this.reason					    = ko.observable(data.reason);
-			this.history				    = ko.observable(data.history);
+			this.history				    = ko.observable(data.history).extend({required: true});
 			this.systemsComment			    = ko.observable(data.systems_comment);
-			this.noKnownAllergies		    = ko.observable(data.no_known_allergies);
-			this.allergiesVerified		    = ko.observable(data.allergies_verified);
+			this.noKnownAllergies		    = ko.observable(data.no_known_allergies == '1' ? 1 : 0);
+			this.allergiesVerified		    = ko.observable(data.allergies_verified == '1' ? 1 : 0);
 			this.physicalExaminationComment = ko.observable(data.physical_examination_comment);
 			this.planAndInstructions	    = ko.observable(data.plan_and_instructions);
 			this.physicianFirst			    = ko.observable(data.first_name);
@@ -1111,7 +1120,7 @@ define(function(require) {
 			this.physicianId			    = ko.observable();
 			this.date					    = ko.observable('');
 			this.reason					    = ko.observable();
-			this.history				    = ko.observable();
+			this.history				    = ko.observable('');
 			this.systemsComment			    = ko.observable();
 			this.noKnownAllergies		    = ko.observable();
 			this.allergiesVerified		    = ko.observable();
@@ -1132,6 +1141,8 @@ define(function(require) {
 		this.goToRecord = ko.computed(function() {
 			return '#/patient/servicerecord/serviceview/' + self.patientId() + '/' + form.dbDate(self.date());
 		});
+		
+		self.errors = ko.validation.group(self, {messagesOnModified: false});
 	}
 	
 	// Social History

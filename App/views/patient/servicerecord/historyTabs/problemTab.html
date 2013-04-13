@@ -2,54 +2,66 @@
 	<div class="row-fluid">
 		<!-- ko with: medicalProblem -->
 		<div class="marginBottom5">
-			<select data-bind="value: type">
+			<select data-bind="value: type" required>
 				<option value="" disabled selected style="display:none;">Problem Type</option>
 				<option value="current">Current Medical Problem</option>
 				<option value="other">Other Medical Problem</option>
 				<option value="past">Past Surgical History</option>
 			</select>
+			<span class="required">*</span>
 		</div>
 		<div class="marginBottom5 commentContainer">
-			<textarea class="commentSpan" rows="3" placeholder="Description" data-bind="value: description" /></textarea>
+			<span class="required">*</span>
+			<textarea class="commentSpan" rows="3" placeholder="Description" data-bind="
+				value: description" />
+			</textarea>
 		</div>
 		<div class="marginBottom5">
-			<input type="text" placeholder="Onset Date"
-				data-bind="datepicker: true,
+			<input type="text" placeholder="Onset Date" data-bind="
+				datepicker: true,
 				value: onsetDate,
 				enable: (type() == 'current' || type() == 'other') && !onsetUnknown()" />
-			<label class="checkbox inline">
-				<input type="checkbox" data-bind="checked: onsetUnknown,
+			<label class="checkbox problemUnknown">
+				<input type="checkbox" data-bind="
+					checked: onsetUnknown,
 					enable: type() == 'current' || type() == 'other'" />
 				<span>Unknown</span>
 			</label>
 		</div>
 		<div class="marginBottom5">
-			<input type="text" placeholder="Resolution Date"
-				data-bind="datepicker: true,
+			<input type="text" placeholder="Resolution Date" data-bind="
+				datepicker: true,
 				value: resolutionDate,
 				enable: (type() == 'other' || type() == 'past') && !resolutionUnknown() && !notApplicable()" />
-			<label class="checkbox inline">
-				<input type="checkbox" data-bind="checked: resolutionUnknown,
+			<label class="checkbox problemUnknown">
+				<input type="checkbox" data-bind="
+					checked: resolutionUnknown,
 					enable: (type() == 'other' || type() == 'past') && !notApplicable()" />
 				<span>Unknown</span>
 			</label>
-			<label class="checkbox inline" data-bind="visible: type() == 'other'">
+			<label class="checkbox problemNotApplicable" data-bind="
+				visible: type() == 'other'">
 				<input type="checkbox" data-bind="checked: notApplicable" />
-				<span>Not Applicable</span>
+				<span>Not&nbsp;Applicable</span>
 			</label>
+		</div>
+		<div class="alertHolder">
+			<div class="alert alert-danger problemAlert">You have are missing required fields.</div>
 		</div>
 		<!-- /ko -->
 		<div class="pull-right">
-			<button type="button" class="btn btn-small btn-success"
-				data-bind="visible: !$root.medicalProblemsState(), click: $root.medicalProblemNew">
+			<button type="button" class="btn btn-small btn-success" data-bind="
+				visible: !$root.medicalProblemsState(),
+				click: $root.medicalProblemNew">
 				New
 			</button>
-			<button type="submit" class="btn btn-small btn-primary"
-				data-bind="click: $root.medicalProblemSave">
+			<button type="submit" class="btn btn-small btn-primary" data-bind="
+				click: $root.medicalProblemSave">
 				Save
 			</button>
-			<button type="button" class="btn btn-small btn-warning"
-				data-bind="visible: $root.medicalProblemsState(), click: $root.medicalProblemCancel">
+			<button type="button" class="btn btn-small btn-warning" data-bind="
+				visible: $root.medicalProblemsState(),
+				click: $root.medicalProblemCancel">
 				Cancel
 			</button>
 		</div>

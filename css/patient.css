@@ -130,13 +130,6 @@
 .insuranceOptions label {
    width: 140px !important;
 }
-.commentContainer {
-	padding-right: 15px;
-}
-
-.commentSpan {
-	width: 100%;
-}
 
 .paymentTable { 
    max-width: none;   
@@ -159,11 +152,6 @@
     width: 130px;   
 }
 
-.allergiesCheckbox  {
-    display: inline-block;
-    width: 138px;   
-}
-
 .alertHolder {
 	height: 45px;
 }
@@ -182,20 +170,73 @@
 	display: none;
 }
 
-.reviewAlert {
-	height: 20px;
-	display: none;
-}
-
 .span6 .label, label.inline  {
     display: inline-block;
     width: 130px;   
 }
 
 #additionalCharges { 
- display: inline-block;
-    width: 139px;
-};
+	display: inline-block;
+	width: 139px;
+}
+
+/* History & Present Illness */
+.historyAlert {
+	height: 20px;
+	display: none;
+}
+
+.historyComment {
+	width: 100%;
+	min-width: 100%;
+	max-width: 100%;
+	height: 323px;
+}
+
+.commentContainer {
+	padding-right: 15px;
+}
+
+.commentSpan {
+	width: 100%;
+	min-width: 100%;
+	max-width: 100%;
+}
+
+.reviewAlert {
+	height: 20px;
+	display: none;
+}
+
+.problemAlert {
+	height: 20px;
+	display: none;
+}
+
+.problemUnknown {
+	display: inline-block;
+	width: 85px;
+}
+
+.problemNotApplicable {
+	display: inline-block;
+	width: 108px;
+}
+
+.medicationAlert {
+	height: 20px;
+	display: none;
+}
+
+.allergyAlert {
+	height: 20px;
+	display: none;
+}
+
+.allergiesCheckbox  {
+    display: inline-block;
+    width: 150px;   
+}
 
 /* Orders */
 .mainOrderTableHolder {
