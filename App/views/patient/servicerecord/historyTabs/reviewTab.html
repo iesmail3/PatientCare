@@ -5,7 +5,9 @@
 				<div class="reviewOfSystem">
 					<input type="text" class="input-small" data-bind="
 						value: particulars,
-						enable: !defaultParticulate()" />
+						enable: !defaultParticulate(),
+						event: {keyup: $root.reviewOfSystemsAddRow},
+						valueUpdate: 'afterkeydown'"/>
 					<div class="reviewPushRight">
 						<label class="radio reviewRadio">
 							<input type="radio" value="not done" data-bind="

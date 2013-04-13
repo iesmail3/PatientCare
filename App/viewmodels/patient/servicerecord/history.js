@@ -221,7 +221,11 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Review of Systems Methods
 		 *******************************************************************************************/
-		// Adds a System Review to the table
+		reviewOfSystemsAddRow: function(data) {
+			var lastRow = reviewOfSystems()[reviewOfSystems().length - 1];
+			if (lastRow.particulars() != '')
+				reviewOfSystems.push(new structures.ReviewOfSystems());
+		},
 		reviewOfSystemsAdd: function(item) {
 			// Check for empty fields.
 			//if (reviewOfSystem().particulars() != '' && reviewOfSystem().particulars() != undefined && reviewOfSystem().particulars() != null) {
