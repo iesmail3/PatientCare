@@ -113,12 +113,23 @@
 	}
 	
 	followup.prototype.getDocumentByType = function(patientId,type) {
-		return this.query({
-			mode: 'select',
-			table: 'document',
-			fields: '*',
-			where: "WHERE type='" + type + "' AND patient_id='" + patientId + "'"
-		});
+		if(type.trim() == 'All') { 
+			return this.query({
+				mode: 'select',
+				table: 'document',
+				fields: '*',
+				where: "WHERE patient_id='" + patientId + "'"
+			});
+		} 
+		else { 
+		
+			return this.query({
+				mode: 'select',
+				table: 'document',
+				fields: '*',
+				where: "WHERE type='" + type + "' AND patient_id='" + patientId + "'"
+			});
+		}
 	}
 	followup.prototype.getPrescription = function() {
 		return this.query({

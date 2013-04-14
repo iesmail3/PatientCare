@@ -9,6 +9,8 @@ define(function(require) {
     var DrugOrder = require('./drugorder');
 	var Diagnosis = require('./diagnosis');
 	var Procedure = require('./procedure');
+    var Flowsheet = require('./flowsheet');
+	var Displayfile = require('./displayfile');
 	
 	return {
 		showOrder: function(order, centers, orders, groupOrders, orderTypes, practiceId, 
@@ -33,8 +35,13 @@ define(function(require) {
 				new DrugOrder(practiceId, serviceRecordId, orderId, title, options)
 			);
 		},
-		showPrescription: function(prescription,prescriptions,groupOrders,title,options) {
-			return modalDialog.show(new Prescription(prescription,prescriptions,groupOrders,title,options));
+		showFlowsheet: function(practiceId, serviceRecordId, orderId, title, options) {
+			return modalDialog.show(
+				new Flowsheet(practiceId, serviceRecordId, orderId, title, options)
+			);
+		},
+		showPrescription: function(prescription,patientId,practiceId,title,options) {
+			return modalDialog.show(new Prescription(prescription,patientId,practiceId,title,options));
 		},
 		showAdditionalDetails: function(title,options) {		      
 			return modalDialog.show(new AdditionalDetails(title,options));
@@ -47,6 +54,9 @@ define(function(require) {
 		},
 		showProcedure: function(title,options) { 
 			return modalDialog.show(new Procedure(title,options)); 
+		}, 
+		showFile: function(title,options) { 
+			return modalDialog.show(new Displayfile(location,title,options)); 
 		}
 	};
 });

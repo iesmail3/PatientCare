@@ -22,9 +22,9 @@
 							<legend>Details</legend>      
 							<div class="marginBottom5">
 								<input type="text" class="input-medium" placeholder="Document Type" data-bind="value: type"/>
-							   	<div class="fileupload fileupload-new pull-right" data-bind="uploader: true">    
+							   	<div class="fileupload fileupload-new pull-right" data-bind="visible:$root.isNewDocument(),uploader: true">    
                                  </div>
-                            </div> 
+                            </div> 							             
 							<div class="marginBottom5">
 								<textarea class="input-xxlarge" rows="3" placeholder="Comment" data-bind="value: comment"></textarea>
 							</div>  
@@ -45,15 +45,20 @@
 						<table class="table table-bordered table-hover">   
 							<thead>
 								<tr>
+								    <th></th>
 									<th>Received Date</th>
 									<th>DOS</th>
 									<th>Doc Type</th>
 									<th>Is Reviewed?</th>     
-									<th>Comments</th>      
+									<th>Comments</th> 
+									<th>File Name </th>
 								</tr>
 							</thead>    
 								<tbody data-bind="foreach: documents">     
-									<tr data-bind="click: $root.setDocumentFields">   
+									<tr data-bind="click: $root.setDocumentFields">  
+										<td>
+										<button type="button" id ="viewfile" class="btn btn-small btn-primary pull-right"data-bind="click: $root.displayFile">View File</button>
+										</td>
 										<td data-bind="text: date"></td>      
 										<td data-bind="text: dateOfService"></td>
 										<td data-bind="text: type"></td>     
@@ -62,7 +67,8 @@
 												<i class="icon-ok checkboxIcon"></i>
 											</div>
 										</td>
-										<td data-bind="text: comment"></td>	    					     
+										<td data-bind="text: comment"></td>	 
+										<td data-bind="text: location"></td>
 									</tr>            
 								</tbody>               
 						</table>

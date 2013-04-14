@@ -155,6 +155,15 @@ define(function(require) {
 	 * Open Flowsheet modal
 	 *********************************************************************************************/
 	Order.prototype.goToFlow = function(data) {
+		var modal = require('modals/modals');
+		modal.showFlowsheet(self.practiceId, self.serviceRecordId, self.order().id(), 'Flow Sheet');
+	}
+	
+	/**********************************************************************************************
+	 * Close Window
+	 *********************************************************************************************/
+	Order.prototype.closeWindow = function() {
+		self.selectOption('Close');
 	}
 	
 	Order.defaultTitle = '';

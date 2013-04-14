@@ -75,6 +75,7 @@ define(function(require) {
 	 var groupOrders 	= ko.observableArray([]);
 	 var file 			= ko.observable(); 
 	 var documentType   = ko.observable("Document Type");
+	 var isNewDocument  = ko.observable(false); 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/  
@@ -184,6 +185,7 @@ define(function(require) {
 		medicationOrder: medicationOrder,
 		file: file,
 		documentType: documentType,
+		isNewDocument: isNewDocument,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -221,7 +223,7 @@ define(function(require) {
 			self.patientId(data.patientId); 
 			//Pactice ID
 			self.practiceId('1'); 
-		
+		    system.log(isNewDocument());
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
 				var f = $.map(data, function(item) {return new structures.Followup(item) });
@@ -349,6 +351,7 @@ define(function(require) {
 			
 		}, 
 		setDocumentFields: function(data) { 
+		    isNewDocument(false); 
 			doc(data); 
 		}, 
 		setPaymentFields: function(data) { 
@@ -369,11 +372,13 @@ define(function(require) {
 			   showAssigned(false); 
 		},
 		documentCancel: function() {
+		    isNewDocument(false); 
 			documentState(true);
 			doc(tempDocument()); 
 		},
 		documentAdd: function() { 
 			   documentState(false);
+			   isNewDocument(true); 
 			   tempDocument(doc());
 	          doc(new structures.Document());
 			   //showAssigned(false); 
@@ -393,6 +398,9 @@ define(function(require) {
 		},
 		selectSuperbill: function(data) {
 			modal.showSuperbill(superBill,'Superbill');
+		},
+		displayFile: function(data) { 
+			modal.showFile(doc().location(),'Selected File'); 
 		},
 		saveFollowup: function(data) {
 			if(followup().errors().length == 0) { 
@@ -485,9 +493,17 @@ define(function(require) {
 				}
 			}); 
 			
-	    }
- 	}
- 
+	    },
+		
+		// displayFile: function(data) { 
+			// system.log('diplayFile' + doc().location()); 
+			// $.ajax({  
+			// type: 'POST',  
+			// url: 'php/fetchFile.php', 
+			// data: { filename: doc().location() }    
+			// });
+		// }
+    };
  //Turn validation on
 	// var errors = vm['formErrors'] = ko.validation.group(vm);
 	// vm.followup().errors.showAllMessages();

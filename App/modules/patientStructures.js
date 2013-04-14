@@ -138,6 +138,58 @@ define(function(require) {
 		}
 	}
 	
+	// Drug Order
+	patient.prototype.DrugOrder = function(data) {
+		var self = this;
+		if (data != null) {
+			this.id			    = ko.observable(data.id);
+			this.orderId	    = ko.observable(data.order_id);
+			this.scr		    = ko.observable(data.scr);
+			this.crcl		    = ko.observable(data.crcl);
+			this.medicine	    = ko.observable(data.medicine);
+			this.dose		    = ko.observable(data.dose);
+			this.basis		    = ko.observable(data.basis);
+			this.prescribedDose = ko.observable(data.prescribed_dose);
+			this.route		    = ko.observable(data.route);
+			this.diluent	    = ko.observable(data.diluent);
+			this.volume		    = ko.observable(data.volume);
+			this.duration	    = ko.observable(data.duration);
+			this.seq		    = ko.observable(data.seq);
+			this.days		    = ko.observable(data.days);
+			this.instructions   = ko.observable(data.instructions);
+		}
+		else {
+			this.id				= ko.observable();
+			this.orderId		= ko.observable();
+			this.scr			= ko.observable();
+			this.crcl			= ko.observable();
+			this.medicine		= ko.observable();
+			this.dose			= ko.observable();
+			this.basis			= ko.observable();
+			this.prescribedDose = ko.observable();
+			this.route			= ko.observable();
+			this.diluent		= ko.observable();
+			this.volume			= ko.observable();
+			this.duration		= ko.observable();
+			this.seq			= ko.observable();
+			this.days			= ko.observable();
+			this.instructions	= ko.observable();
+		}
+		
+		this.calculatedDose = ko.computed(function() {
+			var dose = parseFloat(self.dose());
+			if(!isNaN(dose)) {
+				if(self.basis() == '/m2')
+					return (dose * 1.84).toFixed(2);
+				if(self.basis() == '/Kg')
+					return (dose * 72.57).toFixed(2);
+				if(self.basis() == '/auc')
+					return 0;
+			}
+			return '';
+		})
+	}
+	
 	// Employer
 	patient.prototype.Employer = function(data) {
 		if (data != null) {
@@ -427,8 +479,8 @@ define(function(require) {
 			this.orderId	    = ko.observable(data.order_id);
 			this.medicine	    = ko.observable(data.medicine);
 			this.quantity	    = ko.observable(data.quantity);
-			this.actualDose	    = ko.observable(data.actual_dose);
-			this.sequenceNumber = ko.observable(data.sequence_number);
+			this.dose		    = ko.observable(data.actual_dose);
+			this.seq		    = ko.observable(data.sequence_number);
 			this.startTime	    = ko.observable(data.start_time);
 			this.diluent	    = ko.observable(data.diluent);
 			this.volume		    = ko.observable(data.volume);
@@ -441,8 +493,8 @@ define(function(require) {
 			this.orderId	    = ko.observable();
 			this.medicine	    = ko.observable();
 			this.quantity	    = ko.observable();
-			this.actualDose	    = ko.observable();
-			this.sequenceNumber = ko.observable();
+			this.dose	    	= ko.observable();
+			this.seq			= ko.observable();
 			this.startTime	    = ko.observable();
 			this.diluent	    = ko.observable();
 			this.volume		    = ko.observable();
@@ -1187,6 +1239,65 @@ define(function(require) {
 			this.isComplete		 = ko.observable();
 			this.comment         = ko.observable(); 
 			this.date            = ko.observable(); 
+		}
+	}
+	
+	// Supply
+	patient.prototype.Supply = function(data) {
+		if(data != null) {
+			this.id 	  	  = ko.observable(data.id);
+			this.orderId 	  = ko.observable(data.order_id);
+			this.supplyTypeId = ko.observable(data.supply_type_id);
+			this.quantity 	  = ko.observable(data.quantity);
+		}
+		else {
+			this.id 	  	  = ko.observable();
+			this.orderId 	  = ko.observable();
+			this.supplyTypeId = ko.observable();
+			this.quantity 	  = ko.observable();
+		}
+	}
+	
+	// SupplyType
+	patient.prototype.SupplyType = function(data) {
+		if(data != null) {
+			this.id 	  	  = ko.observable(data.id);
+			this.practiceId   = ko.observable(data.practice_id);
+			this.description  = ko.observable(data.description);
+			this.unit	 	  = ko.observable(data.unit);
+			this.quantity	  = ko.observable(0);
+		}
+		else {
+			this.id 	  	  = ko.observable();
+			this.practiceId   = ko.observable();
+			this.description  = ko.observable();
+			this.unit	 	  = ko.observable();
+			this.quantity	  = ko.observable(0);
+		}
+	}
+	
+	patient.prototype.VenousAccess = function(data) {
+		if(data != null) {
+			this.id			= ko.observable(data.id);
+			this.orderId	= ko.observable(data.order_id);
+			this.day		= ko.observable(data.day);
+			this.portAccess = ko.observable(data.port_access);
+			this.pulse		= ko.observable(data.pulse);
+			this.temp		= ko.observable(data.temp);
+			this.bp			= ko.observable(data.bp);
+			this.time		= ko.observable(data.time);
+			this.date		= ko.observable(data.date);
+		}
+		else {
+			this.id			= ko.observable();
+			this.orderId	= ko.observable();
+			this.day		= ko.observable();
+			this.portAccess = ko.observable();
+			this.pulse		= ko.observable();
+			this.temp		= ko.observable();
+			this.bp			= ko.observable();
+			this.time		= ko.observable('');
+			this.date		= ko.observable();
 		}
 	}
 	

@@ -314,30 +314,6 @@ define(function(require) {
 		{'value' : 'ZW', 'text' : 'Zimbabwe'}
 	]);
 	
-	form.prototype.uiDate = function(date) {
-		if(date != null && date != undefined && date != '' && date != '0000-00-00') {
-			if(date.indexOf('-') >= 0)
-				return date.substring(5,7) + "/" + date.substring(8,10) + "/" + date.substring(0,4);
-			else
-				return date;
-		}
-		else {
-			return null;
-		}
-	}
-	
-	form.prototype.dbDate = function(date) {
-		if(date != null && date != undefined && date != '' && date != '0000/00/00') {
-			if(date.indexOf('/') >= 0)
-				return date.substring(6,10) + "-" + date.substring(0,2) + "-" + date.substring(3,5);
-			else
-				return date;
-		}
-		else {
-			return null;
-		}
-	}
-	
 	/**************************************************************************************************
 	 * Medication Routes
 	 *************************************************************************************************/
@@ -441,27 +417,35 @@ define(function(require) {
 	 * Dates
 	 *************************************************************************************************/
 	form.prototype.uiDate = function(date) {
-		if(date != null || date != undefined) {
+		if(date != null && date != undefined && date != '' && date != '0000-00-00') {
 			if(date.indexOf('-') >= 0)
 				return date.substring(5,7) + "/" + date.substring(8,10) + "/" + date.substring(0,4);
 			else
 				return date;
 		}
 		else {
-			return '';
+			return null;
 		}
 	}
 	
 	form.prototype.dbDate = function(date) {
-		if(date != null || date != undefined) {
+		if(date != null && date != undefined && date != '' && date != '0000/00/00') {
 			if(date.indexOf('/') >= 0)
 				return date.substring(6,10) + "-" + date.substring(0,2) + "-" + date.substring(3,5);
 			else
 				return date;
 		}
 		else {
-			return '';
+			return null;
 		}
+	}
+	
+	form.prototype.currentDate = function() {
+		var date = new Date();
+		var year = date.getFullYear().toString();
+		var month = (date.getMonth()+1).toString();
+		var day = date.getDate().toString();
+		return (month[1] ? month : "0" + month[0]) + "/" + (day[1] ? day : "0" + day[0]) + "/" + year;
 	}
 	
 	/**************************************************************************************************

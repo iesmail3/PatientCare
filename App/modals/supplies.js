@@ -12,7 +12,6 @@ define(function(require) {
 		this.practiceId = practiceId;
 		this.orderId = orderId;
 		this.supplies = supplies;
-		system.log(supplies);
 		this.ids = _.pluck(this.supplies, 'id');
 		this.oldIds = $.map(this.ids, function(x) { return x }); 
 		this.title = title || Supply.defaultTitle;
@@ -91,6 +90,10 @@ define(function(require) {
 			})
 			
 		});
+	}
+	
+	Supply.prototype.closeWindow = function() {
+		self.selectOption('Close');
 	}
 	
 	Supply.defaultTitle = '';
