@@ -108,9 +108,24 @@
 
 .alertHolder { height: 45px; }
 
+.modalAlert {
+	margin-top: 2px;
+	height: 20px;
+	line-height: 15px;
+	font-size: 12px;
+}
+.modalAlert .alert {
+	display: none;
+	padding: 1px;
+	margin-bottom: 0;	
+}
+
 .validationElement { border: solid 1px red !important; }
 
-.required { color: red; }
+.required { 
+	color: red;
+	display: inline-block; 
+}
 
 /* Personal Information */
 .personalAlert {

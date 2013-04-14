@@ -106,6 +106,10 @@ define(function(require) {
 	 * Select Option
      *********************************************************************************************/
 	DrugOrder.prototype.saveOrder = function(dialogResult) {
+		if(this.drugOrder().errors().length > 0) {
+			$('.modalAlert .alert').fadeIn().delay(3000).fadeOut();
+		}
+		else {
 			var id = self.drugOrder().id();
 			// Place globals into order
 			self.drugOrder().orderId(self.orderId);
@@ -114,6 +118,7 @@ define(function(require) {
 				if(id == undefined)
 					self.drugOrders.push(self.drugOrder());
 			});
+		}
 	}
 	
 	/**********************************************************************************************

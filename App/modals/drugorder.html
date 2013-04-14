@@ -7,6 +7,9 @@
 		<h3 data-bind="html: title"></h3>
 	</div>
 	<div class="modal-body">
+		<div class="modalAlert">
+			<div class="alert alert-danger">You have are missing required fields.</div>
+		</div>
 		<form class="form form-inline drugsForm">
 			<!-- ko with: drugOrder -->
 			<fieldset>
@@ -43,8 +46,9 @@
 			</fieldset>
 			<fieldset>
 				<div class="marginBottom5">
-					<input type="text" class="input-xlarge" placeholder="Medicine" 
-						   data-bind="typeahead: {value: medicine, source: $root.medicines}" />
+					<input type="text" class="input-xlarge" placeholder="Medicine"
+						   data-bind="validationElement: medicine, typeahead: {value: medicine, source: $root.medicines}" />
+					<span class="required">*</span>
 					<input type="text" class="input-small" placeholder="Dose" 
 						   data-bind="value: dose, valueUpdate: 'afterkeydown'" />
 					

@@ -113,23 +113,31 @@ define(function(require) {
 	 * Save Methods
 	 *********************************************************************************************/
 	Flowsheet.prototype.saveVital = function(data) {
-		// Set the order id
-		self.venousAccess().orderId(self.orderId);
-		// Save to DB
-		backend.saveVenousAccess(self.venousAccess()).complete(function(data) {
-			// If update
-			if(data.responseText == 'updateSuccess') {
-				// Grab all rows that are not the updated one
-				var not = _.filter(self.venousAccesses(), function(item) {
-					return item.id() != self.venousAccess().id();
-				});
-				// Combine updated row with rest of rows and add to observableArray
-				self.venousAccesses($.merge([self.venousAccess()], not));
-			}
-			// If insertion
-			else if(data.responseText.indexOf('Fail') < 0)
-				self.venousAccesses.push(self.venousAccess());
-		});
+		if(self.venousAccess().errors().length > 0) {
+			if(self.venousAccess().errors().length > 1)
+				$('.modalAlert .allAlert').fadeIn().delay(3000).fadeOut();
+			else if(self.venousAccess().errors()[0] == 'day')
+				$('.modalAlert .dayAlert').fadeIn().delay(3000).fadeOut();
+		}
+		else {
+			// Set the order id
+			self.venousAccess().orderId(self.orderId);
+			// Save to DB
+			backend.saveVenousAccess(self.venousAccess()).complete(function(data) {
+				// If update
+				if(data.responseText == 'updateSuccess') {
+					// Grab all rows that are not the updated one
+					var not = _.filter(self.venousAccesses(), function(item) {
+						return item.id() != self.venousAccess().id();
+					});
+					// Combine updated row with rest of rows and add to observableArray
+					self.venousAccesses($.merge([self.venousAccess()], not));
+				}
+				// If insertion
+				else if(data.responseText.indexOf('Fail') < 0)
+					self.venousAccesses.push(self.venousAccess());
+			});
+		}
 	}
 	
 	Flowsheet.prototype.saveMOL = function(dialogResult) {
