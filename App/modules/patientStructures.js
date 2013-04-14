@@ -432,11 +432,11 @@ define(function(require) {
 			this.route			   = ko.observable('');
 			this.sigs			   = ko.observable('').extend({required: true});
 			this.status			   = ko.observable('').extend({required: true});
-			this.prescribedBy	   = ko.observable();
+			this.prescribedBy	   = ko.observable('');
 			this.prescribedDate    = ko.observable();
-			this.discontinuedBy    = ko.observable();
+			this.discontinuedBy    = ko.observable('');
 			this.discontinuedDate  = ko.observable();
-			this.comment		   = ko.observable();
+			this.comment		   = ko.observable('');
 			this.order			   = ko.observable();
 			this.dispensedQuantity = ko.observable();
 			this.refill			   = ko.observable();

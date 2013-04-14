@@ -218,9 +218,10 @@ define(function(require) {
 		serviceRecordSave: function(data) {
 			if (serviceRecord().errors().length == 0) {
 				backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord());
+				$('.historyAlert').removeClass('alert-danger').addClass('alert-info').html('History has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 			else
-				$('.historyAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+				$('.historyAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 		},
 		// Clears the Service Record History
 		serviceRecordClear: function(data) {
@@ -251,9 +252,10 @@ define(function(require) {
 					v.serviceRecordId(serviceRecord().id());
 					backend.saveReviewOfSystems(v, reviewOfSystems);
 				});
+				$('.reviewAlert').removeClass('alert-danger').addClass('alert-info').html('Review of Systems has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 			else
-				$('.reviewAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+				$('.reviewAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			
 			reviewOfSystems.push(new structures.ReviewOfSystems());
 			backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord());
@@ -294,12 +296,22 @@ define(function(require) {
 			medicalProblemsState(true);
 		},
 		medicalProblemSave: function(data) {
+			// If the user changes to current
+			if (medicalProblem().type() == 'current')
+				medicalProblem().resolutionDate('');
+			// If the user changes to past
+			else if (medicalProblem().type() == 'past')
+				medicalProblem().onsetDate('');
+			// If the user didn't know
 			if (medicalProblem().onsetUnknown())
 				medicalProblem().onsetDate('');
+			// If the user didn't know or not applicable
 			if (medicalProblem().resolutionUnknown() || medicalProblem().notApplicable())
 				medicalProblem().resolutionDate('');
+			// If the user didn't enter one
 			if (medicalProblem().onsetDate() == '' || medicalProblem().onsetDate() == undefined || medicalProblem().onsetDate() == null)
 				medicalProblem().onsetUnknown(1);
+			// If the user didn't enter one
 			if ((medicalProblem().resolutionDate() == '' || medicalProblem().resolutionDate() == undefined ||
 				medicalProblem().resolutionDate() == null) && !medicalProblem().notApplicable())
 				medicalProblem().resolutionUnknown(1);
@@ -313,17 +325,23 @@ define(function(require) {
 						medicalProblem().resolutionDate(form.uiDate(medicalProblem().resolutionDate()));
 						medicalProblem(new structures.MedicalProblem());
 					});
+					$('.problemAlert').removeClass('alert-danger').addClass('alert-info').html('Medical problem has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
 				}
 				else
-					$('.problemAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+					$('.problemAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 			else {
-				medicalProblem().onsetDate(form.dbDate(medicalProblem().onsetDate()));
-				medicalProblem().resolutionDate(form.dbDate(medicalProblem().resolutionDate()));
-				backend.saveMedicalProblem(medicalProblem, medicalProblems).complete(function(data) {
-					medicalProblem().onsetDate(form.uiDate(medicalProblem().onsetDate()));
-					medicalProblem().resolutionDate(form.uiDate(medicalProblem().resolutionDate()));
-				});
+				if (medicalProblem().errors().length == 0) {
+					medicalProblem().onsetDate(form.dbDate(medicalProblem().onsetDate()));
+					medicalProblem().resolutionDate(form.dbDate(medicalProblem().resolutionDate()));
+					backend.saveMedicalProblem(medicalProblem, medicalProblems).complete(function(data) {
+						medicalProblem().onsetDate(form.uiDate(medicalProblem().onsetDate()));
+						medicalProblem().resolutionDate(form.uiDate(medicalProblem().resolutionDate()));
+					});
+					$('.problemAlert').removeClass('alert-danger').addClass('alert-info').html('Medical problem has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
+				}
+				else
+					$('.problemAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 		},
 		medicalProblemCancel: function(data) {
@@ -374,19 +392,25 @@ define(function(require) {
 						medication().discontinuedDate(form.uiDate(medication().discontinuedDate()));
 						medication(new structures.Medication());
 					});
+					$('.medicationAlert').removeClass('alert-danger').addClass('alert-info').html('Medication has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
 				}
 				else
-					$('.medicationAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+					$('.medicationAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 			else {
-				medication().date(form.dbDate(medication().date()));
-				medication().prescribedDate(form.dbDate(medication().prescribedDate()));
-				medication().discontinuedDate(form.dbDate(medication().discontinuedDate()));
-				backend.saveMedication(medication, medications).complete(function(data) {
-					medication().date(form.uiDate(medication().date()));
-					medication().prescribedDate(form.uiDate(medication().prescribedDate()));
-					medication().discontinuedDate(form.uiDate(medication().discontinuedDate()));
-				});
+				if (medication().errors().length == 0) {
+					medication().date(form.dbDate(medication().date()));
+					medication().prescribedDate(form.dbDate(medication().prescribedDate()));
+					medication().discontinuedDate(form.dbDate(medication().discontinuedDate()));
+					backend.saveMedication(medication, medications).complete(function(data) {
+						medication().date(form.uiDate(medication().date()));
+						medication().prescribedDate(form.uiDate(medication().prescribedDate()));
+						medication().discontinuedDate(form.uiDate(medication().discontinuedDate()));
+					});
+					$('.medicationAlert').removeClass('alert-danger').addClass('alert-info').html('Medication has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
+				}
+				else
+					$('.medicationAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 		},
 		medicationCancel: function(data) {
@@ -459,15 +483,21 @@ define(function(require) {
 						allergiesIntolerance().dateRecorded(form.uiDate(allergiesIntolerance().dateRecorded()));
 						allergiesIntolerance(new structures.AllergiesIntolerance());
 					});
+					$('.allergyAlert').removeClass('alert-danger').addClass('alert-info').html('Allergy has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
 				}
 				else
-					$('.allergyAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+					$('.allergyAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 			else {
-				allergiesIntolerance().dateRecorded(form.dbDate(allergiesIntolerance().dateRecorded()));
-				backend.saveAllergiesIntolerance(allergiesIntolerance(), allergiesIntolerances).complete(function(data) {
-					allergiesIntolerance().dateRecorded(form.uiDate(allergiesIntolerance().dateRecorded()));
-				});
+				if (allergiesIntolerance().errors().length == 0) {
+					allergiesIntolerance().dateRecorded(form.dbDate(allergiesIntolerance().dateRecorded()));
+					backend.saveAllergiesIntolerance(allergiesIntolerance(), allergiesIntolerances).complete(function(data) {
+						allergiesIntolerance().dateRecorded(form.uiDate(allergiesIntolerance().dateRecorded()));
+					});
+					$('.allergyAlert').removeClass('alert-danger').addClass('alert-info').html('Allergy has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
+				}
+				else
+					$('.allergyAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 		},
 		allergiesIntoleranceCancel: function(data) {

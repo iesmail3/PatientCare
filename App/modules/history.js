@@ -150,11 +150,11 @@ define(function(require) {
 		var fields = ['service_record_id', 'particulars', 'type', 'comment', 'default_particulate'];
 		
 		var values = $.map(review, function(k,v) {
-			if(k == null || k == undefined) {
+			if(k() == null || k() == undefined) {
 				return [''];
 			}
 			else {
-				return [k];
+				return [k()];
 			}
 		});
 		
@@ -191,11 +191,11 @@ define(function(require) {
 		var fields = ['id', 'service_record_id', 'type', 'description', 'onset_date',
 			'onset_unknown', 'resolution_date', 'resolution_unknown', 'not_applicable'];
 		var values = $.map(medicalProblem(), function(k,v) {
-			if(k == null || k == undefined) {
+			if(k() == null || k() == undefined) {
 				return [''];
 			}
 			else {
-				return[k];
+				return[k()];
 			}
 		});
 		
@@ -244,11 +244,11 @@ define(function(require) {
 			'is_added', 'date', 'created_by'];
 		
 		var values = $.map(medication(), function(k,v) {
-			if(k == null || k == undefined) {
+			if(k() == null || k() == undefined) {
 				return [''];
 			}
 			else {
-				return[k];
+				return[k()];
 			}
 		});
 		
@@ -291,11 +291,13 @@ define(function(require) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'status', 'details', 'date_recorded'];
 		var values = $.map(allergiesIntolerance, function(k,v) {
-			if(k == null || k == undefined) {
+			system.log("k: *" + k + "*");
+			system.log("k(): *" + k() + "*");
+			if(k() == null || k() == undefined) {
 				return [''];
 			}
 			else {
-				return[k];
+				return[k()];
 			}
 		});
 		
