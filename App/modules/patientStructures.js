@@ -407,7 +407,7 @@ define(function(require) {
 		if (data != null) {
 			this.id				  = ko.observable(data.id);
 			this.serviceRecordId  = ko.observable(data.service_record_id);
-			this.medicine		  = ko.observable(data.medicine);
+			this.medicine		  = ko.observable(data.medicine).extend({required: {message: 'medicine'}});
 			this.strength		  = ko.observable(data.strength);
 			this.quantity		  = ko.observable(data.quantity);
 			this.route			  = ko.observable(data.route);
@@ -422,7 +422,7 @@ define(function(require) {
 		else {
 			this.id				  = ko.observable();
 			this.serviceRecordId  = ko.observable();
-			this.medicine		  = ko.observable();
+			this.medicine		  = ko.observable().extend({required: {message: 'medicine'}});
 			this.strength		  = ko.observable();
 			this.quantity		  = ko.observable();
 			this.route			  = ko.observable();
@@ -434,6 +434,9 @@ define(function(require) {
 			this.discontinuedDate = ko.observable();
 			this.comment		  = ko.observable();
 		}
+		
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Medication Order Log
@@ -441,7 +444,7 @@ define(function(require) {
 		if (data != null) {
 			this.id			    = ko.observable(data.id);
 			this.orderId	    = ko.observable(data.order_id);
-			this.medicine	    = ko.observable(data.medicine);
+			this.medicine	    = ko.observable(data.medicine).extend({required: {message: 'medicine'}});
 			this.quantity	    = ko.observable(data.quantity);
 			this.dose		    = ko.observable(data.actual_dose);
 			this.seq		    = ko.observable(data.sequence_number);
@@ -455,7 +458,7 @@ define(function(require) {
 		else {
 			this.id			    = ko.observable();
 			this.orderId	    = ko.observable();
-			this.medicine	    = ko.observable();
+			this.medicine	    = ko.observable().extend({required: {message: 'medicine'}});
 			this.quantity	    = ko.observable();
 			this.dose	    	= ko.observable();
 			this.seq			= ko.observable();
@@ -466,6 +469,9 @@ define(function(require) {
 			this.endTime	    = ko.observable();
 			this.comment	    = ko.observable();
 		}
+		
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	patient.prototype.OfficeProcedure = function(data) {

@@ -118,6 +118,8 @@ define(function(require) {
 				$('.modalAlert .allAlert').fadeIn().delay(3000).fadeOut();
 			else if(self.venousAccess().errors()[0] == 'day')
 				$('.modalAlert .dayAlert').fadeIn().delay(3000).fadeOut();
+			else if(self.venousAccess().errors()[0] == 'port')
+				$('.modalAlert .portAlert').fadeIn().delay(3000).fadeOut();
 		}
 		else {
 			// Set the order id
@@ -141,16 +143,20 @@ define(function(require) {
 	}
 	
 	Flowsheet.prototype.saveMOL = function(dialogResult) {
-		var id = self.medicationOrderLog().id();
-		// Place globals into order
-		self.medicationOrderLog().orderId(self.orderId);
-		backend.saveMedicationOrderLog(self.medicationOrderLog()).success(function(data) {
-			if(id == undefined)
-				self.medicationOrderLogs.push(self.medicationOrderLog());	
-		});
-		// Reset buttons
-		self.newButton(true);
-		self.cancelButton(false);
+		if(self.medicationOrderLog().errors().length > 0)
+				$('.modalAlert .medicineAlert').fadeIn().delay(3000).fadeOut();
+		else {
+			var id = self.medicationOrderLog().id();
+			// Place globals into order
+			self.medicationOrderLog().orderId(self.orderId);
+			backend.saveMedicationOrderLog(self.medicationOrderLog()).success(function(data) {
+				if(id == undefined)
+					self.medicationOrderLogs.push(self.medicationOrderLog());	
+			});
+			// Reset buttons
+			self.newButton(true);
+			self.cancelButton(false);
+		}
 	}
 	
 	/**********************************************************************************************
