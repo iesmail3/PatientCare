@@ -230,6 +230,24 @@ define(function(require) {
 			where: "WHERE service_record_id='" + id + "'"
 		});
 	}	
+	
+	order.prototype.getAllergies = function(id) {
+		return this.query({
+			mode: 'select',
+			fields: 'count(*) AS count',
+			table: 'allergies_intolerance',
+			where: "WHERE service_record_id='" + id + "' AND type='Allergy'"
+		});
+	}
+	
+	order.prototype.getIntolerances = function(id) {
+		return this.query({
+			mode: 'select',
+			fields: 'count(*) AS count',
+			table: 'allergies_intolerance',
+			where: "WHERE service_record_id='" + id + "' AND type='Intolerance'"
+		});
+	}
 		
 	/**********************************************************************************************
 	 * Save Methods
@@ -561,22 +579,19 @@ define(function(require) {
 				return [k()];
 		});
 
-		for(var i = 0; i < fields.length; i++)
-			system.log(fields[i] + " : " + values[i]);
-		/*
 		if(values[0] != "") {
 			return self.query({
 				mode: 'update',
-				table: 'drug_order',
+				table: 'medication',
 				fields: fields,
 				values: values,
-				where: "WHERE id='" + order.id() + "'"
+				where: "WHERE id='" + med.id() + "'"
 			});	
 		}
 		else {
 			return self.query({
 				mode: 'select',
-				table: 'drug_order',
+				table: 'medication',
 				fields: 'id',
 				order: "ORDER BY id DESC",
 				LIMIT: "LIMIT 1" 
@@ -584,17 +599,16 @@ define(function(require) {
 				var id = 1;
 				if(data.length > 0)
 					id = parseInt(data[0].id) + 1;
-				order.id(id);
+				med.id(id);
 				values[0] = id;
 				return self.query({
 					mode: 'insert',
-					table: 'drug_order',
+					table: 'medication',
 					fields: fields,
 					values: values
 				});
 			});
 		}
-		*/
 	}
 	
 	/**********************************************************************************************
@@ -670,6 +684,15 @@ define(function(require) {
 		return this.query({
 			mode: 'delete',
 			table: 'medication_order_log',
+			where: "WHERE id='" + id + "'"
+		});
+	}
+	
+	// Delete Medication
+	order.prototype.deleteMedication = function(id) {
+		return this.query({
+			mode: 'delete',
+			table: 'medication',
 			where: "WHERE id='" + id + "'"
 		});
 	}	

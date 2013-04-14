@@ -104,6 +104,7 @@
 .paymentTable th:last-child { width: 15%; }
 
 .alertHolder { height: 45px; }
+.alert { display: none; }
 
 .modalAlert {
 	margin-top: 2px;
@@ -275,6 +276,15 @@
 .flowForm .venousFields .radio {
 	font-size: 12px;
 	margin: 0 5px;
+}
+
+.medOrderForm {
+	margin: 0;
+}
+
+.medTable {
+	height: 225px;
+	overflow-y: auto;
 }
 
 /* Followup */

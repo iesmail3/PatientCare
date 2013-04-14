@@ -411,8 +411,8 @@ define(function(require) {
 			this.strength		  = ko.observable(data.strength);
 			this.quantity		  = ko.observable(data.quantity);
 			this.route			  = ko.observable(data.route);
-			this.sigs		  	  = ko.observable(data.sigs);
-			this.status			  = ko.observable(data.status);
+			this.sigs		  	  = ko.observable(data.sigs).extend({required: {message: 'sig'}});
+			this.status			  = ko.observable(data.status)
 			this.prescribedBy	  = ko.observable(data.prescribed_by);
 			this.prescribedDate	  = ko.observable(data.prescribed_date);
 			this.discontinuedBy	  = ko.observable(data.discontinued_by);
@@ -431,8 +431,8 @@ define(function(require) {
 			this.strength		  = ko.observable();
 			this.quantity		  = ko.observable();
 			this.route			  = ko.observable();
-			this.sigs		  	  = ko.observable();
-			this.status			  = ko.observable();
+			this.sigs		  	  = ko.observable().extend({required: {message: 'sig'}});
+			this.status			  = ko.observable()
 			this.prescribedBy	  = ko.observable();
 			this.prescribedDate	  = ko.observable();
 			this.discontinuedBy	  = ko.observable();

@@ -34,6 +34,8 @@ define(function(require) {
 	var newMed			= ko.observable(1);
 	var cancelMed		= ko.observable(0);
 	var tempMedication  = ko.observable();
+	var allergies		= ko.observable();
+	var intolerances	= ko.observable();
 
 	/*********************************************************************************************** 
 	 * ViewModel
@@ -62,6 +64,8 @@ define(function(require) {
 		newMed: newMed,
 		cancelMed: cancelMed,
 		tempMedication: tempMedication,
+		allergies: allergies,
+		intolerances: intolerances,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -123,8 +127,18 @@ define(function(require) {
 					self.medications(m);
 					self.medication(m[0]);
 				});
+				
+				// Get Allergies and intelorances
+				backend.getAllergies(id).complete(function(data) {
+					var count = $.parseJSON(data.responseText)[0].count;
+					self.allergies(count);
+				});
+				
+				backend.getIntolerances(id).complete(function(data) {
+					var count = $.parseJSON(data.responseText)[0].count;
+					self.intolerances(count);
+				});
 			});
-			
 			
 			// Get list of centers
 			return backend.getCenters(self.practiceId()).success(function(data){
@@ -209,10 +223,25 @@ define(function(require) {
 			cancelMed(0);
 		},
 		saveMedication: function(data) {
-			medication().serviceRecordId(serviceRecord().id());
-			backend.saveMedication(medication()).success(function(d) {
-				system.log(d);
-			});
+			if(medication().errors().length > 0) {
+				if(medication().errors().length > 1)
+					$('.allAlert').fadeIn().delay(3000).fadeOut();
+				else if(medication().errors()[0] == 'medicine')
+					$('.medAlert').fadeIn().delay(3000).fadeOut();
+				else if(medication().errors()[0] == 'sig')
+					$('.sigAlert').fadeIn().delay(3000).fadeOut();
+			}
+			else {
+				medication().serviceRecordId(serviceRecord().id());
+				var t = backend.saveMedication(medication()).complete(function(d) {
+					d = d.responseText;
+					if(d == 'updateFail' || d != 'updateSuccess' || d != 'insertFail') {
+						medications.push(medication());
+						if(d != 'updateFail' && d != 'insertFail') 
+							$('.alert-info').fadeIn().delay(3000).fadeOut();
+					}
+				});
+			}
 		},
 		deleteOrder: function(data) {
 			var order = data;
@@ -220,7 +249,8 @@ define(function(require) {
 			backend.deleteOrder(data.orderCategoryId(), data.group());
 		},
 		deleteMedication: function(data) {
-			
+			medications.remove(data)
+			backend.deleteMedication(data.id());
 		},
 		sort: function(type, column, data, element) {
 			var e = $(element.currentTarget);

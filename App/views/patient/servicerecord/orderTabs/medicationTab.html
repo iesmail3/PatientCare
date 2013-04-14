@@ -1,10 +1,20 @@
-<form class="form-inline formPadding">
+<form class="form-inline formPadding medOrderForm">
+	<div class="modalAlert">
+		<div class="alert alert-danger allAlert">You have are missing required fields.</div>
+		<div class="alert alert-danger medAlert">Medicine is required.</div>
+		<div class="alert alert-danger sigAlert">Sigs is required.</div>
+		<div class="alert alert-info">Successfully saved.</div>
+	</div>
 	<div class="row-fluid">
 		<!-- ko with: medication -->
 		<div class="marginBottom5">
 			<input type="text" class="input-xlarge" data-bind="value: medicine" placeholder="Medicine" />
 			<input type="text" class="input-small" data-bind="value: strength" placeholder="Strength" />
 			</select>
+			<span class="pull-right">
+				<span data-bind="text: $root.allergies"></span> Allergies 
+				<span data-bind="text: $root.intolerances"></span> Intolerances
+			</span>
 		</div>
 		<div class="marginBottom5">
 			<input type="text" class="input-small" data-bind="value: quantity" placeholder="Quantity" />
@@ -65,35 +75,37 @@
 			<input type="radio" name="refill" value="3" /><span>All</span>
 		</label>
 	</div>
-	<table class="table table-bordered table-hover">
-		<thead>
-			<tr>
-				<th>Medicine Name</th>
-				<th>Strength</th>
-				<th>Quantity</th>
-				<th>Route</th>
-				<th>Sigs</th>
-				<th>Status</th>
-				<th>Prescribed Date</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody data-bind="foreach: medications">
-			<tr>
-				<td data-bind="text: medicine, click: $root.selectMedication"></td>
-				<td data-bind="text: strength, click: $root.selectMedication"></td>
-				<td data-bind="text: quantity, click: $root.selectMedication"></td>
-				<td data-bind="text: route, click: $root.selectMedication"></td>
-				<td data-bind="text: sigs, click: $root.selectMedication"></td>
-				<td data-bind="text: status, click: $root.selectMedication"></td>
-				<td data-bind="text: prescribedDate, click: $root.selectMedication"></td>
-				<td>
-					<button type="button" class="btn btn-small btn-danger" 
-						    data-bind="click: $root.deleteMedication">
-						Delete
-					</button>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="medTable">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th>Medicine Name</th>
+					<th>Strength</th>
+					<th>Quantity</th>
+					<th>Route</th>
+					<th>Sigs</th>
+					<th>Status</th>
+					<th>Prescribed Date</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody data-bind="foreach: medications">
+				<tr>
+					<td data-bind="text: medicine, click: $root.selectMedication"></td>
+					<td data-bind="text: strength, click: $root.selectMedication"></td>
+					<td data-bind="text: quantity, click: $root.selectMedication"></td>
+					<td data-bind="text: route, click: $root.selectMedication"></td>
+					<td data-bind="text: sigs, click: $root.selectMedication"></td>
+					<td data-bind="text: status, click: $root.selectMedication"></td>
+					<td data-bind="text: prescribedDate, click: $root.selectMedication"></td>
+					<td>
+						<button type="button" class="btn btn-small btn-danger" 
+							    data-bind="click: $root.deleteMedication">
+							Delete
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
