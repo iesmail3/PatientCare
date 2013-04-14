@@ -499,6 +499,17 @@ define(function(require) {
 			
 	    },
 		
+		clickPrint: function(data) { 
+				var height = $('.flowHolder').height();
+				var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
+					   'menubar=no, status=no, titlebar=no, toolbar=no';
+				var win = window.open(
+					'php/printPrescription.php/?practiceId=' + practiceId() + '&patientId=' + patientId(), 
+					'',
+					settings
+				);
+		}
+		
 		// displayFile: function(data) { 
 			// system.log('diplayFile' + doc().location()); 
 			// $.ajax({  

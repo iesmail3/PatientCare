@@ -41,15 +41,14 @@ define(function(require) {
 		var modal = require('modals/modals');
 		modal.showDiagnosis('Diagnosis Details',self.diagnosis);
 	}
-	// /**********************************************************************************************
-	 // * Open Drugs Procedure modal
-	 // // *********************************************************************************************/
-	// // Superbill.prototype.goToProcedure = function(data) {
-		// // system.log('clicked vm');
-		// // modalDialog.show(new Order(data));
-		// // // var modal = require('modals/modals');
-		// // // modal.showProcedure('Modal Detials');
-	// // }
+	 
+	/**********************************************************************************************
+	 * Close Window
+	 *********************************************************************************************/
+	Superbill.prototype.closeWindow = function() {
+		self.selectOption('Close');
+	}
+	
 	 Superbill.defaultTitle = '';
 	 Superbill.defaultOptions = ['Cancel'];
 	

@@ -1,6 +1,10 @@
 <div class="messageBox superBox">
+	<div data-bind="click: closeWindow, shortcut: 'esc'"></div>
 	<div class="modal-header">
-		 <h3 data-bind="html: title"></h3>
+		<button type="button" data-bind="click: closeWindow" class="close" aria-hidden="true">
+				&times;
+		</button>
+		<h3 data-bind="html: title"></h3>
 	</div>
 	<div class="modal-body">
 			<div class="row-fluid">
@@ -23,7 +27,7 @@
 					<!-- ko with: superBill -->
 					<div class="marginBottom5 pull-right">
 						<label class="checkbox inline">
-							<input type="checkbox" data-bind="checked:isComplete"/>
+							<input type="checkbox"/>
 							<span>Is&nbsp;Complete&nbsp;?</span>
 						</label>
 						<button type="button" class="btn btn-small btn-primary">Save</button>

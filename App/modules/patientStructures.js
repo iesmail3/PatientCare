@@ -110,13 +110,14 @@ define(function(require) {
 	
 	// Document
 	patient.prototype.Document = function(data) {
+		var self = this; 
 		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.patientId		 = ko.observable(data.patient_id);
 			this.practiceId      = ko.observable(data.practice_id); 
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.location		 = ko.observable(data.location);
-			this.type			 = ko.observable(data.type);
+			this.type			 = ko.observable(data.type).extend({required: true});
 			this.date			 = ko.observable(data.date);
 			this.comment		 = ko.observable(data.comment);
 			this.isReviewed		 = ko.observable(data.is_reviewed == '1' ? 1 : 0);
@@ -129,13 +130,16 @@ define(function(require) {
 			this.practiceId      = ko.observable(); 
 			this.serviceRecordId = ko.observable();
 			this.location		 = ko.observable();
-			this.type			 = ko.observable();
+			this.type			 = ko.observable().extend({required: true});
 			this.date			 = ko.observable();
 			this.comment		 = ko.observable();
 			this.isReviewed		 = ko.observable();
 			this.isReport		 = ko.observable();
 			this.dateOfService   = ko.observable();
 		}
+		
+		// this.errors = ko.validation.group(this);
+		// this.errors.showAllMessages();
 	}
 	
 	// Drug Order
