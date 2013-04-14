@@ -55,8 +55,8 @@ define(function(require) {
 		showProcedure: function(title,options) { 
 			return modalDialog.show(new Procedure(title,options)); 
 		}, 
-		showFile: function(title,options) { 
-			return modalDialog.show(new Displayfile(location,title,options)); 
+		showFile: function(file,title,options) { 
+			return modalDialog.show(new Displayfile(file,title,options)); 
 		}
 	};
 });

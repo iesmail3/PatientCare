@@ -101,11 +101,6 @@
 .paymentTable td { padding: 5px; }
 .paymentTable th:last-child { width: 15%; }
 
-.span5 .label, label.inline  {
-    display: inline-block;
-    width: 130px;   
-}
-
 .alertHolder { height: 45px; }
 
 .validationElement { border: solid 1px red !important; }
@@ -121,11 +116,6 @@
 .reviewAlert {
 	height: 20px;
 	display: none;
-}
-
-.span6 .label, label.inline  {
-    display: inline-block;
-    width: 130px;   
 }
 
 #additionalCharges { 
@@ -278,3 +268,11 @@
 }
 
 .checkoutPane { overflow-y: auto; }
+
+.checkoutTab  .label, label.inline  {
+
+    display: inline-block;
+
+    width: 130px;  
+
+}

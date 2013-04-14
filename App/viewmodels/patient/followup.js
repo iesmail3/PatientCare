@@ -352,7 +352,7 @@ define(function(require) {
 		}, 
 		setDocumentFields: function(data) { 
 		    isNewDocument(false); 
-			doc(data); 
+			doc(data);
 		}, 
 		setPaymentFields: function(data) { 
 			paymentMethod(data); 
@@ -400,6 +400,7 @@ define(function(require) {
 			modal.showSuperbill(superBill,'Superbill');
 		},
 		displayFile: function(data) { 
+			doc(data); 
 			modal.showFile(doc().location(),'Selected File'); 
 		},
 		saveFollowup: function(data) {
@@ -472,10 +473,13 @@ define(function(require) {
 			}
 		},
 		saveDocument: function(data) {
-			doc().location(file()); 
-			system.log(doc().location());  
-			 backend.saveDocument(doc(),documents,practiceId,patientId); 
-      		 $('.fileupload').fineUploader('uploadStoredFiles');  
+			doc().location(file());  
+			isNewDocument(false);
+			system.log('doc id ' + doc().id()); 
+			backend.saveDocument(doc(),documents,practiceId,patientId); 
+      		$('.fileupload').fineUploader('uploadStoredFiles');  
+			documentState(true);
+			doc(new structures.Document()); 
 		},
 		searchByType: function(data) { 
 			backend.getDocumentByType(patientId(),documentType()).success(function(data) { 

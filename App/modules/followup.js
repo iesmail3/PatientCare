@@ -259,7 +259,6 @@
 	}
 	
 	followup.prototype.savePhoneLog = function(phoneLog,phoneLogs,practiceId,patientId,showAssigned) { 
-	        system.log('inside query it is' + showAssigned()); 
 			var self = this; 
 			var fields = ['id','patient_id','practice_id','datetime','caller','attended_by','message','action_required','assigned_to','type'];
 			var values = $.map(phoneLog(), function(k,v) {
@@ -302,7 +301,6 @@
 			
 		   
 			else { 
-			   system.log('inside update');
 					return self.query({
 							mode:  'update', 
 							table: 'phone_log',
@@ -391,7 +389,7 @@
 		var self = this;
 		// Convert true/false to 1/0
 		doc.isReviewed(doc.isReviewed() ? 1 : 0);
-
+        
 		var fields = ['id', 'patient_id','practice_id','service_record_id', 'location', 'type', 'date', 'comment', 
 					  'is_reviewed', 'is_report', 'date_of_service'];
 		var values = $.map(doc, function(k, v) {
@@ -409,8 +407,8 @@
 		for(var i = 0; i < fields.length; i++) 
 		    system.log(fields[i] + ' : ' + values[i]); 
 		
-		if(values[0] != "") {
-			return self.query({
+		if(values[0] != "") { 
+			self.query({
 				mode: 'update',
 				table: 'document',
 				fields: fields,
@@ -428,18 +426,17 @@
 				order: "ORDER BY id DESC",
 				LIMIT: "LIMIT 1" 
 			}).success(function(data) {
-				var id = 1;
 				if(data.length > 0)
 					var id = data[0].id;
 				doc.id(id);
-				return self.query({
+				 self.query({
 					mode: 'insert',
 					table: 'document',
 					fields: fields,
 					values: values
 				});
 				
-				documents.push(doc());
+				documents.push(doc);
 			});
 		}
 	}
