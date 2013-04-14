@@ -191,7 +191,7 @@ define(function(require) {
 		var fields = ['id', 'service_record_id', 'type', 'description', 'onset_date',
 			'onset_unknown', 'resolution_date', 'resolution_unknown', 'not_applicable'];
 		var values = $.map(medicalProblem(), function(k,v) {
-			if(k() == null || k() == undefined) {
+			if(k() == null || k() == undefined || k() == 'Unknown') {
 				return [''];
 			}
 			else {
@@ -201,7 +201,6 @@ define(function(require) {
 		
 		// Add a Medical Problem
 		if (medicalProblem().id() == undefined || medicalProblem().id() == '') {
-			var newId = '';
 			return self.query({
 				mode: 'select',
 				table: 'medical_problem',
@@ -209,9 +208,9 @@ define(function(require) {
 				order: 'ORDER BY id DESC',
 				limit: 'LIMIT 1'
 			}).success(function(data) {
-				$.each(data, function(k,v) {
-					newId = parseInt(v.id) + 1;
-				});
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
 				
 				values[0] = newId;
 				medicalProblem().id(newId);
@@ -253,7 +252,6 @@ define(function(require) {
 		});
 		
 		if (medication().id() == undefined || medication().id() == '') {
-			var newId = '';
 			return self.query({
 				mode: 'select',
 				table: 'medication',
@@ -261,9 +259,9 @@ define(function(require) {
 				order: 'ORDER BY id DESC',
 				limit: 'LIMIT 1'
 			}).success(function(data) {
-				$.each(data, function(k,v) {
-					newId = parseInt(v.id) + 1;
-				});
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
 				
 				values[0] = newId;
 				medication().id(newId);
@@ -291,8 +289,6 @@ define(function(require) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'status', 'details', 'date_recorded'];
 		var values = $.map(allergiesIntolerance, function(k,v) {
-			system.log("k: *" + k + "*");
-			system.log("k(): *" + k() + "*");
 			if(k() == null || k() == undefined) {
 				return [''];
 			}
@@ -302,7 +298,6 @@ define(function(require) {
 		});
 		
 		if (allergiesIntolerance.id() == undefined || allergiesIntolerance.id == '') {
-			var newId = '';
 			return self.query({
 				mode: 'select',
 				table: 'allergies_intolerance',
@@ -310,9 +305,9 @@ define(function(require) {
 				order: 'ORDER BY id DESC',
 				limit: 'LIMIT 1'
 			}).success(function(data) {
-				$.each(data, function(k,v) {
-					newId = parseInt(v.id) + 1;
-				});
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
 				
 				values[0] = newId;
 				allergiesIntolerance.id(newId);

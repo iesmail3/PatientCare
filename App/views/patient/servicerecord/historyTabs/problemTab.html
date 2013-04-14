@@ -4,9 +4,9 @@
 		<div class="marginBottom5">
 			<select data-bind="value: type" required>
 				<option value="" disabled selected style="display:none;">Problem Type</option>
-				<option value="current">Current Medical Problem</option>
-				<option value="other">Other Medical Problem</option>
-				<option value="past">Past Surgical History</option>
+				<option value="Current Medical Problem">Current Medical Problem</option>
+				<option value="Other Medical Problem">Other Medical Problem</option>
+				<option value="Past Surgical History">Past Surgical History</option>
 			</select>
 			<span class="required">*</span>
 		</div>
@@ -20,11 +20,11 @@
 			<input type="text" placeholder="Onset Date" data-bind="
 				datepicker: true,
 				value: onsetDate,
-				enable: (type() == 'current' || type() == 'other') && !onsetUnknown()" />
+				enable: (type() == 'Current Medical Problem' || type() == 'Other Medical Problem') && !onsetUnknown()" />
 			<label class="checkbox problemUnknown">
 				<input type="checkbox" data-bind="
 					checked: onsetUnknown,
-					enable: type() == 'current' || type() == 'other'" />
+					enable: type() == 'Current Medical Problem' || type() == 'Other Medical Problem'" />
 				<span>Unknown</span>
 			</label>
 		</div>
@@ -32,15 +32,15 @@
 			<input type="text" placeholder="Resolution Date" data-bind="
 				datepicker: true,
 				value: resolutionDate,
-				enable: (type() == 'other' || type() == 'past') && !resolutionUnknown() && !notApplicable()" />
+				enable: (type() == 'Other Medical Problem' || type() == 'Past Surgical History') && !resolutionUnknown() && !notApplicable()" />
 			<label class="checkbox problemUnknown">
 				<input type="checkbox" data-bind="
 					checked: resolutionUnknown,
-					enable: (type() == 'other' || type() == 'past') && !notApplicable()" />
+					enable: (type() == 'Other Medical Problem' || type() == 'Past Surgical History') && !notApplicable()" />
 				<span>Unknown</span>
 			</label>
 			<label class="checkbox problemNotApplicable" data-bind="
-				visible: type() == 'other'">
+				visible: type() == 'Other Medical Problem'">
 				<input type="checkbox" data-bind="checked: notApplicable" />
 				<span>Not&nbsp;Applicable</span>
 			</label>

@@ -3,12 +3,14 @@
 		<div class="marginBottom5">
 			<label class="checkbox allergiesCheckbox">
 				<input type="checkbox" data-bind="
-					checked: serviceRecord().noKnownAllergies" />
+					checked: serviceRecord().noKnownAllergies,
+					event: {change: $root.allergiesIntoleranceNoKnownAllergies}" />
 				<span>No&nbsp;Known&nbsp;Allergies</span>
 			</label>
 			<label class="checkbox allergiesCheckbox">
 				<input type="checkbox" data-bind="
-					checked: serviceRecord().allergiesVerified" />
+					checked: serviceRecord().allergiesVerified,
+					event: {change: $root.allergiesIntoleranceAllergiesVerified}" />
 				<span>Allergies&nbsp;Verified</span>
 			</label>
 		</div>
@@ -24,16 +26,16 @@
 				value: allergiesIntolerance().type,
 				enable: !serviceRecord().noKnownAllergies()" required>
 				<option value="" disabled selected style="display:none;">Type</option>
-				<option value="allergy">Allergy</option>
-				<option value="intolerance">Intolerance</option>
+				<option value="Allergy">Allergy</option>
+				<option value="Intolerance">Intolerance</option>
 			</select>
 			<span class="required">*</span>
 			<select data-bind="
 				value: allergiesIntolerance().status,
 				enable: !serviceRecord().noKnownAllergies()" required>
 				<option value="" disabled selected style="display:none;">Status</option>
-				<option value="active">Active</option>
-				<option value="inactive">Inactive</option>
+				<option value="Active">Active</option>
+				<option value="Inactive">Inactive</option>
 			</select>
 			<span class="required">*</span>
 		</div>
