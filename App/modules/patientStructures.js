@@ -418,6 +418,11 @@ define(function(require) {
 			this.discontinuedBy	  = ko.observable(data.discontinued_by);
 			this.discontinuedDate = ko.observable(data.discontinued_date);
 			this.comment		  = ko.observable(data.comment);
+			this.isOrdered		  = ko.observable(data.is_ordered);
+			this.dispensed		  = ko.observable(data.dispensed_quantity);
+			this.refill			  = ko.observable(data.refill);
+			this.refillQty		  = ko.observable(data.refill_quantity);
+			
 		}
 		else {
 			this.id				  = ko.observable();
@@ -433,6 +438,10 @@ define(function(require) {
 			this.discontinuedBy	  = ko.observable();
 			this.discontinuedDate = ko.observable();
 			this.comment		  = ko.observable();
+			this.isOrdered		  = ko.observable();
+			this.dispensed		  = ko.observable();
+			this.refill			  = ko.observable();
+			this.refillQty		  = ko.observable();
 		}
 		
 		this.errors = ko.validation.group(this);

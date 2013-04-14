@@ -116,7 +116,7 @@ define(function(require) {
 		});
 	}
 	
-	order.prototype.getOrders = function(id) {
+	order.prototype.getOrders = function(id, type) {
 		var fields = ['orders.id', 'orders.service_record_id', 'orders.in_office', 'orders.instructions', 
 			'orders.assigned_to', 'orders.date', 'orders.order_category_id', 'order_category.description',
 			'orders.type', 'orders.comment', 'orders.center', 'orders.group'
@@ -128,7 +128,7 @@ define(function(require) {
 					'orders.assigned_to, orders.date, orders.order_category_id, order_category.description,' +
 					'orders.type, orders.comment, orders.center, orders.group',
 			join: "LEFT JOIN order_category ON orders.order_category_id=order_category.id",
-			where: "WHERE service_record_id='" + id + "'"
+			where: "WHERE service_record_id='" + id + "' AND orders.type LIKE '" + type + "%'"
 		});
 	}
 	
@@ -220,7 +220,16 @@ define(function(require) {
 			table: 'venous_access',
 			where: "WHERE order_id='" + id + "'"
 		});
-	}			
+	}		
+	
+	order.prototype.getMedications = function(id) {
+		return this.query({
+			mode: 'select',
+			fields: '*',
+			table: 'medication',
+			where: "WHERE service_record_id='" + id + "'"
+		});
+	}	
 		
 	/**********************************************************************************************
 	 * Save Methods
@@ -432,7 +441,6 @@ define(function(require) {
 				mode: 'select',
 				table: 'drug_order',
 				fields: 'id',
-				where: "WHERE order_id='" + order.orderId() + "'",
 				order: "ORDER BY id DESC",
 				LIMIT: "LIMIT 1" 
 			}).success(function(data) {
@@ -449,7 +457,6 @@ define(function(require) {
 				});
 			});
 		}
-		
 	}
 	
 	order.prototype.saveVenousAccess = function(venous) {
@@ -480,7 +487,6 @@ define(function(require) {
 				mode: 'select',
 				table: 'venous_access',
 				fields: 'id',
-				where: "WHERE order_id='" + venous.orderId() + "'",
 				order: "ORDER BY id DESC",
 				LIMIT: "LIMIT 1" 
 			}).success(function(data) {
@@ -525,7 +531,6 @@ define(function(require) {
 				mode: 'select',
 				table: 'medication_order_log',
 				fields: 'id',
-				where: "WHERE order_id='" + order.orderId() + "'",
 				order: "ORDER BY id DESC",
 				LIMIT: "LIMIT 1" 
 			}).success(function(data) {
@@ -541,8 +546,55 @@ define(function(require) {
 					values: values
 				});
 			});
+		}	
+	}
+	
+	order.prototype.saveMedication = function(med) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'medicine', 'strength', 'quantity', 'route',
+					  'status', 'prescribed_by', 'prescribed_date', 'discontinued_by', 
+					  'comment', 'is_ordered', 'dispensed_quantity', 'refill', 'refill_quantity'];
+		var values = $.map(med, function(k, v) {
+			if(k() == null || k() == undefined)
+				return [''];
+			else
+				return [k()];
+		});
+
+		for(var i = 0; i < fields.length; i++)
+			system.log(fields[i] + " : " + values[i]);
+		/*
+		if(values[0] != "") {
+			return self.query({
+				mode: 'update',
+				table: 'drug_order',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + order.id() + "'"
+			});	
 		}
-		
+		else {
+			return self.query({
+				mode: 'select',
+				table: 'drug_order',
+				fields: 'id',
+				order: "ORDER BY id DESC",
+				LIMIT: "LIMIT 1" 
+			}).success(function(data) {
+				var id = 1;
+				if(data.length > 0)
+					id = parseInt(data[0].id) + 1;
+				order.id(id);
+				values[0] = id;
+				return self.query({
+					mode: 'insert',
+					table: 'drug_order',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		*/
 	}
 	
 	/**********************************************************************************************
