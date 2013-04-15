@@ -21,17 +21,19 @@ include_once('fpdf/cellfit.php');
  *************************************************************************************************/
 $practiceId         = $_GET['practiceId'];
 $patientId          = $_GET['patientId'];
-
+$medicationOrderId  = $_GET['medicationOrderId'];
 
 class PDF extends FPDI_CellFit {
 	
 	function Header() {
  		$practiceId         = $_GET['practiceId'];
 		$patientId			= $_GET['patientId'];
+		$medicationOrderId  = $_GET['medicationOrderId'];
 		$practice  			= array();
 		$physician 		 	= array();
 	    $patient  			= array();
 		$allergies  		= array();
+		$prescription  	    = array();
 		/******************************************************************************************
  		 * Get needed data from database
  		 *****************************************************************************************/
@@ -67,8 +69,15 @@ class PDF extends FPDI_CellFit {
 								=medication_order.id AND medication_order.service_record_id=
 								service_record.id AND service_record.id=allergies_intolerance.service_record_id");
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);
+			$rows = $stmt->fetchAll();
+			$allergies = $rows;
+			
+			//Prescription 
+			$stmt = $db->query("SELECT prescription.* FROM prescription WHERE medication_order_id='$medicationOrderId'");
+			$stmt->setFetchMode(PDO::FETCH_ASSOC);
 			while($row = $stmt->fetch())
-				$this->allergies = $row;
+				$prescription = $row;
+			
 			
 		}
 		catch (PDOException $e) {
@@ -81,7 +90,7 @@ class PDF extends FPDI_CellFit {
 		if($this->PageNo() == 1) {
 			$this->SetFont('Arial', 'B', 14);
 			$this->Cell(0, 9, 'Prescription', 0, 2, 'C');
-			$this->SetFont('Arial', 'B', 10);
+			$this->SetFont('Arial', 'B', 12);
 			$this->SetX(10);
 			$this->Cell(0,11,$practice['name'], 0, 1);
 			$this->SetFont('Arial', '', 11);
@@ -93,10 +102,9 @@ class PDF extends FPDI_CellFit {
 		/******************************************************************************************
  		 * Physician Information
  		 *****************************************************************************************/
-		$this->SetFont('Arial', 'B', 14);
+		$this->SetFont('Arial', 'B', 12);
 		$this->Cell(0, 11, $this->physician['first_name'] . ' ' . $this->physician['last_name'] . 
 					', ' . $this->physician['degree'], 0, 1);
-		$this->Cell(0,4, $practice['name'], 0, 1);
 			$this->SetFont('Arial', '', 11);
 			$this->SetX(10);
 			$this->Cell(0,4, $practice['address'] . ', ' . $practice['city'] . ', '
@@ -123,6 +131,30 @@ class PDF extends FPDI_CellFit {
  		                $patient['middle_name'] . ' ' . $patient['last_name'] . ', DOB: ' .
  		                 $dob . ', Age: ' . $this->dobToAge($dob) . ', Gender: ' . 
  		                 ucfirst($patient['gender']), 0, 1);
+		
+		/******************************************************************************************
+ 		 * Allergy Information
+ 		 *****************************************************************************************/
+		 $this->SetFont('Arial', 'U', 11);
+		 $this->Cell(0,4,'Allergies and Intolerance', 0, 1);
+		 $this->SetFont('Arial', '', 11);
+		 // Data
+		foreach($allergies as $a) {
+			 $this->Cell(0, 4, $a['details'] . ' ' . '[' . $a['type'] . ']',0,1,'L');
+		}
+		
+		/******************************************************************************************
+ 		 * Prescription Information
+ 		 *****************************************************************************************/
+		 $y = $this->GetY() + 5;
+		 $this->SetY($y);
+		 $this->SetFont('Arial', 'U', 11);
+		 $this->Cell(0,4,'Prescriptions', 0, 1);
+		  $this->SetFont('Arial', '', 11);
+		 $this->Cell(0,4, $prescription['medicine'], 0, 1);
+		 $this->CellFit(0, 4, 'Strength: ' . $prescription['strength'] . ', Dose: ' . 
+				       $prescription['quantity'] . ', Sigs: ' . $prescription['sigs'] . ', Route: ' . 
+				       $prescription['route'] . ', Dispense: ' . $prescription['dispensed_quantity'] . ', Refill: ' . $prescription['refill_quantity'], 0, 1);
 	 }
 	
 		
