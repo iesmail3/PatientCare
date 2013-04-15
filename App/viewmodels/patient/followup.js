@@ -509,7 +509,21 @@ define(function(require) {
 					'',
 					settings
 				);
+		},
+		printCheckout: function(data) { 
+		   system.log(primaryCo()); 
+			var height = $('.flowHolder').height();
+			var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
+					   'menubar=no, status=no, titlebar=no, toolbar=no';
+			var win = window.open(
+					'php/printCheckout.php/?practiceId=' + practiceId() + '&patientId=' + checkout().patientId()+ '&serviceRecordId=' + checkout().serviceRecordId() + '&checkoutId=' + checkout().id() + 
+					'&primaryCo=' + primaryCo() + '&secondaryCo=' + secondaryCo() +'&otherCo=' + otherCo() + 
+                    '&copayAmount=' + checkout().copayAmount(),					
+					'',
+					settings
+				);
 		}
+			
 		
 		// displayFile: function(data) { 
 			// system.log('diplayFile' + doc().location()); 

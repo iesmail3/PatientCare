@@ -50,7 +50,7 @@ class PDF extends FPDI_CellFit {
 			//Physician 
 			$stmt = $db->query("SELECT physician.*
  			                    FROM prescription,medication_order,physician,service_record 
-								WHERE prescription.medication_order_id = medication_order.id AND 
+								WHERE  medication_order.id = '$medicationOrderId' AND 
 								medication_order.service_record_id = service_record.id AND
 								service_record.physician_id = physician.id");
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -65,8 +65,7 @@ class PDF extends FPDI_CellFit {
 			
 			//Allergies/Intolerances 
 			$stmt = $db->query("SELECT type,details FROM allergies_intolerance,medication_order,
-								service_record,prescription WHERE prescription.medication_order_id
-								=medication_order.id AND medication_order.service_record_id=
+								service_record,prescription WHERE medication_order.id = '$medicationOrderId' AND medication_order.service_record_id=
 								service_record.id AND service_record.id=allergies_intolerance.service_record_id");
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);
 			$rows = $stmt->fetchAll();

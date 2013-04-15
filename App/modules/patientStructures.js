@@ -44,6 +44,7 @@ define(function(require) {
 			this.id					  = ko.observable(data.id);
 			this.practiceId    		  = ko.observable(data.practice_id); 
 			this.patientId			  = ko.observable(data.patient_id);
+			this.serviceRecordId      = ko.observable(data.service_record_id); 
 			this.date				  = ko.observable(data.date);
 			this.copayAmount		  = ko.observable(data.copay_amount);
 			this.otherCopay			  = ko.observable(data.other_copay);
@@ -61,7 +62,8 @@ define(function(require) {
 		else {
 			this.id					  = ko.observable();
 			this.patientId			  = ko.observable();
-			this.practiceId 		  = ko.observable(); 
+			this.practiceId 		  = ko.observable();
+			this.serviceRecordId      = ko.observable(); 
 			this.date				  = ko.observable();
 			this.copayAmount		  = ko.observable();
 			this.otherCopay			  = ko.observable();
