@@ -8,7 +8,8 @@
 	<div class="row-fluid">
 		<!-- ko with: medication -->
 		<div class="marginBottom5">
-			<input type="text" class="input-xlarge" data-bind="value: medicine" placeholder="Medicine" />
+			<input type="text" class="input-xlarge" placeholder="Medicine"
+				   data-bind="value: medicine, typeahead: {value: medicine, source: $root.medicines}" />
 			<input type="text" class="input-small" data-bind="value: strength" placeholder="Strength" />
 			</select>
 			<span class="pull-right">
@@ -39,7 +40,7 @@
 				<input type="radio" name="refill" value="0" data-bind="checked: refill" /> No
 			</label>
 			<input type="number" class="input-small" placeholder="Refill Qty" 
-			       data-bind="value: refillQty" />
+			       data-bind="value: refillQty, enable: refill() == 1" />
 		</div>
 		<div class="marginBottom5 commentContainer">
 			<textarea class="commentSpan" rows="3" placeholder="Comments" 

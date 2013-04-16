@@ -570,8 +570,9 @@ define(function(require) {
 	order.prototype.saveMedication = function(med) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'medicine', 'strength', 'quantity', 'route',
-					  'status', 'prescribed_by', 'prescribed_date', 'discontinued_by', 
-					  'comment', 'is_ordered', 'dispensed_quantity', 'refill', 'refill_quantity'];
+					  'sigs', 'status', 'prescribed_by', 'prescribed_date', 'discontinued_by', 
+					  'discontinued_date', 'comment', 'is_ordered', 'dispensed_quantity', 
+					  'refill', 'refill_quantity'];
 		var values = $.map(med, function(k, v) {
 			if(k() == null || k() == undefined)
 				return [''];

@@ -36,6 +36,7 @@ define(function(require) {
 	var tempMedication  = ko.observable();
 	var allergies		= ko.observable();
 	var intolerances	= ko.observable();
+	var medicines		= ko.observableArray([]);
 
 	/*********************************************************************************************** 
 	 * ViewModel
@@ -66,6 +67,7 @@ define(function(require) {
 		tempMedication: tempMedication,
 		allergies: allergies,
 		intolerances: intolerances,
+		medicines: medicines,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -92,6 +94,14 @@ define(function(require) {
 			self.patientId(data.patientId);
 			self.serviceDate(data.date);
 			self.practiceId('1');
+			
+			// Get Medicines
+			backend.getMedicines().success(function(data) {
+				if(data.length > 0) {
+					var m = _.map(data, function(item) {return item.medicine_name});
+					self.medicines(m);
+				}
+			});
 			
 			// Get Service Record for required data
 			self.backend.getServiceRecord(patientId(), practiceId(), serviceDate()).success(function(data){
@@ -223,6 +233,8 @@ define(function(require) {
 			cancelMed(0);
 		},
 		saveMedication: function(data) {
+			if(medication().refill() == 0)
+				medication().refillQty(0);
 			if(medication().errors().length > 0) {
 				if(medication().errors().length > 1)
 					$('.allAlert').fadeIn().delay(3000).fadeOut();
@@ -235,7 +247,7 @@ define(function(require) {
 				medication().serviceRecordId(serviceRecord().id());
 				var t = backend.saveMedication(medication()).complete(function(d) {
 					d = d.responseText;
-					if(d == 'updateFail' || d != 'updateSuccess' || d != 'insertFail') {
+					if(d != 'updateFail' && d != 'updateSuccess' && d != 'insertFail') {
 						medications.push(medication());
 						if(d != 'updateFail' && d != 'insertFail') 
 							$('.alert-info').fadeIn().delay(3000).fadeOut();

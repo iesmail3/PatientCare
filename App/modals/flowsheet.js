@@ -65,7 +65,7 @@ define(function(require) {
     Flowsheet.prototype.getMedicines = function() {
 		backend.getMedicines().success(function(data) {
 			if(data.length > 0) {
-				var m = $.map(data, function(item) {return item.medicine_name});
+				var m = _.map(data, function(item) {return item.medicine_name});
 				self.medicines(m);
 			}
 		});
