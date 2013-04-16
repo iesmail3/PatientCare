@@ -111,6 +111,8 @@ define(function(require) {
 		}
 		if(checkout().otherCopay() > 0)
 			 total +=parseInt(checkout().otherCopay());
+		if(checkout().insurancePortion() > 0) 
+			total +=parseInt(checkout().insurancePortion()); 
 		checkout().totalReceivable(total); 
 		return total; 
     });    
@@ -342,7 +344,8 @@ define(function(require) {
 					paymentMethods.push(new structures.PaymentMethod()); 	
 				} 
 				else { 
-					paymentMethods(new structures.PaymentMethod()); 
+				      paymentMethods.removeAll();
+					  paymentMethods.push(new structures.PaymentMethod()); 
 				}
 			});    			
 		},                
@@ -381,7 +384,6 @@ define(function(require) {
 			   isNewDocument(true); 
 			   tempDocument(doc());
 	          doc(new structures.Document());
-			   //showAssigned(false); 
 		},
 		
 		selectRow: function(data) {
@@ -431,7 +433,7 @@ define(function(require) {
 		},
 		addRow: function(data) {  
 			var last = paymentMethods()[paymentMethods().length - 1];
-			if(last.mode()!='') 
+			if(last.mode().trim()!='') 
 			   paymentMethods.push(new structures.PaymentMethod()); 
 		},
 		removePaymentMethod: function(data) {
@@ -444,25 +446,33 @@ define(function(require) {
 			 backend.deletePrescription(data.medicationOrderId());
 		},
 		savePaymentMethod: function(data) { 
-			var isValid = true;
-			var pm = paymentMethods()[paymentMethods().length-1]; 
-			if(pm.particulars().trim() == '' && pm.amount().trim() == '') {
-				paymentMethods.remove(pm);
-			}
-			$.each(paymentMethods(), function(k, v) {
-				if(v.errors().length != 0)
-						isValid = false;
-			}); 
-			
-			if(isValid) {
-				$.each(paymentMethods(), function(k, v) {
-				  backend.savePaymentMethod(checkout().id(),v);
-				}); 
-			}
-			else
-				$('.checkoutAlert').fadeIn('slow').delay(2000).fadeOut('slow');
-			
-			paymentMethods.push(new structures.PaymentMethod()); 
+		    backend.saveCheckout(checkout()); 
+			//Check to see if  you have any rows in the payment method table
+			if(paymentMethods().length  > 0) { 
+				var isValid = true;
+				var pm = paymentMethods()[paymentMethods().length-1]; 
+				//remove last row if these two are empty
+				if(pm.particulars().trim() == '' && pm.amount().trim() == '') {
+					paymentMethods.remove(pm);
+				}
+				//check to see if there are any remaining rows after removing the last one
+				if(paymentMethods().length > 0) { 
+					$.each(paymentMethods(), function(k, v) {
+						if(v.errors().length != 0)
+								isValid = false;
+					}); 
+					
+					if(isValid) {
+						$.each(paymentMethods(), function(k, v) {
+						  backend.savePaymentMethod(checkout().id(),v);
+						}); 
+					}
+					else
+						$('.checkoutAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+					
+					paymentMethods.push(new structures.PaymentMethod());
+                }					
+		    }
 		},
 		savePhoneLog: function(data) {
 			if(phoneLog().errors().length == 0) { 
@@ -517,8 +527,7 @@ define(function(require) {
 					   'menubar=no, status=no, titlebar=no, toolbar=no';
 			var win = window.open(
 					'php/printCheckout.php/?practiceId=' + practiceId() + '&patientId=' + checkout().patientId()+ '&serviceRecordId=' + checkout().serviceRecordId() + '&checkoutId=' + checkout().id() + 
-					'&primaryCo=' + primaryCo() + '&secondaryCo=' + secondaryCo() +'&otherCo=' + otherCo() + 
-                    '&copayAmount=' + checkout().copayAmount(),					
+					'&primaryCo=' + primaryCo() + '&secondaryCo=' + secondaryCo() +'&otherCo=' + otherCo(),					
 					'',
 					settings
 				);

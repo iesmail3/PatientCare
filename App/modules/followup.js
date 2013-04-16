@@ -315,7 +315,7 @@
 		
 	followup.prototype.saveCheckout = function(data) {  
 		var self = this; 
-		var fields = ['id','practice_id','patient_id','date','copay_amount',
+		var fields = ['id','practice_id','patient_id','service_record_id','date','copay_amount',
 			'other_copay','additional_charges','edit_additional_charge','insurance_portion',
 			'total_receivable','total_payment','balance','comment','primary_insurance',
 			'secondary_insurance','other_insurance'];
