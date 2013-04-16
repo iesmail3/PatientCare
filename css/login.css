@@ -17,6 +17,7 @@ a, a:hover {
   background-color: rgb(0, 51, 0);
   background-image: url('../Content/images/banner.png');
   background-repeat: no-repeat;
+  background-position: right;
   border-bottom: 4px ridge rgb(0, 51, 0);
   -moz-box-shadow: 0px 1px 10px #888;
   -webkit-box-shadow: 0px 1px 10px #888;

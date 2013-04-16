@@ -14,7 +14,7 @@
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="banner">
-				<!--<img src="Content/images/logo2.png" />-->
+				<img src="Content/images/logo.png" />
 			</div>
 		</div>
 		<div class="row-fluid">
