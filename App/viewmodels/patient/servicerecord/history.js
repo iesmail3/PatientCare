@@ -403,11 +403,9 @@ define(function(require) {
 			if (medicationState()) {
 				if (medication().errors().length == 0) {
 					medication().serviceRecordId(serviceRecord().id());
-					medication().date(form.dbDate(form.currentDate()));
 					medication().prescribedDate(form.dbDate(medication().prescribedDate()));
 					medication().discontinuedDate(form.dbDate(medication().discontinuedDate()));
 					backend.saveMedication(medication, medications).complete(function(data) {
-						medication().date(form.uiDate(medication().date()));
 						medication().prescribedDate(form.uiDate(medication().prescribedDate()));
 						medication().discontinuedDate(form.uiDate(medication().discontinuedDate()));
 						medication(new structures.Medication());
@@ -420,11 +418,9 @@ define(function(require) {
 			else {
 				if (medication().errors().length == 0) {
 					if (medication().id() != '' && medication().id() != undefined) {
-						medication().date(form.dbDate(medication().date()));
 						medication().prescribedDate(form.dbDate(medication().prescribedDate()));
 						medication().discontinuedDate(form.dbDate(medication().discontinuedDate()));
 						backend.saveMedication(medication, medications).complete(function(data) {
-							medication().date(form.uiDate(medication().date()));
 							medication().prescribedDate(form.uiDate(medication().prescribedDate()));
 							medication().discontinuedDate(form.uiDate(medication().discontinuedDate()));
 						});

@@ -83,9 +83,8 @@ define(function(require) {
 			'medication.route', 'medication.sigs', 'medication.status',
 			'medication.prescribed_by', 'medication.prescribed_date',
 			'medication.discontinued_by', 'medication.discontinued_date',
-			'medication.comment', 'medication.order', 'medication.dispensed_quantity',
-			'medication.refill', 'medication.refill_quantity', 'medication.is_added',
-			'medication.date', 'medication.created_by'];
+			'medication.comment', 'medication.is_ordered', 'medication.dispensed_quantity',
+			'medication.refill', 'medication.refill_quantity'];
 		
 		return self.query({
 			mode: 'select',
@@ -239,8 +238,7 @@ define(function(require) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'medicine', 'strength', 'quantity',
 			'route', 'sigs', 'status', 'prescribed_by', 'prescribed_date', 'discontinued_by',
-			'discontinued_date', 'comment', 'order', 'dispensed_quantity', 'refill', 'refill_quantity',
-			'is_added', 'date', 'created_by'];
+			'discontinued_date', 'comment', 'is_ordered', 'dispensed_quantity', 'refill', 'refill_quantity'];
 		
 		var values = $.map(medication(), function(k,v) {
 			if(k() == null || k() == undefined) {
