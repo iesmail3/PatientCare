@@ -7,6 +7,9 @@ define(function(require) {
 	var u = require('../../Scripts/underscore');
 	var self;
 	
+	/**********************************************************************************************
+	 * Constructor
+	 *********************************************************************************************/
 	var OfficeProcedure = function(practiceId, orderId, procedures, title, options) {
 		self = this;
 		this.practiceId = practiceId;
@@ -19,9 +22,11 @@ define(function(require) {
 		this.officeProcedureTypes = ko.observableArray([]);
 		// Populate table
 		this.updateOfficeProcedureTypes(this.practiceId);
-		
 	};
 	
+	/**********************************************************************************************
+	 * Select an option
+	 *********************************************************************************************/
 	OfficeProcedure.prototype.selectOption = function(dialogResult) {
 		if(dialogResult == 'Save') {
 			// Save orders
@@ -76,6 +81,9 @@ define(function(require) {
 		this.modal.close(dialogResult);
 	}
 	
+	/**********************************************************************************************
+	 * Update Office Procedures list
+	 *********************************************************************************************/
 	OfficeProcedure.prototype.updateOfficeProcedureTypes = function(data) {
 		backend.getOfficeProcedureTypes(self.practiceId).success(function(data){
 			var o = $.map(data, function(item){ return new structures.OfficeProcedureType(item); });
@@ -88,6 +96,13 @@ define(function(require) {
 					v.times(self.procedures[i].times);
 			})
 		});
+	}
+	
+	/**********************************************************************************************
+	 * Close Window
+	 *********************************************************************************************/
+	OfficeProcedure.prototype.closeWindow = function() {
+		self.selectOption('Close');
 	}
 	
 	OfficeProcedure.defaultTitle = '';
