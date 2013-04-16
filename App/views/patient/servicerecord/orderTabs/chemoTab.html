@@ -1,0 +1,40 @@
+<div class="formScroll formPadding">
+	<div class="row-fluid mainOrderTableHolder">
+		<table class="table table-bordered table-hover OrderTable">
+			<thead>
+				<tr>
+					<th>Order Date</th>
+					<th>Order Type</th>
+					<th>Description</th>
+					<th>In Office</th>
+					<th>Comments</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody data-bind="foreach: chemoOrders">
+				<tr>
+					<td data-bind="text: date, click: $root.selectRow.bind($data, 'chemo')"></td>
+					<td data-bind="text: type, click: $root.selectRow.bind($data, 'chemo')"></td>
+					<td data-bind="text: description, click: $root.selectRow.bind($data, 'chemo')"></td>
+					<td>
+						<div data-bind="visible: inOffice, click: $root.selectRow.bind($data, 'chemo')">
+							<i class="icon-ok checkboxIcon"></i>
+						</div>
+					</td>
+					<td data-bind="text: comment, click: $root.selectRow.bind($data, 'chemo')"></td>
+					<td>
+						<button type="button" class="btn btn-small btn-danger" 
+							    data-bind="click: $root.deleteOrder">
+							Delete
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="pull-right">
+	<button type="button" class="btn btn-small" >Print</button>
+	<button type="button" class="btn btn-small" >Order</button>
+	<button type="button" class="btn btn-small btn-success" data-bind="click: newOrder.bind($data, 'chemo')">New</button>
+</div>

@@ -3,25 +3,40 @@
 		<table class="table table-bordered table-hover OrderTable">
 			<thead>
 				<tr>
-					<th>Order Date</th>
-					<th>Order Type</th>
-					<th>Description</th>
-					<th>In Office</th>
-					<th>Comments</th>
+					<th data-bind="click: sort.bind($data, 'image', 'date')">
+						<span>Order Date</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="click: sort.bind($data, 'image', 'type')">
+						<span>Order Type</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="click: sort.bind($data, 'image', 'description')">
+						<span>Description</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="click: sort.bind($data, 'image', 'inOffice')">
+						<span>In Office</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="click: sort.bind($data, 'image', 'comment')">
+						<span>Comments</span>
+						<div class="arrow down"></div>
+					</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody data-bind="foreach: orders">
 				<tr>
-					<td data-bind="text: date, click: $root.selectRow"></td>
-					<td data-bind="text: type, click: $root.selectRow"></td>
-					<td data-bind="text: description, click: $root.selectRow"></td>
+					<td data-bind="text: date, click: $root.selectRow.bind($data, 'image')"></td>
+					<td data-bind="text: type, click: $root.selectRow.bind($data, 'image')"></td>
+					<td data-bind="text: description, click: $root.selectRow.bind($data, 'image')"></td>
 					<td>
-						<div data-bind="visible: inOffice, click: $root.selectRow" >
+						<div data-bind="visible: inOffice, click: $root.selectRow.bind($data, 'image')" >
 							<i class="icon-ok checkboxIcon"></i>
 						</div>
 					</td>
-					<td data-bind="text: comment, click: $root.selectRow"></td>
+					<td data-bind="text: comment, click: $root.selectRow.bind($data, 'image')"></td>
 					<td>
 						<button type="button" class="btn btn-small btn-danger" 
 							    data-bind="click: $root.deleteOrder">
@@ -34,5 +49,5 @@
 	</div>
 </div>
 <div class="pull-right">
-	<button type="button" class="btn btn-small btn-success" data-bind="click: newOrder">New</button>
+	<button type="button" class="btn btn-small btn-success" data-bind="click: newOrder.bind($data, 'image')">New</button>
 </div>
