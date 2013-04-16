@@ -521,7 +521,6 @@ define(function(require) {
 				);
 		},
 		printCheckout: function(data) { 
-		   system.log(primaryCo()); 
 			var height = $('.flowHolder').height();
 			var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
 					   'menubar=no, status=no, titlebar=no, toolbar=no';
@@ -531,8 +530,18 @@ define(function(require) {
 					'',
 					settings
 				);
+		},
+		
+		printCheckoutOrder: function(data) { 
+			var height = $('.flowHolder').height();
+			var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
+					   'menubar=no, status=no, titlebar=no, toolbar=no';
+			var win = window.open(
+					'php/printCheckoutOrder.php/?practiceId=' + practiceId() + '&patientId=' + checkout().patientId()+ '&serviceRecordId=' + checkout().serviceRecordId() + '&checkoutId=' + checkout().id(),					
+					'',
+					settings
+				);
 		}
-			
 		
 		// displayFile: function(data) { 
 			// system.log('diplayFile' + doc().location()); 
