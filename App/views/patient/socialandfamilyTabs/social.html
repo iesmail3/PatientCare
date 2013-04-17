@@ -3,14 +3,14 @@
 		<!-- ko with: socialHistory -->
 		<div class="row-fluid">
 			<div class="marginBottom5">
-				<select data-bind="value: smoking">
+				<select class="input-large" data-bind="value: smoking">
 					<option value="" disabled selected style="display:none;">Smoking Habits</option>
 					<option value="currently">Current Smoker</option>
 					<option value="never">Never Smoked</option>
 					<option value="occasional">Occasional Smoker</option>
 					<option value="past">Past Smoker</option>
 				</select>
-				<input type="number" class="input-small" placeholder="Packs per week"
+				<input type="number" class="input-mini" placeholder="Packs per week"
 					data-bind="value: smokingWeekly" />
 				<label class="checkbox inline">
 					<input type="checkbox" data-bind="checked: smokingCounseling" />
@@ -18,14 +18,14 @@
 				</label>
 			</div>
 			<div class="marginBottom5">
-				<select data-bind="value: alcohol">
+				<select class="input-large" data-bind="value: alcohol">
 					<option value="" disabled selected style="display:none;">Drinking Habits</option>
 					<option value="never">Never Drinks</option>
 					<option value="past">Past Drinker</option>
 					<option value="regular">Regular Drinker</option>
 					<option value="social">Social Drinker</option>
 				</select>
-				<input type="number" class="input-small" placeholder="Drinks per week"
+				<input type="number" class="input-mini" placeholder="Drinks per week"
 					data-bind="value: alcoholWeekly" />
 				<label class="checkbox inline">
 					<input type="checkbox" data-bind="checked: alcoholCounseling" />
@@ -42,34 +42,32 @@
 					<input type="radio" name="drugOption" value="0" data-bind="checked: drugAbuse" />
 					<span>No</span>
 				</label>
-				<input type="text" class="input-large" placeholder="Details (if any)"
+			</div>
+			<div class="marginBottom5">
+				<input type="text" class="input-xlarge" placeholder="Details (if any)"
 					data-bind="value: drugComment" />
 			</div>
-			<div class="span5">
-				<div class="marginBottom5">
-					<span class="radio inline">Exposure to Blood products?</span>
-					<label class="radio inline">
-						<input type="radio" name="bloodOption" value="1" data-bind="checked: bloodExposure" />
-						<span>Yes</span>
-					</label>
-					<label class="radio inline">
-						<input type="radio" name="bloodOption" value="0" data-bind="checked: bloodExposure" />
-						<span>No</span>
-					</label>
-				</div>
+			<div class="marginBottom5">
+				<span class="radio inline">Exposure to Blood products?</span>
+				<label class="radio inline">
+					<input type="radio" name="bloodOption" value="1" data-bind="checked: bloodExposure" />
+					<span>Yes</span>
+				</label>
+				<label class="radio inline">
+					<input type="radio" name="bloodOption" value="0" data-bind="checked: bloodExposure" />
+					<span>No</span>
+				</label>
 			</div>
-			<div class="offset1 span5">
-				<div class="marginBottom5">
-					<span class="radio inline">Exposure to Chemicals?</span>
-					<label class="radio inline">
-						<input type="radio" name="chemicalOption" value="1" data-bind="checked: chemicalExposure" />
-						<span>Yes</span>
-					</label>
-					<label class="radio inline">
-						<input type="radio" name="chemicalOption" value="0" data-bind="checked: chemicalExposure" />
-						<span>No</span>
-					</label>
-				</div>
+			<div class="marginBottom5">
+				<span class="radio inline">Exposure to Chemicals?</span>
+				<label class="radio inline">
+					<input type="radio" name="chemicalOption" value="1" data-bind="checked: chemicalExposure" />
+					<span>Yes</span>
+				</label>
+				<label class="radio inline">
+					<input type="radio" name="chemicalOption" value="0" data-bind="checked: chemicalExposure" />
+					<span>No</span>
+				</label>
 			</div>
 			<div class="marginBottom5 commentContainer">
 				<textarea class="commentSpan" rows="3" cols="100" placeholder="Comments" 

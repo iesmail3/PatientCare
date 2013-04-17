@@ -2,7 +2,7 @@
 	<form class="form-inline formPadding">
 		<div class="row-fluid">
 			<div data-bind="foreach: routineExams">
-				<div>
+				<div class="marginBottom5">
 					<input type="text" class="input-small" placeholder="Name" data-bind="
 						value: name,
 						valueUpdate: 'afterkeydown',
@@ -28,14 +28,16 @@
 					<input type="text" class="input-small" placeholder="Last Done" data-bind="
 						datepicker: {dateFormat: 'mm-yy', changeMonth: true, changeYear: true},
 						enable: lastDone() == 3" />
-					<textarea class="input-small" rows="1" placeholder="Comments" data-bind="
-						value: comment">
-					</textarea>
 					<button type="button" class="btn btn-small btn-danger" data-bind="
 						click: $root.routineExamDelete,
 						visible: name() != 'Colonoscopy' && name() != 'PSA' && name() != 'Physical'">
 						Delete
 					</button>
+				</div>
+				<div class="marginBottom5">
+					<textarea class="input-small" rows="1" placeholder="Comments" data-bind="
+						value: comment">
+					</textarea>
 				</div>
 			</div>
 			<div class="alertHolder">
