@@ -175,6 +175,14 @@
     width: 139px;
 }
 
+/* Social & Family History */
+.routineRadio {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.routineComment { width: 333px; }
+
 /* Orders */
 .mainOrderTableHolder {
 	height: 450px;

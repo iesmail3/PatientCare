@@ -12,22 +12,22 @@
 				</div>
 				<div class="offset1 span8">
 					<div class="marginBottom5">
-						<label class="radio inline">
+						<label class="radio routineRadio">
 							<input type="radio" name="$index" value="1" data-bind="
 								checked: lastDone" />
-							<span class="smallText">Never Done</span>
+							<span class="smallText">Never&nbsp;Done</span>
 						</label>
-						<label class="radio inline">
+						<label class="radio routineRadio">
 							<input type="radio" name="$index" value="2" data-bind="
 								checked: lastDone" />
 							<span class="smallText">Unknown</span>
 						</label>
-						<label class="radio inline">
+						<label class="radio routineRadio">
 							<input type="radio" name="$index" value="3" data-bind="
 								checked: lastDone" />
-							<span class="smallText">Last Done</span>
+							<span class="smallText">Last&nbsp;Done</span>
+							<span class="required">*</span>
 						</label>
-						<span class="required">*</span>
 						<input type="text" class="input-small" placeholder="Last Done" data-bind="
 							datepicker: {dateFormat: 'mm-yy', changeMonth: true, changeYear: true},
 							enable: lastDone() == 3" />
@@ -38,7 +38,7 @@
 						</button>
 					</div>
 					<div class="marginBottom5">
-						<input type="text" class="input-xlarge" placeholder="Comments" data-bind="value: comment" />
+						<input type="text" class="routineComment" placeholder="Comments" data-bind="value: comment" />
 					</div>
 				</div>
 			</div>
