@@ -399,8 +399,9 @@ define(function(require) {
 	]);
 	
 	/**************************************************************************************************
-	 * Imaging Orders
+	 * Orders
 	 *************************************************************************************************/
+	// Imaging
 	form.prototype.ImagingOrders = ko.observableArray([
 		'Imaging-Radiology',
 		'Imaging-Ultrasound',
@@ -411,6 +412,31 @@ define(function(require) {
 		'Imaging-Mammogram',
 		'Imaging-Plain Fils',
 		'Imaging-Others'
+	]);
+	
+	// Lab
+	form.prototype.LabOrders = ko.observableArray([
+		'Labs-Disease Panels',
+		'Labs-Combination Tests',
+		'Labs-Hematology',
+		'Labs-LPD Panel',
+		'Labs-Microbiology',
+		'Labs-Anemia Panel',
+		'Labs-Tumor Markers',
+		'Labs-Bleeding Dispanel',
+		'Labs-CTD Panel',
+		'Labs-COAG Panel',
+		'Labs-Chemistry',
+		'Labs-Viral Serologies',
+		'Labs-Urine Analysis',
+		'Labs-Others',
+		'Labs-In Office Labs'
+	]);
+	
+	// Lab
+	form.prototype.ChemoOrders = ko.observableArray([
+		'Procedure-General',
+		'Procedure-Chemo'
 	]);
 	
 	/**************************************************************************************************

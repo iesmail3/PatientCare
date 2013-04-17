@@ -15,16 +15,6 @@ define(function(require) {
 	 var modal	   = require('modals/modals');				// Modals
 	 var app = require('durandal/app');
 	/*********************************************************************************************** 
-	 /*********************************************************************************************** 
-	 * Validation Configuration
-	 **********************************************************************************************/
-	ko.validation.init({
-		insertMessages: false,
-		parseInputAttributes: true,
-		grouping: {deep: true, observable: true},
-		decorateElement: true,
-		messagesOnModified: false
-	});
 	 
 	/* KO Observables
 	 **********************************************************************************************/
@@ -408,10 +398,11 @@ define(function(require) {
 		saveFollowup: function(data) {
 			if(followup().errors().length == 0) { 
 				backend.saveFollowup(followup().id(), followup());
-				// $('.followupAlert').removeClass().addClass('alert alert-success').html('Success!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
+				$('.followupAlert').removeClass().addClass('alert alert-success').html('Success!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
 		   }
 		   else {
-				$('.followupAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+				 system.log('inside it'); 
+				$('.followupAlert').removeClass().addClass('alert alert-error').html('Error!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
 			}
 		},
 		deleteFollowup: function(item, test) {
@@ -483,13 +474,26 @@ define(function(require) {
 			}
 		},
 		saveDocument: function(data) {
-			doc().location(file());  
-			isNewDocument(false);
-			system.log('doc id ' + doc().id()); 
-			backend.saveDocument(doc(),documents,practiceId,patientId); 
-      		$('.fileupload').fineUploader('uploadStoredFiles');  
-			documentState(true);
-			doc(new structures.Document()); 
+			if(doc().errors().length > 0) {
+				if(doc().errors().length > 1) {
+					$('.document .allAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(doc().errors()[0] == 'type') {
+					$('.document .typeAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(doc().errors()[0] == 'comment') {
+					$('.document .commentAlert').fadeIn().delay(3000).fadeOut();
+				}
+			}
+			else {
+				doc().location(file());  
+				isNewDocument(false);
+				system.log('doc id ' + doc().id()); 
+				backend.saveDocument(doc(),documents,practiceId,patientId); 
+				$('.fileupload').fineUploader('uploadStoredFiles');  
+				documentState(true);
+				doc(new structures.Document());
+			}					
 		},
 		searchByType: function(data) { 
 			backend.getDocumentByType(patientId(),documentType()).success(function(data) { 
@@ -537,20 +541,12 @@ define(function(require) {
 			var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
 					   'menubar=no, status=no, titlebar=no, toolbar=no';
 			var win = window.open(
-					'php/printCheckoutOrder.php/?practiceId=' + practiceId() + '&patientId=' + checkout().patientId()+ '&serviceRecordId=' + checkout().serviceRecordId() + '&checkoutId=' + checkout().id(),					
+					'php/printCheckoutOrder.php/?practiceId=' + practiceId() + '&patientId=' + checkout().patientId() + '&serviceRecordId=' + checkout().serviceRecordId() + '&checkoutId=' + checkout().id(),					
 					'',
 					settings
 				);
 		}
 		
-		// displayFile: function(data) { 
-			// system.log('diplayFile' + doc().location()); 
-			// $.ajax({  
-			// type: 'POST',  
-			// url: 'php/fetchFile.php', 
-			// data: { filename: doc().location() }    
-			// });
-		// }
     };
  //Turn validation on
 	// var errors = vm['formErrors'] = ko.validation.group(vm);

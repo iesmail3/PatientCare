@@ -3,13 +3,15 @@
 	margin-bottom: 3px;
 }
 
+.right10 {
+	margin-right: 10px;
+}
+
 .input-xmedium { width: 119px; }
 
 .input-mediumLarge { width: 150px; }
 
 .smallText { font-size: 10px; }
-
-.checkbox { padding-bottom: 15px; }
 
 .checkboxIcon {
 	display: block;
@@ -102,10 +104,40 @@
 .paymentTable th:last-child { width: 15%; }
 
 .alertHolder { height: 45px; }
+.alert { display: none; }
+
+.modalAlert {
+	margin-top: 2px;
+	height: 20px;
+	line-height: 15px;
+	font-size: 12px;
+}
+.modalAlert .alert {
+	display: none;
+	padding: 1px;
+	margin-bottom: 0;	
+}
 
 .validationElement { border: solid 1px red !important; }
 
-.required { color: red; }
+.required { 
+	color: red;
+	display: inline-block; 
+}
+
+.arrow {
+	width: 25px;
+	height: 20px;
+	float: right;
+}
+
+.down {
+	background: url('../Content/images/glyphicons-halflings.png') -307px -117px;
+}
+
+.up {
+	background: url('../Content/images/glyphicons-halflings.png') -283px -117px;
+}
 
 /* Personal Information */
 .personalAlert {
@@ -116,6 +148,11 @@
 .reviewAlert {
 	height: 20px;
 	display: none;
+}
+
+.checkoutTab label.inline  {
+    display: inline-block;
+    width: 130px;   
 }
 
 #additionalCharges { 
@@ -241,6 +278,15 @@
 	margin: 0 5px;
 }
 
+.medOrderForm {
+	margin: 0;
+}
+
+.medTable {
+	height: 225px;
+	overflow-y: auto;
+}
+
 /* Followup */
 .superBox { 
 	min-width: 800px;
@@ -270,9 +316,26 @@
 .checkoutPane { overflow-y: auto; }
 
 .checkoutTab  .label, label.inline  {
+    display: inline-block;    
+	width: 130px;  
+}
 
-    display: inline-block;
+.fileHolder {
+	width: 900px;
+}
 
-    width: 130px;  
+.fileHolder .modal-header { padding: 1px 15px; }
 
+.fileHolder .modal-body {
+	height: 550px;
+	min-height: 550px;
+	padding: 13px;
+	padding-top: 0;
+	overflow-y: auto;
+}
+
+.fileHolder .modal-body img {
+	display: block;
+	max-width: 99%;
+	margin: auto;
 }

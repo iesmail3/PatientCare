@@ -7,12 +7,19 @@ define(function(require) {
 	var self;
 	
 	var  DisplayFile = function(file,title,options) { 
-		system.log('file is' + file); 
 		self = this;  
 		//this.title = title || DisplayFile.defaultTitle; 
 		this.options = options || DisplayFile.defaultOptions;
-		this.filename = ko.observable('../patientcare/uploads/1/' + file); 
-		system.log(this.filename()); 
+		this.filename = ko.observable('uploads/1/' + file); 
+		
+		this.headerName = ko.computed(function() {
+			var i = file.indexOf('.');
+			return file.substring(0, i).toUpperCase();
+		});
+		
+		this.downloadFile = ko.computed(function() {
+			return 'php/download.php?img=' + self.filename();
+		});
 	};
 	
 	DisplayFile.prototype.selectOption = function(dialogResult) {

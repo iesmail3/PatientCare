@@ -8,37 +8,45 @@
 	</div>
 	<div class="modal-body">
 		<form class="form form-inline flowForm">
+			<div class="modalAlert">
+				<div class="alert alert-danger allAlert">You are missing required fields.</div>
+				<div class="alert alert-danger dayAlert">Day is required.</div>
+				<div class="alert alert-danger portAlert">Port is required.</div>
+				<div class="alert alert-danger medicineAlert">Medicine is required.</div>
+			</div>
 			<!-- ko with: venousAccess -->
 			<fieldset class="venousFields">
 				<legend>Venous Access</legend>
 				<div class="marginBottom5 form-inline">
 					<input type="text" data-bind="value: day" class="input-mini" placeholder="Day" />
+					<div class="required">*</div>
 					Port Access
 					<label class="radio">
 						<input type="radio" name="portAccess" value="One" 
-							   data-bind="checked: portAccess" /> 
+							   data-bind="checked: portAccess" required /> 
 							   One
 					</label>
 					<label class="radio">
 						<input type="radio" name="portAccess" value="Two" 
-							   data-bind="checked: portAccess" /> 
+							   data-bind="checked: portAccess" required /> 
 							   Two
 					</label>
 					<label class="radio">
 						<input type="radio" name="portAccess" value="Port Already Accessed" 
-							   data-bind="checked: portAccess" /> 
+							   data-bind="checked: portAccess" required /> 
 							   Port Already Accessed
 					</label>
 					<label class="radio">
 						<input type="radio" name="portAccess" value="Periperal IV Access" 
-							   data-bind="checked: portAccess" /> 
+							   data-bind="checked: portAccess" required /> 
 						Peripheral IV Access
 					</label>
 					<label class="radio">
 						<input type="radio" name="portAccess" value="Central Venous Access" 
-							   data-bind="checked: portAccess" /> 
+							   data-bind="checked: portAccess" required /> 
 						Central Venous Access
 					</label>
+					<div class="required">*</div>
 				</div>
 			</fieldset>
 			<fieldset>
