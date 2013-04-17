@@ -334,11 +334,10 @@ define(function(require) {
 				if (medicalProblem().resolutionUnknown())
 					medicalProblem().resolutionDate('Unknown');
 			}
+			// Insert
 			if (medicalProblemsState()) {
 				if (medicalProblem().errors().length == 0) {
 					medicalProblem().serviceRecordId(serviceRecord().id());
-					system.log(medicalProblem().onsetUnknown());
-					system.log(medicalProblem().resolutionUnknown());
 					if (medicalProblem().onsetUnknown())
 						medicalProblem().onsetDate(form.dbDate(medicalProblem().onsetDate()));
 					if (medicalProblem().resolutionUnknown())
@@ -346,7 +345,7 @@ define(function(require) {
 					backend.saveMedicalProblem(medicalProblem, medicalProblems).complete(function(data) {
 						medicalProblem().onsetDate(form.uiDate(medicalProblem().onsetDate()));
 						medicalProblem().resolutionDate(form.uiDate(medicalProblem().resolutionDate()));
-						medicalProblem(new structures.MedicalProblem());
+						medicalProblemsState(false);
 						if (data.responseText != 'updateFail' && data.responseText != 'insertFail')
 							$('.problemAlert').removeClass('alert-danger').addClass('alert-info').html('Medical problem has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
 					});
@@ -354,6 +353,7 @@ define(function(require) {
 				else
 					$('.problemAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
+			// Update
 			else {
 				if (medicalProblem().errors().length == 0) {
 					if (medicalProblem().id() != '' && medicalProblem().id() != undefined) {
@@ -415,7 +415,7 @@ define(function(require) {
 					backend.saveMedication(medication, medications).complete(function(data) {
 						medication().prescribedDate(form.uiDate(medication().prescribedDate()));
 						medication().discontinuedDate(form.uiDate(medication().discontinuedDate()));
-						medication(new structures.Medication());
+						medicationState(false);
 						if (data.responseText != 'updateFail')
 							$('.medicationAlert').removeClass('alert-danger').addClass('alert-info').html('Medication has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
 					});
@@ -514,7 +514,7 @@ define(function(require) {
 					allergiesIntolerance().dateRecorded(form.dbDate(form.currentDate()));
 					backend.saveAllergiesIntolerance(allergiesIntolerance(), allergiesIntolerances).complete(function(data) {
 						allergiesIntolerance().dateRecorded(form.uiDate(allergiesIntolerance().dateRecorded()));
-						allergiesIntolerance(new structures.AllergiesIntolerance());
+						allergiesIntoleranceState(false);
 						if (data.responseText != 'updateFail')
 							$('.allergyAlert').removeClass('alert-danger').addClass('alert-info').html('Allergy has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
 					});

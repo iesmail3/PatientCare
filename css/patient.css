@@ -185,7 +185,6 @@
 	height: 20px;
 	display: none;
 }
-<<<<<<< HEAD
 
 .reviewOfSystem {
 	margin-bottom: 5px;
@@ -246,12 +245,8 @@
 }
 
 .allergiesCheckbox  {
-=======
-
-.checkoutTab label.inline  {
->>>>>>> 5c260dae9ef520199528d2b4be978a775cf212b5
-    display: inline-block;
-    width: 150px;
+	display: inline-block;
+	width: 150px;
 }
 
 .allergyFormScroll {
@@ -406,6 +401,11 @@
 .checkoutAlert { 
 	height: 20px;
 	display: none;
+}
+
+.checkoutTab label.inline  {
+    display: inline-block;
+    width: 130px;
 }
 
 .checkoutPane { overflow-y: auto; }

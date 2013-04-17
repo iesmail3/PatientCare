@@ -219,8 +219,6 @@ define(function(require) {
 					fields: fields,
 					values: values
 				});
-				system.log(medicalProblem().onsetDate());
-				system.log(medicalProblem().resolutionDate());
 				medicalProblems.push(medicalProblem());
 			});
 		}
