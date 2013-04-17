@@ -10,10 +10,13 @@
 					<option value="occasional">Occasional Smoker</option>
 					<option value="past">Past Smoker</option>
 				</select>
-				<input type="number" class="input-mini" placeholder="Packs per week"
-					data-bind="value: smokingWeekly" />
+				<input type="number" class="input-mini" placeholder="Packs per week" data-bind="
+					value: smokingWeekly,
+					enable: smoking() != 'never' && smoking() != ''" />
 				<label class="checkbox inline">
-					<input type="checkbox" data-bind="checked: smokingCounseling" />
+					<input type="checkbox" data-bind="
+						checked: smokingCounseling,
+						enable: smoking() != 'never' && smoking() != ''" />
 					<span>Counseling&nbsp;provided</span>
 				</label>
 			</div>
@@ -25,8 +28,9 @@
 					<option value="regular">Regular Drinker</option>
 					<option value="social">Social Drinker</option>
 				</select>
-				<input type="number" class="input-mini" placeholder="Drinks per week"
-					data-bind="value: alcoholWeekly" />
+				<input type="number" class="input-mini" placeholder="Drinks per week" data-bind="
+					value: alcoholWeekly,
+					enable: alcohol() != 'never' && alcohol() != ''" />
 				<label class="checkbox inline">
 					<input type="checkbox" data-bind="checked: alcoholCounseling" />
 					<span>Counseling&nbsp;provided</span>

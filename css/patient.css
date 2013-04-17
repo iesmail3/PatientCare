@@ -176,6 +176,12 @@
 }
 
 /* Social & Family History */
+.familyFormScroll {
+	overflow-y: auto;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 5px;
+}
+
 .routineRadio {
 	display: inline-block;
 	margin-right: 10px;

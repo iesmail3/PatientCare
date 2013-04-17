@@ -78,9 +78,11 @@ define(function(require) {
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
+			$('.familyFormScroll').height(parseInt($('.tab-pane').height()) - 334);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
+				$('.familyFormScroll').height(parseInt($('.tab-pane').height()) - 334);
 			});
 		},
 		// Loads when view is loaded
