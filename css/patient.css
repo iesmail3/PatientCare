@@ -3,21 +3,15 @@
 	margin-bottom: 3px;
 }
 
-.input-xmedium {
-	width: 119px;
+.right10 {
+	margin-right: 10px;
 }
 
-.input-mediumLarge {
-	width: 150px;
-}
+.input-xmedium { width: 119px; }
 
-.smallText {
-	font-size: 10px;
-}
+.input-mediumLarge { width: 150px; }
 
-.checkbox {
-	padding-bottom: 15px;
-}
+.smallText { font-size: 10px; }
 
 .checkboxIcon {
 	display: block;
@@ -37,30 +31,20 @@
 	margin-top: 10px;
 }    
 
-.contentPane .container-fluid {
-	padding: 5px;
-}
+.contentPane .container-fluid { padding: 5px; }
 
-.tabScroll {
-	overflow-y: auto;
-}
+.tabScroll { overflow-y: auto; }
 
-.fill {
-	height: 100%;   
-}                               
+.fill { height: 100%; }                               
 
-.patientRecordNav {
-	margin-left: 10px !important;
-}
+.patientRecordNav { margin-left: 10px !important; }
 
 .patientRecordNav li a {
 	color: #000;
 	text-decoration: none;
 }
 
-.patientRecordNav li a:hover {
-	text-decoration: none;
-}
+.patientRecordNav li a:hover { text-decoration: none; }
 
 .patientName {
 	text-align: center;
@@ -70,13 +54,9 @@
 	margin-bottom: 10px;
 }
 
-.patientNavs {
-	margin-top: 15px;
-}
+.patientNavs { margin-top: 15px; }
 
-.nav-tabs {
-	margin-bottom: -1px;
-}
+.nav-tabs { margin-bottom: -1px; }
 
 .tab-pane {
 	background-color: #fff;   
@@ -85,13 +65,9 @@
 	padding: 0 10px;
 }
 
-.formTabs {
-	clear: both;
-}
+.formTabs { clear: both; }
 
-.formPadding {
-	padding: 10px;   
-}
+.formPadding { padding: 10px; }
 
 .formScroll {
 	overflow-y: auto;
@@ -100,26 +76,15 @@
 
 }
 
-.employedPerson {
-	margin: 12px;        
-}
+.employedPerson { margin: 12px; }
      
-.referenceTabs {
-	clear: both;      
-}             
+.referenceTabs { clear: both; }             
 
+#referringphysician form { padding: 10px; }        
 
-#referringphysician form {       
-	padding: 10px; 
-}        
-
-.marginBottom5 {
-	margin-bottom: 5px;
-}
-
-.marginBottom15 {
-	margin-bottom: 15px;
-}
+.marginBottom5 { margin-bottom: 5px; }
+.marginBottom15 { margin-bottom: 15px; }
+.marginTopMinus15 { margin-top: -15px; }
 
 .insuranceOptions {
     border: 1px solid #aaa;  
@@ -127,48 +92,51 @@
     margin: 12px;      
 }
 
-.insuranceOptions label {
-   width: 140px !important;
+.insuranceOptions label { width: 140px !important; }
+
+.commentContainer { padding-right: 15px; }
+
+.commentSpan { width: 100%; }
+
+.paymentTable { max-width: none; }
+.paymentTable input, .paymentTable select { width: 100%; }
+.paymentTable td { padding: 5px; }
+.paymentTable th:last-child { width: 15%; }
+
+.alertHolder { height: 45px; }
+.alert { display: none; }
+
+.modalAlert {
+	margin-top: 2px;
+	height: 20px;
+	line-height: 15px;
+	font-size: 12px;
 }
-.commentContainer {
-	padding-right: 15px;
+.modalAlert .alert {
+	display: none;
+	padding: 1px;
+	margin-bottom: 0;	
 }
 
-.commentSpan {
-	width: 100%;
-}
+.validationElement { border: solid 1px red !important; }
 
-.paymentTable { 
-   max-width: none;   
-}
-
-.paymentTable input, .paymentTable select {
-	width: 100%;
-}
-
-.paymentTable td {
-	padding: 5px;
-}
-
-.paymentTable th:last-child {
-	width: 15%;
-}
-
-.span5 .label, label.inline  {
-    display: inline-block;
-    width: 130px;   
-}
-
-.alertHolder {
-	height: 45px;
-}
-
-.validationElement { 
-	border: solid 1px red !important;
-}
-
-.required {
+.required { 
 	color: red;
+	display: inline-block; 
+}
+
+.arrow {
+	width: 25px;
+	height: 20px;
+	float: right;
+}
+
+.down {
+	background: url('../Content/images/glyphicons-halflings.png') -307px -117px;
+}
+
+.up {
+	background: url('../Content/images/glyphicons-halflings.png') -283px -117px;
 }
 
 /* Personal Information */
@@ -197,7 +165,7 @@
 	width: 140px;
 };
 
-.span6 .label, label.inline  {
+.checkoutTab label.inline  {
     display: inline-block;
     width: 130px;   
 }
@@ -219,34 +187,21 @@
 	cursor: default;
 }
 
-.orderForm a {
-	cursor: pointer;
-}
+.orderForm a { cursor: pointer; }
 
 .orderTable td div {
 	width: 15px;
 	margin: auto;
 }
-
-.orderTable tr {
-	cursor: default;
-}
-
+.orderTable tr { cursor: default; }
 .orderTable td, .orderTable th {
 	text-align: center;
 }
 
-.orderBox {
-	min-width: 615px;
-}
+.orderBox { min-width: 615px; }
 
-.orderForm textarea {
-	width: 97%;
-}
-
-.orderForm select {
-	width: 160px;
-}
+.orderForm textarea { width: 97%; }
+.orderForm select { width: 160px; }
 
 .orderTableHolder {
 	height: 250px;
@@ -264,43 +219,87 @@
 }
 
 .drugHolder {
-	min-width: 783px;
+	width: 800px;
 	height: 580px;
 }
-
+.drugHolder .modal-header { padding: 1px 15px; }
 .drugHolder .modal-body {
-	height: 505px;
-	max-height: 505px;
+	height: 550px;
+	max-height: 550px;
 	padding: 13px;
+	padding-top: 0;
 }
 
-.drugsInstructions {
-	width: 90%;
-}
+.drugsInstructions { width: 98%; }
 
-.drugsForm {
-	margin: 0 0 4px;
-}
+.drugsForm { margin: 0 0 4px; }
+.drugsForm legend { margin-bottom: 5px; }
 
-.drugsButtons {
-	margin-bottom: 4px;
-}
+.drugsButtons { margin-bottom: 4px; }
 
 .drugsTable {
 	overflow-y: auto;
 	clear: both;
-	height: 170px;
+	height: 190px;
 }
 
-.inputCell {
-	padding: 0 !important;
-}
+.inputCell { padding: 0 !important; }
 
 .inputCell input {
 	padding: 4px;
 	margin: 0px;
 	height: 100%;
 	border: none;
+}
+
+.flowHolder {
+	width: 800px;
+	overflow-y: auto;
+}
+
+.flowHolder .modal-header { padding: 1px 15px; }
+
+.flowHolder .modal-body {
+	height: 550px;
+	max-height: 550px;
+	padding: 13px;
+	padding-top: 0;
+	overflow-y: visible;
+}
+
+.flowTableHolder {
+	max-height: 150px;
+	overflow-y: auto;
+}
+
+.venousTableHolder {
+	max-height: 150px;
+	overflow-y: auto;
+}
+
+.venousTableHolder .last { width: 7%; }
+
+.flowForm fieldset legend {
+	margin-bottom: 5px;
+	padding-top: 10px;
+	font-size: 17px;
+	line-height: 20px;
+}
+
+.flowForm .venousFields input[type="text"] { width: 35px; }
+
+.flowForm .venousFields .radio {
+	font-size: 12px;
+	margin: 0 5px;
+}
+
+.medOrderForm {
+	margin: 0;
+}
+
+.medTable {
+	height: 225px;
+	overflow-y: auto;
 }
 
 /* Followup */
@@ -324,6 +323,4 @@
 	display: none;
 }
 
-.checkoutPane {
-   overflow-y: auto;
-}
+.checkoutPane { overflow-y: auto; }

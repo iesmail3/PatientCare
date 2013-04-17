@@ -1,5 +1,9 @@
 <div class="messageBox orderBox">
+	<div data-bind="click: closeWindow, shortcut: 'esc'"></div>
 	<div class="modal-header">
+		<button type="button" data-bind="click: closeWindow" class="close" aria-hidden="true">
+			&times;
+		</button>
 		<h3 data-bind="html: title"></h3>
 	</div>
 	<div class="modal-body">
@@ -19,7 +23,7 @@
 						<td data-bind="text: description"></td>
 						<td data-bind="text: unit"></td>
 						<td class="inputCell">
-							<input class="input-small" data-bind="value: quantity" />
+							<input type="number" class="input-small" data-bind="value: quantity" />
 						</td>
 					</tr>
 				</tbody>

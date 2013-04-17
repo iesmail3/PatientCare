@@ -314,30 +314,6 @@ define(function(require) {
 		{'value' : 'ZW', 'text' : 'Zimbabwe'}
 	]);
 	
-	form.prototype.uiDate = function(date) {
-		if(date != null && date != undefined && date != '' && date != '0000-00-00') {
-			if(date.indexOf('-') >= 0)
-				return date.substring(5,7) + "/" + date.substring(8,10) + "/" + date.substring(0,4);
-			else
-				return date;
-		}
-		else {
-			return null;
-		}
-	}
-	
-	form.prototype.dbDate = function(date) {
-		if(date != null && date != undefined && date != '' && date != '0000/00/00') {
-			if(date.indexOf('/') >= 0)
-				return date.substring(6,10) + "-" + date.substring(0,2) + "-" + date.substring(3,5);
-			else
-				return date;
-		}
-		else {
-			return null;
-		}
-	}
-	
 	/**************************************************************************************************
 	 * Medication Routes
 	 *************************************************************************************************/
@@ -423,8 +399,9 @@ define(function(require) {
 	]);
 	
 	/**************************************************************************************************
-	 * Imaging Orders
+	 * Orders
 	 *************************************************************************************************/
+	// Imaging
 	form.prototype.ImagingOrders = ko.observableArray([
 		'Imaging-Radiology',
 		'Imaging-Ultrasound',
@@ -437,30 +414,55 @@ define(function(require) {
 		'Imaging-Others'
 	]);
 	
+	// Lab
+	form.prototype.LabOrders = ko.observableArray([
+		'Labs-Disease Panels',
+		'Labs-Combination Tests',
+		'Labs-Hematology',
+		'Labs-LPD Panel',
+		'Labs-Microbiology',
+		'Labs-Anemia Panel',
+		'Labs-Tumor Markers',
+		'Labs-Bleeding Dispanel',
+		'Labs-CTD Panel',
+		'Labs-COAG Panel',
+		'Labs-Chemistry',
+		'Labs-Viral Serologies',
+		'Labs-Urine Analysis',
+		'Labs-Others',
+		'Labs-In Office Labs'
+	]);
+	
+	// Lab
+	form.prototype.ChemoOrders = ko.observableArray([
+		'Procedure-General',
+		'Procedure-Chemo'
+	]);
+	
 	/**************************************************************************************************
 	 * Dates
 	 *************************************************************************************************/
 	form.prototype.uiDate = function(date) {
-		if(date != null || date != undefined) {
+		if(date != null && date != undefined && date != '' && date != '0000-00-00') {
 			if(date.indexOf('-') >= 0)
 				return date.substring(5,7) + "/" + date.substring(8,10) + "/" + date.substring(0,4);
 			else
 				return date;
 		}
 		else {
-			return '';
+			return null;
 		}
 	}
 	
 	form.prototype.dbDate = function(date) {
-		if(date != null || date != undefined) {
+		if(date != null && date != undefined && date != '' && date != '0000/00/00') {
 			if(date.indexOf('/') >= 0)
 				return date.substring(6,10) + "-" + date.substring(0,2) + "-" + date.substring(3,5);
 			else
 				return date;
 		}
 		else {
-			return '';
+			return null;
 		}
 	}
 	

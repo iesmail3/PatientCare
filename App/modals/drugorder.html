@@ -1,9 +1,15 @@
 <div class="messageBox drugHolder">
+	<div data-bind="click: closeWindow, shortcut: 'esc'"></div>
 	<div class="modal-header">
-		<button type="button" class="close" aria-hidden="true">&times;</button>
+		<button type="button" data-bind="click: closeWindow" class="close" aria-hidden="true">
+			&times;
+		</button>
 		<h3 data-bind="html: title"></h3>
 	</div>
 	<div class="modal-body">
+		<div class="modalAlert">
+			<div class="alert alert-danger">You have are missing required fields.</div>
+		</div>
 		<form class="form form-inline drugsForm">
 			<!-- ko with: drugOrder -->
 			<fieldset>
@@ -16,32 +22,49 @@
 					</select>
 					<input type="text" data-bind="value: scr, valueUpdate: 'afterkeydown'" 
 						   class="input-small" placeholder="Scr (ml/dL)" />
-					&nbsp;&nbsp;&nbsp;Age: <span style="font-weight: bold;" data-bind="text: $root.age"></span>
+					&nbsp;&nbsp;&nbsp;Age: 
+					<span style="font-weight: bold;" data-bind="text: $root.age"></span>
 				</div>
 				<div class="marginBottom15">
 					<span>CRCL <span class="smallText">(Crockcroft and Gault)</span> 
-					<input data-bind="value: crcl" type="text" class="span1" disabled /> ml/min</span>
-					<span>ABW(Kg) <input type="text" class="span1" data-bind="value: $root.abw" disabled /></span>
-					<span>IBW(Kg) <input type="text" class="span1" data-bind="value: $root.ibw" disabled /></span>
-					<span>BSA(m2) <input type="text" class="span1" data-bind="value: $root.bsa" disabled /></span>
+						<input data-bind="value: $root.crcl" type="text" class="span1" 
+						       disabled /> ml/min
+					</span>
+					<span>
+						ABW(Kg) 
+						<input type="text" class="span1" data-bind="value: $root.abw" disabled />
+					</span>
+					<span>
+						IBW(Kg) 
+						<input type="text" class="span1" data-bind="value: $root.ibw" disabled />
+					</span>
+					<span>
+						BSA(m2) 
+						<input type="text" class="span1" data-bind="value: $root.bsa" disabled />
+					</span>
 				</div>
 			</fieldset>
 			<fieldset>
 				<div class="marginBottom5">
-					<input type="text" data-bind="typeahead: {value: medicine, source: $root.medicines}" placeholder="Medicine" />
-					<input type="text" class="input-small" placeholder="Dose" />
-					<select class="input-small">
+					<input type="text" class="input-xlarge" placeholder="Medicine"
+						   data-bind="validationElement: medicine, typeahead: {value: medicine, source: $root.medicines}" />
+					<span class="required">*</span>
+					<input type="text" class="input-small" placeholder="Dose" 
+						   data-bind="value: dose, valueUpdate: 'afterkeydown'" />
+					
+					<select data-bind="value: basis" class="input-small">
 						<option value="">Basis</option>
 						<option value="/m2">/m2</option>
 						<option value="/Kg">/Kg</option>
 						<option value="auc">AUC</option>
 					</select> per day
-					<button class="btn">Calculate Dose</button>
 				</div>
 				<div class="marginBottom5">
-					Calculated Dose <input type="text" class="input-small" disabled />
-					<input type="text" class="input-mini" placeholder="Prescribed Dose" />
-					<select class="input-small">
+					Calculated Dose <input type="text" data-bind="value: calculatedDose" 
+									       class="input-small" disabled />
+					<input type="text" data-bind="value: prescribedDose" class="input-medium" 
+						   placeholder="Prescribed Dose" />
+					<select data-bind="value: route" class="input-small">
 						<option value="">Route</option>
 						<option value="C IVI">C IVI</option>
 						<option value="C IAI">C IAI</option>
@@ -60,21 +83,33 @@
 					</select>
 				</div>
 				<div class="marginBottom5">
-					<input type="text" placeholder="Diluent" />
-					<input type="text" class="input-mini" placeholder="Volume" />
-					<input type="text" class="input-mini" placeholder="Duration" />
-					<input type="text" class="input-mini" placeholder="Seq" />
-					<input type="text" class="input-mini" placeholder="Days" />
+					<input type="text" data-bind="typeahead: {value: diluent, source: $root.diluents}" 
+					             placeholder="Diluent" />
+					<input type="text" data-bind="value: volume" class="input-mini" 
+					             placeholder="Volume" />
+					<input type="text" data-bind="value: duration" class="input-mini" 
+						         placeholder="Duration" />
+					<input type="text" data-bind="value: seq" class="input-mini" placeholder="Seq" />
+					<input type="text" data-bind="value: days" class="input-mini" placeholder="Days" />
 				</div>
-				<textarea class="drugsInstructions" placeholder="Instructions"></textarea>
+				<textarea data-bind="value: instructions" class="drugsInstructions" 
+						  placeholder="Instructions"></textarea>
 			</fieldset>
 			<!-- /ko -->
 		</form>
-		<div data-bind="foreach: options" class="pull-right drugsButtons">
-			<button class="btn" data-bind="click: function() { $parent.selectOption($data); }, 
-				html: $data, css: {'btn-primary': $index() == 1, autofocus: $index() == 0, 
-				'btn-success': $data == 'New', 'btn-warning': $data == 'Cancel', 
-				'btn-danger': $data == 'Delete'}"></button>
+		<div class="pull-right drugsButtons">
+			<button class="btn btn-success" data-bind="click: clickNew, visible: newButton">
+				New
+			</button>
+			<button class="btn btn-warning" data-bind="click: clickCancel, visible: cancelButton">
+				Cancel
+			</button>
+			<button class="btn btn-primary" data-bind="click: saveOrder">
+				Save
+			</button>
+			<button class="btn btn-danger" data-bind="click: closeWindow">
+				Close
+			</button>
 		</div>
 		<div class="drugsTable">
 			<table class="table table-bordered table-hover">
@@ -88,62 +123,24 @@
 					<th>Volume</th>
 					<th>Duration</th>
 					<th>Day</th>
+					<th></th>
 				</thead>
-				<tbody>
+				<tbody data-bind="foreach: drugOrders">
 					<tr>
-						<th>Test</th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-					</tr>
-					<tr>
-						<th>Test</th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-					</tr>
-					<tr>
-						<th>Test</th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-					</tr>
-					<tr>
-						<th>Test</th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-					</tr>
-					<tr>
-						<th>Test</th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
+						<td data-bind="text: medicine, click: $root.selectRow"></td>
+						<td data-bind="text: dose, click: $root.selectRow""></td>
+						<td data-bind="text: prescribedDose, click: $root.selectRow""></td>
+						<td data-bind="text: route, click: $root.selectRow""></td>
+						<td data-bind="text: seq, click: $root.selectRow""></td>
+						<td data-bind="text: diluent, click: $root.selectRow""></td>
+						<td data-bind="text: volume, click: $root.selectRow""></td>
+						<td data-bind="text: duration, click: $root.selectRow""></td>
+						<td data-bind="text: days, click: $root.selectRow""></td>
+						<td>
+							<button data-bind="click: $root.deleteRow" class="btn btn-danger btn-mini">
+								X
+							</button>
+						</td>
 					</tr>
 				</tbody>
 			</table>

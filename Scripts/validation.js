@@ -30,19 +30,19 @@
 
     var defaults = {
         registerExtenders: true,
-        messagesOnModified: true,
+        messagesOnModified: false,
 		errorsAsTitle: true,  			// enables/disables showing of errors as title attribute of the target element.
         errorsAsTitleOnModified: false, // shows the error when hovering the input field (decorateElement must be true)
         messageTemplate: null,
         insertMessages: true,           // automatically inserts validation messages as <span></span>
         parseInputAttributes: false,    // parses the HTML5 validation attribute from a form element and adds that to the object
         writeInputAttributes: false,    // adds HTML5 input validation attributes to form elements that ko observable's are bound to
-        decorateElement: false,         // false to keep backward compatibility
+        decorateElement: true,         // false to keep backward compatibility
         errorClass: null,               // single class for error message and element
         errorElementClass: 'validationElement',  // class to decorate error element
         errorMessageClass: 'validationMessage',  // class to decorate error message
         grouping: {
-            deep: false,        //by default grouping is shallow
+            deep: true,        //by default grouping is shallow
             observable: true    //and using observables
         }
     };
