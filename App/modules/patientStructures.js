@@ -261,8 +261,8 @@ define(function(require) {
 			this.patientId	 = ko.observable(data.patient_id);
 			this.serviceRecordId   = ko.observable(data.service_record_id); 
 			this.type		 = ko.observable(data.type);
-			this.value		 = ko.observable(data.value).extend({required: true});
-			this.unit		 = ko.observable(data.unit).extend({required: true});
+			this.value		 = ko.observable(data.value).extend({required: {message: 'value'}});
+			this.unit		 = ko.observable(data.unit).extend({required: {message: 'unit'}});
 			this.comment	 = ko.observable(data.comment);
 			this.serviceDate = ko.observable(data.service_date);
 			this.plan		 = ko.observable(data.plan);
@@ -272,14 +272,15 @@ define(function(require) {
 			this.patientId	 = ko.observable();
 			this.serviceRecordId = ko.observable(); 
 			this.type		 = ko.observable();
-			this.value		 = ko.observable().extend({required: true});
-			this.unit		 = ko.observable().extend({required: true});
+			this.value		 = ko.observable().extend({required: {message: 'value'}});
+			this.unit		 = ko.observable().extend({required: {message: 'unit'}});
 			this.comment	 = ko.observable();
 			this.serviceDate = ko.observable();
 			this.plan		 = ko.observable();
 		}
 		
-		self.errors = ko.validation.group(self, {messagesOnModified: false});
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Guarantor

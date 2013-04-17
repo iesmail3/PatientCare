@@ -396,13 +396,25 @@ define(function(require) {
 			modal.showFile(doc().location(),'Selected File'); 
 		},
 		saveFollowup: function(data) {
-			if(followup().errors().length == 0) { 
+			if(followup().errors().length > 0) {
+					system.log('inside error > 0'); 
+				if(followup().errors().length > 1) {
+						system.log('inside all'); 
+					$('.followup .allAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(followup().errors()[0] == 'value') {
+						system.log('inside value'); 
+					$('.followup .valueAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(followup().errors()[0] == 'unit') {
+					system.log('inside unit'); 
+					$('.followup .unitAlert').fadeIn().delay(3000).fadeOut();
+				}
+			}
+		    else {
+		   
 				backend.saveFollowup(followup().id(), followup());
-				$('.followupAlert').removeClass().addClass('alert alert-success').html('Success!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
-		   }
-		   else {
-				 system.log('inside it'); 
-				$('.followupAlert').removeClass().addClass('alert alert-error').html('Error!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
+			    $('.followup .followupAlert').fadeIn().delay(3000).fadeOut();
 			}
 		},
 		deleteFollowup: function(item, test) {
