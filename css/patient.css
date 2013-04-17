@@ -7,11 +7,13 @@
 
 .input-xmedium { width: 119px; }
 
+.right10 {
+	margin-right: 10px;
+}
+
 .input-mediumLarge { width: 150px; }
 
 .smallText { font-size: 10px; }
-
-.checkbox { padding-bottom: 15px; }
 
 .checkboxIcon {
 	display: block;
@@ -108,16 +110,41 @@
 .paymentTable td { padding: 5px; }
 .paymentTable th:last-child { width: 15%; }
 
-.span5 .label, label.inline  {
-    display: inline-block;
-    width: 130px;   
-}
-
 .alertHolder { height: 45px; }
+.alert { display: none; }
+
+.modalAlert {
+	margin-top: 2px;
+	height: 20px;
+	line-height: 15px;
+	font-size: 12px;
+}
+.modalAlert .alert {
+	display: none;
+	padding: 1px;
+	margin-bottom: 0;	
+}
 
 .validationElement { border: solid 1px red !important; }
 
-.required { color: red; }
+.required { 
+	color: red;
+	display: inline-block; 
+}
+
+.arrow {
+	width: 25px;
+	height: 20px;
+	float: right;
+}
+
+.down {
+	background: url('../Content/images/glyphicons-halflings.png') -307px -117px;
+}
+
+.up {
+	background: url('../Content/images/glyphicons-halflings.png') -283px -117px;
+}
 
 /* Personal Information */
 .personalAlert {
@@ -158,6 +185,7 @@
 	height: 20px;
 	display: none;
 }
+<<<<<<< HEAD
 
 .reviewOfSystem {
 	margin-bottom: 5px;
@@ -218,6 +246,10 @@
 }
 
 .allergiesCheckbox  {
+=======
+
+.checkoutTab label.inline  {
+>>>>>>> 5c260dae9ef520199528d2b4be978a775cf212b5
     display: inline-block;
     width: 150px;
 }
@@ -344,6 +376,15 @@
 .flowForm .venousFields .radio {
 	font-size: 12px;
 	margin: 0 5px;
+}
+
+.medOrderForm {
+	margin: 0;
+}
+
+.medTable {
+	height: 225px;
+	overflow-y: auto;
 }
 
 /* Followup */
