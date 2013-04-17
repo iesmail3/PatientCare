@@ -12,16 +12,24 @@
 			<!-- ko with: order -->
 			<div class="row-fluid">
 				<div class="span7">
-					<select class="input-medium" data-bind="value: type,
-						options: $root.orderTypes, optionsCaption: 'Type',
-						event: {change: $root.updateOrders}">
-					</select>
-					<select class="input-medium" data-bind="value: center,
-						options: $root.centers, optionsCaption: 'Diagnostic Center'">
-					</select>
-					<label class="checkbox">
-						<input type="checkbox"data-bind="checked: inOffice">In Office
-					</label>
+					<div class="marginBottom5">
+						<select class="input-medium" data-bind="value: type,
+							options: $root.orderTypes, optionsCaption: 'Type',
+							event: {change: $root.updateOrders}">
+						</select>
+						<select class="input-medium" data-bind="value: center,
+							options: $root.centers, optionsCaption: 'Diagnostic Center', 
+							visible: !inOffice()">
+						</select>
+					</div>
+					<div style="padding-left: 5px; padding-right: 12px;">
+						<label class="checkbox inline">
+							<input type="checkbox"data-bind="checked: inOffice">In Office
+						</label>
+						<select class="input-medium pull-right" data-bind="value: assignedTo,
+							options: $root.users, optionsCaption: 'Assigned To', visible: inOffice()">
+						</select>
+					</div>
 				</div>
 				<div class="span5">
 					<div class="row-fluid">

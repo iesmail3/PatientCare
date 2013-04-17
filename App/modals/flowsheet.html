@@ -13,6 +13,8 @@
 				<div class="alert alert-danger dayAlert">Day is required.</div>
 				<div class="alert alert-danger portAlert">Port is required.</div>
 				<div class="alert alert-danger medicineAlert">Medicine is required.</div>
+				<div class="alert alert-success vitalsSuccess">Vitals saved.</div>
+				<div class="alert alert-success molSuccess">Medication saved.</div>
 			</div>
 			<!-- ko with: venousAccess -->
 			<fieldset class="venousFields">
@@ -64,7 +66,7 @@
 						<span class="add-on"><i class="icon-time"></i></span>
 					</div>
 					<button class="btn btn-primary btn-mini" data-bind="click: $root.saveVital">Save</button>
-					<button class="btn btn-warning btn-mini">Clear</button>
+					<button class="btn btn-warning btn-mini" data-bind="click: $root.clearVitals">Clear</button>
 				</div>
 				<div class="venousTableHolder">
 					<table class="table table-hover table-bordered table-striped table-condensed">

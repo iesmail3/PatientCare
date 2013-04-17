@@ -2,6 +2,8 @@ define(function(require) {
 	var system = require('durandal/system');
 	var Backend = require('modules/order');
 	var Structures = require('modules/patientStructures');
+	var Forms = require('modules/form');
+	var form = new Forms();
 	var backend = new Backend();
 	var structures = new Structures();
 	var u = require('../../Scripts/underscore');
@@ -28,7 +30,21 @@ define(function(require) {
 		this.orderCategories = ko.observableArray([]);	// Categories for list
 		this.updateOrders(this.order());				// Update Orders
 		this.serviceRecordId = serviceRecordId;			// ServiceRecord
+		this.users = ko.observableArray([]);			// Users
+		this.getUsers();
 	};
+	
+	/**********************************************************************************************
+	 * Open Drugs Order modal
+	 *********************************************************************************************/
+	Order.prototype.getUsers = function(data) {
+		backend.getUsers(self.practiceId).success(function(data) {
+			var u = $.map(data, function(item) {
+				return item.first_name + " " + item.last_name;
+			});
+			self.users(u);
+		});
+	}
 	
 	/**********************************************************************************************
 	 * Select Option
@@ -51,7 +67,13 @@ define(function(require) {
 					var description = cat[0].description();
 					// Date
 					date = new Date();
-					date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+					date = form.dbDate(form.currentDate());
+
+					// Center or Assigned to
+					if(self.order().inOffice())
+						self.order().center('');
+					else
+						self.order().assignedTo('');
 					// Create new order with data provided
 					var o = new structures.Order({
 						service_record_id: self.serviceRecordId,
@@ -66,10 +88,12 @@ define(function(require) {
 						center: self.order().center(),
 						group: self.order().group()									
 					});
-					// Add to orders observable array
-					self.orders.push(o);		
 					// Insert into database
 					backend.saveOrder(o, "insert");
+					// Reformat date for display
+					o.date(form.uiDate(date));
+					// Add to orders observable array
+					self.orders.push(o);		
 				}
 			});
 	
@@ -87,7 +111,7 @@ define(function(require) {
 						in_office: self.order().inOffice(),
 						instructions: self.order().instructions(),
 						assigned_to: self.order().assignedTo(),
-						date: self.order().date(),
+						date: form.dbDate(self.order().date()),
 						type: self.order().type(),
 						comment: self.order().comment(),
 						center: self.order().center(),

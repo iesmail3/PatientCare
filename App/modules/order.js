@@ -68,6 +68,16 @@ define(function(require) {
 		})
 	}
 	
+	// Get All Users
+	order.prototype.getUsers = function(id) {
+		return this.query({
+			mode: 'select', 
+			table: 'user', 
+			fields: '*',
+			where: "WHERE practice_id='" + id + "'"
+		});
+	}
+	
 	// Get Vital Signs
 	order.prototype.getVitals = function(id) {
 		return this.query({
