@@ -1,10 +1,13 @@
-<div class="formScroll checkoutTab">
+<div class="formScroll checkoutTab checkout">
 	<div class="form-inline">
 		<div class="row-fluid">
 			<fieldset>
 				<legend>Co-pay Details</legend>
 				<div class="alertHolder">
-					<div class="alert alert-danger checkoutAlert">You have are missing required fields.</div>
+					<div class="alert alert-danger allAlert">You are missing required fields.</div>
+					<div class="alert alert-danger modeAlert">Mode is a required field .</div>
+					<div class="alert alert-danger amountAlert">Amount is a required fields.</div>
+					<div class="alert alert-success checkoutAlert">Successfully updated.</div>
 				</div>
 				 <!-- ko with: checkout -->
 					<div class="span5">
@@ -66,7 +69,6 @@
 					<!-- ko with: paymentMethod -->  
 						<table class="paymentTable table table-bordered table-hover">
 								<thead>
-								<span class="required">*</span>
 									<tr>       
 										<th>Modes</th>   
 										<th>Particulars</th>

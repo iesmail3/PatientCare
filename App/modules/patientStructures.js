@@ -715,18 +715,19 @@ define(function(require) {
 		if (data != null) {
 			this.id			 = ko.observable(data.id);
 			this.checkoutId	 = ko.observable(data.checkout_id);
-			this.mode		 = ko.observable(data.mode).extend({required: true});
-			this.particulars = ko.observable(data.particulars).extend({required: true});
-			this.amount		 = ko.observable(data.amount).extend({required: true});
+			this.mode		 = ko.observable(data.mode).extend({required: {message: 'mode'}});
+			this.particulars = ko.observable(data.particulars);
+			this.amount		 = ko.observable(data.amount).extend({required: {message: 'amount'}});
 		}
 		else {
 			this.id			 = ko.observable('');
 			this.checkoutId	 = ko.observable('');
-			this.mode		 = ko.observable('').extend({required: true});
-			this.particulars = ko.observable('').extend({required: true});
-			this.amount		 = ko.observable('').extend({required: true});
+			this.mode		 = ko.observable('').extend({required: {message: 'mode'}});
+			this.particulars = ko.observable('');
+			this.amount		 = ko.observable('').extend({required: {message: 'amount'}});
 		}
-		self.errors = ko.validation.group(self, {messagesOnModified: false});
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Physical Examination: Abd

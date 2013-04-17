@@ -449,6 +449,7 @@ define(function(require) {
 			 backend.deletePrescription(data.medicationOrderId());
 		},
 		savePaymentMethod: function(data) { 
+		   system.log('inside payment'); 
 		    backend.saveCheckout(checkout()); 
 			//Check to see if  you have any rows in the payment method table
 			if(paymentMethods().length  > 0) { 
@@ -461,18 +462,28 @@ define(function(require) {
 				//check to see if there are any remaining rows after removing the last one
 				if(paymentMethods().length > 0) { 
 					$.each(paymentMethods(), function(k, v) {
-						if(v.errors().length != 0)
-								isValid = false;
+					
+						if(v.errors().length > 1) {
+								isValid = false; 
+								$('.checkout .allAlert').fadeIn().delay(3000).fadeOut();
+						}
+						else if(v.errors()[0] == 'mode') {
+								isValid = false; 
+								$('.checkout .modeAlert').fadeIn().delay(3000).fadeOut();
+						}
+						else if(v.errors()[0] == 'amount') {
+								 isValid = false; 
+								$('.checkout .amountAlert').fadeIn().delay(3000).fadeOut();
+						}
 					}); 
 					
 					if(isValid) {
+						$('.checkoutAlert').fadeIn('slow').delay(2000).fadeOut('slow');
 						$.each(paymentMethods(), function(k, v) {
 						  backend.savePaymentMethod(checkout().id(),v);
 						}); 
 					}
-					else
-						$('.checkoutAlert').fadeIn('slow').delay(2000).fadeOut('slow');
-					
+				
 					paymentMethods.push(new structures.PaymentMethod());
                 }					
 		    }
