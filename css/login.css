@@ -53,3 +53,10 @@ a, a:hover {
 .loginSeparator {
   margin-bottom: 15px;
 }
+
+.loginValidation {
+	margin-top: -10px;
+	margin-bottom: 10px;
+	color: rgb(255, 0, 0);
+	text-align: center;
+}
