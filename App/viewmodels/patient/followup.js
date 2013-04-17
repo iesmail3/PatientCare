@@ -489,11 +489,29 @@ define(function(require) {
 		    }
 		},
 		savePhoneLog: function(data) {
-			if(phoneLog().errors().length == 0) { 
-				backend.savePhoneLog(phoneLog,phoneLogs,practiceId(),patientId(),showAssigned); 
+			if(phoneLog().errors().length > 0) {
+				if(phoneLog().errors().length > 1) {
+					$('.phoneLog .allAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(phoneLog().errors()[0] == 'datetime') {
+					$('.phoneLog .dateAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(phoneLog().errors()[0] == 'caller') {
+					$('.phoneLog .callerAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(phoneLog().errors()[0] == 'attendedBy') {
+					$('.phoneLog .attendedByAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(phoneLog().errors()[0] == 'type') {
+					$('.phoneLog .typeAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(phoneLog().errors()[0] == 'actionRequired') {
+					$('.phoneLog .actionRequiredAlert').fadeIn().delay(3000).fadeOut();
+				}
 			}
 			else { 
-					$('.phoneLogAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+				 $('.phoneLog .phoneLogAlert').fadeIn().delay(3000).fadeOut();
+				 backend.savePhoneLog(phoneLog,phoneLogs,practiceId(),patientId(),showAssigned); 
 			}
 		},
 		saveDocument: function(data) {

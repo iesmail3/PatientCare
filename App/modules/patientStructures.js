@@ -985,27 +985,28 @@ define(function(require) {
 			this.id			    = ko.observable(data.id);
 			this.patientId	    = ko.observable(data.patient_id);
 			this.practiceId     = ko.observable(data.practice_id);
-			this.datetime	    = ko.observable(data.datetime).extend({required: true});
-			this.caller		    = ko.observable(data.caller).extend({required: true});
-			this.attendedBy	    = ko.observable(data.attended_by).extend({required: true});
+			this.datetime	    = ko.observable(data.datetime).extend({required: {message: 'datetime'}});
+			this.caller		    = ko.observable(data.caller).extend({required: {message: 'caller'}});
+			this.attendedBy	    = ko.observable(data.attended_by).extend({required: {message: 'attendedBy'}});
 			this.message	    = ko.observable(data.message);
-			this.actionRequired = ko.observable(data.action_required).extend({required: true});
+			this.actionRequired = ko.observable(data.action_required).extend({required: {message: 'actionRequired'}});
 			this.assignedTo	    = ko.observable(data.assigned_to);
-			this.type		    = ko.observable(data.type).extend({required: true});;
+			this.type		    = ko.observable(data.type).extend({required: {message: 'type'}});
 		}
 		else {
 			this.id			    = ko.observable();
 			this.patientId	    = ko.observable();
 			this.practiceid     = ko.observable(); 
-			this.datetime	    = ko.observable().extend({required: true});
-			this.caller		    = ko.observable().extend({required: true});
-			this.attendedBy	    = ko.observable().extend({required: true});
+			this.datetime	    = ko.observable().extend({required: {message: 'datetime'}});
+			this.caller		    = ko.observable().extend({required: {message: 'caller'}});
+			this.attendedBy	    = ko.observable().extend({required: {message: 'attendedBy'}});
 			this.message	    = ko.observable();
-			this.actionRequired = ko.observable().extend({required: true});
+			this.actionRequired = ko.observable().extend({required: {message: 'actionRequired'}});
 			this.assignedTo	    = ko.observable();
-			this.type		    = ko.observable().extend({required: true});
+			this.type		    = ko.observable().extend({required: {message: 'type'}});
 		}
-		self.errors = ko.validation.group(self, {messagesOnModified: false});
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Physician
