@@ -1,64 +1,64 @@
-<div class="formScroll">
+<div class="alertHolder">
+	<div class="alert reviewAlert"></div>
+</div>
+<div class="reviewFormScroll">
 	<form class="form-inline formPadding">
 		<div class="row-fluid">
-			<table class="table table-bordered table-hover">
-				<thead>
-					<tr>
-						<th>Particulars</th>
-						<th>Type</th>
-						<th>Comment</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody data-bind="foreach: reviewOfSystems">
-					<tr>
-						<td data-bind="text: particulars"></td>
-						<td>
-							<select class="input-xmedium" data-bind="value: type">
-								<option value="" disabled="" selected="" style="display:none;">Type</option>
-								<option value="notdone">Not Done</option> 
-								<option value="negative">Negative</option>
-								<option value="positive">Positive</option>
-							</select>
-						</td>
-						<td>
-							<textarea rows="1" placeholder="Comments" data-bind="value: comment" /></textarea>
-						</td>
-						<td><a class="btn btn-small btn-danger" data-bind="click: $root.reviewOfSystemsDelete,
+			<div data-bind="foreach: reviewOfSystems">
+				<div class="reviewOfSystem">
+					<input type="text" class="input-xsmall" placeholder="Particular" data-bind="
+						value: particulars,
+						enable: !defaultParticulate(),
+						event: {keyup: $root.reviewOfSystemsAddRow},
+						valueUpdate: 'afterkeydown'" required />
+					<span class="required">*</span>
+					<div class="reviewPushRight">
+						<label class="radio reviewRadio">
+							<input type="radio" value="not done" data-bind="
+								checked: type,
+								attr: {name: name}" required />
+							<span class="smallText">Not&nbsp;Done</span>
+						</label>
+						<label class="radio reviewRadio">
+							<input type="radio" value="negative" data-bind="
+								checked: type,
+								attr: {name: name}" required />
+							<span class="smallText">Negative</span>
+						</label>
+						<label class="radio reviewRadio">
+							<input type="radio" value="positive" data-bind="
+								checked: type,
+								attr: {name: name}" required />
+							<span class="smallText">Positive</span>
+							<span class="required">*</span>
+						</label>
+						<input type="text" class="reviewComment" placeholder="Comments" data-bind="
+							value: comment,
+							enable: type() != 'not done'" required />
+						<span class="required">*</span>
+						<button class="btn btn-small btn-danger pull-right" data-bind="
+							click: $root.reviewOfSystemsDelete,
 							visible: !defaultParticulate()">
 							Delete
-						</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="row-fluid">
-			<div class="alertHolder">
-				<div class="alert alert-danger reviewAlert">You have are missing required fields.</div>
-			</div>
-			<div class="marginBottom5 commentContainer">
-				<span>Add New Particular</span>
-				<div>
-					<input type="text" placeholder="Particular" data-bind="value: reviewOfSystem().particulars" required>
-					<span class="required">*</span>
-					<select class="input-xmedium" data-bind="value: reviewOfSystem().type">
-						<option value="" disabled="" selected="" style="display:none;">Type</option>
-						<option value="notdone">Not Done</option> 
-						<option value="negative">Negative</option>
-						<option value="positive">Positive</option>
-					</select>
-					<textarea rows="1" placeholder="Comments" data-bind="value: reviewOfSystem().comment" /></textarea>
-					<button type="submit" class="btn btn-primary" data-bind="click: $root.reviewOfSystemsAdd">Add</button>
+						</button>
+					</div>
 				</div>
-			</div>
-			<div class="marginBottom5 commentContainer">
-				<textarea class="commentSpan" rows="3" placeholder="Comments"
-					data-bind="value: serviceRecord().systemsComment" /></textarea>
 			</div>
 		</div>
 	</form>
 </div>
+<div class="marginBottom5 commentContainer">
+	<textarea class="commentSpan" rows="3" placeholder="Comments" data-bind="
+		value: serviceRecord().systemsComment" />
+	</textarea>
+</div>
 <div class="pull-right">
-	<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.reviewOfSystemsSave">Save</button>
-	<button type="button" class="btn btn-small btn-warning" data-bind="click: $root.reviewOfSystemsClear">Clear</button>
+	<button type="submit" class="btn btn-small btn-primary" data-bind="
+		click: $root.reviewOfSystemsSave">
+		Save
+	</button>
+	<button type="button" class="btn btn-small btn-warning" data-bind="
+		click: $root.reviewOfSystemsClear">
+		Clear
+	</button>
 </div>
