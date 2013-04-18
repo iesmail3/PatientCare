@@ -66,6 +66,10 @@ define(function(require) {
 					// Grab the description
 					var description = cat[0].description();
 					// Date
+
+					date = new Date();   
+					date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+
 					date = new Date();
 					date = form.dbDate(form.currentDate());
 
@@ -74,6 +78,7 @@ define(function(require) {
 						self.order().center('');
 					else
 						self.order().assignedTo('');
+						
 					// Create new order with data provided
 					var o = new structures.Order({
 						service_record_id: self.serviceRecordId,

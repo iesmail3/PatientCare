@@ -1,77 +1,89 @@
-<div class="formScroll">
-			     <!-- ko with: doc -->
-				<form class="form-inline">
-					<div class="row-fluid">
-						<fieldset>
-							<legend>Search</legend>
-							<div class="marginBottom5">
-								<select class="input-medium">
-									<option>Document Type</option>
-									<option>All</option>
-									<option>Labs</option>
-									<option>X-Ray</option>
-									<option>Pathology</option>
-									<option>Procedures</option>
-									<option>Other</option>
-								</select>
-								<div class="pull-right">   
-									<button type="button"class="btn btn-small">Search</button>
-									<button type="button"class="btn btn-small btn-warning">Clear</button>
+<div class="formScroll document">
+	<form class="form-inline">
+		<div class="row-fluid">
+			<div class="alertHolder">
+				<div class="alert alert-danger allAlert">You have are missing required fields.</div>
+				<div class="alert alert-danger typeAlert">The document type is required.</div>
+				<div class="alert alert-success documentAlert">Successfully updated.</div>
+			</div>
+			<fieldset>
+				<legend>Search</legend>
+				<div class="marginBottom5">
+					<select class="input-medium" data-bind="value:documentType,event:{ change:searchByType}">
+						<option value="Document Type">Document Type</option>
+						<option value="All">All</option>
+						<option value="Labs">Labs</option>
+						<option value="X-Ray">X-Ray</option>
+						<option value="Pathology">Pathology</option>
+						<option value="Procedures">Procedures</option>
+						<option value="Other">Other</option>
+					</select>
+				</div>
+			</fieldset>   
+		</div>
+		 <!-- ko with: doc -->
+		<div class="row-fluid">
+			<fieldset>   
+				<legend>Details</legend>      
+				<div class="marginBottom5">
+					<select class="input-medium" data-bind="value:type">
+						<option value="">Document Type</option>
+						<option value="Labs">Labs</option>
+						<option value="X-Ray">X-Ray</option>
+						<option value="Pathology">Pathology</option>
+						<option value="Procedures">Procedures</option>
+						<option value="Other">Other</option>
+					</select>
+					<div class="fileupload fileupload-new pull-right" data-bind="visible:$root.isNewDocument(),uploader: true">    
+					 </div>
+				</div> 							             
+				<div class="marginBottom5">
+					<textarea class="input-xxlarge" rows="3" placeholder="Comment" data-bind="value: comment"></textarea>
+				</div>  
+				<div class="marginBottom5">
+					<label class="checkbox inline">
+						<input type="checkbox" data-bind="checked:isReviewed"/><span>Is Reviewed?</span>
+					</label>      
+					<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.documentAdd,visible: $root.documentState()">New</button>
+					<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.saveDocument,visible: !$root.documentSave()">Save</button>
+					<button type="button" id ="cancelButton" class="btn btn-small btn-danger" data-bind="click:$root.documentCancel,visible:!$root.documentState()">Cancel</button>
+				</div>
+			</fieldset>  
+		</div> 
+	 <!-- /ko -->
+	</form>
+	<div class="row-fluid">
+		<div class="marginBottom5">
+			<table class="table table-bordered table-hover">   
+				<thead>
+					<tr>
+						<th></th>
+						<th>Received Date</th>
+						<th>DOS</th>
+						<th>Doc Type</th>
+						<th>Is Reviewed?</th>     
+						<th>Comments</th> 
+						<th>File Name </th>
+					</tr>
+				</thead>    
+					<tbody data-bind="foreach: documents">     
+						<tr data-bind="click: $root.setDocumentFields">  
+							<td>
+							<button type="button" id ="viewfile" class="btn btn-small btn-primary pull-right"data-bind="click: $root.displayFile">View File</button>
+							</td>
+							<td data-bind="text: date"></td>      
+							<td data-bind="text: dateOfService"></td>
+							<td data-bind="text: type"></td>     
+							<td>
+								<div data-bind="visible: isReviewed">
+									<i class="icon-ok checkboxIcon"></i>
 								</div>
-							</div>
-						</fieldset>   
-					</div>
-				 
-					<div class="row-fluid">
-						<fieldset>   
-							<legend>Details</legend>      
-							<div class="marginBottom5">
-								<input type="text" class="input-medium" placeholder="Document Type" data-bind="value: type"/>
-							   <div class="fileupload fileupload-new pull-right" data-provides="fileupload">
-                                 <div class="input-append">
-                                     <div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div>
-                                     <span class="btn btn-file"><span class="fileupload-new">Select file</span><span class="fileupload-exists">Change</span>
-                                     <input type="file" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-                                 </div>
-                             </div>
-							</div>
-							<div class="marginBottom5">
-								<textarea class="input-xxlarge" rows="3" placeholder="Comment" data-bind="value: comment"></textarea>
-							</div>  
-							<div class="marginBottom5">
-								<label class="checkbox inline">
-									<input type="checkbox" data-bind="checked:isReviewed"/><span>Is Reviewed?</span>
-								</label>      
-								<button type="button"class="btn btn-small btn-primary pull-right" >Save</button>
-							</div>
-						</fieldset>  
-					</div>     
-				</form>
-				<!-- /ko -->
-				<div class="row-fluid">
-					<div class="marginBottom5">
-						<table class="table table-bordered table-hover">   
-							<thead>
-								<tr>
-									<th></th>
-									<th>Received Date</th>
-									<th>DOS</th>
-									<th>Doc Type</th>
-									<th>Is Reviewed?</th>     
-									<th>Comments</th>      
-								</tr>
-							</thead>    
-								<tbody data-bind="foreach: documents">     
-									<tr data-bind="click: $root.setDocumentFields">   
-										<td></td>  
-										<td data-bind="text: date"></td>      
-										<td data-bind="text: DOS"></td>
-										<td data-bind="text: type"></td>     
-										<td data-bind="text:isReviewed"></td>
-										<td data-bind="text: comment"></td>	    					     
-									</tr>            
-								</tbody>               
-						</table>
-					</div>    
-				</div>     
-			</div> 
+							</td>
+							<td data-bind="text: comment"></td>	 
+							<td data-bind="text: location"></td>
+						</tr>            
+					</tbody>               
+			</table>
+		</div>    
+	</div>     
+</div> 

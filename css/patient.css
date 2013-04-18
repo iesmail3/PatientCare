@@ -322,9 +322,39 @@ th, td {
 	display: none;
 }
 
+.phoneLogAlert {
+	height: 20px;
+	display: none;
+}
+
 .checkoutAlert { 
 	height: 20px;
 	display: none;
 }
 
 .checkoutPane { overflow-y: auto; }
+
+.checkoutTab  .label, label.inline  {
+    display: inline-block;    
+	width: 130px;  
+}
+
+.fileHolder {
+	width: 900px;
+}
+
+.fileHolder .modal-header { padding: 1px 15px; }
+
+.fileHolder .modal-body {
+	height: 550px;
+	min-height: 550px;
+	padding: 13px;
+	padding-top: 0;
+	overflow-y: auto;
+}
+
+.fileHolder .modal-body img {
+	display: block;
+	max-width: 99%;
+	margin: auto;
+}
