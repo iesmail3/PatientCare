@@ -114,34 +114,36 @@
 		<div class="drugsTable">
 			<table class="table table-bordered table-hover">
 				<thead>
-					<th data-bind="sort: {column: 'medicine', array: drugOrders}">
-						<span>Medicine</span>
-					</th>
-					<th data-bind="sort: {column: 'dose', array: drugOrders}">
-						<span>Dose</span>
-					</th>
-					<th data-bind="sort: {column: 'prescribedDose', array: drugOrders}">
-						<span>Pres. Dose</span>
-					</th>
-					<th data-bind="sort: {column: 'route', array: drugOrders}">
-						<span>Route</span>
-					</th>
-					<th data-bind="sort: {column: 'seq', array: drugOrders}">
-						<span>Seq</span>
-					</th>
-					<th data-bind="sort: {column: 'diluent', array: drugOrders}">
-						<span>Diluent</span>
-					</th>
-					<th data-bind="sort: {column: 'volume', array: drugOrders}">
-						<span>Volume</span>
-					</th>
-					<th data-bind="sort: {column: 'duration', array: drugOrders}">
-						<span>Duration</span>
-					</th>
-					<th data-bind="sort: {column: 'days', array: drugOrders}">
-						<span>Day</span>
-					</th>
-					<th></th>
+					<tr>
+						<th data-bind="sort: {column: 'medicine', array: drugOrders}">
+							<span>Medicine</span>
+						</th>
+						<th data-bind="sort: {column: 'dose', array: drugOrders}">
+							<span>Dose</span>
+						</th>
+						<th data-bind="sort: {column: 'prescribedDose', array: drugOrders}">
+							<span>Pres. Dose</span>
+						</th>
+						<th data-bind="sort: {column: 'route', array: drugOrders}">
+							<span>Route</span>
+						</th>
+						<th data-bind="sort: {column: 'seq', array: drugOrders}">
+							<span>Seq</span>
+						</th>
+						<th data-bind="sort: {column: 'diluent', array: drugOrders}">
+							<span>Diluent</span>
+						</th>
+						<th data-bind="sort: {column: 'volume', array: drugOrders}">
+							<span>Volume</span>
+						</th>
+						<th data-bind="sort: {column: 'duration', array: drugOrders}">
+							<span>Duration</span>
+						</th>
+						<th data-bind="sort: {column: 'days', array: drugOrders}">
+							<span>Day</span>
+						</th>
+						<th></th>
+					</tr>
 				</thead>
 				<tbody data-bind="foreach: drugOrders">
 					<tr>
