@@ -132,6 +132,8 @@ define(function(require) {
 			var e = $(element);
 			var value = valueAccessor();
 			var arrow = e.find('.arrow');
+			if(arrow.length == 0)
+				arrow = $('<div class="null"></div>');
 			var a = value.array;
 			var column = value.column;
 			

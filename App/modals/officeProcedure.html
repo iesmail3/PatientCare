@@ -12,9 +12,18 @@
 				<thead>
 					<tr>
 						<th></th>
-						<th>Description</th>
-						<th>Unit</th>
-						<th>Times</th>
+						<th data-bind="sort: {column: 'description', array: officeProcedureTypes}">
+							Description
+							<div class="arrow down"></div>
+						</th>
+						<th data-bind="sort: {column: 'unit', array: officeProcedureTypes}">
+							Unit
+							<div class="arrow down"></div>
+						</th>
+						<th data-bind="sort: {column: 'times', array: officeProcedureTypes}">
+							Times
+							<div class="arrow down"></div>
+						</th>
 					</tr>
 				</thead>
 				<tbody data-bind="foreach: officeProcedureTypes">
