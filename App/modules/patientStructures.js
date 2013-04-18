@@ -121,7 +121,7 @@ define(function(require) {
 			this.location		 = ko.observable(data.location);
 			this.type			 = ko.observable(data.type).extend({required: {message: 'type'}});
 			this.date			 = ko.observable(data.date);
-			this.comment		 = ko.observable(data.comment).extend({required: {message: 'comment'}});
+			this.comment		 = ko.observable(data.comment);
 			this.isReviewed		 = ko.observable(data.is_reviewed == '1' ? 1 : 0);
 			this.isReport		 = ko.observable(data.is_report);
 			this.dateOfService   = ko.observable(data.date_of_service);
@@ -134,7 +134,7 @@ define(function(require) {
 			this.location		 = ko.observable();
 			this.type			 = ko.observable().extend({required: {message: 'type'}});
 			this.date			 = ko.observable();
-			this.comment		 = ko.observable().extend({required: {message: 'comment'}});
+			this.comment		 = ko.observable();
 			this.isReviewed		 = ko.observable();
 			this.isReport		 = ko.observable();
 			this.dateOfService   = ko.observable();

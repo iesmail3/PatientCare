@@ -215,7 +215,6 @@ define(function(require) {
 			self.patientId(data.patientId); 
 			//Pactice ID
 			self.practiceId('1'); 
-		    system.log(isNewDocument());
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
 				var f = $.map(data, function(item) {return new structures.Followup(item) });
@@ -273,8 +272,7 @@ define(function(require) {
 					 var d = $.map(data, function(item) { 
 					  item.date = form.uiDate(item.date)
 					  item.date_of_service = form.uiDate(item.date_of_service)
-					 return new structures.Document(item) });
-					 system.log(d[0].isReviewed()); 
+					 return new structures.Document(item) }); 
 					 self.documents(d);
                      self.doc(d[0]); 					 
 				} 
@@ -397,17 +395,13 @@ define(function(require) {
 		},
 		saveFollowup: function(data) {
 			if(followup().errors().length > 0) {
-					system.log('inside error > 0'); 
 				if(followup().errors().length > 1) {
-						system.log('inside all'); 
 					$('.followup .allAlert').fadeIn().delay(3000).fadeOut();
 				}
 				else if(followup().errors()[0] == 'value') {
-						system.log('inside value'); 
 					$('.followup .valueAlert').fadeIn().delay(3000).fadeOut();
 				}
 				else if(followup().errors()[0] == 'unit') {
-					system.log('inside unit'); 
 					$('.followup .unitAlert').fadeIn().delay(3000).fadeOut();
 				}
 			}
@@ -449,7 +443,6 @@ define(function(require) {
 			 backend.deletePrescription(data.medicationOrderId());
 		},
 		savePaymentMethod: function(data) { 
-		   system.log('inside payment'); 
 		    backend.saveCheckout(checkout()); 
 			//Check to see if  you have any rows in the payment method table
 			if(paymentMethods().length  > 0) { 
@@ -522,16 +515,15 @@ define(function(require) {
 				else if(doc().errors()[0] == 'type') {
 					$('.document .typeAlert').fadeIn().delay(3000).fadeOut();
 				}
-				else if(doc().errors()[0] == 'comment') {
-					$('.document .commentAlert').fadeIn().delay(3000).fadeOut();
-				}
 			}
 			else {
-				doc().location(file());  
+				if(doc().id() == null) {
+					doc().location(file());  
+				}
 				isNewDocument(false);
-				system.log('doc id ' + doc().id()); 
-				backend.saveDocument(doc(),documents,practiceId,patientId); 
-				$('.fileupload').fineUploader('uploadStoredFiles');  
+				 backend.saveDocument(doc(),documents,practiceId,patientId); 
+				$('.fileupload').fineUploader('uploadStoredFiles'); 
+				$('.document .documentAlert').fadeIn().delay(3000).fadeOut();
 				documentState(true);
 				doc(new structures.Document());
 			}					

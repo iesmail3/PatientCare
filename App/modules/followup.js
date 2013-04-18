@@ -374,9 +374,6 @@
 		  values[13] = comment ;
 		  values[14] = data.id(); 
 		 }); 
-		   
-		 // for(var i =0; i < fields.length; i++) 
-		   // system.log(fields[i] + ':' + values[i]); 
 		return self.query({
 				mode:  'insert', 
 				table: 'prescription',
@@ -403,9 +400,6 @@
 		values[2] = practiceId();  
 		values[6] = form.dbDate(doc.date());
 		values[10] = form.dbDate(doc.dateOfService());
-		
-		for(var i = 0; i < fields.length; i++) 
-		    system.log(fields[i] + ' : ' + values[i]); 
 		
 		if(values[0] != "") { 
 			self.query({
@@ -474,7 +468,6 @@
 	}
 	
 	followup.prototype.deletePrescription = function(id) {
-		system.log('ready to delete id' + id); 
 		return this.query({
 			mode:'delete',
 			table:'prescription',
