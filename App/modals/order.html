@@ -63,8 +63,14 @@
 					<tr>
 						<th></th>
 						<th>Category</th>
-						<th>Description</th>
-						<th>Code</th>
+						<th data-bind="sort: {column: 'description', array: orderCategories}">
+							<span>Description</span>
+							<div class="arrow down"></div>
+						</th>
+						<th data-bind="sort: {column: 'code', array: orderCategories}">
+							<span>Code</span>
+							<div class="arrow down"></div>
+						</th>
 						<th>Times</th>
 					</tr>
 				</thead>
@@ -73,7 +79,7 @@
 						<td><input type="checkbox" data-bind="attr: {value: id}, checked: $root.groupOrders" /></td>
 						<td data-bind="text: type"></td>
 						<td data-bind="text: description"></td>
-						<td></td>
+						<td data-bind="text: code"></td>
 						<td></td>
 					</tr>
 				</tbody>

@@ -80,13 +80,34 @@
 		<table class="table table-bordered table-hover">
 			<thead>
 				<tr>
-					<th>Medicine Name</th>
-					<th>Strength</th>
-					<th>Quantity</th>
-					<th>Route</th>
-					<th>Sigs</th>
-					<th>Status</th>
-					<th>Prescribed Date</th>
+					<th data-bind="sort: {column: 'medicine', array: medications}">
+						<span>Medicine Name</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'strength', array: medications}">
+						<span>Strength</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'quantity', array: medications}">
+						<span>Quantity</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'route', array: medications}">
+						<span>Route</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'sigs', array: medications}">
+						<span>Sigs</span>
+						<div class="arrow down"></div>	
+					</th>
+					<th data-bind="sort: {column: 'status', array: medications}">
+						<span>Status</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'prescribedDate', array: medications}">
+						<span></span>
+						<div class="arrow down"></div>
+					</th>
 					<th></th>
 				</tr>
 			</thead>

@@ -119,4 +119,36 @@ define(function(require) {
 	        ko.utils.domNodeDisposal.addDisposeCallback(element, removeHandlerCallback);
 	    }
 	}
+	
+	/**********************************************************************************************
+	 * Sort
+	 * 
+	 * Use: To sort an obersable array by one of it's fields
+	 * How to use: data-bind="sort: {column: 'field to search', array: observableArray}"
+	 * Example: <div data-bind="sort: {column: 'firstName', array: patients}"
+	 *********************************************************************************************/
+	ko.bindingHandlers.sort = {
+		init: function(element, valueAccessor, allBindingsAccessor,viewModel) {
+			var e = $(element);
+			var value = valueAccessor();
+			var arrow = e.find('.arrow');
+			var a = value.array;
+			var column = value.column;
+			
+			e.on('click', function(e) {
+				if(arrow.attr('class').indexOf('down') >= 0) {
+					a.sort(function(one, two) {
+						return one[column]() == two[column]() ? 0 : (one[column]() < two[column]() ? -1 : 1);
+					});
+					arrow.removeClass('down').addClass('up');
+				}
+				else {
+					a.sort(function(one, two) {
+						return one[column]() == two[column]() ? 0 : (one[column]() < two[column]() ? 1 : -1);
+					});
+					arrow.removeClass('up').addClass('down');
+				}
+			});
+		}
+	}
 });

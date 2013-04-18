@@ -3,11 +3,26 @@
 		<table class="table table-bordered table-hover OrderTable">
 			<thead>
 				<tr>
-					<th>Order Date</th>
-					<th>Order Type</th>
-					<th>Description</th>
-					<th>In Office</th>
-					<th>Comments</th>
+					<th data-bind="sort: {column: 'date', array: labOrders}">
+						<span>Order Date</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'type', array: labOrders}">
+						<span>Order Type</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'description', array: labOrders}">
+						<span>Description</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'inOffice', array: labOrders}">
+						<span>In Office</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'comment', array: labOrders}">
+						<span>Comments</span>
+						<div class="arrow down"></div>
+					</th>
 					<th></th>
 				</tr>
 			</thead>

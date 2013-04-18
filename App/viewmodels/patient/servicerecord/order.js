@@ -172,6 +172,9 @@ define(function(require) {
 				self.centers(c);
 			});
 		},
+		/******************************************************************************************
+		 * Order
+		 *****************************************************************************************/
 		selectRow: function(type, data) {
 			// Clear group
 			groupOrders([]);
@@ -209,9 +212,6 @@ define(function(require) {
 					practiceId(), serviceRecord().id(), 'Chemo Order');
 			}
 		},
-		selectMedication: function(data) {
-			medication(data);
-		},
 		newOrder: function(type, data) {
 			var self = data;
 			// Get next group number and call modal
@@ -236,6 +236,17 @@ define(function(require) {
 					form.ChemoOrders, practiceId(), serviceRecord().id(), 'Chemo Order');
 				}
 			});
+		},
+		deleteOrder: function(data) {
+			var order = data;
+			orders.remove(order);
+			backend.deleteOrder(data.orderCategoryId(), data.group());
+		},
+		/******************************************************************************************
+		 * Medication
+		 *****************************************************************************************/
+		selectMedication: function(data) {
+			medication(data);
 		},
 		newMedication: function(data) {
 			tempMedication(medication());
@@ -272,37 +283,16 @@ define(function(require) {
 				});
 			}
 		},
-		deleteOrder: function(data) {
-			var order = data;
-			orders.remove(order);
-			backend.deleteOrder(data.orderCategoryId(), data.group());
-		},
 		deleteMedication: function(data) {
 			allMedications.remove(data);
 			self.filterTable();
 			backend.deleteMedication(data.id());
 		},
-		sort: function(type, column, data, element) {
-			var e = $(element.currentTarget);
-			var arrow = e.find('.arrow');
-			var a;
-			if(type == 'image')
-				a = orders;
-				
-			if(arrow.attr('class').indexOf('down') >= 0) {
-				a.sort(function(one, two) {
-					return one[column]() == two[column]() ? 0 : (one[column]() < two[column]() ? -1 : 1);
-				});
-				arrow.removeClass('down').addClass('up');
-			}
-			else {
-				a.sort(function(one, two) {
-					return one[column]() == two[column]() ? 0 : (one[column]() < two[column]() ? 1 : -1);
-				});
-				arrow.removeClass('up').addClass('down');
-			}
-		},
+		/******************************************************************************************
+		 * Filter the Medications table
+		 *****************************************************************************************/ 
 		filterTable: function() {
+			// Current medications
 			if(self.tableFilter() == 'current') {
 				self.tableFilter('current');
 				var m = _.filter(allMedications(), function(item) {
@@ -310,12 +300,14 @@ define(function(require) {
 				});
 				medications(m);
 			}
+			// Ordered medications
 			else if(self.tableFilter() == 'ordered') {
 				var m = _.filter(allMedications(), function(item) {
 					return item.isOrdered();
 				});
 				medications(m);
 			}
+			// All medications
 			else
 				medications(allMedications());
 				
