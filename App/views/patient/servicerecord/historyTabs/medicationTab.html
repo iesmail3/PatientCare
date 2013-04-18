@@ -1,53 +1,106 @@
 <form class="form-inline formPadding">
+	<!-- ko with: medication -->
 	<div class="row-fluid">
-		<div class="marginBottom5">
-			<input type="text" placeholder="Medicine" />
-			<input type="text" placeholder="Strength" />
+		<div class="alertHolder">
+			<div class="alert medicationAlert"></div>
 		</div>
 		<div class="marginBottom5">
-			<input type="text" placeholder="Quantity" />
-			<select data-bind="options: $root.form.routes, optionsText: 'text',
-				optionsValue: 'value', optionsCaption: 'Route'" class="input-xmedium">
-			</select>
-			<select data-bind="options: $root.form.sigCodes, optionsText: 'text',
-				optionsValue: 'value', optionsCaption: 'Sigs'" class="input-xmedium">
-			</select>
+			<input type="text" placeholder="Medicine" data-bind="
+				typeahead: {value: medicine, source: $root.medicines}" required />
+			<span class="required">*</span>
+			<input type="text" class="input-medium" placeholder="Strength" data-bind="
+				value: strength" />
+			<input type="text" class="input-medium" placeholder="Quantity" data-bind="
+				value: quantity" />
 		</div>
 		<div class="marginBottom5">
-			<select>
-				<option value="" disabled selected style="display:none;">Status</option>
-				<option value="current">Current</option>
-				<option value="discontinued">Discontinued</option>
+			<select class="input-xmedium" data-bind="
+				options: $root.form.routes,
+				optionsText: 'text',
+				value: route,
+				optionsValue: 'value',
+				optionsCaption: 'Route'">
 			</select>
+			<select class="input-xmedium" data-bind="
+				options: $root.form.sigCodes,
+				optionsText: 'text',
+				value: sigs,
+				optionsValue: 'value',
+				optionsCaption: 'Sigs'" required>
+			</select>
+			<span class="required">*</span>
+			<select class="input-xmedium" data-bind="value: status" required>
+				<option value="" disabled selected data-bind="visible: false">Status</option>
+				<option value="Current">Current</option>
+				<option value="Discontinued">Discontinued</option>
+			</select>
+			<span class="required">*</span>
 		</div>
 		<div class="marginBottom5">
-			<input type="text" placeholder="Prescribed By" />
-			<input type="text" placeholder="Prescription Date" data-bind="datepicker: true" />
-			<input type="text" placeholder="Discontinued By" />
-			<input type="text" placeholder="Discontinuation Date" data-bind="datepicker: true" />
+			<input type="text" placeholder="Prescribed By" data-bind="
+				typeahead: {value: prescribedBy, source: $root.physicians}" />
+			<input type="text" placeholder="Prescription Date" data-bind="
+				value: prescribedDate,
+				datepicker: true" />
+		</div>
+		<div class="marginBottom5">
+			<input type="text" placeholder="Discontinued By" data-bind="
+				typeahead: {value: discontinuedBy, source: $root.physicians},
+				enable: status() == 'Discontinued'" />
+			<input type="text" placeholder="Discontinuation Date" data-bind="
+				value: discontinuedDate,
+				enable: status() == 'Discontinued',
+				datepicker: true" />
 		</div>
 		<div class="marginBottom5 commentContainer">
-			<textarea class="commentSpan" rows="3" placeholder="Comments" /></textarea>
+			<textarea class="commentSpan" rows="3" placeholder="Comments" data-bind="
+				value: comment" />
+			</textarea>
 		</div>
 		<div class="pull-right">
-			<button type="submit" class="btn btn-small btn-primary">Save</button>
-			<button type="button" class="btn btn-small btn-warning">Cancel</button>
+			<button type="button" class="btn btn-small btn-success" data-bind="
+				click: $root.medicationNew,
+				visible: !$root.medicationState()">
+				New
+			</button>
+			<button type="submit" class="btn btn-small btn-primary" data-bind="
+				click: $root.medicationSave">
+				Save
+			</button>
+			<button type="button" class="btn btn-small btn-warning" data-bind="
+				click: $root.medicationCancel,
+				visible: $root.medicationState()">
+				Cancel
+			</button>
 		</div>
 	</div>
+	<!-- /ko -->
 </form>
-<div class="row-fluid">
-	<table class="table table-bordered table-hover">
-		<thead>
-			<tr>
-				<th>Medicine Name</th>
-				<th>Strength</th>
-				<th>Quantity</th>
-				<th>Route</th>
-				<th>Sigs</th>
-				<th>Status</th>
-				<th>Prescribed By</th>
-				<th></th>
-			</tr>
-		</thead>
-	</table>
+<div class="medicationFormScroll">
+	<div class="row-fluid">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th>Medicine Name</th>
+					<th>Strength</th>
+					<th>Quantity</th>
+					<th>Route</th>
+					<th>Sigs</th>
+					<th>Status</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody data-bind="foreach: medications">
+				<tr>
+					<td data-bind="click: $root.medicationSetFields, text: medicine"></td>
+					<td data-bind="click: $root.medicationSetFields, text: strength"></td>
+					<td data-bind="click: $root.medicationSetFields, text: quantity"></td>
+					<td data-bind="click: $root.medicationSetFields, text: route"></td>
+					<td data-bind="click: $root.medicationSetFields, text: sigs"></td>
+					<td data-bind="click: $root.medicationSetFields, text: status"></td>
+					<td><a class="btn btn-small btn-danger" data-bind="click: $root.medicationDelete">Delete</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

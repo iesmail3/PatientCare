@@ -3,6 +3,10 @@
 	margin-bottom: 3px;
 }
 
+.input-xsmall { width: 75px; }
+
+.input-xmedium { width: 119px; }
+
 th, td {
 	cursor: default;
 }
@@ -10,8 +14,6 @@ th, td {
 .right10 {
 	margin-right: 10px;
 }
-
-.input-xmedium { width: 119px; }
 
 .input-mediumLarge { width: 150px; }
 
@@ -22,6 +24,12 @@ th, td {
 	width: 15px;
 	margin: auto;
 	margin-top: 5px;
+}
+
+.table button, .table a {
+	width: 40px;
+	display: block;
+	margin: 0 auto;
 }
 
 .patientTree {
@@ -77,7 +85,6 @@ th, td {
 	overflow-y: auto;
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 5px;
-
 }
 
 .employedPerson { margin: 12px; }
@@ -148,20 +155,112 @@ th, td {
 	display: none;
 }
 
-.reviewAlert {
-	height: 20px;
-	display: none;
-}
-
-.checkoutTab label.inline  {
+.span6 .label, label.inline  {
     display: inline-block;
     width: 130px;   
 }
 
 #additionalCharges { 
- display: inline-block;
-    width: 139px;
-};
+	display: inline-block;
+	width: 139px;
+}
+
+/* History & Present Illness */
+.historyComment {
+	width: 100%;
+	min-width: 100%;
+	max-width: 100%;
+	height: 388px;
+}
+
+.commentSpan {
+	width: 100%;
+	min-width: 100%;
+	max-width: 100%;
+}
+
+.reviewAlert {
+	height: 20px;
+	display: none;
+}
+
+.reviewOfSystem {
+	margin-bottom: 5px;
+}
+
+.reviewPushRight {
+	float: right;
+	width: 541px;
+}
+
+.reviewRadio {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.reviewComment {
+	width: 220px;
+}
+
+.reviewFormScroll {
+	overflow-y: auto;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	margin-bottom: 5px;
+}
+
+.problemAlert {
+	height: 20px;
+	display: none;
+}
+
+.problemUnknown {
+	display: inline-block;
+	width: 85px;
+}
+
+.problemNotApplicable {
+	display: inline-block;
+	width: 108px;
+}
+
+.problemFormScroll {
+	overflow-y: auto;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 5px;
+}
+
+.medicationAlert {
+	height: 20px;
+	display: none;
+}
+
+.medicationFormScroll {
+	overflow-y: auto;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 5px;
+}
+
+.allergyAlert {
+	height: 20px;
+	display: none;
+}
+
+.allergiesCheckbox  {
+	display: inline-block;
+	width: 150px;
+}
+
+.allergyPushRight {
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.allergyFormScroll {
+	overflow-y: auto;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 5px;
+}
 
 /* Orders */
 .mainOrderTableHolder {
@@ -330,6 +429,11 @@ th, td {
 .checkoutAlert { 
 	height: 20px;
 	display: none;
+}
+
+.checkoutTab label.inline  {
+    display: inline-block;
+    width: 130px;
 }
 
 .checkoutPane { overflow-y: auto; }

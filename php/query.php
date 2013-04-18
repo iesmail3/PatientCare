@@ -147,7 +147,6 @@ try {
 	}
 	// If Update is chosen
 	else if($mode == 'update') {
-		
 		// Create nameholders
 		$set = "";
 		for($i = 0; $i < count($fields); $i++) {
