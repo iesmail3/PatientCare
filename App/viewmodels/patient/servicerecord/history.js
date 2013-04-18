@@ -119,6 +119,7 @@ define(function(require) {
 			var self = this;
 			
 			self.practiceId('1');
+			//self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
 			self.patientId(data.patientId);
 			self.date(data.date);
 			
@@ -181,6 +182,8 @@ define(function(require) {
 					self.medicalProblems(p);
 					self.medicalProblem(p[0]);
 				}
+				else
+					self.medicalProblemsState(true);
 			});
 			
 			backend.getMedication(self.patientId(), self.practiceId(), self.date()).success(function(data) {
@@ -195,6 +198,8 @@ define(function(require) {
 					self.medications(m);
 					self.medication(m[0]);
 				}
+				else
+					self.medicationState(true);
 			});
 			
 			backend.getMedicineList().success(function(data) {
@@ -223,6 +228,8 @@ define(function(require) {
 					self.allergiesIntolerances(a);
 					self.allergiesIntolerance(a[0]);
 				}
+				else
+					self.allergiesIntoleranceState(true);
 			});
 		}, // End Activate
 		/******************************************************************************************* 
@@ -296,6 +303,12 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Medical Problems Methods
 		 *******************************************************************************************/
+		medicalProblemSetOnsetUnknown: function(data) {
+			medicalProblem().onsetDate('Unknown');
+		},
+		medicalProblemSetResolutionUnknown: function(data) {
+			medicalProblem().resolutionDate('Unknown');
+		},
 		medicalProblemSetFields: function(data) {
 			if (!medicalProblemsState())
 				medicalProblem(data);
@@ -311,38 +324,58 @@ define(function(require) {
 				medicalProblem().resolutionUnknown(0);
 				if (medicalProblem().onsetDate() == '' || medicalProblem().onsetDate() == 'Unknown' || medicalProblem().onsetDate() == undefined)
 					medicalProblem().onsetUnknown(1);
-				if (medicalProblem().onsetUnknown())
+				if (medicalProblem().onsetUnknown()) {
+					medicalProblem().onsetUnknown(1);
 					medicalProblem().onsetDate('Unknown');
+				}
 			}
 			else if (medicalProblem().type() == 'Past Surgical History') {
 				medicalProblem().onsetDate('');
 				medicalProblem().onsetUnknown(0);
 				if (medicalProblem().resolutionDate() == '' || medicalProblem().resolutionDate() == 'Unknown' || medicalProblem().resolutionDate() == undefined)
 					medicalProblem().resolutionUnknown(1);
-				if (medicalProblem().resolutionUnknown())
+				if (medicalProblem().resolutionUnknown()) {
+					medicalProblem().resolutionUnknown(1);
 					medicalProblem().resolutionDate('Unknown');
+				}
 			}
 			else if (medicalProblem().type() == 'Other Medical Problem') {
 				if (medicalProblem().onsetDate() == '' || medicalProblem().onsetDate() == 'Unknown' || medicalProblem().onsetDate() == undefined)
 					medicalProblem().onsetUnknown(1);
-				if (medicalProblem().onsetUnknown())
+				if (medicalProblem().onsetUnknown()) {
+					medicalProblem().onsetUnknown(1);
 					medicalProblem().onsetDate('Unknown');
-				if (medicalProblem().resolutionDate() == '' || medicalProblem().resolutionDate() == 'Unknown' || medicalProblem().resolutionDate() == undefined)
+				}
+				if ((medicalProblem().resolutionDate() == '' || medicalProblem().resolutionDate() == 'Unknown' ||
+					medicalProblem().resolutionDate() == undefined) && !medicalProblem().notApplicable())
 					medicalProblem().resolutionUnknown(1);
-				if (medicalProblem().resolutionUnknown())
+				if (medicalProblem().resolutionUnknown()) {
+					medicalProblem().resolutionUnknown(1);
 					medicalProblem().resolutionDate('Unknown');
+				}
+				if (medicalProblem().notApplicable())
+					medicalProblem().resolutionDate('');
 			}
+			
 			// Insert
 			if (medicalProblemsState()) {
+				var temp = new structures.MedicalProblem({
+					service_record_id: serviceRecord().id(),
+					type: medicalProblem().type(),
+					description: medicalProblem().description(),
+					onset_date: form.dbDate(medicalProblem().onsetDate()),
+					onset_unknown: medicalProblem().onsetUnknown(),
+					resolution_date: form.dbDate(medicalProblem().resolutionDate()),
+					resolution_unknown: medicalProblem().resolutionUnknown(),
+					not_applicable: medicalProblem().notApplicable()
+				});
+				
 				if (medicalProblem().errors().length == 0) {
-					medicalProblem().serviceRecordId(serviceRecord().id());
-					if (!medicalProblem().onsetUnknown())
-						medicalProblem().onsetDate(form.dbDate(medicalProblem().onsetDate()));
-					if (!medicalProblem().resolutionUnknown())
-						medicalProblem().resolutionDate(form.dbDate(medicalProblem().resolutionDate()));
-					backend.saveMedicalProblem(medicalProblem, medicalProblems).complete(function(data) {
-						medicalProblem().onsetDate(form.uiDate(medicalProblem().onsetDate()));
-						medicalProblem().resolutionDate(form.uiDate(medicalProblem().resolutionDate()));
+					backend.saveMedicalProblem(temp).complete(function(data) {
+						temp.onsetDate(form.uiDate(temp.onsetDate()));
+						temp.resolutionDate(form.uiDate(temp.resolutionDate()));
+						medicalProblem(temp);
+						medicalProblems.push(medicalProblem());
 						medicalProblemsState(false);
 						if (data.responseText != 'updateFail' && data.responseText != 'insertFail')
 							$('.problemAlert').removeClass('alert-danger').addClass('alert-info').html('Medical problem has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
@@ -353,13 +386,25 @@ define(function(require) {
 			}
 			// Update
 			else {
+				var temp = new structures.MedicalProblem({
+					id: medicalProblem().id(),
+					service_record_id: serviceRecord().id(),
+					type: medicalProblem().type(),
+					description: medicalProblem().description(),
+					onset_date: form.dbDate(medicalProblem().onsetDate()),
+					onset_unknown: medicalProblem().onsetUnknown(),
+					resolution_date: form.dbDate(medicalProblem().resolutionDate()),
+					resolution_unknown: medicalProblem().resolutionUnknown(),
+					not_applicable: medicalProblem().notApplicable()
+				});
+				
 				if (medicalProblem().errors().length == 0) {
-					if (medicalProblem().id() != '' && medicalProblem().id() != undefined) {
-						medicalProblem().onsetDate(form.dbDate(medicalProblem().onsetDate()));
-						medicalProblem().resolutionDate(form.dbDate(medicalProblem().resolutionDate()));
-						backend.saveMedicalProblem(medicalProblem, medicalProblems).complete(function(data) {
-							medicalProblem().onsetDate(form.uiDate(medicalProblem().onsetDate()));
-							medicalProblem().resolutionDate(form.uiDate(medicalProblem().resolutionDate()));
+					system.log("Got in update");
+					system.log(temp.id());
+					if (temp.id() != '' && temp.id() != undefined) {
+						backend.saveMedicalProblem(temp).complete(function(data) {
+							temp.onsetDate(form.uiDate(temp.onsetDate()));
+							temp.resolutionDate(form.uiDate(temp.resolutionDate()));
 							if (data.responseText != 'updateFail')
 								$('.problemAlert').removeClass('alert-danger').addClass('alert-info').html('Medical problem has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
 						});
@@ -406,13 +451,27 @@ define(function(require) {
 		},
 		medicationSave: function(data) {
 			if (medicationState()) {
+				var temp = new structures.Medication({
+					service_record_id: serviceRecord().id(),
+					medicine: medication().medicine(),
+					strength: medication().strength(),
+					quantity: medication().quantity(),
+					route: medication().route(),
+					sigs: medication().sigs(),
+					status: medication().status(),
+					prescribed_by: medication().prescribedBy(),
+					prescribed_date: form.dbDate(medication().prescribedDate()),
+					discontinued_by: medication().discontinuedBy(),
+					discontinued_date: form.dbDate(medication().discontinuedDate()),
+					comment: medication().comment()
+				});
+				
 				if (medication().errors().length == 0) {
-					medication().serviceRecordId(serviceRecord().id());
-					medication().prescribedDate(form.dbDate(medication().prescribedDate()));
-					medication().discontinuedDate(form.dbDate(medication().discontinuedDate()));
-					backend.saveMedication(medication, medications).complete(function(data) {
-						medication().prescribedDate(form.uiDate(medication().prescribedDate()));
-						medication().discontinuedDate(form.uiDate(medication().discontinuedDate()));
+					backend.saveMedication(temp).complete(function(data) {
+						temp.prescribedDate(form.uiDate(temp.prescribedDate()));
+						temp.discontinuedDate(form.uiDate(temp.discontinuedDate()));
+						medication(temp);
+						medications.push(medication());
 						medicationState(false);
 						if (data.responseText != 'updateFail')
 							$('.medicationAlert').removeClass('alert-danger').addClass('alert-info').html('Medication has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
@@ -422,13 +481,27 @@ define(function(require) {
 					$('.medicationAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 			else {
+				var temp = new structures.Medication({
+					id: medication().id(),
+					service_record_id: serviceRecord().id(),
+					medicine: medication().medicine(),
+					strength: medication().strength(),
+					quantity: medication().quantity(),
+					route: medication().route(),
+					sigs: medication().sigs(),
+					status: medication().status(),
+					prescribed_by: medication().prescribedBy(),
+					prescribed_date: form.dbDate(medication().prescribedDate()),
+					discontinued_by: medication().discontinuedBy(),
+					discontinued_date: form.dbDate(medication().discontinuedDate()),
+					comment: medication().comment()
+				});
+				
 				if (medication().errors().length == 0) {
-					if (medication().id() != '' && medication().id() != undefined) {
-						medication().prescribedDate(form.dbDate(medication().prescribedDate()));
-						medication().discontinuedDate(form.dbDate(medication().discontinuedDate()));
-						backend.saveMedication(medication, medications).complete(function(data) {
-							medication().prescribedDate(form.uiDate(medication().prescribedDate()));
-							medication().discontinuedDate(form.uiDate(medication().discontinuedDate()));
+					if (temp.id() != '' && temp.id() != undefined) {
+						backend.saveMedication(temp).complete(function(data) {
+							temp.prescribedDate(form.uiDate(temp.prescribedDate()));
+							temp.discontinuedDate(form.uiDate(temp.discontinuedDate()));
 							if (data.responseText != 'updateFail' && data.responseText != 'insertFail')
 								$('.medicationAlert').removeClass('alert-danger').addClass('alert-info').html('Medication has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
 						});
@@ -493,13 +566,20 @@ define(function(require) {
 				.done(function(answer){
 					if (answer == 'Yes') {
 						$.each(allergiesIntolerances(), function(k,v) {
-							v.serviceRecordId(serviceRecord().id());
-							v.dateRecorded(form.dbDate(v.dateRecorded()));
-							v.dateInactive(form.dbDate(form.currentDate()));
 							v.status('Inactive');
-							backend.saveAllergiesIntolerance(v, allergiesIntolerances).complete(function(data) {
-								v.dateRecorded(form.uiDate(v.dateRecorded()));
-								v.dateInactive(form.uiDate(v.dateInactive()));
+							var temp = new structures.AllergiesIntolerance({
+								id: v.id(),
+								service_record_id: serviceRecord().id(),
+								type: v.type(),
+								status: v.status(),
+								details: v.details(),
+								date_recorded: form.dbDate(v.dateRecorded()),
+								date_inactive: form.dbDate(form.currentDate())
+							});
+							
+							backend.saveAllergiesIntolerance(temp).complete(function(data) {
+								temp.dateRecorded(form.uiDate(temp.dateRecorded()));
+								temp.dateInactive(form.uiDate(temp.dateInactive()));
 							});
 						});
 					}
@@ -514,13 +594,21 @@ define(function(require) {
 			serviceRecord().allergiesVerified(+serviceRecord().allergiesVerified());
 			backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord());
 			if (allergiesIntoleranceState()) {
+				var temp = new structures.AllergiesIntolerance({
+					service_record_id: serviceRecord().id(),
+					type: allergiesIntolerance().type(),
+					status: allergiesIntolerance().status(),
+					details: allergiesIntolerance().details(),
+					date_recorded: form.dbDate(form.currentDate()),
+					date_inactive: form.dbDate(form.currentDate())
+				});
+				
 				if (allergiesIntolerance().errors().length == 0) {
-					allergiesIntolerance().serviceRecordId(serviceRecord().id());
-					allergiesIntolerance().dateRecorded(form.dbDate(form.currentDate()));
-					allergiesIntolerance().dateInactive(form.dbDate(form.currentDate()));
-					backend.saveAllergiesIntolerance(allergiesIntolerance(), allergiesIntolerances).complete(function(data) {
-						allergiesIntolerance().dateRecorded(form.uiDate(allergiesIntolerance().dateRecorded()));
-						allergiesIntolerance().dateInactive(form.uiDate(allergiesIntolerance().dateInactive()));
+					backend.saveAllergiesIntolerance(temp).complete(function(data) {
+						temp.dateRecorded(form.uiDate(temp.dateRecorded()));
+						temp.dateInactive(form.uiDate(temp.dateInactive()));
+						allergiesIntolerance(temp);
+						allergiesIntolerances.push(allergiesIntolerance());
 						allergiesIntoleranceState(false);
 						if (data.responseText != 'updateFail')
 							$('.allergyAlert').removeClass('alert-danger').addClass('alert-info').html('Allergy has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
@@ -530,14 +618,23 @@ define(function(require) {
 					$('.allergyAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 			else {
+				var temp = new structures.AllergiesIntolerance({
+					id: allergiesIntolerance().id(),
+					service_record_id: serviceRecord().id(),
+					type: allergiesIntolerance().type(),
+					status: allergiesIntolerance().status(),
+					details: allergiesIntolerance().details(),
+					date_recorded: form.dbDate(allergiesIntolerance().dateRecorded()),
+					date_inactive: allergiesIntolerance().dateInactive()
+				});
+				
 				if (allergiesIntolerance().errors().length == 0) {
-					if (allergiesIntolerance().id() != '' && allergiesIntolerance().id() != undefined) {
-						allergiesIntolerance().dateRecorded(form.dbDate(allergiesIntolerance().dateRecorded()));
-						if (allergiesIntolerance().status() == 'Inactive')
-							allergiesIntolerance().dateInactive(form.dbDate(allergiesIntolerance().dateInactive()));
-						backend.saveAllergiesIntolerance(allergiesIntolerance(), allergiesIntolerances).complete(function(data) {
-							allergiesIntolerance().dateRecorded(form.uiDate(allergiesIntolerance().dateRecorded()));
-							allergiesIntolerance().dateInactive(form.uiDate(allergiesIntolerance().dateInactive()));
+					if (temp.id() != '' && temp.id() != undefined) {
+						if (temp.status() == 'Inactive')
+							temp.dateInactive(form.dbDate(temp.dateInactive()));
+						backend.saveAllergiesIntolerance(temp).complete(function(data) {
+							temp.dateRecorded(form.uiDate(temp.dateRecorded()));
+							temp.dateInactive(form.uiDate(temp.dateInactive()));
 							if (data.responseText != 'updateFail')
 								$('.allergyAlert').removeClass('alert-danger').addClass('alert-info').html('Allergy has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
 						});

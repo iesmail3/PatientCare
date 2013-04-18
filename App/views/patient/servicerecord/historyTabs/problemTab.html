@@ -27,7 +27,8 @@
 			<label class="checkbox problemUnknown">
 				<input type="checkbox" data-bind="
 					checked: onsetUnknown,
-					enable: type() == 'Current Medical Problem' || type() == 'Other Medical Problem'" />
+					enable: type() == 'Current Medical Problem' || type() == 'Other Medical Problem',
+					event: {change: $root.medicalProblemSetOnsetUnknown}" />
 				<span>Unknown</span>
 			</label>
 		</div>
@@ -39,7 +40,8 @@
 			<label class="checkbox problemUnknown">
 				<input type="checkbox" data-bind="
 					checked: resolutionUnknown,
-					enable: (type() == 'Other Medical Problem' || type() == 'Past Surgical History') && !notApplicable()" />
+					enable: (type() == 'Other Medical Problem' || type() == 'Past Surgical History') && !notApplicable(),
+					event: {change: $root.medicalProblemSetResolutionUnknown}" />
 				<span>Unknown</span>
 			</label>
 			<label class="checkbox problemNotApplicable" data-bind="

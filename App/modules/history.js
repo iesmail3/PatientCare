@@ -185,11 +185,11 @@ define(function(require) {
 		});
 	}
 	
-	history.prototype.saveMedicalProblem = function(medicalProblem, medicalProblems) {
+	history.prototype.saveMedicalProblem = function(medicalProblem) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'description', 'onset_date',
 			'onset_unknown', 'resolution_date', 'resolution_unknown', 'not_applicable'];
-		var values = $.map(medicalProblem(), function(k,v) {
+		var values = $.map(medicalProblem, function(k,v) {
 			if(k() == null || k() == undefined || k() == 'Unknown') {
 				return [''];
 			}
@@ -199,7 +199,7 @@ define(function(require) {
 		});
 		
 		// Add a Medical Problem
-		if (medicalProblem().id() == undefined || medicalProblem().id() == '') {
+		if (medicalProblem.id() == undefined || medicalProblem.id() == '') {
 			return self.query({
 				mode: 'select',
 				table: 'medical_problem',
@@ -212,14 +212,13 @@ define(function(require) {
 					newId = parseInt(data[0].id) + 1;
 				
 				values[0] = newId;
-				medicalProblem().id(newId);
+				medicalProblem.id(newId);
 				self.query({
 					mode: 'insert',
 					table: 'medical_problem',
 					fields: fields,
 					values: values
 				});
-				medicalProblems.push(medicalProblem());
 			});
 		}
 		
@@ -229,18 +228,18 @@ define(function(require) {
 				table: 'medical_problem',
 				fields: fields,
 				values: values,
-				where: "WHERE id='" + medicalProblem().id() + "'"
+				where: "WHERE id='" + medicalProblem.id() + "'"
 			});
 		}
 	}
 	
-	history.prototype.saveMedication = function(medication, medications) {
+	history.prototype.saveMedication = function(medication) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'medicine', 'strength', 'quantity',
 			'route', 'sigs', 'status', 'prescribed_by', 'prescribed_date', 'discontinued_by',
 			'discontinued_date', 'comment', 'is_ordered', 'dispensed_quantity', 'refill', 'refill_quantity'];
 		
-		var values = $.map(medication(), function(k,v) {
+		var values = $.map(medication, function(k,v) {
 			if(k() == null || k() == undefined) {
 				return [''];
 			}
@@ -249,7 +248,7 @@ define(function(require) {
 			}
 		});
 		
-		if (medication().id() == undefined || medication().id() == '') {
+		if (medication.id() == undefined || medication.id() == '') {
 			return self.query({
 				mode: 'select',
 				table: 'medication',
@@ -262,14 +261,13 @@ define(function(require) {
 					newId = parseInt(data[0].id) + 1;
 				
 				values[0] = newId;
-				medication().id(newId);
+				medication.id(newId);
 				self.query({
 					mode: 'insert',
 					table: 'medication',
 					fields: fields,
 					values: values
 				});
-				medications.push(medication());
 			});
 		}
 		else {
@@ -278,12 +276,12 @@ define(function(require) {
 				table: 'medication',
 				fields: fields,
 				values: values,
-				where: "WHERE id='" + medication().id() + "'"
+				where: "WHERE id='" + medication.id() + "'"
 			});
 		}
 	}
 	
-	history.prototype.saveAllergiesIntolerance = function(allergiesIntolerance, allergiesIntolerances) {
+	history.prototype.saveAllergiesIntolerance = function(allergiesIntolerance) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'status', 'details', 'date_recorded', 'date_inactive'];
 		var values = $.map(allergiesIntolerance, function(k,v) {
@@ -315,7 +313,6 @@ define(function(require) {
 					fields: fields,
 					values: values
 				});
-				allergiesIntolerances.push(allergiesIntolerance);
 			});
 		}
 		else {
