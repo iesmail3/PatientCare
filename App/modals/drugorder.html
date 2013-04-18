@@ -1,0 +1,167 @@
+<div class="messageBox drugHolder">
+	<div data-bind="click: closeWindow, shortcut: 'esc'"></div>
+	<div class="modal-header">
+		<button type="button" data-bind="click: closeWindow" class="close" aria-hidden="true">
+			&times;
+		</button>
+		<h3 data-bind="html: title"></h3>
+	</div>
+	<div class="modal-body">
+		<div class="modalAlert">
+			<div class="alert alert-danger">You have are missing required fields.</div>
+		</div>
+		<form class="form form-inline drugsForm">
+			<!-- ko with: drugOrder -->
+			<fieldset>
+				<legend>Creatine Clearance Calculator</legend>
+				<div class="marginBottom5">
+					<select>
+						<option value="">Drug Category</option>
+						<option value="chemo">Drugs Chemo</option>
+						<option value="nonchemo">Drugs Non-Chemo</option>
+					</select>
+					<input type="text" data-bind="value: scr, valueUpdate: 'afterkeydown'" 
+						   class="input-small" placeholder="Scr (ml/dL)" />
+					&nbsp;&nbsp;&nbsp;Age: 
+					<span style="font-weight: bold;" data-bind="text: $root.age"></span>
+				</div>
+				<div class="marginBottom15">
+					<span>CRCL <span class="smallText">(Crockcroft and Gault)</span> 
+						<input data-bind="value: $root.crcl" type="text" class="span1" 
+						       disabled /> ml/min
+					</span>
+					<span>
+						ABW(Kg) 
+						<input type="text" class="span1" data-bind="value: $root.abw" disabled />
+					</span>
+					<span>
+						IBW(Kg) 
+						<input type="text" class="span1" data-bind="value: $root.ibw" disabled />
+					</span>
+					<span>
+						BSA(m2) 
+						<input type="text" class="span1" data-bind="value: $root.bsa" disabled />
+					</span>
+				</div>
+			</fieldset>
+			<fieldset>
+				<div class="marginBottom5">
+					<input type="text" class="input-xlarge" placeholder="Medicine"
+						   data-bind="validationElement: medicine, typeahead: {value: medicine, source: $root.medicines}" />
+					<span class="required">*</span>
+					<input type="text" class="input-small" placeholder="Dose" 
+						   data-bind="value: dose, valueUpdate: 'afterkeydown'" />
+					
+					<select data-bind="value: basis" class="input-small">
+						<option value="">Basis</option>
+						<option value="/m2">/m2</option>
+						<option value="/Kg">/Kg</option>
+						<option value="auc">AUC</option>
+					</select> per day
+				</div>
+				<div class="marginBottom5">
+					Calculated Dose <input type="text" data-bind="value: calculatedDose" 
+									       class="input-small" disabled />
+					<input type="text" data-bind="value: prescribedDose" class="input-medium" 
+						   placeholder="Prescribed Dose" />
+					<select data-bind="value: route" class="input-small">
+						<option value="">Route</option>
+						<option value="C IVI">C IVI</option>
+						<option value="C IAI">C IAI</option>
+						<option value="IAP">IAP</option>
+						<option value="IM">IM</option>
+						<option value="INHL">INHL</option>
+						<option value="IVP">IVP</option>
+						<option value="IVI">IVI</option>
+						<option value="Local">Local</option>
+						<option value="PO">PO</option>
+						<option value="PR">PR</option>
+						<option value="SC">SC</option>
+						<option value="S/L">S/L</option>
+						<option value="PEG Tube">PEG TUBE</option>
+						<option value="TDM">TDM</option>
+					</select>
+				</div>
+				<div class="marginBottom5">
+					<input type="text" data-bind="typeahead: {value: diluent, source: $root.diluents}" 
+					             placeholder="Diluent" />
+					<input type="text" data-bind="value: volume" class="input-mini" 
+					             placeholder="Volume" />
+					<input type="text" data-bind="value: duration" class="input-mini" 
+						         placeholder="Duration" />
+					<input type="text" data-bind="value: seq" class="input-mini" placeholder="Seq" />
+					<input type="text" data-bind="value: days" class="input-mini" placeholder="Days" />
+				</div>
+				<textarea data-bind="value: instructions" class="drugsInstructions" 
+						  placeholder="Instructions"></textarea>
+			</fieldset>
+			<!-- /ko -->
+		</form>
+		<div class="pull-right drugsButtons">
+			<button class="btn btn-success" data-bind="click: clickNew, visible: newButton">
+				New
+			</button>
+			<button class="btn btn-warning" data-bind="click: clickCancel, visible: cancelButton">
+				Cancel
+			</button>
+			<button class="btn btn-primary" data-bind="click: saveOrder">
+				Save
+			</button>
+			<button class="btn btn-danger" data-bind="click: closeWindow">
+				Close
+			</button>
+		</div>
+		<div class="drugsTable">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<th data-bind="sort: {column: 'medicine', array: drugOrders}">
+						<span>Medicine</span>
+					</th>
+					<th data-bind="sort: {column: 'dose', array: drugOrders}">
+						<span>Dose</span>
+					</th>
+					<th data-bind="sort: {column: 'prescribedDose', array: drugOrders}">
+						<span>Pres. Dose</span>
+					</th>
+					<th data-bind="sort: {column: 'route', array: drugOrders}">
+						<span>Route</span>
+					</th>
+					<th data-bind="sort: {column: 'seq', array: drugOrders}">
+						<span>Seq</span>
+					</th>
+					<th data-bind="sort: {column: 'diluent', array: drugOrders}">
+						<span>Diluent</span>
+					</th>
+					<th data-bind="sort: {column: 'volume', array: drugOrders}">
+						<span>Volume</span>
+					</th>
+					<th data-bind="sort: {column: 'duration', array: drugOrders}">
+						<span>Duration</span>
+					</th>
+					<th data-bind="sort: {column: 'days', array: drugOrders}">
+						<span>Day</span>
+					</th>
+					<th></th>
+				</thead>
+				<tbody data-bind="foreach: drugOrders">
+					<tr>
+						<td class="nowrap" data-bind="text: medicine, click: $root.selectRow"></td>
+						<td data-bind="text: dose, click: $root.selectRow"></td>
+						<td data-bind="text: prescribedDose, click: $root.selectRow"></td>
+						<td data-bind="text: route, click: $root.selectRow"></td>
+						<td data-bind="text: seq, click: $root.selectRow"></td>
+						<td data-bind="text: diluent, click: $root.selectRow"></td>
+						<td data-bind="text: volume, click: $root.selectRow"></td>
+						<td data-bind="text: duration, click: $root.selectRow"></td>
+						<td data-bind="text: days, click: $root.selectRow"></td>
+						<td>
+							<button data-bind="click: $root.deleteRow" class="btn btn-danger btn-mini">
+								X
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

@@ -7,12 +7,12 @@ Description:
 	<ul class="nav nav-tabs patientNavs" id="orderTab">
 		<li class="active"><a data-toggle="tab" href="#image">Imaging Order</a></li>
 		<li><a data-toggle="tab" href="#lab">Labs Order</a></li>
-		<li><a data-toggle="tab" href="#procedure">Procedure Order</a></li>
+		<li><a data-toggle="tab" href="#chemo">Chemo Order</a></li>
 		<li><a data-toggle="tab" href="#medication">Medication Order</a></li>
 	</ul>
  
 	<div class="tab-content">
-		<div class="tab-pane outerPane active tabScroll" id="image">
+		<div class="tab-pane outerPane active" id="image">
 			<div data-bind="compose: 'patient/servicerecord/orderTabs//imageTab.html'" >
 				<!-- Imaging Order -->
 			</div>
@@ -22,8 +22,8 @@ Description:
 				<!-- Labs Order -->
 			</div>
 		</div>
-		<div class="tab-pane outerPane" id="procedure">
-			<div data-bind="compose: 'patient/servicerecord/orderTabs/procedureTab.html'" >
+		<div class="tab-pane outerPane" id="chemo">
+			<div data-bind="compose: 'patient/servicerecord/orderTabs/chemoTab.html'" >
 				<!-- Procedure Order -->
 			</div>
 		</div>

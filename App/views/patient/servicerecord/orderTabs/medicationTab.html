@@ -1,72 +1,133 @@
-<form class="form-inline formPadding">
+<form class="form-inline formPadding medOrderForm">
+	<div class="modalAlert">
+		<div class="alert alert-danger allAlert">You have are missing required fields.</div>
+		<div class="alert alert-danger medAlert">Medicine is required.</div>
+		<div class="alert alert-danger sigAlert">Sigs is required.</div>
+		<div class="alert alert-success">Successfully saved.</div>
+	</div>
 	<div class="row-fluid">
+		<!-- ko with: medication -->
 		<div class="marginBottom5">
-			<input type="text" placeholder="Medicine" />
-			<select>
-				<option value="" disabled selected style="display:none;">Strength</option>
-				<option value="placeholder">placeholder</option>
+			<input type="text" class="input-xlarge" placeholder="Medicine"
+				   data-bind="value: medicine, typeahead: {value: medicine, source: $root.medicines}" />
+			<input type="text" class="input-small" data-bind="value: strength" placeholder="Strength" />
 			</select>
+			<span class="pull-right">
+				<span data-bind="text: $root.allergies"></span> Allergies 
+				<span data-bind="text: $root.intolerances"></span> Intolerances
+			</span>
 		</div>
 		<div class="marginBottom5">
-			<input type="text" placeholder="Quantity" />
-			<select>
-				<option value="" disabled selected style="display:none;">Route</option>
-				<option value="placeholder">placeholder</option>
+			<input type="text" class="input-small" data-bind="value: quantity" placeholder="Quantity" />
+			<select data-bind="options: $root.form.routes, optionsText: 'text', optionsValue: 
+							  'value', optionsCaption: 'Route', value: route" class="input-medium">
 			</select>
-			<select>
-				<option value="" disabled selected style="display:none;">Sigs</option>
-				<option value="placeholder">placeholder</option>
-			</select>
+			<select data-bind="options: $root.form.sigCodes, optionsText: 'text', optionsValue: 
+				               'value', optionsCaption: 'Sigs', value: sigs" class="input-medium">
+			</select>		
 		</div>
 		<div class="marginBottom5">
-			<label class="checkbox inline">
-				<input type="checkbox" />
-				<span>Order</span>
+			<label class="checkbox inline right10">
+				<input type="checkbox" data-bind="checked: isOrdered" /> Order
 			</label>
-			<input type="number" placeholder="Qty Dispensed" />
+			<input type="number" class="input-small right10" placeholder="Dispensed" 
+				   data-bind="value: dispensed" />
 			<span class="radio inline">Refill</span>
 			<label class="radio inline">
-				<input type="radio" name="refill" value="1" /><span>Yes</span>
+				<input type="radio" name="refill" value="1" data-bind="checked: refill" /> Yes
 			</label>
-			<label class="radio inline">
-				<input type="radio" name="refill" value="0" /><span>No</span>
+			<label class="radio inline right10">
+				<input type="radio" name="refill" value="0" data-bind="checked: refill" /> No
 			</label>
-			<input type="number" placeholder="Refill Qty" />
+			<input type="number" class="input-small" placeholder="Refill Qty" 
+			       data-bind="value: refillQty, enable: refill() == 1" />
 		</div>
 		<div class="marginBottom5 commentContainer">
-			<textarea class="commentSpan" rows="3" placeholder="Comments" /></textarea>
+			<textarea class="commentSpan" rows="3" placeholder="Comments" 
+					  data-bind="value: comment">
+			</textarea>
 		</div>
+		<!-- /ko -->
 		<div class="pull-right">
-			<button type="submit" class="btn btn-small btn-primary">Save</button>
-			<button type="button" class="btn btn-small btn-warning">Cancel</button>
+			<button type="button" data-bind="click: newMedication, visible: newMed" 
+			        class="btn btn-small btn-success">
+				New
+			</button>
+			<button type="button" data-bind="click: cancelMedication, visible: cancelMed" 
+			        class="btn btn-small btn-warning">
+				Cancel
+			</button>
+			<button type="submit" data-bind="click: saveMedication" class="btn btn-small btn-primary">
+				Save
+			</button>
 		</div>
 	</div>
 </form>
 <div class="row-fluid">
 	<div class="marginBottom5">
-		<span class="radio inline">Show Records</span>
+		<span class="radio inline">Show Records: </span>
 		<label class="radio inline">
-			<input type="radio" name="refill" value="1" /><span>Ordered</span>
+			<input type="radio" name="filter" value="ordered" data-bind="checked: $root.tableFilter, click: filterTable" /><span>Ordered</span>
 		</label>
 		<label class="radio inline">
-			<input type="radio" name="refill" value="2" /><span>Current</span>
+			<input type="radio" name="filter" value="current" data-bind="checked: $root.tableFilter, click: filterTable" /><span>Current</span>
 		</label>
 		<label class="radio inline">
-			<input type="radio" name="refill" value="3" /><span>All</span>
+			<input type="radio" name="filter" value="all" data-bind="checked: $root.tableFilter, click: filterTable" /><span>All</span>
 		</label>
 	</div>
-	<table class="table table-bordered table-hover">
-		<thead>
-			<tr>
-				<th></th>
-				<th>Medicine Name</th>
-				<th>Strength</th>
-				<th>Quantity</th>
-				<th>Sigs</th>
-				<th>Route</th>
-				<th>Prescribed Date</th>
-				<th></th>
-			</tr>
-		</thead>
-	</table>
+	<div class="medTable">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th data-bind="sort: {column: 'medicine', array: medications}">
+						<span>Medicine Name</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'strength', array: medications}">
+						<span>Strength</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'quantity', array: medications}">
+						<span>Quantity</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'route', array: medications}">
+						<span>Route</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'sigs', array: medications}">
+						<span>Sigs</span>
+						<div class="arrow down"></div>	
+					</th>
+					<th data-bind="sort: {column: 'status', array: medications}">
+						<span>Status</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'prescribedDate', array: medications}">
+						<span></span>
+						<div class="arrow down"></div>
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody data-bind="foreach: medications">
+				<tr>
+					<td data-bind="text: medicine, click: $root.selectMedication"></td>
+					<td data-bind="text: strength, click: $root.selectMedication"></td>
+					<td data-bind="text: quantity, click: $root.selectMedication"></td>
+					<td data-bind="text: route, click: $root.selectMedication"></td>
+					<td data-bind="text: sigs, click: $root.selectMedication"></td>
+					<td data-bind="text: status, click: $root.selectMedication"></td>
+					<td data-bind="text: prescribedDate, click: $root.selectMedication"></td>
+					<td>
+						<button type="button" class="btn btn-small btn-danger" 
+							    data-bind="click: $root.deleteMedication">
+							Delete
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

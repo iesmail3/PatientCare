@@ -17,17 +17,6 @@ define(function(require) {
 	var Structures = require('modules/patientStructures');  // Patient Structures
 	
 	/*********************************************************************************************** 
-	 * Validation Configuration
-	 **********************************************************************************************/
-	ko.validation.init({
-		insertMessages: false,
-		parseInputAttributes: true,
-		grouping: {deep: true, observable: true},
-		decorateElement: true,
-		messagesOnModified: false
-	});
-	
-	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
 	var backend = new Backend();
@@ -53,7 +42,7 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * ViewModel
 	 **********************************************************************************************/
-	var vm =  {
+	return  {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
@@ -250,16 +239,8 @@ define(function(require) {
 					}
 				});
 			}
-			else {
+			else
 				$('.personalAlert').fadeIn('slow').delay(2000).fadeOut('slow');
-				system.log(ko.validation);
-				self.errors.showAllMessages();
-			}
 		}
 	}; // End ViewModel
-	
-	// Turn validation on
-	var errors = vm['formErrors'] = ko.validation.group(vm);
-	vm.patient().errors.showAllMessages();
-	return vm;
 }); // End file

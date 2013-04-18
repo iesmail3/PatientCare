@@ -1,20 +1,53 @@
 <div class="formScroll formPadding">
-	<div class="row-fluid">
-		<table class="table table-bordered table-hover">
+	<div class="row-fluid mainOrderTableHolder">
+		<table class="table table-bordered table-hover OrderTable">
 			<thead>
 				<tr>
-					<th></th>
-					<th>Order Date</th>
-					<th>Order Type</th>
-					<th>Description</th>
-					<th>In Office</th>
-					<th>Comments</th>
+					<th data-bind="sort: {column: 'date', array: labOrders}">
+						<span>Order Date</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'type', array: labOrders}">
+						<span>Order Type</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'description', array: labOrders}">
+						<span>Description</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'inOffice', array: labOrders}">
+						<span>In Office</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'comment', array: labOrders}">
+						<span>Comments</span>
+						<div class="arrow down"></div>
+					</th>
 					<th></th>
 				</tr>
 			</thead>
+			<tbody data-bind="foreach: labOrders">
+				<tr>
+					<td data-bind="text: date, click: $root.selectRow.bind($data, 'lab')"></td>
+					<td data-bind="text: type, click: $root.selectRow.bind($data, 'lab')"></td>
+					<td data-bind="text: description, click: $root.selectRow.bind($data, 'lab')"></td>
+					<td>
+						<div data-bind="visible: inOffice, click: $root.selectRow.bind($data, 'lab')">
+							<i class="icon-ok checkboxIcon"></i>
+						</div>
+					</td>
+					<td data-bind="text: comment, click: $root.selectRow.bind($data, 'lab')"></td>
+					<td>
+						<button type="button" class="btn btn-small btn-danger" 
+							    data-bind="click: $root.deleteOrder">
+							Delete
+						</button>
+					</td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
 </div>
 <div class="pull-right">
-	<button type="button" class="btn btn-small">Add</button>
+	<button type="button" class="btn btn-small btn-success" data-bind="click: newOrder.bind($data, 'lab')">New</button>
 </div>

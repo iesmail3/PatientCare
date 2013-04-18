@@ -138,6 +138,61 @@ define(function(require) {
 		}
 	}
 	
+	// Drug Order
+	patient.prototype.DrugOrder = function(data) {
+		var self = this;
+		if (data != null) {
+			this.id			    = ko.observable(data.id);
+			this.orderId	    = ko.observable(data.order_id);
+			this.scr		    = ko.observable(data.scr);
+			this.crcl		    = ko.observable(data.crcl);
+			this.medicine	    = ko.observable(data.medicine).extend({required: true});
+			this.dose		    = ko.observable(data.dose);
+			this.basis		    = ko.observable(data.basis);
+			this.prescribedDose = ko.observable(data.prescribed_dose);
+			this.route		    = ko.observable(data.route);
+			this.diluent	    = ko.observable(data.diluent);
+			this.volume		    = ko.observable(data.volume);
+			this.duration	    = ko.observable(data.duration);
+			this.seq		    = ko.observable(data.seq);
+			this.days		    = ko.observable(data.days);
+			this.instructions   = ko.observable(data.instructions);
+		}
+		else {
+			this.id				= ko.observable();
+			this.orderId		= ko.observable();
+			this.scr			= ko.observable();
+			this.crcl			= ko.observable();
+			this.medicine		= ko.observable().extend({required: true});
+			this.dose			= ko.observable();
+			this.basis			= ko.observable();
+			this.prescribedDose = ko.observable();
+			this.route			= ko.observable();
+			this.diluent		= ko.observable();
+			this.volume			= ko.observable();
+			this.duration		= ko.observable();
+			this.seq			= ko.observable();
+			this.days			= ko.observable();
+			this.instructions	= ko.observable();
+		}
+		
+		this.calculatedDose = ko.computed(function() {
+			var dose = parseFloat(self.dose());
+			if(!isNaN(dose)) {
+				if(self.basis() == '/m2')
+					return (dose * 1.84).toFixed(2);
+				if(self.basis() == '/Kg')
+					return (dose * 72.57).toFixed(2);
+				if(self.basis() == '/auc')
+					return 0;
+			}
+			return '';
+		});
+		
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
+	}
+	
 	// Employer
 	patient.prototype.Employer = function(data) {
 		if (data != null) {
@@ -354,33 +409,45 @@ define(function(require) {
 		if (data != null) {
 			this.id				  = ko.observable(data.id);
 			this.serviceRecordId  = ko.observable(data.service_record_id);
-			this.medicine		  = ko.observable(data.medicine);
+			this.medicine		  = ko.observable(data.medicine).extend({required: {message: 'medicine'}});
 			this.strength		  = ko.observable(data.strength);
 			this.quantity		  = ko.observable(data.quantity);
 			this.route			  = ko.observable(data.route);
-			this.sigs		  	  = ko.observable(data.sigs);
-			this.status			  = ko.observable(data.status);
+			this.sigs		  	  = ko.observable(data.sigs).extend({required: {message: 'sig'}});
+			this.status			  = ko.observable(data.status)
 			this.prescribedBy	  = ko.observable(data.prescribed_by);
 			this.prescribedDate	  = ko.observable(data.prescribed_date);
 			this.discontinuedBy	  = ko.observable(data.discontinued_by);
 			this.discontinuedDate = ko.observable(data.discontinued_date);
 			this.comment		  = ko.observable(data.comment);
+			this.isOrdered		  = ko.observable(data.is_ordered);
+			this.dispensed		  = ko.observable(data.dispensed_quantity);
+			this.refill			  = ko.observable(data.refill);
+			this.refillQty		  = ko.observable(data.refill_quantity);
+			
 		}
 		else {
 			this.id				  = ko.observable();
 			this.serviceRecordId  = ko.observable();
-			this.medicine		  = ko.observable();
+			this.medicine		  = ko.observable().extend({required: {message: 'medicine'}});
 			this.strength		  = ko.observable();
 			this.quantity		  = ko.observable();
 			this.route			  = ko.observable();
-			this.sigs		  	  = ko.observable();
-			this.status			  = ko.observable();
+			this.sigs		  	  = ko.observable().extend({required: {message: 'sig'}});
+			this.status			  = ko.observable()
 			this.prescribedBy	  = ko.observable();
 			this.prescribedDate	  = ko.observable();
 			this.discontinuedBy	  = ko.observable();
 			this.discontinuedDate = ko.observable();
 			this.comment		  = ko.observable();
+			this.isOrdered		  = ko.observable();
+			this.dispensed		  = ko.observable();
+			this.refill			  = ko.observable();
+			this.refillQty		  = ko.observable();
 		}
+		
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Medication Order Log
@@ -388,10 +455,10 @@ define(function(require) {
 		if (data != null) {
 			this.id			    = ko.observable(data.id);
 			this.orderId	    = ko.observable(data.order_id);
-			this.medicine	    = ko.observable(data.medicine);
+			this.medicine	    = ko.observable(data.medicine).extend({required: {message: 'medicine'}});
 			this.quantity	    = ko.observable(data.quantity);
-			this.actualDose	    = ko.observable(data.actual_dose);
-			this.sequenceNumber = ko.observable(data.sequence_number);
+			this.dose		    = ko.observable(data.actual_dose);
+			this.seq		    = ko.observable(data.sequence_number);
 			this.startTime	    = ko.observable(data.start_time);
 			this.diluent	    = ko.observable(data.diluent);
 			this.volume		    = ko.observable(data.volume);
@@ -402,10 +469,10 @@ define(function(require) {
 		else {
 			this.id			    = ko.observable();
 			this.orderId	    = ko.observable();
-			this.medicine	    = ko.observable();
+			this.medicine	    = ko.observable().extend({required: {message: 'medicine'}});
 			this.quantity	    = ko.observable();
-			this.actualDose	    = ko.observable();
-			this.sequenceNumber = ko.observable();
+			this.dose	    	= ko.observable();
+			this.seq			= ko.observable();
 			this.startTime	    = ko.observable();
 			this.diluent	    = ko.observable();
 			this.volume		    = ko.observable();
@@ -413,6 +480,9 @@ define(function(require) {
 			this.endTime	    = ko.observable();
 			this.comment	    = ko.observable();
 		}
+		
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	patient.prototype.OfficeProcedure = function(data) {
@@ -453,12 +523,18 @@ define(function(require) {
 			this.id			 = ko.observable(data.id);
 			this.type		 = ko.observable(data.type);
 			this.description = ko.observable(data.description);
+			this.code        = ko.observable(data.code);
+			this.cost        = ko.observable(data.cost);
+			this.unit		 = ko.observable(data.unit);
 			this.selected	 = ko.observable();
 		}
 		else {
 			this.id			 = ko.observable();
 			this.type		 = ko.observable();
 			this.description = ko.observable();
+			this.code        = ko.observable();
+			this.cost        = ko.observable();
+			this.unit		 = ko.observable();
 			this.selected    = ko.observable();
 		}
 	}
@@ -506,8 +582,8 @@ define(function(require) {
 			this.idNumber			  = ko.observable(data.id_number);
 			this.idType				  = ko.observable(data.id_type);
 			this.firstName			  = ko.observable(data.first_name).extend({required: true});
-			this.middleName			  = ko.observable(data.middle_name).extend({required: true});;
-			this.lastName			  = ko.observable(data.last_name).extend({required: true});;
+			this.middleName			  = ko.observable(data.middle_name).extend({required: true});
+			this.lastName			  = ko.observable(data.last_name).extend({required: true});
 			this.address			  = ko.observable(data.address);
 			this.city				  = ko.observable(data.city);
 			this.state				  = ko.observable(data.state);
@@ -585,7 +661,14 @@ define(function(require) {
 			return '#/patient/personalinformation/' + self.id();
 		});
 		
-		self.errors = ko.validation.group(self, {messagesOnModified: false});
+		this.age = ko.computed(function(element) {
+			var today = new Date();
+			var dob = new Date(self.dob());
+			return Math.abs(today - dob);
+		});
+		
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Payment Method
@@ -1155,6 +1238,68 @@ define(function(require) {
 			this.comment         = ko.observable(); 
 			this.date            = ko.observable(); 
 		}
+	}
+	
+	// Supply
+	patient.prototype.Supply = function(data) {
+		if(data != null) {
+			this.id 	  	  = ko.observable(data.id);
+			this.orderId 	  = ko.observable(data.order_id);
+			this.supplyTypeId = ko.observable(data.supply_type_id);
+			this.quantity 	  = ko.observable(data.quantity);
+		}
+		else {
+			this.id 	  	  = ko.observable();
+			this.orderId 	  = ko.observable();
+			this.supplyTypeId = ko.observable();
+			this.quantity 	  = ko.observable();
+		}
+	}
+	
+	// SupplyType
+	patient.prototype.SupplyType = function(data) {
+		if(data != null) {
+			this.id 	  	  = ko.observable(data.id);
+			this.practiceId   = ko.observable(data.practice_id);
+			this.description  = ko.observable(data.description);
+			this.unit	 	  = ko.observable(data.unit);
+			this.quantity	  = ko.observable(0);
+		}
+		else {
+			this.id 	  	  = ko.observable();
+			this.practiceId   = ko.observable();
+			this.description  = ko.observable();
+			this.unit	 	  = ko.observable();
+			this.quantity	  = ko.observable(0);
+		}
+	}
+	
+	patient.prototype.VenousAccess = function(data) {
+		if(data != null) {
+			this.id			= ko.observable(data.id);
+			this.orderId	= ko.observable(data.order_id);
+			this.day		= ko.observable(data.day).extend({required: {message: 'day'}});
+			this.portAccess = ko.observable(data.port_access).extend({required: {message: 'port'}});
+			this.pulse		= ko.observable(data.pulse);
+			this.temp		= ko.observable(data.temp);
+			this.bp			= ko.observable(data.bp);
+			this.time		= ko.observable(data.time);
+			this.date		= ko.observable(data.date);
+		}
+		else {
+			this.id			= ko.observable();
+			this.orderId	= ko.observable();
+			this.day		= ko.observable().extend({required: {message: 'day'}});
+			this.portAccess = ko.observable().extend({required: {message: 'port'}});
+			this.pulse		= ko.observable();
+			this.temp		= ko.observable();
+			this.bp			= ko.observable();
+			this.time		= ko.observable('');
+			this.date		= ko.observable();
+		}
+		
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Vital Signs

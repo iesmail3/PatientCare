@@ -7,6 +7,9 @@ define(function(require) {
 	var u = require('../../Scripts/underscore');
 	var self;
 	
+	/**********************************************************************************************
+	 * Constructor
+	 *********************************************************************************************/
 	var OfficeProcedure = function(practiceId, orderId, procedures, title, options) {
 		self = this;
 		this.practiceId = practiceId;
@@ -19,9 +22,11 @@ define(function(require) {
 		this.officeProcedureTypes = ko.observableArray([]);
 		// Populate table
 		this.updateOfficeProcedureTypes(this.practiceId);
-		
 	};
 	
+	/**********************************************************************************************
+	 * Select an option
+	 *********************************************************************************************/
 	OfficeProcedure.prototype.selectOption = function(dialogResult) {
 		if(dialogResult == 'Save') {
 			// Save orders
@@ -41,31 +46,44 @@ define(function(require) {
 					backend.saveOfficeProcedure(o, "insert");
 				}
 			});
-	/*
 			// Update old orders
-			var old = _.intersection(self.oldGroup, self.groupOfficeProcedures());
+			var old = _.intersection(self.oldIds, self.ids);
 			$.each(old, function(k, v) {
-				var o = new structures.OfficeProcedure({
-						service_record_id: self.order().serviceRecordId(),
-						order_category_id: v,
-						description: self.orderCategories()[k].description(),
-						in_office: self.order().inOffice(),
-						instructions: self.order().instructions(),
-						assigned_to: self.order().assignedTo(),
-						date: self.order().date(),
-						type: self.order().type(),
-						comment: self.order().comment(),
-						center: self.order().center(),
-						group: self.order().group()									
-					});
+				// Filter the office procedures to find new ones
+				var o = _.filter(self.officeProcedureTypes(), function(x) {
+					return x.id() == v;
+				});
+				var procedure = o[0];
+				o = new structures.OfficeProcedure({
+					order_id: self.orderId,
+					office_procedure_type_id: procedure.id(),
+					times: procedure.times()								
+				});
 				backend.saveOfficeProcedure(o, "update");
 			});
-		*/	
+			
+			var del = _.difference(self.oldIds, old);
+			$.each(del, function(k, v) {
+				// Filter the office procedures to find new ones
+				var o = _.filter(self.officeProcedureTypes(), function(x) {
+					return x.id() == v;
+				});
+				var procedure = o[0];
+				o = new structures.OfficeProcedure({
+					order_id: self.orderId,
+					office_procedure_type_id: procedure.id(),
+					times: procedure.times()								
+				});
+				backend.deleteOfficeProcedure(o);
+			});
 		}
 		
 		this.modal.close(dialogResult);
 	}
 	
+	/**********************************************************************************************
+	 * Update Office Procedures list
+	 *********************************************************************************************/
 	OfficeProcedure.prototype.updateOfficeProcedureTypes = function(data) {
 		backend.getOfficeProcedureTypes(self.practiceId).success(function(data){
 			var o = $.map(data, function(item){ return new structures.OfficeProcedureType(item); });
@@ -78,6 +96,13 @@ define(function(require) {
 					v.times(self.procedures[i].times);
 			})
 		});
+	}
+	
+	/**********************************************************************************************
+	 * Close Window
+	 *********************************************************************************************/
+	OfficeProcedure.prototype.closeWindow = function() {
+		self.selectOption('Close');
 	}
 	
 	OfficeProcedure.defaultTitle = '';
