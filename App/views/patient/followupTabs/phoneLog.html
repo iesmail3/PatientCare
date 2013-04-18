@@ -35,9 +35,9 @@
 						<input type="radio" name="actionRequired"  data-bind="checked: actionRequired" value="Yes" /><span>Yes</span>
 					</label>
 					<label class="radio inline">
-						<input type="radio" name="actionRequired" data-bind="checked:actionRequired"value="No" /><span>No</span>
-					</label>  
-					<select class="input-large" data-bind='options: $root.myArray,optionsCaption: "Assigned to",value:assignedTo,visible:$root.showAssigned'>      
+						<input type="radio" name="actionRequired" data-bind="checked:actionRequired" value="No" /><span>No</span>
+					</label>    
+					<select class="input-large" data-bind="options: $root.myArray,optionsCaption: 'Assigned to',value:assignedTo,visible:actionRequired()=='Yes' ">      
 					</select>  
 				</div>     
 				<div class="marginBottom5 pull-right">

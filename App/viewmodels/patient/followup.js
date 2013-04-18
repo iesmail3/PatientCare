@@ -213,6 +213,7 @@ define(function(require) {
 			var self = this;  
 			//Patient ID
 			self.patientId(data.patientId); 
+			//self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
 			//Pactice ID
 			self.practiceId('1'); 
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
@@ -245,15 +246,15 @@ define(function(require) {
 				}); 
 			});
 			   
-			backend.getPhoneLog(self.patientId(),self.practiceId()).success(function(data) {			
+			backend.getPhoneLog(self.patientId(),self.practiceId()).success(function(data) {
 				if(data.length > 0) {
+					
 					 var p = $.map(data, function(item) {
 					 item.datetime = form.uiDate(item.datetime)
 					 return new structures.PhoneLog(item) });
 					
 					 self.phoneLogs(p);
 					 self.phoneLog(p[0]); 
-					
 				} 
 			}); 
 			
@@ -344,7 +345,6 @@ define(function(require) {
 		setDocumentFields: function(data) { 
 		    isNewDocument(false); 
 			doc(data);
-			system.log('id is' + doc().id()); 
 		}, 
 		setPaymentFields: function(data) { 
 			paymentMethod(data); 
@@ -571,12 +571,13 @@ define(function(require) {
 				);
 		},
 		
-		printCheckoutOrder: function(data) { 
+		printCheckoutOrder: function(data) {  
 			var height = $('.flowHolder').height();
 			var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
 					   'menubar=no, status=no, titlebar=no, toolbar=no';
 			var win = window.open(
-					'php/printCheckoutOrder.php/?practiceId=' + practiceId() + '&patientId=' + checkout().patientId() + '&serviceRecordId=' + checkout().serviceRecordId() + '&checkoutId=' + checkout().id(),					
+					'php/printCheckoutOrder.php/?practiceId=' + practiceId() + '&patientId=' + checkout().patientId() + '&serviceRecordId=' + checkout().serviceRecordId() + '&checkoutId=' + checkout().id()
+					,					
 					'',
 					settings
 				);

@@ -24,6 +24,7 @@ $patientId          = $_GET['patientId'];
 $serviceRecordId    = $_GET['serviceRecordId'];
 $checkoutId         = $_GET['checkoutId'];
 
+
 class PDF extends FPDI_CellFit {
 
 	function Header() {
@@ -35,6 +36,7 @@ class PDF extends FPDI_CellFit {
 		$physician 		 	= array();
 	    $patient  			= array();
 		$diagnosis          = array(); 
+		$order              = array(); 
 		/******************************************************************************************
  		 * Get needed data from database
  		 *****************************************************************************************/
@@ -69,6 +71,7 @@ class PDF extends FPDI_CellFit {
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);
 			$rows = $stmt->fetchAll();
 			$diagnosis = $rows;
+			
 		}
 		catch (PDOException $e) {
 			echo $e->getMessage() . "<br>";
@@ -140,8 +143,6 @@ class PDF extends FPDI_CellFit {
 			$this->Cell(65,7,$d['diagnosis']); 
 			$this->Cell(30,7, $d['code'],0,1);
 		 }
-		 
-		
 	}
 
 	function Footer() {
@@ -162,12 +163,64 @@ class PDF extends FPDI_CellFit {
 }
 
 /***************************************************************************************************
+ * Pull Data from Database
+ **************************************************************************************************/
+// Order
+$stmt = $db->query("SELECT * 
+					FROM orders
+					JOIN order_category
+					ON orders.order_category_id=order_category.id
+				    WHERE orders.service_record_id='$serviceRecordId'");
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
+$rows = $stmt->fetchAll();
+$orders = $rows;
+
+/***************************************************************************************************
  * Setup PDF
  **************************************************************************************************/
 $pdf = new PDF();
 $pdf->AliasNbPages();
 $pdf->AddPage();
 
+  
+/***************************************************************************************************
+ * Order
+ **************************************************************************************************/
+ //Header
+ $y = $pdf->GetY();
+ $pdf->SetY($y +3);
+ $pdf->SetFont('Arial','B',11);
+ $pdf->Cell(65, 7, 'Order');
+ $y = $pdf->GetY();
+ $pdf->SetY($y +5);
+ 
+ // Data
+ //foreach($orders as $o) {
+    $pdf->Cell(15, 7, 'Order:');
+	$pdf->SetFont('Arial','B',11);
+	$pdf->Cell(50,7,$orders[0]['type']); 
+	$pdf->Cell(20, 7, 'InOffice:');
+	$pdf->Cell(20,7,$orders[0]['in_office']); 
+	$pdf->Cell(40, 7, 'Diagnostic Center:');
+    $pdf->Cell(50,7,$orders[0]['center'],0,1);
+	$pdf->SetFont('Arial','',11);
+	$pdf->Cell(30, 7, 'Comments:');
+	$pdf->Cell(50,7,$orders[0]['comment'],0,1);
+	$pdf->Cell(30, 7, 'Instructions:');
+	$pdf->Cell(50,7,$orders[0]['instructions'],0,1);
+	$pdf->SetFont('Arial','U',11);
+	$y = $pdf->GetY();
+	$pdf->SetY($y +5);
+	$pdf->Cell(70, 7, 'Description');
+	$pdf->Cell(30, 7, 'Code',0,1);
+	$pdf->SetFont('Arial','',11);
+	$pdf->Cell(70,7,$orders[0]['description']);
+	$pdf->Cell(15,7,$orders[0]['code']);
+	 
+ //}
+ 
+  
+ 
   
 /***************************************************************************************************
  * Output PDF

@@ -274,14 +274,14 @@
 			values[3] = form.dbDate(phoneLog().datetime()); 
 			if(phoneLog().id() == undefined || phoneLog().id() == '') {
              showAssigned(true);  			
-			   var newId = '';
+			   var newId = 1;
 			return self.query({
 					mode: 'select',
 					table: 'phone_log',
 					fields: 'id',
 					order: 'ORDER BY id DESC',
 					limit: 'LIMIT 1'
-			}).success(function(data) {
+			}).success(function(data) { 
 					$.each(data, function(key, item) {
 							newId = parseInt(item.id) + 1;
 					});
@@ -421,10 +421,11 @@
 			}).success(function(data) {
 				var newId = 1; 
 				if(data.length > 0)
-					newId = parseInt(data[0].id) + 1;
-					//system.log('id inside module' + data[0].id); 
+					newId = parseInt(data[0].id) + 1; 
+				values[6] = form.currentDate(); 
 				values[0] = newId;
 				doc.id(newId);
+				doc.date(form.currentDate()); 
 				
 				 self.query({
 					mode: 'insert',
