@@ -19,6 +19,13 @@ define(function(require) {
             router.mapRoute('#/patient/:view/', 'viewmodels/patient');
             router.mapRoute('#/patient/:view/:patientId', 'viewmodels/patient');
             
+            // Add logout
+            var sammy = Sammy(function(route) {
+            	this.get('#logout', function() {
+            		location.assign('php/logout.php');
+            	});
+            });
+            
             // Set initial view
             return router.activate('managepatients');
             
