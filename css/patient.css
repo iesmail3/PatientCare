@@ -107,16 +107,15 @@ th, td {
 .paymentTable td { padding: 5px; }
 .paymentTable th:last-child { width: 15%; }
 
-.alertHolder { height: 45px; }
 .alert { display: none; }
 
-.modalAlert {
+.modalAlert, .alertHolder {
 	margin-top: 2px;
 	height: 20px;
 	line-height: 15px;
 	font-size: 12px;
 }
-.modalAlert .alert {
+.modalAlert .alert, .alertHolder .alert {
 	display: none;
 	padding: 1px;
 	margin-bottom: 0;	

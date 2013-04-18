@@ -147,15 +147,6 @@ try {
 	}
 	// If Update is chosen
 	else if($mode == 'update') {
-		// Remove nulls
-		for($i = 0; $i < count($fields); $i++) {
-			if($values[$i] == '') {
-				unset($fields[$i]);
-				$fields = array_values($fields);
-				unset($values[$i]);
-				$values = array_values($values);
-			}
-		}
 		
 		// Create nameholders
 		$set = "";

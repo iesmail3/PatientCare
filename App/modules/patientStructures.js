@@ -195,6 +195,7 @@ define(function(require) {
 	patient.prototype.Employer = function(data) {
 		if (data != null) {
 			this.patientId	 = ko.observable(data.patient_id);
+			this.practiceId	 = ko.observable(data.practice_id);
 			this.companyName = ko.observable(data.company_name);
 			this.address	 = ko.observable(data.address);
 			this.city		 = ko.observable(data.city);
@@ -207,6 +208,7 @@ define(function(require) {
 		}
 		else {
 			this.patientId	 = ko.observable();
+			this.practiceId	 = ko.observable();
 			this.companyName = ko.observable();
 			this.address	 = ko.observable();
 			this.city		 = ko.observable();
@@ -580,7 +582,7 @@ define(function(require) {
 			this.idNumber			  = ko.observable(data.id_number);
 			this.idType				  = ko.observable(data.id_type);
 			this.firstName			  = ko.observable(data.first_name).extend({required: true});
-			this.middleName			  = ko.observable(data.middle_name).extend({required: true});
+			this.middleName			  = ko.observable(data.middle_name);
 			this.lastName			  = ko.observable(data.last_name).extend({required: true});
 			this.address			  = ko.observable(data.address);
 			this.city				  = ko.observable(data.city);
@@ -616,7 +618,7 @@ define(function(require) {
 			this.idNumber			  = ko.observable();
 			this.idType				  = ko.observable();
 			this.firstName			  = ko.observable().extend({required: true});
-			this.middleName			  = ko.observable().extend({required: true});
+			this.middleName			  = ko.observable();
 			this.lastName			  = ko.observable().extend({required: true});
 			this.address			  = ko.observable();
 			this.city				  = ko.observable();
@@ -1035,6 +1037,7 @@ define(function(require) {
 	patient.prototype.Reference = function(data) {
 		if (data != null) {
 			this.patientId  = ko.observable(data.patient_id);
+			this.practiceId  = ko.observable(data.practice_id);
 			this.type	    = ko.observable(data.type);
 			this.firstName  = ko.observable(data.first_name);
 			this.middleName = ko.observable(data.middle_name);
@@ -1048,6 +1051,7 @@ define(function(require) {
 		}
 		else {
 			this.patientId  = ko.observable();
+			this.practiceId = ko.observable();
 			this.type	    = ko.observable();
 			this.firstName  = ko.observable();
 			this.middleName = ko.observable();
@@ -1188,6 +1192,7 @@ define(function(require) {
 	patient.prototype.Spouse = function(data) {
 		if (data != null) {
 			this.patientId	 = ko.observable(data.patient_id);
+			this.practiceId	 = ko.observable(data.practice_id);
 			this.firstName	 = ko.observable(data.first_name);
 			this.lastName	 = ko.observable(data.last_name);
 			this.idNumber	 = ko.observable(data.id_number);
@@ -1201,6 +1206,7 @@ define(function(require) {
 		}
 		else {
 			this.patientId	 = ko.observable();
+			this.practiceId	 = ko.observable();
 			this.firstName	 = ko.observable();
 			this.lastName	 = ko.observable();
 			this.idNumber	 = ko.observable();

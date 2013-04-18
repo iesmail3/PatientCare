@@ -143,7 +143,7 @@ define(function(require) {
 		
 		var values = $.map(data, function(k,v) {
 			if(v != 'lastFirstName' && v!= 'insuredType')
-				if(k() == null || k() == undefined) {
+				if(k() == null || k() == undefined || k() == 'null') {
 					return [''];
 				}
 				else
