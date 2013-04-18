@@ -1133,6 +1133,7 @@ define(function(require) {
 	
 	// Review of Systems
 	patient.prototype.ReviewOfSystems = function(data) {
+		var self = this;
 		if (data != null) {
 			this.serviceRecordId    = ko.observable(data.service_record_id);
 			this.particulars	    = ko.observable(data.particulars).extend({required: true});
