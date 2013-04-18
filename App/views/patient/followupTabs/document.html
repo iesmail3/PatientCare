@@ -26,7 +26,14 @@
 			<fieldset>   
 				<legend>Details</legend>      
 				<div class="marginBottom5">
-					<input type="text" class="input-medium" placeholder="Document Type" data-bind="value: type" />
+					<select class="input-medium" data-bind="value:type">
+						<option value="">Document Type</option>
+						<option value="Labs">Labs</option>
+						<option value="X-Ray">X-Ray</option>
+						<option value="Pathology">Pathology</option>
+						<option value="Procedures">Procedures</option>
+						<option value="Other">Other</option>
+					</select>
 					<div class="fileupload fileupload-new pull-right" data-bind="visible:$root.isNewDocument(),uploader: true">    
 					 </div>
 				</div> 							             

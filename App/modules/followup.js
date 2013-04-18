@@ -416,13 +416,16 @@
 				mode: 'select',
 				table: 'document',
 				fields: 'id',
-				where: "WHERE id='" + doc.id() + "'",
 				order: "ORDER BY id DESC",
 				LIMIT: "LIMIT 1" 
 			}).success(function(data) {
+				var newId = 1; 
 				if(data.length > 0)
-					var id = data[0].id;
-				doc.id(id);
+					newId = parseInt(data[0].id) + 1;
+					//system.log('id inside module' + data[0].id); 
+				values[0] = newId;
+				doc.id(newId);
+				
 				 self.query({
 					mode: 'insert',
 					table: 'document',

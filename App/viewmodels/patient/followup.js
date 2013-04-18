@@ -344,6 +344,7 @@ define(function(require) {
 		setDocumentFields: function(data) { 
 		    isNewDocument(false); 
 			doc(data);
+			system.log('id is' + doc().id()); 
 		}, 
 		setPaymentFields: function(data) { 
 			paymentMethod(data); 
@@ -520,12 +521,13 @@ define(function(require) {
 				if(doc().id() == null) {
 					doc().location(file());  
 				}
-				isNewDocument(false);
-				 backend.saveDocument(doc(),documents,practiceId,patientId); 
-				$('.fileupload').fineUploader('uploadStoredFiles'); 
-				$('.document .documentAlert').fadeIn().delay(3000).fadeOut();
-				documentState(true);
-				doc(new structures.Document());
+				 isNewDocument(false);
+				  backend.saveDocument(doc(),documents,practiceId,patientId); 
+				 $('.fileupload').fineUploader('uploadStoredFiles'); 
+				  $('.document .documentAlert').fadeIn().delay(3000).fadeOut();
+				  documentState(true);
+				  doc(new structures.Document());
+				
 			}					
 		},
 		searchByType: function(data) { 
