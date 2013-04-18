@@ -1,5 +1,8 @@
 <form class="form-inline formPadding">
 	<div class="row-fluid">
+		<div class="alertHolder">
+			<div class="alert alert-danger allergyAlert">You have are missing required fields.</div>
+		</div>
 		<div class="marginBottom5">
 			<label class="checkbox allergiesCheckbox">
 				<input type="checkbox" data-bind="
@@ -22,25 +25,43 @@
 			</textarea>
 		</div>
 		<div class="marginBottom5">
-			<select data-bind="
-				value: allergiesIntolerance().type,
-				enable: !serviceRecord().noKnownAllergies()" required>
-				<option value="" disabled selected style="display:none;">Type</option>
-				<option value="Allergy">Allergy</option>
-				<option value="Intolerance">Intolerance</option>
-			</select>
-			<span class="required">*</span>
-			<select data-bind="
-				value: allergiesIntolerance().status,
-				enable: !serviceRecord().noKnownAllergies()" required>
-				<option value="" disabled selected style="display:none;">Status</option>
-				<option value="Active">Active</option>
-				<option value="Inactive">Inactive</option>
-			</select>
-			<span class="required">*</span>
-		</div>
-		<div class="alertHolder">
-			<div class="alert alert-danger allergyAlert">You have are missing required fields.</div>
+			<div class="allergyPushRight">
+				<select class="input-xmedium" data-bind="
+					value: allergiesIntolerance().type,
+					enable: !serviceRecord().noKnownAllergies()" required>
+					<option value="" disabled selected style="display:none;">Type</option>
+					<option value="Allergy">Allergy</option>
+					<option value="Intolerance">Intolerance</option>
+				</select>
+				<span class="required">*</span>
+			</div>
+			<div class="allergyPushRight">
+				<select class="input-small" data-bind="
+					value: allergiesIntolerance().status,
+					enable: !serviceRecord().noKnownAllergies()" required>
+					<option value="" disabled selected style="display:none;">Status</option>
+					<option value="Active">Active</option>
+					<option value="Inactive">Inactive</option>
+				</select>
+				<span class="required">*</span>
+			</div>
+			<div class="allergyPushRight">
+				<span class="label label-info" data-bind="
+					visible: !allergiesIntoleranceState() && allergiesIntolerances().length != 0">
+					Date Recorded
+				</span>
+				<span data-bind="text: allergiesIntolerance().dateRecorded"></span>
+			</div>
+			<div class="allergyPushRight">
+				<span class="label" data-bind="
+					visible: allergiesIntolerance().status() == 'Inactive'">
+					Inactive Date
+				</span>
+				<input type="text" class="input-xmedium" placeholder="Inactive Date" data-bind="
+					value: allergiesIntolerance().dateInactive,
+					visible: allergiesIntolerance().status() == 'Inactive',
+					datepicker: true" />
+			</div>
 		</div>
 		<div class="pull-right">
 			<button type="button" class="btn btn-small btn-success" data-bind="

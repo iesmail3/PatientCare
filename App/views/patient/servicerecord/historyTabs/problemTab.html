@@ -1,5 +1,8 @@
 <form class="form-inline formPadding">
 	<div class="row-fluid">
+		<div class="alertHolder">
+			<div class="alert problemAlert"></div>
+		</div>
 		<!-- ko with: medicalProblem -->
 		<div class="marginBottom5">
 			<select data-bind="value: type" required>
@@ -44,9 +47,6 @@
 				<input type="checkbox" data-bind="checked: notApplicable" />
 				<span>Not&nbsp;Applicable</span>
 			</label>
-		</div>
-		<div class="alertHolder">
-			<div class="alert problemAlert"></div>
 		</div>
 		<!-- /ko -->
 		<div class="pull-right">

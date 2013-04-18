@@ -30,6 +30,7 @@ define(function(require) {
 			this.status			 = ko.observable(data.status).extend({required: true});
 			this.details		 = ko.observable(data.details).extend({required: true});
 			this.dateRecorded	 = ko.observable(data.date_recorded);
+			this.dateInactive	 = ko.observable(data.date_inactive);
 		}
 		else {
 			this.id				 = ko.observable();
@@ -38,6 +39,7 @@ define(function(require) {
 			this.status			 = ko.observable('').extend({required: true});
 			this.details		 = ko.observable().extend({required: true});
 			this.dateRecorded	 = ko.observable();
+			this.dateInactive	 = ko.observable();
 		}
 		
 		self.errors = ko.validation.group(self, {messagesOnModified: false});
@@ -1119,7 +1121,7 @@ define(function(require) {
 			this.physicianId			    = ko.observable(data.physician_id);
 			this.date					    = ko.observable(data.date);
 			this.reason					    = ko.observable(data.reason);
-			this.history				    = ko.observable(data.history).extend({required: true});
+			this.history				    = ko.observable(data.history);
 			this.systemsComment			    = ko.observable(data.systems_comment);
 			this.noKnownAllergies		    = ko.observable(data.no_known_allergies == '1' ? 1 : 0);
 			this.allergiesVerified		    = ko.observable(data.allergies_verified == '1' ? 1 : 0);

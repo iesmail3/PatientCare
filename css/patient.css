@@ -163,16 +163,11 @@
 }
 
 /* History & Present Illness */
-.historyAlert {
-	height: 20px;
-	display: none;
-}
-
 .historyComment {
 	width: 100%;
 	min-width: 100%;
 	max-width: 100%;
-	height: 323px;
+	height: 388px;
 }
 
 .commentSpan {
@@ -192,19 +187,23 @@
 
 .reviewPushRight {
 	float: right;
-	width: 542px;
+	width: 541px;
 }
 
 .reviewRadio {
 	display: inline-block;
-	width: 81px;
+	margin-right: 10px;
 }
 
 .reviewComment {
-	width: 200px;
-	height: 20px;
-	max-width: 200px;
-	max-height: 20px;
+	width: 220px;
+}
+
+.reviewFormScroll {
+	overflow-y: auto;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	margin-bottom: 5px;
 }
 
 .problemAlert {
@@ -247,6 +246,11 @@
 .allergiesCheckbox  {
 	display: inline-block;
 	width: 150px;
+}
+
+.allergyPushRight {
+	display: inline-block;
+	margin-right: 5px;
 }
 
 .allergyFormScroll {

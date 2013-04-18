@@ -60,22 +60,6 @@ define(function(require) {
 		});
 	}
 	
-	// Get Allergies and Intolerances for a Single Service Record
-	history.prototype.getAllergiesIntolerance = function(patientId, practiceId, date) {
-		var self = this;
-		var fields = ['allergies_intolerance.id', 'allergies_intolerance.service_record_id',
-			'allergies_intolerance.type', 'allergies_intolerance.status', 'allergies_intolerance.details',
-			'allergies_intolerance.date_recorded'];
-		
-		return self.query({
-			mode: 'select',
-			table: 'allergies_intolerance',
-			join: "LEFT JOIN service_record ON allergies_intolerance.service_record_id=service_record.id",
-			fields: fields,
-			where: "WHERE service_record.patient_id='" + patientId + "' AND service_record.practice_id='" + practiceId + "' AND service_record.date='" + date + "'"
-		});
-	}
-	
 	history.prototype.getMedication = function(patientId, practiceId, date) {
 		var self = this;
 		var fields = ['medication.id', 'medication.service_record_id',
@@ -110,6 +94,22 @@ define(function(require) {
 			table: 'physician',
 			fields: '*',
 			where: "WHERE practice_id='" + practiceId + "'"
+		});
+	}
+	
+	// Get Allergies and Intolerances for a Single Service Record
+	history.prototype.getAllergiesIntolerance = function(patientId, practiceId, date) {
+		var self = this;
+		var fields = ['allergies_intolerance.id', 'allergies_intolerance.service_record_id',
+			'allergies_intolerance.type', 'allergies_intolerance.status', 'allergies_intolerance.details',
+			'allergies_intolerance.date_recorded', 'allergies_intolerance.date_inactive'];
+		
+		return self.query({
+			mode: 'select',
+			table: 'allergies_intolerance',
+			join: "LEFT JOIN service_record ON allergies_intolerance.service_record_id=service_record.id",
+			fields: fields,
+			where: "WHERE service_record.patient_id='" + patientId + "' AND service_record.practice_id='" + practiceId + "' AND service_record.date='" + date + "'"
 		});
 	}
 	
@@ -285,7 +285,7 @@ define(function(require) {
 	
 	history.prototype.saveAllergiesIntolerance = function(allergiesIntolerance, allergiesIntolerances) {
 		var self = this;
-		var fields = ['id', 'service_record_id', 'type', 'status', 'details', 'date_recorded'];
+		var fields = ['id', 'service_record_id', 'type', 'status', 'details', 'date_recorded', 'date_inactive'];
 		var values = $.map(allergiesIntolerance, function(k,v) {
 			if(k() == null || k() == undefined) {
 				return [''];

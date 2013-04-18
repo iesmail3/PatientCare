@@ -1,6 +1,9 @@
 <form class="form-inline formPadding">
 	<!-- ko with: medication -->
 	<div class="row-fluid">
+		<div class="alertHolder">
+			<div class="alert medicationAlert"></div>
+		</div>
 		<div class="marginBottom5">
 			<input type="text" placeholder="Medicine" data-bind="
 				typeahead: {value: medicine, source: $root.medicines}" required />
@@ -43,19 +46,16 @@
 		<div class="marginBottom5">
 			<input type="text" placeholder="Discontinued By" data-bind="
 				typeahead: {value: discontinuedBy, source: $root.physicians},
-				enable: status() == 'discontinued'" />
+				enable: status() == 'Discontinued'" />
 			<input type="text" placeholder="Discontinuation Date" data-bind="
 				value: discontinuedDate,
-				enable: status() == 'discontinued',
+				enable: status() == 'Discontinued',
 				datepicker: true" />
 		</div>
 		<div class="marginBottom5 commentContainer">
 			<textarea class="commentSpan" rows="3" placeholder="Comments" data-bind="
 				value: comment" />
 			</textarea>
-		</div>
-		<div class="alertHolder">
-			<div class="alert medicationAlert"></div>
 		</div>
 		<div class="pull-right">
 			<button type="button" class="btn btn-small btn-success" data-bind="

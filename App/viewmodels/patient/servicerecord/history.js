@@ -101,12 +101,14 @@ define(function(require) {
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
+			$('.reviewFormScroll').height(parseInt($('.tab-pane').height()) - 192);
 			$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 321);
 			$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 326);
 			$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 281);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
+				$('.reviewFormScroll').height(parseInt($('.tab-pane').height()) - 192);
 				$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 321);
 				$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 326);
 				$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 281);
@@ -212,6 +214,9 @@ define(function(require) {
 			return backend.getAllergiesIntolerance(self.patientId(), self.practiceId(), self.date()).success(function(data) {
 				if(data.length > 0) {
 					var a = $.map(data, function(item) {
+						if (item.status == 'Active')
+							item.date_inactive = form.currentDate();
+						item.date_inactive = form.uiDate(item.date_inactive);
 						item.date_recorded = form.uiDate(item.date_recorded);
 						return new structures.AllergiesIntolerance(item)}
 					);
@@ -225,14 +230,7 @@ define(function(require) {
 		 *******************************************************************************************/
 		// Saves the Service Record History
 		serviceRecordSave: function(data) {
-			if (serviceRecord().errors().length == 0) {
-				backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord()).complete(function(data) {
-					if (data.responseText != 'updateFail')
-						$('.historyAlert').removeClass('alert-danger').addClass('alert-info').html('History has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
-				});
-			}
-			else
-				$('.historyAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
+			backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord());
 		},
 		// Clears the Service Record History
 		serviceRecordClear: function(data) {
@@ -338,9 +336,9 @@ define(function(require) {
 			if (medicalProblemsState()) {
 				if (medicalProblem().errors().length == 0) {
 					medicalProblem().serviceRecordId(serviceRecord().id());
-					if (medicalProblem().onsetUnknown())
+					if (!medicalProblem().onsetUnknown())
 						medicalProblem().onsetDate(form.dbDate(medicalProblem().onsetDate()));
-					if (medicalProblem().resolutionUnknown())
+					if (!medicalProblem().resolutionUnknown())
 						medicalProblem().resolutionDate(form.dbDate(medicalProblem().resolutionDate()));
 					backend.saveMedicalProblem(medicalProblem, medicalProblems).complete(function(data) {
 						medicalProblem().onsetDate(form.uiDate(medicalProblem().onsetDate()));
@@ -482,7 +480,12 @@ define(function(require) {
 			allergiesIntoleranceState(true);
 		},
 		allergiesIntoleranceSave: function(data) {
-			if (serviceRecord().noKnownAllergies()) {
+			var allergyPrompt = false;
+			$.each(allergiesIntolerances(), function(k,v) {
+				if (v.status() == 'Active')
+					allergyPrompt = true;
+			});
+			if (serviceRecord().noKnownAllergies() && allergiesIntolerances().length != 0 && allergyPrompt) {
 				app.showMessage(
 					'Known allergy details found, do you want to set them to inactive',
 					'Set allergies to inactive?',
@@ -491,10 +494,12 @@ define(function(require) {
 					if (answer == 'Yes') {
 						$.each(allergiesIntolerances(), function(k,v) {
 							v.serviceRecordId(serviceRecord().id());
-							v.dateRecorded(form.dbDate(form.currentDate()));
-							v.status('inactive');
-							backend.saveAllergiesIntolerance(allergiesIntolerance(), allergiesIntolerances).complete(function(data) {
-								v.dateRecorded(form.uiDate(allergiesIntolerance().dateRecorded()));
+							v.dateRecorded(form.dbDate(v.dateRecorded()));
+							v.dateInactive(form.dbDate(form.currentDate()));
+							v.status('Inactive');
+							backend.saveAllergiesIntolerance(v, allergiesIntolerances).complete(function(data) {
+								v.dateRecorded(form.uiDate(v.dateRecorded()));
+								v.dateInactive(form.uiDate(v.dateInactive()));
 							});
 						});
 					}
@@ -512,8 +517,10 @@ define(function(require) {
 				if (allergiesIntolerance().errors().length == 0) {
 					allergiesIntolerance().serviceRecordId(serviceRecord().id());
 					allergiesIntolerance().dateRecorded(form.dbDate(form.currentDate()));
+					allergiesIntolerance().dateInactive(form.dbDate(form.currentDate()));
 					backend.saveAllergiesIntolerance(allergiesIntolerance(), allergiesIntolerances).complete(function(data) {
 						allergiesIntolerance().dateRecorded(form.uiDate(allergiesIntolerance().dateRecorded()));
+						allergiesIntolerance().dateInactive(form.uiDate(allergiesIntolerance().dateInactive()));
 						allergiesIntoleranceState(false);
 						if (data.responseText != 'updateFail')
 							$('.allergyAlert').removeClass('alert-danger').addClass('alert-info').html('Allergy has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
@@ -526,8 +533,11 @@ define(function(require) {
 				if (allergiesIntolerance().errors().length == 0) {
 					if (allergiesIntolerance().id() != '' && allergiesIntolerance().id() != undefined) {
 						allergiesIntolerance().dateRecorded(form.dbDate(allergiesIntolerance().dateRecorded()));
+						if (allergiesIntolerance().status() == 'Inactive')
+							allergiesIntolerance().dateInactive(form.dbDate(allergiesIntolerance().dateInactive()));
 						backend.saveAllergiesIntolerance(allergiesIntolerance(), allergiesIntolerances).complete(function(data) {
 							allergiesIntolerance().dateRecorded(form.uiDate(allergiesIntolerance().dateRecorded()));
+							allergiesIntolerance().dateInactive(form.uiDate(allergiesIntolerance().dateInactive()));
 							if (data.responseText != 'updateFail')
 								$('.allergyAlert').removeClass('alert-danger').addClass('alert-info').html('Allergy has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
 						});
