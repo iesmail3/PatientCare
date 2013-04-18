@@ -17,6 +17,7 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
+	var self;
 	var backend     	= new Backend();
 	var structures  	= new Structures();
 	var form        	= new form();
@@ -31,12 +32,14 @@ define(function(require) {
 	var serviceRecord 	= ko.observable();
 	var medications		= ko.observableArray([]);
 	var medication		= ko.observable(new structures.Medication());
+	var allMedications  = ko.observableArray([]);
 	var newMed			= ko.observable(1);
 	var cancelMed		= ko.observable(0);
 	var tempMedication  = ko.observable();
 	var allergies		= ko.observable();
 	var intolerances	= ko.observable();
 	var medicines		= ko.observableArray([]);
+	var tableFilter		= ko.observable('all');
 
 	/*********************************************************************************************** 
 	 * ViewModel
@@ -62,12 +65,14 @@ define(function(require) {
 		serviceRecord: serviceRecord,
 		medication: medication,
 		medications: medications,
+		allMedications: allMedications,
 		newMed: newMed,
 		cancelMed: cancelMed,
 		tempMedication: tempMedication,
 		allergies: allergies,
 		intolerances: intolerances,
 		medicines: medicines,
+		tableFilter: tableFilter,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -89,7 +94,7 @@ define(function(require) {
 		},
 		// Loads when view is loaded
 		activate: function(data) {
-			var self = this;
+			self = this;
 			// Get URL parameters
 			self.patientId(data.patientId);
 			self.serviceDate(data.date);
@@ -110,17 +115,26 @@ define(function(require) {
 				var id = self.serviceRecord().id();
 				// Get Imaging orders based on Service Record
 				self.backend.getOrders(id, 'Imaging').success(function(data){
-					var o = $.map(data, function(item) { return new self.structures.Order(item); });
+					var o = $.map(data, function(item) {
+						item.date = self.form.uiDate(item.date); 
+						return new self.structures.Order(item); 
+					});
 					self.orders(o);
 				});
 				// Get Lab orders based on Service Record
 				self.backend.getOrders(id, 'Lab').success(function(data){
-					var o = $.map(data, function(item) { return new self.structures.Order(item); });
+					var o = $.map(data, function(item) {
+						item.date = self.form.uiDate(item.date); 
+						return new self.structures.Order(item); 
+					});
 					self.labOrders(o);
 				});
 				// Get Lab orders based on Service Record
 				self.backend.getOrders(id, 'Procedure').success(function(data){
-					var o = $.map(data, function(item) { return new self.structures.Order(item); });
+					var o = $.map(data, function(item) {
+						item.date = self.form.uiDate(item.date); 
+						return new self.structures.Order(item); 
+					});
 					self.chemoOrders(o);
 				});
 				
@@ -134,8 +148,10 @@ define(function(require) {
 							i.prescribedDate(form.uiDate(i.prescribedDate())); 
 						return i;
 					});
+					self.allMedications(m);
 					self.medications(m);
-					self.medication(m[0]);
+					if(d.length > 0)
+						self.medication(m[0]);
 				});
 				
 				// Get Allergies and intelorances
@@ -156,6 +172,9 @@ define(function(require) {
 				self.centers(c);
 			});
 		},
+		/******************************************************************************************
+		 * Order
+		 *****************************************************************************************/
 		selectRow: function(type, data) {
 			// Clear group
 			groupOrders([]);
@@ -193,9 +212,6 @@ define(function(require) {
 					practiceId(), serviceRecord().id(), 'Chemo Order');
 			}
 		},
-		selectMedication: function(data) {
-			medication(data);
-		},
 		newOrder: function(type, data) {
 			var self = data;
 			// Get next group number and call modal
@@ -220,6 +236,17 @@ define(function(require) {
 					form.ChemoOrders, practiceId(), serviceRecord().id(), 'Chemo Order');
 				}
 			});
+		},
+		deleteOrder: function(data) {
+			var order = data;
+			orders.remove(order);
+			backend.deleteOrder(data.orderCategoryId(), data.group());
+		},
+		/******************************************************************************************
+		 * Medication
+		 *****************************************************************************************/
+		selectMedication: function(data) {
+			medication(data);
 		},
 		newMedication: function(data) {
 			tempMedication(medication());
@@ -248,41 +275,44 @@ define(function(require) {
 				var t = backend.saveMedication(medication()).complete(function(d) {
 					d = d.responseText;
 					if(d != 'updateFail' && d != 'updateSuccess' && d != 'insertFail') {
-						medications.push(medication());
+						allMedications.push(medication());
+						self.filterTable();
 						if(d != 'updateFail' && d != 'insertFail') 
-							$('.alert-info').fadeIn().delay(3000).fadeOut();
+							$('.alert-success').fadeIn().delay(3000).fadeOut();
 					}
 				});
 			}
 		},
-		deleteOrder: function(data) {
-			var order = data;
-			orders.remove(order);
-			backend.deleteOrder(data.orderCategoryId(), data.group());
-		},
 		deleteMedication: function(data) {
-			medications.remove(data)
+			allMedications.remove(data);
+			self.filterTable();
 			backend.deleteMedication(data.id());
 		},
-		sort: function(type, column, data, element) {
-			var e = $(element.currentTarget);
-			var arrow = e.find('.arrow');
-			var a;
-			if(type == 'image')
-				a = orders;
+		/******************************************************************************************
+		 * Filter the Medications table
+		 *****************************************************************************************/ 
+		filterTable: function() {
+			// Current medications
+			if(self.tableFilter() == 'current') {
+				self.tableFilter('current');
+				var m = _.filter(allMedications(), function(item) {
+					return !item.isOrdered();
+				});
+				medications(m);
+			}
+			// Ordered medications
+			else if(self.tableFilter() == 'ordered') {
+				var m = _.filter(allMedications(), function(item) {
+					return item.isOrdered();
+				});
+				medications(m);
+			}
+			// All medications
+			else
+				medications(allMedications());
 				
-			if(arrow.attr('class').indexOf('down') >= 0) {
-				a.sort(function(one, two) {
-					return one[column]() == two[column]() ? 0 : (one[column]() < two[column]() ? -1 : 1);
-				});
-				arrow.removeClass('down').addClass('up');
-			}
-			else {
-				a.sort(function(one, two) {
-					return one[column]() == two[column]() ? 0 : (one[column]() < two[column]() ? 1 : -1);
-				});
-				arrow.removeClass('up').addClass('down');
-			}
+			// Used to set checkbox
+			return true;
 		}
 	};
 });

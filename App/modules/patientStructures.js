@@ -567,12 +567,18 @@ define(function(require) {
 			this.id			 = ko.observable(data.id);
 			this.type		 = ko.observable(data.type);
 			this.description = ko.observable(data.description);
+			this.code        = ko.observable(data.code);
+			this.cost        = ko.observable(data.cost);
+			this.unit		 = ko.observable(data.unit);
 			this.selected	 = ko.observable();
 		}
 		else {
 			this.id			 = ko.observable();
 			this.type		 = ko.observable();
 			this.description = ko.observable();
+			this.code        = ko.observable();
+			this.cost        = ko.observable();
+			this.unit		 = ko.observable();
 			this.selected    = ko.observable();
 		}
 	}

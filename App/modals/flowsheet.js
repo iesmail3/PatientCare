@@ -128,6 +128,7 @@ define(function(require) {
 			backend.saveVenousAccess(self.venousAccess()).complete(function(data) {
 				// If update
 				if(data.responseText == 'updateSuccess') {
+					$('.vitalsSuccess').fadeIn().delay(3000).fadeOut();
 					// Grab all rows that are not the updated one
 					var not = _.filter(self.venousAccesses(), function(item) {
 						return item.id() != self.venousAccess().id();
@@ -136,8 +137,10 @@ define(function(require) {
 					self.venousAccesses($.merge([self.venousAccess()], not));
 				}
 				// If insertion
-				else if(data.responseText.indexOf('Fail') < 0)
+				else if(data.responseText.indexOf('Fail') < 0) {
 					self.venousAccesses.push(self.venousAccess());
+					$('.vitalsSuccess').fadeIn().delay(3000).fadeOut();
+				}
 			});
 		}
 	}
@@ -149,9 +152,11 @@ define(function(require) {
 			var id = self.medicationOrderLog().id();
 			// Place globals into order
 			self.medicationOrderLog().orderId(self.orderId);
-			backend.saveMedicationOrderLog(self.medicationOrderLog()).success(function(data) {
+			backend.saveMedicationOrderLog(self.medicationOrderLog()).complete(function(data) {
 				if(id == undefined)
-					self.medicationOrderLogs.push(self.medicationOrderLog());	
+					self.medicationOrderLogs.push(self.medicationOrderLog());
+				if(data.responseText.indexOf('Fail') < 0)	
+					$('.molSuccess').fadeIn().delay(3000).fadeOut();
 			});
 			// Reset buttons
 			self.newButton(true);
@@ -213,6 +218,10 @@ define(function(require) {
 			'',
 			settings
 		);
+	}
+	
+	Flowsheet.prototype.clearVitals = function(data) {
+		self.venousAccess(new structures.VenousAccess());
 	}
 	
 	Flowsheet.prototype.closeWindow = function(data) {

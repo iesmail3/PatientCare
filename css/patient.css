@@ -3,6 +3,10 @@
 	margin-bottom: 3px;
 }
 
+th, td {
+	cursor: default;
+}
+
 .right10 {
 	margin-right: 10px;
 }
@@ -204,7 +208,7 @@
 }
 
 .drugHolder {
-	width: 800px;
+	width: 175%;
 	height: 580px;
 }
 .drugHolder .modal-header { padding: 1px 15px; }
@@ -226,6 +230,22 @@
 	overflow-y: auto;
 	clear: both;
 	height: 190px;
+}
+
+.drugsTable table {
+	width: 100%;
+	table-layout: fixed;
+}
+
+.drugsTable td {
+	overflow: auto;
+	white-space: nowrap;
+}
+
+.drugsTable tr > td:last-child,
+.drugsTable tr > th:last-child {
+	width: 20px;
+	overflow:visible;
 }
 
 .inputCell { padding: 0 !important; }

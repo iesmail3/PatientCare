@@ -114,28 +114,46 @@
 		<div class="drugsTable">
 			<table class="table table-bordered table-hover">
 				<thead>
-					<th>Medicine</th>
-					<th>Dose</th>
-					<th>Pres. Dose</th>
-					<th>Route</th>
-					<th>Seq</th>
-					<th>Diluent</th>
-					<th>Volume</th>
-					<th>Duration</th>
-					<th>Day</th>
+					<th data-bind="sort: {column: 'medicine', array: drugOrders}">
+						<span>Medicine</span>
+					</th>
+					<th data-bind="sort: {column: 'dose', array: drugOrders}">
+						<span>Dose</span>
+					</th>
+					<th data-bind="sort: {column: 'prescribedDose', array: drugOrders}">
+						<span>Pres. Dose</span>
+					</th>
+					<th data-bind="sort: {column: 'route', array: drugOrders}">
+						<span>Route</span>
+					</th>
+					<th data-bind="sort: {column: 'seq', array: drugOrders}">
+						<span>Seq</span>
+					</th>
+					<th data-bind="sort: {column: 'diluent', array: drugOrders}">
+						<span>Diluent</span>
+					</th>
+					<th data-bind="sort: {column: 'volume', array: drugOrders}">
+						<span>Volume</span>
+					</th>
+					<th data-bind="sort: {column: 'duration', array: drugOrders}">
+						<span>Duration</span>
+					</th>
+					<th data-bind="sort: {column: 'days', array: drugOrders}">
+						<span>Day</span>
+					</th>
 					<th></th>
 				</thead>
 				<tbody data-bind="foreach: drugOrders">
 					<tr>
-						<td data-bind="text: medicine, click: $root.selectRow"></td>
-						<td data-bind="text: dose, click: $root.selectRow""></td>
-						<td data-bind="text: prescribedDose, click: $root.selectRow""></td>
-						<td data-bind="text: route, click: $root.selectRow""></td>
-						<td data-bind="text: seq, click: $root.selectRow""></td>
-						<td data-bind="text: diluent, click: $root.selectRow""></td>
-						<td data-bind="text: volume, click: $root.selectRow""></td>
-						<td data-bind="text: duration, click: $root.selectRow""></td>
-						<td data-bind="text: days, click: $root.selectRow""></td>
+						<td class="nowrap" data-bind="text: medicine, click: $root.selectRow"></td>
+						<td data-bind="text: dose, click: $root.selectRow"></td>
+						<td data-bind="text: prescribedDose, click: $root.selectRow"></td>
+						<td data-bind="text: route, click: $root.selectRow"></td>
+						<td data-bind="text: seq, click: $root.selectRow"></td>
+						<td data-bind="text: diluent, click: $root.selectRow"></td>
+						<td data-bind="text: volume, click: $root.selectRow"></td>
+						<td data-bind="text: duration, click: $root.selectRow"></td>
+						<td data-bind="text: days, click: $root.selectRow"></td>
 						<td>
 							<button data-bind="click: $root.deleteRow" class="btn btn-danger btn-mini">
 								X

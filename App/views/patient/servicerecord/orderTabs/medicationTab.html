@@ -3,7 +3,7 @@
 		<div class="alert alert-danger allAlert">You have are missing required fields.</div>
 		<div class="alert alert-danger medAlert">Medicine is required.</div>
 		<div class="alert alert-danger sigAlert">Sigs is required.</div>
-		<div class="alert alert-info">Successfully saved.</div>
+		<div class="alert alert-success">Successfully saved.</div>
 	</div>
 	<div class="row-fluid">
 		<!-- ko with: medication -->
@@ -67,26 +67,47 @@
 	<div class="marginBottom5">
 		<span class="radio inline">Show Records: </span>
 		<label class="radio inline">
-			<input type="radio" name="refill" value="1" /><span>Ordered</span>
+			<input type="radio" name="filter" value="ordered" data-bind="checked: $root.tableFilter, click: filterTable" /><span>Ordered</span>
 		</label>
 		<label class="radio inline">
-			<input type="radio" name="refill" value="2" /><span>Current</span>
+			<input type="radio" name="filter" value="current" data-bind="checked: $root.tableFilter, click: filterTable" /><span>Current</span>
 		</label>
 		<label class="radio inline">
-			<input type="radio" name="refill" value="3" /><span>All</span>
+			<input type="radio" name="filter" value="all" data-bind="checked: $root.tableFilter, click: filterTable" /><span>All</span>
 		</label>
 	</div>
 	<div class="medTable">
 		<table class="table table-bordered table-hover">
 			<thead>
 				<tr>
-					<th>Medicine Name</th>
-					<th>Strength</th>
-					<th>Quantity</th>
-					<th>Route</th>
-					<th>Sigs</th>
-					<th>Status</th>
-					<th>Prescribed Date</th>
+					<th data-bind="sort: {column: 'medicine', array: medications}">
+						<span>Medicine Name</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'strength', array: medications}">
+						<span>Strength</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'quantity', array: medications}">
+						<span>Quantity</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'route', array: medications}">
+						<span>Route</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'sigs', array: medications}">
+						<span>Sigs</span>
+						<div class="arrow down"></div>	
+					</th>
+					<th data-bind="sort: {column: 'status', array: medications}">
+						<span>Status</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'prescribedDate', array: medications}">
+						<span></span>
+						<div class="arrow down"></div>
+					</th>
 					<th></th>
 				</tr>
 			</thead>
