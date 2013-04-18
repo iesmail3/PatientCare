@@ -1,4 +1,10 @@
 <?php
+// Start session
+session_start();
+// If session is already started, go to App
+if(isset($_SESSION['practiceId']))
+	header('location: app.php');
+
 // MySQL connection
 require('php/connect_to_mysql.php');
 // Hashing framework
@@ -21,16 +27,6 @@ if(isset($_POST['username'])) {
 	catch (PDOException $e) {
 		echo $e->getMessage();
 	}	
-		
-	/*
-	if(strlen($hash) >= 20) {
-	}
-	else
-	{
-		echo "There was a problem with the encryption. Please contact your administrator for assistance.";
-		exit;
-	}
-	*/
 	if(count($result) > 0) {
 		$result = $result[0]; // Only 1 element in array
 		$check = $hasher->CheckPassword($password, $result['password']);
@@ -40,10 +36,11 @@ if(isset($_POST['username'])) {
 	}
 	
 	if($check) {
-		echo 'Logged in';
-	}
-	else {
-		//echo 'passwords do NOT match';
+		// Session variables
+		$_SESSION['practiceId'] = $result['practice_id'];
+		$_SESSION['userId']		= $result['id'];
+		// Go to app
+		header('location: app.php');
 	}
 }
 ?>
