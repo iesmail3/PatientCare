@@ -51,6 +51,7 @@ define(function(require) {
 			this.id					  = ko.observable(data.id);
 			this.practiceId    		  = ko.observable(data.practice_id); 
 			this.patientId			  = ko.observable(data.patient_id);
+			this.serviceRecordId      = ko.observable(data.service_record_id); 
 			this.date				  = ko.observable(data.date);
 			this.copayAmount		  = ko.observable(data.copay_amount);
 			this.otherCopay			  = ko.observable(data.other_copay);
@@ -68,7 +69,8 @@ define(function(require) {
 		else {
 			this.id					  = ko.observable();
 			this.patientId			  = ko.observable();
-			this.practiceId 		  = ko.observable(); 
+			this.practiceId 		  = ko.observable();
+			this.serviceRecordId      = ko.observable(); 
 			this.date				  = ko.observable();
 			this.copayAmount		  = ko.observable();
 			this.otherCopay			  = ko.observable();
@@ -117,30 +119,36 @@ define(function(require) {
 	
 	// Document
 	patient.prototype.Document = function(data) {
+		var self = this; 
 		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.patientId		 = ko.observable(data.patient_id);
+			this.practiceId      = ko.observable(data.practice_id); 
 			this.serviceRecordId = ko.observable(data.service_record_id);
 			this.location		 = ko.observable(data.location);
-			this.type			 = ko.observable(data.type);
+			this.type			 = ko.observable(data.type).extend({required: {message: 'type'}});
 			this.date			 = ko.observable(data.date);
 			this.comment		 = ko.observable(data.comment);
-			this.isReviewed		 = ko.observable(data.is_reviewed);
+			this.isReviewed		 = ko.observable(data.is_reviewed == '1' ? 1 : 0);
 			this.isReport		 = ko.observable(data.is_report);
-			this.DOS			 = ko.observable(data.DOS);
+			this.dateOfService   = ko.observable(data.date_of_service);
 		}
 		else {
 			this.id				 = ko.observable();
 			this.patientId		 = ko.observable();
+			this.practiceId      = ko.observable(); 
 			this.serviceRecordId = ko.observable();
 			this.location		 = ko.observable();
-			this.type			 = ko.observable();
+			this.type			 = ko.observable().extend({required: {message: 'type'}});
 			this.date			 = ko.observable();
 			this.comment		 = ko.observable();
 			this.isReviewed		 = ko.observable();
 			this.isReport		 = ko.observable();
-			this.DOS			 = ko.observable();
+			this.dateOfService   = ko.observable();
 		}
+		
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Drug Order
@@ -260,8 +268,8 @@ define(function(require) {
 			this.patientId	 = ko.observable(data.patient_id);
 			this.serviceRecordId   = ko.observable(data.service_record_id); 
 			this.type		 = ko.observable(data.type);
-			this.value		 = ko.observable(data.value).extend({required: true});
-			this.unit		 = ko.observable(data.unit).extend({required: true});
+			this.value		 = ko.observable(data.value).extend({required: {message: 'value'}});
+			this.unit		 = ko.observable(data.unit).extend({required: {message: 'unit'}});
 			this.comment	 = ko.observable(data.comment);
 			this.serviceDate = ko.observable(data.service_date);
 			this.plan		 = ko.observable(data.plan);
@@ -271,14 +279,15 @@ define(function(require) {
 			this.patientId	 = ko.observable();
 			this.serviceRecordId = ko.observable(); 
 			this.type		 = ko.observable();
-			this.value		 = ko.observable().extend({required: true});
-			this.unit		 = ko.observable().extend({required: true});
+			this.value		 = ko.observable().extend({required: {message: 'value'}});
+			this.unit		 = ko.observable().extend({required: {message: 'unit'}});
 			this.comment	 = ko.observable();
 			this.serviceDate = ko.observable();
 			this.plan		 = ko.observable();
 		}
 		
-		self.errors = ko.validation.group(self, {messagesOnModified: false});
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Guarantor
@@ -458,6 +467,49 @@ define(function(require) {
 		this.errors.showAllMessages();
 	}
 	
+	//Medication Order
+	patient.prototype.MedicationOrder = function(data) { 
+		if(data != null) { 
+			this.id				  	   = ko.observable(data.id);  
+			this.serviceRecordId  	   = ko.observable(data.service_record_id); 
+			this.medicineListId	 	   = ko.observable(data.medicine_list_id); 
+			this.strength 		  	   = ko.observable(data.strength); 
+			this.quantity 		  	   = ko.observable(data.quantity); 
+			this.route 			  	   = ko.observable(data.route); 
+			this.sigs 			  	   = ko.observable(data.sigs); 
+			this.order            	   = ko.observable(data.order); 
+			this.dispensedQuantity 	   = ko.observable(data.dispensed_quantity); 
+			this.refill 		  	   = ko.observable(data.refill); 
+			this.refillQuantity  	   = ko.observable(data.refill_quantity); 
+			this.comment               = ko.observable(data.comment); 
+			this.isAdded          	   = ko.observable((data.is_added == 1 ? true : false));
+			this.medicineName          = ko.observable(data.medicine_name);
+			this.date                  = ko.observable(data.date); 
+			this.prescribedBy          = ko.observable(data.prescribed_by); 
+			this.createdBy             = ko.observable(data.created_by); 
+		}
+		
+		else {
+			this.id				  	   = ko.observable(); 
+			this.serviceRecordId       = ko.observable(); 
+			this.medicineListId	       = ko.observable(); 
+			this.strength 		       = ko.observable(); 
+			this.quantity 		       = ko.observable(); 
+			this.route 			       = ko.observable(); 
+			this.sigs 			       = ko.observable();
+			this.order                 = ko.observable(); 
+			this.dispensedQuantity     = ko.observable(); 
+			this.refill 		  	   = ko.observable(); 
+			this.refillQuantity  	   = ko.observable(); 
+			this.comment               = ko.observable();
+			this.isAdded               = ko.observable();
+			this.medicineName          = ko.observable();
+			this.date                  = ko.observable();
+			this.prescribedBy          = ko.observable(); 
+			this.createdBy             = ko.observable(); 
+		}
+	}
+			
 	// Medication Order Log
 	patient.prototype.MedicationOrderLog = function(data) {
 		if (data != null) {
@@ -590,8 +642,8 @@ define(function(require) {
 			this.idNumber			  = ko.observable(data.id_number);
 			this.idType				  = ko.observable(data.id_type);
 			this.firstName			  = ko.observable(data.first_name).extend({required: true});
-			this.middleName			  = ko.observable(data.middle_name).extend({required: true});
-			this.lastName			  = ko.observable(data.last_name).extend({required: true});
+			this.middleName			  = ko.observable(data.middle_name).extend({required: true});;
+			this.lastName			  = ko.observable(data.last_name).extend({required: true});;
 			this.address			  = ko.observable(data.address);
 			this.city				  = ko.observable(data.city);
 			this.state				  = ko.observable(data.state);
@@ -685,18 +737,19 @@ define(function(require) {
 		if (data != null) {
 			this.id			 = ko.observable(data.id);
 			this.checkoutId	 = ko.observable(data.checkout_id);
-			this.mode		 = ko.observable(data.mode).extend({required: true});
-			this.particulars = ko.observable(data.particulars).extend({required: true});
-			this.amount		 = ko.observable(data.amount).extend({required: true});
+			this.mode		 = ko.observable(data.mode).extend({required: {message: 'mode'}});
+			this.particulars = ko.observable(data.particulars);
+			this.amount		 = ko.observable(data.amount).extend({required: {message: 'amount'}});
 		}
 		else {
 			this.id			 = ko.observable('');
 			this.checkoutId	 = ko.observable('');
-			this.mode		 = ko.observable('').extend({required: true});
-			this.particulars = ko.observable('').extend({required: true});
-			this.amount		 = ko.observable('').extend({required: true});
+			this.mode		 = ko.observable('').extend({required: {message: 'mode'}});
+			this.particulars = ko.observable('');
+			this.amount		 = ko.observable('').extend({required: {message: 'amount'}});
 		}
-		self.errors = ko.validation.group(self, {messagesOnModified: false});
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Physical Examination: Abd
@@ -949,30 +1002,33 @@ define(function(require) {
 	
 	// Phone Log
 	patient.prototype.PhoneLog = function(data) {
+		var self = this; 
 		if (data != null) {
 			this.id			    = ko.observable(data.id);
 			this.patientId	    = ko.observable(data.patient_id);
 			this.practiceId     = ko.observable(data.practice_id);
-			this.datetime	    = ko.observable(data.datetime);
-			this.caller		    = ko.observable(data.caller);
-			this.attendedBy	    = ko.observable(data.attended_by);
+			this.datetime	    = ko.observable(data.datetime).extend({required: {message: 'datetime'}});
+			this.caller		    = ko.observable(data.caller).extend({required: {message: 'caller'}});
+			this.attendedBy	    = ko.observable(data.attended_by).extend({required: {message: 'attendedBy'}});
 			this.message	    = ko.observable(data.message);
-			this.actionRequired = ko.observable(data.action_required);
+			this.actionRequired = ko.observable(data.action_required).extend({required: {message: 'actionRequired'}});
 			this.assignedTo	    = ko.observable(data.assigned_to);
-			this.type		    = ko.observable(data.type);
+			this.type		    = ko.observable(data.type).extend({required: {message: 'type'}});
 		}
 		else {
 			this.id			    = ko.observable();
 			this.patientId	    = ko.observable();
 			this.practiceid     = ko.observable(); 
-			this.datetime	    = ko.observable();
-			this.caller		    = ko.observable();
-			this.attendedBy	    = ko.observable();
+			this.datetime	    = ko.observable().extend({required: {message: 'datetime'}});
+			this.caller		    = ko.observable().extend({required: {message: 'caller'}});
+			this.attendedBy	    = ko.observable().extend({required: {message: 'attendedBy'}});
 			this.message	    = ko.observable();
-			this.actionRequired = ko.observable();
+			this.actionRequired = ko.observable().extend({required: {message: 'actionRequired'}});
 			this.assignedTo	    = ko.observable();
-			this.type		    = ko.observable();
+			this.type		    = ko.observable().extend({required: {message: 'type'}});
 		}
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Physician
@@ -1006,14 +1062,13 @@ define(function(require) {
 	// Prescription
 	patient.prototype.Prescription = function(data) {
 		if (data != null) {
-			this.patientId		   = ko.observable(data.patient_id);
 			this.medicine		   = ko.observable(data.medicine);
 			this.strength		   = ko.observable(data.strength);
 			this.quantity		   = ko.observable(data.quantity);
 			this.route			   = ko.observable(data.route);
 			this.sigs			   = ko.observable(data.sigs);
 			this.order			   = ko.observable(data.order);
-			this.quantityDispensed = ko.observable(data.quantity_dispensed);
+			this.dispensedQuantity = ko.observable(data.dispensed_quantity);
 			this.refill			   = ko.observable(data.refill);
 			this.refillQuantity	   = ko.observable(data.refill_quantity);
 			this.physician		   = ko.observable(data.physician);
@@ -1021,16 +1076,16 @@ define(function(require) {
 			this.date			   = ko.observable(data.date);
 			this.mode			   = ko.observable(data.mode);
 			this.comment		   = ko.observable(data.comment);
+			this.medicationOrderId = ko.observable(data.medication_order_id); 
 		}
 		else {
-			this.patientId		   = ko.observable();
 			this.medicine		   = ko.observable();
 			this.strength		   = ko.observable();
 			this.quantity		   = ko.observable();
 			this.route			   = ko.observable();
 			this.sigs			   = ko.observable();
 			this.order			   = ko.observable();
-			this.quantityDispensed = ko.observable();
+			this.dispensedQuantity = ko.observable();
 			this.refill			   = ko.observable();
 			this.refillQuantity	   = ko.observable();
 			this.physician		   = ko.observable();
@@ -1038,6 +1093,7 @@ define(function(require) {
 			this.date			   = ko.observable();
 			this.mode			   = ko.observable();
 			this.comment		   = ko.observable();
+			this.medicationOrderId = ko.observable(); 
 		}
 	}
 	
@@ -1073,8 +1129,6 @@ define(function(require) {
 	
 	// Review of Systems
 	patient.prototype.ReviewOfSystems = function(data) {
-		var self = this;
-		
 		if (data != null) {
 			this.serviceRecordId    = ko.observable(data.service_record_id);
 			this.particulars	    = ko.observable(data.particulars).extend({required: true});
@@ -1238,7 +1292,7 @@ define(function(require) {
 			this.visitCode		 = ko.observable(data.visit_code);
 			this.levelOfService  = ko.observable(data.level_of_service);
 			this.serviceCode	 = ko.observable(data.service_code);
-			this.isComplete		 = ko.observable(data.is_complete);
+			this.isComplete		 = ko.observable(data.is_complete == '1' ? 1 : 0);
 			this.comment         = ko.observable(data.physical_examination_comment); 
 			this.date            = ko.observable(data.date); 
 		}

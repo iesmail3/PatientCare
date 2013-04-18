@@ -49,6 +49,23 @@ define(function(require) {
   		}
 	};
 	
+	ko.bindingHandlers.uploader = {
+		init: function(element, valueAccessor, allBindingsAccessor, vm, bindingContext) {
+			var value = valueAccessor();
+			var m = $(element).fineUploader({
+		    	request: {
+		        	endpoint: 'php/handleUploads.php'
+		      	},
+		      	autoUpload: false,
+		     	text: {
+		      		uploadButton: 'Select File'
+             	},
+			});	
+		}, 
+		update: function(element, valueAccessor) { 
+		}	
+    };
+
 	/**********************************************************************************************
 	 * Shortcut
 	 * 

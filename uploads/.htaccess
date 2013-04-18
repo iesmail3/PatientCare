@@ -1,0 +1,9 @@
+SetEnvIf Request_URI "([^/]+\.JPG)$" REQUESTED_IMAGE_BASENAME=$1
+SetEnvIf Request_URI "([^/]+\.jpg)$" REQUESTED_IMAGE_BASENAME=$1
+SetEnvIf Request_URI "([^/]+\.png)$" REQUESTED_IMAGE_BASENAME=$1
+SetEnvIf Request_URI "([^/]+\.PNG)$" REQUESTED_IMAGE_BASENAME=$1
+SetEnvIf Request_URI "([^/]+\.gif)$" REQUESTED_IMAGE_BASENAME=$1
+SetEnvIf Request_URI "([^/]+\.GIF)$" REQUESTED_IMAGE_BASENAME=$1
+SetEnvIf Request_URI "([^/]+\.bmp)$" REQUESTED_IMAGE_BASENAME=$1
+SetEnvIf Request_URI "([^/]+\.BMP)$" REQUESTED_IMAGE_BASENAME=$1
+Header set Content-Disposition "attachment; filename=\"%{REQUESTED_IMAGE_BASENAME}e\"" env=REQUESTED_IMAGE_BASENAME

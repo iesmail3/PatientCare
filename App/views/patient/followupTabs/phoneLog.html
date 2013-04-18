@@ -1,65 +1,74 @@
-<div>
-				<!-- ko with: phoneLog -->
-				<form class="form-inline">
-					<div class="row-fluid">
-						<fieldset>
-							<legend>Edit phone log details</legend>
-							<div class="marginBottom5">
-								<input type="text" class="input-small" placeholder="Call Date"
-									data-bind="value:datetime, datepicker: true" />
-								<select class="input-medium" data-bind="value:type">
-									<option>Call Type</option>
-									<option>Incoming</option>
-									<option>Outgoing</option>
-								</select>
-							</div>
-							<div class="marginBottom5">
-								<input type="text" class="input-medium" placeholder="Caller" data-bind="value: caller"/>
-								<input type="text" class="input-medium" placeholder="Attended By" data-bind="value: attendedBy"/>
-							</div>
-							<div class="marginBottom5">
-								<textarea class="input-xxlarge" rows="3" placeholder="Message" data-bind="value: message"></textarea>
-							</div>
-							<div class="marginBottom5">
-								<span class="radio inline">Action Required</span>
-								<label class="radio inline"> 
-									<input type="radio" name="actionRequired"  data-bind="checked: actionRequired" value="Yes" /><span>Yes</span>
-								</label>
-								<label class="radio inline">
-									<input type="radio" name="actionRequired" data-bind="checked:actionRequired"value="No" /><span>No</span>
-								</label>  
-								<select class="input-medium" data-bind='options: $root.myArray,optionsCaption: "Assigned to",value:assignedTo,visible:$root.showAssigned'>      
-								</select>      
-							</div>     
-							<div class="marginBottom5 pull-right">
-								<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.phoneLogAdd,visible: $root.phoneLogState()">New</button>
-								<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.savePhoneLog,visible: !$root.phoneLogSave()">Save</button>
-								<button type="button" id ="cancelButton" class="btn btn-small btn-danger" data-bind="click: $root.phoneLogCancel,visible: !$root.phoneLogState()">Cancel</button>
-							</div>
-						</fieldset>
-					</div>
-				</form>
-				<!-- /ko -->
+<div class="phoneLog">
+	<!-- ko with: phoneLog -->
+	<form class="form-inline">
+		<div class="row-fluid">
+			<div class="alertHolder">
+						<div class="alert alert-danger allAlert">You are missing required fields.</div>
+						<div class="alert alert-danger dateAlert">Date is a required field .</div>
+						<div class="alert alert-danger callerAlert">Caller is a required fields.</div>
+						<div class="alert alert-danger attendedByAlert">Attended By is a required fields.</div>
+						<div class="alert alert-danger actionRequiredAlert">Action Required is a required fields.</div>
+						<div class="alert alert-danger typeAlert">Call Type is a required fields.</div>
+						<div class="alert alert-success phoneLogAlert">Successfully updated.</div>
 			</div>
-			<div class="row-fluid"> 
-				<table class="table table-bordered table-hover">
-					<thead>
-						<tr>  
-							<th>Call Date</th>
-							<th>Call Type</th>
-							<th>Caller</th>
-							<th>Attended By</th>
-							<th>Message</th>
-						</tr>
-					</thead>    
-					<tbody data-bind="foreach: phoneLogs">     
-							<tr data-bind="click: $root.setPhoneLogFields">   
-								<td data-bind="text: datetime"></td>   
-								<td data-bind="text: type"></td>
-								<td data-bind="text: caller"></td>  
-								<td data-bind="text:attendedBy"></td>
-								<td data-bind="text: message"></td>						     
-							</tr>          
-					</tbody>
-				</table>
-			</div>
+			<fieldset>
+				<legend>Edit phone log details</legend>
+				<div class="marginBottom5">
+					<input type="text" class="input-small" placeholder="Call Date"
+						data-bind="value:datetime, datepicker: true" />
+					<select class="input-medium" data-bind="value:type">
+						<option value="">Call Type</option>
+						<option value="Incoming">Incoming</option>
+						<option value="Outgoing">Outgoing</option>
+					</select>
+				</div>
+				<div class="marginBottom5">
+					<input type="text" class="input-medium" placeholder="Caller" data-bind="value: caller"/>
+					<input type="text" class="input-medium" placeholder="Attended By" data-bind="value: attendedBy"/>
+				</div>
+				<div class="marginBottom5">
+					<textarea class="input-xxlarge" rows="3" placeholder="Message" data-bind="value: message"></textarea>
+				</div>
+				<div class="marginBottom5">
+					<span class="radio inline">Action Required</span>
+					<label class="radio inline"> 
+						<input type="radio" name="actionRequired"  data-bind="checked: actionRequired" value="Yes" /><span>Yes</span>
+					</label>
+					<label class="radio inline">
+						<input type="radio" name="actionRequired" data-bind="checked:actionRequired" value="No" /><span>No</span>
+					</label>    
+					<select class="input-large" data-bind="options: $root.myArray,optionsCaption: 'Assigned to',value:assignedTo,visible:actionRequired()=='Yes' ">      
+					</select>  
+				</div>     
+				<div class="marginBottom5 pull-right">
+					<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.phoneLogAdd,visible: $root.phoneLogState()">New</button>
+					<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.savePhoneLog,visible: !$root.phoneLogSave()">Save</button>
+					<button type="button" id ="cancelButton" class="btn btn-small btn-danger" data-bind="click: $root.phoneLogCancel,visible: !$root.phoneLogState()">Cancel</button>
+				</div>
+			</fieldset>
+		</div>
+	</form>
+	<!-- /ko -->
+	</div>
+	<div class="row-fluid"> 
+	<table class="table table-bordered table-hover">
+		<thead>
+			<tr>  
+				<th>Call Date</th>
+				<th>Call Type</th>
+				<th>Caller</th>
+				<th>Attended By</th>
+				<th>Message</th>
+			</tr>
+		</thead>    
+		<tbody data-bind="foreach: phoneLogs">     
+				<tr data-bind="click: $root.setPhoneLogFields">   
+					<td data-bind="text: datetime"></td>   
+					<td data-bind="text: type"></td>
+					<td data-bind="text: caller"></td>  
+					<td data-bind="text:attendedBy"></td>
+					<td data-bind="text: message"></td>						     
+				</tr>          
+		</tbody>
+	</table>
+</div>

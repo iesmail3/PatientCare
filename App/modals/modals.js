@@ -7,7 +7,10 @@ define(function(require) {
     var Superbill = require('./superbill');
     var Supplies = require('./supplies');
     var DrugOrder = require('./drugorder');
+	var Diagnosis = require('./diagnosis');
+	var Procedure = require('./procedure');
     var Flowsheet = require('./flowsheet');
+	var Displayfile = require('./displayfile');
 	
 	return {
 		showOrder: function(order, centers, orders, groupOrders, orderTypes, practiceId, 
@@ -43,8 +46,17 @@ define(function(require) {
 		showAdditionalDetails: function(title,options) {		      
 			return modalDialog.show(new AdditionalDetails(title,options));
 		},
-		showSuperbill: function(title,options) {		      
-			return modalDialog.show(new Superbill(title,options));
+		showSuperbill: function(superBill,title,options) {		      
+			return modalDialog.show(new Superbill(superBill,title,options));
+		},
+		showDiagnosis: function(title,diagnosis,options) { 
+			return modalDialog.show(new Diagnosis(title,diagnosis,options)); 
+		},
+		showProcedure: function(title,options) { 
+			return modalDialog.show(new Procedure(title,options)); 
+		}, 
+		showFile: function(file,title,options) { 
+			return modalDialog.show(new Displayfile(file,title,options)); 
 		}
 	};
 });
