@@ -1,9 +1,17 @@
 ﻿<?php
 // Continue Session
 session_start();
+session_regenerate_id(TRUE);
 
 if(!isset($_SESSION['practiceId']))
 	header('location: index.php');
+
+// Create array of session variables to pass to Durandal
+$vars = array(
+	'practiceId' => $_SESSION['practiceId'],
+	'userId'	 => $_SESSION['userId']
+);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,8 +41,8 @@ if(!isset($_SESSION['practiceId']))
     </head>          
     <body>            
         <div id="applicationHost"></div>
-        
-        
+        <!-- Pass PHP Variables to Durandal -->
+        <script type="text/javascript">var global = <?php echo json_encode($vars) ?>;</script>
         <script type="text/javascript" src="Scripts/jquery-1.9.1.js"></script>
         <script type="text/javascript" src="Scripts/bootstrap.js"></script>
         <script type="text/javascript" src="Scripts/jquery-ui.js"></script>

@@ -1,6 +1,8 @@
 <?php
 // Start session
 session_start();
+session_regenerate_id(TRUE);
+
 // If session is already started, go to App
 if(isset($_SESSION['practiceId']))
 	header('location: app.php');
