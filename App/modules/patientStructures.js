@@ -1351,26 +1351,26 @@ define(function(require) {
 	
 	patient.prototype.VenousAccess = function(data) {
 		if(data != null) {
-			this.id			= ko.observable(data.id);
-			this.orderId	= ko.observable(data.order_id);
-			this.day		= ko.observable(data.day).extend({required: {message: 'day'}});
-			this.portAccess = ko.observable(data.port_access).extend({required: {message: 'port'}});
-			this.pulse		= ko.observable(data.pulse);
-			this.temp		= ko.observable(data.temp);
-			this.bp			= ko.observable(data.bp);
-			this.time		= ko.observable(data.time);
-			this.date		= ko.observable(data.date);
+			this.id					= ko.observable(data.id);
+			this.serviceRecordId	= ko.observable(data.service_record_id);
+			this.day				= ko.observable(data.day).extend({required: {message: 'day'}});
+			this.portAccess 		= ko.observable(data.port_access).extend({required: {message: 'port'}});
+			this.pulse				= ko.observable(data.pulse);
+			this.temp				= ko.observable(data.temp);
+			this.bp					= ko.observable(data.bp);
+			this.time				= ko.observable(data.time);
+			this.date				= ko.observable(data.date);
 		}
 		else {
-			this.id			= ko.observable();
-			this.orderId	= ko.observable();
-			this.day		= ko.observable().extend({required: {message: 'day'}});
-			this.portAccess = ko.observable().extend({required: {message: 'port'}});
-			this.pulse		= ko.observable();
-			this.temp		= ko.observable();
-			this.bp			= ko.observable();
-			this.time		= ko.observable('');
-			this.date		= ko.observable();
+			this.id					= ko.observable();
+			this.serviceRecordId	= ko.observable();
+			this.day				= ko.observable().extend({required: {message: 'day'}});
+			this.portAccess 		= ko.observable().extend({required: {message: 'port'}});
+			this.pulse				= ko.observable();
+			this.temp				= ko.observable();
+			this.bp					= ko.observable();
+			this.time				= ko.observable('');
+			this.date				= ko.observable();
 		}
 		
 		this.errors = ko.validation.group(this);

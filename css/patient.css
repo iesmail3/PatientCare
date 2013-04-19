@@ -27,7 +27,6 @@ th, td {
 }
 
 .table button, .table a {
-	width: 40px;
 	display: block;
 	margin: 0 auto;
 }
@@ -86,6 +85,10 @@ th, td {
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 5px;
 }
+
+.selectSource { display: none !important; }
+
+.ui-button-icon-only { width: 15px; }
 
 .employedPerson { margin: 12px; }
      
@@ -153,11 +156,6 @@ th, td {
 .personalAlert {
 	height: 20px;
 	display: none;
-}
-
-.span6 .label, label.inline  {
-    display: inline-block;
-    width: 130px;   
 }
 
 #additionalCharges { 
@@ -264,7 +262,7 @@ th, td {
 
 /* Orders */
 .mainOrderTableHolder {
-	height: 450px;
+	height: 443px;
 	overflow-y: auto;
 }
 
@@ -375,6 +373,20 @@ th, td {
 	overflow-y: auto;
 }
 
+.flowTableHolder .table button,
+.flowTableHolder .table a {
+	width: 100%;
+}
+
+.flowTableHolder .med { width: 23%; }
+.flowTableHolder .diluent {width: 18%; }
+.flowTableHolder .dose,
+.flowTableHolder .vol { width: 8%; }
+.flowTableHolder .seq,
+.flowTableHolder .qty {
+	width: 5%;
+}
+
 .venousTableHolder {
 	max-height: 150px;
 	overflow-y: auto;
@@ -437,11 +449,6 @@ th, td {
 }
 
 .checkoutPane { overflow-y: auto; }
-
-.checkoutTab  .label, label.inline  {
-    display: inline-block;    
-	width: 130px;  
-}
 
 .fileHolder {
 	width: 900px;

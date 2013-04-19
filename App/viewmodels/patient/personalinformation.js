@@ -90,7 +90,7 @@ define(function(require) {
 			
 			// Patient ID
 			self.patientId(data.patientId);
-			self.practiceId('1');
+			self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
 			self.patient().practiceId(self.practiceId());
 			
 			/**************************************************************************************

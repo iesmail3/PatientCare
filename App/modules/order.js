@@ -192,7 +192,7 @@ define(function(require) {
 	order.prototype.getMedicines = function() {
 		return this.query({
 			mode: 'select',
-			fields: 'medicine_name',
+			fields: '*',
 			table: 'medicine_list',
 		});
 	}
@@ -228,7 +228,7 @@ define(function(require) {
 			mode: 'select',
 			fields: '*',
 			table: 'venous_access',
-			where: "WHERE order_id='" + id + "'"
+			where: "WHERE service_record_id='" + id + "'"
 		});
 	}		
 	
@@ -357,7 +357,7 @@ define(function(require) {
 		});
 		
 		if(method == "update") {
-			self.query({
+			return self.query({
 				mode: 'update',
 				table: 'orders',
 				fields: fields,
@@ -367,11 +367,22 @@ define(function(require) {
 			});
 		}
 		else {
-			self.query({
-				mode: 'insert', 
+			return self.query({
+				mode: 'select', 
 				table: 'orders',
-				fields: fields, 
-				values: values
+				fields: 'id', 
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).complete(function(d) {
+				var temp = $.parseJSON(d.responseText);
+				data.id(parseInt(temp[0].id) + 1);
+				values[0] = parseInt(temp[0].id) + 1;
+				return self.query({
+					mode: 'insert', 
+					table: 'orders',
+					fields: fields, 
+					values: values
+				});
 			});
 		}
 	}
@@ -492,7 +503,7 @@ define(function(require) {
 		// Get date
 		venous.date(forms.dbDate(forms.currentDate()));
 		
-		var fields = ['id', 'order_id', 'day', 'port_access', 'pulse', 'temp', 'bp', 'time', 'date'];
+		var fields = ['id', 'service_record_id', 'day', 'port_access', 'pulse', 'temp', 'bp', 'time', 'date'];
 		var values = $.map(venous, function(k, v) {
 			if(k() == null || k() == undefined)
 				return [''];
