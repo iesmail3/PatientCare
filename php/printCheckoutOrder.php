@@ -93,56 +93,57 @@ class PDF extends FPDI_CellFit {
 			$this->SetX(70);
 			$this->Cell(0,4, 'Phone: ' . $practice['phone'] . ', Fax: ' 
 						. $practice['fax'], 0, 1);
+		
+			/******************************************************************************************
+			 * Physician Information
+			 *****************************************************************************************/
+			$this->SetFont('Arial', 'B', 14);
+			$this->Cell(0, 11, $physician['first_name'] . ' ' . $physician['last_name'] . 
+						', ' . $physician['degree'], 0, 1);
+			$this->SetFont('Arial', '', 11);
+			$y = $this->GetY();
+			$this->SetY($y - 11);
+			$this->Cell(0, 11, date('n/j/Y'), 0, 1, 'R');
+			$this->SetY($y);
+			$this->CellFit(0, 4, 'License No: ' . $physician['license'] . ', NPI: ' . 
+						   $physician['npi'] . ', DEA: ' . $physician['dea'], 0, 1);
+			if($this->PageNo() == 1)
+				$this->Line(11, 48, 199, 48);
+			else
+				$this->Line(11, 27, 199, 27);
+		
+			/******************************************************************************************
+			 * Patient Information
+			 *****************************************************************************************/
+			 $dob = date($patient['date_of_birth']);
+			 if($this->PageNo() == 1)
+				$this->SetY(49);
+			 else
+				$this->SetY(28);
+			 $this->CellFit(0, 8, 'Patient Name: ' . $patient['first_name'] . ' ' . 
+							$patient['middle_name'] . ' ' . $patient['last_name'] . ', DOB: ' .
+							 $dob . ', Age: ' . $this->dobToAge($dob) . ', Gender: ' . 
+							 ucfirst($patient['gender']), 0, 1);
+			 if($this->PageNo() == 1)
+				$this->Line(11, 63, 199, 63);
+			else
+				$this->Line(11, 42, 199, 42);	
+		
+			/******************************************************************************************
+			 * Diagnosis Information
+			 *****************************************************************************************/
+			 //Headers
+			 $this->SetY(65);
+			 $this->SetFont('Arial','B',11);
+			 $this->Cell(65, 7, 'Diagnosis');
+			 $this->Cell(30, 7, 'ICD Code',0,1);
+			 $this->SetFont('Arial','',10);
+			 // Data
+			 foreach($diagnosis as $d) {
+				$this->Cell(65,7,$d['diagnosis']); 
+				$this->Cell(30,7, $d['code'],0,1);
+			 }
 		}
-		/******************************************************************************************
- 		 * Physician Information
- 		 *****************************************************************************************/
-		$this->SetFont('Arial', 'B', 14);
-		$this->Cell(0, 11, $physician['first_name'] . ' ' . $physician['last_name'] . 
-					', ' . $physician['degree'], 0, 1);
-		$this->SetFont('Arial', '', 11);
-		$y = $this->GetY();
-		$this->SetY($y - 11);
-		$this->Cell(0, 11, date('n/j/Y'), 0, 1, 'R');
-		$this->SetY($y);
-		$this->CellFit(0, 4, 'License No: ' . $physician['license'] . ', NPI: ' . 
-				       $physician['npi'] . ', DEA: ' . $physician['dea'], 0, 1);
-		if($this->PageNo() == 1)
-			$this->Line(11, 48, 199, 48);
-		else
-			$this->Line(11, 27, 199, 27);
-		
-		/******************************************************************************************
- 		 * Patient Information
- 		 *****************************************************************************************/
- 		 $dob = date($patient['date_of_birth']);
- 		 if($this->PageNo() == 1)
-		 	$this->SetY(49);
-		 else
-		 	$this->SetY(28);
- 		 $this->CellFit(0, 8, 'Patient Name: ' . $patient['first_name'] . ' ' . 
- 		                $patient['middle_name'] . ' ' . $patient['last_name'] . ', DOB: ' .
- 		                 $dob . ', Age: ' . $this->dobToAge($dob) . ', Gender: ' . 
- 		                 ucfirst($patient['gender']), 0, 1);
-		 if($this->PageNo() == 1)
-			$this->Line(11, 63, 199, 63);
-		else
-			$this->Line(11, 42, 199, 42);	
-		
-		/******************************************************************************************
- 		 * Diagnosis Information
- 		 *****************************************************************************************/
-		 //Headers
-		 $this->SetY(65);
-		 $this->SetFont('Arial','B',11);
-		 $this->Cell(65, 7, 'Diagnosis');
-		 $this->Cell(30, 7, 'ICD Code',0,1);
-		 $this->SetFont('Arial','',10);
-		 // Data
-		 foreach($diagnosis as $d) {
-			$this->Cell(65,7,$d['diagnosis']); 
-			$this->Cell(30,7, $d['code'],0,1);
-		 }
 	}
 
 	function Footer() {
@@ -189,35 +190,50 @@ $pdf->AddPage();
  //Header
  $y = $pdf->GetY();
  $pdf->SetY($y +3);
- $pdf->SetFont('Arial','B',11);
- $pdf->Cell(65, 7, 'Order');
+ if(count($orders) > 0) {
+	$pdf->SetFont('Arial','B',11);
+	$pdf->Cell(65, 7, 'Order'); 
+}
  $y = $pdf->GetY();
- $pdf->SetY($y +5);
+ $pdf->SetY($y +10);
  
  // Data
- //foreach($orders as $o) {
+ foreach($orders as $o) {
+	$y = $pdf->GetY();
+    $pdf->SetY($y +4);
+	$pdf->SetFont('Arial','B',11);
     $pdf->Cell(15, 7, 'Order:');
 	$pdf->SetFont('Arial','B',11);
-	$pdf->Cell(50,7,$orders[0]['type']); 
-	$pdf->Cell(20, 7, 'InOffice:');
-	$pdf->Cell(20,7,$orders[0]['in_office']); 
+	$pdf->Cell(50,7,$o['type']); 
 	$pdf->Cell(40, 7, 'Diagnostic Center:');
-    $pdf->Cell(50,7,$orders[0]['center'],0,1);
+    $pdf->Cell(20,7,$o['center']);
+	$pdf->Cell(20, 7, 'InOffice:');
+	if($o['in_office'] =='1') { 
+		  
+	  $pdf->Image('checkmark.JPG',null,null,8);
+	
+	}
+	else
+		$pdf->Image('unchecked.JPG',null,null,13);
+	 // Line break
+    $pdf->Ln(5);
 	$pdf->SetFont('Arial','',11);
 	$pdf->Cell(30, 7, 'Comments:');
-	$pdf->Cell(50,7,$orders[0]['comment'],0,1);
+	$pdf->Cell(50,7,$o['comment'],0,1);
 	$pdf->Cell(30, 7, 'Instructions:');
-	$pdf->Cell(50,7,$orders[0]['instructions'],0,1);
+	$pdf->Cell(50,7,$o['instructions'],0,1);
 	$pdf->SetFont('Arial','U',11);
 	$y = $pdf->GetY();
 	$pdf->SetY($y +5);
 	$pdf->Cell(70, 7, 'Description');
 	$pdf->Cell(30, 7, 'Code',0,1);
 	$pdf->SetFont('Arial','',11);
-	$pdf->Cell(70,7,$orders[0]['description']);
-	$pdf->Cell(15,7,$orders[0]['code']);
-	 
- //}
+	$pdf->Cell(70,7,$o['description']);
+	$pdf->Cell(15,7,$o['code'],0,1);
+	// Separator
+	$y = $pdf->GetY() + 3;
+	$pdf->Line(11, $y, 199, $y,0,1);
+}  
  
   
  
