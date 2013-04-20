@@ -205,8 +205,8 @@ $pdf->AddPage();
     $pdf->Cell(15, 7, 'Order:');
 	$pdf->SetFont('Arial','B',11);
 	$pdf->Cell(50,7,$o['type']); 
-	$pdf->Cell(40, 7, 'Diagnostic Center:');
-    $pdf->Cell(20,7,$o['center']);
+	$pdf->Cell(35, 7, 'Diagnostic Center:');
+    $pdf->Cell(30,7,$o['center']);
 	$pdf->Cell(20, 7, 'InOffice:');
 	if($o['in_office'] =='1') { 
 		  
