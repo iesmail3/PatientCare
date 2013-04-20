@@ -7,6 +7,8 @@
 
 .input-xmedium { width: 119px; }
 
+.input-xxlarge { width: 300px; }
+
 th, td {
 	cursor: default;
 }
@@ -508,4 +510,68 @@ div[data-view="views/settings"] {
 
 .userTableHolder {
 	overflow-y: auto;
+}
+
+.roleContent {
+	border: 1px solid #ddd;
+	margin-top: 0px;
+	overflow-y: auto;
+}
+
+.adminRole {
+	width: 80%;
+	margin: auto;
+	margin-top: 50px;
+	color: rgb(255, 61, 0);
+	text-align: center;
+}
+
+.roleButtons {
+	margin-top: 9px;
+}
+
+.roleSelection {
+	border-bottom: 1px solid #ddd;
+}
+
+.roleSelection .root {
+	border: 1px solid #ddd;
+	border-bottom: none;
+	height: 30px;
+}
+
+.roleSelection .child {
+	display: none;
+}
+
+.roleSelection .child span:first-child {
+	margin-left: 50px;
+}
+
+.roleSelection .child .child span:first-child {
+	margin-left: 100px;
+}
+
+.roleSelection span {
+	padding: 5px;
+	display: inline-block;
+	font-size: 16px;
+}
+
+.roleSelection select {
+	margin-bottom: 0;
+	padding: 0;
+}
+
+.roleContent i {
+	cursor: pointer;
+}
+
+.roles .form-horizontal {
+	margin-top: 5px;
+	margin-bottom: 0;
+}
+
+.roles .form-horizontal .control-group{
+	margin-bottom: 10px;
 }
