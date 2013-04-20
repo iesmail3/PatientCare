@@ -469,3 +469,31 @@ th, td {
 	max-width: 99%;
 	margin: auto;
 }
+
+/* Settings */
+.settings {
+	padding-top: 10px;
+}
+
+div[data-view="views/settings"] {
+	background-color: white;
+}
+
+.settingsContent .tab-pane {
+	border: none;
+}
+
+.settingsPills {
+	background-color: white;
+}
+
+.subSettings .tab-pane {
+	background-color: #fff;   
+	border: 1px solid #ddd;
+	border-radius: 0 0 5px 5px;
+	padding: 0 10px;
+}
+
+.passwordButton {
+	margin-top: -10px;
+}
