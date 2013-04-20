@@ -9,14 +9,29 @@ define(function(require) {
 	 **********************************************************************************************/
 	var system = require('durandal/system');			// System logger
 	var custom = require('durandal/customBindings');	// Custom bindings
-	//var Backend = require('modules/moduleTemplate');	// Module
+	var Backend = require('modules/report');			// Database access
+	var Forms = require('modules/form');					// Common form elements
+	var Structures = require('modules/patientStructures'); 
+	var app = require('durandal/app');
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
-	// var observable = ko.observable('');
-	// var observableArray = ko.observableArray([]);
-
+	var form 			= new Forms();
+	var backend 		= new Backend();
+	var structures   	= new Structures();
+	var doc             = ko.observable(new structures.Document());
+	var documents       = ko.observableArray([]);
+	var patientId       = ko.observable();
+	var practiceId      = ko.observable();
+	var date            = ko.observable();
+	var documentType    = ko.observable("Document Type");
+	var documentState  = ko.observable(true); 
+	var documentAdd    = ko.observable(); 
+	var documentSave   = ko.observable(); 
+	var documentCancel = ko.observable(); 
+	var isNewDocument  = ko.observable(false); 
+	var tempDocument   = ko.observable(new structures.Document());
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
@@ -32,7 +47,21 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
-		
+		 doc: doc,   
+		 documents: documents,  
+		 form: form,
+		 backend: backend,
+		 structures: structures,
+		patientId: patientId,
+		practiceId: practiceId,
+		date: date,
+		documentType: documentType,
+		documentState: documentState, 
+		documentAdd: documentAdd, 
+		documentSave: documentSave, 
+		documentCancel: documentCancel,
+		isNewDocument: isNewDocument,
+		tempDocument: tempDocument,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -51,14 +80,40 @@ define(function(require) {
 		},
 		// Loads when view is loaded
 		activate: function(data) {
-			// Code here
-			
-			// If you add any asynchronous code, make sure you return it. If you need to add multiple
-			// asynchronous code, return the functions chained together. If you don't return them,
-			// then Durandal will not wait for them to finish before loading the rest of the page.
-			// There might be issues when updating observables.
-			// Ex:
-			// return .get().getJSON().post();
-		}
+			var self = this; 
+			 self.date(data.date);
+			 self.patientId(data.patientId); 
+			 self.practiceId('1'); 
+			 
+			 backend.getDocument(self.patientId(),self.practiceId(),self.date()).success(function(data) {
+				
+				if(data.length > 0) {
+					 var d = $.map(data, function(item) { 
+					  item.date = form.uiDate(item.date)
+					  item.date_of_service = form.uiDate(item.date_of_service)
+					 return new structures.Document(item) }); 
+					 self.documents(d);
+                     self.doc(d[0]); 					 
+				} 
+			});
+				
+		},
+		
+		setDocumentFields: function(data) {
+			system.log("clicked"); 
+		    isNewDocument(false); 
+			doc(data);
+		},
+		documentCancel: function() {
+		    isNewDocument(false); 
+			documentState(true);
+			doc(tempDocument()); 
+		},
+		documentAdd: function() { 
+			   documentState(false);
+			   isNewDocument(true); 
+			   tempDocument(doc());
+	          doc(new structures.Document());
+		},
 	};
 });
