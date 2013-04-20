@@ -497,3 +497,15 @@ div[data-view="views/settings"] {
 .passwordButton {
 	margin-top: -10px;
 }
+
+.settings .control-label {
+	width: 70px;
+}
+
+.settings .controls {
+	margin-left: 100px;
+}
+
+.userTableHolder {
+	overflow-y: auto;
+}
