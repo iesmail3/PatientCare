@@ -7,7 +7,7 @@
 
 .input-xmedium { width: 119px; }
 
-.input-xxlarge { width: 300px; }
+.input-xxlarge {}
 
 th, td {
 	cursor: default;
@@ -501,7 +501,7 @@ div[data-view="views/settings"] {
 }
 
 .settings .control-label {
-	width: 70px;
+	width: 80px;
 }
 
 .settings .controls {
@@ -510,6 +510,10 @@ div[data-view="views/settings"] {
 
 .userTableHolder {
 	overflow-y: auto;
+}
+
+.userButtons {
+	height: 30px;
 }
 
 .roleContent {

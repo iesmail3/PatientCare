@@ -19,8 +19,15 @@
 						   placeholder="Username" class="input-medium" />
 					</div>
 				</div>
+				<div class="control-group">
+					<label class="control-label">Email</label> 
+					<div class="controls">
+						<input type="text" data-bind="value: email, enable: username() != 'administrator'" 
+						   placeholder="Email" class="input-medium" />
+					</div>
+				</div>
 			</div>
-			<div class="span5">
+			<div class="span6">
 				<div class="control-group">
 					<label class="control-label">Last Name</label>
 					<div class="controls">
@@ -31,10 +38,18 @@
 				<div class="control-group">
 					<label class="control-label">Role</label>
 					<div class="controls">
-						<select data-bind="value: roleId, enable: username() != 'administrator'" class="input-medium">
-							<option value="0">Administrator</option>
-							<option value="1">Demo</option>
+						<select data-bind="value: roleId, enable: username() != 'administrator', 
+								optionsCaption: 'Role', options: $root.roles, optionsText: 'name', 
+								optionsValue: 'id'" class="input-medium">
 						</select>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Password
+						<i data-toggle="tooltip" class="icon-question-sign"></i></label>
+					<div class="controls">
+						<input type="text" data-bind="value: $root.password, enable: username() != 'administrator'" 
+					       placeholder="Password" class="input-medium" />
 					</div>
 				</div>
 			</div>
@@ -43,10 +58,12 @@
 				
 			</div>
 			<!-- /ko -->
-			<div class="pull-right">
-				<button class="btn btn-success" data-bind="visible: !newFlag(), click: clickNew">New</button>
-				<button class="btn btn-warning" data-bind="visible: newFlag(), click: clickCancel">Cancel</button>
-				<button class="btn btn-primary">Save</button>
+			<div class="userButtons">
+				<div class="pull-right" data-bind="visible: user().username() != 'administrator'">
+					<button class="btn btn-success" data-bind="visible: !newFlag(), click: newUser">New</button>
+					<button class="btn btn-warning" data-bind="visible: newFlag(), click: cancelUser">Cancel</button>
+					<button class="btn btn-primary" data-bind="click: saveUser">Save</button>
+				</div>
 			</div>
 		</fieldset>
 	</form>
@@ -58,6 +75,7 @@
 					<th>Username</th>
 					<th>First Name</th>
 					<th>Last Name</th>
+					<th>Email</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -67,7 +85,8 @@
 					<td data-bind="text: username, click: $root.selectUser"></td>
 					<td data-bind="text: firstName, click: $root.selectUser"></td>
 					<td data-bind="text: lastName, click: $root.selectUser"></td>
-					<td><button class="btn btn-danger">Delete</button></td>
+					<td data-bind="text: email, click: $root.selectUser"></td>
+					<td><button class="btn btn-danger" data-bind="visible: username() != 'administrator'">Delete</button></td>
 				</tr>
 			</tbody>
 		</table>

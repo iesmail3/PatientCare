@@ -63,7 +63,7 @@ define(function(require) {
 		var self = this;
 		var fields = ['id','practice_id','name','description','superbill','allergies',
 					  'birth_history','clinic_details','change_password','checkout','copay_collection',
-					  'development','diagnosis','family_history','followup','guidance','history',
+					  'development','diagnosis','family_history','follow_up','guidance','history',
 					  'history_illness','immunization','instructions','insurance',
 					  'insurance_verification','reports','manage_patients','manage_physician',
 					  'manage_practice_type','manage_reason_code','manage_roles','manage_schedule',
@@ -81,40 +81,36 @@ define(function(require) {
 				return [k()];
 		});
 		
-		for(var i = 0; i < fields.length; i++ )
-			system.log(fields[i] + " : " + values[i]);
-		/*
 		if(values[0] != "") {
 			return self.query({
 				mode: 'update',
-				table: 'drug_order',
+				table: 'role',
 				fields: fields,
 				values: values,
-				where: "WHERE id='" + order.id() + "'"
+				where: "WHERE id='" + data.id() + "'"
 			});	
 		}
 		else {
 			return self.query({
 				mode: 'select',
-				table: 'drug_order',
+				table: 'role',
 				fields: 'id',
 				order: "ORDER BY id DESC",
 				LIMIT: "LIMIT 1" 
-			}).success(function(data) {
+			}).success(function(d) {
 				var id = 1;
-				if(data.length > 0)
-					id = parseInt(data[0].id) + 1;
-				order.id(id);
+				if(d.length > 0)
+					id = parseInt(d[0].id) + 1;
+				data.id(id);
 				values[0] = id;
 				return self.query({
 					mode: 'insert',
-					table: 'drug_order',
+					table: 'role',
 					fields: fields,
 					values: values
 				});
 			});
 		}
-		*/
 	}
 	
 	/**********************************************************************************************
@@ -122,11 +118,11 @@ define(function(require) {
 	 * 
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
-	// Delete Personal Information for a Single Patient
-	settings.prototype.deletePatient = function(id) {
+	// Delete Role
+	settings.prototype.deleteRole = function(id) {
 		return this.query({
 			mode: 'delete', 
-			table: 'settings', 
+			table: 'role', 
 			where: "WHERE id='" + id + "'"
 		});
 	}
