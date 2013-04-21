@@ -1,4 +1,4 @@
-<div class="formScroll checkoutTab checkout">
+<div class="checkoutTab checkout">
 	<div class="form-inline">
 		<div class="row-fluid">
 			<fieldset>
@@ -66,45 +66,47 @@
 					</div> 
 				<!-- /ko -->  
 					<div class="span6">  
+						<div class="checkoutTableHolder">
 					<!-- ko with: paymentMethod -->  
-						<table class="paymentTable table table-bordered table-hover">
-								<thead>
-									<tr>       
-										<th>Modes</th>   
-										<th>Particulars</th>
-										<th>Amount</th>
-										<th></th>
-									</tr>
-								</thead> 
-								<tbody data-bind="foreach: $root.paymentMethods">     
-									 <tr> 
-										<td class="input-small">											
-											<select class="input-small" data-bind="event: {select: $root.addRow},value: mode">
-												<option value=""></option> 
-												<option value="Cash">Cash</option> 
-												<option value="Credit">Credit</option>
-												<option value="Debit">Debit</option>
-											</select>
-										</td>
-										<td class="input-small">											 
-											<input class="input-medium"	data-bind="
-												event: {keyup: $root.addRow},
-												value: particulars, 
-												valueUpdate: 'afterkeydown'" />
-										</td> 
-										<td class="input-small">									
-											<input class="input-small" data-bind="
-												event: {keyup: $root.addRow},
-												value: amount, 
-												valueUpdate: 'afterkeydown'" />
-										</td> 
-										<td>
-											<a class="btn" data-bind="visible: mode()!='',click:$root.removePaymentMethod"><i class="icon-remove"></i></a>
-										</td>
-									</tr> 
-								</tbody> 
-						</table> 
-					<!-- /ko -->  
+							<table class="paymentTable table table-bordered table-hover">
+									<thead>
+										<tr>       
+											<th>Modes</th>   
+											<th>Particulars</th>
+											<th>Amount</th>
+											<th></th>
+										</tr>
+									</thead> 
+									<tbody data-bind="foreach: $root.paymentMethods">     
+										 <tr> 
+											<td class="input-small">											
+												<select class="input-small" data-bind="event: {select: $root.addRow},value: mode">
+													<option value=""></option> 
+													<option value="Cash">Cash</option> 
+													<option value="Credit">Credit</option>
+													<option value="Debit">Debit</option>
+												</select>
+											</td>
+											<td class="input-small">											 
+												<input class="input-medium"	data-bind="
+													event: {keyup: $root.addRow},
+													value: particulars, 
+													valueUpdate: 'afterkeydown'" />
+											</td> 
+											<td class="input-small">									
+												<input class="input-small" data-bind="
+													event: {keyup: $root.addRow},
+													value: amount, 
+													valueUpdate: 'afterkeydown'" />
+											</td> 
+											<td>
+												<a class="btn" data-bind="visible: mode()!='',click:$root.removePaymentMethod"><i class="icon-remove"></i></a>
+											</td>
+										</tr> 
+									</tbody> 
+							</table>
+							<!-- /ko -->  
+						</div>
 						<div class="marginBottom5 pull-right">
 							<span class="label label-inverse">Total Payment</span>
 							<input type="text"  class="input-small" placeholder="0" data-bind="value:$root.totalPay"disabled/>
@@ -118,32 +120,34 @@
 		</div>
 	</div>
 <!-- ko with: checkout -->
-<table class="table table-bordered table-hover">      
-	<thead>
-		<tr>
-			<th>Date of Service</th>        
-			<th>CoPay Amount</th>     
-			<th>Other Co-Pay</th>
-			<th>Insurance Portion</th>
-			<th>Additional Charges</th>  
-			<th>Paid Amount</th>
-			<th>Balance</th>
-			<th>Comments</th>
-		</tr> 
-	</thead> 
-	<tbody data-bind="foreach: $root.checkouts">      
-			<tr data-bind="click: $root.setCheckOutFields">     
-				<td data-bind="text: date"></td>   
-				<td data-bind="text: copayAmount"></td>
-				<td data-bind="text: otherCopay"></td> 
-				<td data-bind="text:insurancePortion"></td>
-				<td data-bind="text: additionalCharges"></td>
-				<td data-bind="text: totalPayment"></td>
-				<td data-bind="text: balance"></td>
-				<td data-bind="text: comment"></td>						     
-			</tr>          
-	</tbody> 
-</table>
+<div class="checkoutTableHolder">
+	<table class="table table-bordered table-hover">      
+		<thead>
+			<tr>
+				<th>Date of Service</th>        
+				<th>CoPay Amount</th>     
+				<th>Other Co-Pay</th>
+				<th>Insurance Portion</th>
+				<th>Additional Charges</th>  
+				<th>Paid Amount</th>
+				<th>Balance</th>
+				<th>Comments</th>
+			</tr> 
+		</thead> 
+		<tbody data-bind="foreach: $root.checkouts">      
+				<tr data-bind="click: $root.setCheckOutFields">     
+					<td data-bind="text: date"></td>   
+					<td data-bind="text: copayAmount"></td>
+					<td data-bind="text: otherCopay"></td> 
+					<td data-bind="text:insurancePortion"></td>
+					<td data-bind="text: additionalCharges"></td>
+					<td data-bind="text: totalPayment"></td>
+					<td data-bind="text: balance"></td>
+					<td data-bind="text: comment"></td>						     
+				</tr>          
+		</tbody> 
+	</table>
+</div>
 <!-- /ko --> 
 </div> 
 <div class="footer">

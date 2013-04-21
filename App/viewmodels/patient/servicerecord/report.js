@@ -74,7 +74,7 @@ define(function(require) {
 				e.preventDefault();
 				$(this).tab('show');
 			});
-			
+			$('.reportTableHolder').height(parseInt($('.tab-pane').height()) - 264);
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 			$(window).resize(function() {
@@ -88,6 +88,7 @@ define(function(require) {
 			 self.patientId(data.patientId); 
 			 self.practiceId('1'); 
 			 
+			 system.log(date);
 			 backend.getDocument(self.patientId(),self.practiceId(),self.date()).success(function(data) {
 				if(data.length > 0) {
 					 var d = $.map(data, function(item) { 
@@ -98,11 +99,10 @@ define(function(require) {
 					 self.doc(d[0]); 					 
 				} 
 			});
-				
+			system.log(documents()); 	
 		},
 		
-		saveDocument: function(data) {
-		   system.log('date is' + date()); 
+		saveDocument: function(data) { 
 			if(doc().errors().length > 0) {
 				if(doc().errors().length > 1) {
 					$('.report .allAlert').fadeIn().delay(3000).fadeOut();
@@ -126,7 +126,6 @@ define(function(require) {
 		},
 		
 		searchByType: function(data) { 
-		system.log('inside search byttype');
 			backend.getDocumentByType(patientId(),documentType()).success(function(data) { 
 				if(data.length > 0) {  
 					 var d = $.map(data, function(item) {

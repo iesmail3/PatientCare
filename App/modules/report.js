@@ -54,7 +54,6 @@
 	 * These methods save information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
 	report.prototype.saveDocument = function(doc,documents,practiceId,patientId,date) {
-		system.log(date); 
 		var self = this;
 		// Convert true/false to 1/0
 		doc.isReviewed(doc.isReviewed() ? 1 : 0);

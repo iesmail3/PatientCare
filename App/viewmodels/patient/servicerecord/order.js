@@ -98,7 +98,7 @@ define(function(require) {
 			// Get URL parameters
 			self.patientId(data.patientId);
 			self.serviceDate(data.date);
-			self.practiceId('1');
+		    self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
 			
 			// Get Medicines
 			backend.getMedicines().success(function(data) {

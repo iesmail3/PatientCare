@@ -468,3 +468,13 @@ th, td {
 	max-width: 99%;
 	margin: auto;
 }
+
+.documentTableHolder {
+	height: 225px;
+	overflow-y: auto;
+}
+
+.checkoutTableHolder {
+	height: 150px;
+	overflow-y: auto;
+}
