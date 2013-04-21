@@ -1,0 +1,75 @@
+<div class="usersTab">
+	<form class="form-horizontal">
+		<fieldset>
+			<legend>Current Users Details</legend>
+			<!-- ko with: user -->
+			<div class="row-fluid">
+			<div class="span5">
+				<div class="control-group">
+					<label class="control-label">First Name</label>
+					<div class="controls">
+						<input type="text" data-bind="value: firstName, enable: username() != 'administrator'" 
+					       placeholder="First Name" class="input-medium" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Username</label> 
+					<div class="controls">
+						<input type="text" data-bind="value: username, enable: username() != 'administrator'" 
+						   placeholder="Username" class="input-medium" />
+					</div>
+				</div>
+			</div>
+			<div class="span5">
+				<div class="control-group">
+					<label class="control-label">Last Name</label>
+					<div class="controls">
+						<input type="text" data-bind="value: lastName, enable: username() != 'administrator'" 
+					       placeholder="Last Name" class="input-medium" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Role</label>
+					<div class="controls">
+						<select data-bind="value: roleId, enable: username() != 'administrator'" class="input-medium">
+							<option value="0">Administrator</option>
+							<option value="1">Demo</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			</div>
+			<div class="marginbottom5">
+				
+			</div>
+			<!-- /ko -->
+			<div class="pull-right">
+				<button class="btn btn-success" data-bind="visible: !newFlag(), click: clickNew">New</button>
+				<button class="btn btn-warning" data-bind="visible: newFlag(), click: clickCancel">Cancel</button>
+				<button class="btn btn-primary">Save</button>
+			</div>
+		</fieldset>
+	</form>
+	<div class="userTableHolder">
+		<table class="table table-hover table-striped table-bordered userTable">
+			<thead>
+				<tr>
+					<th>Role</th>
+					<th>Username</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody data-bind="foreach: users">
+				<tr>
+					<td data-bind="text: roleName, click: $root.selectUser"></td>
+					<td data-bind="text: username, click: $root.selectUser"></td>
+					<td data-bind="text: firstName, click: $root.selectUser"></td>
+					<td data-bind="text: lastName, click: $root.selectUser"></td>
+					<td><button class="btn btn-danger">Delete</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

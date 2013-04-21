@@ -1,0 +1,325 @@
+<div>
+	<div class="root">
+		<span><i class="icon-plus" data-bind="click: $root.toggleChild"></i></span>
+		<span>Manage Patients</span>
+		<select data-bind="value: managePatients" class="input-medium pull-right">
+			<option value="0">None</option>
+			<option value="1">Read</option>
+			<option value="2">Read/Write</option>
+		</select>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Personal Information</span>
+			<select data-bind="value: personalInformation" class="input-medium pull-right">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Insurance Details</span>
+			<select data-bind="value: insurance" class="input-medium pull-right">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Social History</span>
+			<select data-bind="value: socialHistory" class="input-medium pull-right">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Service Record</span>
+			<select data-bind="value: serviceRecord" class="input-medium pull-right">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span><i class="icon-plus" data-bind="click: $root.toggleChild"></i></span>
+			<span>History & Present Illness</span>
+			<select data-bind="value: historyIllness" class="input-medium pull-right">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>History</span>
+				<select data-bind="value: history" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Review of Systems</span>
+				<select data-bind="value: reviewOfSystems" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Medical Problem</span>
+				<select data-bind="value: medicalProblem" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Medication</span>
+				<select data-bind="value: medication" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Allergies/Intolerance</span>
+				<select data-bind="value: allergies" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span><i class="icon-plus" data-bind="click: $root.toggleChild"></i></span>
+			<span>Physical Examinations</span>
+			<select data-bind="value: physicalExamination" class="input-medium pull-right">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Vital Signs</span>
+				<select data-bind="value: vitalSigns" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Physical Examination</span>
+				<select data-bind="value: physicalExaminationSub" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Labs & X-Rays</span>
+			<select data-bind="value: reports" class="input-medium pull-right">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span><i class="icon-plus" data-bind="click: $root.toggleChild"></i></span>
+			<span>Diagnosis & Instructions</span>
+			<select data-bind="value: diagnosisInstructions" class="input-medium pull-right">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Diagnosis</span>
+				<select data-bind="value: diagnosis" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Instructions</span>
+				<select data-bind="value: instructions" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Guidance</span>
+				<select data-bind="value: guidance" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Development</span>
+				<select data-bind="value: development" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Orders</span>
+			<select data-bind="value: orders" class="input-medium pull-right">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Medication Orders</span>
+			<select data-bind="value: medicationOrders" class="input-medium pull-right">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span><i class="icon-plus" data-bind="click: $root.toggleChild"></i></span>
+			<span>Follow Up</span>
+			<select data-bind="value: followup" class="input-medium pull-right">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Checkout</span>
+				<select data-bind="value: checkout" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Prescription</span>
+				<select data-bind="value: prescription" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Phone Log</span>
+				<select data-bind="value: phoneLog" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Superbill</span>
+				<select data-bind="value: superbill" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Misc. Docs</span>
+				<select data-bind="value: miscDocs" class="input-medium pull-right">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Family History</span>
+			<select data-bind="value: familyHistory" class="input-medium pull-right">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Immunization Details</span>
+			<select data-bind="value: immunization" class="input-medium pull-right">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Birth History</span>
+			<select data-bind="value: birthHistory" class="input-medium pull-right">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Route Examination</span>
+			<select data-bind="value: routineExam" class="input-medium pull-right">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+</div>
