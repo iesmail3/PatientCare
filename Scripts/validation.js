@@ -34,7 +34,7 @@
 		errorsAsTitle: true,  			// enables/disables showing of errors as title attribute of the target element.
         errorsAsTitleOnModified: false, // shows the error when hovering the input field (decorateElement must be true)
         messageTemplate: null,
-        insertMessages: true,           // automatically inserts validation messages as <span></span>
+        insertMessages: false,           // automatically inserts validation messages as <span></span>
         parseInputAttributes: false,    // parses the HTML5 validation attribute from a form element and adds that to the object
         writeInputAttributes: false,    // adds HTML5 input validation attributes to form elements that ko observable's are bound to
         decorateElement: true,         // false to keep backward compatibility

@@ -83,8 +83,8 @@ define(function(require) {
 	history.prototype.getMedicineList = function() {
 		return this.query({
 			mode: 'select',
+			fields: '*',
 			table: 'medicine_list',
-			fields: 'medicine_name'
 		});
 	}
 	
@@ -330,7 +330,7 @@ define(function(require) {
 	history.prototype.saveAllergiesIntolerance = function(allergiesIntolerance, allergiesIntolerances) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'status', 'details', 'date_recorded'];
-		var values = $.map(allergiesIntolerance(), function(k,v) {
+		var values = $.map(allergiesIntolerance, function(k,v) {
 			if (k == null || k == undefined) {
 				return[''];
 			}
@@ -339,7 +339,7 @@ define(function(require) {
 			}
 		});
 		
-		if (allergiesIntolerance().id() == undefined || allergiesIntolerance().id == '') {
+		if (allergiesIntolerance.id() == undefined || allergiesIntolerance.id == '') {
 			var newId = '';
 			return self.query({
 				mode: 'select',
@@ -353,14 +353,13 @@ define(function(require) {
 				});
 				
 				values[0] = newId;
-				allergiesIntolerance().id(newId);
+				allergiesIntolerance.id(newId);
 				self.query({
 					mode: 'insert',
 					table: 'allergies_intolerance',
 					fields: fields,
 					values: values
 				});
-				allergiesIntolerances.push(allergiesIntolerance());
 			});
 		}
 		

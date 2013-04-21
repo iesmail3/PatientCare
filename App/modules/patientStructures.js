@@ -26,23 +26,24 @@ define(function(require) {
 		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
-			this.type			 = ko.observable(data.type).extend({required: true});
-			this.status			 = ko.observable(data.status).extend({required: true});
-			this.details		 = ko.observable(data.details).extend({required: true});
+			this.type			 = ko.observable(data.type).extend({required: {message: 'type'}});
+			this.status			 = ko.observable(data.status).extend({required: {message: 'status'}});
+			this.details		 = ko.observable(data.details).extend({required: {message: 'details'}});
 			this.dateRecorded	 = ko.observable(data.date_recorded);
 			this.dateInactive	 = ko.observable(data.date_inactive);
 		}
 		else {
 			this.id				 = ko.observable();
 			this.serviceRecordId = ko.observable();
-			this.type			 = ko.observable('').extend({required: true});
-			this.status			 = ko.observable('').extend({required: true});
-			this.details		 = ko.observable().extend({required: true});
+			this.type			 = ko.observable('').extend({required: {message: 'type'}});
+			this.status			 = ko.observable('').extend({required: {message: 'status'}});
+			this.details		 = ko.observable().extend({required: {message: 'details'}});
 			this.dateRecorded	 = ko.observable();
 			this.dateInactive	 = ko.observable();
 		}
 		
-		self.errors = ko.validation.group(self, {messagesOnModified: false});
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Checkout
@@ -400,8 +401,8 @@ define(function(require) {
 		if (data != null) {
 			this.id				   = ko.observable(data.id);
 			this.serviceRecordId   = ko.observable(data.service_record_id);
-			this.type			   = ko.observable(data.type).extend({required: true});
-			this.description	   = ko.observable(data.description).extend({required: true});
+			this.type			   = ko.observable(data.type).extend({required: {message: 'type'}});
+			this.description	   = ko.observable(data.description).extend({required: {message: 'description'}});
 			this.onsetDate		   = ko.observable(data.onset_date);
 			this.onsetUnknown	   = ko.observable(data.onset_unknown == '1' ? 1 : 0);
 			this.resolutionDate	   = ko.observable(data.resolution_date);
@@ -411,8 +412,8 @@ define(function(require) {
 		else {
 			this.id				   = ko.observable();
 			this.serviceRecordId   = ko.observable();
-			this.type			   = ko.observable('').extend({required: true});
-			this.description	   = ko.observable().extend({required: true});
+			this.type			   = ko.observable('').extend({required: {message: 'type'}});
+			this.description	   = ko.observable().extend({required: {message: 'description'}});
 			this.onsetDate		   = ko.observable();
 			this.onsetUnknown	   = ko.observable();
 			this.resolutionDate	   = ko.observable();
@@ -420,7 +421,8 @@ define(function(require) {
 			this.notApplicable	   = ko.observable();
 		}
 		
-		self.errors = ko.validation.group(self, {messagesOnModified: false});
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Medication
@@ -1136,16 +1138,16 @@ define(function(require) {
 		var self = this;
 		if (data != null) {
 			this.serviceRecordId    = ko.observable(data.service_record_id);
-			this.particulars	    = ko.observable(data.particulars).extend({required: true});
+			this.particulars	    = ko.observable(data.particulars).extend({required: {message: 'paticulars'}});
 			this.type			    = ko.observable(data.type).extend({notEqual: 'not done'});
-			this.comment		    = ko.observable(data.comment).extend({required: true});
+			this.comment		    = ko.observable(data.comment).extend({required: {message: 'comment'}});
 			this.defaultParticulate = ko.observable(data.default_particulate == '1' ? 1 : 0);
 		}
 		else {
 			this.serviceRecordId    = ko.observable();
-			this.particulars	    = ko.observable('').extend({required: true});
+			this.particulars	    = ko.observable('').extend({required: {message: 'particulars'}});
 			this.type			    = ko.observable('not done').extend({notEqual: 'not done'});
-			this.comment		    = ko.observable('').extend({required: true});
+			this.comment		    = ko.observable('').extend({required: {message: 'comment'}});
 			this.defaultParticulate = ko.observable();
 		}
 		
@@ -1153,7 +1155,8 @@ define(function(require) {
 			return 'reviewOfSystemType' + self.particulars();
 		});
 		
-		self.errors = ko.validation.group(self, {messagesOnModified: false});
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	patient.prototype.RoutineExam = function(data) {
@@ -1224,7 +1227,8 @@ define(function(require) {
 			return '#/patient/servicerecord/serviceview/' + self.patientId() + '/' + form.dbDate(self.date());
 		});
 		
-		self.errors = ko.validation.group(self, {messagesOnModified: false});
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Social History

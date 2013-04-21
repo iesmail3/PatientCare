@@ -1,5 +1,6 @@
 <div class="alertHolder">
-	<div class="alert reviewAlert"></div>
+	<div class="alert alert-danger allAlert">You are missing required fields.</div>
+	<div class="alert alert-success">Successfully saved</div>
 </div>
 <div class="reviewFormScroll">
 	<form class="form-inline formPadding">
@@ -10,32 +11,29 @@
 						value: particulars,
 						enable: !defaultParticulate(),
 						event: {keyup: $root.reviewOfSystemsAddRow},
-						valueUpdate: 'afterkeydown'" required />
-					<span class="required">*</span>
+						valueUpdate: 'afterkeydown'" />
 					<div class="reviewPushRight">
 						<label class="radio reviewRadio">
 							<input type="radio" value="not done" data-bind="
 								checked: type,
-								attr: {name: name}" required />
+								attr: {name: name}" />
 							<span class="smallText">Not&nbsp;Done</span>
 						</label>
 						<label class="radio reviewRadio">
 							<input type="radio" value="negative" data-bind="
 								checked: type,
-								attr: {name: name}" required />
+								attr: {name: name}" />
 							<span class="smallText">Negative</span>
 						</label>
 						<label class="radio reviewRadio">
 							<input type="radio" value="positive" data-bind="
 								checked: type,
-								attr: {name: name}" required />
+								attr: {name: name}" />
 							<span class="smallText">Positive</span>
-							<span class="required">*</span>
 						</label>
 						<input type="text" class="reviewComment" placeholder="Comments" data-bind="
 							value: comment,
-							enable: type() != 'not done'" required />
-						<span class="required">*</span>
+							enable: type() != 'not done'" />
 						<button class="btn btn-small btn-danger pull-right" data-bind="
 							click: $root.reviewOfSystemsDelete,
 							visible: !defaultParticulate()">

@@ -29,6 +29,7 @@ th, td {
 .table button, .table a {
 	display: block;
 	margin: 0 auto;
+	width: 36px !important;
 }
 
 .patientTree {

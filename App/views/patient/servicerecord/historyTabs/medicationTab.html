@@ -2,12 +2,14 @@
 	<!-- ko with: medication -->
 	<div class="row-fluid">
 		<div class="alertHolder">
-			<div class="alert medicationAlert"></div>
+			<div class="alert alert-danger allAlert">You are missing required fields.</div>
+			<div class="alert alert-danger medicineAlert">Medicine is required.</div>
+			<div class="alert alert-danger sigAlert">Sigs is required.</div>
+			<div class="alert alert-success ">Successfully saved.</div>
 		</div>
 		<div class="marginBottom5">
 			<input type="text" placeholder="Medicine" data-bind="
-				typeahead: {value: medicine, source: $root.medicines}" required />
-			<span class="required">*</span>
+				typeahead: {value: medicine, source: $root.medicineNames}" />
 			<input type="text" class="input-medium" placeholder="Strength" data-bind="
 				value: strength" />
 			<input type="text" class="input-medium" placeholder="Quantity" data-bind="
@@ -26,15 +28,13 @@
 				optionsText: 'text',
 				value: sigs,
 				optionsValue: 'value',
-				optionsCaption: 'Sigs'" required>
+				optionsCaption: 'Sigs'">
 			</select>
-			<span class="required">*</span>
-			<select class="input-xmedium" data-bind="value: status" required>
+			<select class="input-xmedium" data-bind="value: status">
 				<option value="" disabled selected data-bind="visible: false">Status</option>
 				<option value="Current">Current</option>
 				<option value="Discontinued">Discontinued</option>
 			</select>
-			<span class="required">*</span>
 		</div>
 		<div class="marginBottom5">
 			<input type="text" placeholder="Prescribed By" data-bind="
