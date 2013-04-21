@@ -36,7 +36,7 @@ define(function(require) {
 		 *****************************************************************************************/
 		this.getMedicines();
 		this.getDiluents();
-		this.getVenousAccess(this.orderId);
+		this.getVenousAccess(this.serviceRecordId);
 		this.getDrugOrders(this.orderId);
 		this.getMedicationOrderLogs(this.orderId);
 	}
@@ -123,7 +123,7 @@ define(function(require) {
 		}
 		else {
 			// Set the order id
-			self.venousAccess().orderId(self.orderId);
+			self.venousAccess().serviceRecordId(self.serviceRecordId);
 			// Save to DB
 			backend.saveVenousAccess(self.venousAccess()).complete(function(data) {
 				// If update

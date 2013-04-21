@@ -155,34 +155,33 @@
 					<table class="table table-bordered table-hover table-striped table-condensed">
 						<thead>
 							<tr>
-								<th data-bind="sort: {column: 'medicine', array: drugOrders}">
+								<th  class="med" data-bind="sort: {column: 'medicine', array: drugOrders}">
 									<span>Medicine</span>
 								</th>
-								<th data-bind="sort: {column: 'dose', array: drugOrders}">
+								<th class="dose" data-bind="sort: {column: 'dose', array: drugOrders}">
 									<span>Dose</span>
 								</th>
-								<th data-bind="sort: {column: 'prescribedDose', array: drugOrders}">
+								<th class="dose" data-bind="sort: {column: 'prescribedDose', array: drugOrders}">
 									<span>Pres. Dose</span>
 								</th>
-								<th data-bind="sort: {column: 'route', array: drugOrders}">
+								<th class="route" data-bind="sort: {column: 'route', array: drugOrders}">
 									<span>Route</span>
 								</th>
-								<th data-bind="sort: {column: 'seq', array: drugOrders}">
+								<th class="seq" data-bind="sort: {column: 'seq', array: drugOrders}">
 									<span>Seq</span>
 								</th>
-								<th data-bind="sort: {column: 'diluent', array: drugOrders}">
+								<th class="diluent" data-bind="sort: {column: 'diluent', array: drugOrders}">
 									<span>Diluent</span>
 								</th>
-								<th data-bind="sort: {column: 'volume', array: drugOrders}">
+								<th class="vol" data-bind="sort: {column: 'volume', array: drugOrders}">
 									<span>Volume</span>
 								</th>
-								<th data-bind="sort: {column: 'duration', array: drugOrders}">
+								<th class="dur" data-bind="sort: {column: 'duration', array: drugOrders}">
 									<span>Duration</span>
 								</th>
-								<th data-bind="sort: {column: 'days', array: drugOrders}">
+								<th class="day" data-bind="sort: {column: 'days', array: drugOrders}">
 									<span>Day</span>
 								</th>
-								<th></th>
 							</tr>
 						</thead>
 						<tbody data-bind="foreach: drugOrders">
@@ -206,15 +205,15 @@
 				<div class="flowTableHolder">
 					<table class="table table-bordered table-hover table-striped table-condensed">
 						<thead>
-							<th data-bind="sort: {column: 'medicine', array: medicationOrderLogs}">Medicine</th>
-							<th data-bind="sort: {column: 'dose', array: medicationOrderLogs}">Actual Dose</th>
-							<th data-bind="sort: {column: 'quantity', array: medicationOrderLogs}">Qty</th>
-							<th data-bind="sort: {column: 'seq', array: medicationOrderLogs}">Seq</th>
-							<th data-bind="sort: {column: 'diluent', array: medicationOrderLogs}">Diluent</th>
-							<th data-bind="sort: {column: 'volume', array: medicationOrderLogs}">Volume</th>
-							<th data-bind="sort: {column: 'duration', array: medicationOrderLogs}">Duration</th>
-							<th data-bind="sort: {column: 'startTime', array: medicationOrderLogs}">Start Time</th>
-							<th data-bind="sort: {column: 'endTime', array: medicationOrderLogs}">End Time</th>
+							<th class="med" data-bind="sort: {column: 'medicine', array: medicationOrderLogs}">Medicine</th>
+							<th class="dose" data-bind="sort: {column: 'dose', array: medicationOrderLogs}">Actual Dose</th>
+							<th class="qty" data-bind="sort: {column: 'quantity', array: medicationOrderLogs}">Qty</th>
+							<th class="seq" data-bind="sort: {column: 'seq', array: medicationOrderLogs}">Seq</th>
+							<th class="diluent" data-bind="sort: {column: 'diluent', array: medicationOrderLogs}">Diluent</th>
+							<th class="vol" data-bind="sort: {column: 'volume', array: medicationOrderLogs}">Volume</th>
+							<th class="dur" data-bind="sort: {column: 'duration', array: medicationOrderLogs}">Duration</th>
+							<th class="start" data-bind="sort: {column: 'startTime', array: medicationOrderLogs}">Start Time</th>
+							<th class="end" data-bind="sort: {column: 'endTime', array: medicationOrderLogs}">End Time</th>
 							<th></th>
 						</thead>
 						<tbody data-bind="foreach: medicationOrderLogs">

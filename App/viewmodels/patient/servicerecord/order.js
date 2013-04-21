@@ -39,7 +39,9 @@ define(function(require) {
 	var allergies		= ko.observable();
 	var intolerances	= ko.observable();
 	var medicines		= ko.observableArray([]);
+	var medicineNames	= ko.observableArray([]);
 	var tableFilter		= ko.observable('all');
+	var strengthList	= ko.observableArray([]);
 
 	/*********************************************************************************************** 
 	 * ViewModel
@@ -72,7 +74,9 @@ define(function(require) {
 		allergies: allergies,
 		intolerances: intolerances,
 		medicines: medicines,
+		medicineNames: medicineNames,
 		tableFilter: tableFilter,
+		strengthList: strengthList,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -87,10 +91,18 @@ define(function(require) {
 			// Tru-fit window
 			$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
 			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
+			$('.medTable').height(parseInt($('.tab-pane').height()) - 285);
+			$('.mainOrderTableHolder').height(parseInt($('.tab-pane').height()) - 65);
 			$(window).resize(function() {
 				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
 				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
+				$('.medTable').height(parseInt($('.tab-pane').height()) - 285);
+				$('.mainOrderTableHolder').height(parseInt($('.tab-pane').height()) - 65);
 			});
+			
+			// Start combobox for strength field
+			$('.strengthList').combobox({target: '.strength'});
+			setTimeout(function() {self.popStrength();}, 1500);
 		},
 		// Loads when view is loaded
 		activate: function(data) {
@@ -104,6 +116,14 @@ define(function(require) {
 			backend.getMedicines().success(function(data) {
 				if(data.length > 0) {
 					var m = _.map(data, function(item) {return item.medicine_name});
+					self.medicineNames(m);
+					var m = _.map(data, function(item) {
+						return {
+							name: item.medicine_name,
+							strength: item.strength,
+							unit: item.unit
+						}
+					});
 					self.medicines(m);
 				}
 			});
@@ -150,8 +170,10 @@ define(function(require) {
 					});
 					self.allMedications(m);
 					self.medications(m);
-					if(d.length > 0)
+					if(d.length > 0) {
 						self.medication(m[0]);
+						self.popStrength();
+					}
 				});
 				
 				// Get Allergies and intelorances
@@ -202,7 +224,7 @@ define(function(require) {
 			}
 			else if(type == 'chemo') {
 				// Repopulate groups
-				$.each(labOrders(), function(k, v) {
+				$.each(chemoOrders(), function(k, v) {
 					var group = v.group();
 					if(group == data.group())
 						groupOrders.push(v.orderCategoryId());
@@ -242,11 +264,23 @@ define(function(require) {
 			orders.remove(order);
 			backend.deleteOrder(data.orderCategoryId(), data.group());
 		},
+		deleteLabOrder: function(data) {
+			var order = data;
+			labOrders.remove(order);
+			backend.deleteOrder(data.orderCategoryId(), data.group());
+		},
+		deleteChemoOrder: function(data) {
+			var order = data;
+			chemoOrders.remove(order);
+			backend.deleteOrder(data.orderCategoryId(), data.group());
+		},
 		/******************************************************************************************
 		 * Medication
 		 *****************************************************************************************/
 		selectMedication: function(data) {
 			medication(data);
+			$('.strengthList').combobox({target: '.strength'});
+			self.popStrength();
 		},
 		newMedication: function(data) {
 			tempMedication(medication());
@@ -313,6 +347,18 @@ define(function(require) {
 				
 			// Used to set checkbox
 			return true;
+		},
+		popStrength: function() {
+			// Delay for .2 seconds to allow data to cascade
+			setTimeout(function () {
+				var list = _.filter(medicines(), function(item) {
+					return item.name == medication().medicine();
+				})
+				list = _.map(list, function(item) {
+					return item.strength + " " + item.unit;
+				});
+				strengthList(list);
+			}, 200);
 		}
 	};
 });

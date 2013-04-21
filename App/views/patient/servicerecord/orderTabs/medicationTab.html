@@ -9,8 +9,11 @@
 		<!-- ko with: medication -->
 		<div class="marginBottom5">
 			<input type="text" class="input-xlarge" placeholder="Medicine"
-				   data-bind="value: medicine, typeahead: {value: medicine, source: $root.medicines}" />
-			<input type="text" class="input-small" data-bind="value: strength" placeholder="Strength" />
+				   data-bind="value: medicine, typeahead: {value: medicine, source: $root.medicineNames},
+				   event: {blur: $root.popStrength}, valueUpdate: 'afterkeydown'" />
+			<input type="text" class="input-xmedium strength" data-bind="value: strength" placeholder="Strength" />
+			<select class="strengthList selectSource" data-bind=" foreach: $root.strengthList">
+				<option data-bind="text: $data"></option>
 			</select>
 			<span class="pull-right">
 				<span data-bind="text: $root.allergies"></span> Allergies 
@@ -104,10 +107,6 @@
 						<span>Status</span>
 						<div class="arrow down"></div>
 					</th>
-					<th data-bind="sort: {column: 'prescribedDate', array: medications}">
-						<span></span>
-						<div class="arrow down"></div>
-					</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -119,7 +118,6 @@
 					<td data-bind="text: route, click: $root.selectMedication"></td>
 					<td data-bind="text: sigs, click: $root.selectMedication"></td>
 					<td data-bind="text: status, click: $root.selectMedication"></td>
-					<td data-bind="text: prescribedDate, click: $root.selectMedication"></td>
 					<td>
 						<button type="button" class="btn btn-small btn-danger" 
 							    data-bind="click: $root.deleteMedication">

@@ -52,6 +52,9 @@ define(function(require) {
 	        });
 	        
 	        $(cl).slideUp();    
+        },
+        logout: function() {
+        	location.assign('php/logout.php');
         }
     };
 });
