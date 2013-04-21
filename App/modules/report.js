@@ -24,8 +24,28 @@
 			mode: 'select',
 			table: 'document',
 			fields: '*',
-			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "' AND date_of_service='" + date + "'"
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "' AND date='" + date + "'"
 		});
+	}
+	
+	report.prototype.getDocumentByType = function(patientId,type) {
+		if(type.trim() == 'All') { 
+			return this.query({
+				mode: 'select',
+				table: 'document',
+				fields: '*',
+				where: "WHERE patient_id='" + patientId + "'"
+			});
+		} 
+		else { 
+		
+			return this.query({
+				mode: 'select',
+				table: 'document',
+				fields: '*',
+				where: "WHERE type='" + type + "' AND patient_id='" + patientId + "'"
+			});
+		}
 	}
 	
 	/**********************************************************************************************
@@ -34,6 +54,7 @@
 	 * These methods save information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
 	report.prototype.saveDocument = function(doc,documents,practiceId,patientId,date) {
+		system.log(date); 
 		var self = this;
 		// Convert true/false to 1/0
 		doc.isReviewed(doc.isReviewed() ? 1 : 0);
@@ -49,9 +70,9 @@
 		
         values[1] = patientId();
 		values[2] = practiceId();  
-		values[6] = form.dbDate(date());
+		values[6] = date;
 		values[10] = form.dbDate(doc.dateOfService());
-		
+	 
 		if(values[0] != "") { 
 			self.query({
 				mode: 'update',
@@ -74,7 +95,7 @@
 					newId = parseInt(data[0].id) + 1;  
 				values[0] = newId;
 				doc.id(newId);
-				doc.date(form.currentDate()); 
+				doc.date(form.uiDate(date)); 
 				
 				 self.query({
 					mode: 'insert',

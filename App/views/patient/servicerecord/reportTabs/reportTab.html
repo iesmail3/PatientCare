@@ -1,4 +1,4 @@
-<div class="formScroll report">
+<div class="report">
 	<form class="form-inline">
 		<div class="row-fluid">
 			<div class="alertHolder">
@@ -9,7 +9,7 @@
 			<fieldset>
 				<legend>Search</legend>
 				<div class="marginBottom5">
-					<select class="input-medium" data-bind="value:documentType">
+						<select class="input-medium" data-bind="value:documentType,event:{ change:searchByType}">
 						<option value="Document Type">Document Type</option>
 						<option value="All">All</option>
 						<option value="Labs">Labs</option>
@@ -58,7 +58,7 @@
 	 <!-- /ko -->
 	</form>
 	<div class="row-fluid">
-		<div class="marginBottom5">
+		<div class="reportTableHolder">
 			<table class="table table-bordered table-hover">   
 				<thead>
 					<tr>

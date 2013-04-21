@@ -405,6 +405,12 @@ th, td {
 	overflow-y: auto;
 }
 
+/*Labs and X-Ray report*/
+.reportTableHolder {
+	height: 225px;
+	overflow-y: auto;
+}
+
 /* Followup */
 .superBox { 
 	min-width: 800px;

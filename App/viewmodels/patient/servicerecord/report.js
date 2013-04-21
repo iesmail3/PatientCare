@@ -13,7 +13,7 @@ define(function(require) {
 	var Forms = require('modules/form');					// Common form elements
 	var Structures = require('modules/patientStructures'); 
 	var app = require('durandal/app');
-	
+	var modal	   = require('modals/modals');				// Modals
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
@@ -102,8 +102,8 @@ define(function(require) {
 		},
 		
 		saveDocument: function(data) {
+		   system.log('date is' + date()); 
 			if(doc().errors().length > 0) {
-				system.log('inside errors');
 				if(doc().errors().length > 1) {
 					$('.report .allAlert').fadeIn().delay(3000).fadeOut();
 				}
@@ -112,12 +112,11 @@ define(function(require) {
 				}
 			}
 			else {
-				   system.log('no errors'); 
 				if(doc().id() == null) {
 					doc().location(file());  
 				}
 				 isNewDocument(false);
-				  backend.saveDocument(doc(),documents,practiceId,patientId,date); 
+				  backend.saveDocument(doc(),documents,practiceId,patientId,date()); 
 				 $('.fileupload').fineUploader('uploadStoredFiles'); 
 				  $('.report .documentAlert').fadeIn().delay(3000).fadeOut();
 				  documentState(true);
@@ -126,6 +125,28 @@ define(function(require) {
 			}					
 		},
 		
+		searchByType: function(data) { 
+		system.log('inside search byttype');
+			backend.getDocumentByType(patientId(),documentType()).success(function(data) { 
+				if(data.length > 0) {  
+					 var d = $.map(data, function(item) {
+					 item.date = form.uiDate(item.date)
+					 item.date_of_service = form.uiDate(item.date_of_service)
+					 return new structures.Document(item) });
+						documents(d);
+						doc(d[0]); 
+				}
+				else {
+						documents(new structures.Document());
+						doc(new structures.Document());     
+				}
+			}); 
+			
+	    },
+		displayFile: function(data) { 
+			doc(data); 
+			modal.showFile(doc().location(),'Selected File'); 
+		},
 		setDocumentFields: function(data) {
 			isNewDocument(false); 
 			doc(data);

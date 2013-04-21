@@ -9,7 +9,7 @@
 			<fieldset>
 				<legend>Search</legend>
 				<div class="marginBottom5">
-					<select class="input-medium" data-bind="value:documentType">
+					<select class="input-medium" data-bind="value:documentType,event:{ change:searchByType}">
 						<option value="Document Type">Document Type</option>
 						<option value="All">All</option>
 						<option value="Labs">Labs</option>
