@@ -26,12 +26,13 @@ define(function(require) {
 	var practiceId      = ko.observable();
 	var date            = ko.observable();
 	var documentType    = ko.observable("Document Type");
-	var documentState  = ko.observable(true); 
-	var documentAdd    = ko.observable(); 
-	var documentSave   = ko.observable(); 
-	var documentCancel = ko.observable(); 
-	var isNewDocument  = ko.observable(false); 
-	var tempDocument   = ko.observable(new structures.Document());
+	var documentState   = ko.observable(true); 
+	var documentAdd     = ko.observable(); 
+	var documentSave    = ko.observable(); 
+	var documentCancel  = ko.observable(); 
+	var isNewDocument   = ko.observable(false); 
+	var tempDocument    = ko.observable(new structures.Document());
+	var file 			= ko.observable(); 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
@@ -44,14 +45,14 @@ define(function(require) {
 	 * Ex: observable: observable
 	 **********************************************************************************************/
 	return {
-		/******************************************************************************************* 
-		 * Attributes
-		 *******************************************************************************************/
-		 doc: doc,   
-		 documents: documents,  
-		 form: form,
-		 backend: backend,
-		 structures: structures,
+	/******************************************************************************************* 
+	 * Attributes
+	 *******************************************************************************************/
+		doc: doc,   
+		documents: documents,  
+		form: form,
+		backend: backend,
+		structures: structures,
 		patientId: patientId,
 		practiceId: practiceId,
 		date: date,
@@ -62,6 +63,8 @@ define(function(require) {
 		documentCancel: documentCancel,
 		isNewDocument: isNewDocument,
 		tempDocument: tempDocument,
+		file:file,
+		
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -69,7 +72,7 @@ define(function(require) {
 		viewAttached: function() {
 			$('#serviceTab a').click(function(e) {
 				e.preventDefault();
-  				$(this).tab('show');
+				$(this).tab('show');
 			});
 			
 			// Resize tree and content pane
@@ -86,26 +89,49 @@ define(function(require) {
 			 self.practiceId('1'); 
 			 
 			 backend.getDocument(self.patientId(),self.practiceId(),self.date()).success(function(data) {
-				
 				if(data.length > 0) {
 					 var d = $.map(data, function(item) { 
 					  item.date = form.uiDate(item.date)
 					  item.date_of_service = form.uiDate(item.date_of_service)
 					 return new structures.Document(item) }); 
 					 self.documents(d);
-                     self.doc(d[0]); 					 
+					 self.doc(d[0]); 					 
 				} 
 			});
 				
 		},
 		
+		saveDocument: function(data) {
+			if(doc().errors().length > 0) {
+				system.log('inside errors');
+				if(doc().errors().length > 1) {
+					$('.report .allAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(doc().errors()[0] == 'type') {
+					$('.report .typeAlert').fadeIn().delay(3000).fadeOut();
+				}
+			}
+			else {
+				   system.log('no errors'); 
+				if(doc().id() == null) {
+					doc().location(file());  
+				}
+				 isNewDocument(false);
+				  backend.saveDocument(doc(),documents,practiceId,patientId,date); 
+				 $('.fileupload').fineUploader('uploadStoredFiles'); 
+				  $('.report .documentAlert').fadeIn().delay(3000).fadeOut();
+				  documentState(true);
+				  doc(new structures.Document());
+				
+			}					
+		},
+		
 		setDocumentFields: function(data) {
-			system.log("clicked"); 
-		    isNewDocument(false); 
+			isNewDocument(false); 
 			doc(data);
 		},
 		documentCancel: function() {
-		    isNewDocument(false); 
+			isNewDocument(false); 
 			documentState(true);
 			doc(tempDocument()); 
 		},
@@ -113,7 +139,11 @@ define(function(require) {
 			   documentState(false);
 			   isNewDocument(true); 
 			   tempDocument(doc());
-	          doc(new structures.Document());
-		},
+			  doc(new structures.Document());
+		}
 	};
+	// // Turn validation on
+	// var errors = rt['formErrors'] = ko.validation.group(rt);
+	// //vm.reviewOfSystem().errors.showAllMessages();
+	// return rt;
 });

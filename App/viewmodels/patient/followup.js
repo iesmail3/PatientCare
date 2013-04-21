@@ -509,7 +509,7 @@ define(function(require) {
 			}
 		},
 		saveDocument: function(data) {
-			if(doc().errors().length > 0) {
+			if(doc().errors().length > 0) { 
 				if(doc().errors().length > 1) {
 					$('.document .allAlert').fadeIn().delay(3000).fadeOut();
 				}

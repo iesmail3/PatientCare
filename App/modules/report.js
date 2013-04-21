@@ -28,6 +28,66 @@
 		});
 	}
 	
+	/**********************************************************************************************
+	 * Save Methods
+	 * 
+	 * These methods save information to the database via INSERT and UPDATE queries
+	 *********************************************************************************************/
+	report.prototype.saveDocument = function(doc,documents,practiceId,patientId,date) {
+		var self = this;
+		// Convert true/false to 1/0
+		doc.isReviewed(doc.isReviewed() ? 1 : 0);
+        
+		var fields = ['id', 'patient_id','practice_id','service_record_id', 'location', 'type', 'date', 'comment', 
+					  'is_reviewed', 'is_report', 'date_of_service'];
+		var values = $.map(doc, function(k, v) {
+			if(k() == null || k() == undefined)
+				return [''];
+			else
+				return [k()];
+		});
+		
+        values[1] = patientId();
+		values[2] = practiceId();  
+		values[6] = form.dbDate(date());
+		values[10] = form.dbDate(doc.dateOfService());
+		
+		if(values[0] != "") { 
+			self.query({
+				mode: 'update',
+				table: 'document',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + doc.id() + "'"
+			});	
+		}
+		else {
+			return self.query({
+				mode: 'select',
+				table: 'document',
+				fields: 'id',
+				order: "ORDER BY id DESC",
+				LIMIT: "LIMIT 1" 
+			}).success(function(data) {
+				var newId = 1; 
+				if(data.length > 0)
+					newId = parseInt(data[0].id) + 1;  
+				values[0] = newId;
+				doc.id(newId);
+				doc.date(form.currentDate()); 
+				
+				 self.query({
+					mode: 'insert',
+					table: 'document',
+					fields: fields,
+					values: values
+				});
+				
+				documents.push(doc);
+			});
+		}
+	}
+	
 	// /**********************************************************************************************
 	 // * Query
 	 // * 
