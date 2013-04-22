@@ -71,8 +71,11 @@
 		values[2] = practiceId();  
 		values[6] = date;
 		values[10] = form.dbDate(doc.dateOfService());
-	 
+		for(var i =0; i < fields.length; i++) 
+			system.log(fields[i] + values[i]); 
+			
 		if(values[0] != "") { 
+			system.log('inside query'); 
 			self.query({
 				mode: 'update',
 				table: 'document',

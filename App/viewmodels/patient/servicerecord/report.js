@@ -33,6 +33,7 @@ define(function(require) {
 	var isNewDocument   = ko.observable(false); 
 	var tempDocument    = ko.observable(new structures.Document());
 	var file 			= ko.observable(); 
+	var isUnknown       = ko.observable(false); 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
@@ -64,6 +65,7 @@ define(function(require) {
 		isNewDocument: isNewDocument,
 		tempDocument: tempDocument,
 		file:file,
+		isUnknown: isUnknown,
 		
 		/******************************************************************************************* 
 		 * Methods
@@ -80,6 +82,11 @@ define(function(require) {
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 			});
+			
+			isUnknown.subscribe(function(newValue) {
+				if (newValue)
+				doc().dateOfService("");
+			});
 		},
 		// Loads when view is loaded
 		activate: function(data) {
@@ -88,8 +95,9 @@ define(function(require) {
 			 self.patientId(data.patientId); 
 			 self.practiceId('1'); 
 			 
-			 system.log(date);
 			 backend.getDocument(self.patientId(),self.practiceId(),self.date()).success(function(data) {
+			 	self.documents([]);
+				self.doc(new structures.Document());
 				if(data.length > 0) {
 					 var d = $.map(data, function(item) { 
 					  item.date = form.uiDate(item.date)
@@ -97,12 +105,11 @@ define(function(require) {
 					 return new structures.Document(item) }); 
 					 self.documents(d);
 					 self.doc(d[0]); 					 
-				} 
-			});
-			system.log(documents()); 	
+				}
+			}); 	
 		},
 		
-		saveDocument: function(data) { 
+		saveDocument: function(data) {  
 			if(doc().errors().length > 0) {
 				if(doc().errors().length > 1) {
 					$('.report .allAlert').fadeIn().delay(3000).fadeOut();
