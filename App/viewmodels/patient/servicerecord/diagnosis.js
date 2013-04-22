@@ -9,13 +9,22 @@ define(function(require) {
 	 **********************************************************************************************/
 	var system = require('durandal/system');			// System logger
 	var custom = require('durandal/customBindings');	// Custom bindings
-	//var Backend = require('modules/moduleTemplate');	// Module
-	
+	var Backend = require('modules/diagnosis');			// Database access
+	var Forms = require('modules/form');					// Common form elements
+	var Structures = require('modules/patientStructures'); 
+	var app = require('durandal/app');
+	var modal	   = require('modals/modals');				// Modals
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
-	// var observable = ko.observable('');
-	// var observableArray = ko.observableArray([]);
+	var form 			= new Forms();
+	var backend 		= new Backend();
+	var structures   	= new Structures();
+	var diagnosis       = ko.observable(new structures.Diagnosis());
+	var diagnoses       = ko.observableArray([]);
+	var patientId       = ko.observable();
+	var practiceId      = ko.observable();
+	var date            = ko.observable();
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -32,7 +41,14 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
-		
+		diagnosis: diagnosis,   
+		diagnoses: diagnoses,  
+		form: form,
+		backend: backend,
+		structures: structures,
+		patientId: patientId,
+		practiceId: practiceId,
+		date: date,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
