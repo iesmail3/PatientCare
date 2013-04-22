@@ -67,14 +67,18 @@ define(function(require) {
 		},
 		// Loads when view is loaded
 		activate: function(data) {
-			// Code here
+		 var self = this; 
+		 self.date(data.date);
+		 self.patientId(data.patientId); 
+		 self.practiceId('1'); 
+		 backend.getDiagnosis(self.patientId(),self.practiceId(),self.date()).success(function(data) {
+			if(data.length > 0) { 
+				var d = $.map(data, function(item) {return new structures.Diagnosis(item) });
+					self.diagnoses(d);
+                    self.diagnosis(d[0]); 					
+			}				
+		 });
 			
-			// If you add any asynchronous code, make sure you return it. If you need to add multiple
-			// asynchronous code, return the functions chained together. If you don't return them,
-			// then Durandal will not wait for them to finish before loading the rest of the page.
-			// There might be issues when updating observables.
-			// Ex:
-			// return .get().getJSON().post();
-		}
+		} 
 	};
 });

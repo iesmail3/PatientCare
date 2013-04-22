@@ -1,5 +1,6 @@
 <div class="formScroll formPadding">
 	<div class="row-fluid">
+		<!-- ko with: diagnosis --> 
 		<table class="diagnosisTable table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -7,17 +8,18 @@
 					<th>Code</th>
 				</tr>
 			</thead>
-			<tbody> 
+			<tbody data-bind="foreach: $root.diagnoses">  
 				<tr>
 					<td class="input-small">											 
-						<input class="input-large" />
+						<input class="input-large" data-bind="value:diagnosis" />
 					</td> 
 					<td class="input-small">									
-						<input class="input-small" />
+						<input class="input-small" data-bind="value:code" />
 					</td> 
 				</tr>
 			</tbody>
-		</table>   
+		</table> 
+		<!-- /ko -->  
 	</div>
 </div>
 <div class="pull-right">
