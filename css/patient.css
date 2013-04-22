@@ -405,6 +405,12 @@ th, td {
 	overflow-y: auto;
 }
 
+/*Diagnosis */
+.diagnosisTable { max-width: none; }
+.diagnosisTable input, .diagnosis select { width: 100%; }
+.diagnosisTable td { padding: 5px; }
+.diagnosisTable th:last-child { width: 15%; }
+
 /* Followup */
 .superBox { 
 	min-width: 800px;
