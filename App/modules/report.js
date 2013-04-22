@@ -57,25 +57,21 @@
 		var self = this;
 		// Convert true/false to 1/0
 		doc.isReviewed(doc.isReviewed() ? 1 : 0);
-        
+        doc.isUnknown(doc.isUnknown() ? 1 : 0);
 		var fields = ['id', 'patient_id','practice_id','service_record_id', 'location', 'type', 'date', 'comment', 
-					  'is_reviewed', 'is_report', 'date_of_service'];
+					  'is_reviewed', 'is_report', 'date_of_service','is_unknown'];
 		var values = $.map(doc, function(k, v) {
 			if(k() == null || k() == undefined)
 				return [''];
 			else
 				return [k()];
-		});
-		
+		}); 
         values[1] = patientId();
 		values[2] = practiceId();  
 		values[6] = date;
-		values[10] = form.dbDate(doc.dateOfService());
-		for(var i =0; i < fields.length; i++) 
-			system.log(fields[i] + values[i]); 
+		values[10] = form.dbDate(doc.dateOfService()); 
 			
 		if(values[0] != "") { 
-			system.log('inside query'); 
 			self.query({
 				mode: 'update',
 				table: 'document',

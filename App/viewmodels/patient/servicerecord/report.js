@@ -33,7 +33,6 @@ define(function(require) {
 	var isNewDocument   = ko.observable(false); 
 	var tempDocument    = ko.observable(new structures.Document());
 	var file 			= ko.observable(); 
-	var isUnknown       = ko.observable(false); 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
@@ -65,8 +64,6 @@ define(function(require) {
 		isNewDocument: isNewDocument,
 		tempDocument: tempDocument,
 		file:file,
-		isUnknown: isUnknown,
-		
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -83,9 +80,10 @@ define(function(require) {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 			});
 			
-			isUnknown.subscribe(function(newValue) {
-				if (newValue)
-				doc().dateOfService("");
+			doc().isUnknown.subscribe(function(newValue) {
+				if (newValue) {
+					doc().dateOfService("");
+				}
 			});
 		},
 		// Loads when view is loaded
@@ -100,16 +98,16 @@ define(function(require) {
 				self.doc(new structures.Document());
 				if(data.length > 0) {
 					 var d = $.map(data, function(item) { 
-					  item.date = form.uiDate(item.date)
-					  item.date_of_service = form.uiDate(item.date_of_service)
+					  item.date = form.uiDate(item.date);
+					  item.date_of_service = form.uiDate(item.date_of_service);
 					 return new structures.Document(item) }); 
 					 self.documents(d);
-					 self.doc(d[0]); 					 
+					 self.doc(d[0]);
 				}
 			}); 	
 		},
 		
-		saveDocument: function(data) {  
+		saveDocument: function(data) { 
 			if(doc().errors().length > 0) {
 				if(doc().errors().length > 1) {
 					$('.report .allAlert').fadeIn().delay(3000).fadeOut();
@@ -155,7 +153,7 @@ define(function(require) {
 		},
 		setDocumentFields: function(data) {
 			isNewDocument(false); 
-			doc(data);
+			doc(data); 
 		},
 		documentCancel: function() {
 			isNewDocument(false); 

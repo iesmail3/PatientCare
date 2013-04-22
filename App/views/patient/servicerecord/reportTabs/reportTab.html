@@ -34,10 +34,11 @@
 							<option value="Procedures">Procedures</option>
 							<option value="Other">Other</option>
 						</select>
-						<input type="text" placeholder="Test Date (DOS)" data-bind="datepicker: true,value:dateOfService,enable: $root.isUnknown()==false" />
-						<label class="checkbox inline"> 
-							<input type="checkbox" data-bind="checked:$root.isUnknown"/><span>Unknown</span>
-						</label>  
+						<input type="text" placeholder="Test Date (DOS)" data-bind="datepicker: true,value:dateOfService,enable: isUnknown()==false" />
+						<label class="checkbox inline">
+							<input type="checkbox" data-bind="checked: isUnknown" />
+							<span>Unknown</span>
+						</label>      
 						<div class="fileupload fileupload-new pull-right" data-bind="visible:$root.isNewDocument(),uploader: true">    
 						 </div>
 					</div> 							             
@@ -46,7 +47,8 @@
 					</div>  
 					<div class="marginBottom5">
 						<label class="checkbox inline">
-							<input type="checkbox" data-bind="checked:isReviewed"/><span>Is Reviewed?</span>
+							<input type="checkbox" data-bind="checked: isReviewed" />
+							<span>Is&nbsp;Reviewed?</span>
 						</label>      
 						<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.documentAdd,visible: $root.documentState()">New</button>
 						<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.saveDocument,visible: !$root.documentSave()">Save</button>

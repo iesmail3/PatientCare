@@ -132,6 +132,7 @@ define(function(require) {
 			this.isReviewed		 = ko.observable(data.is_reviewed == '1' ? 1 : 0);
 			this.isReport		 = ko.observable(data.is_report);
 			this.dateOfService   = ko.observable(data.date_of_service);
+			this.isUnknown       = ko.observable((data.is_unknown == 1 ? true : false));
 		}
 		else {
 			this.id				 = ko.observable();
@@ -145,6 +146,7 @@ define(function(require) {
 			this.isReviewed		 = ko.observable();
 			this.isReport		 = ko.observable();
 			this.dateOfService   = ko.observable();
+			this.isUnknown       = ko.observable(true); 
 		}
 		
 		this.errors = ko.validation.group(this);
