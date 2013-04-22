@@ -34,10 +34,12 @@ define(function(require) {
 	
 	// Get Users
 	settings.prototype.getUsers = function(id) {
+		var fields = 'user.id, user.practice_id, user.username, user.password, user.first_name, user.last_name,' + 
+					 'user.email, user.role_id, role.name, role.description';
 		return this.query({
 			mode: 'select', 
 			table: 'user', 
-			fields: '*',
+			fields: fields,
 			join: "JOIN role ON user.role_id=role.id",
 			WHERE: "WHERE user.practice_id='" + id + "'"
 		});
@@ -112,6 +114,25 @@ define(function(require) {
 			});
 		}
 	}
+	
+	settings.prototype.saveUser = function(user, password) {
+		password = (password == undefined) ? 'none': password;
+		var values = {}; 
+		$.each(user, function(k,v) {
+			if(v() == null || v() == undefined) {
+				return values[k] = '';
+			}
+			else {
+				return values[k] = v();
+			}
+		});
+		
+		return $.post(
+			'php/saveUser.php',
+			{values: JSON.stringify(values), password: password}
+		);
+	}
+	
 	
 	/**********************************************************************************************
 	 * Delete Methods

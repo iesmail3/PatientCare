@@ -50,19 +50,25 @@
 					<div class="controls">
 						<input type="text" data-bind="value: $root.password, enable: username() != 'administrator'" 
 					       placeholder="Password" class="input-medium" />
+					    <div><small class="muted">Must be at least 8 characters.</small></div>
 					</div>
 				</div>
 			</div>
 			</div>
 			<div class="marginbottom5">
-				
+			<div class="modalAlert">
+				<div class="alert alert-danger newPasswordAlert">Must enter a password for new users.</div>
+				<div class="alert alert-danger lengthAlert">Pasword must be at least 8 characters.</div>
+				<div class="alert alert-success">Saved successfully.</div>
+			</div>
 			</div>
 			<!-- /ko -->
 			<div class="userButtons">
-				<div class="pull-right" data-bind="visible: user().username() != 'administrator'">
+				<div class="pull-right">
 					<button class="btn btn-success" data-bind="visible: !newFlag(), click: newUser">New</button>
 					<button class="btn btn-warning" data-bind="visible: newFlag(), click: cancelUser">Cancel</button>
-					<button class="btn btn-primary" data-bind="click: saveUser">Save</button>
+					<button class="btn btn-primary" data-bind="click: saveUser, 
+						    visible: user().username() != 'administrator'">Save</button>
 				</div>
 			</div>
 		</fieldset>
@@ -81,7 +87,7 @@
 			</thead>
 			<tbody data-bind="foreach: users">
 				<tr>
-					<td data-bind="text: roleName, click: $root.selectUser"></td>
+					<td data-bind="text: $root.getRoleName($data), click: $root.selectUser"></td>
 					<td data-bind="text: username, click: $root.selectUser"></td>
 					<td data-bind="text: firstName, click: $root.selectUser"></td>
 					<td data-bind="text: lastName, click: $root.selectUser"></td>

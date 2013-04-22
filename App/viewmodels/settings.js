@@ -35,7 +35,10 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
-	 // var computedFunction = ko.computed(function() {});
+	 var getRoleName = function(data) {
+		var name = _.find(roles(), function(item) { return item.id() == data.roleId() });
+		return name.name();
+	}
 
 	/*********************************************************************************************** 
 	 * ViewModel
@@ -136,17 +139,35 @@ define(function(require) {
 			self.newFlag(false);
 		},
 		saveUser: function() {
+			system.log(self.user().id());
 			// Check for duplicate role names
 			var name = self.user().username();
 			var match = _.find(self.users(), function(item) { return item.username() == name});
-			// If is new and no duplicate name
-			system.log(match);
-			//if(match == undefined || self.user().id() != undefined) {
+			// If is new and no duplicate name or updating current user
+			if(match == undefined || self.user().id() != undefined) {
+				// Check if new user has password
+				if(self.user().id() == undefined && self.password() == undefined) {
+					$('.newPasswordAlert').fadeIn().delay(3000).fadeOut();
+				}
+				// Check length of password
+				else if(self.password() != undefined && self.password().length < 8)
+					$('.lengthAlert').fadeIn().delay(3000).fadeOut();
+				// Save user information
+				else {
+					
+					backend.saveUser(self.user(), self.password()).complete(function(data) {
+						
+						$('.alert-success').fadeIn().delay(3000).fadeOut();
+					});
+					
+				}
+			}
 		},
 		deleteUser: function(data) {
 			self.users.remove(data);
 		},
 		selectUser: function(data) {
+			system.log(data.id());
 			self.user(data);
 		},
 		selectRole: function(data) {
@@ -203,6 +224,7 @@ define(function(require) {
 					self.role(new structures.Role());
 				}						 	
 			});
-		}
+		},
+		getRoleName: getRoleName
 	};
 });
