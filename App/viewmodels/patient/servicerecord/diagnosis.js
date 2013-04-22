@@ -79,6 +79,15 @@ define(function(require) {
 			}				
 		 });
 			
-		} 
+		},
+
+		saveDiagnosis: function(data) { 
+			backend.saveDiagnosis(diagnosis()); 
+		},
+		
+		removeDiagnosis: function(data) {
+			diagnoses.remove(data); 
+			backend.deleteDiagnosis(data.id()); 
+		}
 	};
 });

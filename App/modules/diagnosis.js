@@ -39,12 +39,64 @@ define(function(require) {
 	 * 
 	 * These methods save information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
-	 
-	 
-	 
-	 
-	 
-	 
+	 diagnosis.prototype.saveDiagnosis = function(diagnosis) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'diagnosis', 'code'];
+		var values = $.map(diagnosis, function(k,v) {
+			if(k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return[k()];
+			}
+		});
+		
+		if (diagnosis.id() == undefined || diagnosis.id == '') {
+			return self.query({
+				mode: 'select',
+				table: 'diagnosis',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
+				
+				values[0] = newId;
+				diagnosis.id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'diagnosis',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		else {
+			return self.query({
+				mode: 'update',
+				table: 'diagnosis',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + diagnosis.id() + "'"
+			});
+		}
+	}
+	
+	/**********************************************************************************************
+	 * Delete Methods
+	 * 
+	 * These methods remove information from the database via DELETE queries
+	 *********************************************************************************************/
+	 // Delete diagnosis
+	diagnosis.prototype.deleteDiagnosis = function(id) { 
+		return this.query({
+			mode: 'delete', 
+			table: 'diagnosis', 
+			where: "WHERE id='" + id() + "'"
+		});
+	}
 	 // /**********************************************************************************************
 	 // * Query
 	 // * 

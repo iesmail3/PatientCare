@@ -6,6 +6,7 @@
 				<tr>
 					<th>Diagnosis</th>
 					<th>Code</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody data-bind="foreach: $root.diagnoses">  
@@ -15,7 +16,10 @@
 					</td> 
 					<td class="input-small">									
 						<input class="input-small" data-bind="value:code" />
-					</td> 
+					</td>
+					<td>
+						<a class="btn" data-bind="click:$root.removeDiagnosis"><i class="icon-remove"></i></a>
+					</td>
 				</tr>
 			</tbody>
 		</table> 
@@ -24,6 +28,5 @@
 </div>
 <div class="pull-right">
 	<button type="button" class="btn btn-small">Print Letter</button>
-	<button type="submit" class="btn btn-small btn-primary">Save</button>
-	<button type="button" class="btn btn-small btn-danger">Delete</button>
+	<button type="button" class="btn btn-small btn-primary" data-bind="click:saveDiagnosis">Save</button>
 </div>

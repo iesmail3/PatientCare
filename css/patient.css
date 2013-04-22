@@ -409,7 +409,8 @@ th, td {
 .diagnosisTable { max-width: none; }
 .diagnosisTable input, .diagnosis select { width: 100%; }
 .diagnosisTable td { padding: 5px; }
-.diagnosisTable th:last-child { width: 15%; }
+.diagnosisTable th:nth-child(2){ width: 15%; }
+.diagnosisTable th:last-child{ width: 5%; }
 
 /* Followup */
 .superBox { 
