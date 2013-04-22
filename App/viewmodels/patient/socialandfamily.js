@@ -110,74 +110,98 @@ define(function(require) {
 			});
 			
 			backend.getFamilyHistory(self.patientId(), self.practiceId()).success(function(data) {
-				self.familyHistories.push(new structures.FamilyHistory({relationship:'father',age:''}));
-				self.familyHistories.push(new structures.FamilyHistory({relationship:'mother',age:''}));
-				if (data.length > 0) {
-					var f = $.map(data, function(item) {return new structures.FamilyHistory(item)});
-					for (var i = 0; i < f.length; i++) {
-						if (f[i].relationship() == 'father' || f[i].relationship() == 'mother') {
-							for (var j = 0; j < self.familyHistories().length; j++) {
-								if (f[i].relationship() == self.familyHistories()[j].relationship())
-									self.familyHistories()[j] = f[i];
+				if (self.familyHistories().length == 0) {
+					self.familyHistories.push(new structures.FamilyHistory({relationship:'father',age:''}));
+					self.familyHistories.push(new structures.FamilyHistory({relationship:'mother',age:''}));
+					if (data.length > 0) {
+						var f = $.map(data, function(item) {return new structures.FamilyHistory(item)});
+						for (var i = 0; i < f.length; i++) {
+							if (f[i].relationship() == 'father' || f[i].relationship() == 'mother') {
+								for (var j = 0; j < self.familyHistories().length; j++) {
+									if (f[i].relationship() == self.familyHistories()[j].relationship())
+										self.familyHistories()[j] = f[i];
+								}
 							}
+							else
+								self.familyHistories.push(f[i]);
 						}
-						else
-							self.familyHistories.push(f[i]);
+						self.familyHistory(f[0]);
 					}
-					self.familyHistory(f[0]);
+					self.familyHistories.push(new structures.FamilyHistory());
 				}
-				self.familyHistories.push(new structures.FamilyHistory());
 			});
 			
 			return backend.getRoutineExam(self.patientId()).success(function(data) {
-				self.routineExams.push(new structures.RoutineExam({name:'Colonoscopy',last_done:'2'}));
-				self.routineExams.push(new structures.RoutineExam({name:'PSA',last_done:'2'}));
-				self.routineExams.push(new structures.RoutineExam({name:'Physical',last_done:'2'}));
-				if (data.length > 0) {
-					var r = $.map(data, function(item) {return new structures.RoutineExam(item)});
-					for (var i = 0; i < r.length; i++) {
-						if (r[i].name() == 'Colonoscopy' || r[i].name() == 'PSA' || r[i].name() == 'Physical') {
-							for (var j = 0; j < self.routineExams().length; j++) {
-								if (r[i].name() == self.routineExams()[j].name())
-									self.routineExams()[j] = r[i];
+				if (self.routineExams().length == 0) {
+					self.routineExams.push(new structures.RoutineExam({name:'Colonoscopy',last_done:2}));
+					self.routineExams.push(new structures.RoutineExam({name:'PSA',last_done:2}));
+					self.routineExams.push(new structures.RoutineExam({name:'Physical',last_done:2}));
+					if (data.length > 0) {
+						var r = $.map(data, function(item) {return new structures.RoutineExam(item)});
+						for (var i = 0; i < r.length; i++) {
+							if (r[i].name() == 'Colonoscopy' || r[i].name() == 'PSA' || r[i].name() == 'Physical') {
+								for (var j = 0; j < self.routineExams().length; j++) {
+									if (r[i].name() == self.routineExams()[j].name())
+										self.routineExams()[j] = r[i];
+								}
 							}
+							else
+								self.routineExams.push(r[i]);
 						}
-						else
-							self.routineExams.push(r[i]);
+						self.routineExam(r[0]);
 					}
-					self.routineExam(r[0]);
+					self.routineExams.push(new structures.RoutineExam());
 				}
-				self.routineExams.push(new structures.RoutineExam());
 			});
 		},
 		/******************************************************************************************* 
 		 * Social History Methods
 		 *******************************************************************************************/
+		socialSmoking: function() {
+			if (socialHistory().smoking() == 'never') {
+				socialHistory().smokingWeekly('');
+				socialHistory().smokingCounseling(0);
+			}
+		},
+		socialAlcohol: function() {
+			if (socialHistory().alcohol() == 'never') {
+				socialHistory().alcoholWeekly('');
+				socialHistory().alcoholCounseling(0);
+			}
+		},
+		socialDrugAbuse: function() {
+			socialHistory().drugComment('');
+		},
 		socialSave: function(data) {
 			socialHistory().patientId(patientId());
 			socialHistory().practiceId(practiceId());
 			socialHistory().smokingCounseling(+socialHistory().smokingCounseling());
 			socialHistory().alcoholCounseling(+socialHistory().alcoholCounseling());
 			socialHistory().historyChanged(+socialHistory().historyChanged());
-			backend.saveSocialHistory(patientId(), practiceId(), socialHistory()).complete(function(data) {
-				// Save social history
+			backend.saveSocialHistory(patientId(), practiceId(), socialHistory()).success(function(data) {
+				system.log(data);
+				if (data.responseText != 'insertFail' && data.responseText != 'updateFail')
+					$('.alert-success').fadeIn().delay(3000).fadeOut();
 			});
 		},
 		socialCancel: function(data) {
-			return app.showMessage(
-				'Are you sure you want to cancel any changes made?',
-				'Cancel',
-				['Yes', 'No'])
-			.done(function(answer){
-				if(answer == 'Yes') {
-					socialHistory(tempSocialHistory());
-					socialHistory().patientId(patientId());
-					socialHistory().practiceId(practiceId());
-					backend.saveSocialHistory(patientId(), practiceId(), socialHistory()).complete(function(data) {
-						// Save social history
-					});
-				}
-			});
+			if (socialHistory() != tempSocialHistory()) {
+				return app.showMessage(
+					'Are you sure you want to cancel any changes made?',
+					'Cancel',
+					['Yes', 'No'])
+				.done(function(answer){
+					if(answer == 'Yes') {
+						socialHistory(tempSocialHistory());
+						socialHistory().patientId(patientId());
+						socialHistory().practiceId(practiceId());
+						backend.saveSocialHistory(patientId(), practiceId(), socialHistory()).complete(function(data) {
+							if (data.responseText != 'insertFail' && data.responseText != 'updateFail')
+								$('.alert-success').fadeIn().delay(3000).fadeOut();
+						});
+					}
+				});
+			}
 		},
 		/******************************************************************************************* 
 		 * Family History Methods

@@ -19,7 +19,8 @@
 	 * 
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/
-     // Get Personal Information for a Single Patient
+	
+	 // Get Personal Information for a Single Patient
 	followup.prototype.getFollowup = function(patientId, practiceId) {
 		return this.query({
 			mode: 'select',
@@ -47,6 +48,21 @@
 			fields: fields
 		});
 	}
+	
+	 //Get PrescriptionDetails 
+	 followup.prototype.getPrescriptionDetails = function() { 
+		var fields = ['medication_order.id,medicine_list.medicine_name','medication_order.quantity',
+					  'medication_order.sigs','medication_order.strength','medication_order.dispensed_quantity',
+					  'medication_order.refill_quantity,medication_order.is_added','medication_order.prescribed_by',
+					  'medication_order.created_by','medication_order.date','medication_order.comment','medication_order.refill','medication_order.route',
+					  'medication_order.order']; 
+			return this.query({
+				mode: 'select',
+				table:'medication_order',
+				join: "JOIN medicine_list ON medication_order.medicine_list_id=medicine_list.id",
+				fields:fields
+		});
+	 }
 	
 	followup.prototype.getCheckOut = function(id, practiceId) {
 		return this.query({
@@ -96,12 +112,30 @@
 		});
 	}
 	
-	followup.prototype.getPrescription = function(id, practiceId) {
+	followup.prototype.getDocumentByType = function(patientId,type) {
+		if(type.trim() == 'All') { 
+			return this.query({
+				mode: 'select',
+				table: 'document',
+				fields: '*',
+				where: "WHERE patient_id='" + patientId + "'"
+			});
+		} 
+		else { 
+		
+			return this.query({
+				mode: 'select',
+				table: 'document',
+				fields: '*',
+				where: "WHERE type='" + type + "' AND patient_id='" + patientId + "'"
+			});
+		}
+	}
+	followup.prototype.getPrescription = function() {
 		return this.query({
 			mode: 'select',
 			table: 'prescription',
-			fields: '*',
-			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
+			fields: '*'
 		});
 	}
 	
@@ -115,16 +149,24 @@
 		});
 	}
 	
-	// followup.prototype.getPhysician = function(data) { 
-		// var fields = ['physician.first_name','physician.last_name']; 
-		// return self.query({
-			// mode: 'select',
-			// table: 'service-record',
-			// join: "JOIN physician ON service_record.physician_id=physician.id",
-			// fields: fields,
-			// where: "WHERE service_record.date='" + data.date() + "'"
-		// });
-	// }
+	followup.prototype.getMedicationOrder = function(id) { 
+		return this.query({
+			mode: 'select',
+			table: 'medication_order',
+			fields: '*',
+			where: "WHERE id='" + id + "'"
+		});
+	}
+	
+	followup.prototype.getDiagnosis = function() { 
+		return this.query({
+			mode: 'select',
+			table: 'diagnosis',
+			fields: '*'
+		});
+	}
+	
+
 	/**********************************************************************************************
 	 * Save Methods
 	 * 
@@ -146,6 +188,24 @@
 				fields: fields, 
 				values: values, 
 				where: "WHERE id='" + id + "' AND patient_id='" + patientId + "'"
+			});
+	}
+	
+	// Update a single followup 
+	followup.prototype.saveDiagnosis = function(id, data) {
+		var self = this;   
+		var fields = ['id','service_record_id','diagnosis','code'];
+
+		var values = $.map(data, function(k,v) {
+			return [k];
+		});
+		
+		return self.query({
+				mode:  'update', 
+				table: 'diagnosis',
+				fields: fields, 
+				values: values, 
+				where: "WHERE id='" + id + "'"
 			});
 	}
 	
@@ -199,7 +259,6 @@
 	}
 	
 	followup.prototype.savePhoneLog = function(phoneLog,phoneLogs,practiceId,patientId,showAssigned) { 
-	        system.log('inside query it is' + showAssigned()); 
 			var self = this; 
 			var fields = ['id','patient_id','practice_id','datetime','caller','attended_by','message','action_required','assigned_to','type'];
 			var values = $.map(phoneLog(), function(k,v) {
@@ -214,16 +273,15 @@
 			values[2] = practiceId;  
 			values[3] = form.dbDate(phoneLog().datetime()); 
 			if(phoneLog().id() == undefined || phoneLog().id() == '') {
-             showAssigned(true); 
-			 system.log('inside new'); 			
-			   var newId = '';
+             showAssigned(true);  			
+			   var newId = 1;
 			return self.query({
 					mode: 'select',
 					table: 'phone_log',
 					fields: 'id',
 					order: 'ORDER BY id DESC',
 					limit: 'LIMIT 1'
-			}).success(function(data) {
+			}).success(function(data) { 
 					$.each(data, function(key, item) {
 							newId = parseInt(item.id) + 1;
 					});
@@ -243,7 +301,6 @@
 			
 		   
 			else { 
-			   system.log('inside update');
 					return self.query({
 							mode:  'update', 
 							table: 'phone_log',
@@ -258,7 +315,7 @@
 		
 	followup.prototype.saveCheckout = function(data) {  
 		var self = this; 
-		var fields = ['id','practice_id','patient_id','date','copay_amount',
+		var fields = ['id','practice_id','patient_id','service_record_id','date','copay_amount',
 			'other_copay','additional_charges','edit_additional_charge','insurance_portion',
 			'total_receivable','total_payment','balance','comment','primary_insurance',
 			'secondary_insurance','other_insurance'];
@@ -285,7 +342,103 @@
 			values: values,
 			where: "WHERE id='" + data.id() + "'"
 		});
-	}	
+	}
+	
+
+	followup.prototype.savePrescription = function(data,date,comment,mode) {
+		var self = this; 
+		var fields = ['medicine','strength','quantity','route','sigs','order','dispensed_quantity','refill'
+		,'refill_quantity','physician','created_by','date','mode','comment','medication_order_id'];
+		var values = $.map(data, function(k,v) {
+			if(k == null || k == undefined) {
+				return[''];
+			}
+			else {
+				return [k()];
+			}	
+		});
+		$.each(data, function(k, v) {
+		  values[0] = data.medicineName(); 
+		  values[1] = data.strength();
+          values[2] = data.quantity();  
+          values[3] = data.route(); 
+		  values[4] = data.sigs(); 
+		  values[5] = data.order(); 
+		  values[6] = data.dispensedQuantity(); 
+		  values[7] = data.refill(); 
+		  values[8] = data.refillQuantity();
+		  values[9] = data.prescribedBy();
+		  values[10] = data.createdBy();
+		  values[11] = date;
+		  values[12] = mode ;
+		  values[13] = comment ;
+		  values[14] = data.id(); 
+		 }); 
+		return self.query({
+				mode:  'insert', 
+				table: 'prescription',
+				fields: fields,  
+				values: values,
+		});	
+	}
+	
+	followup.prototype.saveDocument = function(doc,documents,practiceId,patientId) {
+		var self = this;
+		// Convert true/false to 1/0
+		doc.isReviewed(doc.isReviewed() ? 1 : 0);
+        
+		var fields = ['id', 'patient_id','practice_id','service_record_id', 'location', 'type', 'date', 'comment', 
+					  'is_reviewed', 'is_report', 'date_of_service'];
+		var values = $.map(doc, function(k, v) {
+			if(k() == null || k() == undefined)
+				return [''];
+			else
+				return [k()];
+		});
+		
+        values[1] = patientId();
+		values[2] = practiceId();  
+		values[6] = form.dbDate(doc.date());
+		values[10] = form.dbDate(doc.dateOfService());
+		
+		if(values[0] != "") { 
+			self.query({
+				mode: 'update',
+				table: 'document',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + doc.id() + "'"
+			});	
+		}
+	
+		else {
+			return self.query({
+				mode: 'select',
+				table: 'document',
+				fields: 'id',
+				order: "ORDER BY id DESC",
+				LIMIT: "LIMIT 1" 
+			}).success(function(data) {
+				var newId = 1; 
+				if(data.length > 0)
+					newId = parseInt(data[0].id) + 1; 
+				values[6] = form.currentDate(); 
+				values[0] = newId;
+				doc.id(newId);
+				doc.date(form.currentDate()); 
+				
+				 self.query({
+					mode: 'insert',
+					table: 'document',
+					fields: fields,
+					values: values
+				});
+				
+				documents.push(doc);
+			});
+		}
+	}
+		
 	/**********************************************************************************************
 	 * Delete Methods
 	 * 
@@ -300,12 +453,29 @@
 		});
 	}
 	
+	// Delete diagnosis
+	followup.prototype.deleteDiagnosis = function(id) { 
+		return this.query({
+			mode: 'delete', 
+			table: 'diagnosis', 
+			where: "WHERE id='" + id() + "'"
+		});
+	}
+	
 	 // Delete Payment Method 
 	followup.prototype.deletePaymentMethod = function(id) {
 		return this.query({
 			mode: 'delete', 
 			table: 'payment_method', 
 			where: "WHERE id='" + id + "'"
+		});
+	}
+	
+	followup.prototype.deletePrescription = function(id) {
+		return this.query({
+			mode:'delete',
+			table:'prescription',
+			where:"WHERE medication_order_id='" + id + "'"
 		});
 	}
 			

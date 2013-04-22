@@ -1,16 +1,21 @@
+<div class="alertHolder">
+	<div class="alert alert-success">Successfully saved.</div>
+</div>
 <div class="formScroll">
 	<form class="form-inline formPadding">
 		<!-- ko with: socialHistory -->
 		<div class="row-fluid">
 			<div class="marginBottom5">
-				<select class="input-large" data-bind="value: smoking">
+				<select class="input-large" data-bind="
+					value: smoking,
+					event: {change: $root.socialSmoking}">
 					<option value="" disabled selected style="display:none;">Smoking Habits</option>
 					<option value="currently">Current Smoker</option>
 					<option value="never">Never Smoked</option>
 					<option value="occasional">Occasional Smoker</option>
 					<option value="past">Past Smoker</option>
 				</select>
-				<input type="number" class="input-mini" placeholder="Packs per week" data-bind="
+				<input type="number" class="input-xmedium" placeholder="Packs per week" data-bind="
 					value: smokingWeekly,
 					enable: smoking() != 'never' && smoking() != ''" />
 				<label class="checkbox inline">
@@ -21,14 +26,16 @@
 				</label>
 			</div>
 			<div class="marginBottom5">
-				<select class="input-large" data-bind="value: alcohol">
+				<select class="input-large" data-bind="
+					value: alcohol,
+					event: {change: $root.socialAlcohol}">
 					<option value="" disabled selected style="display:none;">Drinking Habits</option>
 					<option value="never">Never Drinks</option>
 					<option value="past">Past Drinker</option>
 					<option value="regular">Regular Drinker</option>
 					<option value="social">Social Drinker</option>
 				</select>
-				<input type="number" class="input-mini" placeholder="Drinks per week" data-bind="
+				<input type="number" class="input-xmedium" placeholder="Drinks per week" data-bind="
 					value: alcoholWeekly,
 					enable: alcohol() != 'never' && alcohol() != ''" />
 				<label class="checkbox inline">
@@ -43,13 +50,16 @@
 					<span>Yes</span>
 				</label>
 				<label class="radio inline">
-					<input type="radio" name="drugOption" value="0" data-bind="checked: drugAbuse" />
+					<input type="radio" name="drugOption" value="0" data-bind="
+						checked: drugAbuse,
+						event: {change: $root.socialDrugAbuse}" />
 					<span>No</span>
 				</label>
 			</div>
 			<div class="marginBottom5">
-				<input type="text" class="input-xlarge" placeholder="Details (if any)"
-					data-bind="value: drugComment" />
+				<input type="text" class="input-xlarge" placeholder="Details (if any)" data-bind="
+					value: drugComment,
+					enable: drugAbuse() == 1" />
 			</div>
 			<div class="marginBottom5">
 				<span class="radio inline">Exposure to Blood products?</span>

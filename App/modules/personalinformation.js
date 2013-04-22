@@ -8,6 +8,8 @@ define(function(require) {
 	 * Includes*
 	 **********************************************************************************************/
 	var system = require('durandal/system');			// System logger
+	var Forms = require('modules/form');
+	var form = new Forms();
 	
 	/**********************************************************************************************
 	 * Constructor
@@ -169,46 +171,105 @@ define(function(require) {
 		});
 	}
 	
-	// Add Employer for a Single Patient
-	personal.prototype.saveEmployer = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
+	// Save Employer info
+	personal.prototype.saveEmployer = function(employer, method) {
+		var self = this;
+		var fields = ['patient_id', 'practice_id', 'company_name', 'address', 'city', 'state', 'zip', 
+					  'province', 'country', 'phone', 'phone_ext'];
+		
+		var values = $.map(employer, function(k,v) {
+			if(k() == null || k() == undefined || k() == 'null') {
+				return [''];
+			}
+			else
+				return [k()];
 		});
 		
-		return this.query({
-			mode: 'insert', 
-			table: 'employer', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
+		if(method == 'insert') {
+			return this.query({
+				mode: 'insert',
+				table: 'employer',
+				fields: fields,
+				values: values
+			});
+		}
+		else {
+			return this.query({
+				mode: 'update',
+				table: 'employer',
+				fields: fields,
+				values: values,
+				where: "WHERE patient_id='" + employer.patientId() + "'"
+			});
+		}
+	}	
 	
-	// Add Spouse for a Single Patient
-	personal.prototype.saveSpouse = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
+	// Save spouse info
+	personal.prototype.saveSpouse = function(spouse, method) {
+		var self = this;
+		var fields = ['patient_id', 'practice_id', 'first_name', 'last_name', 'id_number', 'id_type',
+					  'gender', 'date_of_birth', 'phone', 'phone_ext', 'work_phone', 'work_ext'];
+		
+		var values = $.map(spouse, function(k,v) {
+			if(k() == null || k() == undefined || k() == 'null') {
+				return [''];
+			}
+			if(v == 'dob')
+				return [form.dbDate(k())];
+			else
+				return [k()];
 		});
 		
-		return this.query({
-			mode: 'insert', 
-			table: 'spouse', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
-	}
+		if(method == 'insert') {
+			return this.query({
+				mode: 'insert',
+				table: 'spouse',
+				fields: fields,
+				values: values
+			});
+		}
+		else {
+			return this.query({
+				mode: 'update',
+				table: 'spouse',
+				fields: fields,
+				values: values,
+				where: "WHERE patient_id='" + spouse.patientId() + "'"
+			});
+		}
+	}	
 	
-	// Add Reference for a Single Patient
-	personal.prototype.saveReference = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
+	// Save Reference info
+	personal.prototype.saveReference = function(reference, method) {
+		var self = this;
+		var fields = ['patient_id', 'practice_id', 'type', 'first_name', 'middle_name', 'last_name',
+		 			  'phone', 'fax', 'email', 'degree', 'reason', 'referral'];
+		
+		var values = $.map(reference, function(k,v) {
+			if(k() == null || k() == undefined || k() == 'null') {
+				return [''];
+			}
+			else
+				return [k()];
 		});
 		
-		return this.query({
-			mode: 'insert', 
-			table: 'reference', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
-		});
+		if(method == 'insert') {
+			return this.query({
+				mode: 'insert',
+				table: 'reference',
+				fields: fields,
+				values: values
+			});
+		}
+		else {
+			return this.query({
+				mode: 'update',
+				table: 'reference',
+				fields: fields,
+				values: values,
+				where: "WHERE patient_id='" + reference.patientId() + "'"
+			});
+		}
 	}
 	
 	/**********************************************************************************************

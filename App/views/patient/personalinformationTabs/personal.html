@@ -6,14 +6,14 @@
 			<fieldset>
 				<legend>Personal Details</legend>
 				<div class="alertHolder">
-					<div class="alert alert-danger personalAlert">You have are missing required fields.</div>
+					<div class="alert alert-danger allAlert">You have are missing required fields.</div>
+					<div class="alert alert-success">Record saved.</div>
 				</div>
 				<div class="marginBottom5">
-					<input type="text" class="input-mediumLarge" id="lastName" data-bind="value: lastName" placeholder="Last Name" required="true">
+					<input type="text" class="input-mediumLarge" id="lastName" data-bind="value: lastName" placeholder="Last Name">
 					<span class="required">*</span>
-					<input type="text" class="input-mediumLarge" id="middleName" data-bind="value: middleName" placeholder="Middle Name" required>
-					<span class="required">*</span>
-					<input type="text" class="input-mediumLarge" id="firstName" data-bind="value: firstName" placeholder="First Name" required>
+					<input type="text" class="input-mediumLarge" id="middleName" data-bind="value: middleName" placeholder="Middle Name">
+					<input type="text" class="input-mediumLarge" id="firstName" data-bind="value: firstName" placeholder="First Name">
 					<span class="required">*</span>
 				</div>
 				<div class="marginBottom5">
@@ -301,7 +301,7 @@
 	<div class="pull-right">
 		<button type="button" class="btn btn-small">Print</button>
 		<button type="button" class="btn btn-small btn-primary" 
-			data-bind="click: clickPersonal">Save</button>
+			data-bind="click: savePersonal">Save</button>
 		<button type="button" class="btn btn-small btn-danger">Cancel</button>
 	</div>
 </div>

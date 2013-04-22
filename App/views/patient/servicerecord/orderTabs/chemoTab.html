@@ -3,13 +3,28 @@
 		<table class="table table-bordered table-hover OrderTable">
 			<thead>
 				<tr>
-					<th>Order Date</th>
-					<th>Order Type</th>
-					<th>Description</th>
-					<th>In Office</th>
-					<th>Comments</th>
+					<th data-bind="sort: {column: 'date', array: chemoOrders}">
+						<span>Order Date</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'type', array: chemoOrders}">
+						<span>Order Type</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'description', array: chemoOrders}">
+						<span>Description</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'inOffice', array: chemoOrders}">
+						<span>In Office</span>
+						<div class="arrow down"></div>
+					</th>
+					<th data-bind="sort: {column: 'comment', array: chemoOrders}">
+						<span>Comments</span>
+						<div class="arrow down"></div>
+					</th>
 					<th></th>
-				</tr>
+				</tr>			
 			</thead>
 			<tbody data-bind="foreach: chemoOrders">
 				<tr>
@@ -24,7 +39,7 @@
 					<td data-bind="text: comment, click: $root.selectRow.bind($data, 'chemo')"></td>
 					<td>
 						<button type="button" class="btn btn-small btn-danger" 
-							    data-bind="click: $root.deleteOrder">
+							    data-bind="click: $root.deleteChemoOrder">
 							Delete
 						</button>
 					</td>

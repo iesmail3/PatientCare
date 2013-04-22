@@ -1,10 +1,13 @@
-<div class="formScroll">
+<div class="formScroll checkoutTab checkout">
 	<div class="form-inline">
 		<div class="row-fluid">
 			<fieldset>
 				<legend>Co-pay Details</legend>
 				<div class="alertHolder">
-					<div class="alert alert-danger checkoutAlert">You have are missing required fields.</div>
+					<div class="alert alert-danger allAlert">You are missing required fields.</div>
+					<div class="alert alert-danger modeAlert">Mode is a required field .</div>
+					<div class="alert alert-danger amountAlert">Amount is a required fields.</div>
+					<div class="alert alert-success checkoutAlert">Successfully updated.</div>
 				</div>
 				 <!-- ko with: checkout -->
 					<div class="span5">
@@ -66,7 +69,6 @@
 					<!-- ko with: paymentMethod -->  
 						<table class="paymentTable table table-bordered table-hover">
 								<thead>
-								<span class="required">*</span>
 									<tr>       
 										<th>Modes</th>   
 										<th>Particulars</th>
@@ -119,7 +121,6 @@
 <table class="table table-bordered table-hover">      
 	<thead>
 		<tr>
-			<th></th>
 			<th>Date of Service</th>        
 			<th>CoPay Amount</th>     
 			<th>Other Co-Pay</th>
@@ -132,7 +133,6 @@
 	</thead> 
 	<tbody data-bind="foreach: $root.checkouts">      
 			<tr data-bind="click: $root.setCheckOutFields">     
-				<td></td>  
 				<td data-bind="text: date"></td>   
 				<td data-bind="text: copayAmount"></td>
 				<td data-bind="text: otherCopay"></td> 
@@ -148,8 +148,8 @@
 </div> 
 <div class="footer">
 	<div class="pull-right marginBottom5">
-		<button type="button" class="btn btn-small">Print Receipt</button>
-		<button type="button" class="btn btn-small">PrintOrder</button>
+		<button type="button" class="btn btn-small" data-bind="click:$root.printCheckout">Print Receipt</button>
+		<button type="button" class="btn btn-small" data-bind="click:$root.printCheckoutOrder">PrintOrder</button>
 		<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.savePaymentMethod">Save</button>
 		<button type="button" class="btn btn-small btn-danger">Cancel</button>
 	</div>

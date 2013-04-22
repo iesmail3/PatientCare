@@ -8,29 +8,19 @@ define(function(require) {
 	 * Includes*
 	 **********************************************************************************************/
 	 var system = require('durandal/system');			// System logger
-	 var custom = require('durandal/customBindings');	// Custom bindings
+	 var Custom = require('durandal/customBindings');	// Custom bindings
 	 var Backend = require('modules/followup');			// Database access
 	 var Forms = require('modules/form');					// Common form elements
-	var Structures = require('modules/patientStructures'); 
+	 var Structures = require('modules/patientStructures'); 
 	 var modal	   = require('modals/modals');				// Modals
 	 var app = require('durandal/app');
 	/*********************************************************************************************** 
-	 /*********************************************************************************************** 
-	 * Validation Configuration
-	 **********************************************************************************************/
-	ko.validation.init({
-		insertMessages: false,
-		parseInputAttributes: true,
-		grouping: {deep: true, observable: true},
-		decorateElement: true,
-		messagesOnModified: false
-	});
 	 
 	/* KO Observables
 	 **********************************************************************************************/
-	 var form = new Forms();
-	 var backend = new Backend();
-	 var structures = new Structures();
+	 var form 			= new Forms();
+	 var backend 		= new Backend();
+	 var structures 	= new Structures();
 	 var followup 		= ko.observable(new structures.Followup());
 	 var followups      = ko.observableArray([]); 
 	 var checkout 		= ko.observable(new structures.Checkout()); 
@@ -39,14 +29,16 @@ define(function(require) {
 	 var paymentMethod  = ko.observable(new structures.PaymentMethod()); 
 	 var paymentMethods = ko.observableArray([new structures.PaymentMethod()]);
 	 var phoneLog       = ko.observable(new structures.PhoneLog());
-     var tempPhoneLog   = ko.observable(new structures.PhoneLog()); 	 
+     var tempPhoneLog   = ko.observable(new structures.PhoneLog()); 
+	 var tempDocument   = ko.observable(new structures.Document()); 
 	 var phoneLogs      = ko.observableArray([]);    
 	 var superBill      = ko.observable(new structures.Superbill());    
-	 var superBills      = ko.observableArray([]); 
+	 var superBills     = ko.observableArray([]); 
 	 var prescription   = ko.observable(new structures.Prescription());
 	 var prescriptions  = ko.observableArray([]); 
 	 var doc            = ko.observable(new structures.Document());
-	 var documents      = ko.observableArray([]);          
+	 var documents      = ko.observableArray([]); 
+	 var medicationOrder= ko.observable(new structures.MedicationOrder());
 	 var patientId      = ko.observable(); 
 	 var practiceId     = ko.observable(); 
 	 var checkoutId     = ko.observable(); 
@@ -60,12 +52,20 @@ define(function(require) {
 	 var phoneLogAdd    = ko.observable(); 
 	 var phoneLogSave   = ko.observable(); 
 	 var phoneLogCancel = ko.observable(); 
+	 var documentState  = ko.observable(true); 
+	 var documentAdd    = ko.observable(); 
+	 var documentSave   = ko.observable(); 
+	 var documentCancel = ko.observable(); 
 	 var showAssigned   = ko.observable(true);  
 	 var id             = ko.observable();
      var primaryCheck   = ko.observable(false); 
      var secondaryCheck = ko.observable(false); 
 	 var otherCheck     = ko.observable(false);	 
 	 var physicianName  = ko.observable(); 
+	 var groupOrders 	= ko.observableArray([]);
+	 var file 			= ko.observable(); 
+	 var documentType   = ko.observable("Document Type");
+	 var isNewDocument  = ko.observable(false); 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/  
@@ -101,6 +101,8 @@ define(function(require) {
 		}
 		if(checkout().otherCopay() > 0)
 			 total +=parseInt(checkout().otherCopay());
+		if(checkout().insurancePortion() > 0) 
+			total +=parseInt(checkout().insurancePortion()); 
 		checkout().totalReceivable(total); 
 		return total; 
     });    
@@ -130,88 +132,90 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
-			structures: structures,
-			followup: followup,
-			followups: followups,  
-			checkout: checkout,
-			checkouts: checkouts, 
-			phoneLog: phoneLog,
-			phoneLogs: phoneLogs, 
-			tempPhoneLog: tempPhoneLog, 
-			superBill: superBill,
-			superBills: superBills,
-			prescription: prescription,
-			prescriptions: prescriptions,
-			doc: doc,   
-			documents: documents,   
-			patientId: patientId,
-			practiceId: practiceId, 
-			checkoutId: checkoutId,
-			myArray: myArray,
-			primaryCo:primaryCo,
-			secondaryCo:secondaryCo, 
-			otherCo: otherCo,  
-			selectedValues: selectedValues,
-			paymentMethod: paymentMethod, 
-			paymentMethods: paymentMethods,
-			modes: modes,  
-			phoneLogState: phoneLogState, 
-			phoneLogAdd: phoneLogAdd, 
-			phoneLogSave: phoneLogSave,
-			phoneLogCancel: phoneLogCancel,
-			showAssigned: showAssigned,
-			id: id,
-			primaryCheck: primaryCheck,
-			secondaryCheck: secondaryCheck,
-			otherCheck: otherCheck,
-			checkoutId: checkoutId,
-			physicianName: physicianName,
-			form: form,
+		structures: structures,
+		followup: followup,
+		followups: followups,  
+		checkout: checkout,
+		checkouts: checkouts, 
+		phoneLog: phoneLog,
+		phoneLogs: phoneLogs, 
+		tempPhoneLog: tempPhoneLog,
+		tempDocument: tempDocument, 
+		superBill: superBill,
+		superBills: superBills,
+		prescription: prescription,
+		prescriptions: prescriptions,
+		doc: doc,   
+		documents: documents,   
+		patientId: patientId,
+		practiceId: practiceId, 
+		checkoutId: checkoutId,
+		myArray: myArray,
+		primaryCo:primaryCo,
+		secondaryCo:secondaryCo, 
+		otherCo: otherCo,  
+		selectedValues: selectedValues,
+		paymentMethod: paymentMethod, 
+		paymentMethods: paymentMethods,
+		modes: modes,  
+		phoneLogState: phoneLogState, 
+		phoneLogAdd: phoneLogAdd, 
+		phoneLogSave: phoneLogSave,
+		phoneLogCancel: phoneLogCancel,
+		documentState: documentState, 
+		documentAdd: documentAdd, 
+		documentSave: documentSave, 
+		documentCancel: documentCancel, 
+		showAssigned: showAssigned,
+		id: id,
+		primaryCheck: primaryCheck,
+		secondaryCheck: secondaryCheck,
+		otherCheck: otherCheck,
+		checkoutId: checkoutId,
+		physicianName: physicianName,
+		form: form,
+		medicationOrder: medicationOrder,
+		file: file,
+		documentType: documentType,
+		isNewDocument: isNewDocument,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
-			// This allow manipulation of the DOM
-			viewAttached: function() {           		
-				$('#followupTab a').click(function(e) {
-					e.preventDefault();
-					$(this).tab('show');
-				});
-							
-				// Resize tree and content pane
+		// This allow manipulation of the DOM
+		viewAttached: function() {           		
+			$('#followupTab a').click(function(e) {
+				e.preventDefault();
+				$(this).tab('show');
+			});
+						
+			// Resize tree and content pane
+			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-				$(window).resize(function() {
-					$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-				});	
-				
-				checkout().editAdditionalCharge.subscribe(function(newValue) {
-					if (!newValue)
-					checkout().additionalCharges("0");
-				});
-				
-				$( ".currentDate" ).datepicker({dateFormat:"mm/dd/yy"}).datepicker("setDate",new Date());
-				
+			});	
+			
+			checkout().editAdditionalCharge.subscribe(function(newValue) {
+				if (!newValue)
+				checkout().additionalCharges("0");
+			});
+			
+			$( ".currentDate" ).datepicker({dateFormat:"mm/dd/yy"}).datepicker("setDate",new Date());
+			
+			$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
+			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
+			$(window).resize(function() {
 				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
 				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-				$(window).resize(function() {
-				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
-				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-});
-			},
-			// Loads when view is loaded
-			activate: function(data) {
-				var self = this;  
-				//Patient ID
-				self.patientId(data.patientId); 
-				//Pactice ID
-				self.practiceId('1'); 
-			
-			// backend.getPhysician(checkout()).success(function(data) { 
-				// // if(data.length  >0) { 
-					// // physicianName(data); 
-				// // }
-				// // system.log('physician name is ' + physicianName()); 
-			// });
-			
+			});
+		},
+		// Loads when view is loaded
+		activate: function(data) {
+			var self = this;  
+			//Patient ID
+			self.patientId(data.patientId); 
+			//self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
+			//Pactice ID
+			self.practiceId('1'); 
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
 				var f = $.map(data, function(item) {return new structures.Followup(item) });
@@ -219,7 +223,7 @@ define(function(require) {
                     self.followup(f[0]); 					
 				}				
 			});
-	         
+         
             backend.getCheckOut(self.patientId(),self.practiceId()).success(function(data) { 
 				checkoutId(data[0].id);  				
 				if(data.length > 0) {
@@ -242,40 +246,44 @@ define(function(require) {
 				}); 
 			});
 			   
-			backend.getPhoneLog(self.patientId(),self.practiceId()).success(function(data) {			
+			backend.getPhoneLog(self.patientId(),self.practiceId()).success(function(data) {
 				if(data.length > 0) {
+					
 					 var p = $.map(data, function(item) {
 					 item.datetime = form.uiDate(item.datetime)
 					 return new structures.PhoneLog(item) });
 					
 					 self.phoneLogs(p);
 					 self.phoneLog(p[0]); 
-					
 				} 
 			}); 
 			
 			backend.getSuperBill().success(function(data) { 
-				//system.log('inside superbill'); 
-				if(data.length > 0) {
-				//system.log('inside if statement'); 
-					 var p = $.map(data, function(item) {return new structures.Superbill(item) }); 
+				if(data.length > 0) { 
+					 var p = $.map(data, function(item) {
+					 item.date = form.uiDate(item.date)
+					 return new structures.Superbill(item) }); 
 					 self.superBills(p);
-					 self.superBill(p[0]);
-					 //system.log('date is ' + superBill().date()); 
+					 self.superBill(p[0]); 
 				} 
 			});
 			
 			backend.getDocument(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
-					 var d = $.map(data, function(item) {return new structures.Document(item) });
+					 var d = $.map(data, function(item) { 
+					  item.date = form.uiDate(item.date)
+					  item.date_of_service = form.uiDate(item.date_of_service)
+					 return new structures.Document(item) }); 
 					 self.documents(d);
                      self.doc(d[0]); 					 
 				} 
 			});
 							
-			backend.getPrescription(self.patientId(),self.practiceId()).success(function(data) { 
+			backend.getPrescription().success(function(data) { 
 				if(data.length > 0) {
-					 var p = $.map(data, function(item) {return new structures.Prescription(item) });
+					 var p = $.map(data, function(item) {
+					  item.date = form.uiDate(item.date)
+					 return new structures.Prescription(item) });
 					 self.prescriptions(p);
                      self.prescription(p[0]); 					 
 				} 
@@ -287,7 +295,8 @@ define(function(require) {
 					self.myArray(p); 
 				} 
 			}); 
-			backend.getInsurance(self.patientId(),self.practiceId()).success(function(data) {      		
+			
+			return backend.getInsurance(self.patientId(),self.practiceId()).success(function(data) {      		
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
 						var i = new structures.Insurance(data[count]);
@@ -320,11 +329,12 @@ define(function(require) {
 				if(data.length > 0) {
 				    var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
 					paymentMethods(p);
-                    paymentMethod(p[0]); 	
+	                paymentMethod(p[0]); 	
 					paymentMethods.push(new structures.PaymentMethod()); 	
 				} 
 				else { 
-					paymentMethods(new structures.PaymentMethod()); 
+				      paymentMethods.removeAll();
+					  paymentMethods.push(new structures.PaymentMethod()); 
 				}
 			});    			
 		},                
@@ -333,7 +343,8 @@ define(function(require) {
 			
 		}, 
 		setDocumentFields: function(data) { 
-			doc(data); 
+		    isNewDocument(false); 
+			doc(data);
 		}, 
 		setPaymentFields: function(data) { 
 			paymentMethod(data); 
@@ -346,31 +357,61 @@ define(function(require) {
 			phoneLog(tempPhoneLog());
 			showAssigned(true);  
 		},
-		 phoneLogAdd: function() { 
+		phoneLogAdd: function() { 
 			   phoneLogState(false);
 			   tempPhoneLog(phoneLog());
-               phoneLog(new structures.PhoneLog());
+	           phoneLog(new structures.PhoneLog());
 			   showAssigned(false); 
 		},
-		selectRow: function(data) { 
-			modal.showPrescription(data,patientId(),practiceId(),'Prescription Details');
+		documentCancel: function() {
+		    isNewDocument(false); 
+			documentState(true);
+			doc(tempDocument()); 
+		},
+		documentAdd: function() { 
+			   documentState(false);
+			   isNewDocument(true); 
+			   tempDocument(doc());
+	          doc(new structures.Document());
+		},
+		
+		selectRow: function(data) {
+			// Clear group
+			groupOrders([]);
+			//Repopulate the group
+			$.each(prescriptions(), function(k, v) {
+					groupOrders.push(v.medicationOrderId());
+			});
+			modal.showPrescription(medicationOrder,prescriptions,groupOrders,'Prescription Details');
 		},
 		selectLink: function(data) {
 			modal.showAdditionalDetails('Additional Details');
 		},
 		selectSuperbill: function(data) {
-			modal.showSuperbill('Superbill');
+			modal.showSuperbill(superBill,'Superbill');
 		},
-		 saveFollowup: function(data) {
-			if(followup().errors().length == 0) {
-			     system.log('inside if'); 
-				backend.saveFollowup(followup().id(), followup());
-				// $('.followupAlert').removeClass().addClass('alert alert-success').html('Success!').animate({opacity: 1}, 2000).delay(3000).animate({opacity: 0}, 2000);
-		   }
-		   else {
-				$('.followupAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+		displayFile: function(data) { 
+			doc(data); 
+			modal.showFile(doc().location(),'Selected File'); 
+		},
+		saveFollowup: function(data) {
+			if(followup().errors().length > 0) {
+				if(followup().errors().length > 1) {
+					$('.followup .allAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(followup().errors()[0] == 'value') {
+					$('.followup .valueAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(followup().errors()[0] == 'unit') {
+					$('.followup .unitAlert').fadeIn().delay(3000).fadeOut();
+				}
 			}
-		 },
+		    else {
+		   
+				backend.saveFollowup(followup().id(), followup());
+			    $('.followup .followupAlert').fadeIn().delay(3000).fadeOut();
+			}
+		},
 		deleteFollowup: function(item, test) {
 			return app.showMessage(
 				'Are you sure you want to delete followup with service date ' + item.serviceDate() +'?', 
@@ -390,46 +431,159 @@ define(function(require) {
 		},
 		addRow: function(data) {  
 			var last = paymentMethods()[paymentMethods().length - 1];
-			if(last.mode()!='')
-			{ 
+			if(last.mode().trim()!='') 
 			   paymentMethods.push(new structures.PaymentMethod()); 
-			}	
 		},
 		removePaymentMethod: function(data) {
 			paymentMethods.remove(data); 
 			backend.deletePaymentMethod(data.id()); 
 		},
+		deletePrescription: function(data) {
+			 var prescription = data;
+			 prescriptions.remove(prescription);
+			 backend.deletePrescription(data.medicationOrderId());
+		},
 		savePaymentMethod: function(data) { 
-			 var isValid = true;
-			 var pm = paymentMethods()[paymentMethods().length-1]; 
-			if(pm.particulars().trim() == '' && pm.amount().trim() == '') {
-				paymentMethods.remove(pm);
+		    backend.saveCheckout(checkout()); 
+			//Check to see if  you have any rows in the payment method table
+			if(paymentMethods().length  > 0) { 
+				var isValid = true;
+				var pm = paymentMethods()[paymentMethods().length-1]; 
+				//remove last row if these two are empty
+				if(pm.particulars().trim() == '' && pm.amount().trim() == '') {
+					paymentMethods.remove(pm);
+				}
+				//check to see if there are any remaining rows after removing the last one
+				if(paymentMethods().length > 0) { 
+					$.each(paymentMethods(), function(k, v) {
+					
+						if(v.errors().length > 1) {
+								isValid = false; 
+								$('.checkout .allAlert').fadeIn().delay(3000).fadeOut();
+						}
+						else if(v.errors()[0] == 'mode') {
+								isValid = false; 
+								$('.checkout .modeAlert').fadeIn().delay(3000).fadeOut();
+						}
+						else if(v.errors()[0] == 'amount') {
+								 isValid = false; 
+								$('.checkout .amountAlert').fadeIn().delay(3000).fadeOut();
+						}
+					}); 
+					
+					if(isValid) {
+						$('.checkoutAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+						$.each(paymentMethods(), function(k, v) {
+						  backend.savePaymentMethod(checkout().id(),v);
+						}); 
+					}
+				
+					paymentMethods.push(new structures.PaymentMethod());
+                }					
+		    }
+		},
+		savePhoneLog: function(data) {
+			if(phoneLog().errors().length > 0) {
+				if(phoneLog().errors().length > 1) {
+					$('.phoneLog .allAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(phoneLog().errors()[0] == 'datetime') {
+					$('.phoneLog .dateAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(phoneLog().errors()[0] == 'caller') {
+					$('.phoneLog .callerAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(phoneLog().errors()[0] == 'attendedBy') {
+					$('.phoneLog .attendedByAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(phoneLog().errors()[0] == 'type') {
+					$('.phoneLog .typeAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(phoneLog().errors()[0] == 'actionRequired') {
+					$('.phoneLog .actionRequiredAlert').fadeIn().delay(3000).fadeOut();
+				}
 			}
-			$.each(paymentMethods(), function(k, v) {
-				if(v.errors().length != 0) {
-						isValid = false;
+			else { 
+				 $('.phoneLog .phoneLogAlert').fadeIn().delay(3000).fadeOut();
+				 backend.savePhoneLog(phoneLog,phoneLogs,practiceId(),patientId(),showAssigned); 
+			}
+		},
+		saveDocument: function(data) {
+			if(doc().errors().length > 0) {
+				if(doc().errors().length > 1) {
+					$('.document .allAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(doc().errors()[0] == 'type') {
+					$('.document .typeAlert').fadeIn().delay(3000).fadeOut();
+				}
+			}
+			else {
+				if(doc().id() == null) {
+					doc().location(file());  
+				}
+				 isNewDocument(false);
+				  backend.saveDocument(doc(),documents,practiceId,patientId); 
+				 $('.fileupload').fineUploader('uploadStoredFiles'); 
+				  $('.document .documentAlert').fadeIn().delay(3000).fadeOut();
+				  documentState(true);
+				  doc(new structures.Document());
+				
+			}					
+		},
+		searchByType: function(data) { 
+			backend.getDocumentByType(patientId(),documentType()).success(function(data) { 
+				if(data.length > 0) {  
+					 var d = $.map(data, function(item) {
+					 item.date = form.uiDate(item.date)
+					 item.date_of_service = form.uiDate(item.date_of_service)
+					 return new structures.Document(item) });
+						documents(d);
+						doc(d[0]); 
+				}
+				else {
+						documents(new structures.Document());
+						doc(new structures.Document());
 				}
 			}); 
 			
-			if(isValid) {
-				$.each(paymentMethods(), function(k, v) {
-				  backend.savePaymentMethod(checkout().id(),v);
-				}); 
-			}
-			
-			else { 
-					$('.checkoutAlert').fadeIn('slow').delay(2000).fadeOut('slow');
-			}
-			
-			paymentMethods.push(new structures.PaymentMethod()); 
-	},
-	savePhoneLog: function(data) { 
-	   
-			  backend.savePhoneLog(phoneLog,phoneLogs,practiceId(),patientId(),showAssigned);
-              system.log('showAssigned is' + showAssigned()); 			  
-	} 
- }
- 
+	    },
+		  
+		clickPrint: function(data) { 
+				var height = $('.flowHolder').height();
+				var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
+					   'menubar=no, status=no, titlebar=no, toolbar=no';
+				var win = window.open(
+					'php/printPrescription.php/?practiceId=' + practiceId() + '&patientId=' + patientId() +
+                     '&medicationOrderId=' + prescription().medicationOrderId(),					
+					'',
+					settings
+				);
+		},
+		printCheckout: function(data) { 
+			var height = $('.flowHolder').height();
+			var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
+					   'menubar=no, status=no, titlebar=no, toolbar=no';
+			var win = window.open(
+					'php/printCheckout.php/?practiceId=' + practiceId() + '&patientId=' + checkout().patientId()+ '&serviceRecordId=' + checkout().serviceRecordId() + '&checkoutId=' + checkout().id() + 
+					'&primaryCo=' + primaryCo() + '&secondaryCo=' + secondaryCo() +'&otherCo=' + otherCo(),					
+					'',
+					settings
+				);
+		},
+		
+		printCheckoutOrder: function(data) {  
+			var height = $('.flowHolder').height();
+			var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
+					   'menubar=no, status=no, titlebar=no, toolbar=no';
+			var win = window.open(
+					'php/printCheckoutOrder.php/?practiceId=' + practiceId() + '&patientId=' + checkout().patientId() + '&serviceRecordId=' + checkout().serviceRecordId() + '&checkoutId=' + checkout().id()
+					,					
+					'',
+					settings
+				);
+		}
+		
+    };
  //Turn validation on
 	// var errors = vm['formErrors'] = ko.validation.group(vm);
 	// vm.followup().errors.showAllMessages();

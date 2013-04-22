@@ -49,6 +49,23 @@ define(function(require) {
   		}
 	};
 	
+	ko.bindingHandlers.uploader = {
+		init: function(element, valueAccessor, allBindingsAccessor, vm, bindingContext) {
+			var value = valueAccessor();
+			var m = $(element).fineUploader({
+		    	request: {
+		        	endpoint: 'php/handleUploads.php'
+		      	},
+		      	autoUpload: false,
+		     	text: {
+		      		uploadButton: 'Select File'
+             	},
+			});	
+		}, 
+		update: function(element, valueAccessor) { 
+		}	
+    };
+
 	/**********************************************************************************************
 	 * Shortcut
 	 * 
@@ -118,5 +135,39 @@ define(function(require) {
 	        // we can remove the event handler from the 'body'
 	        ko.utils.domNodeDisposal.addDisposeCallback(element, removeHandlerCallback);
 	    }
+	}
+	
+	/**********************************************************************************************
+	 * Sort
+	 * 
+	 * Use: To sort an obersable array by one of it's fields
+	 * How to use: data-bind="sort: {column: 'field to search', array: observableArray}"
+	 * Example: <div data-bind="sort: {column: 'firstName', array: patients}"
+	 *********************************************************************************************/
+	ko.bindingHandlers.sort = {
+		init: function(element, valueAccessor, allBindingsAccessor,viewModel) {
+			var e = $(element);
+			var value = valueAccessor();
+			var arrow = e.find('.arrow');
+			if(arrow.length == 0)
+				arrow = $('<div class="null"></div>');
+			var a = value.array;
+			var column = value.column;
+			
+			e.on('click', function(e) {
+				if(arrow.attr('class').indexOf('down') >= 0) {
+					a.sort(function(one, two) {
+						return one[column]() == two[column]() ? 0 : (one[column]() < two[column]() ? -1 : 1);
+					});
+					arrow.removeClass('down').addClass('up');
+				}
+				else {
+					a.sort(function(one, two) {
+						return one[column]() == two[column]() ? 0 : (one[column]() < two[column]() ? 1 : -1);
+					});
+					arrow.removeClass('up').addClass('down');
+				}
+			});
+		}
 	}
 });

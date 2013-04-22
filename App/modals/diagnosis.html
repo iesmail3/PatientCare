@@ -1,0 +1,37 @@
+<div class="messageBox orderBox">
+	<div class="modal-header">
+		<h3 data-bind="html: title"></h3>
+	</div>
+	<div class="modal-body">
+		<!-- <div class="row-fluid orderTableHolder"> -->
+			<table  class="paymentTable table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>Diagnosis</th>
+						<th>ICD Code</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach: diagnosis">  
+					<tr>
+					 <td class="input-small">											 
+						<input class="input-small" data-bind="value:diagnosis" />
+					 </td> 
+					 <td class="input-small">											 
+						<input class="input-small" data-bind="value:code"/>
+					 </td> 
+					 <td>
+						<button type="button" class="btn btn-small btn-danger" data-bind="click:$root.deleteDiagnosis" >
+						 Delete
+						</button>
+					</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	<!-- </div> -->
+	<div class="modal-footer" data-bind="foreach: options">
+			<button class="btn" data-bind="click: function() { $parent.selectOption($data); }, 
+				html: $data, css: {'btn-primary': $index() == 0, autofocus: $index() == 0, 'btn-danger': $data == 'Cancel'}"></button>
+	</div>
+</div>

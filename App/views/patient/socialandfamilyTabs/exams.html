@@ -1,3 +1,6 @@
+<div class="alertHolder">
+	<div class="alert alert-danger allAlert">You are missing required fields.</div>
+</div>
 <div class="formScroll">
 	<form class="form-inline formPadding">
 		<div data-bind="foreach: routineExams">
@@ -7,44 +10,47 @@
 						value: name,
 						valueUpdate: 'afterkeydown',
 						event: {keyup: $root.routineExamAddRow},
-						enable: name() != 'Colonoscopy' && name() != 'PSA' && name() != 'Physical'" required/>
-					<span class="required">*</span>
+						enable: name() != 'Colonoscopy' && name() != 'PSA' && name() != 'Physical'" />
 				</div>
 				<div class="offset1 span8">
 					<div class="marginBottom5">
 						<label class="radio routineRadio">
-							<input type="radio" name="$index" value="1" data-bind="
-								checked: lastDone" />
+							<input type="radio" value="1" data-bind="
+								checked: lastDone,
+								attr: {name: radioName},
+								enable: name() != ''" />
 							<span class="smallText">Never&nbsp;Done</span>
 						</label>
 						<label class="radio routineRadio">
-							<input type="radio" name="$index" value="2" data-bind="
-								checked: lastDone" />
+							<input type="radio" value="2" data-bind="
+								checked: lastDone,
+								attr: {name: radioName},
+								enable: name() != ''" />
 							<span class="smallText">Unknown</span>
 						</label>
 						<label class="radio routineRadio">
-							<input type="radio" name="$index" value="3" data-bind="
-								checked: lastDone" />
+							<input type="radio" value="3" data-bind="
+								checked: lastDone,
+								attr: {name: radioName},
+								enable: name() != ''" />
 							<span class="smallText">Last&nbsp;Done</span>
-							<span class="required">*</span>
 						</label>
 						<input type="text" class="input-small" placeholder="Last Done" data-bind="
 							datepicker: {dateFormat: 'mm-yy', changeMonth: true, changeYear: true},
-							enable: lastDone() == 3" />
+							enable: lastDone() == 3 && name() != ''" />
 						<button type="button" class="btn btn-small btn-danger pull-right" data-bind="
 							click: $root.routineExamDelete,
-							visible: name() != 'Colonoscopy' && name() != 'PSA' && name() != 'Physical'">
+							visible: name() != 'Colonoscopy' && name() != 'PSA' && name() != 'Physical' && name() != ''">
 							Delete
 						</button>
 					</div>
 					<div class="marginBottom5">
-						<input type="text" class="routineComment" placeholder="Comments" data-bind="value: comment" />
+						<input type="text" class="routineComment" placeholder="Comments" data-bind="
+							value: comment,
+							enable: name() != ''" />
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="alertHolder">
-			<div class="alert alert-danger examAlert">You have are missing required fields.</div>
 		</div>
 	</form>
 </div>

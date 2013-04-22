@@ -12,9 +12,18 @@
 				<thead>
 					<tr>
 						<th></th>
-						<th>Description</th>
-						<th>Unit</th>
-						<th>Times</th>
+						<th data-bind="sort: {column: 'description', array: supplyTypes}">
+							Description
+							<div class="arrow down"></div>
+						</th>
+						<th data-bind="sort: {column: 'unit', array: supplyTypes}">
+							Unit
+							<div class="arrow down"></div>
+						</th>
+						<th data-bind="sort: {column: 'quantity', array: supplyTypes}">
+							Quantity
+							<div class="arrow down"></div>
+						</th>
 					</tr>
 				</thead>
 				<tbody data-bind="foreach: supplyTypes">

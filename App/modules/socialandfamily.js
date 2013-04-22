@@ -155,7 +155,6 @@ define(function(require) {
 		if (familyHistory.id() == undefined || familyHistory.id() == '') {
 			system.log(familyHistory.age());
 			if ((defaultRelationship && validAge) || !defaultRelationship) {
-				var newId = '';
 				return self.query({
 					mode: 'select',
 					table: 'family_history',
@@ -163,9 +162,9 @@ define(function(require) {
 					order: 'ORDER BY id DESC',
 					limit: 'LIMIT 1'
 				}).success(function(data) {
-					$.each(data, function(k,v) {
-						newId = parseInt(v.id) + 1;
-					});
+					var newId = 1;
+					if (data.length > 0)
+						newId = parseInt(data[0].id) + 1;
 					
 					values[0] = newId;
 					familyHistory.id(newId);

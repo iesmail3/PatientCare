@@ -13,6 +13,8 @@
 				<div class="alert alert-danger dayAlert">Day is required.</div>
 				<div class="alert alert-danger portAlert">Port is required.</div>
 				<div class="alert alert-danger medicineAlert">Medicine is required.</div>
+				<div class="alert alert-success vitalsSuccess">Vitals saved.</div>
+				<div class="alert alert-success molSuccess">Medication saved.</div>
 			</div>
 			<!-- ko with: venousAccess -->
 			<fieldset class="venousFields">
@@ -64,15 +66,15 @@
 						<span class="add-on"><i class="icon-time"></i></span>
 					</div>
 					<button class="btn btn-primary btn-mini" data-bind="click: $root.saveVital">Save</button>
-					<button class="btn btn-warning btn-mini">Clear</button>
+					<button class="btn btn-warning btn-mini" data-bind="click: $root.clearVitals">Clear</button>
 				</div>
 				<div class="venousTableHolder">
 					<table class="table table-hover table-bordered table-striped table-condensed">
 						<thead>
-							<th>Pulse</th>
-							<th>Temp</th>
-							<th>BP</th>
-							<th>Time</th>
+							<th data-bind="sort: {column: 'pulse', array: $root.venousAccesses}">Pulse</th>
+							<th data-bind="sort: {column: 'temp', array: $root.venousAccesses}">Temp</th>
+							<th data-bind="sort: {column: 'bp', array: $root.venousAccesses}">BP</th>
+							<th data-bind="sort: {column: 'time', array: $root.venousAccesses}">Time</th>
 							<th class="last"></th>
 						</thead>
 						<tbody data-bind="foreach: $root.venousAccesses">
@@ -152,15 +154,35 @@
 				<div class="flowTableHolder">
 					<table class="table table-bordered table-hover table-striped table-condensed">
 						<thead>
-							<th>Medicine</th>
-							<th>Dose</th>
-							<th>Pres. Dose</th>
-							<th>Route</th>
-							<th>Seq</th>
-							<th>Diluent</th>
-							<th>Volume</th>
-							<th>Duration</th>
-							<th>Day</th>
+							<tr>
+								<th  class="med" data-bind="sort: {column: 'medicine', array: drugOrders}">
+									<span>Medicine</span>
+								</th>
+								<th class="dose" data-bind="sort: {column: 'dose', array: drugOrders}">
+									<span>Dose</span>
+								</th>
+								<th class="dose" data-bind="sort: {column: 'prescribedDose', array: drugOrders}">
+									<span>Pres. Dose</span>
+								</th>
+								<th class="route" data-bind="sort: {column: 'route', array: drugOrders}">
+									<span>Route</span>
+								</th>
+								<th class="seq" data-bind="sort: {column: 'seq', array: drugOrders}">
+									<span>Seq</span>
+								</th>
+								<th class="diluent" data-bind="sort: {column: 'diluent', array: drugOrders}">
+									<span>Diluent</span>
+								</th>
+								<th class="vol" data-bind="sort: {column: 'volume', array: drugOrders}">
+									<span>Volume</span>
+								</th>
+								<th class="dur" data-bind="sort: {column: 'duration', array: drugOrders}">
+									<span>Duration</span>
+								</th>
+								<th class="day" data-bind="sort: {column: 'days', array: drugOrders}">
+									<span>Day</span>
+								</th>
+							</tr>
 						</thead>
 						<tbody data-bind="foreach: drugOrders">
 							<tr>
@@ -183,15 +205,15 @@
 				<div class="flowTableHolder">
 					<table class="table table-bordered table-hover table-striped table-condensed">
 						<thead>
-							<th>Medicine</th>
-							<th>Actual Dose</th>
-							<th>Qty</th>
-							<th>Seq</th>
-							<th>Diluent</th>
-							<th>Volume</th>
-							<th>Duration</th>
-							<th>Start Time</th>
-							<th>End Time</th>
+							<th class="med" data-bind="sort: {column: 'medicine', array: medicationOrderLogs}">Medicine</th>
+							<th class="dose" data-bind="sort: {column: 'dose', array: medicationOrderLogs}">Actual Dose</th>
+							<th class="qty" data-bind="sort: {column: 'quantity', array: medicationOrderLogs}">Qty</th>
+							<th class="seq" data-bind="sort: {column: 'seq', array: medicationOrderLogs}">Seq</th>
+							<th class="diluent" data-bind="sort: {column: 'diluent', array: medicationOrderLogs}">Diluent</th>
+							<th class="vol" data-bind="sort: {column: 'volume', array: medicationOrderLogs}">Volume</th>
+							<th class="dur" data-bind="sort: {column: 'duration', array: medicationOrderLogs}">Duration</th>
+							<th class="start" data-bind="sort: {column: 'startTime', array: medicationOrderLogs}">Start Time</th>
+							<th class="end" data-bind="sort: {column: 'endTime', array: medicationOrderLogs}">End Time</th>
 							<th></th>
 						</thead>
 						<tbody data-bind="foreach: medicationOrderLogs">

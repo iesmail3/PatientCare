@@ -21,6 +21,7 @@ define(function(require) {
 	 **********************************************************************************************/
 	var backend = new Backend();
 	var structures = new Structures();
+	var form = new Forms();
 	var insuredPerson 		= ko.observable();
 	var primaryInsurance 	= ko.observable(new structures.Insurance());
 	var secondaryInsurance  = ko.observable(new structures.Insurance());
@@ -46,8 +47,8 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
-		form: new Forms(),
 		backend: backend,
+		form: form,
 		structures: structures,
 		patientId: patientId,
 		practiceId: practiceId,
@@ -89,7 +90,7 @@ define(function(require) {
 			
 			// Patient ID
 			self.patientId(data.patientId);
-			self.practiceId('1');
+			self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
 			self.patient().practiceId(self.practiceId());
 			
 			/**************************************************************************************
@@ -168,6 +169,10 @@ define(function(require) {
 			backend.getSpouse(self.patientId()).success(function(data) {
 				if(data.length > 0) {
 					var s = new structures.Spouse(data[0]);
+					if(s.dob() == '0000-00-00')
+						s.dob('');
+					else
+						s.dob(form.uiDate(s.dob()));
 					self.spouse(s);
 				}
 			});
@@ -229,18 +234,83 @@ define(function(require) {
 					self.insuredPerson(2);
 			});
 		}, // End activate
-		clickPersonal: function(data) {
+		savePersonal: function(data) {
 			var self = this;
 			if(self.patient().errors().length == 0) {
+				// Patient
 				self.backend.savePatient(self.patientId(), self.patient()).complete(function(data) {
-					if(data.responseText != "" && data.responseText != "failUpdate") {
+					if(data.responseText != "" && data.responseText != "failUpdate" && 
+					   data.responseText.toLowerCase().indexOf('update') < 0) {
 						self.patientId($.parseJSON(data.responseText)[0].id);
 						router.navigateTo('#/patient/personalinformation/' + (parseInt(self.patientId()) + 1));
 					}
+					else if(data.responseText == 'updateSuccess')
+						$('.alert-success').fadeIn().delay(3000).fadeOut();
 				});
+				// Employer
+				if(personalEmployer()) {
+					var m = employer().patientId() == undefined ? 'insert' : 'update';
+					employer().patientId(patientId());
+					employer().practiceId(practiceId());
+					backend.saveEmployer(employer(), m).complete(function(data) {
+						if(data.responseText.toLowerCase().indexOf('success') >= 0)
+							$('.alert-success').fadeIn().delay(3000).fadeOut();
+					});	
+				}
+				// Spouse
+				if(patient().maritalStatus() == 'married' || patient().maritalStatus() == 'separated') {
+					var m = spouse().patientId() == undefined ? 'insert' : 'update';
+					spouse().patientId(patientId());
+					spouse().practiceId(practiceId());
+					backend.saveSpouse(spouse(), m).complete(function(data) {
+						if(data.responseText.toLowerCase().indexOf('success') >= 0)
+							$('.alert-success').fadeIn().delay(3000).fadeOut();
+					});	
+				}
+				// References
+				if(referencePhysician().firstName() != undefined || referencePhysician().lastName() != undefined) {
+					var m = referencePhysician().patientId() == undefined ? 'insert' : 'update';
+					referencePhysician().patientId(patientId());
+					referencePhysician().practiceId(practiceId());
+					referencePhysician().type('referringphysician');
+					backend.saveReference(referencePhysician(), m).complete(function(data) {
+						if(data.responseText.toLowerCase().indexOf('success') >= 0)
+							$('.alert-success').fadeIn().delay(3000).fadeOut();
+					});
+				}
+				if(referencePcp().firstName() != undefined || referencePcp().lastName() != undefined) {
+					var m = referencePcp().patientId() == undefined ? 'insert' : 'update';
+					referencePcp().patientId(patientId());
+					referencePcp().practiceId(practiceId());
+					referencePcp().type('pcp');
+					backend.saveReference(referencePcp(), m).complete(function(data) {
+						if(data.responseText.toLowerCase().indexOf('success') >= 0)
+							$('.alert-success').fadeIn().delay(3000).fadeOut();
+					});
+				}
+				if(referencePersonal().firstName() != undefined || referencePersonal().lastName() != undefined) {
+					var m = referencePersonal().patientId() == undefined ? 'insert' : 'update';
+					referencePersonal().patientId(patientId());
+					referencePersonal().practiceId(practiceId());
+					referencePersonal().type('personalreference');
+					backend.saveReference(referencePersonal(), m).complete(function(data) {
+						if(data.responseText.toLowerCase().indexOf('success') >= 0)
+							$('.alert-success').fadeIn().delay(3000).fadeOut();
+					});
+				}
+				if(referenceOther().firstName() != undefined || referenceOther().lastName() != undefined) {
+					var m = referenceOther().patientId() == undefined ? 'insert' : 'update';
+					referenceOther().patientId(patientId());
+					referenceOther().practiceId(practiceId());
+					referenceOther().type('other');
+					backend.saveReference(referenceOther(), m).complete(function(data) {
+						if(data.responseText.toLowerCase().indexOf('success') >= 0)
+							$('.alert-success').fadeIn().delay(3000).fadeOut();
+					});
+				}
 			}
 			else
-				$('.personalAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+				$('.allAlert').fadeIn('slow').delay(2000).fadeOut('slow');
 		}
 	}; // End ViewModel
 }); // End file

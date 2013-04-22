@@ -3,23 +3,23 @@
 		<table class="table table-bordered table-hover OrderTable">
 			<thead>
 				<tr>
-					<th data-bind="click: sort.bind($data, 'image', 'date')">
+					<th data-bind="sort: {column: 'date', array: orders}">
 						<span>Order Date</span>
 						<div class="arrow down"></div>
 					</th>
-					<th data-bind="click: sort.bind($data, 'image', 'type')">
+					<th data-bind="sort: {column: 'type', array: orders}">
 						<span>Order Type</span>
 						<div class="arrow down"></div>
 					</th>
-					<th data-bind="click: sort.bind($data, 'image', 'description')">
+					<th data-bind="sort: {column: 'description', array: orders}">
 						<span>Description</span>
 						<div class="arrow down"></div>
 					</th>
-					<th data-bind="click: sort.bind($data, 'image', 'inOffice')">
+					<th data-bind="sort: {column: 'inOffice', array: orders}">
 						<span>In Office</span>
 						<div class="arrow down"></div>
 					</th>
-					<th data-bind="click: sort.bind($data, 'image', 'comment')">
+					<th data-bind="sort: {column: 'comment', array: orders}">
 						<span>Comments</span>
 						<div class="arrow down"></div>
 					</th>
