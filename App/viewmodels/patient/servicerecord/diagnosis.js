@@ -71,23 +71,60 @@ define(function(require) {
 		 self.date(data.date);
 		 self.patientId(data.patientId); 
 		 self.practiceId('1'); 
+		 
 		 backend.getDiagnosis(self.patientId(),self.practiceId(),self.date()).success(function(data) {
 			if(data.length > 0) { 
 				var d = $.map(data, function(item) {return new structures.Diagnosis(item) });
 					self.diagnoses(d);
-                    self.diagnosis(d[0]); 					
-			}				
+                    self.diagnosis(d[0]);
+					self.diagnoses.push(new structures.Diagnosis()); 
+			}
+			else { 
+						paymentMethods(new structures.PaymentMethod()); 
+			}
 		 });
 			
 		},
-
-		saveDiagnosis: function(data) { 
-			backend.saveDiagnosis(diagnosis()); 
+		
+		saveDiagnosis: function(data) {
+			if(diagnoses().length  > 0) { 
+				var isValid = true;
+				var d = diagnoses()[diagnoses().length-1]; 
+				//remove last row if these two are empty
+				if(d.diagnosis() == undefined || d.diagnosis().trim() == '' )  {
+					diagnoses.remove(d);
+				}
+				//check to see if there are any remaining rows after removing the last one
+				if(diagnoses().length > 0) { 
+					$.each(diagnoses(), function(k, v) {
+					
+						if(v.errors().length > 0) {
+								isValid = false; 
+								$('.diagnosis .diagnosisFailAlert').fadeIn().delay(3000).fadeOut();
+						 }
+					}); 
+					if(isValid) {
+						$('.diagnosisSuccessAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+						$.each(diagnoses(), function(k, v) {
+						 backend.saveDiagnosis(v); 
+						}); 
+					}
+					
+					diagnoses.push(new structures.Diagnosis());
+				}
+			}
 		},
 		
 		removeDiagnosis: function(data) {
 			diagnoses.remove(data); 
 			backend.deleteDiagnosis(data.id()); 
+		}, 
+		addRow: function(data) {  
+			var last = diagnoses()[diagnoses().length - 1];
+			system.log(diagnoses().length); 
+			system.log(diagnoses()[1].diagnosis()); 
+			if(last.diagnosis() != undefined) 
+			    diagnoses.push(new structures.Diagnosis()); 
 		}
 	};
 });

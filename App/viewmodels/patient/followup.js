@@ -346,9 +346,6 @@ define(function(require) {
 		    isNewDocument(false); 
 			doc(data);
 		}, 
-		setPaymentFields: function(data) { 
-			paymentMethod(data); 
-		},
 		setPrescriptionFields: function(data) { 
 			prescription(data); 
 		},

@@ -103,18 +103,21 @@ define(function(require) {
 	
 	//Diagnosis
 	patient.prototype.Diagnosis = function(data) { 
+		var self = this; 
 		if(data!= null) { 
 			this.id					= ko.observable(data.id); 
 			this.serviceRecordId	= ko.observable(data.service_record_id); 
-			this.diagnosis			= ko.observable(data.diagnosis); 
+			this.diagnosis			= ko.observable(data.diagnosis).extend({required: {message: 'diagnosis'}}); 
 			this.code				= ko.observable(data.code); 
 		}
 		else {
 			this.id 				= ko.observable(); 
 			this.serviceRecordId	= ko.observable(); 
-			this.diagnosis			= ko.observable(); 
+			this.diagnosis			= ko.observable().extend({required: {message: 'diagnosis'}});
 			this.code				= ko.observable(); 
 		}
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Document

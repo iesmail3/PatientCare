@@ -1,5 +1,9 @@
-<div class="formScroll formPadding">
+<div class="formScroll formPadding diagnosis">
 	<div class="row-fluid">
+		<div class="alertHolder">
+						<div class="alert alert-danger diagnosisFailAlert">Diagnosis is a required field.</div>
+						<div class="alert alert-success diagnosisSuccessAlert">Successfully updated.</div>
+		</div>
 		<!-- ko with: diagnosis --> 
 		<table class="diagnosisTable table table-bordered table-hover">
 			<thead>
@@ -12,13 +16,14 @@
 			<tbody data-bind="foreach: $root.diagnoses">  
 				<tr>
 					<td class="input-small">											 
-						<input class="input-large" data-bind="value:diagnosis" />
+						<input class="input-medium"	data-bind="event: {keyup: $root.addRow},
+									  value: diagnosis, valueUpdate: 'afterkeydown'" />
 					</td> 
 					<td class="input-small">									
 						<input class="input-small" data-bind="value:code" />
 					</td>
 					<td>
-						<a class="btn" data-bind="click:$root.removeDiagnosis"><i class="icon-remove"></i></a>
+						<a class="btn" data-bind="visible: diagnosis()!='',click:$root.removeDiagnosis"><i class="icon-remove"></i></a>
 					</td>
 				</tr>
 			</tbody>
@@ -28,5 +33,5 @@
 </div>
 <div class="pull-right">
 	<button type="button" class="btn btn-small">Print Letter</button>
-	<button type="button" class="btn btn-small btn-primary" data-bind="click:saveDiagnosis">Save</button>
+	<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.saveDiagnosis">Save</button>
 </div>

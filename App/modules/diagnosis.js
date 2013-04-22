@@ -22,7 +22,7 @@ define(function(require) {
 	 // Get Review of Systems for a Single Service Record
 	diagnosis.prototype.getDiagnosis = function(patientId, practiceId, date) {
 		var self = this;
-		var fields = ['diagnosis.service_record_id', 'diagnosis.diagnosis',
+		var fields = ['diagnosis.id', 'diagnosis.service_record_id', 'diagnosis.diagnosis',
 			'diagnosis.code'];
 		
 		return self.query({
@@ -51,7 +51,7 @@ define(function(require) {
 			}
 		});
 		
-		if (diagnosis.id() == undefined || diagnosis.id == '') {
+		if (diagnosis.id() == undefined || diagnosis.id() == '') {
 			return self.query({
 				mode: 'select',
 				table: 'diagnosis',
@@ -94,7 +94,7 @@ define(function(require) {
 		return this.query({
 			mode: 'delete', 
 			table: 'diagnosis', 
-			where: "WHERE id='" + id() + "'"
+			where: "WHERE id='" + id + "'"
 		});
 	}
 	 // /**********************************************************************************************
