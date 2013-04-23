@@ -67,9 +67,9 @@ if(isset($_POST['username'])) {
 				});
 			});
 			
-			$('.close').click(function(e) {
+			$('.closePass').click(function(e) {
 				e.preventDefault();
-				$('.passwordForm').fadeIn('slow');
+				$('.passwordForm').fadeOut('slow');
 				$('.closePass').fadeOut('slow', function() {
 					$('.retrievePass').fadeIn('slow');	
 				});	

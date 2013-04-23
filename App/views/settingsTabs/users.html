@@ -98,7 +98,7 @@
 					<td data-bind="text: firstName, click: $root.selectUser"></td>
 					<td data-bind="text: lastName, click: $root.selectUser"></td>
 					<td data-bind="text: email, click: $root.selectUser"></td>
-					<td><button class="btn btn-danger" data-bind="visible: username() != 'administrator'">Delete</button></td>
+					<td><button class="btn btn-danger" data-bind="click: $root.deleteUser, visible: username() != 'administrator'">Delete</button></td>
 				</tr>
 			</tbody>
 		</table>

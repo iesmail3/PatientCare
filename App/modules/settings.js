@@ -142,11 +142,19 @@ define(function(require) {
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
 	// Delete Role
-	settings.prototype.deleteRole = function(id) {
+	settings.prototype.deleteUser = function(id, practice) {
+		return this.query({
+			mode: 'delete', 
+			table: 'user', 
+			where: "WHERE id='" + id + "' AND practice_id='" + practice + "'"
+		});
+	}
+	// Delete Role
+	settings.prototype.deleteRole = function(id, practice) {
 		return this.query({
 			mode: 'delete', 
 			table: 'role', 
-			where: "WHERE id='" + id + "'"
+			where: "WHERE id='" + id + "' AND practice_id='" + practice + "'"
 		});
 	}
 		

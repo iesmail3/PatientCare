@@ -287,6 +287,7 @@ define(function(require) {
 			medication(new structures.Medication());
 			newMed(0);
 			cancelMed(1);
+			$('.strengthList').combobox({target: '.strength'});
 		},
 		cancelMedication: function(data) {
 			medication(tempMedication());

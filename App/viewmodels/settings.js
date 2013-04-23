@@ -181,6 +181,7 @@ define(function(require) {
 							
 							// Success message
 							$('.alert-success').fadeIn().delay(3000).fadeOut();
+							self.newFlag(false);
 						}
 					});
 				}
@@ -189,10 +190,20 @@ define(function(require) {
 				$('.userTakenAlert').fadeIn().delay(3000).fadeOut();
 		},
 		deleteUser: function(data) {
-			self.users.remove(data);
+			app.showMessage('Are you sure you want to delete ' + self.user().firstName() 
+							+ ' ' + self.user().lastName() + '?',
+						    'Delete User', ['Yes', 'No']).done(function(result) {
+				if(result == 'Yes') {
+					backend.deleteUser(data.id(), self.practiceId()).complete(function(data) {
+						if(data.responseText == 'deleteSuccess') {
+							self.users.remove(self.user());
+							self.user(self.users()[0]);
+						}
+					});
+				}
+			});
 		},
 		selectUser: function(data) {
-			system.log(data.id());
 			self.user(data);
 		},
 		selectRole: function(data) {
@@ -244,7 +255,7 @@ define(function(require) {
 			app.showMessage('Are you sure you want to delete ' + self.role().name() + '?',
 						    'Delete Role', ['Yes', 'No']).done(function(result) {
 				if(result == 'Yes') {
-					backend.deleteRole(self.role().id());
+					backend.deleteRole(self.role().id(), self.practiceId());
 					self.roles.remove(self.role());
 					self.role(new structures.Role());
 				}						 	
