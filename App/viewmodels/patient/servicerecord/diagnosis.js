@@ -25,7 +25,10 @@ define(function(require) {
 	var patientId       = ko.observable();
 	var practiceId      = ko.observable();
 	var date            = ko.observable();
-
+	var codes           = ko.observableArray([]); 
+	var diagnosisList   = ko.observableArray([]);
+	var diagnosisCode  = ko.observableArray([]);
+	var diagnosisDescription   = ko.observableArray([]);
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
@@ -49,6 +52,10 @@ define(function(require) {
 		patientId: patientId,
 		practiceId: practiceId,
 		date: date,
+		codes:codes,
+		diagnosisList:diagnosisList,
+		diagnosisDescription:diagnosisDescription, 
+		diagnosiscode:diagnosisCode,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -64,6 +71,21 @@ define(function(require) {
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 			});
+			
+			
+			$.getJSON('php/codes.php', function(data) { 
+				if(data.length > 0) {
+					var d = _.map(data, function(item) {return item.description});
+					diagnosisDescription(d);
+					var d = _.map(data, function(item) {
+						return {
+							description: item.description,
+							name: item.name
+						}
+					});
+					diagnosisList(d);
+			    }
+			}); 
 		},
 		// Loads when view is loaded
 		activate: function(data) {
@@ -86,6 +108,10 @@ define(function(require) {
 			
 		},
 		
+		setDiagnosisFields: function(data) { 
+		
+			diagnosis(data);
+		},
 		saveDiagnosis: function(data) {
 			if(diagnoses().length  > 0) { 
 				var isValid = true;
@@ -121,10 +147,25 @@ define(function(require) {
 		}, 
 		addRow: function(data) {  
 			var last = diagnoses()[diagnoses().length - 1];
-			system.log(diagnoses().length); 
-			system.log(diagnoses()[1].diagnosis()); 
 			if(last.diagnosis() != undefined) 
 			    diagnoses.push(new structures.Diagnosis()); 
+		},
+		popCode: function(data) {
+		    // Delay for .2 seconds to allow data to cascade
+			setTimeout(function () {
+				var list = _.filter(diagnosisList(), function(item) {
+					return item.description == data.diagnosis();
+				});
+				 list = _.filter(list, function(item) {
+					 return item.name; 
+				 });
+				 //system.log(list[0].desct); 
+				data.code(list[0].name);
+			}, 200);
+		}, 
+		
+		popDescription: function(data) { 
+		
 		}
 	};
 });

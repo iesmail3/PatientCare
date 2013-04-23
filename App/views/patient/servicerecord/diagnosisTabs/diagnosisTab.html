@@ -16,11 +16,10 @@
 			<tbody data-bind="foreach: $root.diagnoses">  
 				<tr>
 					<td class="input-small">											 
-						<input class="input-medium"	data-bind="event: {keyup: $root.addRow},
-									  value: diagnosis, valueUpdate: 'afterkeydown'" />
+						<input class="input-small" data-bind="value:diagnosis,typeahead: {value: diagnosis, source: $root.diagnosisDescription},event:{blur: $root.popCode},valueUpdate: 'afterkeydown'" />
 					</td> 
 					<td class="input-small">									
-						<input class="input-small" data-bind="value:code" />
+						<input class="input-small" data-bind="value:code,typeahead: {value: code, source: $root.diagnosisCode},event:{blur: $root.popDescription},valueUpdate: 'afterkeydown'" />
 					</td>
 					<td>
 						<a class="btn" data-bind="visible: diagnosis()!='',click:$root.removeDiagnosis"><i class="icon-remove"></i></a>
