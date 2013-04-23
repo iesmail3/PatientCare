@@ -98,8 +98,8 @@ define(function(require) {
 			$('.control-label i').popover({
 				title: 'Password',
 				html: true,
-				content: '<p>For new users, this will set their password.</p>' + 
-						 '<p>For existing users, this will reset their password.</p>', 
+				content: '<p>This will reset the user\'s password.</p>' +
+						 '<p style="color: red; font-weight: bold;">Use with caution!</p>', 
 				placement: 'bottom',
 				trigger: 'hover'
 			});
@@ -161,48 +161,28 @@ define(function(require) {
 				}
 				else {
 					/******************************************************************************
-				 	 * Password check
-				 	 *****************************************************************************/
-					if(self.user().id() == undefined && self.password() == undefined) {
-						$('.newPasswordAlert').fadeIn().delay(3000).fadeOut();
-					}
-					// Check length of password
-					else if((self.password() != undefined && self.password() != '') 
-					        && self.password().length < 8)
-						$('.lengthAlert').fadeIn().delay(3000).fadeOut();
-					/******************************************************************************
 				 	 * Save User
 				 	 *****************************************************************************/
-					else {
-						backend.saveUser(self.user(), self.password()).complete(function(data) {
-							var response = $.parseJSON(data.responseText);
-							if(response.result.toLowerCase().indexOf('success') >= 0) {
-								// Insert
-								if(response.result.toLowerCase().indexOf('insert') >= 0) {
-									// Update new users fields
-									self.user().id(response.id);
-									self.user().password(response.password);
-									// Add user to table
-									self.users.push(self.user());
-								}
-								// Clear password
-								self.password('');
-								
-								// Email
-								app.showMessage(
-									'User added/updated. Would you like to email the user their password?', 
-									'Email', 
-									['Yes', 'No']
-								).then(function(response) {
-									if(response == 'Yes')
-										$.get('php/emailPass.php', {user: JSON.stringify(ko.toJS(self.user()))});
-								});
-								
-								// Success message
-								$('.alert-success').fadeIn().delay(3000).fadeOut();
+					backend.saveUser(self.user(), self.password()).complete(function(data) {
+						var response = $.parseJSON(data.responseText);
+						if(response.result.toLowerCase().indexOf('success') >= 0) {
+							// Insert
+							if(response.result.toLowerCase().indexOf('insert') >= 0) {
+								// Update new users fields
+								self.user().id(response.id);
+								self.user().password(response.password);
+								// Add user to table
+								self.users.push(self.user());
 							}
-						});
-					}
+							// Clear password
+							self.password('');
+							
+							$.get('php/emailPass.php', {user: JSON.stringify(ko.toJS(self.user())), method: 'new'});
+							
+							// Success message
+							$('.alert-success').fadeIn().delay(3000).fadeOut();
+						}
+					});
 				}
 			}
 			else
@@ -268,6 +248,17 @@ define(function(require) {
 					self.roles.remove(self.role());
 					self.role(new structures.Role());
 				}						 	
+			});
+		},
+		resetPassword: function() {
+			// Email
+			app.showMessage(
+				'Are you sure you want to reset ' + user().firstName() + " " + user().lastName() + "'s password?", 
+				'Rest Password', 
+				['Yes', 'No']
+			).then(function(response) {
+				if(response == 'Yes')
+					$.get('php/emailPass.php', {user: JSON.stringify(ko.toJS(self.user())), method: 'reset'});
 			});
 		},
 		getRoleName: getRoleName

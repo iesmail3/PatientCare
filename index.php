@@ -57,6 +57,36 @@ if(isset($_POST['username'])) {
 	<!-- Javascript -->
 	<script type="text/javascript" src="Scripts/jquery-1.9.1.js"></script> 
 	<script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$('.retrievePass').click(function(e) {
+				e.preventDefault();
+				$('.passwordForm').fadeIn('slow');
+				$('.retrievePass').fadeOut('slow', function() {
+					$('.closePass').fadeIn('slow');	
+				});
+			});
+			
+			$('.close').click(function(e) {
+				e.preventDefault();
+				$('.passwordForm').fadeIn('slow');
+				$('.closePass').fadeOut('slow', function() {
+					$('.retrievePass').fadeIn('slow');	
+				});	
+			});
+			
+			$('.sendButton').click(function(e) {
+				e.preventDefault();
+				
+				$.post('php/forgotPass.php', {email: $('.email').val()});
+				$('.passwordForm').fadeOut('slow');
+				$('.closePass').fadeOut('slow', function() {
+					$('.sentPass').text('Your password has been sent to ' + $('.email').val() + '.');
+					$('.sentPass').fadeIn('slow');	
+				});
+			});
+		});
+	</script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -76,7 +106,7 @@ if(isset($_POST['username'])) {
 				<div class="control-group">
 					<label class="control-label" for-"password">Password</label>
 					<div class="controls">
-						<input type="text" id="password" name="password" placeholder="Password" />
+						<input type="password" id="password" name="password" placeholder="Password" />
 					</div>
 				</div>
 				<?php if(!$check): ?>
@@ -91,7 +121,25 @@ if(isset($_POST['username'])) {
 		</div>
 		<div class="loginSeparator"></div>
 		<div class="row-fluid">
-			<div class="formFooter"><a href="#" class="retrievePass">Forgot Password?</a></div>
+			<div class="formFooter">
+				<a href="#" class="retrievePass">Forgot Password?</a>
+				<a href="#" class="closePass">Close</a>
+				<p class="sentPass muted"></p>
+			</div>
+			<form class="form-horizontal loginForm passwordForm" action="" method="post">
+				<p class="muted">Enter your email and click send to receive a link to reset your password.</p>
+				<div class="control-group">
+					<label class="control-label" for-"user">Email</label>
+					<div class="controls">
+						<input type="text" class="email" placeholder="Email" />
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<button type="submit" class="btn btn-lightgreen sendButton">Send</button>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 </body>

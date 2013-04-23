@@ -44,13 +44,14 @@
 						</select>
 					</div>
 				</div>
-				<div class="control-group">
+				<div class="control-group" data-bind="visible: !$root.newFlag()">
 					<label class="control-label">Password
 						<i data-toggle="tooltip" class="icon-question-sign"></i></label>
 					<div class="controls">
-						<input type="text" data-bind="value: $root.password, enable: username() != 'administrator'" 
-					       placeholder="Password" class="input-medium" />
-					    <div><small class="muted">Must be at least 8 characters.</small></div>
+						<button class="btn" data-bind="click: $root.resetPassword, 
+							    visible: username() != 'administrator'">
+							Reset Current Password.
+						</button>
 					</div>
 				</div>
 			</div>

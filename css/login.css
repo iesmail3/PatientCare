@@ -40,6 +40,12 @@ a, a:hover {
   box-shadow: 1px 1px 10px #888;
 }
 
+.passwordForm {
+	display: none;
+	margin-top: 25px;
+	width: 500px;
+}
+
 .formFooter {
   margin-top: 15px;
   margin: auto;
@@ -59,4 +65,22 @@ a, a:hover {
 	margin-bottom: 10px;
 	color: rgb(255, 0, 0);
 	text-align: center;
+}
+
+/* Password Retrieval */
+.expiredLink {
+	text-align: center;
+}
+
+.expiredLink a {
+	color: #0088cc;
+}
+
+.emailRetrieval {
+	margin: auto;
+	width: 250px;
+}
+
+.closePass {
+	display: none;
 }
