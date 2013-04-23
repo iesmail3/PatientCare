@@ -17,11 +17,11 @@ define(function(require) {
 		if(data != null) {
 			this.id 		   		= ko.observable(data.id);
 			this.practiceId 		= ko.observable(data.practice_id);
-			this.username			= ko.observable(data.username);
+			this.username			= ko.observable(data.username).extend({required: {message: 'username'}});
 			this.password			= ko.observable(data.password);
 			this.firstName   		= ko.observable(data.first_name);
 			this.lastName			= ko.observable(data.last_name);
-			this.email				= ko.observable(data.email);
+			this.email				= ko.observable(data.email).extend({required: {message: 'email'}, email: true});
 			this.roleId				= ko.observable(data.role_id);
 			this.roleName			= ko.observable(data.name);
 			this.roleDescription	= ko.observable(data.description);
@@ -29,15 +29,18 @@ define(function(require) {
 		else {
 			this.id 		   		= ko.observable();
 			this.practiceId 		= ko.observable();
-			this.username			= ko.observable();
+			this.username			= ko.observable().extend({required: {message: 'username'}});
 			this.password			= ko.observable();
 			this.firstName   		= ko.observable();
 			this.lastName			= ko.observable();
-			this.email				= ko.observable();
+			this.email				= ko.observable().extend({required: {message: 'email'}, email: true});
 			this.roleId				= ko.observable();
 			this.roleName			= ko.observable();
 			this.roleDescription	= ko.observable();
 		}
+		
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	/**************************************************************************************************

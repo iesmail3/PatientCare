@@ -76,14 +76,14 @@ define(function(require) {
 			$('.settingsContent > .tab-pane').height(height);
 			$('.settingsPills').height(height);
 			$('.subSettings .tab-pane').height(height - 50);
-			$('.userTableHolder').height(parseInt($('.tab-pane').height()) - 312);
+			$('.userTableHolder').height(parseInt($('.tab-pane').height()) - 362);
 			$('.roleContent').height(parseInt($('.tab-pane').height()) - 200);
 			$(window).resize(function() {
 				var height = parseInt($('.viewHolder').height()) - 12;
 				$('.settingsContent > .tab-pane').height(height);
 				$('.settingsPills').height(height);
 				$('.subSettings .tab-pane').height(height - 50);
-				$('.userTableHolder').height(parseInt($('.tab-pane').height()) - 312);
+				$('.userTableHolder').height(parseInt($('.tab-pane').height()) - 362);
 				$('.roleContent').height(parseInt($('.tab-pane').height()) - 200);
 			});
 			
@@ -139,29 +139,74 @@ define(function(require) {
 			self.newFlag(false);
 		},
 		saveUser: function() {
-			system.log(self.user().id());
-			// Check for duplicate role names
+			self.user().practiceId(self.practiceId());
+			/**********************************************************************************
+			 * Check for duplicate username
+		 	 *********************************************************************************/
 			var name = self.user().username();
 			var match = _.find(self.users(), function(item) { return item.username() == name});
-			// If is new and no duplicate name or updating current user
 			if(match == undefined || self.user().id() != undefined) {
-				// Check if new user has password
-				if(self.user().id() == undefined && self.password() == undefined) {
-					$('.newPasswordAlert').fadeIn().delay(3000).fadeOut();
+				/**********************************************************************************
+				 * Check for errors
+				 *********************************************************************************/
+				if(self.user().errors().length > 0) {
+					if(self.user().errors().length > 1)
+						$('.allAlert').fadeIn().delay(3000).fadeOut();
+					else if(self.user().errors()[0] == 'user')
+						$('.userAlert').fadeIn().delay(3000).fadeOut();
+					else if(self.user().errors()[0] == 'email' && self.user().email() != undefined)
+						$('.emailInvalidAlert').fadeIn().delay(5000).fadeOut();
+					else if(self.user().errors()[0] == 'email')
+						$('.emailAlert').fadeIn().delay(3000).fadeOut();
 				}
-				// Check length of password
-				else if(self.password() != undefined && self.password().length < 8)
-					$('.lengthAlert').fadeIn().delay(3000).fadeOut();
-				// Save user information
 				else {
-					
-					backend.saveUser(self.user(), self.password()).complete(function(data) {
-						
-						$('.alert-success').fadeIn().delay(3000).fadeOut();
-					});
-					
+					/******************************************************************************
+				 	 * Password check
+				 	 *****************************************************************************/
+					if(self.user().id() == undefined && self.password() == undefined) {
+						$('.newPasswordAlert').fadeIn().delay(3000).fadeOut();
+					}
+					// Check length of password
+					else if((self.password() != undefined && self.password() != '') 
+					        && self.password().length < 8)
+						$('.lengthAlert').fadeIn().delay(3000).fadeOut();
+					/******************************************************************************
+				 	 * Save User
+				 	 *****************************************************************************/
+					else {
+						backend.saveUser(self.user(), self.password()).complete(function(data) {
+							var response = $.parseJSON(data.responseText);
+							if(response.result.toLowerCase().indexOf('success') >= 0) {
+								// Insert
+								if(response.result.toLowerCase().indexOf('insert') >= 0) {
+									// Update new users fields
+									self.user().id(response.id);
+									self.user().password(response.password);
+									// Add user to table
+									self.users.push(self.user());
+								}
+								// Clear password
+								self.password('');
+								
+								// Email
+								app.showMessage(
+									'User added/updated. Would you like to email the user their password?', 
+									'Email', 
+									['Yes', 'No']
+								).then(function(response) {
+									if(response == 'Yes')
+										$.get('php/emailPass.php', {user: JSON.stringify(ko.toJS(self.user()))});
+								});
+								
+								// Success message
+								$('.alert-success').fadeIn().delay(3000).fadeOut();
+							}
+						});
+					}
 				}
 			}
+			else
+				$('.userTakenAlert').fadeIn().delay(3000).fadeOut();
 		},
 		deleteUser: function(data) {
 			self.users.remove(data);

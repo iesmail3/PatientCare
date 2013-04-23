@@ -116,6 +116,8 @@ define(function(require) {
 	}
 	
 	settings.prototype.saveUser = function(user, password) {
+		var self = this;
+		
 		password = (password == undefined) ? 'none': password;
 		var values = {}; 
 		$.each(user, function(k,v) {

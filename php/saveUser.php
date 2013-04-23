@@ -48,7 +48,7 @@ if(strlen($values['id']) == 0) {
 	$stmt->execute();
 	$affected = $stmt->rowCount();
 	if($affected > 0)
-		echo $result;
+		echo json_encode(array('result' => 'insertSuccess', 'id' => $result, 'password' => $values['password']));
 	else
 		echo 'insertFail';
 }
@@ -67,9 +67,8 @@ else {
 	$stmt->bindParam(':role',  $values['roleId']);
 	$stmt->execute();
 	$affected = $stmt->rowCount();
-	echo $affected;
 	if($affected > 0)
-		echo 'updateSuccess';
+		echo json_encode(array('result' => 'updateSuccess', 'password' => $values['password']));
 	else
 		echo 'updateFail';
 }
