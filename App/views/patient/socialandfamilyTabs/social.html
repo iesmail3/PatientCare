@@ -1,5 +1,7 @@
 <div class="alertHolder">
-	<div class="alert alert-success">Successfully saved.</div>
+	<div class="alert alert-warning alertSame">No changes made.</div>
+	<div class="alert alert-success alertRevert">Changes reverted.</div>
+	<div class="alert alert-success alertSave">Successfully saved.</div>
 </div>
 <div class="formScroll">
 	<form class="form-inline formPadding">
@@ -39,7 +41,9 @@
 					value: alcoholWeekly,
 					enable: alcohol() != 'never' && alcohol() != ''" />
 				<label class="checkbox inline">
-					<input type="checkbox" data-bind="checked: alcoholCounseling" />
+					<input type="checkbox" data-bind="
+						checked: alcoholCounseling,
+						enable: alcohol() != 'never' && alcohol() != ''" />
 					<span>Counseling&nbsp;provided</span>
 				</label>
 			</div>

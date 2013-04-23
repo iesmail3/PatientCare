@@ -90,6 +90,7 @@ define(function(require) {
 			var self = this;
 			
 			self.practiceId('1');
+			//self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
 			self.patientId(data.patientId);
 			
 			var backend = new Backend();
@@ -173,34 +174,80 @@ define(function(require) {
 			socialHistory().drugComment('');
 		},
 		socialSave: function(data) {
-			socialHistory().patientId(patientId());
-			socialHistory().practiceId(practiceId());
+			// Store a temp copy before saving
+			var temp = new structures.SocialHistory({
+				patient_id: patientId(),
+				practice_id: practiceId(),
+				smoking: socialHistory().smoking(),
+				smoking_weekly: socialHistory().smokingWeekly(),
+				smoking_counseling: socialHistory().smokingCounseling(),
+				alcohol: socialHistory().alcohol(),
+				alcohol_weekly: socialHistory().alcoholWeekly(),
+				alcohol_counseling: socialHistory().alcoholCounseling(),
+				drug_abuse: socialHistory().drugAbuse(),
+				drug_comment: socialHistory().drugComment(),
+				blood_exposure: socialHistory().bloodExposure(),
+				chemical_exposure: socialHistory().chemicalExposure(),
+				comment: socialHistory().comment(),
+				history_changed: socialHistory().historyChanged()
+			});
+			
+			tempSocialHistory(temp);
+			// Set boolean values
 			socialHistory().smokingCounseling(+socialHistory().smokingCounseling());
 			socialHistory().alcoholCounseling(+socialHistory().alcoholCounseling());
 			socialHistory().historyChanged(+socialHistory().historyChanged());
 			backend.saveSocialHistory(patientId(), practiceId(), socialHistory()).complete(function(data) {
 				system.log(data.responseText);
 				if (data.responseText != 'insertFail' && data.responseText != 'updateFail')
-					$('.alert-success').fadeIn().delay(3000).fadeOut();
+					$('.alertSave').fadeIn().delay(3000).fadeOut();
 			});
 		},
 		socialCancel: function(data) {
-			return app.showMessage(
-				'Are you sure you want to cancel any changes made?',
-				'Cancel',
-				['Yes', 'No'])
-			.done(function(answer){
-				if(answer == 'Yes') {
-					socialHistory(tempSocialHistory());
-					socialHistory().patientId(patientId());
-					socialHistory().practiceId(practiceId());
-					backend.saveSocialHistory(patientId(), practiceId(), socialHistory()).complete(function(data) {
-						system.log(data.responseText);
-						if (data.responseText != 'updateFail')
-							$('.alert-success').fadeIn().delay(3000).fadeOut();
-					});
-				}
+			var same = true;
+			$.each(socialHistory(), function(k,v) {
+				$.each(tempSocialHistory(), function(m,n) {
+					if ((k == m) && (v() != n())) {
+						system.log(k);
+						system.log("Not equal: " + v() + " : " + n());
+						same = false;
+					}
+				});
 			});
+			if (!same) {
+				return app.showMessage(
+					'Are you sure you want to cancel any changes made?',
+					'Cancel',
+					['Yes', 'No'])
+				.done(function(answer){
+					if(answer == 'Yes') {
+						var temp = new structures.SocialHistory({
+							patient_id: patientId(),
+							practice_id: practiceId(),
+							smoking: tempSocialHistory().smoking(),
+							smoking_weekly: tempSocialHistory().smokingWeekly(),
+							smoking_counseling: tempSocialHistory().smokingCounseling(),
+							alcohol: tempSocialHistory().alcohol(),
+							alcohol_weekly: tempSocialHistory().alcoholWeekly(),
+							alcohol_counseling: tempSocialHistory().alcoholCounseling(),
+							drug_abuse: tempSocialHistory().drugAbuse(),
+							drug_comment: tempSocialHistory().drugComment(),
+							blood_exposure: tempSocialHistory().bloodExposure(),
+							chemical_exposure: tempSocialHistory().chemicalExposure(),
+							comment: tempSocialHistory().comment(),
+							history_changed: tempSocialHistory().historyChanged()
+						});
+						
+						socialHistory(temp);
+						backend.saveSocialHistory(patientId(), practiceId(), socialHistory()).complete(function(data) {
+							if (data.responseText != 'updateFail')
+								$('.alertRevert').fadeIn().delay(3000).fadeOut();
+						});
+					}
+				});
+			}
+			else
+				$('.alertSame').fadeIn().delay(3000).fadeOut();
 		},
 		/******************************************************************************************* 
 		 * Family History Methods

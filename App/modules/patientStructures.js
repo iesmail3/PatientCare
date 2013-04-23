@@ -1256,16 +1256,16 @@ define(function(require) {
 			this.practiceId		   = ko.observable();
 			this.smoking		   = ko.observable('');
 			this.smokingWeekly	   = ko.observable();
-			this.smokingCounseling = ko.observable();
+			this.smokingCounseling = ko.observable(0);
 			this.alcohol		   = ko.observable('');
 			this.alcoholWeekly	   = ko.observable();
-			this.alcoholCounseling = ko.observable();
+			this.alcoholCounseling = ko.observable(0);
 			this.drugAbuse		   = ko.observable();
 			this.drugComment	   = ko.observable();
 			this.bloodExposure	   = ko.observable();
 			this.chemicalExposure  = ko.observable();
 			this.comment		   = ko.observable();
-			this.historyChanged	   = ko.observable();
+			this.historyChanged	   = ko.observable(0);
 		}
 	}
 	

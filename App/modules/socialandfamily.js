@@ -63,13 +63,13 @@ define(function(require) {
 	 * 
 	 * These methods add information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
-	socialandfamily.prototype.saveSocialHistory = function(patientId, practiceId, data) {
+	socialandfamily.prototype.saveSocialHistory = function(patientId, practiceId, socialHistory) {
 		var self = this;
 		var fields = ['patient_id', 'practice_id', 'smoking', 'smoking_weekly', 'smoking_counseling', 'alcohol',
 			'alcohol_weekly', 'alcohol_counseling', 'drug_abuse', 'drug_comment', 'blood_exposure',
 			'chemical_exposure', 'comment', 'history_changed']
 		
-		var values = $.map(data, function(k,v) {
+		var values = $.map(socialHistory, function(k,v) {
 			if(k() == null || k() == undefined) {
 				return [''];
 			}
@@ -78,28 +78,25 @@ define(function(require) {
 			}
 		});
 		
-		var temp = self.query({
-			mode: 'select',
-			table: 'social_history',
-			fields: 'patient_id',
-			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
-		});
-		
-		if (temp != undefined) {
+		if (socialHistory.patientId() == undefined || socialHistory.patientId() == '') {
+			values[0] = patientId;
+			values[1] = practiceId;
+			socialHistory.patientId(patientId);
+			socialHistory.practiceId(practiceId);
+			return self.query({
+				mode: 'insert',
+				table: 'social_history',
+				fields: fields,
+				values: values
+			});
+		}
+		else {
 			return self.query({
 				mode: 'update',
 				table: 'social_history',
 				fields: fields,
 				values: values,
 				where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
-			});
-		}
-		else {
-			return self.query({
-				mode: 'insert',
-				table: 'social_history',
-				fields: fields,
-				values: values
 			});
 		}
 	}
