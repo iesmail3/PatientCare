@@ -178,30 +178,29 @@ define(function(require) {
 			socialHistory().smokingCounseling(+socialHistory().smokingCounseling());
 			socialHistory().alcoholCounseling(+socialHistory().alcoholCounseling());
 			socialHistory().historyChanged(+socialHistory().historyChanged());
-			backend.saveSocialHistory(patientId(), practiceId(), socialHistory()).success(function(data) {
-				system.log(data);
+			backend.saveSocialHistory(patientId(), practiceId(), socialHistory()).complete(function(data) {
+				system.log(data.responseText);
 				if (data.responseText != 'insertFail' && data.responseText != 'updateFail')
 					$('.alert-success').fadeIn().delay(3000).fadeOut();
 			});
 		},
 		socialCancel: function(data) {
-			if (socialHistory() != tempSocialHistory()) {
-				return app.showMessage(
-					'Are you sure you want to cancel any changes made?',
-					'Cancel',
-					['Yes', 'No'])
-				.done(function(answer){
-					if(answer == 'Yes') {
-						socialHistory(tempSocialHistory());
-						socialHistory().patientId(patientId());
-						socialHistory().practiceId(practiceId());
-						backend.saveSocialHistory(patientId(), practiceId(), socialHistory()).complete(function(data) {
-							if (data.responseText != 'insertFail' && data.responseText != 'updateFail')
-								$('.alert-success').fadeIn().delay(3000).fadeOut();
-						});
-					}
-				});
-			}
+			return app.showMessage(
+				'Are you sure you want to cancel any changes made?',
+				'Cancel',
+				['Yes', 'No'])
+			.done(function(answer){
+				if(answer == 'Yes') {
+					socialHistory(tempSocialHistory());
+					socialHistory().patientId(patientId());
+					socialHistory().practiceId(practiceId());
+					backend.saveSocialHistory(patientId(), practiceId(), socialHistory()).complete(function(data) {
+						system.log(data.responseText);
+						if (data.responseText != 'updateFail')
+							$('.alert-success').fadeIn().delay(3000).fadeOut();
+					});
+				}
+			});
 		},
 		/******************************************************************************************* 
 		 * Family History Methods
@@ -212,6 +211,7 @@ define(function(require) {
 			});
 		},
 		familyHistoryAddRow: function(data) {
+			system.log(data);
 			var lastRow = familyHistories()[familyHistories().length - 1];
 			if (lastRow.relationship() != '')
 				familyHistories.push(new structures.FamilyHistory());

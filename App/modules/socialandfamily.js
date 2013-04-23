@@ -70,38 +70,38 @@ define(function(require) {
 			'chemical_exposure', 'comment', 'history_changed']
 		
 		var values = $.map(data, function(k,v) {
-			if(k == null || k == undefined) {
+			if(k() == null || k() == undefined) {
 				return [''];
 			}
 			else {
-				return [k];
+				return [k()];
 			}
 		});
 		
-		return this.query({
+		var temp = self.query({
 			mode: 'select',
 			table: 'social_history',
 			fields: 'patient_id',
 			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
-		}).success(function(data) {
-			if (data.length > 0) {
-				self.query({
-					mode: 'update',
-					table: 'social_history',
-					fields: fields,
-					values: values,
-					where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
-				});
-			}
-			else {
-				self.query({
-					mode: 'insert',
-					table: 'social_history',
-					fields: fields,
-					values: values
-				});
-			}
 		});
+		
+		if (temp != undefined) {
+			return self.query({
+				mode: 'update',
+				table: 'social_history',
+				fields: fields,
+				values: values,
+				where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
+			});
+		}
+		else {
+			return self.query({
+				mode: 'insert',
+				table: 'social_history',
+				fields: fields,
+				values: values
+			});
+		}
 	}
 	
 	socialandfamily.prototype.savePatient = function(patientId, practiceId, data) {
