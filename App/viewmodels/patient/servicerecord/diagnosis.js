@@ -176,6 +176,9 @@ define(function(require) {
 					data.diagnosis(list[0].description);
 				}
 			}, 200);
+		},
+		selectPrint: function(data) {
+			modal.showDiagnosisLetter('Diagnosis Letter',patientId(),practiceId(),date());
 		}
 	};
 });

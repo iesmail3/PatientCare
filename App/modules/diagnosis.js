@@ -34,16 +34,38 @@ define(function(require) {
 		});
 	}
 	
-	// Get Service Record Id
-	diagnosis.prototype.getServiceRecordId = function(patientId, practiceId, date) {
-		return this.query({
+	//Get Physician Name and Degree 
+	diagnosis.prototype.getPhysician = function(patientId, practiceId, date) {
+		var self = this;
+		var fields = ['physician.first_name', 'physician.last_name', 'physician.degree'];
+		return self.query({
 			mode: 'select',
-			table: 'service_record',
-			fields: 'id',
-			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "' AND date='" + date + "'"
+			table: 'physician',
+			join: "JOIN service_record ON physician.id=service_record.physician_id",
+			fields: fields,
+			where: "WHERE service_record.patient_id='" + patientId + "' AND service_record.practice_id='" + practiceId + "' AND service_record.date='" + date + "'"
 		});
 	}
 
+	//Get Patient name and DOB 
+	diagnosis.prototype.getPatient = function(patientId) {  
+		return this.query({
+			mode: 'select',
+			table: 'patient',
+			fields: '*',
+			where: "WHERE id='" + patientId + "'"
+		});
+	}
+	
+	//Get Service Record comment
+	diagnosis.prototype.getServiceRecord = function(date) { 
+		return this.query({
+			mode: 'select',
+			table: 'service_record',
+			fields: '*',
+			where: "WHERE date='" + date + "'"
+		});
+	}	
 	 /**********************************************************************************************
 	 * Save Methods
 	 * 
