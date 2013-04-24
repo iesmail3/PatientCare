@@ -8,10 +8,16 @@
 			<div class="alert alert-success ">Successfully saved.</div>
 		</div>
 		<div class="marginBottom5">
-			<input type="text" placeholder="Medicine" data-bind="
-				typeahead: {value: medicine, source: $root.medicineNames}" />
-			<input type="text" class="input-medium" placeholder="Strength" data-bind="
+			<input type="text" class="input-xlarge" placeholder="Medicine" data-bind="
+				value: medicine,
+				typeahead: {value: medicine, source: $root.medicineNames},
+				event: {blur: $root.popStrength},
+				valueUpdate: 'afterkeydown'" />
+			<input type="text" class="input-xmedium strength" placeholder="Strength" data-bind="
 				value: strength" />
+			<select class="strengthList selectSource" data-bind="foreach: $root.strengthList">
+				<option data-bind="text: $data"></option>
+			</select>
 			<input type="text" class="input-medium" placeholder="Quantity" data-bind="
 				value: quantity" />
 		</div>

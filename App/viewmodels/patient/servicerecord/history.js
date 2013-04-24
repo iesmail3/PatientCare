@@ -17,6 +17,7 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
+	var self;
 	var form = new Forms();
 	var backend = new Backend();
 	var structures = new Structures();
@@ -32,10 +33,11 @@ define(function(require) {
 	var medicalProblemsState = ko.observable(false);
 	var tempMedication = ko.observable(new structures.Medication());
 	var medicineNames = ko.observableArray([]);
-	var medicineStrength = ko.observableArray([]);
+	var medicines = ko.observableArray([]);
 	var physicians = ko.observableArray([]);
 	var medication = ko.observable(new structures.Medication());
 	var medications = ko.observableArray([]);
+	var strengthList = ko.observableArray([]);
 	var medicationState = ko.observable(false);
 	var tempAllergiesIntolerance = ko.observable(new structures.AllergiesIntolerance());
 	var allergiesIntolerance = ko.observable(new structures.AllergiesIntolerance());
@@ -69,10 +71,11 @@ define(function(require) {
 		medicalProblemsState: medicalProblemsState,
 		tempMedication: tempMedication,
 		medicineNames: medicineNames,
-		medicineStrength: medicineStrength,
+		medicines: medicines,
 		physicians: physicians,
 		medication: medication,
 		medications: medications,
+		strengthList: strengthList,
 		medicationState: medicationState,
 		tempAllergiesIntolerance: tempAllergiesIntolerance,
 		allergiesIntolerance: allergiesIntolerance,
@@ -104,17 +107,20 @@ define(function(require) {
 				$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 326);
 				$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 281);
 			});
+			
+			// combobox for strength field
+			$('.strengthList').combobox({target: '.strength'});
+			setTimeout(function() {self.popStrength();}, 1500);
 		},
 		// Loads when view is loaded
 		activate: function(data) {
-			var self = this;
+			self = this;
 			
 			self.practiceId('1');
 			//self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
 			self.patientId(data.patientId);
 			self.date(data.date);
 			
-			var backend = new Backend();
 			// Get the current Service Record
 			backend.getServiceRecord(self.patientId(), self.practiceId(), self.date()).success(function(data) {
 				if (data.length > 0) {
@@ -177,22 +183,6 @@ define(function(require) {
 					self.medicalProblemsState(true);
 			});
 			
-			backend.getMedication(self.patientId(), self.practiceId(), self.date()).success(function(data) {
-				if(data.length > 0) {
-					var m = $.map(data, function(item) {
-						item.prescribed_date = form.uiDate(item.prescribed_date);
-						item.discontinued_date = form.uiDate(item.discontinued_date);
-						item.date = form.uiDate(item.date);
-						return new structures.Medication(item);
-					});
-					
-					self.medications(m);
-					self.medication(m[0]);
-				}
-				else
-					self.medicationState(true);
-			});
-			
 			backend.getMedicineList().success(function(data) {
 				if(data.length > 0) {
 					var m = _.map(data, function(item) {return item.medicine_name});
@@ -204,8 +194,25 @@ define(function(require) {
 							unit: item.unit
 						}
 					});
-					self.medicineStrength(m);
+					self.medicines(m);
 				}
+			});
+			
+			backend.getMedication(self.patientId(), self.practiceId(), self.date()).success(function(data) {
+				if(data.length > 0) {
+					var m = $.map(data, function(item) {
+						item.prescribed_date = form.uiDate(item.prescribed_date);
+						item.discontinued_date = form.uiDate(item.discontinued_date);
+						item.date = form.uiDate(item.date);
+						return new structures.Medication(item);
+					});
+					
+					self.medications(m);
+					self.medication(m[0]);
+					self.popStrength();
+				}
+				else
+					self.medicationState(true);
 			});
 			
 			backend.getPhysicians(self.practiceId()).success(function(data) {
@@ -452,12 +459,16 @@ define(function(require) {
 		 * Medication Methods
 		 *******************************************************************************************/
 		medicationSetFields: function(data) {
-			if (!medicationState())
+			if (!medicationState()) {
 				medication(data);
+				$('.strengthList').combobox({target: '.strength'});
+				self.popStrength();
+			}
 		},
 		medicationNew: function(data) {
 			tempMedication(medication());
 			medication(new structures.Medication());
+			$('.strengthList').combobox({target: '.strength'});
 			medicationState(true);
 		},
 		medicationSave: function(data) {
@@ -536,6 +547,7 @@ define(function(require) {
 		},
 		medicationCancel: function(data) {
 			medication(tempMedication());
+			$('.strengthList').combobox({target: '.strength'});
 			medicationState(false);
 		},
 		medicationDelete: function(item) {
@@ -556,6 +568,18 @@ define(function(require) {
 					});
 				}
 			});
+		},
+		popStrength: function() {
+			// Delay for .2 seconds to allow data to cascade
+			setTimeout(function () {
+				var list = _.filter(medicines(), function(item) {
+					return item.name == medication().medicine();
+				})
+				list = _.map(list, function(item) {
+					return item.strength + " " + item.unit;
+				});
+				strengthList(list);
+			}, 200);
 		},
 		/******************************************************************************************* 
 		 * Allergies Intolerance Methods
