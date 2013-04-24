@@ -33,13 +33,23 @@ define(function(require) {
 			where: "WHERE service_record.patient_id='" + patientId + "' AND service_record.practice_id='" + practiceId + "' AND service_record.date='" + date + "'"
 		});
 	}
+	
+	// Get Service Record Id
+	diagnosis.prototype.getServiceRecordId = function(patientId, practiceId, date) {
+		return this.query({
+			mode: 'select',
+			table: 'service_record',
+			fields: 'id',
+			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "' AND date='" + date + "'"
+		});
+	}
 
 	 /**********************************************************************************************
 	 * Save Methods
 	 * 
 	 * These methods save information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
-	 diagnosis.prototype.saveDiagnosis = function(diagnosis) {
+	 diagnosis.prototype.saveDiagnosis = function(diagnosis,patientId,practiceId,date) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'diagnosis', 'code'];
 		var values = $.map(diagnosis, function(k,v) {
@@ -52,6 +62,16 @@ define(function(require) {
 		});
 		
 		if (diagnosis.id() == undefined || diagnosis.id() == '') {
+			self.query({
+				mode: 'select',
+				table: 'service_record',
+				fields: 'id',
+				where: "WHERE patient_id='" + patientId() + "' AND practice_id='" + practiceId() + 
+				"' AND date='" + date() + "'"
+			}).success(function(data) {
+				diagnosis.serviceRecordId(data[0].id);
+				values[1] = parseInt(data[0].id);  
+			});
 			return self.query({
 				mode: 'select',
 				table: 'diagnosis',

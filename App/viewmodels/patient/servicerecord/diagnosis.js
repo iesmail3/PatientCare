@@ -55,7 +55,7 @@ define(function(require) {
 		codes:codes,
 		diagnosisList:diagnosisList,
 		diagnosisDescription:diagnosisDescription, 
-		diagnosiscode:diagnosisCode,
+		diagnosisCode:diagnosisCode,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -77,6 +77,8 @@ define(function(require) {
 				if(data.length > 0) {
 					var d = _.map(data, function(item) {return item.description});
 					diagnosisDescription(d);
+					var n = _.map(data, function(item) {return item.name});
+					diagnosisCode(n);
 					var d = _.map(data, function(item) {
 						return {
 							description: item.description,
@@ -107,11 +109,7 @@ define(function(require) {
 		 });
 			
 		},
-		
-		setDiagnosisFields: function(data) { 
-		
-			diagnosis(data);
-		},
+
 		saveDiagnosis: function(data) {
 			if(diagnoses().length  > 0) { 
 				var isValid = true;
@@ -132,7 +130,7 @@ define(function(require) {
 					if(isValid) {
 						$('.diagnosisSuccessAlert').fadeIn('slow').delay(2000).fadeOut('slow');
 						$.each(diagnoses(), function(k, v) {
-						 backend.saveDiagnosis(v); 
+						 backend.saveDiagnosis(v,patientId,practiceId,date); 
 						}); 
 					}
 					
@@ -156,16 +154,28 @@ define(function(require) {
 				var list = _.filter(diagnosisList(), function(item) {
 					return item.description == data.diagnosis();
 				});
-				 list = _.filter(list, function(item) {
-					 return item.name; 
-				 });
-				 //system.log(list[0].desct); 
-				data.code(list[0].name);
+				 if(list.length > 0) {
+					 list = _.filter(list, function(item) {
+						 return item.name; 
+					 });
+					 data.code(list[0].name);
+				 }
 			}, 200);
 		}, 
 		
-		popDescription: function(data) { 
-		
+		popDescription: function(data) {
+			// Delay for .2 seconds to allow data to cascade
+			setTimeout(function () {
+				var list = _.filter(diagnosisList(), function(item) {
+					return item.name == data.code();
+				});
+				if(list.length > 0) { 
+					 list = _.filter(list, function(item) {
+						 return item.description; 
+					 });
+					data.diagnosis(list[0].description);
+				}
+			}, 200);
 		}
 	};
 });
