@@ -412,6 +412,10 @@ th, td {
 .diagnosisTable th:nth-child(2){ width: 15%; }
 .diagnosisTable th:last-child{ width: 5%; }
 
+.textAreaWidth { 
+width: 600px; 
+}
+
 /* Followup */
 .superBox { 
 	min-width: 800px;
