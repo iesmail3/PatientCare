@@ -66,6 +66,17 @@ define(function(require) {
 			where: "WHERE date='" + date + "'"
 		});
 	}	
+	
+	//Get Referring Physician name 
+	diagnosis.prototype.getReferringPhysician = function(patientId) { 
+		return this.query({
+			mode: 'select',
+			table: 'reference',
+			fields: '*',
+			where: "WHERE  patient_id='" + patientId + "' AND type = 'referringphysician'"
+		});
+	}
+	
 	 /**********************************************************************************************
 	 * Save Methods
 	 * 
@@ -124,6 +135,20 @@ define(function(require) {
 				where: "WHERE id='" + diagnosis.id() + "'"
 			});
 		}
+	}
+	
+	diagnosis.prototype.saveLetter = function(patientId,practiceId,date,letter) {
+		//system.log(letter()); 
+		var self = this;   
+		var fields = ['diagnosis_letter'];
+		
+		return self.query({
+				mode:  'update', 
+				table: 'service_record',
+				fields: ['diagnosis_letter'], 
+				values:  [letter()], 
+				where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "' AND date='" + date + "'"
+			});
 	}
 	
 	/**********************************************************************************************

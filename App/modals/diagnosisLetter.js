@@ -22,56 +22,74 @@ define(function(require) {
 	 // *********************************************************************************************/
 	
 	DiagnosisLetter.prototype.getPhysician = function(data) {
-     if(self.text() == undefined) { 
 		var letter = '';
-		backend.getPhysician(self.patientId,self.practiceId,self.date).success(function(data) { 
+		backend.getReferringPhysician(self.patientId).success(function(data) { 
 			if(data.length > 0) { 
 				var d = $.map(data, function(item) {
-                    letter += item.first_name +  ' ' + item.last_name + ',' + item.degree + '\r\n\r\n'; 
+                    letter += item.first_name +  ' ' + item.last_name + ',' + item.degree + '\n\n'; 
 				});
 			    backend.getPatient(self.patientId).success(function(data) { 
 					if(data.length > 0) { 
 						var d = $.map(data, function(item) {
 							letter += 'RE :' + item.first_name +  ' ' + item.last_name + ', DOB: '
-							+ item.date_of_birth + '\r\n\r\n'; 
+							+ item.date_of_birth + '\n'; 
 						}); 
 					
 						backend.getServiceRecord(self.date).success(function(data) { 
 							if(data.length > 0) { 
 								var d = $.map(data, function(item) { 
-									letter+= 'Dear Dr.' + '\r\n' + 'I saw the above patient in the office on ' + self.date + 
-											  ' for ' + item.systems_comment + ' evaluation of -' + '\r\n\r\n'; 
+									letter+= 'Dear Dr.  \n\n I saw the above patient in the office on ' + self.date + 
+											  ' for ' + item.systems_comment + ' evaluation of - \n'; 
 								}); 
 							
 								backend.getDiagnosis(self.patientId,self.practiceId,self.date).success(function(data) { 
 										var diagnosis = ''; 
 										if(data.length > 0) { 
 											var d = $.map(data, function(item) { 
-												 diagnosis+= item.diagnosis + '\r\n';
+												 diagnosis+= item.diagnosis + '\n';
 											}); 
-											letter += diagnosis + '\r\n\r\n';
-											 letter+= 'My Recommendations are as follows' + '\r\n\r\n\r\n';
-											 letter+= 'I appreciate your trust in our service. If you have any questions, do not hesitate to call me' + 
-													  '\r\n\r\n\r\n'; 
-											letter+= 'Thank You \r\n\r\n\r\n'; 
-											letter+= 'Sincerely \r\n\r\n\r\n';
-											//system.log(letter); 
-											self.text(letter); 
-										}
-								});
+											letter += diagnosis + '\n';
+											 letter+= 'My Recommendations are as follows: \n\n\n';
+											 letter+= 'I appreciate your trust in our service. If you have any questions, do not hesitate to call me \n\n'; 
+											letter+= 'Thank You \n\n'; 
+											letter+= 'Sincerely \n';
+											backend.getPhysician(self.patientId,self.practiceId,self.date).success(function(data) { 
+											   var m = '';
+												if(data.length > 0) { 
+													var d = $.map(data, function(item) {
+													letter += item.first_name +  ' ' + item.last_name + ',' + item.degree + '\n\n'; 
+													 self.text(letter);
+													});
+													
+										 
+													system.log(letter); 
+												}
+										   });
+										   
+								           
+										}       
+							  });
+							 
 							}
-						}); 
+						});
 					}
 				});
 			}
 		});
-      }		
 	}
-	
-	DiagnosisLetter.prototype.saveLetter  = function(data) { 
-	self.savedText(self.text()); 
-	system.log(self.savedText()); 
-	
+	DiagnosisLetter.prototype.printLetter  = function(data) { 
+		//self.savedText(self.text()); 
+		backend.saveLetter(self.patientId, self.practiceId,self.date,self.text); 
+		var height = $('.flowHolder').height();
+		var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
+				   'menubar=no, status=no, titlebar=no, toolbar=no';
+		var win = window.open(
+				'php/printLetter.php/?patientId=' + self.patientId + '&practiceId=' + 
+				self.practiceId + '&date=' + self.date				
+				,					
+				'',
+				settings
+			);
 	}; 
   
     
@@ -80,7 +98,7 @@ define(function(require) {
 	};
  
     DiagnosisLetter.prototype.closeWindow = function(data) {
-		this.modal.close("close");
+		this.modal.close('close');
 	};
 	
 	DiagnosisLetter.defaultTitle = '';
