@@ -274,9 +274,27 @@ define(function(require) {
 			else
 				$('.familyAlert').fadeIn('slow').delay(2000).fadeOut('slow');
 		},
-		familyHistoryDelete: function(data) {
-			familyHistories.remove(data);
-			backend.deleteFamilyHistory(data.id());
+		familyHistoryDelete: function(item) {
+			return app.showMessage(
+				'Are you sure you want to delete this family member?',
+				'Delete',
+				['Yes', 'No'])
+			.done(function(answer){
+				if(answer == 'Yes') {
+					backend.deleteFamilyHistory(item.id()).complete(function(data) {
+						if(data.responseText == 'fail') {
+							app.showMessage('The family member could not be deleted.', 'Deletion Error');
+						}
+						else {
+							if (item.relationship() == 'father')
+								familyHistoryFather(true);
+							else if (item.relationship() == 'mother')
+								familyHistoryMother(true);
+							familyHistories.remove(item);
+						}
+					});
+				}
+			});
 		},
 		/******************************************************************************************* 
 		 * Routine Exams Methods

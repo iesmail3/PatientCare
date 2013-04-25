@@ -255,7 +255,7 @@ define(function(require) {
 			this.patientId	  = ko.observable();
 			this.relationship = ko.observable('').extend({required: true});
 			this.age		  = ko.observable(0);
-			this.isAlive	  = ko.observable();
+			this.isAlive	  = ko.observable(1);
 			this.comment	  = ko.observable('');
 			this.lastUpdated  = ko.observable();
 		}
