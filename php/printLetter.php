@@ -66,7 +66,10 @@ include_once('fpdf/cellfit.php');
 		 $this->SetFont('Arial', 'B', 12);
 		 $this->Cell(0, 11, $physician['first_name'] . ' ' . $physician['last_name'] . 
 					', ' . $physician['degree'], 0, 1);
-		 
+		 $this->SetFont('Arial', '', 12);
+		 $y = $this->GetY();
+		 $this->SetY($y - 11);
+		 $this->Cell(0, 11, date('n/j/Y'), 0, 1, 'R');
 		 /******************************************************************************************
  		 * Clinic Info - Only on first page.
  		 *****************************************************************************************/

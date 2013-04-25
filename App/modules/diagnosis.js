@@ -34,6 +34,31 @@ define(function(require) {
 		});
 	}
 	
+	// Get Plan
+	diagnosis.prototype.getPlan = function(patientId, practiceId, date) {
+		var self = this;
+		var fields = ['plan_and_instructions'];
+		
+		return self.query({
+			mode: 'select',
+			table: 'service_record',
+			fields: fields,
+			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "' AND date='" + date + "'"
+		});
+	}
+	
+	// Get Letter
+	diagnosis.prototype.getLetter = function(patientId, practiceId, date) {
+		var self = this;
+		var fields = ['diagnosis_letter'];
+		
+		return self.query({
+			mode: 'select',
+			table: 'service_record',
+			fields: fields,
+			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "' AND date='" + date + "'"
+		});
+	}
 	//Get Physician Name and Degree 
 	diagnosis.prototype.getPhysician = function(patientId, practiceId, date) {
 		var self = this;
@@ -138,15 +163,26 @@ define(function(require) {
 	}
 	
 	diagnosis.prototype.saveLetter = function(patientId,practiceId,date,letter) {
-		//system.log(letter()); 
 		var self = this;   
 		var fields = ['diagnosis_letter'];
 		
 		return self.query({
 				mode:  'update', 
 				table: 'service_record',
-				fields: ['diagnosis_letter'], 
+				fields: fields, 
 				values:  [letter()], 
+				where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "' AND date='" + date + "'"
+			});
+	}
+	
+	diagnosis.prototype.savePlan = function(patientId,practiceId,date,plan) { 
+		var self = this; 
+		var fields = ['plan_and_instructions'];
+		return self.query({
+				mode:  'update', 
+				table: 'service_record',
+				fields: fields, 
+				values:  [plan], 
 				where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "' AND date='" + date + "'"
 			});
 	}

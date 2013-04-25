@@ -21,6 +21,7 @@ define(function(require) {
 	var backend 		= new Backend();
 	var structures   	= new Structures();
 	var diagnosis       = ko.observable(new structures.Diagnosis());
+	var serviceRecord   = ko.observable(new structures.ServiceRecord());
 	var diagnoses       = ko.observableArray([]);
 	var patientId       = ko.observable();
 	var practiceId      = ko.observable();
@@ -44,8 +45,9 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
-		diagnosis: diagnosis,   
-		diagnoses: diagnoses,  
+		diagnosis: diagnosis,		
+		diagnoses: diagnoses,
+		serviceRecord:serviceRecord,
 		form: form,
 		backend: backend,
 		structures: structures,
@@ -107,7 +109,13 @@ define(function(require) {
 						paymentMethods(new structures.PaymentMethod()); 
 			}
 		 });
-			
+		 
+		 backend.getPlan(self.patientId(),self.practiceId(),self.date()).success(function(data) { 
+			if(data.length > 0) { 
+				var d = $.map(data, function(item) {return new structures.ServiceRecord(item) });
+			     self.serviceRecord(d[0]); 
+			}
+		});
 		},
 
 		saveDiagnosis: function(data) {
@@ -179,6 +187,9 @@ define(function(require) {
 		},
 		selectPrint: function(data) {
 			modal.showDiagnosisLetter('Diagnosis Letter',patientId(),practiceId(),date());
+		},
+		savePlan: function(data) { 
+			 backend.savePlan(patientId(),practiceId(),date(),serviceRecord().planAndInstructions()); 
 		}
 	};
 });
