@@ -1,6 +1,6 @@
 /**************************************************************************************************
  * Module name: Patient
- * Author(s): Sean malone
+ * Author(s): Sean Malone
  * Description: This module is used to query the database.
  *************************************************************************************************/
 define(function(require) {
@@ -29,6 +29,16 @@ define(function(require) {
 			fields: '*',
 			join: "JOIN role ON user.role_id=role.id",
 			where: "WHERE user.id='" + id +"' AND user.practice_id='" + practiceId + "'"
+		});
+	}
+	
+	// Practice
+	settings.prototype.getPractice = function(id) {
+		return this.query({
+			mode: 'select', 
+			table: 'practice', 
+			fields: '*',
+			where: "WHERE id='" + id +"'"
 		});
 	}
 	
@@ -71,6 +81,29 @@ define(function(require) {
 	 * 
 	 * These methods add information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
+	// Save Practice
+	settings.prototype.savePractice = function(data) {
+		var self = this;
+		var fields = ['id', 'name', 'address', 'city', 'state', 'zip', 'province', 'country',
+					  'phone', 'phone_ext', 'fax', 'fax_ext', 'email', 'website'];
+		
+		var values = $.map(data, function(k,v) {
+			if(k() == null || k() == undefined) {
+				return [''];
+			}
+			else
+				return [k()];
+		});	
+		
+		return self.query({
+			mode: 'update',
+			table: 'practice',
+			fields: fields,
+			values: values,
+			where: "WHERE id='" + data.id() + "'"
+		});
+	}
+	
 	// Save Role
 	settings.prototype.saveRole = function(data) {
 		var self = this;

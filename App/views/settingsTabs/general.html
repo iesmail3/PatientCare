@@ -1,0 +1,112 @@
+<!-------------------------------------------------------------------------------------------------
+ | View: General
+ | Author(s): Sean Malone
+ | Description: Currently this tab only contains information for the clinic.
+ ------------------------------------------------------------------------------------------------->
+<div class="general">
+	<div clss="row-fluid">
+		<!-- Form Elements -->
+		<form class="form form-horizontal">
+			<!-- ko with: practice -->
+			<fieldset>
+				<legend>Clinic Information</legend>
+			</fieldset>
+			<div class="alertHolder">
+					<div class="alert alert-success">Saved successfully.</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Business Name</label>
+				<div class="controls">
+					<input type="text" class="input-xxlarge" placeholder="Business Name"
+						   data-bind="value: name">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Address</label>
+				<div class="controls">
+					<input type="text" class="input-xxlarge" placeholder="Street Address"
+						   data-bind="value: address">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">City</label>
+				<div class="controls">
+					<input type="text" class="input-medium" placeholder="City"
+						   data-bind="value: city">
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span5">
+					<div class="control-group">
+						<label class="control-label">State</label>
+						<div class="controls">
+							<select class="input-medium" data-bind="options: $root.form.states, 
+								    optionsText: 'text', optionsValue: 'value', optionsCaption: 'State'
+								    ,value: state"></select>
+						</div>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="control-group">
+						<label class="control-label">Zip</label>
+						<div class="controls">
+							<input type="text" class="input-small" placeholder="Zip Code"
+								   data-bind="value: zip">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span5">
+					<div class="control-group">
+						<label class="control-label">Phone</label>
+						<div class="controls">
+							<input type="text" class="input-small" placeholder="Phone" 
+								   data-bind="value: phone">
+							<input type="text" class="input-xmini" placeholder="Ext"
+								   data-bind="value: phoneExt">
+						</div>
+					</div>
+				</div>
+				<div class="span5">
+					<div class="control-group">
+						<label class="control-label">Fax</label>
+						<div class="controls">
+							<input type="text" class="input-small" placeholder="Fax"
+								   data-bind="value: fax">
+							<input type="text" class="input-xmini" placeholder="Ext"
+								   data-bind="value: faxExt">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Email</label>
+				<div class="controls">
+					<input type="text" class="input-xxlarge" placeholder="Email"
+						   data-bind="value: email">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Website</label>
+				<div class="controls">
+					<input type="text" class="input-xxlarge" placeholder="Website"
+						   data-bind="value: website">
+				</div>
+			</div>
+			<!-- /ko -->
+		</form>
+	</div>
+	<!-- Save Button -->
+	<div class="row-fluid roleButtons" data-bind="visible: userRole().clinicDetails() > 1">
+		<form class="form-horizontal">
+			<div class="control-group">
+				<div class="controls">
+					<button class="btn btn-primary" data-bind="click: savePractice">
+						Save
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

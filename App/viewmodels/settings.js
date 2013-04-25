@@ -10,6 +10,7 @@ define(function(require) {
 	var system 		= require('durandal/system');			// System logger
 	var custom 	 	= require('durandal/customBindings');	// Custom bindings
 	var Structures 	= require('modules/structures');		// Structures
+	var Forms		= require('modules/form');				// Common Form elements
 	var Backend     = require('modules/settings');			// Backend
 	var app			= require('durandal/app');				// App
 	var UserStructures = require('modules/structures');		// User structures
@@ -21,10 +22,12 @@ define(function(require) {
 	var structures 		= new Structures();
 	var userStructures 	= new UserStructures();
 	var backend    		= new Backend();
+	var form			= new Forms();
 	var user 			= ko.observable();
 	var userRole 		= ko.observable();
 	var userId  		= ko.observable();
 	var practiceId 		= ko.observable();
+	var practice		= ko.observable(new structures.Practice());
 	var newFlag	 		= ko.observable(false);
 	var newRoleFlag 	= ko.observable(false);
 	var currentUser 	= ko.observable();
@@ -54,10 +57,12 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
+		form: form,
 		user: user,
 		userRole: userRole,
 		userId: userId,
 		practiceId: practiceId,
+		practice: practice,
 		newFlag: newFlag,
 		newRoleFlag: newRoleFlag,
 		user: user,
@@ -114,12 +119,18 @@ define(function(require) {
 		activate: function(data) {
 			self = this;
 			
+			// Get Role
 			backend.getRole(global.userId, global.practiceId).success(function(data) {
 				self.userRole(new userStructures.Role(data[0]));
 			});
 			
 			self.userId(global.userId);
 			self.practiceId(global.practiceId);
+			
+			// Get Practice Information
+			backend.getPractice(self.practiceId()).success(function(data) {
+				self.practice(new userStructures.Practice(data[0]));
+			});
 			
 			// Get currentUser
 			backend.getCurrentUser(self.userId()).success(function(data) {
@@ -140,6 +151,12 @@ define(function(require) {
 				self.roles(r);
 				if(r.length > 0)
 					self.role(r[0]);
+			});
+		},
+		savePractice: function() {
+			backend.savePractice(self.practice()).complete(function(data) {
+				if(data.responseText.toLowerCase().indexOf('success') >= 0)
+					$('.alert-success').fadeIn().delay(3000).fadeOut();
 			});
 		},
 		newUser: function() {

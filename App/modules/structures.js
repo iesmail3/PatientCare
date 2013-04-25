@@ -57,7 +57,7 @@ define(function(require) {
 			this.superbill				= ko.observable(data.superbill);
 			this.allergies				= ko.observable(data.allergies);
 			this.birthHistory			= ko.observable(data.birth_history);
-			this.clinicDetails			= ko.observable(data.clinicDetails);
+			this.clinicDetails			= ko.observable(data.clinic_details);
 			this.checkout				= ko.observable(data.checkout);
 			this.copayCollection		= ko.observable(data.copay_collection);
 			this.development			= ko.observable(data.development);
@@ -148,6 +148,45 @@ define(function(require) {
 			this.vitalSigns				= ko.observable();
 			this.diagnosisInstructions	= ko.observable();
 			this.physicalExaminationSub	= ko.observable();
+		}
+	}
+	
+	/**************************************************************************************************
+	 * Practice
+	 *************************************************************************************************/
+	structures.prototype.Practice = function(data) {
+		var self = this;
+		if(data != null) {
+			this.id 		= ko.observable(data.id);
+			this.name		= ko.observable(data.name);
+			this.address	= ko.observable(data.address);
+			this.city		= ko.observable(data.city);
+			this.state		= ko.observable(data.state);
+			this.zip		= ko.observable(data.zip);
+			this.province	= ko.observable(data.province);
+			this.country	= ko.observable(data.country);
+			this.phone		= ko.observable(data.phone);
+			this.phoneExt	= ko.observable(data.phone_ext);
+			this.fax		= ko.observable(data.fax);
+			this.faxExt		= ko.observable(data.fax_ext);
+			this.email		= ko.observable(data.email);
+			this.website	= ko.observable(data.website);
+		}
+		else {
+			this.id 		= ko.observable();
+			this.name		= ko.observable();
+			this.address	= ko.observable();
+			this.city		= ko.observable();
+			this.state		= ko.observable();
+			this.zip		= ko.observable();
+			this.province	= ko.observable();
+			this.country	= ko.observable();
+			this.phone		= ko.observable();
+			this.phoneExt	= ko.observable();
+			this.fax		= ko.observable();
+			this.faxExt		= ko.observable();
+			this.email		= ko.observable();
+			this.website	= ko.observable();
 		}
 	}
 	
