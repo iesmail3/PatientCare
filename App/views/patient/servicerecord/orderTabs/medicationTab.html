@@ -10,9 +10,12 @@
 		<div class="marginBottom5">
 			<input type="text" class="input-xlarge" placeholder="Medicine"
 				   data-bind="value: medicine, typeahead: {value: medicine, source: $root.medicineNames},
-				   event: {blur: $root.popStrength}, valueUpdate: 'afterkeydown'" />
-			<input type="text" class="input-xmedium strength" data-bind="value: strength" placeholder="Strength" />
-			<select class="strengthList selectSource" data-bind=" foreach: $root.strengthList">
+				   event: {blur: $root.popStrength}, valueUpdate: 'afterkeydown',
+				   enable: $root.role().medicationOrders() > 1" />
+			<input type="text" class="input-xmedium strength" data-bind="value: strength, 
+				   enable: $root.role().medicationOrders() > 1" placeholder="Strength" />
+			<select class="strengthList selectSource" data-bind=" foreach: $root.strengthList,
+					enable: $root.role().medicationOrders() > 1">
 				<option data-bind="text: $data"></option>
 			</select>
 			<span class="pull-right">
@@ -21,46 +24,54 @@
 			</span>
 		</div>
 		<div class="marginBottom5">
-			<input type="text" class="input-small" data-bind="value: quantity" placeholder="Quantity" />
+			<input type="text" class="input-small" data-bind="value: quantity,
+				   enable: $root.role().medicationOrders() > 1" placeholder="Quantity" />
 			<select data-bind="options: $root.form.routes, optionsText: 'text', optionsValue: 
-							  'value', optionsCaption: 'Route', value: route" class="input-medium">
+							  'value', optionsCaption: 'Route', value: route,
+							  enable: $root.role().medicationOrders() > 1" class="input-medium">
 			</select>
 			<select data-bind="options: $root.form.sigCodes, optionsText: 'text', optionsValue: 
-				               'value', optionsCaption: 'Sigs', value: sigs" class="input-medium">
+				               'value', optionsCaption: 'Sigs', value: sigs,
+				               enable: $root.role().medicationOrders() > 1" class="input-medium">
 			</select>		
 		</div>
 		<div class="marginBottom5">
 			<label class="checkbox inline right10">
-				<input type="checkbox" data-bind="checked: isOrdered" /> Order
+				<input type="checkbox" data-bind="checked: isOrdered,
+				enable: $root.role().medicationOrders() > 1" /> Order
 			</label>
 			<input type="number" class="input-small right10" placeholder="Dispensed" 
-				   data-bind="value: dispensed" />
+				   data-bind="value: dispensed, enable: $root.role().medicationOrders() > 1" />
 			<span class="radio inline">Refill</span>
 			<label class="radio inline">
-				<input type="radio" name="refill" value="1" data-bind="checked: refill" /> Yes
+				<input type="radio" name="refill" value="1" data-bind="checked: refill,
+				enable: $root.role().medicationOrders() > 1" /> Yes
 			</label>
 			<label class="radio inline right10">
-				<input type="radio" name="refill" value="0" data-bind="checked: refill" /> No
+				<input type="radio" name="refill" value="0" data-bind="checked: refill,
+					   enable: $root.role().medicationOrders() > 1" /> No
 			</label>
 			<input type="number" class="input-small" placeholder="Refill Qty" 
-			       data-bind="value: refillQty, enable: refill() == 1" />
+			       data-bind="value: refillQty, enable: refill() == 1, 
+			       enable: $root.role().medicationOrders() > 1" />
 		</div>
 		<div class="marginBottom5 commentContainer">
 			<textarea class="commentSpan" rows="3" placeholder="Comments" 
-					  data-bind="value: comment">
+					  data-bind="value: comment, enable: $root.role().medicationOrders() > 1">
 			</textarea>
 		</div>
 		<!-- /ko -->
 		<div class="pull-right">
-			<button type="button" data-bind="click: newMedication, visible: newMed" 
-			        class="btn btn-small btn-success">
+			<button type="button" data-bind="click: newMedication, 
+				    visible: newMed() && role().medicationOrders() > 1" class="btn btn-small btn-success">
 				New
 			</button>
-			<button type="button" data-bind="click: cancelMedication, visible: cancelMed" 
-			        class="btn btn-small btn-warning">
+			<button type="button" class="btn btn-small btn-warning" data-bind="click: cancelMedication, 
+			        visible: cancelMed && role().medicationOrders() > 1">
 				Cancel
 			</button>
-			<button type="submit" data-bind="click: saveMedication" class="btn btn-small btn-primary">
+			<button type="submit" class="btn btn-small btn-primary" data-bind="click: saveMedication, 
+				    visible: role().medicationOrders() > 1">
 				Save
 			</button>
 		</div>
@@ -70,7 +81,9 @@
 	<div class="marginBottom5">
 		<span class="radio inline">Show Records: </span>
 		<label class="radio inline">
-			<input type="radio" name="filter" value="ordered" data-bind="checked: $root.tableFilter, click: filterTable" /><span>Ordered</span>
+			<input type="radio" name="filter" value="ordered" data-bind="checked: $root.tableFilter, 
+				   click: filterTable" />
+			<span>Ordered</span>
 		</label>
 		<label class="radio inline">
 			<input type="radio" name="filter" value="current" data-bind="checked: $root.tableFilter, click: filterTable" /><span>Current</span>
@@ -107,7 +120,7 @@
 						<span>Status</span>
 						<div class="arrow down"></div>
 					</th>
-					<th></th>
+					<th data-bind="visible: $root.role().medicationOrders() > 1"></th>
 				</tr>
 			</thead>
 			<tbody data-bind="foreach: medications">
@@ -118,7 +131,7 @@
 					<td data-bind="text: route, click: $root.selectMedication"></td>
 					<td data-bind="text: sigs, click: $root.selectMedication"></td>
 					<td data-bind="text: status, click: $root.selectMedication"></td>
-					<td>
+					<td data-bind="visible: $root.role().medicationOrders() > 1">
 						<button type="button" class="btn btn-small btn-danger" 
 							    data-bind="click: $root.deleteMedication">
 							Delete

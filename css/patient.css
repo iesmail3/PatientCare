@@ -7,7 +7,7 @@
 
 .input-xmedium { width: 119px; }
 
-.input-xxlarge {}
+.input-xxlarge { width: 300px; }
 
 th, td {
 	cursor: default;

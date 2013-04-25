@@ -7,8 +7,10 @@ Description: This page hold account and configurate details for the user to modi
 	<div class="span3 settingsPills">
 	<!-- Nav -->
 	<ul class="nav nav-tabs nav-stacked">
-		<li><a  data-toggle="tab" href="#general">General</a></li>
-		<li class="active"><a data-toggle="tab" href="#userRoles">Users & Roles</a></li>
+		<li><a  data-toggle="tab">General</a></li>
+		<li class="active" data-bind="visible: userRole().security() > 0">
+			<a data-toggle="tab" href="#userRoles">Users & Roles</a>
+		</li>
 	</ul>
 	</div>
 	<div class="span9 settingsContentHolder">
@@ -18,14 +20,20 @@ Description: This page hold account and configurate details for the user to modi
 		</div>
 		<div class="tab-pane active" id="userRoles">
 			<ul class="nav nav-tabs">
-				<li class="active"><a data-toggle="tab" href="#users">Users</a></li>
-				<li><a data-toggle="tab" href="#roles">Roles</a></li>
+				<li class="active">
+					<a data-toggle="tab" href="#users" data-bind="visible: userRole().manageUsers() > 0">Users</a>
+				</li>
+				<li data-bind="css: {active: userRole().manageUsers() < 1}, 
+					visible: userRole().manageRoles() > 0">
+					<a data-toggle="tab" href="#roles">Roles</a>
+				</li>
 			</ul>
 			<div class="tab-content subSettings">
-				<div class="tab-pane active" id="users">
+				<div class="tab-pane active" id="users" data-bind="visible: userRole().manageUsers() > 0">
 					<div data-bind='compose: "settingsTabs/users.html"'></div>
 				</div>
-				<div class="tab-pane" id="roles">
+				<div class="tab-pane" id="roles" data-bind="css: {active: userRole().manageUsers() < 1},
+					 visible: userRole().manageRoles() > 0">
 					<div data-bind='compose: "settingsTabs/roles.html"'></div>
 				</div>
 			</div>

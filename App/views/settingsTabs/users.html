@@ -8,22 +8,22 @@
 				<div class="control-group">
 					<label class="control-label">First Name</label>
 					<div class="controls">
-						<input type="text" data-bind="value: firstName, enable: username() != 'administrator'" 
-					       placeholder="First Name" class="input-medium" />
+						<input type="text" data-bind="value: firstName, enable: username() != 'administrator'
+							   && $root.userRole().manageUsers() > 1" placeholder="First Name" class="input-medium" />
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">Username</label> 
 					<div class="controls">
-						<input type="text" data-bind="value: username, enable: username() != 'administrator'" 
-						   placeholder="Username" class="input-medium" />
+						<input type="text" data-bind="value: username, enable: username() != 'administrator'
+							   && $root.userRole().manageUsers() > 1" placeholder="Username" class="input-medium" />
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">Email</label> 
 					<div class="controls">
-						<input type="text" data-bind="value: email, enable: username() != 'administrator'" 
-						   placeholder="Email" class="input-medium" />
+						<input type="text" data-bind="value: email, enable: username() != 'administrator'
+							   && $root.userRole().manageUsers() > 1" placeholder="Email" class="input-medium" />
 					</div>
 				</div>
 			</div>
@@ -31,20 +31,21 @@
 				<div class="control-group">
 					<label class="control-label">Last Name</label>
 					<div class="controls">
-						<input type="text" data-bind="value: lastName, enable: username() != 'administrator'" 
-					       placeholder="Last Name" class="input-medium" />
+						<input type="text" data-bind="value: lastName, enable: username() != 'administrator'
+							   && $root.userRole().manageUsers() > 1" placeholder="Last Name" class="input-medium" />
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">Role</label>
 					<div class="controls">
-						<select data-bind="value: roleId, enable: username() != 'administrator', 
-								optionsCaption: 'Role', options: $root.roles, optionsText: 'name', 
-								optionsValue: 'id'" class="input-medium">
+						<select data-bind="value: roleId, enable: username() != 'administrator'
+							    && $root.userRole().manageUsers() > 1, optionsCaption: 'Role', 
+							    options: $root.roles, optionsText: 'name', optionsValue: 'id'" 
+							    class="input-medium">
 						</select>
 					</div>
 				</div>
-				<div class="control-group" data-bind="visible: !$root.newFlag()">
+				<div class="control-group" data-bind="visible: !$root.newFlag() && $root.userRole().manageUsers() > 1">
 					<label class="control-label">Password
 						<i data-toggle="tooltip" class="icon-question-sign"></i></label>
 					<div class="controls">
@@ -70,7 +71,7 @@
 			</div>
 			<!-- /ko -->
 			<div class="userButtons">
-				<div class="pull-right">
+				<div class="pull-right" data-bind="visible: userRole().manageUsers() > 1">
 					<button class="btn btn-success" data-bind="visible: !newFlag(), click: newUser">New</button>
 					<button class="btn btn-warning" data-bind="visible: newFlag(), click: cancelUser">Cancel</button>
 					<button class="btn btn-primary" data-bind="click: saveUser, 
@@ -88,7 +89,7 @@
 					<th>First Name</th>
 					<th>Last Name</th>
 					<th>Email</th>
-					<th></th>
+					<th data-bind="visible: $root.userRole().manageUsers() > 1"></th>
 				</tr>
 			</thead>
 			<tbody data-bind="foreach: users">
@@ -98,7 +99,11 @@
 					<td data-bind="text: firstName, click: $root.selectUser"></td>
 					<td data-bind="text: lastName, click: $root.selectUser"></td>
 					<td data-bind="text: email, click: $root.selectUser"></td>
-					<td><button class="btn btn-danger" data-bind="click: $root.deleteUser, visible: username() != 'administrator'">Delete</button></td>
+					<td data-bind="visible: $root.userRole().manageUsers() > 1">
+						<button class="btn btn-danger" data-bind="click: $root.deleteUser, 
+							visible: username() != 'administrator'">Delete
+						</button>
+					</td>
 				</tr>
 			</tbody>
 		</table>

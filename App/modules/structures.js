@@ -58,7 +58,6 @@ define(function(require) {
 			this.allergies				= ko.observable(data.allergies);
 			this.birthHistory			= ko.observable(data.birth_history);
 			this.clinicDetails			= ko.observable(data.clinicDetails);
-			this.changePassword			= ko.observable(data.change_password);
 			this.checkout				= ko.observable(data.checkout);
 			this.copayCollection		= ko.observable(data.copay_collection);
 			this.development			= ko.observable(data.development);
@@ -109,7 +108,6 @@ define(function(require) {
 			this.allergies				= ko.observable();
 			this.birthHistory			= ko.observable();
 			this.clinicDetails			= ko.observable();
-			this.changePassword			= ko.observable();
 			this.checkout				= ko.observable();
 			this.copayCollection		= ko.observable();
 			this.development			= ko.observable();

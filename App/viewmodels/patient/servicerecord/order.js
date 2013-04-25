@@ -116,7 +116,7 @@ define(function(require) {
 			
 			backend.getRole(global.userId, global.practiceId).success(function(data) {
 				self.role(new userStructures.Role(data[0]));
-			})
+			});
 			
 			// Get URL parameters
 			self.patientId(data.patientId);

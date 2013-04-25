@@ -21,6 +21,17 @@ define(function(require) {
 	 * 
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/
+	// Role
+	settings.prototype.getRole = function(id, practiceId) {
+		return this.query({
+			mode: 'select', 
+			table: 'user', 
+			fields: '*',
+			join: "JOIN role ON user.role_id=role.id",
+			where: "WHERE user.id='" + id +"' AND user.practice_id='" + practiceId + "'"
+		});
+	}
+	
 	// Get Logged in User
 	settings.prototype.getCurrentUser = function(id) {
 		return this.query({
@@ -64,7 +75,7 @@ define(function(require) {
 	settings.prototype.saveRole = function(data) {
 		var self = this;
 		var fields = ['id','practice_id','name','description','superbill','allergies',
-					  'birth_history','clinic_details','change_password','checkout','copay_collection',
+					  'birth_history','clinic_details','checkout','copay_collection',
 					  'development','diagnosis','family_history','follow_up','guidance','history',
 					  'history_illness','immunization','instructions','insurance',
 					  'insurance_verification','reports','manage_patients','manage_physician',

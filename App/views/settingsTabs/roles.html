@@ -16,14 +16,16 @@
 					<label class="control-label">Role Name</label>
 					<div class="controls">
 							<input type="text" placeholder="Role Name" class="input-xxlarge" 
-							       data-bind="value: role().name, enable: role().name() != 'Administrator'" />
+							       data-bind="value: role().name, enable: role().name() != 'Administrator'
+							       && userRole().manageRoles() > 1" />
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">Description</label>
 					<div class="controls">
 						<input type="text" placeholder="Description" class="input-xxlarge" 
-						       data-bind="value: role().description, enable: role().name() != 'Administrator'" />
+						       data-bind="value: role().description, enable: role().name() != 'Administrator'
+						       && userRole().manageRoles() > 1" />
 					</div>
 				</div>
 			</form>
@@ -42,7 +44,8 @@
 					<div data-bind='compose: "settingsTabs/roles/patients.html"'></div>
 					<div class="root">
 						<span>Manage Schedule</span>
-						<select data-bind="value: manageSchedule" class="input-medium pull-right">
+						<select class="input-medium pull-right" data-bind="value: manageSchedule, 
+			    enable: $root.userRole().manageRoles() > 1">
 							<option value="0">None</option>
 							<option value="1">Read</option>
 							<option value="2">Read/Write</option>
@@ -50,7 +53,8 @@
 					</div>
 					<div class="root">
 						<span>Manage Physician</span>
-						<select data-bind="value: managePhysician" class="input-medium pull-right">
+						<select class="input-medium pull-right" data-bind="value: managePhysician, 
+			    enable: $root.userRole().manageRoles() > 1">
 							<option value="0">None</option>
 							<option value="1">Read</option>
 							<option value="2">Read/Write</option>
@@ -63,7 +67,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="row-fluid roleButtons" data-bind="visible: role().name() != 'Administrator'">
+	<div class="row-fluid roleButtons" data-bind="visible: role().name() != 'Administrator' 
+		 && userRole().manageRoles() > 1">
 		<div class="pull-right">
 			<button class="btn btn-success" data-bind="click: newRole, 
 					visible: !newRoleFlag()">

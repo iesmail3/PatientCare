@@ -12,25 +12,29 @@ define(function(require) {
 	var Structures 	= require('modules/structures');		// Structures
 	var Backend     = require('modules/settings');			// Backend
 	var app			= require('durandal/app');				// App
-	var self;
+	var UserStructures = require('modules/structures');		// User structures
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
-	var structures = new Structures();
-	var backend    = new Backend();
-	var userId  	= ko.observable();
-	var practiceId 	= ko.observable();
-	var newFlag	 	= ko.observable(false);
-	var newRoleFlag = ko.observable(false);
-	var currentUser = ko.observable();
-	var users   	= ko.observableArray([]);
-	var user		= ko.observable(new structures.User());
-	var tempUser	= ko.observable();
-	var role		= ko.observable(new structures.Role());
-	var roles		= ko.observableArray([]);
-	var tempRole	= ko.observable();
-	var password	= ko.observable();
+	var self;
+	var structures 		= new Structures();
+	var userStructures 	= new UserStructures();
+	var backend    		= new Backend();
+	var user 			= ko.observable();
+	var userRole 		= ko.observable();
+	var userId  		= ko.observable();
+	var practiceId 		= ko.observable();
+	var newFlag	 		= ko.observable(false);
+	var newRoleFlag 	= ko.observable(false);
+	var currentUser 	= ko.observable();
+	var users   		= ko.observableArray([]);
+	var user			= ko.observable(new structures.User());
+	var tempUser		= ko.observable();
+	var role			= ko.observable(new structures.Role());
+	var roles			= ko.observableArray([]);
+	var tempRole		= ko.observable();
+	var password		= ko.observable();
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -50,6 +54,8 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
+		user: user,
+		userRole: userRole,
 		userId: userId,
 		practiceId: practiceId,
 		newFlag: newFlag,
@@ -107,6 +113,11 @@ define(function(require) {
 		// Loads when view is loaded
 		activate: function(data) {
 			self = this;
+			
+			backend.getRole(global.userId, global.practiceId).success(function(data) {
+				self.userRole(new userStructures.Role(data[0]));
+			});
+			
 			self.userId(global.userId);
 			self.practiceId(global.practiceId);
 			
@@ -119,14 +130,16 @@ define(function(require) {
 			backend.getUsers(self.practiceId()).success(function(data) {
 				var u = $.map(data, function(item) { return new structures.User(item) });
 				self.users(u);
-				self.user(u[0]);
+				if(u.length > 0)
+					self.user(u[0]);
 			});
 			
 			// Get Roles
 			backend.getRoles(self.practiceId()).success(function(data) {
 				var r = $.map(data, function(item) { return new structures.Role(item) });
 				self.roles(r);
-				self.role(r[0]);
+				if(r.length > 0)
+					self.role(r[0]);
 			});
 		},
 		newUser: function() {

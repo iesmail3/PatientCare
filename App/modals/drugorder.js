@@ -172,7 +172,8 @@ define(function(require) {
 		backend.getDrugOrders(id).success(function(data) {
 			var d = $.map(data, function(item) { return new structures.DrugOrder(item)});
 			self.drugOrders(d);
-			self.drugOrder(d[0]);
+			if(d.length > 0)
+				self.drugOrder(d[0]);
 		})
 	}
 	
