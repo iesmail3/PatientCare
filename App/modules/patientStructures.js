@@ -243,8 +243,8 @@ define(function(require) {
 			this.id			  = ko.observable(data.id);
 			this.practiceId	  = ko.observable(data.practice_id);
 			this.patientId	  = ko.observable(data.patient_id);
-			this.relationship = ko.observable(data.relationship).extend({required: true});
-			this.age		  = ko.observable(data.age).extend({required: true});
+			this.relationship = ko.observable(data.relationship).extend({required: {message: 'relationship'}});
+			this.age		  = ko.observable(data.age).extend({required: {message: 'age'}});
 			this.isAlive	  = ko.observable(data.is_alive == '1' ? 1 : 0);
 			this.comment	  = ko.observable(data.comment);
 			this.lastUpdated  = ko.observable(data.last_updated);
@@ -253,14 +253,15 @@ define(function(require) {
 			this.id			  = ko.observable();
 			this.practiceId	  = ko.observable();
 			this.patientId	  = ko.observable();
-			this.relationship = ko.observable('').extend({required: true});
-			this.age		  = ko.observable('').extend({required: true});
+			this.relationship = ko.observable('').extend({required: {message: 'relationship'}});
+			this.age		  = ko.observable('').extend({required: {message: 'age'}});
 			this.isAlive	  = ko.observable();
 			this.comment	  = ko.observable('');
 			this.lastUpdated  = ko.observable();
 		}
 		
-		self.errors = ko.validation.group(self, {messagesOnModified: false});
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Follow Up

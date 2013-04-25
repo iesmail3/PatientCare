@@ -11,23 +11,14 @@ define(function(require) {
 	var custom = require('durandal/customBindings');		// Custom bindings
 	var Backend = require('modules/socialandfamily');		// Module
 	var Structures = require('modules/patientStructures');	// Structures
+	var Forms = require('modules/form');
 	var app = require('durandal/app');
-	
-	/*********************************************************************************************** 
-	 * Validation Configuration
-	 **********************************************************************************************/
-	ko.validation.init({
-		insertMessages: false,
-		parseInputAttributes: true,
-		grouping: {deep: true, observable: true},
-		decorateElement: true,
-		messagesOnModified: false
-	});
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
 	var backend = new Backend();
+	var form = new Forms();
 	var structures = new Structures();
 	var patientId = ko.observable();
 	var practiceId = ko.observable();
@@ -49,7 +40,7 @@ define(function(require) {
 	 * For including ko observables and computed functions, add an attribute of the same name.
 	 * Ex: observable: observable
 	 **********************************************************************************************/
-	var vm = {
+	return {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
@@ -93,7 +84,6 @@ define(function(require) {
 			//self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
 			self.patientId(data.patientId);
 			
-			var backend = new Backend();
 			backend.getSocialHistory(self.patientId(), self.practiceId()).success(function(data) {
 				if (data.length > 0) {
 					var s = new structures.SocialHistory(data[0]);
@@ -126,7 +116,6 @@ define(function(require) {
 							else
 								self.familyHistories.push(f[i]);
 						}
-						self.familyHistory(f[0]);
 					}
 					self.familyHistories.push(new structures.FamilyHistory());
 				}
@@ -198,7 +187,6 @@ define(function(require) {
 			socialHistory().alcoholCounseling(+socialHistory().alcoholCounseling());
 			socialHistory().historyChanged(+socialHistory().historyChanged());
 			backend.saveSocialHistory(patientId(), practiceId(), socialHistory()).complete(function(data) {
-				system.log(data.responseText);
 				if (data.responseText != 'insertFail' && data.responseText != 'updateFail')
 					$('.alertSave').fadeIn().delay(3000).fadeOut();
 			});
@@ -208,8 +196,6 @@ define(function(require) {
 			$.each(socialHistory(), function(k,v) {
 				$.each(tempSocialHistory(), function(m,n) {
 					if ((k == m) && (v() != n())) {
-						system.log(k);
-						system.log("Not equal: " + v() + " : " + n());
 						same = false;
 					}
 				});
@@ -257,30 +243,75 @@ define(function(require) {
 				// Save family status
 			});
 		},
-		familyHistoryAddRow: function(data) {
-			system.log(data);
+		familyHistoryAddRow: function() {
 			var lastRow = familyHistories()[familyHistories().length - 1];
 			if (lastRow.relationship() != '')
 				familyHistories.push(new structures.FamilyHistory());
 		},
+		familyHistorySaveFather: function() {
+			// Attempt to save Father
+			system.log("Save father");
+			familyHistories()[0].patientId(patientId());
+			familyHistories()[0].practiceId(practiceId());
+			familyHistories()[0].isAlive(+familyHistories()[0].isAlive());
+			familyHistories()[0].lastUpdated(form.dbDate(form.currentDate()));
+			backend.saveFamilyHistory(familyHistories()[0]);
+		},
+		familyHistorySaveMother: function() {
+			// Attemp to save Mother
+			system.log("Save mother");
+			familyHistories()[1].patientId(patientId());
+			familyHistories()[1].practiceId(practiceId());
+			familyHistories()[1].isAlive(+familyHistories()[1].isAlive());
+			familyHistories()[1].lastUpdated(form.dbDate(form.currentDate()));
+			backend.saveFamilyHistory(familyHistories()[1]);
+		},
 		familyHistorySave: function(data) {
+			system.log("Save");
 			var isValid = true;
+			// Remove empty last row
 			var lastRow = familyHistories()[familyHistories().length - 1];
 			if (lastRow.relationship() == '' && lastRow.age().trim() == '')
 				familyHistories.remove(lastRow);
 			
+			// Check for errors in non default entries and display alerts.
+			var alertIndex;
 			$.each(familyHistories(), function(k,v) {
-				if (v.relationship() != 'father' && v.relationship() != 'mother' && v.errors().length != 0)
+				if (v.relationship() != 'father' && v.relationship() != 'mother' && v.errors().length > 0) {
 					isValid = false;
+					if (v.errors().length > 1)
+						alertIndex = 0;
+					else if (v.errors()[0] == 'relationship')
+						alertIndex = 1;
+					else if (v.errors()[0] == 'age')
+						alertIndex = 2;
+				}
 			});
 			
+			switch(alertIndex) {
+				case 0:
+					$('.allAlert').fadeIn().delay(3000).fadeOut();
+					break;
+				case 1:
+					$('.relationshipAlert').fadeIn().delay(3000).fadeOut();
+					break;
+				case 2:
+					$('.ageAlert').fadeIn().delay(3000).fadeOut();
+					break;
+			}
+			
+			// Save each entry
 			if (isValid) {
 				$.each(familyHistories(), function(k,v) {
-					v.patientId(patientId());
-					v.practiceId(practiceId());
-					v.isAlive(+v.isAlive());
-					backend.saveFamilyHistory(v, familyHistories);
+					if (v.relationship() != 'father' && v.relationship() != 'mother') {
+						v.patientId(patientId());
+						v.practiceId(practiceId());
+						v.isAlive(+v.isAlive());
+						v.lastUpdated(form.dbDate(form.currentDate()));
+						backend.saveFamilyHistory(v);
+					}
 				});
+				$('.alert-success').fadeIn().delay(3000).fadeOut();
 				familyHistories.push(new structures.FamilyHistory());
 			}
 			else
@@ -308,9 +339,4 @@ define(function(require) {
 		
 		},
 	};
-	
-	// Turn validation on
-	var errors = vm['formErrors'] = ko.validation.group(vm);
-	vm.familyHistory().errors.showAllMessages();
-	return vm;
 });

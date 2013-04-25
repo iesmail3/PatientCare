@@ -124,33 +124,29 @@ define(function(require) {
 		});
 	}
 	
-	socialandfamily.prototype.saveFamilyHistory = function(familyHistory, familyHistories) {
+	socialandfamily.prototype.saveFamilyHistory = function(familyHistory) {
 		var self = this;
 		var fields = ['id', 'practice_id', 'patient_id', 'relationship', 'age', 'is_alive',
 			'comment', 'last_updated'];
 		
 		var values = $.map(familyHistory, function(k,v) {
-			if (k == null || k == undefined) {
+			if (k() == null || k() == undefined) {
 				return [''];
 			}
 			else {
-				return [k];
+				return [k()];
 			}
 		});
 		
 		var defaultRelationship = false;
 		var validAge = false;
 		if (familyHistory.relationship() == 'father' || familyHistory.relationship() == 'mother') {
-			system.log(familyHistory.relationship() + " is a default relationship.");
 			defaultRelationship = true;
-			if (familyHistory.age() != '' && familyHistory.age() != undefined) {
+			if (familyHistory.age() != '' && familyHistory.age() != undefined)
 				validAge = true;
-				system.log(familyHistory.relationship() + " has a valid age.");
-			}
 		}
 		
 		if (familyHistory.id() == undefined || familyHistory.id() == '') {
-			system.log(familyHistory.age());
 			if ((defaultRelationship && validAge) || !defaultRelationship) {
 				return self.query({
 					mode: 'select',

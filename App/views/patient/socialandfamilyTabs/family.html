@@ -1,5 +1,8 @@
 <div class="alertHolder">
 	<div class="alert alert-danger allAlert">You are missing required fields.</div>
+	<div class="alert alert-danger relationshipAlert">Relationship is required.</div>
+	<div class="alert alert-danger ageAlert">Age is required.</div>
+	<div class="alert alert-success">Successfully saved.</div>
 </div>
 <form class="form-inline formPadding">
 	<div class="row-fluid">
@@ -53,14 +56,13 @@
 						<tr>
 							<td>
 								<select class="input-xmedium" data-bind="
-									event: {select: $root.familyHistoryAddRow},
 									value: relationship,
 									enable: relationship() != 'father' &&
 											relationship() != 'mother' &&
 											$root.patient().familyHistoryType() == 3">
 									<option value="" data-bind="visible: false">Relationship</option>
-									<option value="father" data-bind="visible: false">Father</option>
-									<option value="mother" data-bind="visible: false">Mother</option>
+									<option value="father" disabled data-bind="visible: false">Father</option>
+									<option value="mother" disabled data-bind="visible: false">Mother</option>
 									<option value="brother">Brother</option>
 									<option value="sister">Sister</option>
 									<option value="other">Other</option>
@@ -68,9 +70,7 @@
 							</td>
 							<td>
 								<input type="number" class="input-mini" placeholder="Age" data-bind="
-									event: {keyup: $root.familyHistoryAddRow, change: $root.familyHistoryAddRow},
 									value: age,
-									valueUpdate: 'afterkeydown',
 									enable: $root.patient().familyHistoryType() == 3 && relationship() != ''">
 							</td>
 							<td>
@@ -96,7 +96,10 @@
 				</table>
 			</div>
 			<div class="pull-right">
-				<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.familyHistorySave">Save</button>
+				<button type="submit" class="btn btn-small btn-primary" data-bind="
+					click: $root.familyHistorySave"
+					Save
+				</button>
 			</div>
 		</fieldset>
 	</div>
