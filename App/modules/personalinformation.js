@@ -21,6 +21,17 @@ define(function(require) {
 	 * 
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/	
+	// Role
+	personal.prototype.getRole = function(id, practiceId) {
+		return this.query({
+			mode: 'select', 
+			table: 'user', 
+			fields: '*',
+			join: "JOIN role ON user.role_id=role.id",
+			where: "WHERE user.id='" + id +"' AND user.practice_id='" + practiceId + "'"
+		});
+	}
+	
 	// Get Personal Information for a Single Patient
 	personal.prototype.getPatient = function(id) {
 		return this.query({

@@ -23,7 +23,7 @@
 						<span>Comments</span>
 						<div class="arrow down"></div>
 					</th>
-					<th></th>
+					<th data-bind="visible: $root.role().orders() > 1"></th>
 				</tr>			
 			</thead>
 			<tbody data-bind="foreach: chemoOrders">
@@ -37,7 +37,7 @@
 						</div>
 					</td>
 					<td data-bind="text: comment, click: $root.selectRow.bind($data, 'chemo')"></td>
-					<td>
+					<td data-bind="visible: $root.role().orders() > 1">
 						<button type="button" class="btn btn-small btn-danger" 
 							    data-bind="click: $root.deleteChemoOrder">
 							Delete
@@ -51,5 +51,8 @@
 <div class="pull-right">
 	<button type="button" class="btn btn-small" >Print</button>
 	<button type="button" class="btn btn-small" >Order</button>
-	<button type="button" class="btn btn-small btn-success" data-bind="click: newOrder.bind($data, 'chemo')">New</button>
+	<button type="button" class="btn btn-small btn-success"
+	        data-bind="click: newOrder.bind($data, 'chemo'), visible: $root.role().orders() > 1">
+		New
+	</button>
 </div>

@@ -5,13 +5,20 @@ define(function(require) {
 	var system = require('durandal/system');
 	var Backend = require('modules/patient');
 	var app = require('durandal/app');
-	var Structures = require('modules/patientStructures');	// Structures
+	var Structures = require('modules/patientStructures');	// Patient Structure
+	var User	   = require('modules/structures');			// User Structure
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
+	var self;
 	var backend = new Backend();
 	var structures = new Structures();
+	var userStructure = new User();
+	var user = ko.observable();
+	var role = ko.observable();
+	var userId = ko.observable();
+	var practiceId = ko.observable();
 	var keyword = ko.observable();
 	var context = ko.observable();
 	var parameter = ko.observable();
@@ -70,6 +77,10 @@ define(function(require) {
 	 * Manage Patients ViewModel
 	 **********************************************************************************************/
 	return {
+		user: user,
+		role: role,
+		userId: userId,
+		practiceId: practiceId,
 		backend: backend,
 		keyword: keyword,
 		context: context,
@@ -82,12 +93,26 @@ define(function(require) {
 			$('.patientNav').addClass('active');
 		},
 		activate: function(data) {
-			var self = this;
+			self = this;
+			self.userId(global.userId);
+			self.practiceId(global.practiceId);
 			
-			return backend.getPatients().success(function(data) {
-				var patient = $.map(data, function(item) {return new structures.Patient(item) });
-				self.patients(patient);
-				self.allPatients(patient);
+			return backend.getRole(self.userId(), self.practiceId()).success(function(data) {
+				self.role(new userStructure.Role(data[0]));
+				if(self.role().managePatients() == 0) {
+					// There is currently no dashboard, so if the user doensn't have viewing
+					// permissions then they wouldn't see Patients. Since Patients is the only
+					// Area available now, it is being left alone for testing purposes.
+					// NEEDS TO BE IMPLEMENTED WHEN DASHBOARD IS CREATED
+					system.log('No permissions');
+					
+				}
+			}).then(function() {			
+				backend.getPatients().success(function(data) {
+					var patient = $.map(data, function(item) {return new structures.Patient(item) });
+					self.patients(patient);
+					self.allPatients(patient);
+				});
 			});
 		},
 		filterPatient: filterPatient,

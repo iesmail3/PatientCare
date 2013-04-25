@@ -13,6 +13,7 @@ define(function(require) {
 	var Structures = require('modules/patientStructures'); 	// Structures
 	var modal	   = require('modals/modals');				// Modals
 	var form	   = require('modules/form');				// Common form data
+	var UserStructures = require('modules/structures');		// User structures
 	
 	/*********************************************************************************************** 
 	 * KO Observables
@@ -20,7 +21,10 @@ define(function(require) {
 	var self;
 	var backend     	= new Backend();
 	var structures  	= new Structures();
+	var userStructures  = new UserStructures();
 	var form        	= new form();
+	var user			= ko.observable(new userStructures.User());
+	var role			= ko.observable(new userStructures.Role());
 	var orders      	= ko.observableArray([]);
 	var labOrders   	= ko.observableArray([]);
 	var chemoOrders		= ko.observableArray([]);
@@ -56,6 +60,8 @@ define(function(require) {
 		forms: form,
 		backend: backend,
 		structures: structures,
+		user: user,
+		role: role,
 		orders: orders,
 		labOrders: labOrders,
 		chemoOrders: chemoOrders,
@@ -107,6 +113,11 @@ define(function(require) {
 		// Loads when view is loaded
 		activate: function(data) {
 			self = this;
+			
+			backend.getRole(global.userId, global.practiceId).success(function(data) {
+				self.role(new userStructures.Role(data[0]));
+			});
+			
 			// Get URL parameters
 			self.patientId(data.patientId);
 			self.serviceDate(data.date);
@@ -209,7 +220,7 @@ define(function(require) {
 				});
 				// Call Modal
 				modal.showOrder(data, centers, orders, groupOrders, form.ImagingOrders, 
-					practiceId(), serviceRecord().id(), 'Imaging Order');
+					practiceId(), serviceRecord().id(), role, 'Imaging Order');
 			}
 			else if(type == 'lab') {
 				// Repopulate groups
@@ -220,7 +231,7 @@ define(function(require) {
 				});
 				// Call Modal
 				modal.showOrder(data, centers, labOrders, groupOrders, form.LabOrders, 
-					practiceId(), serviceRecord().id(), 'Lab Order');
+					practiceId(), serviceRecord().id(), role, 'Lab Order');
 			}
 			else if(type == 'chemo') {
 				// Repopulate groups
@@ -231,7 +242,7 @@ define(function(require) {
 				});
 				// Call Modal
 				modal.showOrder(data, centers, chemoOrders, groupOrders, form.ChemoOrders, 
-					practiceId(), serviceRecord().id(), 'Chemo Order');
+					practiceId(), serviceRecord().id(), role, 'Chemo Order');
 			}
 		},
 		newOrder: function(type, data) {
@@ -287,6 +298,7 @@ define(function(require) {
 			medication(new structures.Medication());
 			newMed(0);
 			cancelMed(1);
+			$('.strengthList').combobox({target: '.strength'});
 		},
 		cancelMedication: function(data) {
 			medication(tempMedication());

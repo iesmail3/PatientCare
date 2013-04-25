@@ -13,8 +13,9 @@ define(function(require) {
 	 * Constructor
 	 *********************************************************************************************/
 	var Order = function(order, centers, orders, groupOrders, orderTypes, practiceId, serviceRecordId, 
-						 title, options) {
+						 role, title, options) {
 		self = this;									// Make object global
+		this.role = role;								// Role
 		this.order = ko.observable(order);				// Order
 		this.centers = centers;							// Centers
 		this.orders = orders;							// Current Orders
@@ -152,7 +153,8 @@ define(function(require) {
 			var op = $.map(data, function(item) { 
 				return {id: item.office_procedure_type_id, times: item.times}
 			});
-			modal.showOfficeProcedure(self.practiceId, self.order().id(), op, 'Office Procedures');
+			modal.showOfficeProcedure(self.practiceId, self.order().id(), op, self.role, 
+									  'Office Procedures');
 		});
 	}
 	
@@ -170,7 +172,7 @@ define(function(require) {
 				} 
 				return {id: item.supply_type_id, quantity: item.quantity}
 			});
-			modal.showSupplies(self.practiceId, self.order().id(), s, 'Supplies');
+			modal.showSupplies(self.practiceId, self.order().id(), s, self.role, 'Supplies');
 		});
 	}
 	
@@ -179,7 +181,8 @@ define(function(require) {
 	 *********************************************************************************************/
 	Order.prototype.goToDrugs = function(data) {
 		var modal = require('modals/modals');
-		modal.showDrugOrder(self.practiceId, self.serviceRecordId, self.order().id(), 'Drug Order');
+		modal.showDrugOrder(self.practiceId, self.serviceRecordId, self.order().id(), 
+							self.role, 'Drug Order');
 	}
 	
 	/**********************************************************************************************
@@ -187,7 +190,8 @@ define(function(require) {
 	 *********************************************************************************************/
 	Order.prototype.goToFlow = function(data) {
 		var modal = require('modals/modals');
-		modal.showFlowsheet(self.practiceId, self.serviceRecordId, self.order().id(), 'Flow Sheet');
+		modal.showFlowsheet(self.practiceId, self.serviceRecordId, self.order().id(), self.role,
+					        'Flow Sheet');
 	}
 	
 	/**********************************************************************************************

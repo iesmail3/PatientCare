@@ -10,8 +10,9 @@ define(function(require) {
 	/**********************************************************************************************
 	 * Constructor
 	 *********************************************************************************************/
-	var OfficeProcedure = function(practiceId, orderId, procedures, title, options) {
+	var OfficeProcedure = function(practiceId, orderId, procedures, role, title, options) {
 		self = this;
+		this.role = role;
 		this.practiceId = practiceId;
 		this.orderId = orderId;
 		this.procedures = procedures;

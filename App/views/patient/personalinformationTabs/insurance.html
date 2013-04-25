@@ -662,8 +662,14 @@
 <div class="row-fluid">
 	<div class="pull-right">
 		<button type="button" class="btn btn-small">Print</button>
-		<button type="button" class="btn btn-small btn-primary">Save</button>
-		<button type="button" class="btn btn-small btn-danger">Cancel</button>
+		<button type="button" class="btn btn-small btn-primary" 
+		        data-bind="visible: role().insurance() > 1">
+			Save
+		</button>
+		<button type="button" class="btn btn-small btn-danger" 
+			    data-bind="visible: role().insurance() > 1">
+			Cancel
+		</button>
 	</div>
 </div>
 		

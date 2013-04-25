@@ -1,0 +1,357 @@
+<div>
+	<div class="root">
+		<span><i class="icon-plus" data-bind="click: $root.toggleChild"></i></span>
+		<span>Manage Patients</span>
+		<select class="input-medium pull-right" data-bind="value: managePatients, 
+			    enable: $root.userRole().manageRoles() > 1">
+			<option value="0">None</option>
+			<option value="1">Read</option>
+			<option value="2">Read/Write</option>
+		</select>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Personal Information</span>
+			<select class="input-medium pull-right" data-bind="value: personalInformation, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Insurance Details</span>
+			<select class="input-medium pull-right" data-bind="value: insurance, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Social History</span>
+			<select class="input-medium pull-right" data-bind="value: socialHistory, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Service Record</span>
+			<select class="input-medium pull-right" data-bind="value: serviceRecord, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span><i class="icon-plus" data-bind="click: $root.toggleChild"></i></span>
+			<span>History & Present Illness</span>
+			<select class="input-medium pull-right" data-bind="value: historyIllness, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>History</span>
+				<select class="input-medium pull-right" data-bind="value: history, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Review of Systems</span>
+				<select class="input-medium pull-right" data-bind="value: reviewOfSystems, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Medical Problem</span>
+				<select class="input-medium pull-right" data-bind="value: medicalProblem, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Medication</span>
+				<select class="input-medium pull-right" data-bind="value: medication, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Allergies/Intolerance</span>
+				<select class="input-medium pull-right" data-bind="value: allergies, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span><i class="icon-plus" data-bind="click: $root.toggleChild"></i></span>
+			<span>Physical Examinations</span>
+			<select class="input-medium pull-right" data-bind="value: physicalExamination, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Vital Signs</span>
+				<select class="input-medium pull-right" data-bind="value: vitalSigns, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Physical Examination</span>
+				<select class="input-medium pull-right" data-bind="value: physicalExaminationSub, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Labs & X-Rays</span>
+			<select class="input-medium pull-right" data-bind="value: reports, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span><i class="icon-plus" data-bind="click: $root.toggleChild"></i></span>
+			<span>Diagnosis & Instructions</span>
+			<select class="input-medium pull-right" data-bind="value: diagnosisInstructions, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Diagnosis</span>
+				<select class="input-medium pull-right" data-bind="value: diagnosis, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Instructions</span>
+				<select class="input-medium pull-right" data-bind="value: instructions, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Guidance</span>
+				<select class="input-medium pull-right" data-bind="value: guidance, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Development</span>
+				<select class="input-medium pull-right" data-bind="value: development, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Orders</span>
+			<select class="input-medium pull-right" data-bind="value: orders, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Medication Orders</span>
+			<select class="input-medium pull-right" data-bind="value: medicationOrders, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span><i class="icon-plus" data-bind="click: $root.toggleChild"></i></span>
+			<span>Follow Up</span>
+			<select class="input-medium pull-right" data-bind="value: followup, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Checkout</span>
+				<select class="input-medium pull-right" data-bind="value: checkout, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Prescription</span>
+				<select class="input-medium pull-right" data-bind="value: prescription, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Phone Log</span>
+				<select class="input-medium pull-right" data-bind="value: phoneLog, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Superbill</span>
+				<select class="input-medium pull-right" data-bind="value: superbill, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+		<div class="child">
+			<div class="root">
+				<span>Misc. Docs</span>
+				<select class="input-medium pull-right" data-bind="value: miscDocs, 
+			    enable: $root.userRole().manageRoles() > 1">
+					<option value="0">None</option>
+					<option value="1">Read</option>
+					<option value="2">Read/Write</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Family History</span>
+			<select class="input-medium pull-right" data-bind="value: familyHistory, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Immunization Details</span>
+			<select class="input-medium pull-right" data-bind="value: immunization, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Birth History</span>
+			<select class="input-medium pull-right" data-bind="value: birthHistory, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Route Examination</span>
+			<select class="input-medium pull-right" data-bind="value: routineExam, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+</div>

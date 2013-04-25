@@ -3,9 +3,12 @@
 	margin-bottom: 3px;
 }
 
+.input-xmini { width: 50px;}
 .input-xsmall { width: 75px; }
-
 .input-xmedium { width: 119px; }
+.input-mediumLarge { width: 150px; }
+.input-xxlarge { width: 300px; }
+.input-huge { width: 400px; }
 
 th, td {
 	cursor: default;
@@ -14,8 +17,6 @@ th, td {
 .right10 {
 	margin-right: 10px;
 }
-
-.input-mediumLarge { width: 150px; }
 
 .smallText { font-size: 10px; }
 
@@ -469,4 +470,121 @@ th, td {
 	display: block;
 	max-width: 99%;
 	margin: auto;
+}
+
+/* Settings */
+.settings {
+	padding-top: 10px;
+}
+
+div[data-view="views/settings"] {
+	background-color: white;
+}
+
+.settingsContent .tab-pane {
+	border: none;
+}
+
+.settingsPills {
+	background-color: white;
+}
+
+.subSettings .tab-pane {
+	background-color: #fff;   
+	border: 1px solid #ddd;
+	border-radius: 0 0 5px 5px;
+	padding: 0 10px;
+}
+
+.passwordButton {
+	margin-top: -10px;
+}
+
+.settings .control-label {
+	width: 80px;
+}
+
+.settings .controls {
+	margin-left: 100px;
+}
+
+.userTableHolder {
+	overflow-y: auto;
+}
+
+.userButtons {
+	height: 30px;
+}
+
+.roleContent {
+	border: 1px solid #ddd;
+	margin-top: 0px;
+	overflow-y: auto;
+}
+
+.adminRole {
+	width: 80%;
+	margin: auto;
+	margin-top: 50px;
+	color: rgb(255, 61, 0);
+	text-align: center;
+}
+
+.roleButtons {
+	margin-top: 9px;
+}
+
+.roleSelection {
+	border-bottom: 1px solid #ddd;
+}
+
+.roleSelection .root {
+	border: 1px solid #ddd;
+	border-bottom: none;
+	height: 30px;
+}
+
+.roleSelection .child {
+	display: none;
+}
+
+.roleSelection .child span:first-child {
+	margin-left: 50px;
+}
+
+.roleSelection .child .child span:first-child {
+	margin-left: 100px;
+}
+
+.roleSelection span {
+	padding: 5px;
+	display: inline-block;
+	font-size: 16px;
+}
+
+.roleSelection select {
+	margin-bottom: 0;
+	padding: 0;
+}
+
+.roleContent i {
+	cursor: pointer;
+}
+
+.roles .form-horizontal {
+	margin-top: 5px;
+	margin-bottom: 0;
+}
+
+.roles .form-horizontal .control-group{
+	margin-bottom: 10px;
+}
+
+/* General */
+.general .control-label {
+	width: 100px;
+}
+
+.general .controls {
+	margin-left: 115px;
 }

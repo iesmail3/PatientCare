@@ -15,13 +15,18 @@ define(function(require) {
 	var Forms = require('modules/form');					// Common form elements
 	var router = require('durandal/plugins/router');    	// Router
 	var Structures = require('modules/patientStructures');  // Patient Structures
+	var UserStructures = require('modules/structures');		// User Structures
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
+	var self;
 	var backend = new Backend();
 	var structures = new Structures();
+	var userStructures = new UserStructures();
 	var form = new Forms();
+	var user				= ko.observable(new userStructures.User());
+	var role				= ko.observable(new userStructures.Role());
 	var insuredPerson 		= ko.observable();
 	var primaryInsurance 	= ko.observable(new structures.Insurance());
 	var secondaryInsurance  = ko.observable(new structures.Insurance());
@@ -48,6 +53,8 @@ define(function(require) {
 		 * Attributes
 		 *******************************************************************************************/
 		backend: backend,
+		user: user,
+		role: role,
 		form: form,
 		structures: structures,
 		patientId: patientId,
@@ -86,7 +93,11 @@ define(function(require) {
 		}, // End viewAttached
 		// Loads when view is loaded
 		activate: function(data) {
-			var self = this;
+			self = this;
+			
+			backend.getRole(global.userId, global.practiceId).success(function(data) {
+				self.role(new userStructures.Role(data[0]));
+			});
 			
 			// Patient ID
 			self.patientId(data.patientId);

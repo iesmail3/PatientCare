@@ -5,31 +5,34 @@ Description:
 -->
 <div>
 	<ul class="nav nav-tabs patientNavs" id="orderTab">
-		<li class="active"><a data-toggle="tab" href="#image">Imaging Order</a></li>
-		<li><a data-toggle="tab" href="#lab">Labs Order</a></li>
-		<li><a data-toggle="tab" href="#chemo">Chemo Order</a></li>
-		<li><a data-toggle="tab" href="#medication">Medication Order</a></li>
+		<li class="active"><a data-toggle="tab" href="#image"data-bind="visible: role().orders() > 0">Imaging Order</a></li>
+		<li><a data-toggle="tab" href="#lab" data-bind="visible: role().orders() > 0">Labs Order</a></li>
+		<li><a data-toggle="tab" href="#chemo"data-bind="visible: role().orders() > 0">Chemo Order</a></li>
+		<li data-bind="css: {active: role().orders() < 1}">
+			<a data-toggle="tab" href="#medication" data-bind="visible: role().medicationOrders() > 0">Medication Order</a>
+		</li>
 	</ul>
  
 	<div class="tab-content">
-		<div class="tab-pane outerPane active" id="image">
+		<!-- Imaging Order -->
+		<div class="tab-pane outerPane active" id="image" data-bind="visible: role().orders() > 0">
 			<div data-bind="compose: 'patient/servicerecord/orderTabs//imageTab.html'" >
-				<!-- Imaging Order -->
 			</div>
 		</div>
-		<div class="tab-pane outerPane" id="lab">
-			<div data-bind="compose: 'patient/servicerecord/orderTabs/labTab.html'" >
-				<!-- Labs Order -->
+		<!-- Labs Order -->
+		<div class="tab-pane outerPane" id="lab" data-bind="visible: role().orders() > 0">
+			<div data-bind="compose: 'patient/servicerecord/orderTabs/labTab.html'">
 			</div>
 		</div>
-		<div class="tab-pane outerPane" id="chemo">
-			<div data-bind="compose: 'patient/servicerecord/orderTabs/chemoTab.html'" >
-				<!-- Procedure Order -->
+		<!-- Procedure Order -->
+		<div class="tab-pane outerPane" id="chemo" data-bind="visible: role().orders() > 0">
+			<div data-bind="compose: 'patient/servicerecord/orderTabs/chemoTab.html'">
 			</div>
 		</div>
-		<div class="tab-pane outerPane" id="medication">
+		<!-- Medication Order -->
+		<div class="tab-pane outerPane" id="medication" data-bind="css: {active: role().orders() < 1},
+					visible: role().medicationOrders() > 0">
 			<div data-bind="compose: 'patient/servicerecord/orderTabs/medicationTab.html'" >
-				<!-- Medication Order -->
 			</div>
 		</div>
 	</div>
