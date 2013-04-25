@@ -11,23 +11,22 @@ define(function(require) {
 	var custom = require('durandal/customBindings');		// Custom bindings
 	var Backend = require('modules/socialandfamily');		// Module
 	var Structures = require('modules/patientStructures');	// Structures
-	var Forms = require('modules/form');
 	var app = require('durandal/app');
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
 	var backend = new Backend();
-	var form = new Forms();
 	var structures = new Structures();
 	var patientId = ko.observable();
 	var practiceId = ko.observable();
 	var tempSocialHistory = ko.observable(new structures.SocialHistory());
 	var socialHistory = ko.observable(new structures.SocialHistory());
 	var patient = ko.observable(new structures.Patient());
-	var familyHistory = ko.observable(new structures.FamilyHistory());
+	var familyHistoryFather = ko.observable(true);
+	var familyHistoryMother = ko.observable(true);
 	var familyHistories = ko.observableArray([]);
-	var routineExam = ko.observable(new structures.RoutineExam());
+	var tempRoutineExams = ko.observableArray([]);
 	var routineExams = ko.observableArray([]);
 	
 	/*********************************************************************************************** 
@@ -51,9 +50,10 @@ define(function(require) {
 		tempSocialHistory: tempSocialHistory,
 		socialHistory: socialHistory,
 		patient: patient,
-		familyHistory: familyHistory,
+		familyHistoryFather: familyHistoryFather,
+		familyHistoryMother: familyHistoryMother,
 		familyHistories: familyHistories,
-		routineExam: routineExam,
+		tempRoutineExams: tempRoutineExams,
 		routineExams: routineExams,
 		
 		/******************************************************************************************* 
@@ -84,6 +84,7 @@ define(function(require) {
 			//self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
 			self.patientId(data.patientId);
 			
+			var backend = new Backend();
 			backend.getSocialHistory(self.patientId(), self.practiceId()).success(function(data) {
 				if (data.length > 0) {
 					var s = new structures.SocialHistory(data[0]);
@@ -101,24 +102,19 @@ define(function(require) {
 			});
 			
 			backend.getFamilyHistory(self.patientId(), self.practiceId()).success(function(data) {
-				if (self.familyHistories().length == 0) {
-					self.familyHistories.push(new structures.FamilyHistory({relationship:'father',age:''}));
-					self.familyHistories.push(new structures.FamilyHistory({relationship:'mother',age:''}));
-					if (data.length > 0) {
-						var f = $.map(data, function(item) {return new structures.FamilyHistory(item)});
-						for (var i = 0; i < f.length; i++) {
-							if (f[i].relationship() == 'father' || f[i].relationship() == 'mother') {
-								for (var j = 0; j < self.familyHistories().length; j++) {
-									if (f[i].relationship() == self.familyHistories()[j].relationship())
-										self.familyHistories()[j] = f[i];
-								}
-							}
-							else
-								self.familyHistories.push(f[i]);
-						}
-					}
-					self.familyHistories.push(new structures.FamilyHistory());
+				if (data.length > 0) {
+					var f = $.map(data, function(item) {return new structures.FamilyHistory(item)});
+					
+					$.each(f, function(k,v) {
+						if (v.relationship() == 'father')
+							self.familyHistoryFather(false);
+						if (v.relationship() == 'mother')
+							self.familyHistoryMother(false);
+					});
+					
+					self.familyHistories(f);
 				}
+				self.familyHistories.push(new structures.FamilyHistory());
 			});
 			
 			return backend.getRoutineExam(self.patientId()).success(function(data) {
@@ -128,17 +124,21 @@ define(function(require) {
 					self.routineExams.push(new structures.RoutineExam({name:'Physical',last_done:2}));
 					if (data.length > 0) {
 						var r = $.map(data, function(item) {return new structures.RoutineExam(item)});
+						var t = $.map(data, function(item) {return new structures.RoutineExam(item)});
 						for (var i = 0; i < r.length; i++) {
 							if (r[i].name() == 'Colonoscopy' || r[i].name() == 'PSA' || r[i].name() == 'Physical') {
 								for (var j = 0; j < self.routineExams().length; j++) {
-									if (r[i].name() == self.routineExams()[j].name())
+									if (r[i].name() == self.routineExams()[j].name()) {
 										self.routineExams()[j] = r[i];
+										self.tempRoutineExams()[j] = t[i];
+									}
 								}
 							}
-							else
+							else {
 								self.routineExams.push(r[i]);
+								self.tempRoutineExams.push(t[i]);
+							}
 						}
-						self.routineExam(r[0]);
 					}
 					self.routineExams.push(new structures.RoutineExam());
 				}
@@ -195,9 +195,8 @@ define(function(require) {
 			var same = true;
 			$.each(socialHistory(), function(k,v) {
 				$.each(tempSocialHistory(), function(m,n) {
-					if ((k == m) && (v() != n())) {
+					if ((k == m) && (v() != n()))
 						same = false;
-					}
 				});
 			});
 			if (!same) {
@@ -243,75 +242,33 @@ define(function(require) {
 				// Save family status
 			});
 		},
-		familyHistoryAddRow: function() {
+		familyHistoryAddRow: function(data) {
 			var lastRow = familyHistories()[familyHistories().length - 1];
 			if (lastRow.relationship() != '')
 				familyHistories.push(new structures.FamilyHistory());
 		},
-		familyHistorySaveFather: function() {
-			// Attempt to save Father
-			system.log("Save father");
-			familyHistories()[0].patientId(patientId());
-			familyHistories()[0].practiceId(practiceId());
-			familyHistories()[0].isAlive(+familyHistories()[0].isAlive());
-			familyHistories()[0].lastUpdated(form.dbDate(form.currentDate()));
-			backend.saveFamilyHistory(familyHistories()[0]);
-		},
-		familyHistorySaveMother: function() {
-			// Attemp to save Mother
-			system.log("Save mother");
-			familyHistories()[1].patientId(patientId());
-			familyHistories()[1].practiceId(practiceId());
-			familyHistories()[1].isAlive(+familyHistories()[1].isAlive());
-			familyHistories()[1].lastUpdated(form.dbDate(form.currentDate()));
-			backend.saveFamilyHistory(familyHistories()[1]);
-		},
 		familyHistorySave: function(data) {
-			system.log("Save");
 			var isValid = true;
-			// Remove empty last row
 			var lastRow = familyHistories()[familyHistories().length - 1];
-			if (lastRow.relationship() == '' && lastRow.age().trim() == '')
+			if (lastRow.relationship() == '')
 				familyHistories.remove(lastRow);
+			else if (lastRow.relationship() == 'father')
+				familyHistoryFather(false);
+			else if (lastRow.relationship() == 'mother')
+				familyHistoryMother(false);
 			
-			// Check for errors in non default entries and display alerts.
-			var alertIndex;
 			$.each(familyHistories(), function(k,v) {
-				if (v.relationship() != 'father' && v.relationship() != 'mother' && v.errors().length > 0) {
+				if (v.errors().length != 0)
 					isValid = false;
-					if (v.errors().length > 1)
-						alertIndex = 0;
-					else if (v.errors()[0] == 'relationship')
-						alertIndex = 1;
-					else if (v.errors()[0] == 'age')
-						alertIndex = 2;
-				}
 			});
 			
-			switch(alertIndex) {
-				case 0:
-					$('.allAlert').fadeIn().delay(3000).fadeOut();
-					break;
-				case 1:
-					$('.relationshipAlert').fadeIn().delay(3000).fadeOut();
-					break;
-				case 2:
-					$('.ageAlert').fadeIn().delay(3000).fadeOut();
-					break;
-			}
-			
-			// Save each entry
 			if (isValid) {
-				$.each(familyHistories(), function(k,v) {
-					if (v.relationship() != 'father' && v.relationship() != 'mother') {
-						v.patientId(patientId());
-						v.practiceId(practiceId());
-						v.isAlive(+v.isAlive());
-						v.lastUpdated(form.dbDate(form.currentDate()));
-						backend.saveFamilyHistory(v);
-					}
+				$.each(familyHistories(), function(key, item) {
+					item.patientId(patientId());
+					item.practiceId(practiceId());
+					item.isAlive(+item.isAlive());
+					backend.saveFamilyHistory(item);
 				});
-				$('.alert-success').fadeIn().delay(3000).fadeOut();
 				familyHistories.push(new structures.FamilyHistory());
 			}
 			else
@@ -333,7 +290,7 @@ define(function(require) {
 			var isValid = true;
 		},
 		routineExamCancel: function(data) {
-		
+			
 		},
 		routineExamDelete: function(data) {
 		

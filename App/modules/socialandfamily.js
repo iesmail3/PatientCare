@@ -138,39 +138,7 @@ define(function(require) {
 			}
 		});
 		
-		var defaultRelationship = false;
-		var validAge = false;
-		if (familyHistory.relationship() == 'father' || familyHistory.relationship() == 'mother') {
-			defaultRelationship = true;
-			if (familyHistory.age() != '' && familyHistory.age() != undefined)
-				validAge = true;
-		}
-		
-		if (familyHistory.id() == undefined || familyHistory.id() == '') {
-			if ((defaultRelationship && validAge) || !defaultRelationship) {
-				return self.query({
-					mode: 'select',
-					table: 'family_history',
-					fields: 'id',
-					order: 'ORDER BY id DESC',
-					limit: 'LIMIT 1'
-				}).success(function(data) {
-					var newId = 1;
-					if (data.length > 0)
-						newId = parseInt(data[0].id) + 1;
-					
-					values[0] = newId;
-					familyHistory.id(newId);
-					self.query({
-						mode: 'insert',
-						table: 'family_history',
-						fields: fields,
-						values: values
-					});
-				});
-			}
-		}
-		else {
+		if (values[0] != '' && values[0] != undefined) {
 			return self.query({
 				mode: 'update',
 				table: 'family_history',
@@ -179,6 +147,43 @@ define(function(require) {
 				where: "WHERE id='" + familyHistory.id() + "'"
 			});
 		}
+		else {
+			return self.query({
+				mode: 'select',
+				table: 'family_history',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			},false).success(function(data) {
+				
+				var newId = 1;
+				if (data.length > 0) {
+					newId = parseInt(data[0].id) + 1;
+				}
+				
+				familyHistory.id(newId);
+				values[0] = newId;
+				return self.query({
+					mode: 'insert',
+					table: 'family_history',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+	}
+	
+	socialandfamily.prototype.saveRoutineExam = function(routineExam) {
+		var self = this;
+		var fields = ['patient_id', 'name', 'last_done', 'month', 'year', 'comment'];
+		var values = $.map(routineExam, function(k,v) {
+			if (k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
 	}
 	
 	/**********************************************************************************************
@@ -199,8 +204,17 @@ define(function(require) {
 	 * 
 	 * This method is used by all other methods to execute the ajax call.
 	 *********************************************************************************************/ 
-	socialandfamily.prototype.query = function(data) {
-		return $.getJSON('php/query.php',data);
+	socialandfamily.prototype.query = function(data, async) {
+		if (async == undefined)
+			async = true;
+		
+		return $.ajax({
+			type: 'GET',
+			url: 'php/query.php',
+			dataType: 'json',
+			data: data,
+			async: async
+		});
 	}
 	
 	/**************************************************************************************************
