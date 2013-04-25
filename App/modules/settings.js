@@ -89,7 +89,7 @@ define(function(require) {
 				table: 'role',
 				fields: fields,
 				values: values,
-				where: "WHERE id='" + data.id() + "'"
+				where: "WHERE id='" + data.id() + "' AND practice_id='" + data.practiceId() + "'"
 			});	
 		}
 		else {

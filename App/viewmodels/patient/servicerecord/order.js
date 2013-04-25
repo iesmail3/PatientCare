@@ -13,6 +13,7 @@ define(function(require) {
 	var Structures = require('modules/patientStructures'); 	// Structures
 	var modal	   = require('modals/modals');				// Modals
 	var form	   = require('modules/form');				// Common form data
+	var UserStructures = require('modules/structures');		// User structures
 	
 	/*********************************************************************************************** 
 	 * KO Observables
@@ -20,7 +21,10 @@ define(function(require) {
 	var self;
 	var backend     	= new Backend();
 	var structures  	= new Structures();
+	var userstructures  = new UserStructure();
 	var form        	= new form();
+	var user			= ko.observable();
+	var role			= ko.observable();
 	var orders      	= ko.observableArray([]);
 	var labOrders   	= ko.observableArray([]);
 	var chemoOrders		= ko.observableArray([]);
@@ -56,6 +60,8 @@ define(function(require) {
 		forms: form,
 		backend: backend,
 		structures: structures,
+		user: user,
+		role: role,
 		orders: orders,
 		labOrders: labOrders,
 		chemoOrders: chemoOrders,
@@ -107,6 +113,9 @@ define(function(require) {
 		// Loads when view is loaded
 		activate: function(data) {
 			self = this;
+			
+			
+			
 			// Get URL parameters
 			self.patientId(data.patientId);
 			self.serviceDate(data.date);

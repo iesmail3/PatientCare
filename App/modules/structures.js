@@ -70,7 +70,7 @@ define(function(require) {
 			this.historyIllness			= ko.observable(data.history_illness);
 			this.immunization			= ko.observable(data.immunization);
 			this.instructions			= ko.observable(data.instructions);
-			this.insurance				= ko.observable(data.instructions);
+			this.insurance				= ko.observable(data.insurance);
 			this.insuranceVerification	= ko.observable(data.insurance_verification);
 			this.reports				= ko.observable(data.reports);
 			this.managePatients			= ko.observable(data.manage_patients);
