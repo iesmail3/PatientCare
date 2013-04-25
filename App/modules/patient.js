@@ -19,6 +19,7 @@ define(function(require) {
 	 * 
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/
+	// Role
 	patient.prototype.getRole = function(id, practiceId) {
 		return this.query({
 			mode: 'select', 

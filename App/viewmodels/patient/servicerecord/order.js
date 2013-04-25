@@ -21,7 +21,7 @@ define(function(require) {
 	var self;
 	var backend     	= new Backend();
 	var structures  	= new Structures();
-	var userstructures  = new UserStructure();
+	var userStructures  = new UserStructures();
 	var form        	= new form();
 	var user			= ko.observable();
 	var role			= ko.observable();
@@ -114,7 +114,9 @@ define(function(require) {
 		activate: function(data) {
 			self = this;
 			
-			
+			backend.getRole(global.userId, global.practiceId).success(function(data) {
+				self.role(new userStructures.Role(data[0]));
+			})
 			
 			// Get URL parameters
 			self.patientId(data.patientId);
@@ -218,7 +220,7 @@ define(function(require) {
 				});
 				// Call Modal
 				modal.showOrder(data, centers, orders, groupOrders, form.ImagingOrders, 
-					practiceId(), serviceRecord().id(), 'Imaging Order');
+					practiceId(), serviceRecord().id(), role, 'Imaging Order');
 			}
 			else if(type == 'lab') {
 				// Repopulate groups
@@ -229,7 +231,7 @@ define(function(require) {
 				});
 				// Call Modal
 				modal.showOrder(data, centers, labOrders, groupOrders, form.LabOrders, 
-					practiceId(), serviceRecord().id(), 'Lab Order');
+					practiceId(), serviceRecord().id(), role, 'Lab Order');
 			}
 			else if(type == 'chemo') {
 				// Repopulate groups
@@ -240,7 +242,7 @@ define(function(require) {
 				});
 				// Call Modal
 				modal.showOrder(data, centers, chemoOrders, groupOrders, form.ChemoOrders, 
-					practiceId(), serviceRecord().id(), 'Chemo Order');
+					practiceId(), serviceRecord().id(), role, 'Chemo Order');
 			}
 		},
 		newOrder: function(type, data) {

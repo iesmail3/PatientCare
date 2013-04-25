@@ -7,11 +7,12 @@ define(function(require) {
 	var u = require('../../Scripts/underscore');
 	var self;
 	
-	var Flowsheet = function(practiceId, serviceRecordId, orderId, title, options) {
+	var Flowsheet = function(practiceId, serviceRecordId, orderId, role, title, options) {
 		self = this;
 		/******************************************************************************************
 		 * Properties 
 		 *****************************************************************************************/
+		this.role = role;
 		this.practiceId = practiceId;
 		this.serviceRecordId = serviceRecordId;
 		this.orderId = orderId;
@@ -85,6 +86,8 @@ define(function(require) {
 			if(data.length > 0) {
 				var v = $.map(data, function(item) {return new structures.VenousAccess(item)});
 				self.venousAccesses(v);
+				if(v.length > 0)
+					self.venousAccess(v[0]);
 			}
 		});
 	}
@@ -99,6 +102,8 @@ define(function(require) {
 		backend.getDrugOrders(id).success(function(data) {
 			var d = $.map(data, function(item) { return new structures.DrugOrder(item)});
 			self.drugOrders(d);
+			if(d.length > 0)
+				self.drugOrder(d[0]);
 		})
 	}
 	
@@ -106,6 +111,8 @@ define(function(require) {
 		backend.getMedicationOrderLogs(id).success(function(data) {
 			var d = $.map(data, function(item) { return new structures.MedicationOrderLog(item)});
 			self.medicationOrderLogs(d);
+			if(d.length > 0)
+				self.medicationOrderLog(d[0]);
 		})
 	}
 	
