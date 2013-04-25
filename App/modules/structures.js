@@ -4,6 +4,8 @@
  * Description: Contains structures for all the root level view models
  *************************************************************************************************/
 define(function(require) {
+	var system = require('durandal/system');
+	
 	/**************************************************************************************************
 	 * Constructor
 	 *************************************************************************************************/
@@ -13,7 +15,6 @@ define(function(require) {
 	 * User
 	 *************************************************************************************************/
 	structures.prototype.User = function(data) {
-		var self = this;
 		if(data != null) {
 			this.id 		   		= ko.observable(data.id);
 			this.practiceId 		= ko.observable(data.practice_id);
