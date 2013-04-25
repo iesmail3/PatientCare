@@ -23,8 +23,8 @@ define(function(require) {
 	var structures  	= new Structures();
 	var userStructures  = new UserStructures();
 	var form        	= new form();
-	var user			= ko.observable();
-	var role			= ko.observable();
+	var user			= ko.observable(new userStructures.User());
+	var role			= ko.observable(new userStructures.Role());
 	var orders      	= ko.observableArray([]);
 	var labOrders   	= ko.observableArray([]);
 	var chemoOrders		= ko.observableArray([]);

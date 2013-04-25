@@ -23,8 +23,8 @@ define(function(require) {
 	var userStructures 	= new UserStructures();
 	var backend    		= new Backend();
 	var form			= new Forms();
-	var user 			= ko.observable();
-	var userRole 		= ko.observable();
+	var user 			= ko.observable(new userStructures.Role());
+	var userRole 		= ko.observable(new userStructures.Role());
 	var userId  		= ko.observable();
 	var practiceId 		= ko.observable();
 	var practice		= ko.observable(new structures.Practice());

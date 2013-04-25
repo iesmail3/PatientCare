@@ -25,8 +25,8 @@ define(function(require) {
 	var structures = new Structures();
 	var userStructures = new UserStructures();
 	var form = new Forms();
-	var user				= ko.observable();
-	var role				= ko.observable();
+	var user				= ko.observable(new userStructures.User());
+	var role				= ko.observable(new userStructures.Role());
 	var insuredPerson 		= ko.observable();
 	var primaryInsurance 	= ko.observable(new structures.Insurance());
 	var secondaryInsurance  = ko.observable(new structures.Insurance());
