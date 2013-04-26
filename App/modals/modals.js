@@ -15,30 +15,30 @@ define(function(require) {
 	
 	return {
 		showOrder: function(order, centers, orders, groupOrders, orderTypes, practiceId, 
-							serviceRecordId, title, options) {
+							serviceRecordId, role, title, options) {
 			return modalDialog.show(
 				new Order(order, centers, orders, groupOrders, orderTypes, practiceId, 
-						  serviceRecordId, title, options)
+						  serviceRecordId, role, title, options)
 			);
 		},
-		showOfficeProcedure: function(practiceId, orderId, procedures, title, options) {
+		showOfficeProcedure: function(practiceId, orderId, procedures, role, title, options) {
 			return modalDialog.show(
-				new OfficeProcedure(practiceId, orderId, procedures, title, options)
+				new OfficeProcedure(practiceId, orderId, procedures, role, title, options)
 			);
 		},
-		showSupplies: function(practiceId, orderId, supplies, title, options) {
+		showSupplies: function(practiceId, orderId, supplies, role, title, options) {
 			return modalDialog.show(
-				new Supplies(practiceId, orderId, supplies, title, options)
+				new Supplies(practiceId, orderId, supplies, role, title, options)
 			);
 		},
-		showDrugOrder: function(practiceId, serviceRecordId, orderId, title, options) {
+		showDrugOrder: function(practiceId, serviceRecordId, orderId, role, title, options) {
 			return modalDialog.show(
-				new DrugOrder(practiceId, serviceRecordId, orderId, title, options)
+				new DrugOrder(practiceId, serviceRecordId, orderId, role, title, options)
 			);
 		},
-		showFlowsheet: function(practiceId, serviceRecordId, orderId, title, options) {
+		showFlowsheet: function(practiceId, serviceRecordId, orderId, role, title, options) {
 			return modalDialog.show(
-				new Flowsheet(practiceId, serviceRecordId, orderId, title, options)
+				new Flowsheet(practiceId, serviceRecordId, orderId, role, title, options)
 			);
 		},
 		showPrescription: function(prescription,patientId,practiceId,title,options) {

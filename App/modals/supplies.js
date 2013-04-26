@@ -7,8 +7,9 @@ define(function(require) {
 	var u = require('../../Scripts/underscore');
 	var self;
 	
-	var Supply = function(practiceId, orderId, supplies, title, options) {
+	var Supply = function(practiceId, orderId, supplies, role, title, options) {
 		self = this;
+		this.role = role;
 		this.practiceId = practiceId;
 		this.orderId = orderId;
 		this.supplies = supplies;

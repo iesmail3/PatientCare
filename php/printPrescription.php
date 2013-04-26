@@ -54,14 +54,14 @@ class PDF extends FPDI_CellFit {
 								medication_order.service_record_id = service_record.id AND
 								service_record.physician_id = physician.id");
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);
-			while($row = $stmt->fetch())
-				$this->physician = $row;
+			$rows = $stmt->fetchAll();
+			$physician = $rows[0];
 				
 			//Patient
 			$stmt = $db->query("SELECT patient.* FROM patient WHERE id='$patientId'");
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);
-			while($row = $stmt->fetch())
-				$patient = $row;
+			$rows = $stmt->fetchAll();
+			$patient = $rows[0];
 			
 			//Allergies/Intolerances 
 			$stmt = $db->query("SELECT type,details FROM allergies_intolerance,medication_order,
@@ -102,8 +102,8 @@ class PDF extends FPDI_CellFit {
  		 * Physician Information
  		 *****************************************************************************************/
 		$this->SetFont('Arial', 'B', 12);
-		$this->Cell(0, 11, $this->physician['first_name'] . ' ' . $this->physician['last_name'] . 
-					', ' . $this->physician['degree'], 0, 1);
+		$this->Cell(0, 11, $physician['first_name'] . ' ' . $physician['last_name'] . 
+					', ' . $physician['degree'], 0, 1);
 			$this->SetFont('Arial', '', 11);
 			$this->SetX(10);
 			$this->Cell(0,4, $practice['address'] . ', ' . $practice['city'] . ', '
@@ -111,8 +111,8 @@ class PDF extends FPDI_CellFit {
 			$this->SetX(10);
 			$this->Cell(0,4, 'Phone: ' . $practice['phone'] . ', Fax: ' 
 						. $practice['fax'], 0, 1);
-		$this->CellFit(0, 4, 'License No: ' . $this->physician['license'] . ', NPI: ' . 
-				       $this->physician['npi'] . ', DEA: ' . $this->physician['dea'], 0, 1);
+		$this->CellFit(0, 4, 'License No: ' . $physician['license'] . ', NPI: ' . 
+				       $physician['npi'] . ', DEA: ' . $physician['dea'], 0, 1);
 		if($this->PageNo() == 1)
 			$this->Line(11, 60, 199, 60);
 		// else

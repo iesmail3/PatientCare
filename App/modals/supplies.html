@@ -28,11 +28,13 @@
 				</thead>
 				<tbody data-bind="foreach: supplyTypes">
 					<tr>
-						<td><input type="checkbox" data-bind="attr: {value: id}, checked: $root.ids" /></td>
+						<td><input type="checkbox" data-bind="attr: {value: id}, checked: $root.ids, 
+							       enable: $root.role().orders() > 1" /></td>
 						<td data-bind="text: description"></td>
 						<td data-bind="text: unit"></td>
 						<td class="inputCell">
-							<input type="number" class="input-small" data-bind="value: quantity" />
+							<input type="number" class="input-small" data-bind="value: quantity,
+							       enable: $root.role().orders() > 1" />
 						</td>
 					</tr>
 				</tbody>
@@ -41,6 +43,7 @@
 	</div>
 	<div class="modal-footer" data-bind="foreach: options">
 		<button class="btn" data-bind="click: function() { $parent.selectOption($data); }, 
-			html: $data, css: {'btn-primary': $index() == 0, autofocus: $index() == 0, 'btn-danger': $data == 'Cancel'}"></button>
+			html: $data, css: {'btn-primary': $index() == 0, autofocus: $index() == 0, 
+			'btn-danger': $data == 'Cancel'}, visible: $root.role().orders() > 1"></button>
 	</div>
 </div>

@@ -190,6 +190,10 @@ define(function(require) {
 		},
 		savePlan: function(data) { 
 			 backend.savePlan(patientId(),practiceId(),date(),serviceRecord().planAndInstructions()); 
+			 	$('.plan .planAlert').fadeIn().delay(3000).fadeOut();
+		},
+		clearPlan: function(data) { 
+			serviceRecord().planAndInstructions('');
 		}
 	};
 });

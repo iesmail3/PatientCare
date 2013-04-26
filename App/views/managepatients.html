@@ -39,7 +39,7 @@
 				<th>Phone</th>
 				<th>Mobile</th>
 				<th>Email</th>
-				<th></th>
+				<th data-bind="visible: $root.role().managePatients() > 1"></th>
 			</tr>
 		</thead>
 		<tbody data-bind="foreach: patients">
@@ -53,7 +53,9 @@
 				<td data-bind="text: phone"></td>
 				<td data-bind="text: mobile"></td>
 				<td data-bind="text: email"></td>
-				<td><a class="btn btn-small btn-danger" data-bind="click: $root.deletePatient">Delete</a></td>
+				<td data-bind="visible: $root.role().managePatients() > 1">
+					<a class="btn btn-small btn-danger" data-bind="click: $root.deletePatient">Delete</a>
+				</td>
 			</tr>
 		</tbody>
 	</table>

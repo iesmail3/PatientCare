@@ -6,16 +6,23 @@ Description: This view holds the Personal Information and Insurance tabs. These 
 -->
 <div>
 	<ul class="nav nav-tabs patientNavs" id="personalTab">
-		<li class="active"><a data-toggle="tab" href="#personal">Personal Information</a></li>
-		<li><a data-toggle="tab" href="#insurance">Insurance</a></li>
+		<li class="active">
+			<a data-toggle="tab" href="#personal" data-bind="visible: role().personalInformation() > 0">
+				Personal Information
+			</a>
+		</li>
+		<li data-bind="css: {active: role().personalInformation() < 1}">
+			<a data-toggle="tab" href="#insurance" data-bind="visible: role().insurance() > 0">Insurance</a>
+		</li>
 	</ul>
 	<div class="tab-content">
 		<!-- Personal Information -->
-		<div class="tab-pane outerPane active" id="personal">
-			<div data-bind='compose: "patient/personalinformationTabs/personal.html"'></div>
+		<div class="tab-pane outerPane active" id="personal" data-bind="visible: role().personalInformation() > 0">
+			<div data-bind="compose: 'patient/personalinformationTabs/personal.html'"></div>
 		</div><!-- Personal Information -->
 		<!-- Insurance -->
-		<div class="tab-pane outerPane" id="insurance">
+		<div class="tab-pane outerPane" id="insurance" 
+			 data-bind="css: {active: role().personalInformation() < 1}, visible: role().insurance() > 0">
 			<div data-bind='compose: "patient/personalinformationTabs/insurance.html"'></div>
 		</div>
 	</div>
