@@ -350,6 +350,7 @@ define(function(require) {
 			this.plan				  = ko.observable(data.plan);
 			this.planOther			  = ko.observable(data.plan_other);
 			this.effectiveDate		  = ko.observable(data.effective_date);
+			this.archiveDate		  = ko.observable(data.archive_date);
 			this.outOfPocket		  = ko.observable(data.out_of_pocket);
 			this.metOutOfPocket		  = ko.observable(data.met_out_of_pocket);
 			this.remainingOutOfPocket = ko.observable(data.remaining_out_of_pocket);
@@ -378,6 +379,7 @@ define(function(require) {
 			this.plan				  = ko.observable();
 			this.planOther			  = ko.observable();
 			this.effectiveDate		  = ko.observable();
+			this.archiveDate		  = ko.observable();
 			this.outOfPocket		  = ko.observable();
 			this.metOutOfPocket		  = ko.observable();
 			this.remainingOutOfPocket = ko.observable();
