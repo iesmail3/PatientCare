@@ -331,9 +331,9 @@ define(function(require) {
 			});
 			
 			if (isValid) {
-				temp = ko.observableArray([]);
+				var temp = ko.observableArray([]);
 				for (var i = 0; i < routineExams().length; i++) {
-					temp[i] = new structures.RoutineExam({
+					temp()[i] = new structures.RoutineExam({
 						patient_id: patientId(),
 						name: routineExams()[i].name(),
 						last_done: routineExams()[i].lastDone(),
@@ -342,6 +342,7 @@ define(function(require) {
 						comment: routineExams()[i].comment()
 					});
 				}
+				tempRoutineExams(temp());
 				
 				$.each(routineExams(), function(k,v) {
 					v.patientId(patientId());
@@ -352,20 +353,21 @@ define(function(require) {
 				system.log("There is a problem");
 			
 			routineExams.push(new structures.RoutineExam());
+			tempRoutineExams.push(new structures.RoutineExam());
 		},
 		routineExamCancel: function() {
-			system.log("routineExams()");
-			$.each(routineExams(), function(k,v) {
-				$.each(v, function(m,n) {
-					system.log(m + " : " + n());
+			var temp = ko.observableArray([]);
+			for (var i = 0; i < tempRoutineExams().length; i++) {
+				temp()[i] = new structures.RoutineExam({
+					patient_id: patientId(),
+					name: tempRoutineExams()[i].name(),
+					last_done: tempRoutineExams()[i].lastDone(),
+					month: tempRoutineExams()[i].month(),
+					year: tempRoutineExams()[i].year(),
+					comment: tempRoutineExams()[i].comment()
 				});
-			});
-			system.log("tempRoutineExams()");
-			$.each(tempRoutineExams(), function(k,v) {
-				$.each(v, function(m,n) {
-					system.log(m + " : " + n());
-				});
-			});
+			}
+			routineExams(temp());
 		},
 		routineExamDelete: function(item) {
 			return app.showMessage(
