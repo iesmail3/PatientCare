@@ -243,7 +243,7 @@ define(function(require) {
 			this.id			  = ko.observable(data.id);
 			this.practiceId	  = ko.observable(data.practice_id);
 			this.patientId	  = ko.observable(data.patient_id);
-			this.relationship = ko.observable(data.relationship).extend({required: true});
+			this.relationship = ko.observable(data.relationship).extend({required: {message: 'relationship'}});
 			this.age		  = ko.observable(data.age);
 			this.isAlive	  = ko.observable(data.is_alive == '1' ? 1 : 0);
 			this.comment	  = ko.observable(data.comment);
@@ -253,14 +253,15 @@ define(function(require) {
 			this.id			  = ko.observable();
 			this.practiceId	  = ko.observable();
 			this.patientId	  = ko.observable();
-			this.relationship = ko.observable('').extend({required: true});
+			this.relationship = ko.observable('').extend({required: {message: 'relationship'}});
 			this.age		  = ko.observable(0);
 			this.isAlive	  = ko.observable(1);
 			this.comment	  = ko.observable('');
 			this.lastUpdated  = ko.observable();
 		}
 		
-		self.errors = ko.validation.group(self, {messagesOnModified: false});
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Follow Up
@@ -1161,16 +1162,16 @@ define(function(require) {
 		var self = this;
 		if (data != null) {
 			this.patientId = ko.observable(data.patient_id);
-			this.name	   = ko.observable(data.name).extend({required: true});
-			this.lastDone  = ko.observable(data.last_done).extend({required: true});
+			this.name	   = ko.observable(data.name).extend({required: {message: 'name'}});
+			this.lastDone  = ko.observable(data.last_done).extend({notEqual: 1});
 			this.month	   = ko.observable(data.month);
 			this.year	   = ko.observable(data.year);
 			this.comment   = ko.observable(data.comment);
 		}
 		else {
 			this.patientId = ko.observable();
-			this.name	   = ko.observable('').extend({required: true});
-			this.lastDone  = ko.observable('2').extend({required: true});
+			this.name	   = ko.observable('').extend({required: {message: 'name'}});
+			this.lastDone  = ko.observable(1).extend({notEqual: 1});
 			this.month	   = ko.observable();
 			this.year	   = ko.observable();
 			this.comment   = ko.observable();
@@ -1179,6 +1180,9 @@ define(function(require) {
 		this.radioName = ko.computed(function() {
 			return 'routineExamLastDone' + self.name();
 		});
+		
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Service Record

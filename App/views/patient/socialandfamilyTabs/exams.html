@@ -12,33 +12,51 @@
 						event: {keyup: $root.routineExamAddRow},
 						enable: name() != 'Colonoscopy' && name() != 'PSA' && name() != 'Physical'" />
 				</div>
-				<div class="offset1 span8">
+				<div class="span9">
 					<div class="marginBottom5">
 						<label class="radio routineRadio">
 							<input type="radio" value="1" data-bind="
 								checked: lastDone,
 								attr: {name: radioName},
-								enable: name() != ''" />
+								enable: name() != '',
+								event: {change: $root.routineExamLastDone}" />
 							<span class="smallText">Never&nbsp;Done</span>
 						</label>
 						<label class="radio routineRadio">
 							<input type="radio" value="2" data-bind="
 								checked: lastDone,
 								attr: {name: radioName},
-								enable: name() != ''" />
+								enable: name() != '',
+								event: {change: $root.routineExamLastDone}" />
 							<span class="smallText">Unknown</span>
 						</label>
 						<label class="radio routineRadio">
 							<input type="radio" value="3" data-bind="
 								checked: lastDone,
 								attr: {name: radioName},
-								enable: name() != ''" />
+								enable: name() != '',
+								event: {change: $root.routineExamSetDate}" />
 							<span class="smallText">Last&nbsp;Done</span>
 						</label>
-						<input type="text" class="input-small" placeholder="Last Done" data-bind="
-							datepicker: {dateFormat: 'mm-yy', changeMonth: true, changeYear: true},
-							enable: lastDone() == 3 && name() != ''" />
-						<button type="button" class="btn btn-small btn-danger pull-right" data-bind="
+						<select class="input-xmedium" data-bind="
+							value: month,
+							enable: lastDone() == 3 && name() != ''">
+							<option value="" data-bind="visible: false">Month</option>
+							<option value="01">January</option>
+							<option value="02">February</option>
+							<option value="03">March</option>
+							<option value="04">April</option>
+							<option value="05">May</option>
+							<option value="06">June</option>
+							<option value="07">July</option>
+							<option value="08">August</option>
+							<option value="09">September</option>
+							<option value="10">October</option>
+							<option value="11">November</option>
+							<option value="12">December</option>
+						</select>
+						<input type="number" class="input-mini" placeholder="Year" data-bind="value: year" />
+						<button type="button" class="btn btn-small btn-danger" data-bind="
 							click: $root.routineExamDelete,
 							visible: name() != 'Colonoscopy' && name() != 'PSA' && name() != 'Physical' && name() != ''">
 							Delete
@@ -47,7 +65,7 @@
 					<div class="marginBottom5">
 						<input type="text" class="routineComment" placeholder="Comments" data-bind="
 							value: comment,
-							enable: name() != ''" />
+							enable: name() != '' && lastDone() != 1" />
 					</div>
 				</div>
 			</div>

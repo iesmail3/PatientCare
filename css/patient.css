@@ -238,10 +238,10 @@ th, td {
 
 .routineRadio {
 	display: inline-block;
-	margin-right: 10px;
+	margin-right: 5px;
 }
 
-.routineComment { width: 333px; }
+.routineComment { width: 402px; }
 
 .medicationAlert {
 	height: 20px;

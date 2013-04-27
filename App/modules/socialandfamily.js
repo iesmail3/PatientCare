@@ -184,6 +184,37 @@ define(function(require) {
 				return [k()];
 			}
 		});
+		
+		var defaultExam;
+		if (routineExam.name() == 'Colonoscopy' || routineExam.name() == 'PSA' || routineExam.name() == 'Physical')
+			defaultExam = true;
+		
+		return self.query({
+			mode: 'select',
+			table: 'routine_exam',
+			fields: '*',
+			where: "WHERE patient_id='" + routineExam.patientId() + "' AND name='" + routineExam.name() + "'"
+		}).success(function(data) {
+			// Save
+			if (data.length > 0) {
+				self.query({
+					mode: 'update',
+					table: 'routine_exam',
+					fields: fields,
+					values: values,
+					where: "WHERE patient_id='" + routineExam.patientId() + "' AND name='" + routineExam.name() + "'"
+				});
+			}
+			// Add
+			else if ((defaultExam && routineExam.errors().length == 0) || !defaultExam) {
+				self.query({
+					mode: 'insert',
+					table: 'routine_exam',
+					fields: fields,
+					values: values
+				});
+			}
+		});
 	}
 	
 	/**********************************************************************************************
@@ -196,6 +227,14 @@ define(function(require) {
 			mode: 'delete',
 			table: 'family_history',
 			where: "WHERE id='" + id + "'"
+		});
+	}
+	
+	socialandfamily.prototype.deleteRoutineExam = function(patientId, name) {
+		return this.query({
+			mode: 'delete',
+			table: 'routine_exam',
+			where: "WHERE patient_id='" + patientId + "' AND name='" + name + "'"
 		});
 	}
 	

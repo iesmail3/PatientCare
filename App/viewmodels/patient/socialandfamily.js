@@ -119,9 +119,12 @@ define(function(require) {
 			
 			return backend.getRoutineExam(self.patientId()).success(function(data) {
 				if (self.routineExams().length == 0) {
-					self.routineExams.push(new structures.RoutineExam({name:'Colonoscopy',last_done:2}));
-					self.routineExams.push(new structures.RoutineExam({name:'PSA',last_done:2}));
-					self.routineExams.push(new structures.RoutineExam({name:'Physical',last_done:2}));
+					self.routineExams.push(new structures.RoutineExam({name:'Colonoscopy',last_done:1}));
+					self.routineExams.push(new structures.RoutineExam({name:'PSA',last_done:1}));
+					self.routineExams.push(new structures.RoutineExam({name:'Physical',last_done:1}));
+					self.tempRoutineExams.push(new structures.RoutineExam({name:'Colonoscopy',last_done:1}));
+					self.tempRoutineExams.push(new structures.RoutineExam({name:'PSA',last_done:1}));
+					self.tempRoutineExams.push(new structures.RoutineExam({name:'Physical',last_done:1}));
 					if (data.length > 0) {
 						var r = $.map(data, function(item) {return new structures.RoutineExam(item)});
 						var t = $.map(data, function(item) {return new structures.RoutineExam(item)});
@@ -141,6 +144,7 @@ define(function(require) {
 						}
 					}
 					self.routineExams.push(new structures.RoutineExam());
+					self.tempRoutineExams.push(new structures.RoutineExam());
 				}
 			});
 		},
@@ -299,6 +303,17 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Routine Exams Methods
 		 *******************************************************************************************/
+		routineExamLastDone: function(data) {
+			data.month('');
+			data.year('');
+		},
+		routineExamSetDate: function(data) {
+			var date = new Date();
+			var month = (date.getMonth()+1).toString();
+			var year = date.getFullYear();
+			data.month(month[1] ? month : "0" + month[0]);
+			data.year(year);
+		},
 		routineExamAddRow: function(data) {
 			var lastRow = routineExams()[routineExams().length - 1];
 			if (lastRow.name() != '')
@@ -306,12 +321,74 @@ define(function(require) {
 		},
 		routineExamSave: function(data) {
 			var isValid = true;
-		},
-		routineExamCancel: function(data) {
+			var lastRow = routineExams()[routineExams().length - 1];
+			if (lastRow.name() == '')
+				routineExams.remove(lastRow);
 			
+			$.each(routineExams(), function(k,v) {
+				if (v.name() != 'Colonoscopy' && v.name() != 'PSA' && v.name() != 'Physical' && v.errors().length != 0)
+					isValid = false;
+			});
+			
+			if (isValid) {
+				temp = ko.observableArray([]);
+				for (var i = 0; i < routineExams().length; i++) {
+					temp[i] = new structures.RoutineExam({
+						patient_id: patientId(),
+						name: routineExams()[i].name(),
+						last_done: routineExams()[i].lastDone(),
+						month: routineExams()[i].month(),
+						year: routineExams()[i].year(),
+						comment: routineExams()[i].comment()
+					});
+				}
+				
+				$.each(routineExams(), function(k,v) {
+					v.patientId(patientId());
+					backend.saveRoutineExam(v);
+				});
+			}
+			else
+				system.log("There is a problem");
+			
+			routineExams.push(new structures.RoutineExam());
 		},
-		routineExamDelete: function(data) {
-		
+		routineExamCancel: function() {
+			system.log("routineExams()");
+			$.each(routineExams(), function(k,v) {
+				$.each(v, function(m,n) {
+					system.log(m + " : " + n());
+				});
+			});
+			system.log("tempRoutineExams()");
+			$.each(tempRoutineExams(), function(k,v) {
+				$.each(v, function(m,n) {
+					system.log(m + " : " + n());
+				});
+			});
 		},
+		routineExamDelete: function(item) {
+			return app.showMessage(
+				'Are you sure you want to delete the routine exam for ' + item.name() + '?',
+				'Delete',
+				['Yes', 'No'])
+			.done(function(answer){
+				if(answer == 'Yes') {
+					backend.deleteRoutineExam(item.patientId(), item.name()).complete(function(data) {
+						if(data.responseText == 'fail') {
+							app.showMessage('The routine exam for ' + item.name() + ' could not be deleted.', 'Deletion Error');
+						}
+						else {
+							routineExams.remove(item);
+						}
+					});
+				}
+			});
+		},
+		routineExamOnClose: function(dateText, inst) { 
+			var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+			var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+			$(this).datepicker('setDate', new Date(year, month, 1));
+		}
 	};
 });
