@@ -160,6 +160,9 @@ th, td {
 	width: 139px;
 }
 
+.insuranceBox { min-width: 400px; }
+.insuranceBox .modal-body { min-height:150px; } 
+
 /* History & Present Illness */
 .historyComment {
 	width: 100%;
@@ -475,7 +478,6 @@ width: 600px;
 	margin: auto;
 }
 
-<<<<<<< HEAD
 .documentTableHolder {
 	height: 225px;
 	overflow-y: auto;
@@ -496,7 +498,7 @@ width: 600px;
 	margin: auto;
 	display: block;
 } 
-=======
+
 /* Settings */
 .settings {
 	padding-top: 10px;
@@ -613,4 +615,4 @@ div[data-view="views/settings"] {
 .general .controls {
 	margin-left: 115px;
 }
->>>>>>> f2c7a8ab40807120f7bc937676ea904c6a3c3720
+

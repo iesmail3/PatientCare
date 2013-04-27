@@ -16,7 +16,7 @@ define(function(require) {
 	var router = require('durandal/plugins/router');    	// Router
 	var Structures = require('modules/patientStructures');  // Patient Structures
 	var UserStructures = require('modules/structures');		// User Structures
-	
+	var modal	   = require('modals/modals');				// Modals
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
@@ -322,6 +322,9 @@ define(function(require) {
 			}
 			else
 				$('.allAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+		},
+		printInsurance: function(data) { 
+			modal.showInsurance(patient().firstName(),patient().lastName(),'Insurance Archive Records');  
 		}
 	}; // End ViewModel
 }); // End file
