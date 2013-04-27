@@ -276,8 +276,6 @@ define(function(require) {
 					item.isAlive(+item.isAlive());
 					
 					backend.saveFamilyHistory(item).complete(function(data) {
-						system.log(data.responseText);
-						system.log(key + " : " + item.relationship());
 						if (data.responseText != 'updateFail' && data.responseText != 'insertFail') {
 							changed = true;
 						}
@@ -348,6 +346,7 @@ define(function(require) {
 			});
 			
 			if (isValid) {
+				var changed = false;
 				var temp = ko.observableArray([]);
 				for (var i = 0; i < routineExams().length; i++) {
 					temp()[i] = new structures.RoutineExam({
@@ -363,11 +362,24 @@ define(function(require) {
 				
 				$.each(routineExams(), function(k,v) {
 					v.patientId(patientId());
-					backend.saveRoutineExam(v);
+					backend.saveRoutineExam(v).complete(function(data) {
+						system.log(data.responseText);
+						if (data.responseText != 'updateFail' && data.responseText != 'insertFail') {
+							changed = true;
+						}
+						if (k == routineExams().length-2) {
+							if (changed)
+								$('.alert-success').fadeIn().delay(3000).fadeOut();
+						}
+						else if (k == routineExams().length-1) {
+							if (changed)
+								$('.alert-success').fadeIn().delay(3000).fadeOut();
+						}
+					});
 				});
 			}
 			else
-				system.log("There is a problem");
+				$('.allAlert').fadeIn().delay(3000).fadeOut();
 			
 			routineExams.push(new structures.RoutineExam());
 			tempRoutineExams.push(new structures.RoutineExam());
