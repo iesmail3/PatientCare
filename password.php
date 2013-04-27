@@ -11,6 +11,8 @@ if(isset($_GET['id'])) {
 	$row = $row[0];
 	// Compute timestamp
 	$dif  = (time() - strtotime(($row['timestamp']))) / 3600;
+	if($dif > 1)
+		$stmt2 = $db->exec("DELETE FROM password_retrieval WHERE guid='$guid'");
 }
 // Process form submission
 $passCheck = false;
