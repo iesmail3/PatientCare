@@ -1,5 +1,6 @@
 <div class="alertHolder">
 	<div class="alert alert-danger allAlert">You are missing required fields.</div>
+	<div class="alert alert-success">Successfully saved.</div>
 </div>
 <form class="form-inline formPadding">
 	<div class="row-fluid">
@@ -51,7 +52,7 @@
 					</thead>
 					<tbody data-bind="foreach: familyHistories">
 						<tr>
-							<td>
+							<td class="input-xmedium">
 								<select class="input-xmedium" data-bind="
 									value: relationship,
 									enable: $root.patient().familyHistoryType() == 3">
@@ -71,12 +72,12 @@
 									<option value="other">Other</option>
 								</select>
 							</td>
-							<td>
+							<td class="input-mini">
 								<input type="number" class="input-mini" placeholder="Age" min="0" data-bind="
 									value: age,
 									enable: $root.patient().familyHistoryType() == 3 && relationship() != ''">
 							</td>
-							<td>
+							<td class="familyIsAlive">
 								<label class="checkbox inline">
 									<input type="checkbox" data-bind="
 										checked: isAlive,
@@ -85,7 +86,7 @@
 								</label>
 							</td>
 							<td>
-								<input type="text" class="input-small" rows="1" placeholder="Comments" data-bind="
+								<input type="text" class="familyComment" rows="1" placeholder="Comments" data-bind="
 									value: comment,
 									enable: $root.patient().familyHistoryType() == 3 && relationship() != ''" />
 							</td>
@@ -98,9 +99,9 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="pull-right">
-				<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.familyHistorySave">Save</button>
-			</div>
 		</fieldset>
 	</div>
 </form>
+<div class="pull-right">
+	<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.familyHistorySave">Save</button>
+</div>

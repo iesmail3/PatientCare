@@ -69,11 +69,13 @@ define(function(require) {
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-			$('.familyFormScroll').height(parseInt($('.tab-pane').height()) - 334);
+			$('.familyFormScroll').height(parseInt($('.tab-pane').height()) - 340);
+			$('.routineExamFormScroll').height(parseInt($('.tab-pane').height()) - 148);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-				$('.familyFormScroll').height(parseInt($('.tab-pane').height()) - 334);
+				$('.familyFormScroll').height(parseInt($('.tab-pane').height()) - 340);
+				$('.routineExamFormScroll').height(parseInt($('.tab-pane').height()) - 148);
 			});
 		},
 		// Loads when view is loaded
@@ -267,16 +269,31 @@ define(function(require) {
 			});
 			
 			if (isValid) {
+				var changed = false;
 				$.each(familyHistories(), function(key, item) {
 					item.patientId(patientId());
 					item.practiceId(practiceId());
 					item.isAlive(+item.isAlive());
-					backend.saveFamilyHistory(item);
+					
+					backend.saveFamilyHistory(item).complete(function(data) {
+						system.log(data.responseText);
+						system.log(key + " : " + item.relationship());
+						if (data.responseText != 'updateFail' && data.responseText != 'insertFail') {
+							changed = true;
+						}
+						if (key == familyHistories().length-2) {
+							if (changed)
+								$('.alert-success').fadeIn().delay(3000).fadeOut();
+						}
+						else if (key == familyHistories().length-1) {
+							if (changed)
+								$('.alert-success').fadeIn().delay(3000).fadeOut();
+						}
+					});
 				});
-				familyHistories.push(new structures.FamilyHistory());
 			}
-			else
-				$('.familyAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+			
+			familyHistories.push(new structures.FamilyHistory());
 		},
 		familyHistoryDelete: function(item) {
 			return app.showMessage(
@@ -306,11 +323,11 @@ define(function(require) {
 		routineExamLastDone: function(data) {
 			data.month('');
 			data.year('');
+			data.comment('');
 		},
 		routineExamSetDate: function(data) {
-			var date = new Date();
-			var month = (date.getMonth()+1).toString();
-			var year = date.getFullYear();
+			var month = (new Date().getMonth()+1).toString();
+			var year = new Date().getFullYear();
 			data.month(month[1] ? month : "0" + month[0]);
 			data.year(year);
 		},
@@ -354,6 +371,7 @@ define(function(require) {
 			
 			routineExams.push(new structures.RoutineExam());
 			tempRoutineExams.push(new structures.RoutineExam());
+			backend.savePatient(patientId(), practiceId(), patient());
 		},
 		routineExamCancel: function() {
 			var temp = ko.observableArray([]);
@@ -386,11 +404,6 @@ define(function(require) {
 					});
 				}
 			});
-		},
-		routineExamOnClose: function(dateText, inst) { 
-			var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-			var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-			$(this).datepicker('setDate', new Date(year, month, 1));
 		}
 	};
 });

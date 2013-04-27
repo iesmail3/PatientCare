@@ -1,7 +1,10 @@
 <div class="alertHolder">
 	<div class="alert alert-danger allAlert">You are missing required fields.</div>
+	<div class="alert alert-danger nameAlert">Name is required.</div>
+	<div class="alert alert-danger nameAlert">Either "Unknown" or "Last Done" is required.</div>
+	<div class="alert alert-success">Successfully saved.</div>
 </div>
-<div class="formScroll">
+<div class="routineExamFormScroll">
 	<form class="form-inline formPadding">
 		<div data-bind="foreach: routineExams">
 			<div class="row-fluid">
@@ -55,7 +58,9 @@
 							<option value="11">November</option>
 							<option value="12">December</option>
 						</select>
-						<input type="number" class="input-mini" placeholder="Year" data-bind="value: year" />
+						<input type="number" class="input-mini" placeholder="Year" data-bind="
+							value: year,
+							attr: {min: new Date().getFullYear()-50, max: new Date().getFullYear()}" />
 						<button type="button" class="btn btn-small btn-danger" data-bind="
 							click: $root.routineExamDelete,
 							visible: name() != 'Colonoscopy' && name() != 'PSA' && name() != 'Physical' && name() != ''">
@@ -71,6 +76,11 @@
 			</div>
 		</div>
 	</form>
+</div>
+<div class="marginBottom5 commentContainer">
+	<textarea class="commentSpan" rows="3" placeholder="Comments" data-bind="
+		value: patient().routineExamComment()" />
+	</textarea>
 </div>
 <div class="pull-right">
 	<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.routineExamSave">Save</button>
