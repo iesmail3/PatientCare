@@ -17,6 +17,7 @@ define(function(require) {
 	var Structures = require('modules/patientStructures');  // Patient Structures
 	var UserStructures = require('modules/structures');		// User Structures
 	var modal	   = require('modals/modals');				// Modals
+	var app = require('durandal/app');
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
@@ -44,7 +45,10 @@ define(function(require) {
 	var referencePcp		= ko.observable(new structures.Reference());
 	var referenceOther		= ko.observable(new structures.Reference());
 	var referencePersonal	= ko.observable(new structures.Reference());
-
+	var isArchive           = ko.observable(false);
+	var tempPrimaryInsurance       = ko.observable(); 
+	var tempSecondaryInsurance       = ko.observable();
+	var tempOtherInsurance       = ko.observable();
 	/*********************************************************************************************** 
 	 * ViewModel
 	 **********************************************************************************************/
@@ -74,6 +78,10 @@ define(function(require) {
 		referencePcp: referencePcp,
 		referenceOther: referenceOther,
 		referencePersonal: referencePersonal,
+		isArchive: isArchive,
+		tempPrimaryInsurance: tempPrimaryInsurance,
+		tempSecondaryInsurance: tempSecondaryInsurance,
+		tempOtherInsurance: tempOtherInsurance,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -325,6 +333,52 @@ define(function(require) {
 		},
 		printInsurance: function(data) { 
 			modal.showInsurance(patient().firstName(),patient().lastName(),'Insurance Archive Records');  
+		},
+		clearForm: function(data) { 
+			return app.showMessage(
+				'You are going to replace current record with new details.Old details will be archived,are you sure?', 
+				'Replace Insurance Record', 
+				['Yes', 'No'])
+			.done(function(answer){
+				if(answer == 'Yes') {
+					isArchive(true); 
+				   $('.archiveButton').text('Archived').attr('disabled', true);
+				   tempPrimaryInsurance(primaryInsurance()); 
+				   tempSecondaryInsurance(secondaryInsurance()); 
+				   tempOtherInsurance(otherInsurance()); 
+				   primaryInsurance(new structures.Insurance());
+				   secondaryInsurance(new structures.Insurance());
+				   otherInsurance(new structures.Insurance());
+				   primaryInsurance().verificationTime(''); 
+					//backend.deletePatient(item.id()).complete(function(data) {
+						if(data.responseText == 'fail') {
+							app.showMessage('The record could not be archived.', 'Replace Error');
+						}
+						//else
+							//patients.remove(item);
+					//});
+				}
+			}); 
+		},
+		showInsuranceForm: function(data) {
+			if(isArchive()) {
+				return app.showMessage(
+					'Any current changes will be lost,are you sure?', 
+					'Reload Insurance Record', 
+					['Yes', 'No'])
+				.done(function(answer){
+					if(answer == 'Yes') {
+						primaryInsurance(tempPrimaryInsurance());
+						secondaryInsurance(tempSecondaryInsurance());
+						otherInsurance(tempOtherInsurance());
+						tempPrimaryInsurance(new structures.Insurance());
+						tempSecondaryInsurance(new structures.Insurance());
+						tempOtherInsurance(new structures.Insurance());
+						$('.archiveButton').text('Archive').attr('disabled', false);
+						isArchive(false); 
+					}
+				});
+			}
 		}
 	}; // End ViewModel
 }); // End file

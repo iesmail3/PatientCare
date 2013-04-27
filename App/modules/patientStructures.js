@@ -341,12 +341,13 @@ define(function(require) {
 	
 	// Insurance
 	patient.prototype.Insurance = function(data) {
+		var self = this; 
 		if (data != null) {
 			this.patientId			  = ko.observable(data.patient_id);
 			this.type				  = ko.observable(data.type);
-			this.groupNumber		  = ko.observable(data.group_number);
-			this.policyNumber		  = ko.observable(data.policy_number);
-			this.companyName		  = ko.observable(data.company_name);
+			this.groupNumber		  = ko.observable(data.group_number).extend({required: {message: 'group'}});
+			this.policyNumber		  = ko.observable(data.policy_number).extend({required: {message: 'policy'}});
+			this.companyName		  = ko.observable(data.company_name).extend({required: {message: 'company'}});
 			this.plan				  = ko.observable(data.plan);
 			this.planOther			  = ko.observable(data.plan_other);
 			this.effectiveDate		  = ko.observable(data.effective_date);
@@ -373,9 +374,9 @@ define(function(require) {
 		else {
 			this.patientId			  = ko.observable();
 			this.type				  = ko.observable();
-			this.groupNumber		  = ko.observable();
-			this.policyNumber		  = ko.observable();
-			this.companyName		  = ko.observable();
+			this.groupNumber		  = ko.observable().extend({required: {message: 'group'}});
+			this.policyNumber		  = ko.observable().extend({required: {message: 'policy'}});
+			this.companyName		  = ko.observable().extend({required: {message: 'company'}});
 			this.plan				  = ko.observable();
 			this.planOther			  = ko.observable();
 			this.effectiveDate		  = ko.observable();
@@ -399,6 +400,8 @@ define(function(require) {
 			this.contactPhone		  = ko.observable();
 			this.contactPhoneExt	  = ko.observable();
 		}
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Medical Problem
