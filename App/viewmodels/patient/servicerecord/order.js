@@ -7,13 +7,14 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * Includes*
 	 **********************************************************************************************/
-	var system     = require('durandal/system');			// System logger
-	var custom     = require('durandal/customBindings');	// Custom bindings
-	var Backend    = require('modules/order');				// Module
-	var Structures = require('modules/patientStructures'); 	// Structures
-	var modal	   = require('modals/modals');				// Modals
-	var form	   = require('modules/form');				// Common form data
-	var UserStructures = require('modules/structures');		// User structures
+	var system     		= require('durandal/system');			// System logger
+	var custom     		= require('durandal/customBindings');	// Custom bindings
+	var Backend    		= require('modules/order');				// Module
+	var Structures 		= require('modules/patientStructures'); 	// Structures
+	var modal	   		= require('modals/modals');				// Modals
+	var form	   		= require('modules/form');				// Common form data
+	var UserStructures	= require('modules/structures');		// User structures
+	var app		   		= require('durandal/app');
 	
 	/*********************************************************************************************** 
 	 * KO Observables
@@ -371,6 +372,32 @@ define(function(require) {
 				});
 				strengthList(list);
 			}, 200);
+		},
+		clickOrder: function(data) {
+			var o = _.filter(self.chemoOrders(), function(item) {
+				return item.type() == 'Procedure-Chemo';
+			});
+			
+			if (o.length > 0) {
+				var order = o[0];
+				var height = $('.flowHolder').height();
+				var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
+							   'menubar=no, status=no, titlebar=no, toolbar=no';
+				var win = window.open(
+					'php/printOrder.php/?orderId=' + order.id() + '&serviceRecordId=' + 
+					order.serviceRecordId() + '&practiceId=' + self.practiceId(), 
+					'',
+					settings
+				);
+				
+			}
+			else {
+				app.showMessage('There is currently not a Chemo Order placed.', 'Chemo Order');
+			}
+			
+			/*
+			
+			*/
 		}
 	};
 });

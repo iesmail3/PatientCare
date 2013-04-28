@@ -159,10 +159,9 @@ define(function(require) {
 		}
 	}
 	
-	settings.prototype.saveUser = function(user, password) {
+	settings.prototype.saveUser = function(user) {
 		var self = this;
 		
-		password = (password == undefined) ? 'none': password;
 		var values = {}; 
 		$.each(user, function(k,v) {
 			if(v() == null || v() == undefined) {
@@ -175,7 +174,7 @@ define(function(require) {
 		
 		return $.post(
 			'php/saveUser.php',
-			{values: JSON.stringify(values), password: password}
+			{values: JSON.stringify(values)}
 		);
 	}
 	
