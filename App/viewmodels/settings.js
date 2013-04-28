@@ -37,7 +37,6 @@ define(function(require) {
 	var role			= ko.observable(new structures.Role());
 	var roles			= ko.observableArray([]);
 	var tempRole		= ko.observable();
-	var password		= ko.observable();
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -72,7 +71,6 @@ define(function(require) {
 		roles: roles,
 		currentUser: currentUser,
 		tempRole: tempRole,
-		password: password,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -193,21 +191,18 @@ define(function(require) {
 					/******************************************************************************
 				 	 * Save User
 				 	 *****************************************************************************/
-					backend.saveUser(self.user(), self.password()).complete(function(data) {
+					backend.saveUser(self.user()).complete(function(data) {
 						var response = $.parseJSON(data.responseText);
 						if(response.result.toLowerCase().indexOf('success') >= 0) {
 							// Insert
 							if(response.result.toLowerCase().indexOf('insert') >= 0) {
 								// Update new users fields
 								self.user().id(response.id);
-								self.user().password(response.password);
 								// Add user to table
 								self.users.push(self.user());
+								
+								$.get('php/emailPass.php', {user: JSON.stringify(ko.toJS(self.user())), method: 'new'});
 							}
-							// Clear password
-							self.password('');
-							
-							$.get('php/emailPass.php', {user: JSON.stringify(ko.toJS(self.user())), method: 'new'});
 							
 							// Success message
 							$('.alert-success').fadeIn().delay(3000).fadeOut();
