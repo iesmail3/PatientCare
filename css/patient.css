@@ -166,11 +166,17 @@ th, td {
 }
 
 /* Social & Family History */
+.socialFormScroll {
+	overflow-y: auto;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 5px;
+}
+
 .familyFormScroll {
 	overflow-y: auto;
 	border-top: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
-	margin-bottom: 5px;
+	margin-bottom: -25px;
 }
 
 .familyIsAlive {
@@ -181,6 +187,8 @@ th, td {
 .familyComment {
 	width: 239px;
 }
+
+.routineExamComment { height: 60px; }
 
 .routineExamFormScroll {
 	overflow-y: auto;

@@ -68,14 +68,14 @@ define(function(require) {
 			
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-			$('.familyFormScroll').height(parseInt($('.tab-pane').height()) - 340);
-			$('.routineExamFormScroll').height(parseInt($('.tab-pane').height()) - 148);
+			$('.socialFormScroll').height(parseInt($('.tab-pane').height()) - 64);
+			$('.familyFormScroll').height(parseInt($('.tab-pane').height()) - 313);
+			$('.routineExamFormScroll').height(parseInt($('.tab-pane').height()) - 145);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-				$('.familyFormScroll').height(parseInt($('.tab-pane').height()) - 340);
-				$('.routineExamFormScroll').height(parseInt($('.tab-pane').height()) - 148);
+				$('.socialFormScroll').height(parseInt($('.tab-pane').height()) - 64);
+				$('.familyFormScroll').height(parseInt($('.tab-pane').height()) - 313);
+				$('.routineExamFormScroll').height(parseInt($('.tab-pane').height()) - 145);
 			});
 		},
 		// Loads when view is loaded
