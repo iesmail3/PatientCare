@@ -261,6 +261,23 @@ th, td {
 	margin-bottom: 5px;
 }
 
+/* Physical Examinations */
+.vitalSignsFormScroll {
+	overflow-y: auto;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 5px;
+}
+
+.vitalSignsLabel { margin-top: 6px; }
+
+.vitalSignsBloodPressurePulse {
+	padding: 20px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+}
+
+.vitalSignsPulse { margin-left: 18px; }
+
 /* Orders */
 .mainOrderTableHolder {
 	height: 443px;
