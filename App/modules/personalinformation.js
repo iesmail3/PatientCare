@@ -48,7 +48,7 @@ define(function(require) {
 			mode: 'select', 
 			table: 'insurance', 
 			fields: '*', 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "' AND archive_date IS NULL"
 		});
 	}
 	
@@ -170,9 +170,13 @@ define(function(require) {
 		var fields = ['patient_id','practice_id','type','group_number','policy_number','company_name','plan','plan_other',
 					  'effective_date','archive_date','out_of_pocket','met_out_of_pocket','remaining_out_of_pocket',
 					  'deductible','met_deductible','remaining_deductible','patient_portion','insurance_portion','referral_required','existing_clause','copayment','verification','verification_date','verification_time','confirmation_number','contact_name','contact_phone','contact_phone_ext'];
+	    
 		var values = $.map(insurance, function(k,v) {
 			return [k];
 		});
+		//Convert to db date
+		values[8] = form.dbDate(insurance.effectiveDate());
+		values[22] = form.dbDate(insurance.verificationDate());
 		 personal.prototype.getInsuranceByType(insurance).success(function(data) {
 				if(data.length > 0) {
 					self.query({

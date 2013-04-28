@@ -237,7 +237,7 @@ define(function(require) {
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
 						var i = new structures.Insurance(data[count]);
-						
+							
 						switch(i.type()) {
 	            			case 'primary':
 	            				self.primaryInsurance(i);
@@ -334,7 +334,7 @@ define(function(require) {
 				$('.allAlert').fadeIn('slow').delay(2000).fadeOut('slow');
 		},
 		printInsurance: function(data) { 
-			modal.showInsurance(patient().firstName(),patient().lastName(),'Insurance Archive Records');  
+			modal.showInsurance(patient().firstName(),patient().lastName(),practiceId(),patientId(),'Insurance Archive Records');  
 		},
 		clearForm: function(data) { 
 			return app.showMessage(

@@ -63,8 +63,8 @@ define(function(require) {
 		showDiagnosisLetter: function(title,patientId,practiceId,date,options) { 
 			return modalDialog.show(new Diagnosisletter(title,patientId,practiceId,date,options)); 
 		},
-		showInsurance: function(firstName,lastName,title,options) { 
-			return modalDialog.show(new PrintInsurance(firstName,lastName,title,options)); 
+		showInsurance: function(firstName,lastName,practiceId,patientId,title,options) { 
+			return modalDialog.show(new PrintInsurance(firstName,lastName,practiceId,patientId,title,options)); 
 		}
 	};
 });

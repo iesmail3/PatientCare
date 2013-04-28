@@ -6,6 +6,9 @@
 		<h3 data-bind="html: title"></h3>
 	</div>
 	<div class="modal-body">
+		<div class="alertHolder">
+			<div class="alert alert-danger dateAlert">End date must be greater than start date.</div>
+		</div>
 		<div class="marginBottom5">
 		 Patient Name: <span data-bind="text:fullName"></span>
 		 </div>
@@ -14,17 +17,17 @@
 				<legend>Effective Date Range</legend>
 					<div class="marginBottom5">
 						<input type="text" class="input-small" placeholder="Starting Date"
-							data-bind="datepicker: true" />
+							data-bind="datepicker: true,value:startDate" />
 						<input type="text" class="input-small offset2" placeholder="End Date"
-							data-bind="datepicker: true" />
+							data-bind="datepicker: true,value:endDate" />
 					</div>
 					<label class="checkbox inline">
-						<input type="checkbox"/><span>Check&nbsp;All</span> 
+						<input type="checkbox" data-bind="checked:printAll"/><span>Print&nbsp;All</span> 
 					</label>
 			</fieldset>
 		</div>
 	</div>
 	<div class=" modal-footer">	
-		<button type="button" class="btn btn-small">Print</button>
+		<button type="button" class="btn btn-small" data-bind="click:print">Print</button>
 	</div>
 </div>
