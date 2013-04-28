@@ -1,0 +1,34 @@
+<div>
+	<div class="root">
+		<span><i class="icon-plus" data-bind="click: $root.toggleChild"></i></span>
+		<span>Security</span>
+		<select class="input-medium pull-right" data-bind="value: security, 
+			    enable: $root.userRole().manageRoles() > 1">
+			<option value="0">None</option>
+			<option value="1">Read</option>
+			<option value="2">Read/Write</option>
+		</select>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Manage Users</span>
+			<select class="input-medium pull-right" data-bind="value: manageUsers, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+	<div class="child">
+		<div class="root">
+			<span>Manage Roles</span>
+			<select class="input-medium pull-right" data-bind="value: manageRoles, 
+			    enable: $root.userRole().manageRoles() > 1">
+				<option value="0">None</option>
+				<option value="1">Read</option>
+				<option value="2">Read/Write</option>
+			</select>
+		</div>
+	</div>
+</div>

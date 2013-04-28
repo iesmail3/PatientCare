@@ -156,6 +156,7 @@ try {
 		$set = substr_replace($set, "", -2, strlen($set));
 		
 		$query = "UPDATE `$table` SET $set $where";
+		
 		// Run Query
 		$stmt = $db->prepare($query);
 		// Bind parameters

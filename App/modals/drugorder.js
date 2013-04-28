@@ -7,11 +7,12 @@ define(function(require) {
 	var u = require('../../Scripts/underscore');
 	var self;
 	
-	var DrugOrder = function(practiceId, serviceRecordId, orderId, title, options) {
+	var DrugOrder = function(practiceId, serviceRecordId, orderId, role, title, options) {
 		self = this;
 		/******************************************************************************************
 		 * Properties 
 		 *****************************************************************************************/
+		this.role = role;
 		this.practiceId = practiceId;
 		this.serviceRecordId = serviceRecordId;
 		this.orderId = orderId;
@@ -171,6 +172,8 @@ define(function(require) {
 		backend.getDrugOrders(id).success(function(data) {
 			var d = $.map(data, function(item) { return new structures.DrugOrder(item)});
 			self.drugOrders(d);
+			if(d.length > 0)
+				self.drugOrder(d[0]);
 		})
 	}
 	

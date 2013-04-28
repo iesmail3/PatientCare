@@ -2,15 +2,22 @@ define(function(require) {
     var router = require('durandal/plugins/router');
 	var system = require('durandal/system');  
 	var custom = require('durandal/customBindings');
-
+	var User   = require('modules/structures');
+	var PatientModule = require('modules/patient');
+	var userStructures = new User();
+    var patient = new PatientModule();
+	var self;
+	
     return {
         router: router,
+        role: ko.observable(),
         // Function that allows DOM manipulation
         viewAttached: function() {
         	
         },
         // Function that is called when view is loaded
         activate: function() {
+        	self = this;
         	// Tell Durandal where the viewmodels are
             router.mapAuto('viewmodels');
             
@@ -18,6 +25,10 @@ define(function(require) {
             router.mapRoute('#/patient/servicerecord/:view/:patientId/:date', 'viewmodels/patient');
             router.mapRoute('#/patient/:view/', 'viewmodels/patient');
             router.mapRoute('#/patient/:view/:patientId', 'viewmodels/patient');
+            
+            patient.getRole(global.userId, global.practiceId).success(function(data) {
+            	self.role(new userStructures.Role(data[0]));
+            });
             
             // Set initial view
             return router.activate('managepatients');
@@ -55,6 +66,9 @@ define(function(require) {
         },
         logout: function() {
         	location.assign('php/logout.php');
-        }
+        },
+        patientEnable: ko.computed(function() {
+        	return true;
+        })
     };
 });

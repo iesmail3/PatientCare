@@ -1,0 +1,46 @@
+
+<!-------------------------------------------------------------------------------------------------
+ | View: Settings
+ | Author(s): Sean Malone
+ | Description: This page hold account and configurate details for the user to modify.
+-------------------------------------------------------------------------------------------------->
+<div class="row-fluid settings">
+	<div class="span3 settingsPills">
+	<!-- Nav -->
+	<ul class="nav nav-tabs nav-stacked">
+		<li class="active" data-bind="visible: userRole().clinicDetails() > 0">
+			<a  data-toggle="tab">General</a>
+		</li>
+		<li data-bind="visible: userRole().security() > 0, css: {active: userRole().clinicDetails() < 1}">
+			<a data-toggle="tab" href="#userRoles">Users & Roles</a>
+		</li>
+	</ul>
+	</div>
+	<div class="span9 settingsContentHolder">
+	<div class="tab-content settingsContent">
+		<div class="tab-pane active" id="general" data-bind="visible: userRole().clinicDetails() > 0">
+			<div data-bind="compose: 'settingsTabs/general.html'"></div>
+		</div>
+		<div class="tab-pane" id="userRoles" data-bind="css: {active: userRole().clinicDetails() < 1}">
+			<ul class="nav nav-tabs">
+				<li class="active">
+					<a data-toggle="tab" href="#users" data-bind="visible: userRole().manageUsers() > 0">Users</a>
+				</li>
+				<li data-bind="css: {active: userRole().manageUsers() < 1}, 
+					visible: userRole().manageRoles() > 0">
+					<a data-toggle="tab" href="#roles">Roles</a>
+				</li>
+			</ul>
+			<div class="tab-content subSettings">
+				<div class="tab-pane active" id="users" data-bind="visible: userRole().manageUsers() > 0">
+					<div data-bind='compose: "settingsTabs/users.html"'></div>
+				</div>
+				<div class="tab-pane" id="roles" data-bind="css: {active: userRole().manageUsers() < 1},
+					 visible: userRole().manageRoles() > 0">
+					<div data-bind='compose: "settingsTabs/roles.html"'></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>

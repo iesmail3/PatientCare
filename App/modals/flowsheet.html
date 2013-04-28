@@ -17,7 +17,7 @@
 				<div class="alert alert-success molSuccess">Medication saved.</div>
 			</div>
 			<!-- ko with: venousAccess -->
-			<fieldset class="venousFields">
+			<fieldset class="venousFields" data-bind="visible: $root.role().orders() > 1">
 				<legend>Venous Access</legend>
 				<div class="marginBottom5 form-inline">
 					<input type="text" data-bind="value: day" class="input-mini" placeholder="Day" />
@@ -53,7 +53,7 @@
 			</fieldset>
 			<fieldset>
 				<legend>Vitals</legend>
-				<div class="marginBottom5 form-inline">
+				<div class="marginBottom5 form-inline"  data-bind="visible: $root.role().orders() > 1">
 					<input type="text" class="input-mini" placeholder="Pulse"
 						   data-bind="value: pulse" />
 					<input type="text" class="input-mini" placeholder="Temp"
@@ -75,7 +75,7 @@
 							<th data-bind="sort: {column: 'temp', array: $root.venousAccesses}">Temp</th>
 							<th data-bind="sort: {column: 'bp', array: $root.venousAccesses}">BP</th>
 							<th data-bind="sort: {column: 'time', array: $root.venousAccesses}">Time</th>
-							<th class="last"></th>
+							<th class="last" data-bind="visible: $root.role().orders() > 1"></th>
 						</thead>
 						<tbody data-bind="foreach: $root.venousAccesses">
 							<tr>
@@ -83,7 +83,7 @@
 								<td data-bind="text: temp, click: $root.selectVital"></td>
 								<td data-bind="text: bp, click: $root.selectVital"></td>
 								<td data-bind="text: time, click: $root.selectVital"></td>
-								<td>
+								<td data-bind="visible: $root.role().orders() > 1">
 									<button class="btn btn-danger btn-mini" 
 									        data-bind="click: $root.deleteVital">
 									Delete
@@ -95,49 +95,53 @@
 				</div>
 			</fieldset>
 			<!-- /ko -->
-			<fieldset class="marginTopMinus15">
+			<fieldset>
 				<!-- ko with: medicationOrderLog -->
 				<legend>Medications</legend>
 				<div class="marginBottom5">
 					<input type="text" class="input-xlarge" placeholder="Medicine" 
-						   data-bind="typeahead: {value: medicine, source: $root.medicines}" />
+						   data-bind="typeahead: {value: medicine, source: $root.medicines},
+						    enable: $root.role().orders() > 1" />
 					<input type="text" class="input-small" placeholder="Dose" 
-						   data-bind="value: dose" />
+						   data-bind="value: dose,enable: $root.role().orders() > 1" />
 					<input type="text" class="input-small" placeholder="Qty" 
-					 	   data-bind="value: quantity" />
-					<input type="text" data-bind="value: seq" class="input-mini" placeholder="Seq" />
+					 	   data-bind="value: quantity, enable: $root.role().orders() > 1" />
+					<input type="text" class="input-mini" data-bind="value: seq, 
+					       enable: $root.role().orders() > 1" placeholder="Seq" />
 					<div class="input-append bootstrap-timepicker">
 						<input class="timepicker input-small" 
-							data-bind="value: startTime, timepicker: {defaultTime: false}" type="text" />
+							data-bind="value: startTime, timepicker: {defaultTime: false},
+							enable: $root.role().orders() > 1" type="text" />
 						<span class="add-on"><i class="icon-time"></i></span>
 					</div>
 				</div>
 				<div class="marginBottom5">
-					<input type="text" data-bind="typeahead: {value: diluent, source: $root.diluents}" 
-					             placeholder="Diluent" />
-					<input type="text" data-bind="value: volume" class="input-mini" 
-					             placeholder="Volume" />
-					<input type="text" data-bind="value: duration" class="input-mini" 
-						         placeholder="Duration" />
+					<input type="text" data-bind="typeahead: {value: diluent, source: $root.diluents},
+						   enable: $root.role().orders() > 1" placeholder="Diluent" />
+					<input type="text" class="input-mini" data-bind="value: volume,
+						   enable: $root.role().orders() > 1" placeholder="Volume" />
+					<input type="text" data-bind="value: duration,enable: $root.role().orders() > 1" 
+						   class="input-mini" placeholder="Duration" />
 					<div class="input-append bootstrap-timepicker">
-						<input class="timepicker input-small" 
-							data-bind="value: endTime, timepicker: {defaultTime: false}" type="text" />
+						<input class="timepicker input-small" type="text"
+							data-bind="value: endTime, timepicker: {defaultTime: false},
+							enable: $root.role().orders() > 1" />
 						<span class="add-on"><i class="icon-time"></i></span>
 					</div>
 				</div>
 				<div class="pull-right drugsButtons">
 					<button class="btn btn-success btn-mini" 
-						    data-bind="click: $root.clickNew, visible: $root.newButton">
+						    data-bind="click: $root.clickNew, visible: $root.newButton() && $root.role().orders() > 1">
 						New
 					</button>
 					<button class="btn btn-warning btn-mini" 
-						    data-bind="click: $root.clickCancel, visible: $root.cancelButton">
+						    data-bind="click: $root.clickCancel, visible: $root.cancelButton() && $root.role().orders() > 1">
 						Cancel
 					</button>
 					<button class="btn btn-mini" data-bind="click: $root.clickPrint">
 						Print
 					</button>
-					<button class="btn btn-primary btn-mini" data-bind="click: $root.saveMOL">
+					<button class="btn btn-primary btn-mini" data-bind="click: $root.saveMOL,  visible: $root.role().orders() > 1">
 						Save
 					</button>
 				</div>
@@ -214,7 +218,7 @@
 							<th class="dur" data-bind="sort: {column: 'duration', array: medicationOrderLogs}">Duration</th>
 							<th class="start" data-bind="sort: {column: 'startTime', array: medicationOrderLogs}">Start Time</th>
 							<th class="end" data-bind="sort: {column: 'endTime', array: medicationOrderLogs}">End Time</th>
-							<th></th>
+							<th data-bind="visible: $root.role().orders() > 1"></th>
 						</thead>
 						<tbody data-bind="foreach: medicationOrderLogs">
 							<tr>
@@ -227,7 +231,7 @@
 								<td data-bind="text: duration, click: $root.selectMOL"></td>
 								<td data-bind="text: startTime, click: $root.selectMOL"></td>
 								<td data-bind="text: endTime, click: $root.selectMOL"></td>
-								<td>
+								<td data-bind="visible: $root.role().orders() > 1">
 									<button data-bind="click: $root.deleteMOL" class="btn btn-danger btn-mini">
 										X
 									</button>
