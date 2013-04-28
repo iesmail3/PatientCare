@@ -188,7 +188,10 @@ th, td {
 	width: 239px;
 }
 
-.routineExamComment { height: 60px; }
+.routineExamComment {
+	height: 60px;
+	max-height: 60px;
+}
 
 .routineExamFormScroll {
 	overflow-y: auto;
