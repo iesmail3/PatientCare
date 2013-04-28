@@ -1,7 +1,14 @@
-<div class="formScroll">
+<div class="formScroll primaryInsurance">
 	<form id="form-inline">
 		<!-- Insurance Type -->
 		<div class="row-fluid">
+			<div class="alertHolder">
+				<div class="alert alert-danger allAlert">You are missing required fields.</div>
+				<div class="alert alert-danger groupAlert">Group Number is a required field .</div>
+				<div class="alert alert-danger companyAlert">Company Name is a required field.</div>
+				<div class="alert alert-danger policyAlert">ID Number is a required field.</div>
+				<div class="alert alert-success insuranceAlert">Successfully updated.</div>
+			</div>
 			<fieldset>
 				<legend>Edit Insurance Information</legend>
 				<div class="marginBottom5">
@@ -664,7 +671,7 @@
 	<div class="pull-right">
 		<button type="button" class="btn btn-small" data-bind="click:$root.printInsurance">Print</button>
 		<button type="button" class="btn btn-small btn-primary" 
-		        data-bind="visible: role().insurance() > 1">
+		        data-bind="visible: role().insurance() > 1,click:saveInsurance">
 			Save
 		</button>
 		<button type="button" class="btn btn-small btn-danger" 

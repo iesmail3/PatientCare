@@ -111,7 +111,9 @@ define(function(require) {
 			self.patientId(data.patientId);
 			self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
 			self.patient().practiceId(self.practiceId());
-			
+			primaryInsurance().type('primary');
+			secondaryInsurance().type('secondary');
+			otherInsurance().type('other');
 			/**************************************************************************************
 			 * Personal Information
 			 * 
@@ -350,13 +352,17 @@ define(function(require) {
 				   secondaryInsurance(new structures.Insurance());
 				   otherInsurance(new structures.Insurance());
 				   primaryInsurance().verificationTime(''); 
-					//backend.deletePatient(item.id()).complete(function(data) {
-						if(data.responseText == 'fail') {
-							app.showMessage('The record could not be archived.', 'Replace Error');
-						}
-						//else
-							//patients.remove(item);
-					//});
+				   secondaryInsurance().verificationTime(''); 
+				   otherInsurance().verificationTime(''); 
+				   //set the archive dates 
+				   tempPrimaryInsurance().archiveDate(form.dbDate(form.currentDate())); 
+				   tempSecondaryInsurance().archiveDate(form.dbDate(form.currentDate())); 
+				   tempOtherInsurance().archiveDate(form.dbDate(form.currentDate())); 
+				   //save the Insurances
+				   backend.saveInsurance(tempPrimaryInsurance(),patientId(),practiceId());
+				   backend.saveInsurance(tempSecondaryInsurance(),patientId(),practiceId());
+				   backend.saveInsurance(tempOtherInsurance(),patientId(),practiceId());
+				   
 				}
 			}); 
 		},
@@ -378,6 +384,28 @@ define(function(require) {
 						isArchive(false); 
 					}
 				});
+			}
+		},
+		saveInsurance: function(data) { 
+			if(primaryInsurance().errors().length > 0) {
+				if(primaryInsurance().errors().length > 1) {
+					$('.primaryInsurance .allAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(primaryInsurance().errors()[0] == 'group') {
+					$('.primaryInsurance .groupAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(primaryInsurance().errors()[0] == 'policy') {
+					$('.primaryInsurance .policyAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(primaryInsurance().errors()[0] == 'company') {
+					$('.primaryInsurance .companyAlert').fadeIn().delay(3000).fadeOut();
+				}
+			}
+			else { 
+				backend.saveInsurance(primaryInsurance(),patientId(),practiceId()); 
+				backend.saveInsurance(secondaryInsurance(),patientId(),practiceId()); 
+				backend.saveInsurance(otherInsurance(),patientId(),practiceId()); 
+				$('.primaryInsurance .insuranceAlert').fadeIn().delay(3000).fadeOut();
 			}
 		}
 	}; // End ViewModel

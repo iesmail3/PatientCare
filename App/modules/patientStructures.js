@@ -344,6 +344,7 @@ define(function(require) {
 		var self = this; 
 		if (data != null) {
 			this.patientId			  = ko.observable(data.patient_id);
+			this.practiceId           = ko.observable(data.practice_id);
 			this.type				  = ko.observable(data.type);
 			this.groupNumber		  = ko.observable(data.group_number).extend({required: {message: 'group'}});
 			this.policyNumber		  = ko.observable(data.policy_number).extend({required: {message: 'policy'}});
@@ -373,6 +374,7 @@ define(function(require) {
 		}
 		else {
 			this.patientId			  = ko.observable();
+			this.practiceId           = ko.observable(); 
 			this.type				  = ko.observable();
 			this.groupNumber		  = ko.observable().extend({required: {message: 'group'}});
 			this.policyNumber		  = ko.observable().extend({required: {message: 'policy'}});
