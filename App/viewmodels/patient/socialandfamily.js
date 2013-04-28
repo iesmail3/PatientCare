@@ -362,21 +362,9 @@ define(function(require) {
 				
 				$.each(routineExams(), function(k,v) {
 					v.patientId(patientId());
-					backend.saveRoutineExam(v).complete(function(data) {
-						system.log(data.responseText);
-						if (data.responseText != 'updateFail' && data.responseText != 'insertFail') {
-							changed = true;
-						}
-						if (k == routineExams().length-2) {
-							if (changed)
-								$('.alert-success').fadeIn().delay(3000).fadeOut();
-						}
-						else if (k == routineExams().length-1) {
-							if (changed)
-								$('.alert-success').fadeIn().delay(3000).fadeOut();
-						}
-					});
+					backend.saveRoutineExam(v);
 				});
+				$('.alert-success').fadeIn().delay(3000).fadeOut();
 			}
 			else
 				$('.allAlert').fadeIn().delay(3000).fadeOut();

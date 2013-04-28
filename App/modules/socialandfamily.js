@@ -197,7 +197,7 @@ define(function(require) {
 		}).success(function(data) {
 			// Save
 			if (data.length > 0) {
-				self.query({
+				return self.query({
 					mode: 'update',
 					table: 'routine_exam',
 					fields: fields,
@@ -207,7 +207,7 @@ define(function(require) {
 			}
 			// Add
 			else if ((defaultExam && routineExam.errors().length == 0) || !defaultExam) {
-				self.query({
+				return self.query({
 					mode: 'insert',
 					table: 'routine_exam',
 					fields: fields,
