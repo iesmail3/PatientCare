@@ -94,18 +94,18 @@ define(function(require) {
 			
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-			$('.reviewFormScroll').height(parseInt($('.tab-pane').height()) - 192);
-			$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 321);
-			$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 326);
-			$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 281);
+			$('.historyFormScroll').height(parseInt($('.tab-pane').height()) - 42);
+			$('.reviewFormScroll').height(parseInt($('.tab-pane').height()) - 145);
+			$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 258);
+			$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 293);
+			$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 214);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-				$('.reviewFormScroll').height(parseInt($('.tab-pane').height()) - 192);
-				$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 321);
-				$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 326);
-				$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 281);
+				$('.historyFormScroll').height(parseInt($('.tab-pane').height()) - 42);
+				$('.reviewFormScroll').height(parseInt($('.tab-pane').height()) - 145);
+				$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 258);
+				$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 293);
+				$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 214);
 			});
 			
 			// combobox for strength field
