@@ -201,6 +201,19 @@ define(function(require) {
 		self.selectOption('Close');
 	}
 	
+	/**********************************************************************************************
+	 * Show Flowsheet
+	 * 
+	 * Whether or not the Flowsheet should be visible. Should only be visible if Order description
+	 * is Chemo and In Office is checked.
+	 *********************************************************************************************/
+	Order.prototype.showFlowsheet = function() {
+		if(self.order().type() == 'Procedure-Chemo' && self.order().inOffice())
+			return true;
+	
+		return false;
+	}
+	
 	Order.defaultTitle = '';
 	Order.defaultOptions = ['Save', 'Cancel'];
 	

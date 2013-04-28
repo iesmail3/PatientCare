@@ -49,8 +49,7 @@
 	</div>
 </div>
 <div class="pull-right">
-	<button type="button" class="btn btn-small" >Print</button>
-	<button type="button" class="btn btn-small" >Order</button>
+	<button type="button" class="btn btn-small" data-bind="click: clickOrder">Order</button>
 	<button type="button" class="btn btn-small btn-success"
 	        data-bind="click: newOrder.bind($data, 'chemo'), visible: $root.role().orders() > 1">
 		New
