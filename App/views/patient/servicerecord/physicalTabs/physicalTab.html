@@ -1,60 +1,350 @@
-<div class="formScroll formPadding">
-	<div class="row-fluid">
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th></th>
-					<th></th>
-					<th>Not Done</th>
-					<th>Negative</th>
-					<th>Positive</th>
-					<th></th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td></td>
-					<td>
-						<span class="label">GEN</span>
-					</td>
-					<td>
-						<label class="radio inline">
-							<input type="radio" name="nutrition" value="1" />
-						</label>
-					</td>
-					<td>
-						<label class="radio inline">
-							<input type="radio" name="nutrition" value="2" />
-						</label>
-					</td>
-					<td>
-						<label class="radio inline">
-							<input type="radio" name="nutrition" value="3" />
-						</label>
-					</td>
-					<td>
-						<select>
-							<option value="" disabled selected style="display:none;">Nutrition</option>
-							<option value="placeholder">Not Checked</option>
-							<option value="placeholder">Poorly Nourished</option>
-							<option value="placeholder">Well Nourished</option>
-						</select>
-						<select>
-							<option value="" disabled selected style="display:none;">Head</option>
-							<option value="placeholder">Not Checked</option>
-							<option value="placeholder">Abnormal</option>
-							<option value="placeholder">ATNC</option>
-						</select>
-						<textarea rows="1" placeholder="Comments" /></textarea>
-					</td>
-					<td></td>
-				</tr>
-			</tbody>
-		</table>
-		<div class="marginBottom5 commentContainer">
-			<textarea class="commentSpan" rows="1" placeholder="Comments" /></textarea>
+<div class="physicalFormScroll formPadding">
+	<!-- Labels -->
+	<div class="marginBottom5 physicalLabelPushRight">
+		<span class="label smallText physicalLabel">NE</span>
+		<span class="label smallText physicalLabel">Normal</span>
+		<span class="label smallText physicalLabel">ABN</span>
+	</div>
+	<!-- GEN -->
+	<div class="marginBottom5 physicalAltExam">
+		<div class="row-fluid">
+			<div class="span1">
+				<span class="label smallText">GEN</span>
+			</div>
+			<div class="span2">
+				<label class="radio physicalNeRadio">
+					<input type="radio" name="gen" value="1" />
+				</label>
+				<label class="radio physicalNormalRadio">
+					<input type="radio" name="gen" value="2" />
+				</label>
+				<label class="radio physicalAbnRadio">
+					<input type="radio" name="gen" value="3" />
+				</label>
+			</div>
+			<div class="span9">
+				<div>
+					<select class="input-xmedium smallText">
+						<option value="" data-bind="visible: false, enable: false">Nutrition</option>
+						<option value="not checked">Not Checked</option>
+						<option value="poorly nourished">Poorly Nourished</option>
+						<option value="well nourished">Well Nourished</option>
+					</select>
+					<select class="input-xxmedium smallText">
+						<option value="" data-bind="visible: false, enable: false">Head</option>
+						<option value="not checked">Not Checked</option>
+						<option value="abnormal">Abnormal</option>
+						<option value="atnc">ATNC</option>
+					</select>
+				</div>
+				<div>
+					<input type="text" class="physicalComments" placeholder="Comments" />
+				</div>
+			</div>
 		</div>
+	</div>
+	<!-- EYE -->
+	<div class="marginBottom5 physicalExam">
+		<div class="row-fluid">
+			<div class="span1">
+				<span class="label smallText">EYE</span>
+			</div>
+			<div class="span2">
+				<label class="radio physicalNeRadio">
+					<input type="radio" name="eye" value="1" />
+				</label>
+				<label class="radio physicalNormalRadio">
+					<input type="radio" name="eye" value="2" />
+				</label>
+				<label class="radio physicalAbnRadio">
+					<input type="radio" name="eye" value="3" />
+				</label>
+			</div>
+			<div class="span9">
+				<div>
+					<select class="input-xxmedium smallText">
+						<option value="" data-bind="visible: false, enable: false">PERLA</option>
+						<option value="not checked">Not Checked</option>
+						<option value="no">No</option>
+						<option value="yes">Yes</option>
+					</select>
+					<select class="input-xxmedium smallText">
+						<option value="" data-bind="visible: false, enable: false">EOMI</option>
+						<option value="not checked">Not Checked</option>
+						<option value="no">No</option>
+						<option value="yes">Yes</option>
+					</select>
+					<select class="input-xxmedium smallText">
+						<option value="" data-bind="visible: false, enable: false">ICTERUS</option>
+						<option value="not checked">Not Checked</option>
+						<option value="absent">Absent</option>
+						<option value="present">Present</option>
+					</select>
+					<select class="input-xxmedium smallText">
+						<option value="" data-bind="visible: false, enable: false">PALLOR</option>
+						<option value="not checked">Not Checked</option>
+						<option value="absent">Absent</option>
+						<option value="present">Present</option>
+					</select>
+				</div>
+				<div>
+					<input type="text" class="physicalComments" placeholder="Comments" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ENT -->
+	<div class="marginBottom5 physicalAltExam">
+		<div class="row-fluid">
+			<div class="span1">
+				<span class="label smallText">ENT</span>
+			</div>
+			<div class="span2">
+				<label class="radio physicalNeRadio">
+					<input type="radio" name="ent" value="1" />
+				</label>
+				<label class="radio physicalNormalRadio">
+					<input type="radio" name="ent" value="2" />
+				</label>
+				<label class="radio physicalAbnRadio">
+					<input type="radio" name="ent" value="3" />
+				</label>
+			</div>
+			<div class="span9">
+				<div>
+					<select class="input-xxmedium smallText">
+						<option value="" data-bind="visible: false, enable: false">Oral Leisons</option>
+						<option value="not checked">Not Checked</option>
+						<option value="absent">Absent</option>
+						<option value="present">Present</option>
+					</select>
+					<select class="input-xxmedium smallText">
+						<option value="" data-bind="visible: false, enable: false">Neck Rigidity</option>
+						<option value="not checked">Not Checked</option>
+						<option value="absent">Absent</option>
+						<option value="present">Present</option>
+					</select>
+					<select class="input-xxmedium smallText">
+						<option value="" data-bind="visible: false, enable: false">Carotid Bruits</option>
+						<option value="not checked">Not Checked</option>
+						<option value="absent">Absent</option>
+						<option value="present">Present</option>
+					</select>
+					<select class="input-xxmedium smallText">
+						<option value="" data-bind="visible: false, enable: false">Thyromegaly</option>
+						<option value="not checked">Not Checked</option>
+						<option value="absent">Absent</option>
+						<option value="present">Present</option>
+					</select>
+				</div>
+				<div>
+					<input type="text" class="physicalComments" placeholder="Comments" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- CW -->
+	<div class="marginBottom5 physicalExam">
+		<div class="row-fluid">
+			<div class="span1">
+				<span class="label smallText">CW</span>
+			</div>
+			<div class="span2">
+				<label class="radio physicalNeRadio">
+					<input type="radio" name="cw" value="1" />
+				</label>
+				<label class="radio physicalNormalRadio">
+					<input type="radio" name="cw" value="2" />
+				</label>
+				<label class="radio physicalAbnRadio">
+					<input type="radio" name="cw" value="3" />
+				</label>
+			</div>
+			<div class="span9">
+				<span>Stuff goes here.</span>
+				<div>
+					<input type="text" class="physicalComments" placeholder="Comments" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- LUNGS -->
+	<div class="marginBottom5 physicalAltExam">
+		<div class="row-fluid">
+			<div class="span1">
+				<span class="label smallText">LUNGS</span>
+			</div>
+			<div class="span2">
+				<label class="radio physicalNeRadio">
+					<input type="radio" name="lungs" value="1" />
+				</label>
+				<label class="radio physicalNormalRadio">
+					<input type="radio" name="lungs" value="2" />
+				</label>
+				<label class="radio physicalAbnRadio">
+					<input type="radio" name="lungs" value="3" />
+				</label>
+			</div>
+			<div class="span9">
+				<span>Stuff goes here.</span>
+				<div>
+					<input type="text" class="physicalComments" placeholder="Comments" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- CVS -->
+	<div class="marginBottom5 physicalExam">
+		<div class="row-fluid">
+			<div class="span1">
+				<span class="label smallText">CVS</span>
+			</div>
+			<div class="span2">
+				<label class="radio physicalNeRadio">
+					<input type="radio" name="cvs" value="1" />
+				</label>
+				<label class="radio physicalNormalRadio">
+					<input type="radio" name="cvs" value="2" />
+				</label>
+				<label class="radio physicalAbnRadio">
+					<input type="radio" name="cvs" value="3" />
+				</label>
+			</div>
+			<div class="span9">
+				<span>Stuff goes here.</span>
+				<div>
+					<input type="text" class="physicalComments" placeholder="Comments" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ABD -->
+	<div class="marginBottom5 physicalAltExam">
+		<div class="row-fluid">
+			<div class="span1">
+				<span class="label smallText">ABD</span>
+			</div>
+			<div class="span2">
+				<label class="radio physicalNeRadio">
+					<input type="radio" name="abd" value="1" />
+				</label>
+				<label class="radio physicalNormalRadio">
+					<input type="radio" name="abd" value="2" />
+				</label>
+				<label class="radio physicalAbnRadio">
+					<input type="radio" name="abd" value="3" />
+				</label>
+			</div>
+			<div class="span9">
+				<span>Stuff goes here.</span>
+				<div>
+					<input type="text" class="physicalComments" placeholder="Comments" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- EXT -->
+	<div class="marginBottom5  physicalExam">
+		<div class="row-fluid">
+			<div class="span1">
+				<span class="label smallText">EXT</span>
+			</div>
+			<div class="span2">
+				<label class="radio physicalNeRadio">
+					<input type="radio" name="ext" value="1" />
+				</label>
+				<label class="radio physicalNormalRadio">
+					<input type="radio" name="ext" value="2" />
+				</label>
+				<label class="radio physicalAbnRadio">
+					<input type="radio" name="ext" value="3" />
+				</label>
+			</div>
+			<div class="span9">
+				<span>Stuff goes here.</span>
+				<div>
+					<input type="text" class="physicalComments" placeholder="Comments" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- HEME -->
+	<div class="marginBottom5 physicalAltExam">
+		<div class="row-fluid">
+			<div class="span1">
+				<span class="label smallText">HEME</span>
+			</div>
+			<div class="span2">
+				<label class="radio physicalNeRadio">
+					<input type="radio" name="heme" value="1" />
+				</label>
+				<label class="radio physicalNormalRadio">
+					<input type="radio" name="heme" value="2" />
+				</label>
+				<label class="radio physicalAbnRadio">
+					<input type="radio" name="heme" value="3" />
+				</label>
+			</div>
+			<div class="span9">
+				<span>Stuff goes here.</span>
+				<div>
+					<input type="text" class="physicalComments" placeholder="Comments" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- SKIN -->
+	<div class="marginBottom5 physicalExam">
+		<div class="row-fluid">
+			<div class="span1">
+				<span class="label smallText">SKIN</span>
+			</div>
+			<div class="span2">
+				<label class="radio physicalNeRadio">
+					<input type="radio" name="skin" value="1" />
+				</label>
+				<label class="radio physicalNormalRadio">
+					<input type="radio" name="skin" value="2" />
+				</label>
+				<label class="radio physicalAbnRadio">
+					<input type="radio" name="skin" value="3" />
+				</label>
+			</div>
+			<div class="span9">
+				<span>Stuff goes here.</span>
+				<div>
+					<input type="text" class="physicalComments" placeholder="Comments" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- NEURO -->
+	<div class="marginBottom5 physicalAltExam">
+		<div class="row-fluid">
+			<div class="span1">
+				<span class="label smallText">NEURO</span>
+			</div>
+			<div class="span2">
+				<label class="radio physicalNeRadio">
+					<input type="radio" name="neuro" value="1" />
+				</label>
+				<label class="radio physicalNormalRadio">
+					<input type="radio" name="neuro" value="2" />
+				</label>
+				<label class="radio physicalAbnRadio">
+					<input type="radio" name="neuro" value="3" />
+				</label>
+			</div>
+			<div class="span9">
+				<span>Stuff goes here.</span>
+				<div>
+					<input type="text" class="physicalComments" placeholder="Comments" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="commentContainer">
+		<textarea class="commentSpan" rows="1" placeholder="Comments" /></textarea>
 	</div>
 </div>
 <div class="pull-right">

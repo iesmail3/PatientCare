@@ -45,8 +45,12 @@ define(function(require) {
 			
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+			$('.vitalSignsFormScroll').height(parseInt($('.contentPane').height()) - 104);
+			$('.physicalFormScroll').height(parseInt($('.contentPane').height()) - 124);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+				$('.vitalSignsFormScroll').height(parseInt($('.contentPane').height()) - 104);
+				$('.physicalFormScroll').height(parseInt($('.contentPane').height()) - 124);
 			});
 		},
 		// Loads when view is loaded
