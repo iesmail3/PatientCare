@@ -5,7 +5,7 @@
 
 .input-xmini { width: 50px;}
 .input-xsmall { width: 75px; }
-.input-xxmedium{ width: 100px; }
+.input-xxmedium{ width: 105px; }
 .input-xmedium { width: 119px; }
 .input-mediumLarge { width: 150px; }
 .input-xxlarge { width: 300px; }
@@ -292,11 +292,15 @@ th, td {
 
 .physicalExam {
 	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
 }
 
 .physicalAltExam {
 	padding: 10px;
 	background-color: #ddd;
+	border: 1px solid #ddd;
+	border-radius: 5px;
 }
 
 .physicalLabelPushRight {
