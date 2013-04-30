@@ -18,15 +18,18 @@
 			<div class="span2">
 				<label class="radio physicalNeRadio">
 					<input type="radio" name="gen" value="1" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.genNe}" />
 				</label>
 				<label class="radio physicalNormalRadio">
 					<input type="radio" name="gen" value="2" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.genNormal}" />
 				</label>
 				<label class="radio physicalAbnRadio">
 					<input type="radio" name="gen" value="3" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.genAbn}" />
 				</label>
 			</div>
 			<div class="span9">
@@ -67,15 +70,18 @@
 			<div class="span2">
 				<label class="radio physicalNeRadio">
 					<input type="radio" name="eye" value="1" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.eyeNe}" />
 				</label>
 				<label class="radio physicalNormalRadio">
 					<input type="radio" name="eye" value="2" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.eyeNormal}" />
 				</label>
 				<label class="radio physicalAbnRadio">
 					<input type="radio" name="eye" value="3" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.eyeAbn}" />
 				</label>
 			</div>
 			<div class="span9">
@@ -132,15 +138,18 @@
 			<div class="span2">
 				<label class="radio physicalNeRadio">
 					<input type="radio" name="ent" value="1" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.entNe}" />
 				</label>
 				<label class="radio physicalNormalRadio">
 					<input type="radio" name="ent" value="2" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.entNormal}" />
 				</label>
 				<label class="radio physicalAbnRadio">
 					<input type="radio" name="ent" value="3" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.entAbn}" />
 				</label>
 			</div>
 			<div class="span9">
@@ -197,7 +206,7 @@
 					</select>
 					<select class="input-xxmedium smallText" data-bind="
 						value: tm,
-						enable: type() != 1">
+						enable: false">
 						<option value="" data-bind="visible: false, enable: false">TM</option>
 						<option value="not checked">Not Checked</option>
 						<option value="abnormal">Abnormal</option>
@@ -205,7 +214,7 @@
 					</select>
 					<select class="input-xxmedium smallText" data-bind="
 						value: earCanal,
-						enable: type() != 1">
+						enable: false">
 						<option value="" data-bind="visible: false, enable: false">Ear Canal</option>
 						<option value="not checked">Not Checked</option>
 						<option value="abnormal">Abnormal</option>
@@ -215,21 +224,21 @@
 				<div>
 					<select class="input-xxmedium smallText" data-bind="
 						value: leftEar,
-						enable: type() != 1">
+						enable: false">
 						<option value="" data-bind="visible: false, enable: false">Left Ear</option>
 						<option value="not checked">Not Checked</option>
 						<option value="both">Both</option>
 					</select>
 					<select class="input-xxmedium smallText" data-bind="
 						value: rightEar,
-						enable: type() != 1">
+						enable: false">
 						<option value="" data-bind="visible: false, enable: false">Right Ear</option>
 						<option value="not checked">Not Checked</option>
 						<option value="both">Both</option>
 					</select>
 					<select class="input-xxmedium smallText" data-bind="
 						value: nose,
-						enable: type() != 1">
+						enable: false">
 						<option value="" data-bind="visible: false, enable: false">Nose</option>
 						<option value="not checked">Not Checked</option>
 						<option value="abnormal">Abnormal</option>
@@ -237,7 +246,7 @@
 					</select>
 					<select class="input-xxmedium smallText" data-bind="
 						value: throat,
-						enable: type() != 1">
+						enable: false">
 						<option value="" data-bind="visible: false, enable: false">Throat</option>
 						<option value="not checked">Not Checked</option>
 						<option value="abnormal">Abnormal</option>
@@ -263,15 +272,18 @@
 			<div class="span2">
 				<label class="radio physicalNeRadio">
 					<input type="radio" name="cw" value="1" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.cwNe}" />
 				</label>
 				<label class="radio physicalNormalRadio">
 					<input type="radio" name="cw" value="2" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.cwNormal}" />
 				</label>
 				<label class="radio physicalAbnRadio">
 					<input type="radio" name="cw" value="3" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.cwAbn}" />
 				</label>
 			</div>
 			<div class="span9">
@@ -320,22 +332,25 @@
 			<div class="span2">
 				<label class="radio physicalNeRadio">
 					<input type="radio" name="lungs" value="1" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.lungsNe}" />
 				</label>
 				<label class="radio physicalNormalRadio">
 					<input type="radio" name="lungs" value="2" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.lungsNormal}" />
 				</label>
 				<label class="radio physicalAbnRadio">
 					<input type="radio" name="lungs" value="3" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.lungsAbn}" />
 				</label>
 			</div>
 			<div class="span9">
 				<div>
 					<select class="input-xxmedium smallText" data-bind="
 						value: ctap,
-						enable: type() != 1">
+						enable: type() != 1 && type() != 3">
 						<option value="" data-bind="visible: false, enable: false">CTAP</option>
 						<option value="not checked">Not Checked</option>
 						<option value="no">No</option>
@@ -361,15 +376,18 @@
 			<div class="span2">
 				<label class="radio physicalNeRadio">
 					<input type="radio" name="cvs" value="1" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.cvsNe}" />
 				</label>
 				<label class="radio physicalNormalRadio">
 					<input type="radio" name="cvs" value="2" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.cvsNormal}" />
 				</label>
 				<label class="radio physicalAbnRadio">
 					<input type="radio" name="cvs" value="3" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.cvsAbn}" />
 				</label>
 			</div>
 			<div class="span9">
@@ -426,15 +444,18 @@
 			<div class="span2">
 				<label class="radio physicalNeRadio">
 					<input type="radio" name="abd" value="1" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.abdNe}" />
 				</label>
 				<label class="radio physicalNormalRadio">
 					<input type="radio" name="abd" value="2" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.abdNormal}" />
 				</label>
 				<label class="radio physicalAbnRadio">
 					<input type="radio" name="abd" value="3" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.abdAbn}" />
 				</label>
 			</div>
 			<div class="span9">
@@ -491,15 +512,18 @@
 			<div class="span2">
 				<label class="radio physicalNeRadio">
 					<input type="radio" name="ext" value="1" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.extNe}" />
 				</label>
 				<label class="radio physicalNormalRadio">
 					<input type="radio" name="ext" value="2" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.extNormal}" />
 				</label>
 				<label class="radio physicalAbnRadio">
 					<input type="radio" name="ext" value="3" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.extAbn}" />
 				</label>
 			</div>
 			<div class="span9">
@@ -566,15 +590,18 @@
 			<div class="span2">
 				<label class="radio physicalNeRadio">
 					<input type="radio" name="heme" value="1" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.hemeNe}" />
 				</label>
 				<label class="radio physicalNormalRadio">
 					<input type="radio" name="heme" value="2" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.hemeNormal}" />
 				</label>
 				<label class="radio physicalAbnRadio">
 					<input type="radio" name="heme" value="3" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.hemeAbn}" />
 				</label>
 			</div>
 			<div class="span9">
@@ -623,15 +650,18 @@
 			<div class="span2">
 				<label class="radio physicalNeRadio">
 					<input type="radio" name="skin" value="1" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.skinNe}" />
 				</label>
 				<label class="radio physicalNormalRadio">
 					<input type="radio" name="skin" value="2" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.skinNormal}" />
 				</label>
 				<label class="radio physicalAbnRadio">
 					<input type="radio" name="skin" value="3" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.skinAbn}" />
 				</label>
 			</div>
 			<div class="span9">
@@ -680,15 +710,18 @@
 			<div class="span2">
 				<label class="radio physicalNeRadio">
 					<input type="radio" name="neuro" value="1" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.neuroNe}" />
 				</label>
 				<label class="radio physicalNormalRadio">
 					<input type="radio" name="neuro" value="2" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.neuroNormal}" />
 				</label>
 				<label class="radio physicalAbnRadio">
 					<input type="radio" name="neuro" value="3" data-bind="
-						checked: type" />
+						checked: type,
+						event: {change: $root.neuroAbn}" />
 				</label>
 			</div>
 			<div class="span9">
