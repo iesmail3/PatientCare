@@ -169,6 +169,41 @@ th, td {
 	width: 139px;
 }
 
+/* Social & Family History */
+.socialFormScroll {
+	overflow-y: auto;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 5px;
+}
+
+.familyFormScroll {
+	overflow-y: auto;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: -25px;
+}
+
+.familyIsAlive {
+	min-width: 60px;
+	width: 60px;
+}
+
+.familyComment {
+	width: 239px;
+}
+
+.routineExamComment {
+	height: 60px;
+	max-height: 60px;
+}
+
+.routineExamFormScroll {
+	overflow-y: auto;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	margin-bottom: 5px;
+}
+
 /* History & Present Illness */
 .historyComment {
 	width: 100%;
@@ -243,6 +278,13 @@ th, td {
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 5px;
 }
+
+.routineRadio {
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.routineComment { width: 402px; }
 
 .medicationAlert {
 	height: 20px;

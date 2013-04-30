@@ -239,28 +239,30 @@ define(function(require) {
 	
 	// Family History
 	patient.prototype.FamilyHistory = function(data) {
+		var self = this;
 		if (data != null) {
 			this.id			  = ko.observable(data.id);
+			this.practiceId	  = ko.observable(data.practice_id);
 			this.patientId	  = ko.observable(data.patient_id);
-			this.firstName	  = ko.observable(data.first_name);
-			this.lastName	  = ko.observable(data.last_name);
-			this.relationship = ko.observable(data.relationship);
-			this.dateOfBirth  = ko.observable(data.date_of_birth);
-			this.isAlive	  = ko.observable(data.is_alive);
+			this.relationship = ko.observable(data.relationship).extend({required: {message: 'relationship'}});
+			this.age		  = ko.observable(data.age);
+			this.isAlive	  = ko.observable(data.is_alive == '1' ? 1 : 0);
 			this.comment	  = ko.observable(data.comment);
 			this.lastUpdated  = ko.observable(data.last_updated);
 		}
 		else {
 			this.id			  = ko.observable();
+			this.practiceId	  = ko.observable();
 			this.patientId	  = ko.observable();
-			this.firstName	  = ko.observable();
-			this.lastName	  = ko.observable();
-			this.relationship = ko.observable();
-			this.dateOfBirth  = ko.observable();
-			this.isAlive	  = ko.observable();
-			this.comment	  = ko.observable();
+			this.relationship = ko.observable('').extend({required: {message: 'relationship'}});
+			this.age		  = ko.observable(0);
+			this.isAlive	  = ko.observable(1);
+			this.comment	  = ko.observable('');
 			this.lastUpdated  = ko.observable();
 		}
+		
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Follow Up
@@ -1160,22 +1162,30 @@ define(function(require) {
 	}
 	
 	patient.prototype.RoutineExam = function(data) {
+		var self = this;
 		if (data != null) {
 			this.patientId = ko.observable(data.patient_id);
-			this.name	   = ko.observable(data.name);
-			this.lastDone  = ko.observable(data.last_done);
+			this.name	   = ko.observable(data.name).extend({required: {message: 'name'}});
+			this.lastDone  = ko.observable(data.last_done).extend({notEqual: 1});
 			this.month	   = ko.observable(data.month);
 			this.year	   = ko.observable(data.year);
 			this.comment   = ko.observable(data.comment);
 		}
 		else {
 			this.patientId = ko.observable();
-			this.name	   = ko.observable();
-			this.lastDone  = ko.observable();
+			this.name	   = ko.observable('').extend({required: {message: 'name'}});
+			this.lastDone  = ko.observable(1).extend({notEqual: 1});
 			this.month	   = ko.observable();
 			this.year	   = ko.observable();
 			this.comment   = ko.observable();
 		}
+		
+		this.radioName = ko.computed(function() {
+			return 'routineExamLastDone' + self.name();
+		});
+		
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Service Record
@@ -1235,31 +1245,35 @@ define(function(require) {
 	patient.prototype.SocialHistory = function(data) {
 		if (data != null) {
 			this.patientId		   = ko.observable(data.patient_id);
+			this.practiceId		   = ko.observable(data.practice_id);
 			this.smoking		   = ko.observable(data.smoking);
-			this.smokingComment	   = ko.observable(data.smoking_comment);
-			this.smokingCounseling = ko.observable(data.smoking_counseling);
+			this.smokingWeekly	   = ko.observable(data.smoking_weekly);
+			this.smokingCounseling = ko.observable(data.smoking_counseling == '1' ? 1 : 0);
 			this.alcohol		   = ko.observable(data.alcohol);
-			this.alcoholComment	   = ko.observable(data.alcohol_comment);
-			this.alcoholCounseling = ko.observable(data.alcohol_counseling);
+			this.alcoholWeekly	   = ko.observable(data.alcohol_weekly);
+			this.alcoholCounseling = ko.observable(data.alcohol_counseling == '1' ? 1 : 0);
 			this.drugAbuse		   = ko.observable(data.drug_abuse);
 			this.drugComment	   = ko.observable(data.drug_comment);
 			this.bloodExposure	   = ko.observable(data.blood_exposure);
 			this.chemicalExposure  = ko.observable(data.chemical_exposure);
 			this.comment		   = ko.observable(data.comment);
+			this.historyChanged	   = ko.observable(data.history_changed == '1' ? 1 : 0);
 		}
 		else {
 			this.patientId		   = ko.observable();
-			this.smoking		   = ko.observable();
-			this.smokingComment	   = ko.observable();
-			this.smokingCounseling = ko.observable();
-			this.alcohol		   = ko.observable();
-			this.alcoholComment	   = ko.observable();
-			this.alcoholCounseling = ko.observable();
+			this.practiceId		   = ko.observable();
+			this.smoking		   = ko.observable('');
+			this.smokingWeekly	   = ko.observable();
+			this.smokingCounseling = ko.observable(0);
+			this.alcohol		   = ko.observable('');
+			this.alcoholWeekly	   = ko.observable();
+			this.alcoholCounseling = ko.observable(0);
 			this.drugAbuse		   = ko.observable();
 			this.drugComment	   = ko.observable();
 			this.bloodExposure	   = ko.observable();
 			this.chemicalExposure  = ko.observable();
 			this.comment		   = ko.observable();
+			this.historyChanged	   = ko.observable(0);
 		}
 	}
 	
