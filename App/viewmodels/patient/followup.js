@@ -581,5 +581,5 @@ define(function(require) {
 				);
 		}
 		
-    };
-});
+    };//End ViewModel
+});//End file 

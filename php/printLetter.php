@@ -102,6 +102,7 @@ include_once('fpdf/cellfit.php');
 /***************************************************************************************************
  * Pull Data from Database
  **************************************************************************************************/
+ //Service Record 
 $stmt = $db->query("SELECT * FROM service_record WHERE practice_id='$practiceId'
 			AND patient_id='$patientId' AND date='$date'");
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);

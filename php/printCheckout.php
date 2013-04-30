@@ -161,7 +161,7 @@ class PDF extends FPDI_CellFit {
 		 $this->Cell(69,7,'Insurance Portion');
 		 $this->Cell(25,7,'$'. $checkout['insurance_portion'],0,1); 
 		 $this->SetX(105); 
-		  $this->SetFont('Arial', 'B', 11);
+		 $this->SetFont('Arial', 'B', 11);
 		 $this->Cell(65,7,'Balance');
 		 $this->Cell(25,7,'$'. $checkout['balance'],0,1); 
 		 $y = $this->GetY() + 3;
