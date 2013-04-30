@@ -7,15 +7,23 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * Includes*
 	 **********************************************************************************************/
-	var system = require('durandal/system');			// System logger
-	var custom = require('durandal/customBindings');	// Custom bindings
-	//var Backend = require('modules/moduleTemplate');	// Module
+	var system = require('durandal/system');					// System logger
+	var custom = require('durandal/customBindings');			// Custom bindings
+	var Structures = require('modules/patientStructures');	// Structures
+	var Backend = require('modules/physical');				// Module
+	var Forms = require('modules/form');					// Common form elements
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
-	// var observable = ko.observable('');
-	// var observableArray = ko.observableArray([]);
+	var structures = new Structures();
+	var backend = new Backend();
+	var form = new Forms();
+	var practiceId = ko.observable();
+	var patientId = ko.observable();
+	var date = ko.observable();
+	var serviceRecord = ko.observable(new structures.ServiceRecord());
+	var vitalSigns = ko.observable(new structures.VitalSigns());
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -32,6 +40,13 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
+		structures: structures,
+		backend: backend,
+		practiceId: practiceId,
+		patientId: patientId,
+		date: date,
+		serviceRecord: serviceRecord,
+		vitalSigns: vitalSigns,
 		
 		/******************************************************************************************* 
 		 * Methods
@@ -55,14 +70,62 @@ define(function(require) {
 		},
 		// Loads when view is loaded
 		activate: function(data) {
-			// Code here
+			var self = this;
 			
-			// If you add any asynchronous code, make sure you return it. If you need to add multiple
-			// asynchronous code, return the functions chained together. If you don't return them,
-			// then Durandal will not wait for them to finish before loading the rest of the page.
-			// There might be issues when updating observables.
-			// Ex:
-			// return .get().getJSON().post();
+			self.practiceId(global.practiceId);
+			self.patientId(data.patientId);
+			self.date(data.date);
+			
+			// Need to do module for this
+			backend.getServiceRecord(self.patientId(), self.practiceId(), self.date()).success(function(data) {
+				if (data.length > 0) {
+					var s = new structures.ServiceRecord(data[0]);
+					self.serviceRecord(s);
+				}
+			});
+			
+			return backend.getVitalSigns(self.patientId(), self.practiceId(), self.date()).success(function(data) {
+				if (data.length > 0) {
+					var v = new structures.VitalSigns(data[0]);
+					self.vitalSigns(v);
+				}
+			});
+		}, // End Activate
+		/******************************************************************************************* 
+		 * Vital Signs
+		 *******************************************************************************************/
+		vitalSignsInches: function() {
+			var height = parseInt(vitalSigns().height());
+			vitalSigns().height(Math.round(parseFloat(height*0.393701)));
+		},
+		vitalSignsCentimeters: function() {
+			var height = parseInt(vitalSigns().height());
+			vitalSigns().height(Math.round(parseFloat(height*2.54)));
+		},
+		vitalSignsPounds: function() {
+			var weight = parseInt(vitalSigns().weight());
+			vitalSigns().weight(Math.round(parseFloat(weight*2.20462)));
+		},
+		vitalSignsKilograms: function() {
+			var weight = parseInt(vitalSigns().weight());
+			vitalSigns().weight(Math.round(parseFloat(weight*0.453592)));
+		},
+		vitalSignsSave: function(data) {
+			vitalSigns().serviceRecordId(serviceRecord().id());
+			backend.saveVitalSigns(vitalSigns()).success(function(data) {
+				system.log(data.responseText);
+			});
+		},
+		vitalSignsClear: function() {
+			return app.showMessage(
+				'Are you sure you want to clear all fields for vital signs?',
+				'Delete',
+				['Yes', 'No'])
+			.done(function(answer){
+				if(answer == 'Yes') {
+					vitalSigns(new structures.VitalSigns());
+				}
+			});
 		}
 	};
 });

@@ -1379,10 +1379,13 @@ define(function(require) {
 	
 	// Vital Signs
 	patient.prototype.VitalSigns = function(data) {
+		var self = this;
 		if (data != null) {
 			this.serviceRecordId	   = ko.observable(data.service_record_id);
 			this.height				   = ko.observable(data.height);
+			this.heightType			   = ko.observable(data.height_type);
 			this.weight				   = ko.observable(data.weight);
+			this.weightType			   = ko.observable(data.weight_type);
 			this.temp				   = ko.observable(data.temp);
 			this.tempType			   = ko.observable(data.temp_type);
 			this.hc					   = ko.observable(data.hc);
@@ -1399,7 +1402,9 @@ define(function(require) {
 		else {
 			this.serviceRecordId	   = ko.observable();
 			this.height				   = ko.observable();
+			this.heightType			   = ko.observable(1);
 			this.weight				   = ko.observable();
+			this.weightType			   = ko.observable(1);
 			this.temp				   = ko.observable();
 			this.tempType			   = ko.observable();
 			this.hc					   = ko.observable();
@@ -1413,6 +1418,32 @@ define(function(require) {
 			this.standingPulse		   = ko.observable();
 			this.comment			   = ko.observable();
 		}
+		
+		this.bmi = ko.computed(function() {
+			var height = parseFloat(self.height());
+			var weight = parseFloat(self.weight());
+			if(!isNaN(height) && !isNaN(weight) && height != 0 && weight != 0) {
+				if (self.heightType() == 1)
+					height = Math.round(parseFloat(height*2.54));
+				if (self.weightType() == 1)
+					weight = Math.round(parseFloat(weight*0.453592));
+				return (weight / ((height/100) * (height/100))).toFixed(2);
+			}
+			return '';
+		});
+		
+		this.bsa = ko.computed(function() {
+			var height = parseFloat(self.height());
+			var weight = parseFloat(self.weight());
+			if(!isNaN(height) && !isNaN(weight) && height != 0 && weight != 0) {
+				if (self.heightType() == 1)
+					height = Math.round(parseFloat(height*2.54));
+				if (self.weightType() == 1)
+					weight = Math.round(parseFloat(weight*0.453592));
+				return (0.007184 * Math.pow(weight, 0.425) * Math.pow(height, 0.725)).toFixed(2);
+			}
+			return '';
+		});
 	}
 	
 	/**************************************************************************************************
