@@ -759,19 +759,21 @@ define(function(require) {
 		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
+			this.type			 = ko.observable(data.type);
 			this.inspection		 = ko.observable(data.inspection);
 			this.palpation		 = ko.observable(data.palpation);
 			this.percussion		 = ko.observable(data.percussion);
-			this.ausculation	 = ko.observable(data.ausculation);
+			this.auscultation	 = ko.observable(data.auscultation);
 			this.comment		 = ko.observable(data.comment);
 		}
 		else {
 			this.id				 = ko.observable();
 			this.serviceRecordId = ko.observable();
+			this.type			 = ko.observable(1);
 			this.inspection		 = ko.observable();
 			this.palpation		 = ko.observable();
 			this.percussion		 = ko.observable();
-			this.ausculation	 = ko.observable();
+			this.auscultation	 = ko.observable();
 			this.comment		 = ko.observable();
 		}
 	}
@@ -781,6 +783,7 @@ define(function(require) {
 		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
+			this.type			 = ko.observable(data.type);
 			this.rhythm			 = ko.observable(data.rhythm);
 			this.murmur			 = ko.observable(data.murmur);
 			this.gallop			 = ko.observable(data.gallop);
@@ -790,6 +793,7 @@ define(function(require) {
 		else {
 			this.id				 = ko.observable();
 			this.serviceRecordId = ko.observable();
+			this.type			 = ko.observable(1);
 			this.rhythm			 = ko.observable();
 			this.murmur			 = ko.observable();
 			this.gallop			 = ko.observable();
@@ -803,6 +807,7 @@ define(function(require) {
 		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
+			this.type			 = ko.observable(data.type);
 			this.asymmetry		 = ko.observable(data.asymmetry);
 			this.chest			 = ko.observable(data.chest);
 			this.scar			 = ko.observable(data.scar);
@@ -811,6 +816,7 @@ define(function(require) {
 		else {
 			this.id				 = ko.observable();
 			this.serviceRecordId = ko.observable();
+			this.type			 = ko.observable(1);
 			this.asymmetry		 = ko.observable();
 			this.chest			 = ko.observable();
 			this.scar			 = ko.observable();
@@ -823,6 +829,7 @@ define(function(require) {
 		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
+			this.type			 = ko.observable(data.type);
 			this.oralLesions	 = ko.observable(data.oral_lesions);
 			this.neckRigidity	 = ko.observable(data.neck_rigidity);
 			this.carotidBruits	 = ko.observable(data.carotid_bruits);
@@ -840,6 +847,7 @@ define(function(require) {
 		else {
 			this.id				 = ko.observable();
 			this.serviceRecordId = ko.observable();
+			this.type			 = ko.observable(1);
 			this.oralLesions	 = ko.observable();
 			this.neckRigidity	 = ko.observable();
 			this.carotidBruits	 = ko.observable();
@@ -859,24 +867,26 @@ define(function(require) {
 	// Physical Examination: Ext
 	patient.prototype.PeExt = function(data) {
 		if (data != null) {
-			this.id				   = ko.observable(data.id);
-			this.serviceRecordId   = ko.observable(data.service_record_id);
-			this.clubbing		   = ko.observable(data.clubbing);
-			this.cyanosis		   = ko.observable(data.cyanosis);
-			this.edema			   = ko.observable(data.edema);
-			this.skeltonTenderness = ko.observable(data.skelton_tenderness);
-			this.joints			   = ko.observable(data.joints);
-			this.comments		   = ko.observable(data.comments);
+			this.id				    = ko.observable(data.id);
+			this.serviceRecordId    = ko.observable(data.service_record_id);
+			this.type			    = ko.observable(data.type);
+			this.clubbing		    = ko.observable(data.clubbing);
+			this.cyanosis		    = ko.observable(data.cyanosis);
+			this.edema			    = ko.observable(data.edema);
+			this.skeletonTenderness = ko.observable(data.skeleton_tenderness);
+			this.joints			    = ko.observable(data.joints);
+			this.comment		    = ko.observable(data.comment);
 		}
 		else {
-			this.id				   = ko.observable();
-			this.serviceRecordId   = ko.observable();
-			this.clubbing		   = ko.observable();
-			this.cyanosis		   = ko.observable();
-			this.edema			   = ko.observable();
-			this.skeltonTenderness = ko.observable();
-			this.joints			   = ko.observable();
-			this.comments		   = ko.observable();
+			this.id				    = ko.observable();
+			this.serviceRecordId    = ko.observable();
+			this.type			    = ko.observable(1);
+			this.clubbing		    = ko.observable();
+			this.cyanosis		    = ko.observable();
+			this.edema			    = ko.observable();
+			this.skeletonTenderness = ko.observable();
+			this.joints			    = ko.observable();
+			this.comment		    = ko.observable();
 		}
 	}
 	
@@ -885,6 +895,7 @@ define(function(require) {
 		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
+			this.type			 = ko.observable(data.type);
 			this.perla			 = ko.observable(data.perla);
 			this.eomi			 = ko.observable(data.eomi);
 			this.icterus		 = ko.observable(data.icterus);
@@ -894,6 +905,7 @@ define(function(require) {
 		else {
 			this.id				 = ko.observable();
 			this.serviceRecordId = ko.observable();
+			this.type			 = ko.observable(1);
 			this.perla			 = ko.observable();
 			this.eomi			 = ko.observable();
 			this.icterus		 = ko.observable();
@@ -907,6 +919,7 @@ define(function(require) {
 		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
+			this.type			 = ko.observable(data.type);
 			this.nutrition		 = ko.observable(data.nutrition);
 			this.head			 = ko.observable(data.head);
 			this.comment		 = ko.observable(data.comment);
@@ -914,6 +927,7 @@ define(function(require) {
 		else {
 			this.id				 = ko.observable();
 			this.serviceRecordId = ko.observable();
+			this.type			 = ko.observable(1);
 			this.nutrition		 = ko.observable();
 			this.head			 = ko.observable();
 			this.comment		 = ko.observable();
@@ -925,7 +939,8 @@ define(function(require) {
 		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
-			this.cervial		 = ko.observable(data.cervial);
+			this.type			 = ko.observable(data.type);
+			this.cervical		 = ko.observable(data.cervical);
 			this.axillary		 = ko.observable(data.axillary);
 			this.inguinal		 = ko.observable(data.inguinal);
 			this.comment		 = ko.observable(data.comment);
@@ -933,7 +948,8 @@ define(function(require) {
 		else {
 			this.id				 = ko.observable();
 			this.serviceRecordId = ko.observable();
-			this.cervial		 = ko.observable();
+			this.type			 = ko.observable(1);
+			this.cervical		 = ko.observable();
 			this.axillary		 = ko.observable();
 			this.inguinal		 = ko.observable();
 			this.comment		 = ko.observable();
@@ -945,12 +961,14 @@ define(function(require) {
 		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
+			this.type			 = ko.observable(data.type);
 			this.ctap			 = ko.observable(data.ctap);
 			this.comment		 = ko.observable(data.comment);
 		}
 		else {
 			this.id				 = ko.observable();
 			this.serviceRecordId = ko.observable();
+			this.type			 = ko.observable(1);
 			this.ctap			 = ko.observable();
 			this.comment		 = ko.observable();
 		}
@@ -962,6 +980,7 @@ define(function(require) {
 			this.id				  = ko.observable(data.id);
 			this.serviceRecordId  = ko.observable(data.service_record_id);
 			this.type			  = ko.observable(data.type);
+			this.focus			  = ko.observable(data.focus);
 			this.cranialNerves	  = ko.observable(data.cranial_nerves);
 			this.motorMusclePower = ko.observable(data.motor_muscle_power);
 			this.dtr			  = ko.observable(data.dtr);
@@ -972,7 +991,8 @@ define(function(require) {
 		else {
 			this.id				  = ko.observable();
 			this.serviceRecordId  = ko.observable();
-			this.type			  = ko.observable();
+			this.type			  = ko.observable(1);
+			this.focus			  = ko.observable();
 			this.cranialNerves	  = ko.observable();
 			this.motorMusclePower = ko.observable();
 			this.dtr			  = ko.observable();
@@ -987,6 +1007,7 @@ define(function(require) {
 		if (data != null) {
 			this.id				 = ko.observable(data.id);
 			this.serviceRecordId = ko.observable(data.service_record_id);
+			this.type			 = ko.observable(data.type);
 			this.ecchymoses		 = ko.observable(data.ecchymoses);
 			this.patechiae		 = ko.observable(data.patechiae);
 			this.rash			 = ko.observable(data.rash);
@@ -995,6 +1016,7 @@ define(function(require) {
 		else {
 			this.id				 = ko.observable();
 			this.serviceRecordId = ko.observable();
+			this.type			 = ko.observable(1);
 			this.ecchymoses		 = ko.observable();
 			this.patechiae		 = ko.observable();
 			this.rash			 = ko.observable();

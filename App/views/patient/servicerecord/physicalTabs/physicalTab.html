@@ -1,3 +1,6 @@
+<div class="alertHolder">
+	<div class="alert alert-success">Successfully saved.</div>
+</div>
 <div class="physicalFormScroll formPadding">
 	<!-- Labels -->
 	<div class="marginBottom5 physicalLabelPushRight">
@@ -8,29 +11,37 @@
 	<!-- GEN -->
 	<div class="marginBottom5 physicalAltExam">
 		<div class="row-fluid">
+			<!-- ko with: peGen -->
 			<div class="span1">
 				<span class="label smallText">GEN</span>
 			</div>
 			<div class="span2">
 				<label class="radio physicalNeRadio">
-					<input type="radio" name="gen" value="1" />
+					<input type="radio" name="gen" value="1" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalNormalRadio">
-					<input type="radio" name="gen" value="2" />
+					<input type="radio" name="gen" value="2" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalAbnRadio">
-					<input type="radio" name="gen" value="3" />
+					<input type="radio" name="gen" value="3" data-bind="
+						checked: type" />
 				</label>
 			</div>
 			<div class="span9">
 				<div>
-					<select class="input-xmedium smallText">
+					<select class="input-xmedium smallText" data-bind="
+						value: nutrition,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Nutrition</option>
 						<option value="not checked">Not Checked</option>
 						<option value="poorly nourished">Poorly Nourished</option>
 						<option value="well nourished">Well Nourished</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText"data-bind="
+						value: head,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Head</option>
 						<option value="not checked">Not Checked</option>
 						<option value="abnormal">Abnormal</option>
@@ -38,49 +49,64 @@
 					</select>
 				</div>
 				<div>
-					<input type="text" class="physicalComments" placeholder="Comments" />
+					<input type="text" class="physicalComments" placeholder="Comments" data-bind="
+						value: comment,
+						enable: type() != 1" />
 				</div>
 			</div>
+			<!-- /ko -->
 		</div>
 	</div>
 	<!-- EYE -->
 	<div class="marginBottom5 physicalExam">
 		<div class="row-fluid">
+			<!-- ko with: peEye -->
 			<div class="span1">
 				<span class="label smallText">EYE</span>
 			</div>
 			<div class="span2">
 				<label class="radio physicalNeRadio">
-					<input type="radio" name="eye" value="1" />
+					<input type="radio" name="eye" value="1" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalNormalRadio">
-					<input type="radio" name="eye" value="2" />
+					<input type="radio" name="eye" value="2" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalAbnRadio">
-					<input type="radio" name="eye" value="3" />
+					<input type="radio" name="eye" value="3" data-bind="
+						checked: type" />
 				</label>
 			</div>
 			<div class="span9">
 				<div>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: perla,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">PERLA</option>
 						<option value="not checked">Not Checked</option>
 						<option value="no">No</option>
 						<option value="yes">Yes</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: eomi,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">EOMI</option>
 						<option value="not checked">Not Checked</option>
 						<option value="no">No</option>
 						<option value="yes">Yes</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: icterus,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">ICTERUS</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: pallor,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">PALLOR</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
@@ -88,49 +114,64 @@
 					</select>
 				</div>
 				<div>
-					<input type="text" class="physicalComments" placeholder="Comments" />
+					<input type="text" class="physicalComments" placeholder="Comments" data-bind="
+						value: comment,
+						enable: type() != 1" />
 				</div>
 			</div>
+			<!-- /ko -->
 		</div>
 	</div>
 	<!-- ENT -->
 	<div class="marginBottom5 physicalAltExam">
 		<div class="row-fluid">
+			<!-- ko with: peEnt -->
 			<div class="span1">
 				<span class="label smallText">ENT</span>
 			</div>
 			<div class="span2">
 				<label class="radio physicalNeRadio">
-					<input type="radio" name="ent" value="1" />
+					<input type="radio" name="ent" value="1" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalNormalRadio">
-					<input type="radio" name="ent" value="2" />
+					<input type="radio" name="ent" value="2" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalAbnRadio">
-					<input type="radio" name="ent" value="3" />
+					<input type="radio" name="ent" value="3" data-bind="
+						checked: type" />
 				</label>
 			</div>
 			<div class="span9">
 				<div>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: oralLesions,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Oral Leisons</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: neckRigidity,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Neck Rigidity</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: carotidBruits,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Carotid Bruits</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: thyromegaly,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Thyromegaly</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
@@ -138,25 +179,33 @@
 					</select>
 				</div>
 				<div>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: mm,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">MM</option>
 						<option value="not checked">Not Checked</option>
 						<option value="dry">Dry</option>
 						<option value="moist">Moist</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: jvd,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">JVD</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: tm,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">TM</option>
 						<option value="not checked">Not Checked</option>
 						<option value="abnormal">Abnormal</option>
 						<option value="normal">Normal</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: earCanal,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Ear Canal</option>
 						<option value="not checked">Not Checked</option>
 						<option value="abnormal">Abnormal</option>
@@ -164,23 +213,31 @@
 					</select>
 				</div>
 				<div>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: leftEar,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Left Ear</option>
 						<option value="not checked">Not Checked</option>
 						<option value="both">Both</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: rightEar,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Right Ear</option>
 						<option value="not checked">Not Checked</option>
 						<option value="both">Both</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: nose,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Nose</option>
 						<option value="not checked">Not Checked</option>
 						<option value="abnormal">Abnormal</option>
 						<option value="normal">Normal</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: throat,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Throat</option>
 						<option value="not checked">Not Checked</option>
 						<option value="abnormal">Abnormal</option>
@@ -188,43 +245,56 @@
 					</select>
 				</div>
 				<div>
-					<input type="text" class="physicalComments" placeholder="Comments" />
+					<input type="text" class="physicalComments" placeholder="Comments" data-bind="
+						value: comment,
+						enable: type() != 1" />
 				</div>
 			</div>
+			<!-- /ko -->
 		</div>
 	</div>
 	<!-- CW -->
 	<div class="marginBottom5 physicalExam">
 		<div class="row-fluid">
+			<!-- ko with: peCw -->
 			<div class="span1">
 				<span class="label smallText">CW</span>
 			</div>
 			<div class="span2">
 				<label class="radio physicalNeRadio">
-					<input type="radio" name="cw" value="1" />
+					<input type="radio" name="cw" value="1" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalNormalRadio">
-					<input type="radio" name="cw" value="2" />
+					<input type="radio" name="cw" value="2" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalAbnRadio">
-					<input type="radio" name="cw" value="3" />
+					<input type="radio" name="cw" value="3" data-bind="
+						checked: type" />
 				</label>
 			</div>
 			<div class="span9">
 				<div>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: asymmetry,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Asymmetry</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-medium smallText">
+					<select class="input-medium smallText" data-bind="
+						value: chest,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Chest/Breast Masses</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: scar,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Scar</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
@@ -232,31 +302,40 @@
 					</select>
 				</div>
 				<div>
-					<input type="text" class="physicalComments" placeholder="Comments" />
+					<input type="text" class="physicalComments" placeholder="Comments" data-bind="
+						value: comment,
+						enable: type() != 1" />
 				</div>
 			</div>
+			<!-- /ko -->
 		</div>
 	</div>
 	<!-- LUNGS -->
 	<div class="marginBottom5 physicalAltExam">
 		<div class="row-fluid">
+			<!-- ko with: peLungs -->
 			<div class="span1">
 				<span class="label smallText">LUNGS</span>
 			</div>
 			<div class="span2">
 				<label class="radio physicalNeRadio">
-					<input type="radio" name="lungs" value="1" />
+					<input type="radio" name="lungs" value="1" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalNormalRadio">
-					<input type="radio" name="lungs" value="2" />
+					<input type="radio" name="lungs" value="2" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalAbnRadio">
-					<input type="radio" name="lungs" value="3" />
+					<input type="radio" name="lungs" value="3" data-bind="
+						checked: type" />
 				</label>
 			</div>
 			<div class="span9">
 				<div>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: ctap,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">CTAP</option>
 						<option value="not checked">Not Checked</option>
 						<option value="no">No</option>
@@ -264,49 +343,64 @@
 					</select>
 				</div>
 				<div>
-					<input type="text" class="physicalComments" placeholder="Comments" />
+					<input type="text" class="physicalComments" placeholder="Comments" data-bind="
+						value: comment,
+						enable: type() != 1" />
 				</div>
 			</div>
+			<!-- /ko -->
 		</div>
 	</div>
 	<!-- CVS -->
 	<div class="marginBottom5 physicalExam">
 		<div class="row-fluid">
+			<!-- ko with: peCvs -->
 			<div class="span1">
 				<span class="label smallText">CVS</span>
 			</div>
 			<div class="span2">
 				<label class="radio physicalNeRadio">
-					<input type="radio" name="cvs" value="1" />
+					<input type="radio" name="cvs" value="1" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalNormalRadio">
-					<input type="radio" name="cvs" value="2" />
+					<input type="radio" name="cvs" value="2" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalAbnRadio">
-					<input type="radio" name="cvs" value="3" />
+					<input type="radio" name="cvs" value="3" data-bind="
+						checked: type" />
 				</label>
 			</div>
 			<div class="span9">
 				<div>
-					<select class="input-xxmedium smallText">
-						<option value="" data-bind="visible: false, enable: false">Rythm</option>
+					<select class="input-xxmedium smallText" data-bind="
+						value: rhythm,
+						enable: type() != 1">
+						<option value="" data-bind="visible: false, enable: false">Rhythm</option>
 						<option value="not checked">Not Checked</option>
 						<option value="irregular">Irregular</option>
 						<option value="regular">Regular</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: murmur,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Murmur</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: gallop,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Gallop</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: rub,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Rub</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
@@ -314,49 +408,64 @@
 					</select>
 				</div>
 				<div>
-					<input type="text" class="physicalComments" placeholder="Comments" />
+					<input type="text" class="physicalComments" placeholder="Comments" data-bind="
+						value: comment,
+						enable: type() != 1" />
 				</div>
 			</div>
+			<!-- /ko -->
 		</div>
 	</div>
 	<!-- ABD -->
 	<div class="marginBottom5 physicalAltExam">
 		<div class="row-fluid">
+			<!-- ko with: peAbd -->
 			<div class="span1">
 				<span class="label smallText">ABD</span>
 			</div>
 			<div class="span2">
 				<label class="radio physicalNeRadio">
-					<input type="radio" name="abd" value="1" />
+					<input type="radio" name="abd" value="1" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalNormalRadio">
-					<input type="radio" name="abd" value="2" />
+					<input type="radio" name="abd" value="2" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalAbnRadio">
-					<input type="radio" name="abd" value="3" />
+					<input type="radio" name="abd" value="3" data-bind="
+						checked: type" />
 				</label>
 			</div>
 			<div class="span9">
 				<div>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: inspection,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Inspection</option>
 						<option value="not checked">Not Checked</option>
 						<option value="abnormal">Abnormal</option>
 						<option value="normal">Normal</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: palpation,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Palpation</option>
 						<option value="not checked">Not Checked</option>
 						<option value="abnormal">Abnormal</option>
 						<option value="normal">Normal</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: percussion,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Percussion</option>
 						<option value="not checked">Not Checked</option>
 						<option value="abnormal">Abnormal</option>
 						<option value="normal">Normal</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: auscultation,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Auscultation</option>
 						<option value="not checked">Not Checked</option>
 						<option value="abnormal">Abnormal</option>
@@ -364,49 +473,64 @@
 					</select>
 				</div>
 				<div>
-					<input type="text" class="physicalComments" placeholder="Comments" />
+					<input type="text" class="physicalComments" placeholder="Comments" data-bind="
+						value: comment,
+						enable: type() != 1" />
 				</div>
 			</div>
+			<!-- /ko -->
 		</div>
 	</div>
 	<!-- EXT -->
 	<div class="marginBottom5  physicalExam">
 		<div class="row-fluid">
+			<!-- ko with: peExt -->
 			<div class="span1">
 				<span class="label smallText">EXT</span>
 			</div>
 			<div class="span2">
 				<label class="radio physicalNeRadio">
-					<input type="radio" name="ext" value="1" />
+					<input type="radio" name="ext" value="1" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalNormalRadio">
-					<input type="radio" name="ext" value="2" />
+					<input type="radio" name="ext" value="2" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalAbnRadio">
-					<input type="radio" name="ext" value="3" />
+					<input type="radio" name="ext" value="3" data-bind="
+						checked: type" />
 				</label>
 			</div>
 			<div class="span9">
 				<div>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: clubbing,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Clubbing</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: cyanosis,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Cyanosis</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: edema,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Edema</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: joints,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Joints</option>
 						<option value="not checked">Not Checked</option>
 						<option value="abnormal">Abnormal</option>
@@ -414,7 +538,9 @@
 					</select>
 				</div>
 				<div>
-					<select class="input-medium smallText">
+					<select class="input-medium smallText" data-bind="
+						value: skeletonTenderness,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Skeleton Tenderness</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
@@ -422,43 +548,56 @@
 					</select>
 				</div>
 				<div>
-					<input type="text" class="physicalComments" placeholder="Comments" />
+					<input type="text" class="physicalComments" placeholder="Comments" data-bind="
+						value: comment,
+						enable: type() != 1" />
 				</div>
 			</div>
+			<!-- /ko -->
 		</div>
 	</div>
 	<!-- HEME -->
 	<div class="marginBottom5 physicalAltExam">
 		<div class="row-fluid">
+			<!-- ko with: peHeme -->
 			<div class="span1">
 				<span class="label smallText">HEME</span>
 			</div>
 			<div class="span2">
 				<label class="radio physicalNeRadio">
-					<input type="radio" name="heme" value="1" />
+					<input type="radio" name="heme" value="1" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalNormalRadio">
-					<input type="radio" name="heme" value="2" />
+					<input type="radio" name="heme" value="2" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalAbnRadio">
-					<input type="radio" name="heme" value="3" />
+					<input type="radio" name="heme" value="3" data-bind="
+						checked: type" />
 				</label>
 			</div>
 			<div class="span9">
 				<div>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: cervical,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Cervical LA</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: axillary,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Axillary LA</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: inguinal,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Inguinal LA</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
@@ -466,43 +605,56 @@
 					</select>
 				</div>
 				<div>
-					<input type="text" class="physicalComments" placeholder="Comments" />
+					<input type="text" class="physicalComments" placeholder="Comments" data-bind="
+						value: comment,
+						enable: type() != 1" />
 				</div>
 			</div>
+			<!-- /ko -->
 		</div>
 	</div>
 	<!-- SKIN -->
 	<div class="marginBottom5 physicalExam">
 		<div class="row-fluid">
+			<!-- ko with: peSkin -->
 			<div class="span1">
 				<span class="label smallText">SKIN</span>
 			</div>
 			<div class="span2">
 				<label class="radio physicalNeRadio">
-					<input type="radio" name="skin" value="1" />
+					<input type="radio" name="skin" value="1" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalNormalRadio">
-					<input type="radio" name="skin" value="2" />
+					<input type="radio" name="skin" value="2" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalAbnRadio">
-					<input type="radio" name="skin" value="3" />
+					<input type="radio" name="skin" value="3" data-bind="
+						checked: type" />
 				</label>
 			</div>
 			<div class="span9">
 				<div>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: ecchymoses,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Ecchymoses</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: patechiae,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Patechiae</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
 						<option value="present">Present</option>
 					</select>
-					<select class="input-xxmedium smallText">
+					<select class="input-xxmedium smallText" data-bind="
+						value: rash,
+						enable: type() != 1">
 						<option value="" data-bind="visible: false, enable: false">Rash</option>
 						<option value="not checked">Not Checked</option>
 						<option value="absent">Absent</option>
@@ -510,41 +662,115 @@
 					</select>
 				</div>
 				<div>
-					<input type="text" class="physicalComments" placeholder="Comments" />
+					<input type="text" class="physicalComments" placeholder="Comments" data-bind="
+						value: comment,
+						enable: type() != 1" />
 				</div>
 			</div>
+			<!-- /ko -->
 		</div>
 	</div>
 	<!-- NEURO -->
 	<div class="marginBottom5 physicalAltExam">
 		<div class="row-fluid">
+			<!-- ko with: peNeuro -->
 			<div class="span1">
 				<span class="label smallText">NEURO</span>
 			</div>
 			<div class="span2">
 				<label class="radio physicalNeRadio">
-					<input type="radio" name="neuro" value="1" />
+					<input type="radio" name="neuro" value="1" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalNormalRadio">
-					<input type="radio" name="neuro" value="2" />
+					<input type="radio" name="neuro" value="2" data-bind="
+						checked: type" />
 				</label>
 				<label class="radio physicalAbnRadio">
-					<input type="radio" name="neuro" value="3" />
+					<input type="radio" name="neuro" value="3" data-bind="
+						checked: type" />
 				</label>
 			</div>
 			<div class="span9">
-				<span>Stuff goes here.</span>
 				<div>
-					<input type="text" class="physicalComments" placeholder="Comments" />
+					<label class="radio physicalNormalRadio">
+						<input type="radio" name="focus" value="1" data-bind="
+							checked: focus,
+							enable: type() != 1" />
+							<span class="smallText">Non&nbsp;Focal&nbsp;and&nbsp;Limited</span>
+					</label>
+					<label class="radio physicalAbnRadio">
+						<input type="radio" name="focus" value="2" data-bind="
+							checked: focus,
+							enable: type() != 1" />
+							<span class="smallText">Comprehensive</span>
+					</label>
+				</div>
+				<div>
+					<select class="input-medium smallText" data-bind="
+						value: cranialNerves,
+						enable: type() != 1">
+						<option value="" data-bind="visible: false, enable: false">Cranial Nerves II-XII</option>
+						<option value="not checked">Not Checked</option>
+						<option value="abnormal">Abnormal</option>
+						<option value="normal">Normal</option>
+					</select>
+					<select class="input-medium smallText" data-bind="
+						value: motorMusclePower,
+						enable: type() != 1">
+						<option value="" data-bind="visible: false, enable: false">Motor Muscle Power</option>
+						<option value="not checked">Not Checked</option>
+						<option value="all">5/5 In All 4</option>
+						<option value="others">Others</option>
+					</select>
+					<select class="input-xxmedium smallText" data-bind="
+						value: dtr,
+						enable: type() != 1">
+						<option value="" data-bind="visible: false, enable: false">DTR</option>
+						<option value="not checked">Not Checked</option>
+						<option value="2+">2+</option>
+						<option value="diminished">Diminished</option>
+						<option value="exaggerated">Exaggerated</option>
+					</select>
+					<select class="input-xmedium smallText" data-bind="
+						value: sensoryDeficits,
+						enable: type() != 1">
+						<option value="" data-bind="visible: false, enable: false">Sensory Deficits</option>
+						<option value="not checked">Not Checked</option>
+						<option value="absent">Absent</option>
+						<option value="present">Present</option>
+					</select>
+					<select class="input-xxmedium smallText" data-bind="
+						value: gait,
+						enable: type() != 1">
+						<option value="" data-bind="visible: false, enable: false">GAIT</option>
+						<option value="not checked">Not Checked</option>
+						<option value="abnormal">Abnormal</option>
+						<option value="normal">Normal</option>
+					</select>
+				</div>
+				<div>
+					<input type="text" class="physicalComments" placeholder="Comments" data-bind="
+						value: comment,
+						enable: type() != 1" />
 				</div>
 			</div>
+			<!-- /ko -->
 		</div>
 	</div>
 	<div class="commentContainer">
-		<textarea class="commentSpan" rows="1" placeholder="Comments" /></textarea>
+		<textarea class="commentSpan" rows="1" placeholder="Additional Comments" data-bind="
+			value: serviceRecord().physicalExaminationComment" />
+		</textarea>
 	</div>
 </div>
 <div class="pull-right">
-	<button type="submit" class="btn btn-small btn-primary">Save</button>
-	<button type="button" class="btn btn-small btn-warning">Clear</button>
+	<button type="submit" class="btn btn-small btn-primary" data-bind="
+		click: $root.physicalExaminationSave">
+		Save
+	</button>
+	<button type="button" class="btn btn-small btn-warning" data-bind="
+		click: $root.physicalExaminationClear">
+		Clear
+	</button>
 </div>

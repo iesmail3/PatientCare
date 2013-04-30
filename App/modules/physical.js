@@ -30,18 +30,111 @@ define(function(require) {
 	}
 	
 	// Get Medical Problems for a Single Service Record
-	physical.prototype.getVitalSigns = function(patientId, practiceId, date) {
-		var self = this;
-		var fields = ['service_record_id', 'height', 'height_type', 'weight', 'weight_type', 'temp',
-			'temp_type', 'hc', 'resp', 'spo2', 'sitting_blood_pressure', 'sitting_pulse', 'lying_blood_pressure',
-			'lying_pulse', 'standing_blood_pressure', 'standing_pulse', 'comment'];
-		
-		return self.query({
+	physical.prototype.getVitalSigns = function(serviceRecordId) {
+		return this.query({
 			mode: 'select',
 			table: 'vital_signs',
-			join: "LEFT JOIN service_record ON vital_signs.service_record_id=service_record.id",
-			fields: fields,
-			where: "WHERE service_record.patient_id='" + patientId + "' AND service_record.practice_id='" + practiceId + "' AND service_record.date='" + date + "'"
+			fields: '*',
+			where: "WHERE service_record_id='" + serviceRecordId + "'"
+		});
+	}
+	
+	physical.prototype.getPeAbd = function(serviceRecordId) {
+		return this.query({
+			mode: 'select',
+			table: 'pe_abd',
+			fields: '*',
+			where: "WHERE service_record_id='" + serviceRecordId + "'"
+		});
+	}
+	
+	physical.prototype.getPeCvs = function(serviceRecordId) {
+		return this.query({
+			mode: 'select',
+			table: 'pe_cvs',
+			fields: '*',
+			where: "WHERE service_record_id='" + serviceRecordId + "'"
+		});
+	}
+	
+	physical.prototype.getPeCw = function(serviceRecordId) {
+		return this.query({
+			mode: 'select',
+			table: 'pe_cw',
+			fields: '*',
+			where: "WHERE service_record_id='" + serviceRecordId + "'"
+		});
+	}
+	
+	physical.prototype.getPeEnt = function(serviceRecordId) {
+		return this.query({
+			mode: 'select',
+			table: 'pe_ent',
+			fields: '*',
+			where: "WHERE service_record_id='" + serviceRecordId + "'"
+		});
+	}
+	
+	physical.prototype.getPeExt = function(serviceRecordId) {
+		return this.query({
+			mode: 'select',
+			table: 'pe_ext',
+			fields: '*',
+			where: "WHERE service_record_id='" + serviceRecordId + "'"
+		});
+	}
+	
+	physical.prototype.getPeEye = function(serviceRecordId) {
+		return this.query({
+			mode: 'select',
+			table: 'pe_eye',
+			fields: '*',
+			where: "WHERE service_record_id='" + serviceRecordId + "'"
+		});
+	}
+	
+	physical.prototype.getPeGen = function(serviceRecordId) {
+		return this.query({
+			mode: 'select',
+			table: 'pe_gen',
+			fields: '*',
+			where: "WHERE service_record_id='" + serviceRecordId + "'"
+		});
+	}
+	
+	physical.prototype.getPeHeme = function(serviceRecordId) {
+		return this.query({
+			mode: 'select',
+			table: 'pe_heme',
+			fields: '*',
+			where: "WHERE service_record_id='" + serviceRecordId + "'"
+		});
+	}
+	
+	physical.prototype.getPeLungs = function(serviceRecordId) {
+		return this.query({
+			mode: 'select',
+			table: 'pe_lungs',
+			fields: '*',
+			where: "WHERE service_record_id='" + serviceRecordId + "'"
+		});
+	}
+	
+	physical.prototype.getPeNeuro = function(serviceRecordId) {
+		return this.query({
+			mode: 'select',
+			table: 'pe_neuro',
+			fields: '*',
+			where: "WHERE service_record_id='" + serviceRecordId + "'"
+		});
+	}
+	
+	physical.prototype.getPeSkin = function(serviceRecordId) {
+		return this.query({
+			mode: 'select',
+			table: 'pe_skin',
+			fields: '*',
+			where: "WHERE service_record_id='" + serviceRecordId + "'"
 		});
 	}
 	
@@ -50,6 +143,30 @@ define(function(require) {
 	 * 
 	 * These methods add information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
+	physical.prototype.saveServiceRecord = function(patientId, practiceId, date, serviceRecord) {
+		var self = this;
+		var fields = ['id', 'practice_id', 'patient_id', 'physician_id', 'date', 'reason', 'history',
+			'systems_comment', 'no_known_allergies', 'allergies_verified', 'physical_examination_comment',
+			'plan_and_instructions'];
+		
+		var values = $.map(serviceRecord, function(k,v) {
+			if(k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		
+		return self.query({
+			mode: 'update',
+			table: 'service_record',
+			fields: fields,
+			values: values,
+			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "' AND date='" + date + "'"
+		});
+	}
+	
 	// Save Service Records for a Single Patient
 	physical.prototype.saveVitalSigns = function(vitalSigns, type) {
 		var self = this;
@@ -86,19 +203,515 @@ define(function(require) {
 		}
 	}
 	
+	physical.prototype.savePeAbd = function(peAbd) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'type', 'inspection', 'palpation', 'percussion',
+			'auscultation', 'comment'];
+		
+		var values = $.map(peAbd, function(k,v) {
+			if (k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		
+		if (peAbd.id() == undefined || peAbd.id() == '') {
+			return self.query({
+				mode: 'select',
+				table: 'pe_abd',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
+				
+				values[0] = newId;
+				peAbd.id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'pe_abd',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		else {
+			return self.query({
+				mode: 'update',
+				table: 'pe_abd',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + peAbd.id() + "'"
+			});
+		}
+	}
+
+	physical.prototype.savePeCvs = function(peCvs) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'type', 'rhythm', 'murmur', 'gallop', 'rub', 'comment'];
+		var values = $.map(peCvs, function(k,v) {
+			if (k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		
+		if (peCvs.id() == undefined || peCvs.id() == '') {
+			return self.query({
+				mode: 'select',
+				table: 'pe_cvs',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
+				
+				values[0] = newId;
+				peCvs.id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'pe_cvs',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		else {
+			return self.query({
+				mode: 'update',
+				table: 'pe_cvs',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + peCvs.id() + "'"
+			});
+		}
+	}
+
+	physical.prototype.savePeCw = function(peCw) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'type', 'asymmetry', 'chest', 'scar', 'comment'];
+		var values = $.map(peCw, function(k,v) {
+			if (k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		
+		if (peCw.id() == undefined || peCw.id() == '') {
+			return self.query({
+				mode: 'select',
+				table: 'pe_cw',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
+				
+				values[0] = newId;
+				peCw.id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'pe_cw',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		else {
+			return self.query({
+				mode: 'update',
+				table: 'pe_cw',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + peCw.id() + "'"
+			});
+		}
+	}
+
+	physical.prototype.savePeEnt = function(peEnt) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'type', 'oral_lesions', 'neck_rigidity', 'carotid_bruits',
+			'thyromegaly', 'mm', 'jvd', 'left_ear', 'right_ear', 'tm', 'ear_canal', 'nose', 'throat',
+			'comment'];
+		
+		var values = $.map(peEnt, function(k,v) {
+			if (k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		
+		if (peEnt.id() == undefined || peEnt.id() == '') {
+			return self.query({
+				mode: 'select',
+				table: 'pe_ent',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
+				
+				values[0] = newId;
+				peEnt.id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'pe_ent',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		else {
+			return self.query({
+				mode: 'update',
+				table: 'pe_ent',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + peEnt.id() + "'"
+			});
+		}
+	}
+
+	physical.prototype.savePeExt = function(peExt) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'type', 'clubbing', 'cyanosis', 'edema', 'skeleton_tenderness',
+			'joints', 'comment'];
+		
+		var values = $.map(peExt, function(k,v) {
+			if (k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		
+		if (peExt.id() == undefined || peExt.id() == '') {
+			return self.query({
+				mode: 'select',
+				table: 'pe_ext',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
+				
+				values[0] = newId;
+				peExt.id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'pe_ext',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		else {
+			return self.query({
+				mode: 'update',
+				table: 'pe_ext',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + peExt.id() + "'"
+			});
+		}
+	}
+
+	physical.prototype.savePeEye = function(peEye) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'type', 'perla', 'eomi', 'icterus', 'pallor', 'comment'];
+		var values = $.map(peEye, function(k,v) {
+			if (k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		
+		if (peEye.id() == undefined || peEye.id() == '') {
+			return self.query({
+				mode: 'select',
+				table: 'pe_eye',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
+				
+				values[0] = newId;
+				peEye.id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'pe_eye',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		else {
+			return self.query({
+				mode: 'update',
+				table: 'pe_eye',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + peEye.id() + "'"
+			});
+		}
+	}
+
+	physical.prototype.savePeGen = function(peGen) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'type', 'nutrition', 'head', 'comment'];
+		var values = $.map(peGen, function(k,v) {
+			if (k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		
+		if (peGen.id() == undefined || peGen.id() == '') {
+			return self.query({
+				mode: 'select',
+				table: 'pe_gen',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
+				
+				values[0] = newId;
+				peGen.id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'pe_gen',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		else {
+			return self.query({
+				mode: 'update',
+				table: 'pe_gen',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + peGen.id() + "'"
+			});
+		}
+	}
+
+	physical.prototype.savePeHeme = function(peHeme) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'type', 'cervical', 'axillary', 'inguinal', 'comment'];
+		var values = $.map(peHeme, function(k,v) {
+			if (k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		
+		if (peHeme.id() == undefined || peHeme.id() == '') {
+			return self.query({
+				mode: 'select',
+				table: 'pe_heme',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
+				
+				values[0] = newId;
+				peHeme.id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'pe_heme',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		else {
+			return self.query({
+				mode: 'update',
+				table: 'pe_heme',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + peHeme.id() + "'"
+			});
+		}
+	}
+
+	physical.prototype.savePeLungs = function(peLungs) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'type', 'ctap', 'comment'];
+		var values = $.map(peLungs, function(k,v) {
+			if (k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		
+		if (peLungs.id() == undefined || peLungs.id() == '') {
+			return self.query({
+				mode: 'select',
+				table: 'pe_lungs',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
+				
+				values[0] = newId;
+				peLungs.id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'pe_lungs',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		else {
+			return self.query({
+				mode: 'update',
+				table: 'pe_lungs',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + peLungs.id() + "'"
+			});
+		}
+	}
+
+	physical.prototype.savePeNeuro = function(peNeuro) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'type', 'focus', 'cranial_nerves', 'motor_muscle_power', 'dtr',
+			'sensory_deficits', 'gait', 'comment'];
+		
+		var values = $.map(peNeuro, function(k,v) {
+			if (k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		
+		if (peNeuro.id() == undefined || peNeuro.id() == '') {
+			return self.query({
+				mode: 'select',
+				table: 'pe_neuro',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
+				
+				values[0] = newId;
+				peNeuro.id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'pe_neuro',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		else {
+			return self.query({
+				mode: 'update',
+				table: 'pe_neuro',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + peNeuro.id() + "'"
+			});
+		}
+	}
+
+	physical.prototype.savePeSkin = function(peSkin) {
+		var self = this;
+		var fields = ['id', 'service_record_id', 'type', 'ecchymoses', 'patechiae', 'rash', 'comment'];
+		var values = $.map(peSkin, function(k,v) {
+			if (k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		
+		if (peSkin.id() == undefined || peSkin.id() == '') {
+			return self.query({
+				mode: 'select',
+				table: 'pe_skin',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
+				
+				values[0] = newId;
+				peSkin.id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'pe_skin',
+					fields: fields,
+					values: values
+				});
+			});
+		}
+		else {
+			return self.query({
+				mode: 'update',
+				table: 'pe_skin',
+				fields: fields,
+				values: values,
+				where: "WHERE id='" + peSkin.id() + "'"
+			});
+		}
+	}
+	
 	/**********************************************************************************************
 	 * Delete Methods
 	 * 
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
-	// Delete a Review of System
-	physical.prototype.deleteReviewOfSystem = function(serviceRecordId, particular) {
-		return this.query({
-			mode: 'delete', 
-			table: 'review_of_systems', 
-			where: "WHERE service_record_id='" + serviceRecordId + "' AND particulars='" + particular + "'"
-		});
-	}
 	
 	/**********************************************************************************************
 	 * Query
