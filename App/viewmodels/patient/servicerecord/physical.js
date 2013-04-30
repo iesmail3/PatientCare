@@ -9,9 +9,10 @@ define(function(require) {
 	 **********************************************************************************************/
 	var system = require('durandal/system');					// System logger
 	var custom = require('durandal/customBindings');			// Custom bindings
-	var Structures = require('modules/patientStructures');	// Structures
-	var Backend = require('modules/physical');				// Module
-	var Forms = require('modules/form');					// Common form elements
+	var Structures = require('modules/patientStructures');		// Structures
+	var Backend = require('modules/physical');					// Module
+	var Forms = require('modules/form');						// Common form elements
+	var app = require('durandal/app');
 	
 	/*********************************************************************************************** 
 	 * KO Observables
@@ -60,11 +61,11 @@ define(function(require) {
 			
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-			$('.vitalSignsFormScroll').height(parseInt($('.contentPane').height()) - 104);
+			$('.vitalSignsFormScroll').height(parseInt($('.contentPane').height()) - 126);
 			$('.physicalFormScroll').height(parseInt($('.contentPane').height()) - 124);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-				$('.vitalSignsFormScroll').height(parseInt($('.contentPane').height()) - 104);
+				$('.vitalSignsFormScroll').height(parseInt($('.contentPane').height()) - 126);
 				$('.physicalFormScroll').height(parseInt($('.contentPane').height()) - 124);
 			});
 		},
@@ -111,10 +112,19 @@ define(function(require) {
 			vitalSigns().weight(Math.round(parseFloat(weight*0.453592)));
 		},
 		vitalSignsSave: function(data) {
-			vitalSigns().serviceRecordId(serviceRecord().id());
-			backend.saveVitalSigns(vitalSigns()).success(function(data) {
-				system.log(data.responseText);
-			});
+			if (isNaN(vitalSigns().serviceRecordId())) {
+				vitalSigns().serviceRecordId(serviceRecord().id());
+				backend.saveVitalSigns(vitalSigns(), 'insert').complete(function(data) {
+					if (data.responseText != 'insertFail')
+						$('.alert-success').fadeIn().delay(3000).fadeOut();
+				});
+			}
+			else {
+				backend.saveVitalSigns(vitalSigns(), 'update').complete(function(data) {
+					if (data.responseText != 'updateFail')
+						$('.alert-success').fadeIn().delay(3000).fadeOut();
+				});
+			}
 		},
 		vitalSignsClear: function() {
 			return app.showMessage(
@@ -123,7 +133,12 @@ define(function(require) {
 				['Yes', 'No'])
 			.done(function(answer){
 				if(answer == 'Yes') {
-					vitalSigns(new structures.VitalSigns());
+					if (isNaN(vitalSigns().serviceRecordId()))
+						vitalSigns(new structures.VitalSigns());
+					else {
+						vitalSigns(new structures.VitalSigns());
+						vitalSigns().serviceRecordId(serviceRecord().id());
+					}
 				}
 			});
 		}

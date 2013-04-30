@@ -51,7 +51,7 @@ define(function(require) {
 	 * These methods add information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
 	// Save Service Records for a Single Patient
-	physical.prototype.saveVitalSigns = function(vitalSigns) {
+	physical.prototype.saveVitalSigns = function(vitalSigns, type) {
 		var self = this;
 		var fields = ['service_record_id', 'height', 'height_type', 'weight', 'weight_type', 'temp',
 			'temp_type', 'hc', 'resp', 'spo2', 'sitting_blood_pressure', 'sitting_pulse', 'lying_blood_pressure',
@@ -66,31 +66,24 @@ define(function(require) {
 			}
 		});
 		
-		return self.query({
-			mode: 'select',
-			table: 'vital_signs',
-			fields: '*',
-			where: "WHERE service_record_id='" + vitalSigns.serviceRecordId() + "'"
-		}).success(function(data) {
-			if (data.length > 0) {
-				self.query({
-					mode: 'update',
-					table: 'vital_signs',
-					fields: fields,
-					values: values,
-					where: "WHERE service_record_id='" + vitalSigns.serviceRecordId() + "'"
-				});
-			}
-			
-			else {
-				self.query({
-					mode: 'insert',
-					table: 'vital_signs',
-					fields: fields,
-					values: values
-				});
-			}
-		});
+		if (type == 'update') {
+			return self.query({
+				mode: 'update',
+				table: 'vital_signs',
+				fields: fields,
+				values: values,
+				where: "WHERE service_record_id='" + vitalSigns.serviceRecordId() + "'"
+			});
+		}
+		
+		else if (type == 'insert') {
+			return self.query({
+				mode: 'insert',
+				table: 'vital_signs',
+				fields: fields,
+				values: values
+			});
+		}
 	}
 	
 	/**********************************************************************************************
