@@ -5,6 +5,7 @@
 
 .input-xmini { width: 50px;}
 .input-xsmall { width: 75px; }
+.input-xxmedium{ width: 105px; }
 .input-xmedium { width: 119px; }
 .input-mediumLarge { width: 150px; }
 .input-xxlarge { width: 300px; }
@@ -326,6 +327,74 @@ th, td {
 	overflow-y: auto;
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 5px;
+}
+
+/* Physical Examinations */
+.vitalSignsFormScroll {
+	overflow-y: auto;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 5px;
+}
+
+.vitalSignsLabel { margin-top: 6px; }
+
+.vitalSignsBloodPressurePulse {
+	padding: 20px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+}
+
+.vitalSignsPulse { margin-left: 18px; }
+
+.vitalSignsComment {
+	height: 60px;
+	min-height: 60px;
+}
+
+.physicalFormScroll {
+	overflow-y: auto;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 5px;
+}
+
+.physicalExam {
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+}
+
+.physicalAltExam {
+	padding: 10px;
+	background-color: #ddd;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+}
+
+.physicalLabelPushRight {
+	margin-left: 55px;
+}
+
+.physicalLabel {
+	margin-left: 1px;
+}
+
+.physicalNeRadio {
+	display: inline-block;
+	margin-left: 0px;
+}
+
+.physicalNormalRadio {
+	display: inline-block;
+	margin-left: 12px;
+	margin-right: 13px;
+}
+
+.physicalAbnRadio {
+	display: inline-block;
+}
+
+.physicalComments {
+	width: 455px;
 }
 
 /* Orders */
