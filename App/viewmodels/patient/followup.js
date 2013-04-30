@@ -1,7 +1,8 @@
 /***************************************************************************************************
- * ViewModel:
- * Author(s):
- * Description: 
+ * ViewModel: FOllowup.js
+ * Author(s): Imran Esmail 
+ * Description: Handles the business logic for the Followup section of the patient
+ *              record. This includes the Followup, checkout, phonelog,prescription, and document tabs.
  **************************************************************************************************/
 define(function(require) { 
 	/*********************************************************************************************** 
@@ -213,9 +214,9 @@ define(function(require) {
 			var self = this;  
 			//Patient ID
 			self.patientId(data.patientId); 
-			//self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
-			//Pactice ID
-			self.practiceId('1'); 
+			//Practice ID
+			self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
+	 
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
 				var f = $.map(data, function(item) {return new structures.Followup(item) });

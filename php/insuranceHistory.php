@@ -58,7 +58,7 @@ class PDF extends FPDI_CellFit {
  		*****************************************************************************************/
 		if($this->PageNo() == 1) {
 			$this->SetFont('Arial', '', 12);
-			$this->Cell(12, 9, date('n/j/Y'),'L');
+			$this->Cell(12,9, date('n/j/Y'),0,0,'L');
 			$this->SetFont('Arial', 'B', 12);
 			$this->Cell(0,9, 'INSURANCE HISTORY REPORT', 0, 1, 'C');
 			 $y = $this->GetY() + 2;
@@ -66,15 +66,15 @@ class PDF extends FPDI_CellFit {
 		}
 		$y = $this->GetY() + 5;
 		$this->SetFont('Arial', '', 10);
-		$this->Cell(100, $y-7, 'Patient Name: ' . $patient['first_name'] . ' ' . 
+		$this->Cell(196, $y-7, 'Patient Name: ' . $patient['first_name'] . ' ' . 
  		                $patient['last_name']);
 	    
 		$this->Cell(0,$y-7, 'DOB: ' . $patient['date_of_birth'] . ' , ' . 'ID Number: ' .
  		                $patient['id_number'] . 'ID Type: ' .
  		                $patient['id_type'],0,1);
-		$this->Cell(100,1,'Address: ' . $patient['address']);
+		$this->Cell(196,1,'Address: ' . $patient['address']);
 		$this->Cell(0,1,'Marital Status: ' . $patient['marital_status'],0,1);
-		$this->Cell(100,6,'City: ' . $patient['city'] . ' , ' . 'State: ' .
+		$this->Cell(196,6,'City: ' . $patient['city'] . ' , ' . 'State: ' .
  		                $patient['state'] . ' , ' . 'Zip: ' .
  		                $patient['zip']);
 		$this->Cell(0,6,'Is Employed?: ',0,1);

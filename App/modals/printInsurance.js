@@ -1,6 +1,6 @@
 define(function(require) {
-	var system = require('durandal/system');
-	var Backend = require('modules/personalinformation');
+	var system = require('durandal/system');             //system logger 
+	var Backend = require('modules/personalinformation');  //Database access 
 	var Structures = require('modules/patientStructures');
 	var backend = new Backend(); 
 	var Forms = require('modules/form');					// Common form elements
@@ -19,10 +19,9 @@ define(function(require) {
 	};
 	
 	PrintInsurance.prototype.print = function(data) { 
-		  
+		//Convert to db Date 
 		this.startDate(form.dbDate(this.startDate())); 
 		this.endDate(form.dbDate(this.endDate()));
-			system.log(this.printAll());
 		if(this.startDate() > this.endDate()) 
 			$('.insuranceBox .dateAlert').fadeIn().delay(3000).fadeOut();  
 		else { 
