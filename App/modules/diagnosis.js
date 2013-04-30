@@ -34,7 +34,7 @@ define(function(require) {
 		});
 	}
 	
-	// Get Plan
+	// Get Plan for a single patient 
 	diagnosis.prototype.getPlan = function(patientId, practiceId, date) {
 		var self = this;
 		var fields = ['plan_and_instructions'];
@@ -47,7 +47,7 @@ define(function(require) {
 		});
 	}
 	
-	// Get Letter
+	// Get Letter for a single patient
 	diagnosis.prototype.getLetter = function(patientId, practiceId, date) {
 		var self = this;
 		var fields = ['diagnosis_letter'];
@@ -59,6 +59,7 @@ define(function(require) {
 			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "' AND date='" + date + "'"
 		});
 	}
+	
 	//Get Physician Name and Degree 
 	diagnosis.prototype.getPhysician = function(patientId, practiceId, date) {
 		var self = this;
@@ -107,6 +108,7 @@ define(function(require) {
 	 * 
 	 * These methods save information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
+	 // Save diagnosis for a single patient 
 	 diagnosis.prototype.saveDiagnosis = function(diagnosis,patientId,practiceId,date) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'diagnosis', 'code'];
