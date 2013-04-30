@@ -173,7 +173,7 @@ $stmt = $db->query("SELECT *
 					FROM orders
 					LEFT JOIN order_category
 					ON orders.order_category_id=order_category.id
-				    WHERE orders.service_record_id='$serviceRecordId' ");
+				    WHERE orders.id='$orderId' ");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
 if(count($rows) > 0)
@@ -311,38 +311,6 @@ if(count($order) > 0) {
 	$pdf->Line(11, $y, 199, $y);
 }
   
-/*
-if(isset($order)) {
-	// Separator
-	$y = $pdf->GetY() + 3;
-	$pdf->Line(11, $y, 199, $y);
-	// Type
-	$pdf->SetY($pdf->GetY() + 5);
-	$pdf->SetFont('Arial','B',10);
-	$pdf->Cell(12, 5, 'Order: ');
-	$pdf->SetFont('Arial','',10);
-	$pdf->Cell(10, 5, $order['type'], 0, 1);
-	
-	// Heading
-	$pdf->SetY($pdf->GetY() + 2);
-	$pdf->SetFont('Arial','BU',10);
-	$pdf->Cell(30, 5, 'Description');
-	$pdf->Cell(30, 5, 'Code');
-	$pdf->Cell(30, 5, 'Unit');
-	$pdf->Cell(30, 5, 'Cost', 0, 1);
-	
-	// Data
-	$pdf->SetFont('Arial','',10);
-	$pdf->Cell(30, 5, $order['description']);
-	$pdf->Cell(30, 5, $order['code']);
-	$pdf->Cell(15, 5, $order['unit']);
-	$pdf->Cell(25, 5, '$' . $order['cost'], 0, 1, 'R');
-}   
-
-// Separator
-$y = $pdf->GetY() + 3;
-$pdf->Line(11, $y, 199, $y);
-*/
 /***************************************************************************************************
  * Drugs
  **************************************************************************************************/
