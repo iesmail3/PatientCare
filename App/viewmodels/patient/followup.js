@@ -582,8 +582,4 @@ define(function(require) {
 		}
 		
     };
- //Turn validation on
-	// var errors = vm['formErrors'] = ko.validation.group(vm);
-	// vm.followup().errors.showAllMessages();
-	// return vm;
 });
