@@ -219,9 +219,11 @@ define(function(require) {
 	 
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
-				var f = $.map(data, function(item) {return new structures.Followup(item) });
-					self.followups(f);
-                    self.followup(f[0]); 					
+					var f = $.map(data, function(item) {
+					item.service_date = form.uiDate(item.service_date)
+					return new structures.Followup(item)}); 
+						self.followups(f);
+						self.followup(f[0]);
 				}				
 			});
          

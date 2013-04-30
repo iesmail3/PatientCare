@@ -189,7 +189,7 @@
 		var values = $.map(data, function(k,v) {
 			return [k];
 		});
-		
+		values[7] = form.dbDate(data.serviceDate()); 
 		return self.query({
 				mode:  'update', 
 				table: 'follow_up',
@@ -199,7 +199,7 @@
 			});
 	}
 	
-	// Update a single followup 
+	// Update a single diagnosis
 	followup.prototype.saveDiagnosis = function(id, data) {
 		var self = this;   
 		var fields = ['id','service_record_id','diagnosis','code'];
