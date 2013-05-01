@@ -31,7 +31,6 @@ th, td {
 .table button, .table a {
 	display: block;
 	margin: 0 auto;
-	width: 36px !important;
 }
 
 .patientTree {
@@ -203,6 +202,27 @@ th, td {
 	border: 1px solid #ddd;
 	border-radius: 5px;
 	margin-bottom: 5px;
+}
+
+/* Service Record */
+.serviceRecords, .serviceDate {
+	display: none;
+}
+
+.serviceRecords ul, #service li {
+	list-style: none;
+}
+
+.patientRecordNav i {
+	cursor: pointer;
+}
+
+#service table .recordButton {
+	width: 75px;
+}
+
+#service table .deleteButton {
+	width: 50px;
 }
 
 /* History & Present Illness */

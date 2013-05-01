@@ -12,6 +12,7 @@ define(function(require) {
 	var viewModel  = require('durandal/viewModel');      	// ViewModel
 	var Backend    = require('modules/patient');			// Backend
 	var Structures = require('modules/patientStructures'); 	// Patient Structures 
+	var Forms = require('modules/form');					// Common form elements
 	
 	// Subviews
 	var personal 	= require('viewmodels/patient/personalinformation');
@@ -28,6 +29,7 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
+	var form = new Forms();
 	var backend = new Backend();
 	var structures = new Structures();
 	var patient = ko.observable(new structures.Patient());
@@ -91,6 +93,7 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
+		form: form,
 		backend: backend,
 		structures: structures,
 		patient: patient,
@@ -173,8 +176,8 @@ define(function(require) {
             var backend = new Backend();
 			backend.getServiceRecords(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
-					var serviceRecord = $.map(data, function(item) {return new self.structures.ServiceRecord(item)});
-					self.serviceRecords(serviceRecord);
+					var s = $.map(data, function(item) {return new self.structures.ServiceRecord(item)});
+					self.serviceRecords(s);
 				}
 			});
 
@@ -184,6 +187,22 @@ define(function(require) {
 					self.patient(p);
 				}
 			});
+		},
+		openClose: function(data, element) {
+			var e = $(element.currentTarget);
+			var i = e.attr('class').toLowerCase().indexOf('plus');
+			e.parent().next().slideToggle();
+			if (i >= 0) {
+				e.removeClass().addClass('icon-minus');
+			}
+			else {
+				e.removeClass().addClass('icon-plus');
+			}
+		},
+		toggleChild: function(data, event) {
+			var e = $(event.currentTarget);
+			e.toggleClass('icon-minus').toggleClass('icon-plus');
+			e.parent().parent().parent().find('> .child').slideToggle();
 		},
 		// URL generators
 		personalUrl: personalUrl,

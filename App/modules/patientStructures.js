@@ -1247,6 +1247,14 @@ define(function(require) {
 			this.physicianLast			    = ko.observable('');
 		}
 		
+		// This will return a display label for a service record in the following format: Date (First Last)
+		this.serviceLabel = ko.computed(function() {
+			if (self.physicianFirst() == '' && self.physicianLast() == '')
+				return self.date();
+			else
+				return form.uiDate(self.date()) + " (" + self.physicianFirst() + " " + self.physicianLast() + ")";
+		});
+		
 		// This will return the name in the following format: First Last
 		this.physicianName = ko.computed(function() {
 			if (self.physicianFirst() == '' && self.physicianLast() == '')
