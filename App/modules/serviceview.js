@@ -1,6 +1,7 @@
 /**************************************************************************************************
- * Module name: Patient
- * Author(s): Sean malone
+ * Module name: Service Record (Service View)
+ * Viewmodel: App/viewmodels/patient/servicerecord/serviceview.js
+ * Author(s): Gary Chang
  * Description: This module is used to query the database.
  *************************************************************************************************/
 define(function(require) {
@@ -32,11 +33,12 @@ define(function(require) {
 	// Get Service Records for a Single Patient
 	serviceview.prototype.getServiceRecord = function(id, practiceId, date) {
 		var self = this;
-		var fields = ['service_record.id', 'service_record.patient_id', 'service_record.physician_id',
-			'physician.first_name', 'physician.last_name', 'service_record.date', 'service_record.reason',
+		var fields = ['service_record.id', 'service_record.practice_id', 'service_record.patient_id',
+			'service_record.physician_id', 'service_record.date', 'service_record.reason',
 			'service_record.history', 'service_record.systems_comment', 'service_record.no_known_allergies',
 			'service_record.allergies_verified', 'service_record.physical_examination_comment',
-			'service_record.plan_and_instructions']; 
+			'service_record.plan_and_instructions', 'service_record.diagnosis_letter',
+			'physician.first_name', 'physician.last_name']; 
 		
 		return self.query({
 			mode: 'select',
@@ -47,6 +49,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Physicians for a single practice
 	serviceview.prototype.getPhysicians = function(practiceId) {
 		return this.query({
 			mode: 'select',
@@ -61,13 +64,14 @@ define(function(require) {
 	 * 
 	 * These methods add information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
-	serviceview.prototype.saveServiceRecord = function(id, data) {
+	// Updates a single Service Record
+	serviceview.prototype.saveServiceRecord = function(serviceRecord) {
 		var self = this;
 		var fields = ['id', 'practice_id', 'patient_id', 'physician_id', 'date', 'reason', 'history',
 			'systems_comment', 'no_known_allergies', 'allergies_verified', 'physical_examination_comment',
-			'plan_and_instructions'];
+			'plan_and_instructions', 'diagnosis_letter'];
 		
-		var values = $.map(data, function(k,v) {
+		var values = $.map(serviceRecord, function(k,v) {
 			if(k() == null || k() == undefined) {
 				return [''];
 			}
@@ -80,21 +84,7 @@ define(function(require) {
 			table: 'service_record',
 			fields: fields,
 			values: values,
-			where: "Where id='" + id + "'"
-		});
-	}
-	
-	// Add Service Record for a Single Patient
-	serviceview.prototype.addServiceRecord = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k()];
-		});
-		
-		return this.query({
-			mode: 'insert', 
-			table: 'service_record', 
-			values: values, 
-			where: "WHERE id='" + id + "'"
+			where: "Where id='" + serviceRecord.id() + "'"
 		});
 	}
 	
@@ -103,7 +93,7 @@ define(function(require) {
 	 * 
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
-	// Delete Service Record for a Single Patient
+	// Delete a single Service Record
 	serviceview.prototype.deleteServiceRecord = function(patientId, practiceId, date) {
 		return this.query({
 			mode: 'delete', 

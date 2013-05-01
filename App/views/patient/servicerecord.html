@@ -1,7 +1,9 @@
 <!--
-View:
-Author(s):
-Description:
+View name: Service Records
+Viewmodel: App/viewmodels/patient/servicerecord.js
+Author(s): Gary Chang & Sean Malone
+Description: This view displays the records for each patient's service records. The views for individual
+			 service records are located in servicerecord.
 -->
 <div>
 <ul class="nav nav-tabs patientNavs" id="serviceTab">
@@ -12,72 +14,94 @@ Description:
 	<div class="tab-pane active" id="service">
 		<form class="form-inline formPadding">
 			<div class="row-fluid">
+				<!-- Patient Details -->
 				<!-- ko with: patient -->
 				<fieldset>
 					<legend>Patient Details</legend>
 					<div class="marginBottom5">
-						<input type="text" placeholder="First Name" data-bind="value: firstName" readonly />
-						<input type="text" placeholder="Last Name" data-bind="value: lastName" readonly />
+						<input type="text" placeholder="First Name" data-bind="
+							value: firstName" readonly />
+						<input type="text" placeholder="Last Name" data-bind="
+							value: lastName" readonly />
 					</div>
 					<div class="marginBottom5">
-						<input type="text" placeholder="Date of Birth" data-bind="value: dob" readonly />
-						<input type="text" placeholder="Gender" data-bind="value: gender" readonly />
+						<input type="text" placeholder="Date of Birth" data-bind="
+							value: dob" readonly />
+						<input type="text" placeholder="Gender" data-bind="
+							value: gender" readonly />
 					</div>
 				</fieldset>
 				<!-- /ko -->
+				<!-- Edit Service Record -->
 				<fieldset>
 					<legend>Edit Service Record</legend>
 					<div class="marginBottom5">
-						<input type="text" placeholder="Date of Service" 
-							data-bind="value: serviceRecord().date, enable: serviceRecordState(), 
-								datepicker: true, datepickerOptions: { format: 'yyyy-mm-dd' }" />
-						<select data-bind="options: physicians(), optionsText: 'text', 
-							optionsValue: 'value', optionsCaption: 'Physicians',
-							value: serviceRecord().physicianId"></select>
+						<input type="text" placeholder="Date of Service" data-bind="
+							value: serviceRecord().date,
+							enable: serviceRecordState(), 
+							datepicker: true" />
+						<select data-bind="
+							options: physicians(),
+							optionsText: 'text', 
+							optionsValue: 'value',
+							optionsCaption: 'Physicians',
+							value: serviceRecord().physicianId">
+						</select>
 					</div>
 					<div class="marginBottom5 commentContainer">
-						<textarea class="commentSpan" rows="3" data-bind="value: serviceRecord().reason" 
-							placeholder="Reason for Visit" /></textarea>
+						<textarea class="commentSpan" rows="3" placeholder="Reason for Visit" data-bind="
+							value: serviceRecord().reason" />
+						</textarea>
 					</div>
+					<!-- Buttons -->
 					<div class="pull-right">
-						<button type="button" class="btn btn-small btn-success" 
-							data-bind="click: serviceRecordNew, visible: !serviceRecordState()">
+						<button type="button" class="btn btn-small btn-success" data-bind="
+							click: serviceRecordNew,
+							visible: !serviceRecordState()">
 							New
 						</button>
-						<button type="submit" class="btn btn-small btn-primary" 
-							data-bind="click: serviceRecordSave">
+						<button type="submit" class="btn btn-small btn-primary" data-bind="
+							click: serviceRecordSave">
 							Save
 						</button>
-						<button type="button" class="btn btn-small btn-warning" 
-							data-bind="click: serviceRecordCancel, visible: serviceRecordState()">
+						<button type="button" class="btn btn-small btn-warning" data-bind="
+							click: serviceRecordCancel,
+							visible: serviceRecordState()">
 							Cancel
 						</button>
 					</div>
 				</fieldset>
 			</div>
+			<!-- Service Records Table -->
+			<div class="row-fluid">
+				<table class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Date of Service</th>
+							<th>Physician Name</th>
+							<th>Reason for Visit</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody data-bind="foreach: serviceRecords">
+						<tr>
+							<td><a class="btn btn-small btn-primary recordButton" data-bind="
+								attr: {href: goToRecord}">
+								Go to Record
+							</a></td>
+							<td data-bind="text: date, click: $root.setFields"></td>
+							<td data-bind="text: physicianName, click: $root.setFields"></td>
+							<td data-bind="text: reason, click: $root.setFields"></td>
+							<td><a class="btn btn-small btn-danger deleteButton" data-bind="
+								click: $root.deleteServiceRecord">
+								Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</form>
-		<div class="row-fluid">
-			<table class="table table-bordered table-hover">
-				<thead>
-					<tr>
-						<th></th>
-						<th>Date of Service</th>
-						<th>Physician Name</th>
-						<th>Reason for Visit</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody data-bind="foreach: serviceRecords">
-					<tr>
-						<td><a class="btn btn-small btn-primary" data-bind="attr: {href: goToRecord}">Go to Record</a></td>
-						<td data-bind="text: date, click: $root.setFields"></td>
-						<td data-bind="text: physicianName, click: $root.setFields"></td>
-						<td data-bind="text: reason, click: $root.setFields"></td>
-						<td><a class="btn btn-small btn-danger" data-bind="click: $root.deleteServiceRecord">Delete</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
 	</div>
 </div>
 </div>

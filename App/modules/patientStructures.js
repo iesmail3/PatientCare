@@ -1,7 +1,7 @@
 /**************************************************************************************************
- * Module name: Patient
- * Author(s): Sean malone
- * Description: This module is used to query the database.
+ * Module name: Patient Structures
+ * Author(s): Sean Malone & Gary Chang
+ * Description: This module contains all structures that the Patients section references.
  *************************************************************************************************/
 define(function(require) {
 	/*********************************************************************************************** 
@@ -69,8 +69,8 @@ define(function(require) {
 		}
 		else {
 			this.id					  = ko.observable();
-			this.patientId			  = ko.observable();
 			this.practiceId 		  = ko.observable();
+			this.patientId			  = ko.observable();
 			this.serviceRecordId      = ko.observable(); 
 			this.date				  = ko.observable();
 			this.copayAmount		  = ko.observable();
@@ -270,6 +270,7 @@ define(function(require) {
 		var self = this; 
 		if (data != null) {
 			this.id			 = ko.observable(data.id);
+			this.practiceId	 = ko.observable(data.practice_id);
 			this.patientId	 = ko.observable(data.patient_id);
 			this.serviceRecordId   = ko.observable(data.service_record_id); 
 			this.type		 = ko.observable(data.type);
@@ -281,6 +282,7 @@ define(function(require) {
 		}
 		else {
 			this.id			 = ko.observable();
+			this.practiceId	 = ko.observable();
 			this.patientId	 = ko.observable();
 			this.serviceRecordId = ko.observable(); 
 			this.type		 = ko.observable();
@@ -1227,6 +1229,7 @@ define(function(require) {
 			this.allergiesVerified		    = ko.observable(data.allergies_verified == '1' ? 1 : 0);
 			this.physicalExaminationComment = ko.observable(data.physical_examination_comment);
 			this.planAndInstructions	    = ko.observable(data.plan_and_instructions);
+			this.diagnosisLetter		    = ko.observable(data.diagnosis_letter);
 			this.physicianFirst			    = ko.observable(data.first_name);
 			this.physicianLast			    = ko.observable(data.last_name);
 		}
@@ -1243,9 +1246,18 @@ define(function(require) {
 			this.allergiesVerified		    = ko.observable();
 			this.physicalExaminationComment = ko.observable();
 			this.planAndInstructions	    = ko.observable();
+			this.diagnosisLetter		    = ko.observable();
 			this.physicianFirst			    = ko.observable('');
 			this.physicianLast			    = ko.observable('');
 		}
+		
+		// This will return a display label for a service record in the following format: Date (First Last)
+		this.serviceLabel = ko.computed(function() {
+			if (self.physicianFirst() == '' && self.physicianLast() == '')
+				return self.date();
+			else
+				return form.uiDate(self.date()) + " (" + self.physicianFirst() + " " + self.physicianLast() + ")";
+		});
 		
 		// This will return the name in the following format: First Last
 		this.physicianName = ko.computed(function() {

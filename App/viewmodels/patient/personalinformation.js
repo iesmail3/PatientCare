@@ -2,7 +2,7 @@
  * ViewModel: PersonalInformation & Insurance
  * Author(s): Gary Chang, Imran Esmail, and Sean Malone
  * Description: Handles the business logic for the Personal Information section of the patient
- *              patient record. This includes the Personal Information and Insurance tabs.
+ *              record. This includes the Personal Information and Insurance tabs.
  **************************************************************************************************/
 
 define(function(require) {    

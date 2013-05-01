@@ -1,6 +1,6 @@
 <!--
-View: patient.html
-Author(s): Sean Malone
+View: Patient
+Author(s): Sean Malone & Gary Chang
 Description: This view is the outer patient view. It will hold the tree
 		     and the sub-content for each patient view.
 -->
@@ -15,12 +15,17 @@ Description: This view is the outer patient view. It will hold the tree
 					<ul class="patientRecordNav unstyled">
 						<li><a data-bind="attr: {href: personalUrl}">Personal Information</a></li>
 						<li><a data-bind="attr: {href: socialUrl}">Social & Family History</a></li>
-						<li><a data-bind="attr: {href: serviceUrl}">Service Record</a></li>
+						<li>
+							<i class="icon-plus" data-bind="click: $root.openClose"></i>
+							<a data-bind="attr: {href: serviceUrl}">Service Record</a>
+						</li>
 						<div class="serviceRecords">
 							<ul data-bind="foreach: serviceRecords">
-								<!--<li data-bind="text: date"></li>-->
-								<li><a data-bind="text: date, attr: {href: $root.serviceviewUrl($data)}"></a></li>
-								<ul>
+								<li>
+									<i class="icon-plus" data-bind="click: $root.openClose"></i>
+									<a data-bind="text: serviceLabel, attr: {href: $root.serviceviewUrl($data)}"></a>
+								</li>
+								<ul class="serviceDate">
 									<li><a data-bind="attr: {href: $root.historyUrl($data)}">History & Present Illness</a></li>
 									<li><a data-bind="attr: {href: $root.physicalUrl($data)}">Physical Examinations</a></li>
 									<li><a data-bind="attr: {href: $root.reportUrl($data)}">Labs & X-ray Reports</a></li>

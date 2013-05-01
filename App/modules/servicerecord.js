@@ -1,6 +1,7 @@
 /**************************************************************************************************
- * Module name: Patient
- * Author(s): Sean malone
+ * Module name: Service Record
+ * Viewmodel: App/viewmodels/patient/servicerecord.js
+ * Author(s): Gary Chang
  * Description: This module is used to query the database.
  *************************************************************************************************/
 define(function(require) {
@@ -32,11 +33,11 @@ define(function(require) {
 	// Get Service Records for a Single Patient
 	servicerecord.prototype.getServiceRecords = function(id, practiceId) {
 		var self = this;
-		var fields = ['service_record.id', 'service_record.patient_id', 'service_record.physician_id',
-			'physician.first_name', 'physician.last_name', 'service_record.date', 'service_record.reason',
+		var fields = ['service_record.id', 'service_record.practice_id', 'service_record.patient_id',
+			'service_record.physician_id', 'service_record.date', 'service_record.reason',
 			'service_record.history', 'service_record.systems_comment', 'service_record.no_known_allergies',
 			'service_record.allergies_verified', 'service_record.physical_examination_comment',
-			'service_record.plan_and_instructions']; 
+			'service_record.plan_and_instructions', 'physician.first_name', 'physician.last_name',]; 
 		
 		return self.query({
 			mode: 'select',
@@ -47,6 +48,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Physcicians for a single practice
 	servicerecord.prototype.getPhysicians = function(practiceId) {
 		return this.query({
 			mode: 'select',
@@ -61,139 +63,145 @@ define(function(require) {
 	 * 
 	 * These methods add information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
-	servicerecord.prototype.saveServiceRecord = function(id, data) {
+	// Saves a single Service Record
+	servicerecord.prototype.saveServiceRecord = function(serviceRecord) {
 		var self = this;
 		var fields = ['id', 'practice_id', 'patient_id', 'physician_id', 'date', 'reason', 'history',
 			'systems_comment', 'no_known_allergies', 'allergies_verified', 'physical_examination_comment',
 			'plan_and_instructions'];
 		
-		var values = $.map(data, function(k,v) {
-			return [k()];
-		});
-		
-		return self.query({
-			mode: 'update',
-			table: 'service_record',
-			fields: fields,
-			values: values,
-			where: "WHERE id='" + id + "'"
-		});
-	}
-	
-	// Add a Checkout for a Single Patient
-	servicerecord.prototype.addCheckout = function(patientId, practiceId, date) {
-		var self = this;
-		var fields = ['id', 'practice_id', 'patient_id', 'date', 'copay_amount', 'other_copay',
-			'additional_charges', 'edit_additional_charge', 'insurance_portion', 'total_receivable',
-			'total_payment', 'balance', 'comment']
-		
-		var values = [];
-		$.each(fields, function(k, v) {
-			switch(v) {
-				case 'practice_id':
-					values.push(practiceId);
-					break;
-				case 'patient_id':
-					values.push(patientId);
-					break;
-				case 'date':
-					values.push(date);
-					break;
-				default:
-					values.push('');
-					break;
-			}
-		});
-			
-		return self.query({
-			mode: 'insert',
-			table: 'checkout',
-			fields: fields,
-			values: values
-		});
-	}
-	
-	servicerecord.prototype.addFollowUp = function(patientId, practiceId, date) {
-		var self = this;
-		var fields = ['id', 'practice_id', 'patient_id', 'service_record_id', 'type', 'value', 'unit', 'comment', 'service_date', 'plan'];
-		
-		var values = [];
-		$.each(fields, function(k, v) {
-			switch(v) {
-				case 'practice_id':
-					values.push(practiceId);
-					break;
-				case 'patient_id':
-					values.push(patientId);
-					break;
-				case 'service_date':
-					values.push(date);
-					break;
-				default:
-					values.push('');
-					break;
-			}
-		});
-		
-		var serviceId = '';
-		return self.query({
-			mode: 'select',
-			table: 'service_record',
-			fields: 'id',
-			order: 'ORDER BY id DESC',
-			limit: 'LIMIT 1'
-		}).success(function(data) {
-			$.each(data, function(k, v) {
-				system.log(v.id);
-				serviceId = v.id;
-			});
-			
-			values[3] = serviceId;
-			
-			self.query({
-				mode: 'insert',
-				table: 'follow_up',
-				fields: fields,
-				values: values
-			});
-		});
-	}
-	
-	// Add Service Record for a Single Patient
-	servicerecord.prototype.addServiceRecord = function(data) {
-		var self = this;
-		var fields = ['id', 'practice_id', 'patient_id', 'physician_id', 'date', 'reason', 'history',
-			'systems_comment', 'no_known_allergies', 'allergies_verified', 'physical_examination_comment',
-			'plan_and_instructions'];
-		
-		var values = $.map(data, function(k,v) {
-			if(k() == null || k() == undefined) {
+		var values = $.map(serviceRecord, function(k,v) {
+			if (k() == null || k() == undefined) {
 				return [''];
 			}
-			else
+			else {
 				return [k()];
+			}
 		});
 		
-		var newId = '';
-		return self.query({
-			mode: 'select',
-			table: 'service_record',
-			fields: 'id',
-			order: 'ORDER BY id DESC',
-			limit: 'LIMIT 1'
-		}).success(function(data) {
-			$.each(data, function(key, item) {
-				newId = parseInt(item.id) + 1;
+		if (serviceRecord.id() == '' || serviceRecord.id() == undefined) {
+			return self.query({
+				mode: 'select',
+				table: 'service_record',
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
+				
+				values[0] = newId;
+				serviceRecord.id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'service_record',
+					fields: fields,
+					values: values
+				});
 			});
-			
-			values[0] = newId;
-			
-			self.query({
-				mode: 'insert',
+		}
+		else {
+			return self.query({
+				mode: 'update',
 				table: 'service_record',
 				fields: fields,
-				values: values
+				values: values,
+				where: "WHERE id='" + serviceRecord.id() + "'"
 			});
+		}
+	}
+	
+	// Saves a new Checkout
+	servicerecord.prototype.saveCheckout = function(checkout) {
+		var self = this;
+		var fields = ['id', 'practice_id', 'patient_id', 'service_record_id', 'date', 'copay_amount',
+			'other_copay', 'additional_charges', 'edit_additional_charge', 'insurance_portion', 'total_receivable',
+			'total_payment', 'balance', 'comment', 'primary_insurance', 'secondary_insurance', 'other_insurance'];
+		
+		var values = $.map(checkout, function(k,v) {
+			if (k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		
+		return self.query({
+			mode: 'select',
+			table: 'checkout',
+			fields: 'service_record_id',
+			where: "WHERE service_record_id='" + checkout.serviceRecordId() + "'"
+		}).success(function(data) {
+			if (data.length == 0) {
+				self.query({
+					mode: 'select',
+					table: 'checkout',
+					fields: 'id',
+					order: 'ORDER BY id DESC',
+					limit: 'LIMIT 1'
+				}).success(function(data) {
+					var newId = 1;
+					if (data.length > 0)
+						newId = parseInt(data[0].id) + 1;
+					
+					values[0] = newId;
+					checkout.id(newId);
+					self.query({
+						mode: 'insert',
+						table: 'checkout',
+						fields: fields,
+						values: values
+					});
+				});
+			}
+		});
+	}
+	
+	// Saves a new Followup
+	servicerecord.prototype.saveFollowup = function(followup) {
+		var self = this;
+		var fields = ['id', 'practice_id', 'patient_id', 'service_record_id', 'type', 'value', 'unit',
+			'comment', 'service_date', 'plan'];
+		
+		var values = $.map(followup, function(k,v) {
+			if (k() == null || k() == undefined) {
+				return [''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		
+		return self.query({
+			mode: 'select',
+			table: 'follow_up',
+			fields: 'service_record_id',
+			where: "WHERE service_record_id='" + followup.serviceRecordId() + "'"
+		}).success(function(data) {
+			if (data.length == 0) {
+				self.query({
+					mode: 'select',
+					table: 'follow_up',
+					fields: 'id',
+					order: 'ORDER BY id DESC',
+					limit: 'LIMIT 1'
+				}).success(function(data) {
+					var newId = 1;
+					if (data.length > 0)
+						newId = parseInt(data[0].id) + 1;
+					
+					values[0] = newId;
+					followup.id(newId);
+					self.query({
+						mode: 'insert',
+						table: 'follow_up',
+						fields: fields,
+						values: values
+					});
+				});
+			}
 		});
 	}
 	
@@ -202,7 +210,7 @@ define(function(require) {
 	 * 
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
-	// Delete Service Record for a Single Patient
+	// Delete a single Service Record
 	servicerecord.prototype.deleteServiceRecord = function(id) {
 		return this.query({
 			mode: 'delete', 

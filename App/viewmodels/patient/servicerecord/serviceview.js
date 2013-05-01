@@ -1,7 +1,8 @@
 /***************************************************************************************************
- * ViewModel:
- * Author(s):
- * Description: 
+ * ViewModel name: Service Record (Service View)
+ * View: App/views/patient/servicerecord/serviceview.html
+ * Author(s): Gary Chang
+ * Description: Handles the business logic for a single Service Record of the patient record.
  **************************************************************************************************/
 define(function(require) { 
 	/*********************************************************************************************** 
@@ -9,19 +10,21 @@ define(function(require) {
 	 **********************************************************************************************/
 	var system = require('durandal/system');				// System logger
 	var custom = require('durandal/customBindings');		// Custom bindings
-	var Backend = require('modules/serviceview');			// Module
 	var Structures = require('modules/patientStructures');	// Structures
+	var Backend = require('modules/serviceview');			// Module
+	var Forms = require('modules/form');					// Common form elements
 	var router = require('durandal/plugins/router');		// Router
-	var app = require('durandal/app');
+	var app = require('durandal/app');						// Modal
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
-	var backend = new Backend();
 	var structures = new Structures();
-	var date = ko.observable();
-	var patientId = ko.observable();
+	var backend = new Backend();
+	var form = new Forms();
 	var practiceId = ko.observable();
+	var patientId = ko.observable();
+	var date = ko.observable();
 	var patient = ko.observable(new structures.Patient());
 	var serviceRecord = ko.observable(new structures.ServiceRecord());
 	var physicians = ko.observableArray([]);
@@ -29,20 +32,17 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
-
-	/*********************************************************************************************** 
-	 * ViewModel
-	 *
-	 * For including ko observables and computed functions, add an attribute of the same name.
-	 * Ex: observable: observable
-	 **********************************************************************************************/
+	
 	return {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
-		date: date,
-		patientId: patientId,
+		structures: structures,
+		backend: backend,
+		form: form,
 		practiceId: practiceId,
+		patientId: patientId,
+		date: date,
 		patient: patient,
 		serviceRecord: serviceRecord,
 		physicians: physicians,
@@ -67,14 +67,15 @@ define(function(require) {
 		activate: function(data) {
 			var self = this;
 			
-			self.date(data.date);
+			self.practiceId(global.practiceId);
 			self.patientId(data.patientId);
-			self.practiceId('1');
+			self.date(data.date);
 			
 			// Get the Patient information
 			backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					var p = new structures.Patient(data[0]);
+					p.dob(form.uiDate(p.dob()));
 					self.patient(p);
 				}
 			});
@@ -94,14 +95,19 @@ define(function(require) {
 			return backend.getServiceRecord(self.patientId(), self.practiceId(), self.date()).success(function(data) {
 				if(data.length > 0) {
 					var s = new structures.ServiceRecord(data[0]);
+					s.date(form.uiDate(s.date()));
 					self.serviceRecord(s);
 				}
 			});
 		},
+		// Update the service record
 		saveServiceRecord: function(data) {
-			backend.saveServiceRecord(serviceRecord().id(), serviceRecord()).success(function(data) {
+			serviceRecord().date(form.dbDate(serviceRecord().date()));
+			backend.saveServiceRecord(serviceRecord()).complete(function(data) {
+				serviceRecord().date(form.uiDate(serviceRecord().date()));
 			});
 		},
+		// Delete the service record
 		deleteServiceRecord: function(item) {
 			return app.showMessage(
 				'Are you sure you want to delete the service record for ' + item.date() + '?',

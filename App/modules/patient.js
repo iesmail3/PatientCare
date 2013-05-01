@@ -101,11 +101,19 @@ define(function(require) {
 	
 	// Get Service Records for a Single Patient
 	patient.prototype.getServiceRecords = function(id, practiceId) {
-		return this.query({
+		var self = this;
+		var fields = ['service_record.id', 'service_record.patient_id', 'service_record.physician_id',
+			'physician.first_name', 'physician.last_name', 'service_record.date', 'service_record.reason',
+			'service_record.history', 'service_record.systems_comment', 'service_record.no_known_allergies',
+			'service_record.allergies_verified', 'service_record.physical_examination_comment',
+			'service_record.plan_and_instructions']; 
+		
+		return self.query({
 			mode: 'select',
 			table: 'service_record',
-			fields: '*',
-			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
+			join: "LEFT JOIN physician ON service_record.physician_id=physician.id",
+			fields: fields,
+			where: "WHERE service_record.patient_id='" + id + "' AND service_record.practice_id='" + practiceId + "'"
 		});
 	}
 	
