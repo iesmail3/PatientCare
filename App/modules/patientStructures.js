@@ -275,8 +275,8 @@ define(function(require) {
 		var self = this; 
 		if (data != null) {
 			this.id			 = ko.observable(data.id);
-			this.practiceId	 = ko.observable(data.practice_id);
 			this.patientId	 = ko.observable(data.patient_id);
+			this.practiceId	 = ko.observable(data.practice_id);
 			this.serviceRecordId   = ko.observable(data.service_record_id); 
 			this.type		 = ko.observable(data.type);
 			this.value		 = ko.observable(data.value).extend({required: {message: 'value'}});
@@ -287,8 +287,8 @@ define(function(require) {
 		}
 		else {
 			this.id			 = ko.observable();
-			this.practiceId	 = ko.observable();
 			this.patientId	 = ko.observable();
+			this.practiceId	 = ko.observable();
 			this.serviceRecordId = ko.observable(); 
 			this.type		 = ko.observable();
 			this.value		 = ko.observable().extend({required: {message: 'value'}});

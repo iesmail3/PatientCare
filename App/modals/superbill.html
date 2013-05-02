@@ -11,27 +11,27 @@
 			<form class="orderForm">
 				<div class="row-fluid">
 					<div class="marginBottom5">
-						<select class="">
+						<select class="" data-bind="enable: $root.role().superbill() > 1">
 							<option value="">Visit Type</option> 
 							<option value="">Office Visit</option>
 						</select>
-						<select class="offset2">
+						<select class="offset2" data-bind="enable: $root.role().superbill() > 1">
 							<option value="">level of Service</option> 
 							<option value=""></option>
 						</select>	
 					</div>
 					<div class="marginBottom5">
-						<input type="text" class="input-medium" placeholder="code"/>
-						<input type="text" class="input-medium offset2" placeholder="code"/>
+						<input type="text" class="input-medium" placeholder="code" data-bind="enable: $root.role().superbill() > 1"/>
+						<input type="text" class="input-medium offset2" placeholder="code" data-bind="enable: $root.role().superbill() > 1"/>
 					</div>
 					<!-- ko with: superBill -->
 					<div class="marginBottom5 pull-right">
 						<label class="checkbox inline">
-							<input type="checkbox"/>
+							<input type="checkbox" data-bind="enable: $root.role().superbill() > 1"/>
 							<span>Is&nbsp;Complete&nbsp;?</span>
 						</label>
-						<button type="button" class="btn btn-small btn-primary">Save</button>
-						<button type="button" class="btn btn-small btn-primary">HCFA</button>
+						<button type="button" class="btn btn-small btn-primary" data-bind="visible: $root.role().superbill() > 1">Save</button>
+						<button type="button" class="btn btn-small btn-primary" data-bind="visible: $root.role().superbill() > 1">HCFA</button>
 					</div>
 					<!-- /ko -->
 				</div>
@@ -40,7 +40,7 @@
 			<div class="row-fluid">
 				<fieldset>
 					<legend>Diagnosis</legend>
-					<a class="pull-right" data-bind="click:$root.goToDiagnosis">Modify</a>
+					<a class="pull-right" data-bind="click:$root.goToDiagnosis,visible: $root.role().superbill() > 1">Modify</a>
 					<table class="table table-bordered table-hover">
 							<thead>
 								<tr>       
@@ -63,7 +63,7 @@
 			   <div class="marginBottom5">
 				<fieldset>
 					<legend>Procedure</legend>
-					<a class="pull-right" data-bind="click:$root.goToProcedure">Modify</a>
+					<a class="pull-right" data-bind="click:$root.goToProcedure,visible: $root.role().superbill() > 1">Modify</a>
 					<table class="table table-bordered table-hover">
 							<thead>
 								<tr>       
@@ -87,7 +87,7 @@
 				<div class="marginBottom5">
 				<fieldset>
 					<legend>Orders</legend>
-					<a class="pull-right">Modify</a>
+					<a class="pull-right" data-bind="visible: $root.role().superbill() > 1">Modify</a>
 					<table class="table table-bordered table-hover">
 							<thead>
 								<tr>       
