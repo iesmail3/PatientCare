@@ -22,9 +22,9 @@ define(function(require) {
             router.mapAuto('viewmodels');
             
             // Add url variables
-            router.mapRoute('#/patient/servicerecord/:view/:patientId/:date', 'viewmodels/patient');
-            router.mapRoute('#/patient/:view/', 'viewmodels/patient');
-            router.mapRoute('#/patient/:view/:patientId', 'viewmodels/patient');
+            router.mapRoute('#/patient/servicerecord/:view/:patientId/:date', 'viewmodels/patient', 'Patient');
+            router.mapRoute('#/patient/:view/', 'viewmodels/patient', 'Patient');
+            router.mapRoute('#/patient/:view/:patientId', 'viewmodels/patient', 'Patient');
             
             patient.getRole(global.userId, global.practiceId).success(function(data) {
             	self.role(new userStructures.Role(data[0]));

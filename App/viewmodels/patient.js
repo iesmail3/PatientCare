@@ -7,13 +7,13 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * Includes
 	 **********************************************************************************************/
-	var system     = require('durandal/system');			// System logger
-	var custom     = require('durandal/customBindings');	// Custom bindings
-	var viewModel  = require('durandal/viewModel');      	// ViewModel
-	var Backend    = require('modules/patient');			// Backend
-	var Structures = require('modules/patientStructures'); 	// Patient Structures
-	var UserStructures = require('modules/structures');		// User Structure
-	var Forms = require('modules/form');					// Common form elements
+	var system     		= require('durandal/system');			// System logger
+	var custom     		= require('durandal/customBindings');	// Custom bindings
+	var viewModel  		= require('durandal/viewModel');      	// ViewModel
+	var Backend    		= require('modules/patient');			// Backend
+	var Structures 		= require('modules/patientStructures'); // Patient Structures
+	var UserStructures 	= require('modules/structures');		// User Structure
+	var Forms 			= require('modules/form');				// Common form elements
 	
 	// Subviews
 	var personal 	= require('viewmodels/patient/personalinformation');
@@ -30,17 +30,17 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
-	var form = new Forms();
-	var backend = new Backend();
-	var structures = new Structures();
-	var userStructures = new UserStructures();
-	var patient = ko.observable(new structures.Patient());
-	var serviceRecords = ko.observableArray([]);
-	var patientId = ko.observable();
-	var practiceId = ko.observable();
-	var date = ko.observable();
-	var currentView = viewModel.activator();
-	var role = ko.observable(new userStructures.Role());
+	var form 			= new Forms();
+	var backend 		= new Backend();
+	var structures 		= new Structures();
+	var userStructures 	= new UserStructures();
+	var patient 		= ko.observable(new structures.Patient());
+	var serviceRecords 	= ko.observableArray([]);
+	var patientId 		= ko.observable();
+	var practiceId 		= ko.observable();
+	var date 			= ko.observable();
+	var currentView 	= viewModel.activator();
+	var role 			= ko.observable(new userStructures.Role());
 	
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -135,7 +135,6 @@ define(function(require) {
 			// Get Role
 			self.backend.getRole(global.userId, global.practiceId).success(function(data) {
 				self.role(new userStructures.Role(data[0]));
-				system.log(self.role().serviceRecord());
 			});
 			
 			// Get URL parameters (make sure to create an observable above for each)
@@ -199,6 +198,7 @@ define(function(require) {
 			});
 		},
 		openClose: function(data, element) {
+			system.log('test');
 			var e = $(element.currentTarget);
 			var i = e.attr('class').toLowerCase().indexOf('plus');
 			e.parent().next().slideToggle();

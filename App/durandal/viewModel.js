@@ -64,7 +64,7 @@
     }
 
     function activate(newItem, activeItem, callback, activationData) {
-        if (newItem) {
+    	if (newItem) {
             if (newItem.activate) {
                 system.log('Activating', newItem);
 
@@ -211,8 +211,8 @@
                 }
 
                 computed.isActivating(true);
-
-                var currentItem = activeItem();
+				
+				var currentItem = activeItem();
                 if (settings.areSameItem(currentItem, newItem, activationData)) {
                     computed.isActivating(false);
                     dfd.resolve(true);
@@ -268,7 +268,6 @@
 
         computed.activate = function () {
             var toActivate;
-
             if (initialActiveItem) {
                 toActivate = initialActiveItem;
                 initialActiveItem = false;
@@ -429,7 +428,7 @@
                 return value;
             },
             areSameItem: function (currentItem, newItem, activationData) {
-                return false; //currentItem == newItem;
+                return currentItem == newItem; //false;
             },
             beforeActivate: function (newItem) {
                 return newItem;

@@ -17,7 +17,8 @@
         cancelling = false,
         activeItem = viewModel.activator(),
         activeRoute = ko.observable(),
-        navigationDefaultRoute;
+        navigationDefaultRoute,
+        count = ko.observable(0);
 
     var tryActivateRouter = function () {
         tryActivateRouter = system.noop;
@@ -80,8 +81,8 @@
     }
 
     function ensureRoute(route, params) {
-        var routeInfo = routesByPath[route];
-
+    	var routeInfo = routesByPath[route];
+		
         if (shouldStopNavigation()) {
             return;
         }
@@ -153,6 +154,7 @@
     }
 
     return router = {
+    	count: count,
         ready: ready,
         allRoutes: allRoutes,
         visibleRoutes: visibleRoutes,
@@ -194,7 +196,7 @@
             window.location.replace(url);
         },
         convertRouteToName: function (route) {
-            var value = router.stripParameter(route);
+        	var value = router.stripParameter(route);
             return value.substring(0, 1).toUpperCase() + value.substring(1);
         },
         convertRouteToModuleId: function (route) {
