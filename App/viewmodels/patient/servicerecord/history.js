@@ -15,19 +15,9 @@ define(function(require) {
 	var app = require('durandal/app');
 	
 	/*********************************************************************************************** 
-	 * Validation Configuration
-	 **********************************************************************************************/
-	ko.validation.init({
-		insertMessages: false,
-		parseInputAttributes: true,
-		grouping: {deep: true, observable: true},
-		decorateElement: true,
-		messagesOnModified: false
-	});
-	
-	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
+	var self;
 	var form = new Forms();
 	var backend = new Backend();
 	var structures = new Structures();
@@ -42,10 +32,12 @@ define(function(require) {
 	var medicalProblems = ko.observableArray([]);
 	var medicalProblemsState = ko.observable(false);
 	var tempMedication = ko.observable(new structures.Medication());
+	var medicineNames = ko.observableArray([]);
 	var medicines = ko.observableArray([]);
 	var physicians = ko.observableArray([]);
 	var medication = ko.observable(new structures.Medication());
 	var medications = ko.observableArray([]);
+	var strengthList = ko.observableArray([]);
 	var medicationState = ko.observable(false);
 	var tempAllergiesIntolerance = ko.observable(new structures.AllergiesIntolerance());
 	var allergiesIntolerance = ko.observable(new structures.AllergiesIntolerance());
@@ -60,7 +52,7 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * ViewModel
 	 **********************************************************************************************/
-	var vm = {
+	return {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
@@ -78,10 +70,12 @@ define(function(require) {
 		medicalProblems: medicalProblems,
 		medicalProblemsState: medicalProblemsState,
 		tempMedication: tempMedication,
+		medicineNames: medicineNames,
 		medicines: medicines,
 		physicians: physicians,
 		medication: medication,
 		medications: medications,
+		strengthList: strengthList,
 		medicationState: medicationState,
 		tempAllergiesIntolerance: tempAllergiesIntolerance,
 		allergiesIntolerance: allergiesIntolerance,
@@ -100,30 +94,33 @@ define(function(require) {
 			
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-			$('.reviewFormScroll').height(parseInt($('.tab-pane').height()) - 192);
-			$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 321);
-			$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 326);
-			$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 281);
+			$('.historyFormScroll').height(parseInt($('.tab-pane').height()) - 42);
+			$('.reviewFormScroll').height(parseInt($('.tab-pane').height()) - 145);
+			$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 258);
+			$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 293);
+			$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 214);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
-				$('.reviewFormScroll').height(parseInt($('.tab-pane').height()) - 192);
-				$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 321);
-				$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 326);
-				$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 281);
+				$('.historyFormScroll').height(parseInt($('.tab-pane').height()) - 42);
+				$('.reviewFormScroll').height(parseInt($('.tab-pane').height()) - 145);
+				$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 258);
+				$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 293);
+				$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 214);
 			});
+			
+			// combobox for strength field
+			$('.strengthList').combobox({target: '.strength'});
+			setTimeout(function() {self.popStrength();}, 1500);
 		},
 		// Loads when view is loaded
 		activate: function(data) {
-			var self = this;
+			self = this;
 			
 			self.practiceId('1');
 			//self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
 			self.patientId(data.patientId);
 			self.date(data.date);
 			
-			var backend = new Backend();
 			// Get the current Service Record
 			backend.getServiceRecord(self.patientId(), self.practiceId(), self.date()).success(function(data) {
 				if (data.length > 0) {
@@ -186,6 +183,21 @@ define(function(require) {
 					self.medicalProblemsState(true);
 			});
 			
+			backend.getMedicineList().success(function(data) {
+				if(data.length > 0) {
+					var m = _.map(data, function(item) {return item.medicine_name});
+					self.medicineNames(m);
+					var m = _.map(data, function(item) {
+						return {
+							name: item.medicine_name,
+							strength: item.strength,
+							unit: item.unit
+						}
+					});
+					self.medicines(m);
+				}
+			});
+			
 			backend.getMedication(self.patientId(), self.practiceId(), self.date()).success(function(data) {
 				if(data.length > 0) {
 					var m = $.map(data, function(item) {
@@ -197,16 +209,10 @@ define(function(require) {
 					
 					self.medications(m);
 					self.medication(m[0]);
+					self.popStrength();
 				}
 				else
 					self.medicationState(true);
-			});
-			
-			backend.getMedicineList().success(function(data) {
-				if(data.length > 0) {
-					var m = $.map(data, function(item) {return item.medicine_name});
-					self.medicines(m);
-				}
 			});
 			
 			backend.getPhysicians(self.practiceId()).success(function(data) {
@@ -230,16 +236,6 @@ define(function(require) {
 				}
 				else
 					self.allergiesIntoleranceState(true);
-			});
-			
-			return backend.getAllergiesIntolerance(self.patientId(), self.practiceId(), self.date()).success(function(data) {
-				if(data.length > 0) {
-					var a = $.map(data, function(item) {
-						item.date_recorded = form.uiDate(item.date_recorded);
-						return new structures.AllergiesIntolerance(item)
-					});
-					self.allergiesIntolerances(a);
-				}
 			});
 		}, // End Activate
 		/******************************************************************************************* 
@@ -279,10 +275,10 @@ define(function(require) {
 					v.serviceRecordId(serviceRecord().id());
 					backend.saveReviewOfSystems(v, reviewOfSystems);
 				});
-				$('.reviewAlert').removeClass('alert-danger').addClass('alert-info').html('Review of Systems has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
+				$('.alert-success').fadeIn().delay(3000).fadeOut();
 			}
 			else
-				$('.reviewAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
+				$('.allAlert').fadeIn().delay(3000).fadeOut();
 			
 			reviewOfSystems.push(new structures.ReviewOfSystems());
 			backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord());
@@ -380,19 +376,26 @@ define(function(require) {
 					not_applicable: medicalProblem().notApplicable()
 				});
 				
-				if (medicalProblem().errors().length == 0) {
+				if (medicalProblem().errors().length > 0) {
+					if (medicalProblem().errors().length > 1)
+						$('.allAlert').fadeIn().delay(3000).fadeOut();
+					else if (medicalProblem().errors()[0] == 'type')
+						$('.typeAlert').fadeIn().delay(3000).fadeOut();
+					else if (medicalProblem().errors()[0] == 'description')
+						$('.descriptionAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else {
 					backend.saveMedicalProblem(temp).complete(function(data) {
-						temp.onsetDate(form.uiDate(temp.onsetDate()));
-						temp.resolutionDate(form.uiDate(temp.resolutionDate()));
-						medicalProblem(temp);
-						medicalProblems.push(medicalProblem());
-						medicalProblemsState(false);
-						if (data.responseText != 'updateFail' && data.responseText != 'insertFail')
-							$('.problemAlert').removeClass('alert-danger').addClass('alert-info').html('Medical problem has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
+						if (data.responseText != 'insertFail') {
+							temp.onsetDate(form.uiDate(temp.onsetDate()));
+							temp.resolutionDate(form.uiDate(temp.resolutionDate()));
+							medicalProblem(temp);
+							medicalProblems.push(medicalProblem());
+							medicalProblemsState(false);
+							$('.alert-success').fadeIn().delay(3000).fadeOut();
+						}
 					});
 				}
-				else
-					$('.problemAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 			// Update
 			else {
@@ -408,20 +411,25 @@ define(function(require) {
 					not_applicable: medicalProblem().notApplicable()
 				});
 				
-				if (medicalProblem().errors().length == 0) {
-					system.log("Got in update");
-					system.log(temp.id());
+				if (medicalProblem().errors().length > 0) {
+					if (medicalProblem().errors().length > 1)
+						$('.allAlert').fadeIn().delay(3000).fadeOut();
+					else if (medicalProblem().errors()[0] == 'type')
+						$('.typeAlert').fadeIn().delay(3000).fadeOut();
+					else if (medicalProblem().errors()[0] == 'description')
+						$('.descriptionAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else {
 					if (temp.id() != '' && temp.id() != undefined) {
 						backend.saveMedicalProblem(temp).complete(function(data) {
-							temp.onsetDate(form.uiDate(temp.onsetDate()));
-							temp.resolutionDate(form.uiDate(temp.resolutionDate()));
-							if (data.responseText != 'updateFail')
-								$('.problemAlert').removeClass('alert-danger').addClass('alert-info').html('Medical problem has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
+							if (data.responseText != 'updateFail') {
+								temp.onsetDate(form.uiDate(temp.onsetDate()));
+								temp.resolutionDate(form.uiDate(temp.resolutionDate()));
+								$('.alert-success').fadeIn().delay(3000).fadeOut();
+							}
 						});
 					}
 				}
-				else
-					$('.problemAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 		},
 		medicalProblemCancel: function(data) {
@@ -451,12 +459,16 @@ define(function(require) {
 		 * Medication Methods
 		 *******************************************************************************************/
 		medicationSetFields: function(data) {
-			if (!medicationState())
+			if (!medicationState()) {
 				medication(data);
+				$('.strengthList').combobox({target: '.strength'});
+				self.popStrength();
+			}
 		},
 		medicationNew: function(data) {
 			tempMedication(medication());
 			medication(new structures.Medication());
+			$('.strengthList').combobox({target: '.strength'});
 			medicationState(true);
 		},
 		medicationSave: function(data) {
@@ -476,19 +488,25 @@ define(function(require) {
 					comment: medication().comment()
 				});
 				
-				if (medication().errors().length == 0) {
+				if (medication().errors().length > 0) {
+					if (medication().errors().length > 1)
+						$('.allAlert').fadeIn().delay(3000).fadeOut();
+					else if (medication().errors()[0] == 'medicine')
+						$('.medicineAlert').fadeIn().delay(3000).fadeOut();
+					else if (medication().errors()[0] == 'sig')
+						$('.sigAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else {
 					backend.saveMedication(temp).complete(function(data) {
+						if (data.responseText != 'insertFail')
 						temp.prescribedDate(form.uiDate(temp.prescribedDate()));
 						temp.discontinuedDate(form.uiDate(temp.discontinuedDate()));
 						medication(temp);
 						medications.push(medication());
 						medicationState(false);
-						if (data.responseText != 'updateFail')
-							$('.medicationAlert').removeClass('alert-danger').addClass('alert-info').html('Medication has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
+						$('.alert-success').fadeIn().delay(3000).fadeOut();
 					});
 				}
-				else
-					$('.medicationAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 			else {
 				var temp = new structures.Medication({
@@ -507,22 +525,29 @@ define(function(require) {
 					comment: medication().comment()
 				});
 				
-				if (medication().errors().length == 0) {
+				if (medication().errors().length > 0) {
+					if (medication().errors().length > 1)
+						$('.allAlert').fadeIn().delay(3000).fadeOut();
+					else if (medication().errors()[0] == 'medicine')
+						$('.medicineAlert').fadeIn().delay(3000).fadeOut();
+					else if (medication().errors()[0] == 'sig')
+						$('.sigAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else {
 					if (temp.id() != '' && temp.id() != undefined) {
 						backend.saveMedication(temp).complete(function(data) {
-							temp.prescribedDate(form.uiDate(temp.prescribedDate()));
-							temp.discontinuedDate(form.uiDate(temp.discontinuedDate()));
-							if (data.responseText != 'updateFail' && data.responseText != 'insertFail')
-								$('.medicationAlert').removeClass('alert-danger').addClass('alert-info').html('Medication has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
+							if (data.responseText != 'updateFail') {
+								temp.prescribedDate(form.uiDate(temp.prescribedDate()));
+								temp.discontinuedDate(form.uiDate(temp.discontinuedDate()));
+							}
 						});
 					}
 				}
-				else
-					$('.medicationAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 		},
 		medicationCancel: function(data) {
 			medication(tempMedication());
+			$('.strengthList').combobox({target: '.strength'});
 			medicationState(false);
 		},
 		medicationDelete: function(item) {
@@ -544,6 +569,18 @@ define(function(require) {
 				}
 			});
 		},
+		popStrength: function() {
+			// Delay for .2 seconds to allow data to cascade
+			setTimeout(function () {
+				var list = _.filter(medicines(), function(item) {
+					return item.name == medication().medicine();
+				})
+				list = _.map(list, function(item) {
+					return item.strength + " " + item.unit;
+				});
+				strengthList(list);
+			}, 200);
+		},
 		/******************************************************************************************* 
 		 * Allergies Intolerance Methods
 		 *******************************************************************************************/
@@ -553,9 +590,6 @@ define(function(require) {
 		allergiesIntoleranceAllergiesVerified: function(data) {
 			serviceRecord().noKnownAllergies(false);
 		},
-		/******************************************************************************************* 
-		 * Allergys Intolerance Methods
-		 *******************************************************************************************/
 		allergiesIntoleranceSetFields: function(data) {
 			if (!allergiesIntoleranceState())
 				allergiesIntolerance(data)
@@ -616,19 +650,28 @@ define(function(require) {
 					date_inactive: form.dbDate(form.currentDate())
 				});
 				
-				if (allergiesIntolerance().errors().length == 0) {
+				if (allergiesIntolerance().errors().length > 0) {
+					if (allergiesIntolerance().errors().length > 1)
+						$('.allAlert').fadeIn().delay(3000).fadeOut();
+					else if (allergiesIntolerance().errors()[0] == 'details')
+						$('.detailsAlert').fadeIn().delay(3000).fadeOut();
+					else if (allergiesIntolerance().errors()[0] == 'type')
+						$('.typeAlert').fadeIn().delay(3000).fadeOut();
+					else if (allergiesIntolerance().errors()[0] == 'status')
+						$('.statusAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else {
 					backend.saveAllergiesIntolerance(temp).complete(function(data) {
-						temp.dateRecorded(form.uiDate(temp.dateRecorded()));
-						temp.dateInactive(form.uiDate(temp.dateInactive()));
-						allergiesIntolerance(temp);
-						allergiesIntolerances.push(allergiesIntolerance());
-						allergiesIntoleranceState(false);
-						if (data.responseText != 'updateFail')
-							$('.allergyAlert').removeClass('alert-danger').addClass('alert-info').html('Allergy has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
+						if (data.responseText != 'insertFail') {
+							temp.dateRecorded(form.uiDate(temp.dateRecorded()));
+							temp.dateInactive(form.uiDate(temp.dateInactive()));
+							allergiesIntolerance(temp);
+							allergiesIntolerances.push(allergiesIntolerance());
+							allergiesIntoleranceState(false);
+							$('.alert-success').fadeIn().delay(3000).fadeOut();
+						}
 					});
 				}
-				else
-					$('.allergyAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 			else {
 				var temp = new structures.AllergiesIntolerance({
@@ -641,20 +684,29 @@ define(function(require) {
 					date_inactive: allergiesIntolerance().dateInactive()
 				});
 				
-				if (allergiesIntolerance().errors().length == 0) {
+				if (allergiesIntolerance().errors().length > 0) {
+					if (allergiesIntolerance().errors().length > 1)
+						$('.allAlert').fadeIn().delay(3000).fadeOut();
+					else if (allergiesIntolerance().errors()[0] == 'details')
+						$('.detailsAlert').fadeIn().delay(3000).fadeOut();
+					else if (allergiesIntolerance().errors()[0] == 'type')
+						$('.typeAlert').fadeIn().delay(3000).fadeOut();
+					else if (allergiesIntolerance().errors()[0] == 'status')
+						$('.statusAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else {
 					if (temp.id() != '' && temp.id() != undefined) {
 						if (temp.status() == 'Inactive')
 							temp.dateInactive(form.dbDate(temp.dateInactive()));
 						backend.saveAllergiesIntolerance(temp).complete(function(data) {
-							temp.dateRecorded(form.uiDate(temp.dateRecorded()));
-							temp.dateInactive(form.uiDate(temp.dateInactive()));
-							if (data.responseText != 'updateFail')
-								$('.allergyAlert').removeClass('alert-danger').addClass('alert-info').html('Allergy has been saved.').fadeIn('slow').delay(2000).fadeOut('slow');
+							if (data.responseText != 'updateFail') {
+								temp.dateRecorded(form.uiDate(temp.dateRecorded()));
+								temp.dateInactive(form.uiDate(temp.dateInactive()));
+								$('.alert-success').fadeIn().delay(3000).fadeOut();
+							}
 						});
 					}
 				}
-				else
-					$('.allergyAlert').removeClass('alert-info').addClass('alert-danger').html('You have missing required fields.').fadeIn('slow').delay(2000).fadeOut('slow');
 			}
 		},
 		allergiesIntoleranceCancel: function(data) {
@@ -681,9 +733,4 @@ define(function(require) {
 			});
 		}
 	}; // End ViewModel
-	
-	// Turn validation on
-	var errors = vm['formErrors'] = ko.validation.group(vm);
-	//vm.reviewOfSystem().errors.showAllMessages();
-	return vm;
 });

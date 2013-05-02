@@ -2,14 +2,22 @@
 	<!-- ko with: medication -->
 	<div class="row-fluid">
 		<div class="alertHolder">
-			<div class="alert medicationAlert"></div>
+			<div class="alert alert-danger allAlert">You are missing required fields.</div>
+			<div class="alert alert-danger medicineAlert">Medicine is required.</div>
+			<div class="alert alert-danger sigAlert">Sigs is required.</div>
+			<div class="alert alert-success ">Successfully saved.</div>
 		</div>
 		<div class="marginBottom5">
-			<input type="text" placeholder="Medicine" data-bind="
-				typeahead: {value: medicine, source: $root.medicines}" required />
-			<span class="required">*</span>
-			<input type="text" class="input-medium" placeholder="Strength" data-bind="
+			<input type="text" class="input-xlarge" placeholder="Medicine" data-bind="
+				value: medicine,
+				typeahead: {value: medicine, source: $root.medicineNames},
+				event: {blur: $root.popStrength},
+				valueUpdate: 'afterkeydown'" />
+			<input type="text" class="input-xmedium strength" placeholder="Strength" data-bind="
 				value: strength" />
+			<select class="strengthList selectSource" data-bind="foreach: $root.strengthList">
+				<option data-bind="text: $data"></option>
+			</select>
 			<input type="text" class="input-medium" placeholder="Quantity" data-bind="
 				value: quantity" />
 		</div>
@@ -26,15 +34,13 @@
 				optionsText: 'text',
 				value: sigs,
 				optionsValue: 'value',
-				optionsCaption: 'Sigs'" required>
+				optionsCaption: 'Sigs'">
 			</select>
-			<span class="required">*</span>
-			<select class="input-xmedium" data-bind="value: status" required>
+			<select class="input-xmedium" data-bind="value: status">
 				<option value="" disabled selected data-bind="visible: false">Status</option>
 				<option value="Current">Current</option>
 				<option value="Discontinued">Discontinued</option>
 			</select>
-			<span class="required">*</span>
 		</div>
 		<div class="marginBottom5">
 			<input type="text" placeholder="Prescribed By" data-bind="
@@ -53,11 +59,11 @@
 				datepicker: true" />
 		</div>
 		<div class="marginBottom5 commentContainer">
-			<textarea class="commentSpan" rows="3" placeholder="Comments" data-bind="
+			<textarea class="commentSpan medicationComment" placeholder="Comments" data-bind="
 				value: comment" />
 			</textarea>
 		</div>
-		<div class="pull-right">
+		<div class="marginBottom5 pull-right">
 			<button type="button" class="btn btn-small btn-success" data-bind="
 				click: $root.medicationNew,
 				visible: !$root.medicationState()">
@@ -75,32 +81,32 @@
 		</div>
 	</div>
 	<!-- /ko -->
-</form>
-<div class="medicationFormScroll">
-	<div class="row-fluid">
-		<table class="table table-bordered table-hover">
-			<thead>
-				<tr>
-					<th>Medicine Name</th>
-					<th>Strength</th>
-					<th>Quantity</th>
-					<th>Route</th>
-					<th>Sigs</th>
-					<th>Status</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody data-bind="foreach: medications">
-				<tr>
-					<td data-bind="click: $root.medicationSetFields, text: medicine"></td>
-					<td data-bind="click: $root.medicationSetFields, text: strength"></td>
-					<td data-bind="click: $root.medicationSetFields, text: quantity"></td>
-					<td data-bind="click: $root.medicationSetFields, text: route"></td>
-					<td data-bind="click: $root.medicationSetFields, text: sigs"></td>
-					<td data-bind="click: $root.medicationSetFields, text: status"></td>
-					<td><a class="btn btn-small btn-danger" data-bind="click: $root.medicationDelete">Delete</a></td>
-				</tr>
-			</tbody>
-		</table>
+	<div class="medicationFormScroll">
+		<div class="row-fluid">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>Medicine Name</th>
+						<th>Strength</th>
+						<th>Quantity</th>
+						<th>Route</th>
+						<th>Sigs</th>
+						<th>Status</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach: medications">
+					<tr>
+						<td data-bind="click: $root.medicationSetFields, text: medicine"></td>
+						<td data-bind="click: $root.medicationSetFields, text: strength"></td>
+						<td data-bind="click: $root.medicationSetFields, text: quantity"></td>
+						<td data-bind="click: $root.medicationSetFields, text: route"></td>
+						<td data-bind="click: $root.medicationSetFields, text: sigs"></td>
+						<td data-bind="click: $root.medicationSetFields, text: status"></td>
+						<td><a class="btn btn-small btn-danger" data-bind="click: $root.medicationDelete">Delete</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
-</div>
+</form>

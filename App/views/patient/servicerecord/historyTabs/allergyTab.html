@@ -1,7 +1,11 @@
 <form class="form-inline formPadding">
 	<div class="row-fluid">
 		<div class="alertHolder">
-			<div class="alert alert-danger allergyAlert">You have are missing required fields.</div>
+			<div class="alert alert-danger allAlert">You are missing required fields.</div>
+			<div class="alert alert-danger detailsAlert">Allergy details is required.</div>
+			<div class="alert alert-danger typeAlert">Type is required.</div>
+			<div class="alert alert-danger statusAlert">Status is required.</div>
+			<div class="alert alert-success">Successfully saved.</div>
 		</div>
 		<div class="marginBottom5">
 			<label class="checkbox allergiesCheckbox">
@@ -18,32 +22,31 @@
 			</label>
 		</div>
 		<div class="marginBottom5 commentContainer">
-			<span class="required">*</span>
-			<textarea class="commentSpan" rows="3" placeholder="Allergy Details" data-bind="
+			<textarea class="commentSpan allergyComment" placeholder="Allergy Details" data-bind="
 				value: allergiesIntolerance().details,
-				enable: !serviceRecord().noKnownAllergies()" required />
+				enable: !serviceRecord().noKnownAllergies()" />
 			</textarea>
 		</div>
 		<div class="marginBottom5">
 			<div class="allergyPushRight">
 				<select class="input-xmedium" data-bind="
 					value: allergiesIntolerance().type,
-					enable: !serviceRecord().noKnownAllergies()" required>
+					enable: !serviceRecord().noKnownAllergies()">
 					<option value="" disabled selected style="display:none;">Type</option>
 					<option value="Allergy">Allergy</option>
 					<option value="Intolerance">Intolerance</option>
 				</select>
-				<span class="required">*</span>
+				
 			</div>
 			<div class="allergyPushRight">
 				<select class="input-small" data-bind="
 					value: allergiesIntolerance().status,
-					enable: !serviceRecord().noKnownAllergies()" required>
+					enable: !serviceRecord().noKnownAllergies()">
 					<option value="" disabled selected style="display:none;">Status</option>
 					<option value="Active">Active</option>
 					<option value="Inactive">Inactive</option>
 				</select>
-				<span class="required">*</span>
+				
 			</div>
 			<div class="allergyPushRight">
 				<span class="label label-info" data-bind="
@@ -63,7 +66,7 @@
 					datepicker: true" />
 			</div>
 		</div>
-		<div class="pull-right">
+		<div class="marginBottom5 pull-right">
 			<button type="button" class="btn btn-small btn-success" data-bind="
 				click: $root.allergiesIntoleranceNew,
 				visible: !$root.allergiesIntoleranceState()">
@@ -80,28 +83,28 @@
 			</button>
 		</div>
 	</div>
-</form>
-<div class="allergyFormScroll">
-	<div class="row-fluid">
-		<table class="table table-bordered table-hover">
-			<thead>
-				<tr>
-					<th>Type</th>
-					<th>Details</th>
-					<th>Status</th>
-					<th>Date Recorded</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody data-bind="foreach: allergiesIntolerances">
-				<tr>
-					<td data-bind="click: $root.allergiesIntoleranceSetFields, text: type"></td>
-					<td data-bind="click: $root.allergiesIntoleranceSetFields, text: details"></td>
-					<td data-bind="click: $root.allergiesIntoleranceSetFields, text: status"></td>
-					<td data-bind="click: $root.allergiesIntoleranceSetFields, text: dateRecorded"></td>
-					<td><a class="btn btn-small btn-danger" data-bind="click: $root.allergiesIntoleranceDelete">Delete</a></td>
-				</tr>
-			</tbody>
-		</table>
+	<div class="allergyFormScroll">
+		<div class="row-fluid">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>Type</th>
+						<th>Details</th>
+						<th>Status</th>
+						<th>Date Recorded</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach: allergiesIntolerances">
+					<tr>
+						<td data-bind="click: $root.allergiesIntoleranceSetFields, text: type"></td>
+						<td data-bind="click: $root.allergiesIntoleranceSetFields, text: details"></td>
+						<td data-bind="click: $root.allergiesIntoleranceSetFields, text: status"></td>
+						<td data-bind="click: $root.allergiesIntoleranceSetFields, text: dateRecorded"></td>
+						<td><a class="btn btn-small btn-danger" data-bind="click: $root.allergiesIntoleranceDelete">Delete</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
-</div>
+</form>
