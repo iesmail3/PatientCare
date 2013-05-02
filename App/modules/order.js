@@ -1,6 +1,6 @@
 /**************************************************************************************************
  * Module name: Patient
- * Author(s): Sean malone
+ * Author(s): Sean Malone
  * Description: This module is used to query the database.
  *************************************************************************************************/
 define(function(require) {
