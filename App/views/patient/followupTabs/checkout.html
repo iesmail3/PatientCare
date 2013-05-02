@@ -34,38 +34,50 @@
 								</div> 
 							</div>         
 						</div>
-						<div class="marginBottom5">
-							<span class="label">Co-Payment amount</span>
-							<input type="text" class="input-small" placeholder="0" data-bind="value:$root.copayment,visible: $root.role().checkout() > 1"disabled/>
+						<form class="form-horizontal">
+						<div class="control-group">
+							<label class="control-label" for="inputCopayment">Co-Payment amount</label>
+							<div class="controls">
+							<input type="text" id = "inputCopayment"class="input-small" placeholder="0" data-bind="value:$root.copayment,enable: $root.role().checkout() > 1"disabled/>
+							</div>
 						</div>
-						<div class="marginBottom5">   
-							<span class="label">Other Co-Pay</span>
-							<input type="text" class="input-small" placeholder="0" data-bind="value: otherCopay,enable: $root.role().checkout() > 1"/>
+						<div class="control-group">   
+							<label class="control-label" for="otherCopay">Other Copay</label>
+							<div class="controls">
+							<input type="text" id="otherCopay"class="input-small" placeholder="0" data-bind="value: otherCopay,enable: $root.role().checkout() > 1"/>
+							</div>
 						</div>
-						<div class="marginBottom5">   
-							<label id="additionalCharges" class="checkbox inline">
+						<div class="control-group">   
+							<label id="additionalCharges" class="control-label checkbox inline">
 							<input data-bind="checked: editAdditionalCharge,enable: $root.role().checkout() > 1" type="checkbox" /><span>Additional Charges</span>
 							</label> 
+							<div class="controls">
 							<input type="text" class="input-small" placeholder="0" data-bind="enable: editAdditionalCharge,
 							 value: additionalCharges,enable: $root.role().checkout() > 1"/>
+							</div>
 						</div>       
-						<div class="marginBottom5">     
-							<span class="label">Insurance Portion</span>  
+						<div class="control-group">     
+							<label class="control-label" for="insurancePortion">Insurance Portion</label>
+							<div class="controls">
 							<input type="text" class="input-small" placeholder="0" data-bind="value: insurancePortion" disabled/>
+							</div>
 						</div>
-						<div class="marginBottom5">
-							<span class="label label-inverse">Total Receivable</span>
+						<div class="control-group">
+							<span class="label label-inverse control-label">Total Receivable</span>
+							<div class="controls">
 							<input type="text" class="input-small" placeholder="0" data-bind="value: $root.totalReceivable"disabled/>  
+							</div>
 						</div>
-						<div class="marginBottom5">
+						<div class="control-group">
 							<input type="text" class="input-large" placeholder="Comments" data-bind="value: comment,enable: $root.role().checkout() > 1"/>
 						</div>
 						<div class="marginBottom5">
 							<a data-bind="click:$root.selectLink">Additional Details</a>
-						</div>	
+						</div>
+                        </form>						
 					</div> 
 				<!-- /ko -->  
-					<div class="span6">  
+					<div class="span6 checkoutRight">  
 						<div class="checkoutTableHolder marginBottom5">
 					<!-- ko with: paymentMethod -->  
 							<table class="paymentTable table table-bordered table-hover">
@@ -88,13 +100,13 @@
 												</select>
 											</td>
 											<td class="input-small">											 
-												<input class="input-medium"	data-bind="
+												<input class="input-medium" type="text"	data-bind="
 													event: {keyup: $root.addRow},
 													value: particulars, 
 													valueUpdate: 'afterkeydown',enable: $root.role().checkout() > 1" />
 											</td> 
 											<td class="input-small">									
-												<input class="input-small" data-bind="
+												<input class="input-small" type="text" data-bind="
 													event: {keyup: $root.addRow},
 													value: amount, 
 													valueUpdate: 'afterkeydown',enable: $root.role().checkout() > 1" />

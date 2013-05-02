@@ -115,9 +115,17 @@ th, td {
 }
 
 .paymentTable { max-width: none; }
-.paymentTable input, .paymentTable select { width: 100%; }
+.paymentTable input, .paymentTable select { width: 88%; }
 .paymentTable td { padding: 5px; }
 .paymentTable th:last-child { width: 15%; }
+
+.checkoutRight {
+     width: 53% !important;
+}
+
+.checkoutRight .label-inverse {
+     margin-left: 10px;
+}    
 
 .alert { display: none; }
 
@@ -650,7 +658,8 @@ width: 600px;
 
 .checkoutTableHolder {
 	height: 150px;
-	overflow-y: auto;
+    overflow-y: auto;
+    margin-left: 15px;
 }
 
 .followupTableHolder {
