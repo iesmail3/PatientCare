@@ -48,8 +48,8 @@ define(function(require) {
 		showAdditionalDetails: function(title,options) {		      
 			return modalDialog.show(new AdditionalDetails(title,options));
 		},
-		showSuperbill: function(superBill,title,options) {		      
-			return modalDialog.show(new Superbill(superBill,title,options));
+		showSuperbill: function(superBill,role,title,options) {		      
+			return modalDialog.show(new Superbill(superBill,role,title,options));
 		},
 		showDiagnosis: function(title,diagnosis,options) { 
 			return modalDialog.show(new Diagnosis(title,diagnosis,options)); 

@@ -6,9 +6,10 @@ define(function(require) {
 	var backend = new Backend(); 
 	var self;
 	
-	var Superbill = function(superBill,title,options) { 
+	var Superbill = function(superBill,role,title,options) { 
 		self = this; 
 		this.title = title || Superbill.defaultTitle; 
+		this.role = role;
 		this.options = options || Superbill.defaultOptions;
 		this.superBill = ko.observable(superBill);
 		this.diagnosis = ko.observableArray([]);

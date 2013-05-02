@@ -9,7 +9,7 @@
 								<th>Created By</th>
 								<th>Mode</th>
 								<th>Comments</th>
-								<th></th>
+								<th data-bind="visible: $root.role().prescription() > 1"></th>
 							</tr>
 						</thead>
 						<tbody data-bind="foreach: prescriptions">     
@@ -20,7 +20,7 @@
 								<td data-bind="text: createdBy"></td>  
 								<td data-bind="text:mode"></td>
 								<td data-bind="text: comment"></td>	
-								<td>
+								<td data-bind="visible: $root.role().prescription() > 1">
 									<button type="button" class="btn btn-small btn-danger" 
 									data-bind="click: $root.deletePrescription">
 									 Delete
@@ -32,6 +32,6 @@
 				</div>
 			</div>
 			<div class="pull-right marginBottom5">
-					<button type="button" class="btn btn-small" data-bind="click:$root.clickPrint">Print</button>
-					<button type="button" class="btn btn-small" data-bind="click:$root.selectRow">Add</button>
+					<button type="button" class="btn btn-small" data-bind="click:$root.clickPrint,visible: $root.role().prescription() > 1">Print</button>
+					<button type="button" class="btn btn-small" data-bind="click:$root.selectRow,visible: $root.role().prescription() > 1">Add</button>
 		    </div>

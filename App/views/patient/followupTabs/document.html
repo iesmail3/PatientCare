@@ -9,7 +9,7 @@
 			<fieldset>
 				<legend>Search</legend>
 				<div class="marginBottom5">
-					<select class="input-medium" data-bind="value:documentType,event:{ change:searchByType}">
+					<select class="input-medium" data-bind="value:documentType,event:{ change:searchByType},enable: $root.role().miscDocs() > 1">
 						<option value="Document Type">Document Type</option>
 						<option value="All">All</option>
 						<option value="Labs">Labs</option>
@@ -26,7 +26,7 @@
 			<fieldset>   
 				<legend>Details</legend>      
 					<div class="marginBottom5">
-						<select class="input-medium" data-bind="value:type">
+						<select class="input-medium" data-bind="value:type,enable: $root.role().miscDocs() > 1">
 							<option value="">Document Type</option>
 							<option value="Labs">Labs</option>
 							<option value="X-Ray">X-Ray</option>
@@ -34,19 +34,19 @@
 							<option value="Procedures">Procedures</option>
 							<option value="Other">Other</option>
 						</select>
-						<div class="fileupload fileupload-new pull-right" data-bind="visible:$root.isNewDocument(),uploader: true">    
+						<div class="fileupload fileupload-new pull-right" data-bind="visible:$root.isNewDocument(),uploader: true,visible: $root.role().miscDocs() > 1">    
 						 </div>
 					</div> 							             
 					<div class="marginBottom5">
-						<textarea class="input-xxlarge" rows="3" placeholder="Comment" data-bind="value: comment"></textarea>
+						<textarea class="input-xxlarge" rows="3" placeholder="Comment" data-bind="value: comment,enable: $root.role().miscDocs() > 1"></textarea>
 					</div>  
 					<div class="marginBottom5">
 						<label class="checkbox inline">
-							<input type="checkbox" data-bind="checked:isReviewed"/><span>Is Reviewed?</span>
+							<input type="checkbox" data-bind="checked:isReviewed,enable: $root.role().miscDocs() > 1"/><span>Is Reviewed?</span>
 						</label>      
-						<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.documentAdd,visible: $root.documentState()">New</button>
-						<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.saveDocument,visible: !$root.documentSave()">Save</button>
-						<button type="button" id ="cancelButton" class="btn btn-small btn-danger" data-bind="click:$root.documentCancel,visible:!$root.documentState()">Cancel</button>
+						<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.documentAdd,visible: $root.documentState(),visible: $root.role().miscDocs() > 1">New</button>
+						<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.saveDocument,visible: !$root.documentSave(),visible: $root.role().miscDocs() > 1">Save</button>
+						<button type="button" id ="cancelButton" class="btn btn-small btn-danger" data-bind="click:$root.documentCancel,visible:!$root.documentState(),visible: $root.role().miscDocs() > 1">Cancel</button>
 					</div>
 			</fieldset>  
 		</div> 
@@ -63,12 +63,12 @@
 						<th>Doc Type</th>
 						<th>Is Reviewed?</th>     
 						<th>Comments</th> 
-						<th>File Name </th>
+						<th data-biind="enable: $root.role().miscDocs() > 1">File Name </th>
 					</tr>
 				</thead>    
 				<tbody data-bind="foreach: documents">     
 					<tr data-bind="click: $root.setDocumentFields">  
-						<td>
+						<td data-biind="enable: $root.role().miscDocs() > 1">
 						<button type="button" id ="viewfile" class="btn btn-small btn-primary viewFileButton"data-bind="click: $root.displayFile">View File</button>
 						</td>
 						<td data-bind="text: date"></td>      

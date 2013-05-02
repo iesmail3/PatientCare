@@ -15,6 +15,7 @@ define(function(require) {
 	 var Structures = require('modules/patientStructures'); 
 	 var modal	   = require('modals/modals');				// Modals
 	 var app = require('durandal/app');
+	 var UserStructures	= require('modules/structures');		// User structures
 	/*********************************************************************************************** 
 	 
 	/* KO Observables
@@ -22,6 +23,8 @@ define(function(require) {
 	 var form 			= new Forms();
 	 var backend 		= new Backend();
 	 var structures 	= new Structures();
+	 var userStructures  = new UserStructures();
+	 var role			= ko.observable(new userStructures.Role());
 	 var followup 		= ko.observable(new structures.Followup());
 	 var followups      = ko.observableArray([]); 
 	 var checkout 		= ko.observable(new structures.Checkout()); 
@@ -134,6 +137,7 @@ define(function(require) {
 		 * Attributes
 		 *******************************************************************************************/
 		structures: structures,
+		role: role,
 		followup: followup,
 		followups: followups,  
 		checkout: checkout,
@@ -211,6 +215,10 @@ define(function(require) {
 		},
 		// Loads when view is loaded
 		activate: function(data) {
+		
+			backend.getRole(global.userId, global.practiceId).success(function(data) {
+					self.role(new userStructures.Role(data[0]));
+				});
 			var self = this;  
 			//Patient ID
 			self.patientId(data.patientId); 
@@ -388,7 +396,7 @@ define(function(require) {
 			modal.showAdditionalDetails('Additional Details');
 		},
 		selectSuperbill: function(data) {
-			modal.showSuperbill(superBill,'Superbill');
+			modal.showSuperbill(superBill,role,'Superbill');
 		},
 		displayFile: function(data) { 
 			doc(data); 
@@ -531,7 +539,7 @@ define(function(require) {
 			}					
 		},
 		searchByType: function(data) { 
-			backend.getDocumentByType(patientId(),documentType()).success(function(data) { 
+			backend.getDocumentByType(patientId(),practiceId(),documentType()).success(function(data) { 
 				if(data.length > 0) {  
 					 var d = $.map(data, function(item) {
 					 item.date = form.uiDate(item.date)
