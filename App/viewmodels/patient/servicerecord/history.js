@@ -1,7 +1,9 @@
 /***************************************************************************************************
  * ViewModel name: History & Present Illness
+ * View: App/views/patient/servicerecord/history.html
  * Author(s): Gary Chang
- * Description: 
+ * Description: Handles the business logic for the History & Present Illness section of a
+ *				service record.
  **************************************************************************************************/
 define(function(require) { 
 	/*********************************************************************************************** 
@@ -9,20 +11,20 @@ define(function(require) {
 	 **********************************************************************************************/
 	var system = require('durandal/system');				// System logger
 	var custom = require('durandal/customBindings');		// Custom bindings
+	var Structures = require('modules/patientStructures');	// Structures
 	var Backend = require('modules/history');				// Module
 	var Forms = require('modules/form');					// Common form elements
-	var Structures = require('modules/patientStructures');	// Structures
 	var app = require('durandal/app');
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
 	var self;
-	var form = new Forms();
-	var backend = new Backend();
 	var structures = new Structures();
-	var patientId = ko.observable();
+	var backend = new Backend();
+	var form = new Forms();
 	var practiceId = ko.observable();
+	var patientId = ko.observable();
 	var date = ko.observable();
 	var serviceRecord = ko.observable(new structures.ServiceRecord());
 	var reviewOfSystem = ko.observable(new structures.ReviewOfSystems());
@@ -47,11 +49,7 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
-	 // var computedFunction = ko.computed(function() {});
-
-	/*********************************************************************************************** 
-	 * ViewModel
-	 **********************************************************************************************/
+	
 	return {
 		/******************************************************************************************* 
 		 * Attributes
@@ -59,8 +57,8 @@ define(function(require) {
 		form: form,
 		backend: backend,
 		structures: structures,
-		patientId: patientId,
 		practiceId: practiceId,
+		patientId: patientId,
 		date: date,
 		serviceRecord: serviceRecord,
 		reviewOfSystem: reviewOfSystem,
@@ -116,8 +114,8 @@ define(function(require) {
 		activate: function(data) {
 			self = this;
 			
-			self.practiceId('1');
-			//self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
+			// Get URL parameters
+			self.practiceId(global.practiceId);
 			self.patientId(data.patientId);
 			self.date(data.date);
 			
@@ -129,7 +127,7 @@ define(function(require) {
 				}
 			});
 			
-			// Get the Review of Systems for the Service Record
+			// Get Review of Systems for the Service Record
 			backend.getReviewOfSystems(self.patientId(), self.practiceId(), self.date()).success(function(data) {
 				if (self.reviewOfSystems().length == 0) {
 					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GEN',type:'not done',default_particulate:1}));
@@ -161,6 +159,7 @@ define(function(require) {
 				}
 			});
 			
+			// Get Medical Problems for the Service Record
 			backend.getMedicalProblems(self.patientId(), self.practiceId(), self.date()).success(function(data) {
 				if (data.length > 0) {
 					var p = $.map(data, function(item) {
@@ -183,6 +182,7 @@ define(function(require) {
 					self.medicalProblemsState(true);
 			});
 			
+			// Get all Medicines
 			backend.getMedicineList().success(function(data) {
 				if(data.length > 0) {
 					var m = _.map(data, function(item) {return item.medicine_name});
@@ -198,6 +198,7 @@ define(function(require) {
 				}
 			});
 			
+			// Get Medications for the service record
 			backend.getMedication(self.patientId(), self.practiceId(), self.date()).success(function(data) {
 				if(data.length > 0) {
 					var m = $.map(data, function(item) {
@@ -215,6 +216,7 @@ define(function(require) {
 					self.medicationState(true);
 			});
 			
+			// Get all Physicians
 			backend.getPhysicians(self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					var p = $.map(data, function(item) {return new structures.Physician(item).physicianName()});
@@ -222,6 +224,7 @@ define(function(require) {
 				}
 			});
 			
+			// Get Allergies/Intolerances for the service record
 			return backend.getAllergiesIntolerance(self.patientId(), self.practiceId(), self.date()).success(function(data) {
 				if(data.length > 0) {
 					var a = $.map(data, function(item) {
@@ -252,6 +255,7 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Review of Systems Methods
 		 *******************************************************************************************/
+		// Add a row to the form
 		reviewOfSystemsAddRow: function(data) {
 			var lastRow = reviewOfSystems()[reviewOfSystems().length - 1];
 			if (lastRow.particulars() != '')
@@ -309,22 +313,28 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Medical Problems Methods
 		 *******************************************************************************************/
+		// Set Onset Date to Unknown
 		medicalProblemSetOnsetUnknown: function(data) {
 			medicalProblem().onsetDate('Unknown');
 		},
+		// Set Resolution Date to Unknown
 		medicalProblemSetResolutionUnknown: function(data) {
 			medicalProblem().resolutionDate('Unknown');
 		},
+		// Set fields when table record is clicked
 		medicalProblemSetFields: function(data) {
 			if (!medicalProblemsState())
 				medicalProblem(data);
 		},
+		// New mode
 		medicalProblemNew: function(data) {
 			tempMedicalProblem(medicalProblem());
 			medicalProblem(new structures.MedicalProblem());
 			medicalProblemsState(true);
 		},
+		// Inserts and Saves
 		medicalProblemSave: function(data) {
+			// Formatting data
 			if (medicalProblem().type() == 'Current Medical Problem') {
 				medicalProblem().resolutionDate('');
 				medicalProblem().resolutionUnknown(0);
@@ -365,6 +375,7 @@ define(function(require) {
 			
 			// Insert
 			if (medicalProblemsState()) {
+				// Save a temp to prevent date flickering
 				var temp = new structures.MedicalProblem({
 					service_record_id: serviceRecord().id(),
 					type: medicalProblem().type(),
@@ -432,10 +443,12 @@ define(function(require) {
 				}
 			}
 		},
+		// Save mode: reset to orignal field values
 		medicalProblemCancel: function(data) {
 			medicalProblem(tempMedicalProblem());
 			medicalProblemsState(false);
 		},
+		// Delete
 		medicalProblemDelete: function(item) {
 			return app.showMessage(
 				'Are you sure you want to delete the medical problem for "' + item.description() + '"?',
@@ -458,6 +471,7 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Medication Methods
 		 *******************************************************************************************/
+		// Set fields when table record is clicked
 		medicationSetFields: function(data) {
 			if (!medicationState()) {
 				medication(data);
@@ -465,13 +479,16 @@ define(function(require) {
 				self.popStrength();
 			}
 		},
+		// New mode
 		medicationNew: function(data) {
 			tempMedication(medication());
 			medication(new structures.Medication());
 			$('.strengthList').combobox({target: '.strength'});
 			medicationState(true);
 		},
+		// Inserts and Saves
 		medicationSave: function(data) {
+			// Insert
 			if (medicationState()) {
 				var temp = new structures.Medication({
 					service_record_id: serviceRecord().id(),
@@ -508,6 +525,7 @@ define(function(require) {
 					});
 				}
 			}
+			// Update
 			else {
 				var temp = new structures.Medication({
 					id: medication().id(),
@@ -545,11 +563,13 @@ define(function(require) {
 				}
 			}
 		},
+		// Save mode: reset to original field values
 		medicationCancel: function(data) {
 			medication(tempMedication());
 			$('.strengthList').combobox({target: '.strength'});
 			medicationState(false);
 		},
+		// Delete
 		medicationDelete: function(item) {
 			return app.showMessage(
 				'Are you sure you want to delete the medication for "' + item.medicine() + '"?',
@@ -569,6 +589,7 @@ define(function(require) {
 				}
 			});
 		},
+		// Populate Strength
 		popStrength: function() {
 			// Delay for .2 seconds to allow data to cascade
 			setTimeout(function () {
@@ -584,21 +605,26 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Allergies Intolerance Methods
 		 *******************************************************************************************/
+		// Unchecks Allergies Verified
 		allergiesIntoleranceNoKnownAllergies: function(data) {
 			serviceRecord().allergiesVerified(false);
 		},
+		// Unchecks No Known Allergies
 		allergiesIntoleranceAllergiesVerified: function(data) {
 			serviceRecord().noKnownAllergies(false);
 		},
+		// Set fields when table record is clicked
 		allergiesIntoleranceSetFields: function(data) {
 			if (!allergiesIntoleranceState())
 				allergiesIntolerance(data)
 		},
+		// New mode
 		allergiesIntoleranceNew: function(data) {
 			tempAllergiesIntolerance(allergiesIntolerance());
 			allergiesIntolerance(new structures.AllergiesIntolerance());
 			allergiesIntoleranceState(true);
 		},
+		// Inserts and Saves
 		allergiesIntoleranceSave: function(data) {
 			var allergyPrompt = false;
 			$.each(allergiesIntolerances(), function(k,v) {
@@ -640,6 +666,7 @@ define(function(require) {
 			serviceRecord().noKnownAllergies(+serviceRecord().noKnownAllergies());
 			serviceRecord().allergiesVerified(+serviceRecord().allergiesVerified());
 			backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord());
+			// Insert
 			if (allergiesIntoleranceState()) {
 				var temp = new structures.AllergiesIntolerance({
 					service_record_id: serviceRecord().id(),
@@ -673,6 +700,7 @@ define(function(require) {
 					});
 				}
 			}
+			// Update
 			else {
 				var temp = new structures.AllergiesIntolerance({
 					id: allergiesIntolerance().id(),
@@ -709,10 +737,12 @@ define(function(require) {
 				}
 			}
 		},
+		// Save mode: reset fields to original values
 		allergiesIntoleranceCancel: function(data) {
 			allergiesIntolerance(tempAllergiesIntolerance());
 			allergiesIntoleranceState(false);
 		},
+		// Delete
 		allergiesIntoleranceDelete: function(item) {
 			return app.showMessage(
 				'Are you sure you want to delete the allergy for "' + item.details() + '"?',

@@ -1,6 +1,16 @@
+<!--
+Tab name: History
+Main view: App/views/patient/servicerecord/history.html
+Viewmodel: App/viewmodels/patient/servicerecord/history.js
+Author(s): Gary Chang
+Description: This view is the the History tab, it displays the history information from a single
+			 service record.
+-->
+<!-- Main Form -->
 <div class="historyFormScroll">
 	<form class="form-inline formPadding">
 		<div class="row-fluid">
+			<!-- History -->
 			<div class="marginBottom5 commentContainer">
 				<textarea class="historyComment" placeholder="History details" data-bind="
 					value: serviceRecord().history" />
@@ -9,6 +19,7 @@
 		</div>
 	</form>
 </div>
+<!-- Buttons -->
 <div class="pull-right">
 	<button type="submit" class="btn btn-small btn-primary" data-bind="
 		click: serviceRecordSave">

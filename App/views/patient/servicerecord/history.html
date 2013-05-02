@@ -1,9 +1,14 @@
 <!--
-View:
-Author(s):
-Description:
+View name: History & Present Illness
+Tab Views: App/views/patient/servicerecord/historyTabs
+Viewmodel: App/viewmodels/patient/servicerecord/history.js
+Author(s): Gary Chang
+Description: This view holds the History, Review of Systems, Medical Problems, Medication, and
+			 Allergies/Intollerance tabs. Each tab has been broken down into its own separate
+			 view via the compose data-binds within the tab contents.
 -->
 <div>
+	<!-- List of tabs -->
 	<ul class="nav nav-tabs patientNavs" id="historyTab">
 		<li class="active"><a data-toggle="tab" href="#history">History</a></li>
 		<li><a data-toggle="tab" href="#review">Review of Systems</a></li>
@@ -11,32 +16,27 @@ Description:
 		<li><a data-toggle="tab" href="#medication">Medication</a></li>
 		<li><a data-toggle="tab" href="#allergy">Allergies/Intolerance</a></li>
 	</ul>
-
+	<!-- Content of tabs -->
 	<div class="tab-content">
+		<!-- History Tab -->
 		<div class="tab-pane outerPane active" id="history">
-			<div data-bind="compose: 'patient/servicerecord/historyTabs/historyTab.html'" >
-				<!-- History -->
-			</div>
+			<div data-bind="compose: 'patient/servicerecord/historyTabs/historyTab.html'" ></div>
 		</div>
+		<!-- Review of Systems Tab -->
 		<div class="tab-pane outerPane" id="review">
-			<div data-bind="compose: 'patient/servicerecord/historyTabs/reviewTab.html'" >
-				<!-- Review Of Systems -->
-			</div>
+			<div data-bind="compose: 'patient/servicerecord/historyTabs/reviewTab.html'" ></div>
 		</div>
+		<!-- Medical Problem Tab -->
 		<div class="tab-pane outerPane" id="problem">
-			<div data-bind="compose: 'patient/servicerecord/historyTabs/problemTab.html'" >
-				<!-- Medical Problems -->
-			</div>
+			<div data-bind="compose: 'patient/servicerecord/historyTabs/problemTab.html'" ></div>
 		</div>
+		<!-- Medication Tab -->
 		<div class="tab-pane outerPane" id="medication">
-			<div data-bind="compose: 'patient/servicerecord/historyTabs/medicationTab.html'" >
-				<!-- Medication -->
-			</div>
+			<div data-bind="compose: 'patient/servicerecord/historyTabs/medicationTab.html'" ></div>
 		</div>
+		<!-- Allergies/Intollerance Tab -->
 		<div class="tab-pane outerPane" id="allergy">
-			<div data-bind="compose: 'patient/servicerecord/historyTabs/allergyTab.html'" >
-				<!-- Allergies/Intolerance -->
-			</div>
+			<div data-bind="compose: 'patient/servicerecord/historyTabs/allergyTab.html'" ></div>
 		</div>
 	</div>
 </div>

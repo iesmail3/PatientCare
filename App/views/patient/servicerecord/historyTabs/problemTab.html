@@ -1,11 +1,22 @@
+<!--
+Tab name: Medical Problems
+Main view: App/views/patient/servicerecord/history.html
+Viewmodel: App/viewmodels/patient/servicerecord/history.js
+Author(s): Gary Chang
+Description: This view is the the Medical Problems tab, it displays records of medical problems
+			 from a single service record in a table.
+-->
+<!-- Main Form -->
 <form class="form-inline formPadding">
 	<div class="row-fluid">
+		<!-- Alerts -->
 		<div class="alertHolder">
 			<div class="alert alert-danger allAlert">You are missing required fields.</div>
 			<div class="alert alert-danger typeAlert">Type is required.</div>
 			<div class="alert alert-danger descriptionAlert">Description is required.</div>
 			<div class="alert alert-success">Successfully saved.</div>
 		</div>
+		<!-- Type -->
 		<!-- ko with: medicalProblem -->
 		<div class="marginBottom5">
 			<select data-bind="value: type">
@@ -15,16 +26,19 @@
 				<option value="Past Surgical History">Past Surgical History</option>
 			</select>
 		</div>
+		<!-- Description -->
 		<div class="marginBottom5 commentContainer">
 			<textarea class="commentSpan problemComment" placeholder="Description" data-bind="
 				value: description" />
 			</textarea>
 		</div>
 		<div class="marginBottom5">
+			<!-- Onset Date -->
 			<input type="text" placeholder="Onset Date" data-bind="
 				datepicker: true,
 				value: onsetDate,
 				enable: (type() == 'Current Medical Problem' || type() == 'Other Medical Problem') && !onsetUnknown()" />
+			<!-- Unknown -->
 			<label class="checkbox problemUnknown">
 				<input type="checkbox" data-bind="
 					checked: onsetUnknown,
@@ -34,10 +48,12 @@
 			</label>
 		</div>
 		<div class="marginBottom5">
+			<!-- Resolution Date -->
 			<input type="text" placeholder="Resolution Date" data-bind="
 				datepicker: true,
 				value: resolutionDate,
 				enable: (type() == 'Other Medical Problem' || type() == 'Past Surgical History') && !resolutionUnknown() && !notApplicable()" />
+			<!-- Unknown -->
 			<label class="checkbox problemUnknown">
 				<input type="checkbox" data-bind="
 					checked: resolutionUnknown,
@@ -45,6 +61,7 @@
 					event: {change: $root.medicalProblemSetResolutionUnknown}" />
 				<span>Unknown</span>
 			</label>
+			<!-- Not Applicable -->
 			<label class="checkbox problemNotApplicable" data-bind="
 				visible: type() == 'Other Medical Problem'">
 				<input type="checkbox" data-bind="checked: notApplicable" />
@@ -52,6 +69,7 @@
 			</label>
 		</div>
 		<!-- /ko -->
+		<!-- Buttons -->
 		<div class="marginBottom5 pull-right">
 			<button type="button" class="btn btn-small btn-success" data-bind="
 				visible: !$root.medicalProblemsState(),
@@ -69,6 +87,7 @@
 			</button>
 		</div>
 	</div>
+	<!-- Medical Problems Table -->
 	<div class="problemFormScroll">
 		<div class="row-fluid">
 			<table class="table table-bordered table-hover">

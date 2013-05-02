@@ -1,5 +1,15 @@
+<!--
+Tab name: Allergies/Intolerance
+Main view: App/views/patient/servicerecord/history.html
+Viewmodel: App/viewmodels/patient/servicerecord/history.js
+Author(s): Gary Chang
+Description: This view is the the Allergies/Intolerance tab, it displays records of allergies from
+			 a single service record in a table.
+-->
 <form class="form-inline formPadding">
+	<!-- Main Form -->
 	<div class="row-fluid">
+		<!-- Alerts -->
 		<div class="alertHolder">
 			<div class="alert alert-danger allAlert">You are missing required fields.</div>
 			<div class="alert alert-danger detailsAlert">Allergy details is required.</div>
@@ -8,12 +18,14 @@
 			<div class="alert alert-success">Successfully saved.</div>
 		</div>
 		<div class="marginBottom5">
+			<!-- No Known Allergies -->
 			<label class="checkbox allergiesCheckbox">
 				<input type="checkbox" data-bind="
 					checked: serviceRecord().noKnownAllergies,
 					event: {change: $root.allergiesIntoleranceNoKnownAllergies}" />
 				<span>No&nbsp;Known&nbsp;Allergies</span>
 			</label>
+			<!-- Allergies Verified -->
 			<label class="checkbox allergiesCheckbox">
 				<input type="checkbox" data-bind="
 					checked: serviceRecord().allergiesVerified,
@@ -21,6 +33,7 @@
 				<span>Allergies&nbsp;Verified</span>
 			</label>
 		</div>
+		<!-- Details -->
 		<div class="marginBottom5 commentContainer">
 			<textarea class="commentSpan allergyComment" placeholder="Allergy Details" data-bind="
 				value: allergiesIntolerance().details,
@@ -28,6 +41,7 @@
 			</textarea>
 		</div>
 		<div class="marginBottom5">
+			<!-- Type -->
 			<div class="allergyPushRight">
 				<select class="input-xmedium" data-bind="
 					value: allergiesIntolerance().type,
@@ -36,8 +50,8 @@
 					<option value="Allergy">Allergy</option>
 					<option value="Intolerance">Intolerance</option>
 				</select>
-				
 			</div>
+			<!-- Status -->
 			<div class="allergyPushRight">
 				<select class="input-small" data-bind="
 					value: allergiesIntolerance().status,
@@ -46,8 +60,8 @@
 					<option value="Active">Active</option>
 					<option value="Inactive">Inactive</option>
 				</select>
-				
 			</div>
+			<!-- Date Recorded -->
 			<div class="allergyPushRight">
 				<span class="label label-info" data-bind="
 					visible: !allergiesIntoleranceState() && allergiesIntolerances().length != 0">
@@ -55,6 +69,7 @@
 				</span>
 				<span data-bind="text: allergiesIntolerance().dateRecorded"></span>
 			</div>
+			<!-- Inactive Date -->
 			<div class="allergyPushRight">
 				<span class="label" data-bind="
 					visible: allergiesIntolerance().status() == 'Inactive'">
@@ -66,6 +81,7 @@
 					datepicker: true" />
 			</div>
 		</div>
+		<!-- Buttons -->
 		<div class="marginBottom5 pull-right">
 			<button type="button" class="btn btn-small btn-success" data-bind="
 				click: $root.allergiesIntoleranceNew,
@@ -83,6 +99,7 @@
 			</button>
 		</div>
 	</div>
+	<!-- Allergies/Intolerance Table -->
 	<div class="allergyFormScroll">
 		<div class="row-fluid">
 			<table class="table table-bordered table-hover">

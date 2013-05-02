@@ -1,27 +1,41 @@
+<!--
+Tab name: Medication
+Main view: App/views/patient/servicerecord/history.html
+Viewmodel: App/viewmodels/patient/servicerecord/history.js
+Author(s): Gary Chang
+Description: This view is the the Medication tab, it displays records of prescribed medications
+			 for a patient's single service record in a table.
+-->
 <form class="form-inline formPadding">
-	<!-- ko with: medication -->
+	<!-- Main Form -->
 	<div class="row-fluid">
+		<!-- Alerts -->
 		<div class="alertHolder">
 			<div class="alert alert-danger allAlert">You are missing required fields.</div>
 			<div class="alert alert-danger medicineAlert">Medicine is required.</div>
 			<div class="alert alert-danger sigAlert">Sigs is required.</div>
 			<div class="alert alert-success ">Successfully saved.</div>
 		</div>
+		<!-- ko with: medication -->
 		<div class="marginBottom5">
+			<!-- Medicine -->
 			<input type="text" class="input-xlarge" placeholder="Medicine" data-bind="
 				value: medicine,
 				typeahead: {value: medicine, source: $root.medicineNames},
 				event: {blur: $root.popStrength},
 				valueUpdate: 'afterkeydown'" />
+			<!-- Strength -->
 			<input type="text" class="input-xmedium strength" placeholder="Strength" data-bind="
 				value: strength" />
 			<select class="strengthList selectSource" data-bind="foreach: $root.strengthList">
 				<option data-bind="text: $data"></option>
 			</select>
+			<!-- Quantity -->
 			<input type="text" class="input-medium" placeholder="Quantity" data-bind="
 				value: quantity" />
 		</div>
 		<div class="marginBottom5">
+			<!-- Route -->
 			<select class="input-xmedium" data-bind="
 				options: $root.form.routes,
 				optionsText: 'text',
@@ -29,6 +43,7 @@
 				optionsValue: 'value',
 				optionsCaption: 'Route'">
 			</select>
+			<!-- Sigs -->
 			<select class="input-xmedium" data-bind="
 				options: $root.form.sigCodes,
 				optionsText: 'text',
@@ -36,6 +51,7 @@
 				optionsValue: 'value',
 				optionsCaption: 'Sigs'">
 			</select>
+			<!-- Status -->
 			<select class="input-xmedium" data-bind="value: status">
 				<option value="" disabled selected data-bind="visible: false">Status</option>
 				<option value="Current">Current</option>
@@ -43,26 +59,32 @@
 			</select>
 		</div>
 		<div class="marginBottom5">
+			<!-- Prescribed By -->
 			<input type="text" placeholder="Prescribed By" data-bind="
 				typeahead: {value: prescribedBy, source: $root.physicians}" />
+			<!-- Prescription Date -->
 			<input type="text" placeholder="Prescription Date" data-bind="
 				value: prescribedDate,
 				datepicker: true" />
 		</div>
 		<div class="marginBottom5">
+			<!-- Discontinued By -->
 			<input type="text" placeholder="Discontinued By" data-bind="
 				typeahead: {value: discontinuedBy, source: $root.physicians},
 				enable: status() == 'Discontinued'" />
+			<!-- Discontinuation Date -->
 			<input type="text" placeholder="Discontinuation Date" data-bind="
 				value: discontinuedDate,
 				enable: status() == 'Discontinued',
 				datepicker: true" />
 		</div>
+		<!-- Comments -->
 		<div class="marginBottom5 commentContainer">
 			<textarea class="commentSpan medicationComment" placeholder="Comments" data-bind="
 				value: comment" />
 			</textarea>
 		</div>
+		<!-- Buttons -->
 		<div class="marginBottom5 pull-right">
 			<button type="button" class="btn btn-small btn-success" data-bind="
 				click: $root.medicationNew,
@@ -79,8 +101,9 @@
 				Cancel
 			</button>
 		</div>
+		<!-- /ko -->
 	</div>
-	<!-- /ko -->
+	<!-- Medication Table -->
 	<div class="medicationFormScroll">
 		<div class="row-fluid">
 			<table class="table table-bordered table-hover">

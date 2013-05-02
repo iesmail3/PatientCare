@@ -1,6 +1,7 @@
 /**************************************************************************************************
- * Module name: Patient
- * Author(s): Sean malone
+ * Module name: History & Present Illness
+ * Viewmodel: App/viewmodels/patient/servicerecord/history.js
+ * Author(s): Gary Chang
  * Description: This module is used to query the database.
  *************************************************************************************************/
 define(function(require) {
@@ -60,6 +61,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Medication for a Single Service Record
 	history.prototype.getMedication = function(patientId, practiceId, date) {
 		var self = this;
 		var fields = ['medication.id', 'medication.service_record_id',
@@ -88,6 +90,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Physician List
 	history.prototype.getPhysicians = function(practiceId) {
 		return this.query({
 			mode: 'select',
@@ -185,6 +188,7 @@ define(function(require) {
 		});
 	}
 	
+	// Save a Medical Problem
 	history.prototype.saveMedicalProblem = function(medicalProblem) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'description', 'onset_date',
@@ -234,6 +238,7 @@ define(function(require) {
 		}
 	}
 	
+	// Save a Medication
 	history.prototype.saveMedication = function(medication) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'medicine', 'strength', 'quantity',
@@ -282,6 +287,7 @@ define(function(require) {
 		}
 	}
 	
+	// Save an Allergy/Intolerance
 	history.prototype.saveAllergiesIntolerance = function(allergiesIntolerance) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'status', 'details', 'date_recorded', 'date_inactive'];
@@ -327,53 +333,6 @@ define(function(require) {
 		}
 	}
 	
-	history.prototype.saveAllergiesIntolerance = function(allergiesIntolerance, allergiesIntolerances) {
-		var self = this;
-		var fields = ['id', 'service_record_id', 'type', 'status', 'details', 'date_recorded'];
-		var values = $.map(allergiesIntolerance, function(k,v) {
-			if (k == null || k == undefined) {
-				return[''];
-			}
-			else {
-				return[k];
-			}
-		});
-		
-		if (allergiesIntolerance.id() == undefined || allergiesIntolerance.id == '') {
-			var newId = '';
-			return self.query({
-				mode: 'select',
-				table: 'allergies_intolerance',
-				fields: 'id',
-				order: 'ORDER BY id DESC',
-				limit: 'LIMIT 1'
-			}).success(function(data) {
-				$.each(data, function(k,v) {
-					newId = parseInt(v.id) + 1;
-				});
-				
-				values[0] = newId;
-				allergiesIntolerance.id(newId);
-				self.query({
-					mode: 'insert',
-					table: 'allergies_intolerance',
-					fields: fields,
-					values: values
-				});
-			});
-		}
-		
-		else {
-			return self.query({
-				mode: 'update',
-				table: 'allergies_intolerance',
-				fields: fields,
-				values: values,
-				where: "WHERE id='" + allergiesIntolerance().id() + "'"
-			});
-		}
-	};
-	
 	/**********************************************************************************************
 	 * Delete Methods
 	 * 
@@ -397,6 +356,7 @@ define(function(require) {
 		});
 	}
 	
+	// Delete an Allergy/Intolerance
 	history.prototype.deleteAllergiesIntolerance = function(id, serviceRecordId) {
 		return this.query({
 			mode: 'delete',
@@ -405,6 +365,7 @@ define(function(require) {
 		});
 	}
 	
+	// Delete a Medication
 	history.prototype.deleteMedication = function(id, serviceRecordId) {
 		return this.query({
 			mode: 'delete',
