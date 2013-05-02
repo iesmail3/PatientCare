@@ -1,7 +1,8 @@
 /***************************************************************************************************
- * ViewModel:
- * Author(s):
- * Description: 
+ * ViewModel: FOllowup.js
+ * Author(s): Imran Esmail 
+ * Description: Handles the business logic for the Followup section of the patient
+ *              record. This includes the Followup, checkout, phonelog,prescription, and document tabs.
  **************************************************************************************************/
 define(function(require) { 
 	/*********************************************************************************************** 
@@ -213,14 +214,16 @@ define(function(require) {
 			var self = this;  
 			//Patient ID
 			self.patientId(data.patientId); 
-			//self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
-			//Pactice ID
-			self.practiceId('1'); 
+			//Practice ID
+			self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
+	 
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
-				var f = $.map(data, function(item) {return new structures.Followup(item) });
-					self.followups(f);
-                    self.followup(f[0]); 					
+					var f = $.map(data, function(item) {
+					item.service_date = form.uiDate(item.service_date)
+					return new structures.Followup(item)}); 
+						self.followups(f);
+						self.followup(f[0]);
 				}				
 			});
          
@@ -346,9 +349,6 @@ define(function(require) {
 		    isNewDocument(false); 
 			doc(data);
 		}, 
-		setPaymentFields: function(data) { 
-			paymentMethod(data); 
-		},
 		setPrescriptionFields: function(data) { 
 			prescription(data); 
 		},
@@ -509,7 +509,7 @@ define(function(require) {
 			}
 		},
 		saveDocument: function(data) {
-			if(doc().errors().length > 0) {
+			if(doc().errors().length > 0) { 
 				if(doc().errors().length > 1) {
 					$('.document .allAlert').fadeIn().delay(3000).fadeOut();
 				}
@@ -583,9 +583,5 @@ define(function(require) {
 				);
 		}
 		
-    };
- //Turn validation on
-	// var errors = vm['formErrors'] = ko.validation.group(vm);
-	// vm.followup().errors.showAllMessages();
-	// return vm;
-});
+    };//End ViewModel
+});//End file 

@@ -11,6 +11,8 @@ define(function(require) {
 	var Procedure = require('./procedure');
     var Flowsheet = require('./flowsheet');
 	var Displayfile = require('./displayfile');
+	var Diagnosisletter = require('./diagnosisLetter');
+	var PrintInsurance = require('./printInsurance'); 
 	
 	return {
 		showOrder: function(order, centers, orders, groupOrders, orderTypes, practiceId, 
@@ -57,6 +59,12 @@ define(function(require) {
 		}, 
 		showFile: function(file,title,options) { 
 			return modalDialog.show(new Displayfile(file,title,options)); 
+		}, 
+		showDiagnosisLetter: function(title,patientId,practiceId,date,options) { 
+			return modalDialog.show(new Diagnosisletter(title,patientId,practiceId,date,options)); 
+		},
+		showInsurance: function(firstName,lastName,practiceId,patientId,title,options) { 
+			return modalDialog.show(new PrintInsurance(firstName,lastName,practiceId,patientId,title,options)); 
 		}
 	};
 });

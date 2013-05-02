@@ -104,18 +104,21 @@ define(function(require) {
 	
 	//Diagnosis
 	patient.prototype.Diagnosis = function(data) { 
+		var self = this; 
 		if(data!= null) { 
 			this.id					= ko.observable(data.id); 
 			this.serviceRecordId	= ko.observable(data.service_record_id); 
-			this.diagnosis			= ko.observable(data.diagnosis); 
+			this.diagnosis			= ko.observable(data.diagnosis).extend({required: {message: 'diagnosis'}}); 
 			this.code				= ko.observable(data.code); 
 		}
 		else {
 			this.id 				= ko.observable(); 
 			this.serviceRecordId	= ko.observable(); 
-			this.diagnosis			= ko.observable(); 
+			this.diagnosis			= ko.observable().extend({required: {message: 'diagnosis'}});
 			this.code				= ko.observable(); 
 		}
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Document
@@ -133,6 +136,7 @@ define(function(require) {
 			this.isReviewed		 = ko.observable(data.is_reviewed == '1' ? 1 : 0);
 			this.isReport		 = ko.observable(data.is_report);
 			this.dateOfService   = ko.observable(data.date_of_service);
+			this.isUnknown       = ko.observable((data.is_unknown == 1 ? true : false));
 		}
 		else {
 			this.id				 = ko.observable();
@@ -146,6 +150,7 @@ define(function(require) {
 			this.isReviewed		 = ko.observable();
 			this.isReport		 = ko.observable();
 			this.dateOfService   = ko.observable();
+			this.isUnknown       = ko.observable(true); 
 		}
 		
 		this.errors = ko.validation.group(this);
@@ -341,15 +346,18 @@ define(function(require) {
 	
 	// Insurance
 	patient.prototype.Insurance = function(data) {
+		var self = this; 
 		if (data != null) {
 			this.patientId			  = ko.observable(data.patient_id);
+			this.practiceId           = ko.observable(data.practice_id);
 			this.type				  = ko.observable(data.type);
-			this.groupNumber		  = ko.observable(data.group_number);
-			this.policyNumber		  = ko.observable(data.policy_number);
-			this.companyName		  = ko.observable(data.company_name);
+			this.groupNumber		  = ko.observable(data.group_number).extend({required: {message: 'group'}});
+			this.policyNumber		  = ko.observable(data.policy_number).extend({required: {message: 'policy'}});
+			this.companyName		  = ko.observable(data.company_name).extend({required: {message: 'company'}});
 			this.plan				  = ko.observable(data.plan);
 			this.planOther			  = ko.observable(data.plan_other);
 			this.effectiveDate		  = ko.observable(data.effective_date);
+			this.archiveDate		  = ko.observable(data.archive_date);
 			this.outOfPocket		  = ko.observable(data.out_of_pocket);
 			this.metOutOfPocket		  = ko.observable(data.met_out_of_pocket);
 			this.remainingOutOfPocket = ko.observable(data.remaining_out_of_pocket);
@@ -371,13 +379,15 @@ define(function(require) {
 		}
 		else {
 			this.patientId			  = ko.observable();
+			this.practiceId           = ko.observable(); 
 			this.type				  = ko.observable();
-			this.groupNumber		  = ko.observable();
-			this.policyNumber		  = ko.observable();
-			this.companyName		  = ko.observable();
+			this.groupNumber		  = ko.observable().extend({required: {message: 'group'}});
+			this.policyNumber		  = ko.observable().extend({required: {message: 'policy'}});
+			this.companyName		  = ko.observable().extend({required: {message: 'company'}});
 			this.plan				  = ko.observable();
 			this.planOther			  = ko.observable();
 			this.effectiveDate		  = ko.observable();
+			this.archiveDate		  = ko.observable();
 			this.outOfPocket		  = ko.observable();
 			this.metOutOfPocket		  = ko.observable();
 			this.remainingOutOfPocket = ko.observable();
@@ -397,6 +407,8 @@ define(function(require) {
 			this.contactPhone		  = ko.observable();
 			this.contactPhoneExt	  = ko.observable();
 		}
+		this.errors = ko.validation.group(this);
+		this.errors.showAllMessages();
 	}
 	
 	// Medical Problem

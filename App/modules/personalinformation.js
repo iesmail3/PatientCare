@@ -48,7 +48,17 @@ define(function(require) {
 			mode: 'select', 
 			table: 'insurance', 
 			fields: '*', 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "' AND archive_date IS NULL"
+		});
+	}
+	
+	// Get Insurance by type
+	personal.prototype.getInsuranceByType = function(insurance) {
+		return this.query({
+			mode: 'select', 
+			table: 'insurance', 
+			fields: '*', 
+			where: "WHERE patient_id='" + insurance.patientId() + "' AND type='" + insurance.type() + "'"
 		});
 	}
 	
@@ -155,16 +165,38 @@ define(function(require) {
 	}
 	
 	// Add Insurance for a Single Patient
-	personal.prototype.saveInsurance = function(id, data) {
-		var values = $.map(data, function(k,v) {
+	personal.prototype.saveInsurance = function(insurance,patientId,practiceId) {
+	    var self = this; 
+		var fields = ['patient_id','practice_id','type','group_number','policy_number','company_name','plan','plan_other',
+					  'effective_date','archive_date','out_of_pocket','met_out_of_pocket','remaining_out_of_pocket',
+					  'deductible','met_deductible','remaining_deductible','patient_portion','insurance_portion','referral_required','existing_clause','copayment','verification','verification_date','verification_time','confirmation_number','contact_name','contact_phone','contact_phone_ext'];
+	    
+		var values = $.map(insurance, function(k,v) {
 			return [k];
 		});
-		
-		return this.query({
-			mode: 'insert', 
-			table: 'insurance', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
+		//Convert to db date
+		values[8] = form.dbDate(insurance.effectiveDate());
+		values[22] = form.dbDate(insurance.verificationDate());
+		 personal.prototype.getInsuranceByType(insurance).success(function(data) {
+				if(data.length > 0) {
+					self.query({
+						mode: 'update',
+						table: 'insurance',
+						fields:fields,
+						values: values,
+						where: "WHERE patient_id='" + insurance.patientId() + "' AND type='" + insurance.type() + "'"
+					});
+				}
+				else {
+						values[0] = patientId; 
+						values[1] = practiceId; 
+					   self.query({
+						mode: 'insert', 
+						table: 'insurance', 
+						fields:fields,
+						values: values
+					});
+				} 
 		});
 	}
 	

@@ -88,10 +88,6 @@ th, td {
 	margin-bottom: 5px;
 }
 
-.selectSource { display: none !important; }
-
-.ui-button-icon-only { width: 15px; }
-
 .employedPerson { margin: 12px; }
      
 .referenceTabs { clear: both; }             
@@ -164,11 +160,19 @@ th, td {
 	display: none;
 }
 
+.span6 .label, label.inline  {
+    display: inline-block;
+    width: 130px;   
+}
+
 #additionalCharges { 
 	display: inline-block;
 	width: 139px;
 }
 
+.insuranceBox { min-width: 400px; }
+.insuranceBox .modal-body { min-height:150px; } 
+=======
 /* Social & Family History */
 .socialFormScroll {
 	overflow-y: auto;
@@ -419,7 +423,7 @@ th, td {
 
 /* Orders */
 .mainOrderTableHolder {
-	height: 443px;
+	height: 450px;
 	overflow-y: auto;
 }
 
@@ -530,20 +534,6 @@ th, td {
 	overflow-y: auto;
 }
 
-.flowTableHolder .table button,
-.flowTableHolder .table a {
-	width: 100%;
-}
-
-.flowTableHolder .med { width: 23%; }
-.flowTableHolder .diluent {width: 18%; }
-.flowTableHolder .dose,
-.flowTableHolder .vol { width: 8%; }
-.flowTableHolder .seq,
-.flowTableHolder .qty {
-	width: 5%;
-}
-
 .venousTableHolder {
 	max-height: 150px;
 	overflow-y: auto;
@@ -572,6 +562,23 @@ th, td {
 .medTable {
 	height: 225px;
 	overflow-y: auto;
+}
+
+/*Labs and X-Ray report*/
+.reportTableHolder {
+	height: 225px;
+	overflow-y: auto;
+}
+
+/*Diagnosis */
+.diagnosisTable { max-width: none; }
+.diagnosisTable input, .diagnosis select { width: 100%; }
+.diagnosisTable td { padding: 5px; }
+.diagnosisTable th:nth-child(2){ width: 15%; }
+.diagnosisTable th:last-child{ width: 5%; }
+
+.textAreaWidth { 
+width: 600px; 
 }
 
 /* Followup */
@@ -607,6 +614,11 @@ th, td {
 
 .checkoutPane { overflow-y: auto; }
 
+.checkoutTab  .label, label.inline  {
+    display: inline-block;    
+	width: 130px;  
+}
+
 .fileHolder {
 	width: 900px;
 }
@@ -626,6 +638,27 @@ th, td {
 	max-width: 99%;
 	margin: auto;
 }
+
+.documentTableHolder {
+	height: 225px;
+	overflow-y: auto;
+}
+
+.checkoutTableHolder {
+	height: 150px;
+	overflow-y: auto;
+}
+
+.followupTableHolder {
+	height: 150px;
+	overflow-y: auto;
+}
+
+.viewFileButton { 
+	width: 72px  !important; 
+	margin: auto;
+	display: block;
+} 
 
 /* Settings */
 .settings {
@@ -743,3 +776,4 @@ div[data-view="views/settings"] {
 .general .controls {
 	margin-left: 115px;
 }
+

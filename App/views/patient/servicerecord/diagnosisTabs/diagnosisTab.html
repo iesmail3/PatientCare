@@ -1,19 +1,36 @@
-<div class="formScroll formPadding">
+<div class="formScroll formPadding diagnosis">
 	<div class="row-fluid">
-		<table class="table table-bordered table-hover">
+		<div class="alertHolder">
+						<div class="alert alert-danger diagnosisFailAlert">Diagnosis is a required field.</div>
+						<div class="alert alert-success diagnosisSuccessAlert">Successfully updated.</div>
+		</div>
+		<!-- ko with: diagnosis --> 
+		<table class="diagnosisTable table table-bordered table-hover">
 			<thead>
 				<tr>
-					<th></th>
 					<th>Diagnosis</th>
 					<th>Code</th>
 					<th></th>
 				</tr>
 			</thead>
-		</table>
+			<tbody data-bind="foreach: $root.diagnoses">  
+				<tr>
+					<td class="input-small">											 
+						<input class="input-small" data-bind="value:diagnosis,typeahead: {value: diagnosis, source: $root.diagnosisDescription},event:{blur: $root.popCode},valueUpdate: 'afterkeydown'" />
+					</td> 
+					<td class="input-small">									
+						<input class="input-small" data-bind="value:code,typeahead: {value: code, source: $root.diagnosisCode},event:{blur: $root.popDescription},valueUpdate: 'afterkeydown'" />
+					</td>
+					<td>
+						<a class="btn" data-bind="visible: diagnosis()!='',click:$root.removeDiagnosis"><i class="icon-remove"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table> 
+		<!-- /ko -->  
 	</div>
 </div>
 <div class="pull-right">
-	<button type="button" class="btn btn-small">Print Letter</button>
-	<button type="submit" class="btn btn-small btn-primary">Save</button>
-	<button type="button" class="btn btn-small btn-danger">Delete</button>
+	<button type="button" class="btn btn-small" data-bind="click:$root.selectPrint">Print Letter</button>
+	<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.saveDiagnosis">Save</button>
 </div>

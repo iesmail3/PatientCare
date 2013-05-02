@@ -1,7 +1,8 @@
 /**************************************************************************************************
  * Module name: Followup
  * Author(s): Imran Esmail 
- * Description: This module is used to query the database.
+ * Description: This module is used to query the database. It queries the database for followup
+				,checkout,phonelog,prescription, and document tabs. 
  *************************************************************************************************/
  define(function(require) {
 	/*********************************************************************************************** 
@@ -30,6 +31,7 @@
 		});
 	} 
 	
+	// Get physician name based on practice id
 	followup.prototype.getPhysician = function(practiceId) {  
 		return this.query({
 			mode: 'select',
@@ -39,6 +41,7 @@
 		});
 	}
 	
+	//Get service record 
 	followup.prototype.getSuperBill = function() {
 	var fields = ['service_record.date','service_record.physical_examination_comment','superbill.is_complete']; 
 		return this.query({
@@ -64,6 +67,7 @@
 		});
 	 }
 	
+	// Get checkout information for a single patient 
 	followup.prototype.getCheckOut = function(id, practiceId) {
 		return this.query({
 			mode: 'select',
@@ -73,6 +77,7 @@
 		});
 	}
 	
+	// Get payment methods for a single patient 
 	followup.prototype.getPaymentMethods = function(id) { 
 		return this.query({
 			mode: 'select',
@@ -82,6 +87,7 @@
 		});
 	}
 	
+	// Get phoneLog for a single patient 
 	followup.prototype.getPhoneLog = function(id, practiceId) {
 		return this.query({
 			mode: 'select',
@@ -103,6 +109,7 @@
 		}); 
 	}
 	
+	// Get documents for a single patient 
 	followup.prototype.getDocument = function(id, practiceId) {
 		return this.query({
 			mode: 'select',
@@ -111,7 +118,7 @@
 			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
-	
+	// Get document based on document type 
 	followup.prototype.getDocumentByType = function(patientId,type) {
 		if(type.trim() == 'All') { 
 			return this.query({
@@ -131,6 +138,7 @@
 			});
 		}
 	}
+	
 	followup.prototype.getPrescription = function() {
 		return this.query({
 			mode: 'select',
@@ -181,7 +189,7 @@
 		var values = $.map(data, function(k,v) {
 			return [k];
 		});
-		
+		values[7] = form.dbDate(data.serviceDate()); 
 		return self.query({
 				mode:  'update', 
 				table: 'follow_up',
@@ -191,7 +199,7 @@
 			});
 	}
 	
-	// Update a single followup 
+	// Update a single diagnosis
 	followup.prototype.saveDiagnosis = function(id, data) {
 		var self = this;   
 		var fields = ['id','service_record_id','diagnosis','code'];
@@ -209,6 +217,7 @@
 			});
 	}
 	
+	// Save payment methods for a single patient 
 	followup.prototype.savePaymentMethod = function(checkoutId, paymentMethod) { 
 		var self = this; 
 		var fields = ['id','checkout_id','mode','particulars','amount'];
@@ -223,9 +232,9 @@
          values[1] = checkoutId;
 		 
 		if(paymentMethod.id() == undefined || paymentMethod.id() == '') { 
-			
-			 
 		    var newId = '';
+			// select the last record's id from the table,increment it by one, and set it
+			// equal to the new record's id 
 			return self.query({
 					mode: 'select',
 					table: 'payment_method',
@@ -258,6 +267,7 @@
 		}  
 	}
 	
+	// Save phoneLog for a single patient 
 	followup.prototype.savePhoneLog = function(phoneLog,phoneLogs,practiceId,patientId,showAssigned) { 
 			var self = this; 
 			var fields = ['id','patient_id','practice_id','datetime','caller','attended_by','message','action_required','assigned_to','type'];
@@ -272,6 +282,7 @@
 			values[1] = patientId;
 			values[2] = practiceId;  
 			values[3] = form.dbDate(phoneLog().datetime()); 
+			// Insert new record 
 			if(phoneLog().id() == undefined || phoneLog().id() == '') {
              showAssigned(true);  			
 			   var newId = 1;
@@ -298,21 +309,18 @@
 					phoneLogs.push(phoneLog()); 
 			   });
 		}
-			
-		   
-			else { 
-					return self.query({
-							mode:  'update', 
-							table: 'phone_log',
-							fields: fields, 
-							values: values,
-							where: "WHERE id='" + phoneLog().id() + "'"
-					});        
-			}  
+		else { 
+			return self.query({
+					mode:  'update', 
+					table: 'phone_log',
+					fields: fields, 
+					values: values,
+					where: "WHERE id='" + phoneLog().id() + "'"
+			});        
+		}  
     }
 	
-	
-		
+    //Save checkout for a single patient 
 	followup.prototype.saveCheckout = function(data) {  
 		var self = this; 
 		var fields = ['id','practice_id','patient_id','service_record_id','date','copay_amount',
@@ -344,7 +352,7 @@
 		});
 	}
 	
-
+    // Save a prescription for a single patient 
 	followup.prototype.savePrescription = function(data,date,comment,mode) {
 		var self = this; 
 		var fields = ['medicine','strength','quantity','route','sigs','order','dispensed_quantity','refill'
@@ -382,6 +390,7 @@
 		});	
 	}
 	
+	// Save documents for a single patient 
 	followup.prototype.saveDocument = function(doc,documents,practiceId,patientId) {
 		var self = this;
 		// Convert true/false to 1/0
@@ -453,16 +462,7 @@
 		});
 	}
 	
-	// Delete diagnosis
-	followup.prototype.deleteDiagnosis = function(id) { 
-		return this.query({
-			mode: 'delete', 
-			table: 'diagnosis', 
-			where: "WHERE id='" + id() + "'"
-		});
-	}
-	
-	 // Delete Payment Method 
+	// Delete Payment Method 
 	followup.prototype.deletePaymentMethod = function(id) {
 		return this.query({
 			mode: 'delete', 
@@ -471,6 +471,7 @@
 		});
 	}
 	
+	// Delete prescriptions
 	followup.prototype.deletePrescription = function(id) {
 		return this.query({
 			mode:'delete',

@@ -27,7 +27,6 @@ define(function(require) {
 		backend.getDiagnosis().success(function(data) { 
 		   
 			if(data.length > 0) { 
-			   system.log('inside > 0'); 
 				var d = $.map(data, function(item) {return new structures.Diagnosis(item) });
 				self.diagnosis(d);  
 			}

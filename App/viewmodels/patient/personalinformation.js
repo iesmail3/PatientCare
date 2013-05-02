@@ -16,7 +16,8 @@ define(function(require) {
 	var router = require('durandal/plugins/router');    	// Router
 	var Structures = require('modules/patientStructures');  // Patient Structures
 	var UserStructures = require('modules/structures');		// User Structures
-	
+	var modal	   = require('modals/modals');				// Modals
+	var app = require('durandal/app');
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
@@ -44,7 +45,10 @@ define(function(require) {
 	var referencePcp		= ko.observable(new structures.Reference());
 	var referenceOther		= ko.observable(new structures.Reference());
 	var referencePersonal	= ko.observable(new structures.Reference());
-
+	var isArchive           = ko.observable(false);
+	var tempPrimaryInsurance       = ko.observable(); 
+	var tempSecondaryInsurance       = ko.observable();
+	var tempOtherInsurance       = ko.observable();
 	/*********************************************************************************************** 
 	 * ViewModel
 	 **********************************************************************************************/
@@ -74,6 +78,10 @@ define(function(require) {
 		referencePcp: referencePcp,
 		referenceOther: referenceOther,
 		referencePersonal: referencePersonal,
+		isArchive: isArchive,
+		tempPrimaryInsurance: tempPrimaryInsurance,
+		tempSecondaryInsurance: tempSecondaryInsurance,
+		tempOtherInsurance: tempOtherInsurance,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -103,7 +111,9 @@ define(function(require) {
 			self.patientId(data.patientId);
 			self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
 			self.patient().practiceId(self.practiceId());
-			
+			primaryInsurance().type('primary');
+			secondaryInsurance().type('secondary');
+			otherInsurance().type('other');
 			/**************************************************************************************
 			 * Personal Information
 			 * 
@@ -227,7 +237,7 @@ define(function(require) {
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
 						var i = new structures.Insurance(data[count]);
-						
+							
 						switch(i.type()) {
 	            			case 'primary':
 	            				self.primaryInsurance(i);
@@ -322,6 +332,81 @@ define(function(require) {
 			}
 			else
 				$('.allAlert').fadeIn('slow').delay(2000).fadeOut('slow');
+		},
+		printInsurance: function(data) { 
+			modal.showInsurance(patient().firstName(),patient().lastName(),practiceId(),patientId(),'Insurance Archive Records');  
+		},
+		clearForm: function(data) { 
+			return app.showMessage(
+				'You are going to replace current record with new details.Old details will be archived,are you sure?', 
+				'Replace Insurance Record', 
+				['Yes', 'No'])
+			.done(function(answer){
+				if(answer == 'Yes') {
+					isArchive(true); 
+				   $('.archiveButton').text('Archived').attr('disabled', true);
+				   tempPrimaryInsurance(primaryInsurance()); 
+				   tempSecondaryInsurance(secondaryInsurance()); 
+				   tempOtherInsurance(otherInsurance()); 
+				   primaryInsurance(new structures.Insurance());
+				   secondaryInsurance(new structures.Insurance());
+				   otherInsurance(new structures.Insurance());
+				   primaryInsurance().verificationTime(''); 
+				   secondaryInsurance().verificationTime(''); 
+				   otherInsurance().verificationTime(''); 
+				   //set the archive dates 
+				   tempPrimaryInsurance().archiveDate(form.dbDate(form.currentDate())); 
+				   tempSecondaryInsurance().archiveDate(form.dbDate(form.currentDate())); 
+				   tempOtherInsurance().archiveDate(form.dbDate(form.currentDate())); 
+				   //save the Insurances
+				   backend.saveInsurance(tempPrimaryInsurance(),patientId(),practiceId());
+				   backend.saveInsurance(tempSecondaryInsurance(),patientId(),practiceId());
+				   backend.saveInsurance(tempOtherInsurance(),patientId(),practiceId());
+				   
+				}
+			}); 
+		},
+		showInsuranceForm: function(data) {
+			if(isArchive()) {
+				return app.showMessage(
+					'Any current changes will be lost,are you sure?', 
+					'Reload Insurance Record', 
+					['Yes', 'No'])
+				.done(function(answer){
+					if(answer == 'Yes') {
+						primaryInsurance(tempPrimaryInsurance());
+						secondaryInsurance(tempSecondaryInsurance());
+						otherInsurance(tempOtherInsurance());
+						tempPrimaryInsurance(new structures.Insurance());
+						tempSecondaryInsurance(new structures.Insurance());
+						tempOtherInsurance(new structures.Insurance());
+						$('.archiveButton').text('Archive').attr('disabled', false);
+						isArchive(false); 
+					}
+				});
+			}
+		},
+		saveInsurance: function(data) { 
+			if(primaryInsurance().errors().length > 0) {
+				if(primaryInsurance().errors().length > 1) {
+					$('.primaryInsurance .allAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(primaryInsurance().errors()[0] == 'group') {
+					$('.primaryInsurance .groupAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(primaryInsurance().errors()[0] == 'policy') {
+					$('.primaryInsurance .policyAlert').fadeIn().delay(3000).fadeOut();
+				}
+				else if(primaryInsurance().errors()[0] == 'company') {
+					$('.primaryInsurance .companyAlert').fadeIn().delay(3000).fadeOut();
+				}
+			}
+			else { 
+				backend.saveInsurance(primaryInsurance(),patientId(),practiceId()); 
+				backend.saveInsurance(secondaryInsurance(),patientId(),practiceId()); 
+				backend.saveInsurance(otherInsurance(),patientId(),practiceId()); 
+				$('.primaryInsurance .insuranceAlert').fadeIn().delay(3000).fadeOut();
+			}
 		}
 	}; // End ViewModel
 }); // End file
