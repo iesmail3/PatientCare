@@ -1,8 +1,16 @@
+<!-------------------------------------------------------------------------------------------------
+ | View: Additional Details(Modal)
+ | Author: Imran Esmail 
+ | Description: This View contains all of the logic for the additioanl detials modal.
+ ------------------------------------------------------------------------------------------------->
 <div class="messageBox orderBox">
+	<!-- Modal Header -->
 	<div class="modal-header">
 		<h3 data-bind="html: title"></h3>
 	</div>
+	<!-- Modal Body -->
 	<div class="modal-body">
+		<!-- Table -->
 		<div class="row-fluid">     
 			<table class="table table-bordered table-hover">
 				<thead> 
@@ -16,10 +24,11 @@
 				<tbody>
 				</tbody>
 			</table>  
-		</div>
+		</div><!--End table -->
 	</div>
+	<!-- Modal Footer -->
 	<div class="modal-footer" data-bind="foreach: options">
 		<button class="btn" data-bind="click: function() { $parent.selectOption($data); }, 
 			html: $data, css: {'btn-primary': $index() == 0, autofocus: $index() == 0, 'btn-danger': $data == 'Cancel'}"></button>
 	</div>
-</div>
+</div><!-- End Additional Details -->

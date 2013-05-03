@@ -7,6 +7,7 @@
 <div class="formScroll formPadding">
 				<!--Row-Fluid -->
 				<div class="row-fluid">
+				    <!-- prescription table -->
 					<table class="table table-bordered table-hover">
 						<thead>
 							<tr>
@@ -38,6 +39,7 @@
 					</table>
 				</div><!--End Row-Fluid -->
 			</div><!-- End Form Scroll -->
+			<!-- Buttons-->
 			<div class="pull-right marginBottom5">
 					<button type="button" class="btn btn-small" data-bind="click:$root.clickPrint,visible: $root.role().prescription() > 1">Print</button>
 					<button type="button" class="btn btn-small" data-bind="click:$root.selectRow,visible: $root.role().prescription() > 1">Add</button>
