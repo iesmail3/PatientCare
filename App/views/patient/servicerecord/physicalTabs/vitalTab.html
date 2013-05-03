@@ -21,17 +21,18 @@ Description: This view is the the Vital Signs tab, it displays the vitals inform
 					<label class="control-label" for="inputEmail">Height</label>
 					<div class="controls">
 						<input type="number" class="input-xsmall" placeholder="Height" min="0" 
-							data-bind="value: height, valueUpdate: 'afterkeyup', enable: $root.vitalSigns() > 1" />
+							data-bind="value: height, valueUpdate: 'afterkeyup',
+								enable: $root.role().vitalSigns() > 1" />
 						<label class="radio inline">
 							<input type="radio" name="height" value="1"
 								data-bind="checked: heightType, event: {change: $root.vitalSignsInches},
-									enable: $root.vitalSigns() > 1" />
+									enable: $root.role().vitalSigns() > 1" />
 							<span class="smallText">in</span>
 						</label>
 						<label class="radio inline">
 							<input type="radio" name="height" value="2"
 								data-bind="checked: heightType, event: {change: $root.vitalSignsCentimeters},
-									enable: $root.vitalSigns() > 1" />
+									enable: $root.role().vitalSigns() > 1" />
 							<span class="smallText">cm</span>
 						</label>
 					</div>
@@ -41,17 +42,18 @@ Description: This view is the the Vital Signs tab, it displays the vitals inform
 					<label class="control-label" for="inputEmail">Weight</label>
 					<div class="controls">
 						<input type="number" class="input-xsmall" placeholder="Weight" min="0"
-							data-bind="value: weight, valueUpdate: 'afterkeyup', enable: $root.vitalSigns() > 1" />
+							data-bind="value: weight, valueUpdate: 'afterkeyup',
+								enable: $root.role().vitalSigns() > 1" />
 						<label class="radio inline">
 							<input type="radio" name="weight" value="1"
 								data-bind="checked: weightType, event: {change: $root.vitalSignsPounds},
-									enable: $root.vitalSigns() > 1" />
+									enable: $root.role().vitalSigns() > 1" />
 							<span class="smallText">lb</span>
 						</label>
 						<label class="radio inline">
 							<input type="radio" name="weight" value="2"
 								data-bind="checked: weightType, event: {change: $root.vitalSignsKilograms},
-									enable: $root.vitalSigns() > 1" />
+									enable: $root.role().vitalSigns() > 1" />
 							<span class="smallText">kg</span>
 						</label>
 					</div>
@@ -61,25 +63,25 @@ Description: This view is the the Vital Signs tab, it displays the vitals inform
 					<label class="control-label" for="inputEmail">Temp</label>
 					<div class="controls">
 						<input type="number" class="input-xsmall" placeholder="Temp" step="0.1"
-							data-bind="value: temp, enable: $root.vitalSigns() > 1" />
+							data-bind="value: temp, enable: $root.role().vitalSigns() > 1" />
 						<label class="radio inline">
 							<input type="radio" name="temp" value="R"
-								data-bind="checked: tempType, enable: $root.vitalSigns() > 1" />
+								data-bind="checked: tempType, enable: $root.role().vitalSigns() > 1" />
 							<span class="smallText">R</span>
 						</label>
 						<label class="radio inline">
 							<input type="radio" name="temp" value="A"
-								data-bind="checked: tempType, enable: $root.vitalSigns() > 1" />
+								data-bind="checked: tempType, enable: $root.role().vitalSigns() > 1" />
 							<span class="smallText">A</span>
 						</label>
 						<label class="radio inline">
 							<input type="radio" name="temp" value="O"
-								data-bind="checked: tempType, enable: $root.vitalSigns() > 1" />
+								data-bind="checked: tempType, enable: $root.role().vitalSigns() > 1" />
 							<span class="smallText">O</span>
 						</label>
 						<label class="radio inline">
 							<input type="radio" name="temp" value="T"
-								data-bind="checked: tempType, enable: $root.vitalSigns() > 1" />
+								data-bind="checked: tempType, enable: $root.role().vitalSigns() > 1" />
 							<span class="smallText">T</span>
 						</label>
 					</div>
@@ -89,7 +91,7 @@ Description: This view is the the Vital Signs tab, it displays the vitals inform
 					<label class="control-label" for="inputEmail">HC</label>
 					<div class="controls">
 						<input type="number" class="input-xsmall" placeholder="HC" 
-							data-bind="value: hc, enable: $root.vitalSigns() > 1" />
+							data-bind="value: hc, enable: $root.role().vitalSigns() > 1" />
 					</div>
 				</div>
 				<!-- BMI/BSA -->
@@ -107,7 +109,7 @@ Description: This view is the the Vital Signs tab, it displays the vitals inform
 					<label class="control-label" for="inputEmail">RESP</label>
 					<div class="controls">
 						<input type="text" class="input-xsmall" placeholder="Resp" 
-							data-bind="value: resp, enable: $root.vitalSigns() > 1" />
+							data-bind="value: resp, enable: $root.role().vitalSigns() > 1" />
 					</div>
 				</div>
 				<!-- SpO2 -->
@@ -116,7 +118,7 @@ Description: This view is the the Vital Signs tab, it displays the vitals inform
 					<div class="controls">
 						<div class="input-append">
 							<input type="text" class="input-xsmall" placeholder="SpO2" 
-								data-bind="value: spo2, enable: $root.vitalSigns() > 1" />
+								data-bind="value: spo2, enable: $root.role().vitalSigns() > 1" />
 							<span class="add-on">%</span>
 						</div>
 					</div>
@@ -135,33 +137,38 @@ Description: This view is the the Vital Signs tab, it displays the vitals inform
 							<td>Sitting</td>
 							<td>
 								<input type="number" class="input-mini" placeholder="BP"
-									data-bind="value: sittingBloodPressure, enable: $root.vitalSigns() > 1" />
+									data-bind="value: sittingBloodPressure,
+										enable: $root.role().vitalSigns() > 1" />
 							</td>
 							<td>
 								<input type="number" class="input-mini vitalSignsPulse" placeholder="P"
-									data-bind="value: sittingPulse, enable: $root.vitalSigns() > 1" />
+									data-bind="value: sittingPulse,
+										enable: $root.role().vitalSigns() > 1" />
 							</td>
 						</tr>
 						<tr>
 							<td>Lying</td>
 							<td>
 								<input type="number" class="input-mini" placeholder="BP"
-									data-bind="value: lyingBloodPressure, enable: $root.vitalSigns() > 1" />
+									data-bind="value: lyingBloodPressure,
+										enable: $root.role().vitalSigns() > 1" />
 							</td>
 							<td>
 								<input type="number" class="input-mini vitalSignsPulse" placeholder="P"
-									data-bind="value: lyingPulse, enable: $root.vitalSigns() > 1" />
+									data-bind="value: lyingPulse,
+										enable: $root.role().vitalSigns() > 1" />
 							</td>
 						</tr>
 						<tr>
 							<td>Standing</td>
 							<td>
 								<input type="number" class="input-mini" placeholder="BP"
-									data-bind="value: standingBloodPressure, enable: $root.vitalSigns() > 1" />
+									data-bind="value: standingBloodPressure,
+										enable: $root.role().vitalSigns() > 1" />
 							</td>
 							<td>
 							<input type="number" class="input-mini vitalSignsPulse" placeholder="P"
-								data-bind="value: standingPulse, enable: $root.vitalSigns() > 1" />
+								data-bind="value: standingPulse, enable: $root.role().vitalSigns() > 1" />
 							</td>
 						</tr>
 					</tbody>
@@ -170,7 +177,7 @@ Description: This view is the the Vital Signs tab, it displays the vitals inform
 			<!-- Comments -->
 			<div class="commentContainer">
 				<textarea class="commentSpan vitalSignsComment" placeholder="Comments"
-					data-bind="value: comment, enable: $root.vitalSigns() > 1" />
+					data-bind="value: comment, enable: $root.role().vitalSigns() > 1" />
 				</textarea>
 			</div>
 			<!-- /ko -->
@@ -180,11 +187,11 @@ Description: This view is the the Vital Signs tab, it displays the vitals inform
 <!-- Buttons -->
 <div class="pull-right">
 	<button type="submit" class="btn btn-small btn-primary"
-		data-bind="click: $root.vitalSignsSave, visible: $root.vitalSigns() > 1">
+		data-bind="click: $root.vitalSignsSave, visible: $root.role().vitalSigns() > 1">
 		Save
 	</button>
 	<button type="button" class="btn btn-small btn-warning"
-		data-bind="click: $root.vitalSignsClear, visible: $root.vitalSigns() > 1">
+		data-bind="click: $root.vitalSignsClear, visible: $root.role().vitalSigns() > 1">
 		Clear
 	</button>
 </div>

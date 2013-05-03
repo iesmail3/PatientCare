@@ -1,6 +1,14 @@
+<!--
+View name: Manage Patients
+Viewmodel: App/viewmodels/managepatients.js
+Author(s): Gary Chang & Sean Malone
+Description: This view displays the records for each patient and allows the user to search.
+-->
 <div class="well">
+	<!-- Search Parameters -->
 	<form class="form-inline managePatients">
-		<input type="text" class="input-medium"data-bind="value: keyword, valueUpdate: 'afterkeydown'" placeholder="Keyword" />
+		<input type="text" class="input-medium"
+			data-bind="value: keyword, valueUpdate: 'afterkeydown'" placeholder="Keyword" />
 		<span>that</span>
 		<select class="span2" data-bind="value: context">
 			<option value="contains">Contains</option>
@@ -9,7 +17,7 @@
 		</select> 
 		<span>in</span>
 		<select class="span3" data-bind="value: parameter">
-			<option value="" disabled selected style="display:none;">All</option>
+			<option value="" data-bind="visible: false">All</option>
 			<option value="firstName">First Name</option>
 			<option value="middleName">Middle Name</option>
 			<option value="lastName">Last Name</option>
@@ -22,8 +30,7 @@
 			<option value="mobile">Mobile</option>
 			<option value="email">Email</option>		
 		</select>
-
-		<!-- buttons -->
+		<!-- Buttons -->
 		<button type="button" data-bind="click: clearFields" class="btn btn-small btn-warning">Clear</button>
 	</form>
 	<!-- Patient Table -->

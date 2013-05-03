@@ -1,5 +1,6 @@
 /**************************************************************************************************
- * Module: Patient
+ * Module name: Patient
+ * Viewmodel: App/viewmodels/managepatients.js
  * Author(s): Gary Chang, Imran Esmail, Sean Malone
  * Description: This module is used to query the database for patient.
  *************************************************************************************************/
