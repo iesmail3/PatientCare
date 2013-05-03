@@ -1,17 +1,19 @@
 <!--
-View:
-Author(s):
-Description:
+View name: Reports
+Author(s): Imran Esmail 
+Description: This view holds the Diagnosis and Plan&Instruction tabs. Each tab has been broken down into its own separate
+			 view via the compose data-binds within the tab contents.
 -->
 <div>
+	<!-- List of tabs -->
 	<ul class="nav nav-tabs patientNavs" id="labTab">
-		<li class="active"><a data-toggle="tab" href="#report">Reports</a></li>
+		<li class="active"><a data-toggle="tab" href="#report" data-bind="visible: $root.role().reports() > 0">Reports</a></li>
 	</ul>
-
+	<!-- Content of tabs -->
 	<div class="tab-content">
-		<div class="tab-pane outerPane active" id="report">
+		<!-- Report -->
+		<div class="tab-pane outerPane active" id="report" data-bind="visible: $root.role().reports() > 0">
 			<div data-bind="compose: 'patient/servicerecord/reportTabs/reportTab.html'" >
-				<!-- Report -->
 			</div>
 		</div>
 	</div>
