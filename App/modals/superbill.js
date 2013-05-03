@@ -1,3 +1,8 @@
+/***************************************************************************************************
+ * ViewModel: Superbill
+ * Author(s): Imran Esmail 
+ * Description:  This module is used to query the database
+ **************************************************************************************************/
 define(function(require) {
 	var system = require('durandal/system');
 	var Backend = require('modules/followup');
@@ -5,7 +10,7 @@ define(function(require) {
 	var structures = new Structures();
 	var backend = new Backend(); 
 	var self;
-	
+	//Constructor 
 	var Superbill = function(superBill,role,title,options) { 
 		self = this; 
 		this.title = title || Superbill.defaultTitle; 
@@ -15,15 +20,15 @@ define(function(require) {
 		this.diagnosis = ko.observableArray([]);
 		this.updateDiagnosis(this.superBill());
 	};
-	
+	// /**********************************************************************************************
+	 // * Updates modal 
+	 // *********************************************************************************************/
 	Superbill.prototype.selectOption = function(dialogResult) {
 		this.modal.close(dialogResult);
 	};
-	
 	// /**********************************************************************************************
 	 // * Retrieve data for diagnosis
 	 // *********************************************************************************************/
-	
 	Superbill.prototype.updateDiagnosis = function(data) {
 		backend.getDiagnosis().success(function(data) { 
 		   
@@ -33,7 +38,6 @@ define(function(require) {
 			}
 		});
 	}
-	
 	// /**********************************************************************************************
 	 // * Open Drugs Diagnosis modal
 	 // *********************************************************************************************/

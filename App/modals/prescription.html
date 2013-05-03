@@ -1,7 +1,14 @@
+<!-------------------------------------------------------------------------------------------------
+ | View: Prescription (Modal)
+ | Author: Imran Esmail 
+ | Description: This View contains all of the logic for the Prescription modal.
+ ------------------------------------------------------------------------------------------------->
 <div class="messageBox orderBox">
+	<!-- Modal Header -->
 	<div class="modal-header">
 		<h3 data-bind="html: title"></h3>
 	</div>
+	<!-- Modal Body -->
 	<div class="modal-body">
 		<div class="marginBottom5">
 		<input type="text" data-bind="datepicker: true,value:date" class="input-medium"  placeholder="Prescription Date" />
@@ -46,10 +53,10 @@
 		<div class="marginBottom5 commentContainer">
 			<textarea class="commentSpan" rows="3" placeholder="Comments" data-bind="value:comment"></textarea>
 		</div>
-		
+		<!-- Modal Footer -->
 		<div class="modal-footer" data-bind="foreach: options">
 		<button class="btn" data-bind="click: function() { $parent.selectOption($data); }, 
 			html: $data, css: {'btn-primary': $index() == 0, autofocus: $index() == 0, 'btn-danger': $data == 'Cancel'}"></button>
-	</div>
-	</div>
-</div>
+		</div>
+	</div><!-- End Modal Body -->
+</div><!-- End Modal -->

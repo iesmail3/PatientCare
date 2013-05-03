@@ -1,3 +1,8 @@
+/***************************************************************************************************
+ * ViewModel: Prescription
+ * Author(s): Imran Esmail 
+ * Description:  This module is used to query the database
+ **************************************************************************************************/
 define(function(require) {
 	var system = require('durandal/system');
 	var Backend = require('modules/followup');
@@ -7,7 +12,7 @@ define(function(require) {
 	var form = new Forms();
 	var backend = new Backend(); 
 	var self;
-
+    //Constructor 
 	var Prescription = function(prescription,prescriptions,groupOrders,title,options) {
          self = this; 	
 		this.title = title || Prescription.defaultTitle;
@@ -26,7 +31,9 @@ define(function(require) {
 		this.mode = ko.observable();
 		this.updatePrescriptions(this.prescription());
 	};
-	
+	/**********************************************************************************************
+	 * Either saves the record ot the database or closes the modal
+	 *********************************************************************************************/
 	Prescription.prototype.selectOption = function(dialogResult) {
 	     if(dialogResult == 'Save') {
 			$.each(self.groupOrders(), function(k, v) {
@@ -53,7 +60,9 @@ define(function(require) {
 		this.modal.close(dialogResult);
 		 
 	}
-	
+	/**********************************************************************************************
+	 * Update prescription
+	 *********************************************************************************************/
 	Prescription.prototype.updatePrescriptions = function(data) {
 		backend.getPrescriptionDetails().success(function(data) { 
 		   

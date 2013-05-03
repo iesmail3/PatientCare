@@ -1,15 +1,24 @@
+<!-------------------------------------------------------------------------------------------------
+ | View: Display File (Modal)
+ | Author: Imran Esmail 
+ | Description: This View contains all of the logic for the DisplayFile modal.
+ ------------------------------------------------------------------------------------------------->
 <div class="messageBox fileHolder">
+	<!-- Close window key shortcut -->
 	<div data-bind="click: closeWindow, shortcut: 'esc'"></div>
+	<!-- Modal Header -->
 	<div class="modal-header">
 		<button type="button" data-bind="click: closeWindow" class="close" aria-hidden="true">
 			&times;
 		</button>
 		<h3 data-bind="html: headerName"></h3>
 	</div>
+	<!-- Modal Body -->
 	<div class="modal-body">
 		<img data-bind="attr: {src: filename}" /> 
 	</div>
+	<!-- Modal Footer -->
 	<div class="modal-footer">
 		<a data-bind="attr: {href: downloadFile}" target="_blank" class="btn btn-primary">Download File</a>
 	</div>
-</div>
+</div><!-- End Modal -->

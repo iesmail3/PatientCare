@@ -1,4 +1,11 @@
+<!-------------------------------------------------------------------------------------------------
+ | View: Diagnosis
+ | Author: Imran Esmail 
+ | Description: This View contains all of the logic for the Diagnosis tab.
+ ------------------------------------------------------------------------------------------------->
+ <!-- Diagnosis From Scroll -->
 <div class="formScroll formPadding diagnosis">
+	<!-- Row-Fluid-->
 	<div class="row-fluid">
 		<div class="alertHolder">
 						<div class="alert alert-danger diagnosisFailAlert">Diagnosis is a required field.</div>
@@ -10,27 +17,27 @@
 				<tr>
 					<th>Diagnosis</th>
 					<th>Code</th>
-					<th></th>
+					<th data-bind="visible: $root.role().diagnosis() > 1"></th>
 				</tr>
 			</thead>
 			<tbody data-bind="foreach: $root.diagnoses">  
 				<tr>
 					<td class="input-small">											 
-						<input class="input-small" data-bind="value:diagnosis,typeahead: {value: diagnosis, source: $root.diagnosisDescription},event:{blur: $root.popCode},valueUpdate: 'afterkeydown'" />
+						<input class="input-small" data-bind="value:diagnosis,typeahead: {value: diagnosis, source: $root.diagnosisDescription},event:{blur: $root.popCode},valueUpdate: 'afterkeydown',enable: $root.role().diagnosis() > 1" />
 					</td> 
 					<td class="input-small">									
-						<input class="input-small" data-bind="value:code,typeahead: {value: code, source: $root.diagnosisCode},event:{blur: $root.popDescription},valueUpdate: 'afterkeydown'" />
+						<input class="input-small" data-bind="value:code,typeahead: {value: code, source: $root.diagnosisCode},event:{blur: $root.popDescription},valueUpdate: 'afterkeydown',enable: $root.role().diagnosis() > 1" />
 					</td>
-					<td>
+					<td data-bind="visible: $root.role().diagnosis() > 1">
 						<a class="btn" data-bind="visible: diagnosis()!='',click:$root.removeDiagnosis"><i class="icon-remove"></i></a>
 					</td>
 				</tr>
 			</tbody>
 		</table> 
 		<!-- /ko -->  
-	</div>
-</div>
+	</div><!--End Row-Fluid -->
+</div><!-- End Diagnosis Form Scroll-->
 <div class="pull-right">
-	<button type="button" class="btn btn-small" data-bind="click:$root.selectPrint">Print Letter</button>
-	<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.saveDiagnosis">Save</button>
+	<button type="button" class="btn btn-small" data-bind="click:$root.selectPrint,visible: $root.role().diagnosis() > 1">Print Letter</button>
+	<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.saveDiagnosis,visible: $root.role().diagnosis() > 1">Save</button>
 </div>

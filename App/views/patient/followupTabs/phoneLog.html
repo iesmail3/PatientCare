@@ -1,6 +1,12 @@
+<!-------------------------------------------------------------------------------------------------
+ | View: PhoneLog
+ | Author: Imran Esmail 
+ | Description: This View contains all of the logic for the PhoneLog tab.
+ ------------------------------------------------------------------------------------------------->
 <div class="phoneLog">
 	<!-- ko with: phoneLog -->
 	<form class="form-inline">
+		<!-- Row-Fluid PhoneLog -->
 		<div class="row-fluid">
 			<div class="alertHolder">
 						<div class="alert alert-danger allAlert">You are missing required fields.</div>
@@ -46,10 +52,11 @@
 					<button type="button" id ="cancelButton" class="btn btn-small btn-danger" data-bind="click: $root.phoneLogCancel,visible: !$root.phoneLogState(),visibl;e: $root.role().phoneLog() > 1">Cancel</button>
 				</div>
 			</fieldset>
-		</div>
+		</div><!-- End Row-Fluid PhoneLog -->
 	</form>
 	<!-- /ko -->
-	</div>
+	</div><!--End PhoneLog -->
+	<!-- Row-Fluid PhoneLog table -->
 	<div class="row-fluid"> 
 	<table class="table table-bordered table-hover">
 		<thead>
@@ -71,4 +78,4 @@
 				</tr>          
 		</tbody>
 	</table>
-</div>
+</div><!-- End Row-Fluid PhoneLog Table -->

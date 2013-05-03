@@ -52,7 +52,6 @@ class PDF extends FPDI_CellFit {
 		 catch (PDOException $e) {
 			echo $e->getMessage() . "<br>";
 		 }
-		 
 		 /******************************************************************************************
  		 * Clinic Info - Only on first page.
  		*****************************************************************************************/
@@ -82,6 +81,7 @@ class PDF extends FPDI_CellFit {
 		 $y = $this->GetY() + 2;
 		$this->Line(11, $y, 298, $y);
 	}
+	//Print Footer
 	function Footer() {
 		// Position at 1.5 cm from bottom
 		$this->SetY(-15);
@@ -97,8 +97,6 @@ class PDF extends FPDI_CellFit {
 $pdf = new PDF('L','mm',array(200,300));
 $pdf->AliasNbPages();
 $pdf->AddPage();
-
-
 $pdf->Cell(25,9,'Archive date');
 $pdf->Cell(15,9,'Type');
 $pdf->Cell(25,9,'Effective date');
@@ -112,8 +110,7 @@ $pdf->Cell(20,9,'Deductible');
 $pdf->Cell(29,9,'Remaining OOP');
 $pdf->Cell(27,9,'Patient Portion');
 $pdf->Cell(100,9,'Co-pay',0,1);
-
-
+//Prints all insurances if "Print All" checkbox checked
 if($printAll=='true') {
 	//Insurance
 	$stmt = $db->query("SELECT insurance.* FROM insurance");
@@ -159,10 +156,6 @@ else {
 		$pdf->Cell(100,9,$i['copayment'],0,1,'C');
 	}
 }
-
-
- 
-
 /***************************************************************************************************
  * Output PDF
  **************************************************************************************************/

@@ -1,5 +1,5 @@
 /***************************************************************************************************
- * ViewModel: FOllowup.js
+ * ViewModel: Followup.js
  * Author(s): Imran Esmail 
  * Description: Handles the business logic for the Followup section of the patient
  *              record. This includes the Followup, checkout, phonelog,prescription, and document tabs.
@@ -16,8 +16,8 @@ define(function(require) {
 	 var modal	   = require('modals/modals');				// Modals
 	 var app = require('durandal/app');
 	 var UserStructures	= require('modules/structures');		// User structures
-	/*********************************************************************************************** 
 	 
+	/*********************************************************************************************** 
 	/* KO Observables
 	 **********************************************************************************************/
 	 var form 			= new Forms();
@@ -70,6 +70,7 @@ define(function(require) {
 	 var file 			= ko.observable(); 
 	 var documentType   = ko.observable("Document Type");
 	 var isNewDocument  = ko.observable(false); 
+	 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/  
@@ -84,7 +85,7 @@ define(function(require) {
 		checkout().copayAmount(total); 
 		 return total; 
    	}); 
-   
+    // Total Pay - Get the total payment due
    	 var totalPay = ko.computed(function() {      
 		var total = 0;
 			for(var i = 0; i < paymentMethods().length; i++) {
@@ -96,7 +97,7 @@ define(function(require) {
 		checkout().totalPayment(total); 
 		return total;    
     });
-
+	// Total Receivable - Get the total receivable due
      var totalReceivable = ko.computed(function() {     
 		var total = 0;
 		total+= copayment();
@@ -110,7 +111,7 @@ define(function(require) {
 		checkout().totalReceivable(total); 
 		return total; 
     });    
-   
+   // Balane - Get the balance due
    var balance = ko.computed(function() {     
 		var difference = 0;
 			difference = totalReceivable() - totalPay();
@@ -124,8 +125,6 @@ define(function(require) {
 		}
     });
    
-      
-      
 	/*********************************************************************************************** 
 	 * ViewModel
 	 *  
@@ -183,6 +182,7 @@ define(function(require) {
 		file: file,
 		documentType: documentType,
 		isNewDocument: isNewDocument,
+		
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -192,7 +192,6 @@ define(function(require) {
 				e.preventDefault();
 				$(this).tab('show');
 			});
-						
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 			$(window).resize(function() {
@@ -215,7 +214,6 @@ define(function(require) {
 		},
 		// Loads when view is loaded
 		activate: function(data) {
-		
 			backend.getRole(global.userId, global.practiceId).success(function(data) {
 					self.role(new userStructures.Role(data[0]));
 				});
@@ -224,7 +222,7 @@ define(function(require) {
 			self.patientId(data.patientId); 
 			//Practice ID
 			self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
-	 
+			// Get Followup list for a patient
 			backend.getFollowup(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
 					var f = $.map(data, function(item) {
@@ -234,7 +232,7 @@ define(function(require) {
 						self.followup(f[0]);
 				}				
 			});
-         
+            // Get Checkout list for a patient 
             backend.getCheckOut(self.patientId(),self.practiceId()).success(function(data) { 
 				checkoutId(data[0].id);  				
 				if(data.length > 0) {
@@ -242,7 +240,7 @@ define(function(require) {
 					self.checkouts(ch); 
 					self.checkout(ch[0]);  					
 				} 
-			    
+			    // Get Payment Methods 
 				backend.getPaymentMethods(self.checkoutId()).success(function(data) {	 
 					if(data.length > 0) {
 						var p = $.map(data, function(item) {return new structures.PaymentMethod(item) });
@@ -256,7 +254,7 @@ define(function(require) {
 				    }
 				}); 
 			});
-			   
+			//Get PhoneLog list for a single patient
 			backend.getPhoneLog(self.patientId(),self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					
@@ -268,7 +266,7 @@ define(function(require) {
 					 self.phoneLog(p[0]); 
 				} 
 			}); 
-			
+			//Get Superbill list for a single patient 
 			backend.getSuperBill().success(function(data) { 
 				if(data.length > 0) { 
 					 var p = $.map(data, function(item) {
@@ -278,7 +276,7 @@ define(function(require) {
 					 self.superBill(p[0]); 
 				} 
 			});
-			
+			// Get Document list for a single patient 
 			backend.getDocument(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
 					 var d = $.map(data, function(item) { 
@@ -289,7 +287,7 @@ define(function(require) {
                      self.doc(d[0]); 					 
 				} 
 			});
-							
+			//Get prescription list for a single patient 
 			backend.getPrescription().success(function(data) { 
 				if(data.length > 0) {
 					 var p = $.map(data, function(item) {
@@ -299,14 +297,14 @@ define(function(require) {
                      self.prescription(p[0]); 					 
 				} 
 			});
-		 
+			//Get physician for a specified practice id
 			backend.getPhysician(self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					var p = $.map(data, function(item) { return item.first_name + " " + item.last_name }); 
 					self.myArray(p); 
 				} 
 			}); 
-			
+			//Get Insurance for a single patient and set it to the appropriate insurance observables
 			return backend.getInsurance(self.patientId(),self.practiceId()).success(function(data) {      		
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
@@ -331,9 +329,11 @@ define(function(require) {
 		totalPay:  totalPay,
 		balance:   balance,
 		totalReceivable: totalReceivable,
+		//Set the Followup tab fields
 		setFields: function(data) {
 			followup(data);
 		},        
+		// Set Checkout tab fields 
 		setCheckOutFields: function(data) { 
 			checkout(data);  
 			backend.getPaymentMethods(data.id()).success(function(data) {		
@@ -348,41 +348,48 @@ define(function(require) {
 					  paymentMethods.push(new structures.PaymentMethod()); 
 				}
 			});    			
-		},                
+		},        
+		//Set Phonelog tab fields 
 		setPhoneLogFields: function(data) { 
 			phoneLog(data);
 			
 		}, 
+		//Set document tab fields
 		setDocumentFields: function(data) { 
 		    isNewDocument(false); 
 			doc(data);
 		}, 
+		//Set the Presction tab fields
 		setPrescriptionFields: function(data) { 
 			prescription(data); 
 		},
+		// Sets the temp bservable to the current observable
 		phoneLogCancel: function() {
 			phoneLogState(true);
 			phoneLog(tempPhoneLog());
 			showAssigned(true);  
 		},
+		// Sets the current observable to the temp observable and sets the current observable to null
 		phoneLogAdd: function() { 
 			   phoneLogState(false);
 			   tempPhoneLog(phoneLog());
 	           phoneLog(new structures.PhoneLog());
 			   showAssigned(false); 
 		},
+		//Sets the temp document to the currnet document
 		documentCancel: function() {
 		    isNewDocument(false); 
 			documentState(true);
 			doc(tempDocument()); 
 		},
+		//Adds a new document to the table
 		documentAdd: function() { 
 			   documentState(false);
 			   isNewDocument(true); 
 			   tempDocument(doc());
 	          doc(new structures.Document());
 		},
-		
+		//Show prescription modal 
 		selectRow: function(data) {
 			// Clear group
 			groupOrders([]);
@@ -390,18 +397,23 @@ define(function(require) {
 			$.each(prescriptions(), function(k, v) {
 					groupOrders.push(v.medicationOrderId());
 			});
+			//Show prescription modal 
 			modal.showPrescription(medicationOrder,prescriptions,groupOrders,'Prescription Details');
 		},
+		//show additional detaisl modal 
 		selectLink: function(data) {
 			modal.showAdditionalDetails('Additional Details');
 		},
+		//show superbill modal 
 		selectSuperbill: function(data) {
 			modal.showSuperbill(superBill,role,'Superbill');
 		},
+		//show diaply file modal 
 		displayFile: function(data) { 
 			doc(data); 
 			modal.showFile(doc().location(),'Selected File'); 
 		},
+		//Saves the followup record
 		saveFollowup: function(data) {
 			if(followup().errors().length > 0) {
 				if(followup().errors().length > 1) {
@@ -420,6 +432,7 @@ define(function(require) {
 			    $('.followup .followupAlert').fadeIn().delay(3000).fadeOut();
 			}
 		},
+		//Deletes a followup 
 		deleteFollowup: function(item, test) {
 			return app.showMessage(
 				'Are you sure you want to delete followup with service date ' + item.serviceDate() +'?', 
@@ -437,20 +450,24 @@ define(function(require) {
 				}
 			});
 		},
+		//Adds a new row to the payment method table
 		addRow: function(data) {  
 			var last = paymentMethods()[paymentMethods().length - 1];
 			if(last.mode().trim()!='') 
 			   paymentMethods.push(new structures.PaymentMethod()); 
 		},
+		//Deletes a row from a payment method table
 		removePaymentMethod: function(data) {
 			paymentMethods.remove(data); 
 			backend.deletePaymentMethod(data.id()); 
 		},
+		//Deletes prescription from prescription table
 		deletePrescription: function(data) {
 			 var prescription = data;
 			 prescriptions.remove(prescription);
 			 backend.deletePrescription(data.medicationOrderId());
 		},
+		//Saves payment method
 		savePaymentMethod: function(data) { 
 		    backend.saveCheckout(checkout()); 
 			//Check to see if  you have any rows in the payment method table
@@ -490,6 +507,7 @@ define(function(require) {
                 }					
 		    }
 		},
+		//Saves phonelog record 
 		savePhoneLog: function(data) {
 			if(phoneLog().errors().length > 0) {
 				if(phoneLog().errors().length > 1) {
@@ -516,6 +534,7 @@ define(function(require) {
 				 backend.savePhoneLog(phoneLog,phoneLogs,practiceId(),patientId(),showAssigned); 
 			}
 		},
+		//Saves document record 
 		saveDocument: function(data) {
 			if(doc().errors().length > 0) { 
 				if(doc().errors().length > 1) {
@@ -538,6 +557,7 @@ define(function(require) {
 				
 			}					
 		},
+		//Searches document record by specified type 
 		searchByType: function(data) { 
 			backend.getDocumentByType(patientId(),practiceId(),documentType()).success(function(data) { 
 				if(data.length > 0) {  
@@ -555,36 +575,44 @@ define(function(require) {
 			}); 
 			
 	    },
-		  
+		//Displays prescription pdf file
 		clickPrint: function(data) { 
 				var height = $('.flowHolder').height();
 				var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
 					   'menubar=no, status=no, titlebar=no, toolbar=no';
 				var win = window.open(
-					'php/printPrescription.php/?practiceId=' + practiceId() + '&patientId=' + patientId() +
+					'php/printPrescription.php/?practiceId=' + 
+					practiceId() + '&patientId=' + patientId() +
                      '&medicationOrderId=' + prescription().medicationOrderId(),					
 					'',
 					settings
 				);
 		},
+		//Displays checkout pdf file
 		printCheckout: function(data) { 
 			var height = $('.flowHolder').height();
 			var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
 					   'menubar=no, status=no, titlebar=no, toolbar=no';
 			var win = window.open(
-					'php/printCheckout.php/?practiceId=' + practiceId() + '&patientId=' + checkout().patientId()+ '&serviceRecordId=' + checkout().serviceRecordId() + '&checkoutId=' + checkout().id() + 
-					'&primaryCo=' + primaryCo() + '&secondaryCo=' + secondaryCo() +'&otherCo=' + otherCo(),					
+					'php/printCheckout.php/?practiceId=' + practiceId() + 
+					'&patientId=' + checkout().patientId()+ '&serviceRecordId=' 
+					+ checkout().serviceRecordId() + '&checkoutId=' + checkout().id() + 
+					'&primaryCo=' + primaryCo() + '&secondaryCo=' + secondaryCo() 
+					+'&otherCo=' + otherCo(),					
 					'',
 					settings
 				);
 		},
-		
+		//Displays checkout order pdf file 
 		printCheckoutOrder: function(data) {  
 			var height = $('.flowHolder').height();
 			var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
 					   'menubar=no, status=no, titlebar=no, toolbar=no';
 			var win = window.open(
-					'php/printCheckoutOrder.php/?practiceId=' + practiceId() + '&patientId=' + checkout().patientId() + '&serviceRecordId=' + checkout().serviceRecordId() + '&checkoutId=' + checkout().id()
+					'php/printCheckoutOrder.php/?practiceId=' + practiceId() + 
+					'&patientId=' + checkout().patientId() + '&serviceRecordId=' 
+					+ checkout().serviceRecordId() + '&checkoutId=' 
+					+ checkout().id()
 					,					
 					'',
 					settings

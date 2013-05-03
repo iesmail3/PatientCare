@@ -1,4 +1,11 @@
+<!-------------------------------------------------------------------------------------------------
+ | View: Prescription
+ | Author: Imran Esmail 
+ | Description: This View contains all of the logic for the Prescription.
+ ------------------------------------------------------------------------------------------------->
+<!-- Form Scroll -->
 <div class="formScroll formPadding">
+				<!--Row-Fluid -->
 				<div class="row-fluid">
 					<table class="table table-bordered table-hover">
 						<thead>
@@ -29,8 +36,8 @@
 							</tr>          
 					</tbody>
 					</table>
-				</div>
-			</div>
+				</div><!--End Row-Fluid -->
+			</div><!-- End Form Scroll -->
 			<div class="pull-right marginBottom5">
 					<button type="button" class="btn btn-small" data-bind="click:$root.clickPrint,visible: $root.role().prescription() > 1">Print</button>
 					<button type="button" class="btn btn-small" data-bind="click:$root.selectRow,visible: $root.role().prescription() > 1">Add</button>
