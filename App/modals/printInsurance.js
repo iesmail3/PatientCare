@@ -1,3 +1,8 @@
+/***************************************************************************************************
+ * ViewModel: Print Insurance
+ * Author(s): Imran Esmail 
+ * Description:  This module is used to query the database
+ **************************************************************************************************/
 define(function(require) {
 	var system = require('durandal/system');             //system logger 
 	var Backend = require('modules/personalinformation');  //Database access 
@@ -6,7 +11,7 @@ define(function(require) {
 	var Forms = require('modules/form');					// Common form elements
 	var form 			= new Forms();
 	var self = this; 
-	
+	//Constructor 
 	var PrintInsurance = function(firstName,lastName,practiceId,patientId,title,options) { 
 	    this.fullName = ko.observable(firstName +  ' ' + lastName); 
 		this.practiceId = practiceId; 
@@ -17,7 +22,9 @@ define(function(require) {
 		this.endDate = ko.observable(); 
 		this.printAll  = ko.observable(false); 
 	};
-	
+	/**********************************************************************************************
+	 * Opens print Insurance file 
+	 *********************************************************************************************/
 	PrintInsurance.prototype.print = function(data) { 
 		//Convert to db Date 
 		this.startDate(form.dbDate(this.startDate())); 
@@ -29,17 +36,23 @@ define(function(require) {
 				var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
 					   'menubar=no, status=no, titlebar=no, toolbar=no';
 				var win = window.open(
-					'php/insuranceHistory.php/?practiceId=' + this.practiceId + '&patientId=' + this.patientId +
-                     '&startDate=' + this.startDate() + '&endDate=' + this.endDate() + '&printAll=' + this.printAll(),
+					'php/insuranceHistory.php/?practiceId=' + this.practiceId +
+					'&patientId=' + this.patientId +'&startDate=' + this.startDate() + 
+					'&endDate=' + this.endDate() + '&printAll=' + this.printAll(),
 					'',
 					settings
 				);
 		} 
 	};
+	/**********************************************************************************************
+	 * Close Modal
+	 *********************************************************************************************/
 	PrintInsurance.prototype.selectOption = function(dialogResult) {
 		this.modal.close(dialogResult);
 	};
-
+    /**********************************************************************************************
+	 * Close Window
+	 *********************************************************************************************/
 	PrintInsurance.prototype.closeWindow = function(data) {
 		this.modal.close('close');
 	};

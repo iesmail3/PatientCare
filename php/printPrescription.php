@@ -82,7 +82,6 @@ class PDF extends FPDI_CellFit {
 		catch (PDOException $e) {
 			echo $e->getMessage() . "<br>";
 		}
-		
 		/******************************************************************************************
  		 * Clinic Info - Only on first page.
  		 *****************************************************************************************/
@@ -97,7 +96,6 @@ class PDF extends FPDI_CellFit {
 			$this->SetY($y - 11);
 			$this->Cell(0, 11, date('n/j/Y'), 0, 1, 'R');
 		}
-		
 		/******************************************************************************************
  		 * Physician Information
  		 *****************************************************************************************/
@@ -115,9 +113,6 @@ class PDF extends FPDI_CellFit {
 				       $physician['npi'] . ', DEA: ' . $physician['dea'], 0, 1);
 		if($this->PageNo() == 1)
 			$this->Line(11, 60, 199, 60);
-		// else
-			// $this->Line(11, 27, 199, 27);
-		
 		/******************************************************************************************
  		 * Patient Information
  		 *****************************************************************************************/
@@ -130,7 +125,6 @@ class PDF extends FPDI_CellFit {
  		                $patient['middle_name'] . ' ' . $patient['last_name'] . ', DOB: ' .
  		                 $dob . ', Age: ' . $this->dobToAge($dob) . ', Gender: ' . 
  		                 ucfirst($patient['gender']), 0, 1);
-		
 		/******************************************************************************************
  		 * Allergy Information
  		 *****************************************************************************************/
@@ -141,7 +135,6 @@ class PDF extends FPDI_CellFit {
 		foreach($allergies as $a) {
 			 $this->Cell(0, 4, $a['details'] . ' ' . '[' . $a['type'] . ']',0,1,'L');
 		}
-		
 		/******************************************************************************************
  		 * Prescription Information
  		 *****************************************************************************************/
@@ -155,8 +148,7 @@ class PDF extends FPDI_CellFit {
 				       $prescription['quantity'] . ', Sigs: ' . $prescription['sigs'] . ', Route: ' . 
 				       $prescription['route'] . ', Dispense: ' . $prescription['dispensed_quantity'] . ', Refill: ' . $prescription['refill_quantity'], 0, 1);
 	 }
-	
-		
+	// Print Footer
 	function Footer() {
 		// Position at 1.5 cm from bottom
 		$this->SetY(-15);
@@ -165,7 +157,7 @@ class PDF extends FPDI_CellFit {
 		// Page number
 		$this->Cell(0,10,'Page '.$this->PageNo().' of {nb}',0,0,'C');
     }
-	
+	//Convert Date of Birth to Age
 	function dobToAge($date) {
 		$today = date('Y-m-d');
 		$dif = abs(strtotime($today) - strtotime($date));

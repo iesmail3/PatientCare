@@ -107,7 +107,7 @@
 		});
 		 
 	}
-	
+	//Get the last phoneLog
 	followup.prototype.getLastPhoneLog = function() { 
 		return this.query({
 			mode: 'select',
@@ -147,7 +147,7 @@
 			});
 		}
 	}
-	
+	//Get prescriptions 
 	followup.prototype.getPrescription = function() {
 		return this.query({
 			mode: 'select',
@@ -155,7 +155,6 @@
 			fields: '*'
 		});
 	}
-	
 	// Get All Insurances for a Single Patient
 	followup.prototype.getInsurance = function(id,practiceId) {
 		return this.query({
@@ -165,7 +164,7 @@
 			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
-	
+	//Get MedicationOrder for a single patient
 	followup.prototype.getMedicationOrder = function(id) { 
 		return this.query({
 			mode: 'select',
@@ -174,7 +173,7 @@
 			where: "WHERE id='" + id + "'"
 		});
 	}
-	
+	//Get Diagnosis for a single patient
 	followup.prototype.getDiagnosis = function() { 
 		return this.query({
 			mode: 'select',
@@ -183,7 +182,6 @@
 		});
 	}
 	
-
 	/**********************************************************************************************
 	 * Save Methods
 	 * 
@@ -208,7 +206,6 @@
 				where: "WHERE id='" + id + "' AND patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
 			});
 	}
-	
 	// Update a single diagnosis
 	followup.prototype.saveDiagnosis = function(id, data) {
 		var self = this;   
@@ -226,7 +223,6 @@
 				where: "WHERE id='" + id + "'"
 			});
 	}
-	
 	// Save payment methods for a single patient 
 	followup.prototype.savePaymentMethod = function(checkoutId, paymentMethod) { 
 		var self = this; 
@@ -276,7 +272,6 @@
 			});	
 		}  
 	}
-	
 	// Save phoneLog for a single patient 
 	followup.prototype.savePhoneLog = function(phoneLog,phoneLogs,practiceId,patientId,showAssigned) { 
 			var self = this; 
@@ -329,15 +324,13 @@
 			});        
 		}  
     }
-	
     //Save checkout for a single patient 
 	followup.prototype.saveCheckout = function(data) {  
 		var self = this; 
-		var fields = ['id','practice_id','patient_id','service_record_id','date','copay_amount',
-			'other_copay','additional_charges','edit_additional_charge','insurance_portion',
-			'total_receivable','total_payment','balance','comment','primary_insurance',
-			'secondary_insurance','other_insurance'];
-		
+		var fields = ['id','practice_id','patient_id','service_record_id',
+		'date','copay_amount','other_copay','additional_charges','edit_additional_charge',
+		'insurance_portion','total_receivable','total_payment','balance','comment',
+		'primary_insurance','secondary_insurance','other_insurance'];
 		// Convert true/false back to 1/0
 		data.editAdditionalCharge(data.editAdditionalCharge() ? 1 : 0);
 		data.primaryInsurance(data.primaryInsurance() ? 1 : 0);
@@ -361,12 +354,13 @@
 			where: "WHERE id='" + data.id() + "'"
 		});
 	}
-	
     // Save a prescription for a single patient 
 	followup.prototype.savePrescription = function(data,date,comment,mode) {
 		var self = this; 
-		var fields = ['medicine','strength','quantity','route','sigs','order','dispensed_quantity','refill'
-		,'refill_quantity','physician','created_by','date','mode','comment','medication_order_id'];
+		var fields = ['medicine','strength','quantity','route','sigs',
+		'order','dispensed_quantity','refill'
+		,'refill_quantity','physician','created_by','date','mode',
+		'comment','medication_order_id'];
 		var values = $.map(data, function(k,v) {
 			if(k == null || k == undefined) {
 				return[''];
@@ -406,8 +400,8 @@
 		// Convert true/false to 1/0
 		doc.isReviewed(doc.isReviewed() ? 1 : 0);
         
-		var fields = ['id', 'patient_id','practice_id','service_record_id', 'location', 'type', 'date', 'comment', 
-					  'is_reviewed', 'is_report', 'date_of_service'];
+		var fields = ['id', 'patient_id','practice_id','service_record_id',
+		'location', 'type', 'date', 'comment', 'is_reviewed','is_report','date_of_service'];
 		var values = $.map(doc, function(k, v) {
 			if(k() == null || k() == undefined)
 				return [''];

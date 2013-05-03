@@ -1,11 +1,19 @@
+<!-------------------------------------------------------------------------------------------------
+ | View: SuperBill (Modal)
+ | Author: Imran Esmail 
+ | Description: This View contains all of the logic for the Superbill modal.
+ ------------------------------------------------------------------------------------------------->
 <div class="messageBox superBox">
+	<!-- Close window key shortcut -->
 	<div data-bind="click: closeWindow, shortcut: 'esc'"></div>
+	<!-- Modal Header -->
 	<div class="modal-header">
 		<button type="button" data-bind="click: closeWindow" class="close" aria-hidden="true">
 				&times;
 		</button>
 		<h3 data-bind="html: title"></h3>
 	</div>
+	<!-- Modal Body -->
 	<div class="modal-body">
 			<div class="row-fluid">
 			<form class="orderForm">
@@ -57,8 +65,8 @@
 					</table> 
 				</fieldset>
 			</div>
-		<!-- Left Column -->
 		<div class="row-fluid">
+		<!-- Procuderure,Orders on Left Column -->
 			<div class="span5">
 			   <div class="marginBottom5">
 				<fieldset>
@@ -106,7 +114,8 @@
 					</table> 
 				</fieldset>
 				</div>
-			</div>
+			</div><!-- End Left Column -->
+			<!-- Drugs,OfficeOrderds,Supplies on Right Column -->
 			<div class="offset1 span5">
 				<div class="marginBottom5">
 					<fieldset>
@@ -177,11 +186,12 @@
 						</table> 
 					</fieldset>
 				</div>
-			</div>
+			</div><!-- End Right Coulmn-->
 		</div>
-	</div>
+	</div><!-- End Modal Body -->
+	<!-- Modal Footer -->
 	<div class="modal-footer" data-bind="foreach: options">
 		<button class="btn" data-bind="click: function() { $parent.selectOption($data); }, 
 			html: $data, css: {'btn-primary': $index() == 0, autofocus: $index() == 0, 'btn-danger': $data == 'Cancel'}"></button>
 	</div>
-</div>
+</div><!--End Modal -->

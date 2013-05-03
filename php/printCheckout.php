@@ -28,7 +28,6 @@ $primaryCo          = $_GET['primaryCo'];
 $secondaryCo        = $_GET['secondaryCo'];
 $otherCo            = $_GET['otherCo'];
 
-
 class PDF extends FPDI_CellFit {
 
 	function Header() {
@@ -90,7 +89,6 @@ class PDF extends FPDI_CellFit {
 		 catch (PDOException $e) {
 			echo $e->getMessage() . "<br>";
 		 }
-		 
 		 /******************************************************************************************
  		 * Physician Information
  		 *****************************************************************************************/
@@ -109,7 +107,6 @@ class PDF extends FPDI_CellFit {
 		 $this->Cell(0,4, 'Phone: ' . $practice['phone'] . ', Fax: ' 
 					. $practice['fax'], 0, 1);
 		 }
-		 
 		 /******************************************************************************************
  		 * Physician Information
  		 *****************************************************************************************/
@@ -117,7 +114,6 @@ class PDF extends FPDI_CellFit {
 				       $physician['npi'] . ', DEA: ' . $physician['dea'], 0, 1);
 		if($this->PageNo() == 1)
 			$this->Line(11, 45, 199, 45);
-		
 		/******************************************************************************************
  		 * Patient Information
  		 *****************************************************************************************/
@@ -127,7 +123,6 @@ class PDF extends FPDI_CellFit {
  		                 $dob . ', Age: ' . $this->dobToAge($dob) . ', Gender: ' . 
  		                 ucfirst($patient['gender']), 0, 1);
 		 $this->Line(11, 55, 199, 55);
-		 
 		 /******************************************************************************************
  		 *  Particulars and Amount
  		 *****************************************************************************************/
@@ -181,7 +176,7 @@ class PDF extends FPDI_CellFit {
 			$this->Cell(105,7,'$' . $p['amount'],0,1);
 		 }
 	}
-
+    // Print Footer
 	function Footer() {
 		// Position at 1.5 cm from bottom
 		$this->SetY(-15);
@@ -190,7 +185,7 @@ class PDF extends FPDI_CellFit {
 		// Page number
 		$this->Cell(0,10,'Page '.$this->PageNo().' of {nb}',0,0,'C');
     }
-	
+	//Convert Date of Birth to Age
 	function dobToAge($date) {
 		$today = date('Y-m-d');
 		$dif = abs(strtotime($today) - strtotime($date));
@@ -204,8 +199,6 @@ class PDF extends FPDI_CellFit {
 $pdf = new PDF();
 $pdf->AliasNbPages();
 $pdf->AddPage();
-
-  
 /***************************************************************************************************
  * Output PDF
  **************************************************************************************************/

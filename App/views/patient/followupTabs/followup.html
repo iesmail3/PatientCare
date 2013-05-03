@@ -1,6 +1,12 @@
+ <!-------------------------------------------------------------------------------------------------
+ | View: Followup
+ | Author: Imran Esmail 
+ | Description: This View contains all of the logic for the Followup Tab.
+ ------------------------------------------------------------------------------------------------->
  <div class="formScroll followup">
 	<!-- ko with: followup -->
-	<form class="form-inline">     
+	<form class="form-inline">  
+		<!-- Row-Fluid Followup -->
 		<div class="row-fluid">
 		<div class="alertHolder">
 					<div class="alert alert-danger allAlert">You are missing required fields.</div>
@@ -61,9 +67,10 @@
 					<button type="button" class="btn btn-small btn-danger" data-bind="click:$root.deleteFollowup,visible: $root.role().followup() > 1">Delete</button>
 				</div>
 			</fieldset>
-		</div>  
+		</div> <!-- End Row-Fluid Followup-->
 	</form>
 	<!-- /ko --> 
+	 <!-- Followup Table Holder-->
 	<div class="row-fluid followupTableHolder">     
 		<table class="table table-bordered table-hover">      
 			<thead>   
@@ -85,5 +92,5 @@
 				</tr>          
 			</tbody>          
 		</table>     
-	</div>       
-</div> 
+	</div><!--End Followup Table Holder-->      
+</div> <!-- End Followup-->

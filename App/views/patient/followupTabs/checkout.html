@@ -1,3 +1,8 @@
+<!-------------------------------------------------------------------------------------------------
+ | View: Checkout
+ | Author: Imran Esmail 
+ | Description: This View contains all of the logic for the Checkotu Tab.
+ ------------------------------------------------------------------------------------------------->
 <div class="checkoutTab checkout">
 	<div class="form-inline">
 		<div class="row-fluid">
@@ -162,11 +167,12 @@
 </div>
 <!-- /ko --> 
 </div> 
+<!--Footer -->
 <div class="footer">
 	<div class="pull-right marginBottom5">
 		<button type="button" class="btn btn-small" data-bind="click:$root.printCheckout,visible: $root.role().checkout() > 1">Print Receipt</button>
 		<button type="button" class="btn btn-small" data-bind="click:$root.printCheckoutOrder,visible: $root.role().checkout() > 1">PrintOrder</button>
 		<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.savePaymentMethod,visible: $root.role().checkout() > 1">Save</button>
 	</div>
-</div>
+</div><!-- End Footer -->
 
