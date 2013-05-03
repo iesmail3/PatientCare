@@ -1,9 +1,14 @@
 <!--
-View:
-Author(s):
-Description:
+View name: Physical Examinations
+Tab Views: App/views/patient/servicerecord/physicalTabs
+Viewmodel: App/viewmodels/patient/servicerecord/physical.js
+Author(s): Gary Chang
+Description: This view holds the History, Review of Systems, Medical Problems, Medication, and
+			 Allergies/Intollerance tabs. Each tab has been broken down into its own separate
+			 view via the compose data-binds within the tab contents.
 -->
 <div>
+	<!-- List of tabs -->
 	<ul class="nav nav-tabs patientNavs" id="physicalTab">
 		<li class="active">
 			<a data-toggle="tab" href="#vital" data-bind="visible: role().vitalSigns() > 0">Vital Signs</a>
@@ -12,18 +17,16 @@ Description:
 			<a data-toggle="tab" href="#physical" data-bind="visible: role().physicalExaminationSub() > 0">Physical Examination</a>
 		</li>
 	</ul>
- 
+	<!-- Content of tabs -->
 	<div class="tab-content">
+		<!-- Vital Signs -->
 		<div class="tab-pane outerPane active" id="vital" data-bind="visible: role().vitalSigns() > 0">
-			<div data-bind="compose: 'patient/servicerecord/physicalTabs/vitalTab.html'" >
-				<!-- Vital Signs -->
-			</div>
+			<div data-bind="compose: 'patient/servicerecord/physicalTabs/vitalTab.html'" ></div>
 		</div>
+		<!-- Physical Examination -->
 		<div class="tab-pane outerPane" id="physical" data-bind="css: {active: role().vitalSigns() < 1},
 			visible: role().physicalExaminationSub() > 0">
-			<div data-bind="compose: 'patient/servicerecord/physicalTabs/physicalTab.html'" >
-				<!-- Physical Examination -->
-			</div>
+			<div data-bind="compose: 'patient/servicerecord/physicalTabs/physicalTab.html'" ></div>
 		</div>
 	</div>
 </div>

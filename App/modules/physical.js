@@ -1,6 +1,7 @@
 /**************************************************************************************************
- * Module name: Patient
- * Author(s): Sean malone
+ * Module name: Physical Examinations
+ * Viewmodel: App/viewmodels/patient/servicerecord/physical.js
+ * Author(s): Gary Chang
  * Description: This module is used to query the database.
  *************************************************************************************************/
 define(function(require) {
@@ -50,6 +51,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get ABD
 	physical.prototype.getPeAbd = function(serviceRecordId) {
 		return this.query({
 			mode: 'select',
@@ -59,6 +61,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get CVS
 	physical.prototype.getPeCvs = function(serviceRecordId) {
 		return this.query({
 			mode: 'select',
@@ -68,6 +71,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get CW
 	physical.prototype.getPeCw = function(serviceRecordId) {
 		return this.query({
 			mode: 'select',
@@ -77,6 +81,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get ENT
 	physical.prototype.getPeEnt = function(serviceRecordId) {
 		return this.query({
 			mode: 'select',
@@ -86,6 +91,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get EXT
 	physical.prototype.getPeExt = function(serviceRecordId) {
 		return this.query({
 			mode: 'select',
@@ -95,6 +101,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get EYE
 	physical.prototype.getPeEye = function(serviceRecordId) {
 		return this.query({
 			mode: 'select',
@@ -104,6 +111,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get GEN
 	physical.prototype.getPeGen = function(serviceRecordId) {
 		return this.query({
 			mode: 'select',
@@ -113,6 +121,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get HEME
 	physical.prototype.getPeHeme = function(serviceRecordId) {
 		return this.query({
 			mode: 'select',
@@ -122,6 +131,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get LUNGS
 	physical.prototype.getPeLungs = function(serviceRecordId) {
 		return this.query({
 			mode: 'select',
@@ -131,6 +141,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get NEURO
 	physical.prototype.getPeNeuro = function(serviceRecordId) {
 		return this.query({
 			mode: 'select',
@@ -140,6 +151,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get SKIN
 	physical.prototype.getPeSkin = function(serviceRecordId) {
 		return this.query({
 			mode: 'select',
@@ -154,6 +166,7 @@ define(function(require) {
 	 * 
 	 * These methods add information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
+	// Save Service Record
 	physical.prototype.saveServiceRecord = function(patientId, practiceId, date, serviceRecord) {
 		var self = this;
 		var fields = ['id', 'practice_id', 'patient_id', 'physician_id', 'date', 'reason', 'history',
@@ -178,7 +191,7 @@ define(function(require) {
 		});
 	}
 	
-	// Save Service Records for a Single Patient
+	// Save Vital Signs
 	physical.prototype.saveVitalSigns = function(vitalSigns, type) {
 		var self = this;
 		var fields = ['service_record_id', 'height', 'height_type', 'weight', 'weight_type', 'temp',
@@ -214,6 +227,7 @@ define(function(require) {
 		}
 	}
 	
+	// Save ABD
 	physical.prototype.savePeAbd = function(peAbd) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'inspection', 'palpation', 'percussion',
@@ -261,6 +275,7 @@ define(function(require) {
 		}
 	}
 
+	// Save CVS
 	physical.prototype.savePeCvs = function(peCvs) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'rhythm', 'murmur', 'gallop', 'rub', 'comment'];
@@ -306,6 +321,7 @@ define(function(require) {
 		}
 	}
 
+	// Save CW
 	physical.prototype.savePeCw = function(peCw) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'asymmetry', 'chest', 'scar', 'comment'];
@@ -351,6 +367,7 @@ define(function(require) {
 		}
 	}
 
+	// Save ENT
 	physical.prototype.savePeEnt = function(peEnt) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'oral_lesions', 'neck_rigidity', 'carotid_bruits',
@@ -398,7 +415,8 @@ define(function(require) {
 			});
 		}
 	}
-
+	
+	// Save EXT
 	physical.prototype.savePeExt = function(peExt) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'clubbing', 'cyanosis', 'edema', 'skeleton_tenderness',
@@ -445,7 +463,8 @@ define(function(require) {
 			});
 		}
 	}
-
+	
+	// Save EYE
 	physical.prototype.savePeEye = function(peEye) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'perla', 'eomi', 'icterus', 'pallor', 'comment'];
@@ -490,7 +509,8 @@ define(function(require) {
 			});
 		}
 	}
-
+	
+	// Save GEN
 	physical.prototype.savePeGen = function(peGen) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'nutrition', 'head', 'comment'];
@@ -535,7 +555,8 @@ define(function(require) {
 			});
 		}
 	}
-
+	
+	// Save HEME
 	physical.prototype.savePeHeme = function(peHeme) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'cervical', 'axillary', 'inguinal', 'comment'];
@@ -580,7 +601,8 @@ define(function(require) {
 			});
 		}
 	}
-
+	
+	// Save LUNGS
 	physical.prototype.savePeLungs = function(peLungs) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'ctap', 'comment'];
@@ -625,7 +647,8 @@ define(function(require) {
 			});
 		}
 	}
-
+	
+	// Save NEURO
 	physical.prototype.savePeNeuro = function(peNeuro) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'focus', 'cranial_nerves', 'motor_muscle_power', 'dtr',
@@ -672,7 +695,8 @@ define(function(require) {
 			});
 		}
 	}
-
+	
+	// Save SKIN
 	physical.prototype.savePeSkin = function(peSkin) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'type', 'ecchymoses', 'patechiae', 'rash', 'comment'];

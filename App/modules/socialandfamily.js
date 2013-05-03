@@ -1,5 +1,6 @@
 /**************************************************************************************************
  * Module name: Social & Family History
+ * Viewmodel: App/viewmodels/patient/socialandfamily.js
  * Author(s): Gary Chang
  * Description: This module is used to query the database.
  *************************************************************************************************/

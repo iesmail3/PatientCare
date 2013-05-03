@@ -1,7 +1,9 @@
 /***************************************************************************************************
- * ViewModel:
- * Author(s):
- * Description: 
+ * ViewModel name: Social & Family History
+ * View: App/views/patient/socialandfamily.html
+ * Author(s): Gary Chang
+ * Description: Handles the business logic for the Social & Family History section of a
+ *				service record.
  **************************************************************************************************/
 define(function(require) { 
 	/*********************************************************************************************** 

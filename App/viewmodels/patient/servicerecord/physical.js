@@ -1,7 +1,9 @@
 /***************************************************************************************************
- * ViewModel:
- * Author(s):
- * Description: 
+ * ViewModel name: Physical Examinations
+ * View: App/views/patient/servicerecord/physical.html
+ * Author(s): Gary Chang
+ * Description: Handles the business logic for the Physical Examinations section of a
+ *				service record.
  **************************************************************************************************/
 define(function(require) { 
 	/*********************************************************************************************** 
@@ -99,10 +101,12 @@ define(function(require) {
 		activate: function(data) {
 			var self = this;
 			
+			// Get user role
 			backend.getRole(global.userId, global.practiceId).success(function(data) {
 				self.role(new userStructures.Role(data[0]));
 			});
 			
+			// Get URL parameters
 			self.practiceId(global.practiceId);
 			self.patientId(data.patientId);
 			self.date(data.date);

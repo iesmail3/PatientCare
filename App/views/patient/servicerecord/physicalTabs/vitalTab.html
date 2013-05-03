@@ -1,6 +1,16 @@
+<!--
+Tab name: Vital Signs
+Main view: App/views/patient/servicerecord/physical.html
+Viewmodel: App/viewmodels/patient/servicerecord/physical.js
+Author(s): Gary Chang
+Description: This view is the the Vital Signs tab, it displays the vitals information from a single
+			 service record.
+-->
+<!-- Alerts -->
 <div class="alertHolder">
 	<div class="alert alert-success">Successfully saved.</div>
 </div>
+<!-- Main Form -->
 <div class="vitalSignsFormScroll">
 	<form class="form-horizontal formPadding">
 		<div class="row-fluid">
@@ -167,6 +177,7 @@
 		</div>
 	</form>
 </div>
+<!-- Buttons -->
 <div class="pull-right">
 	<button type="submit" class="btn btn-small btn-primary"
 		data-bind="click: $root.vitalSignsSave, visible: $root.vitalSigns() > 1">
