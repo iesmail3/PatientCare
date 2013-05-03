@@ -428,7 +428,7 @@
                 return value;
             },
             areSameItem: function (currentItem, newItem, activationData) {
-                return currentItem == newItem; //false;
+                return false;
             },
             beforeActivate: function (newItem) {
                 return newItem;
