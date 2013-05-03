@@ -19,7 +19,7 @@ define(function(require) {
 	 * 
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/
-	// Role
+	// Get Role
 	socialandfamily.prototype.getRole = function(id, practiceId) {
 		return this.query({
 			mode: 'select', 
@@ -30,6 +30,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Social History
 	socialandfamily.prototype.getSocialHistory = function(patientId, practiceId) {
 		return this.query({
 			mode: 'select',
@@ -39,6 +40,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Patient
 	socialandfamily.prototype.getPatient = function(patientId, practiceId) {
 		var self = this;
 		var fields = ['family_history_type', 'family_history_comment', 'routine_exam_comment', 'family_history_changed'];
@@ -51,6 +53,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Family History
 	socialandfamily.prototype.getFamilyHistory = function(patientId, practiceId) {
 		return this.query({
 			mode: 'select',
@@ -60,6 +63,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Routine Exams
 	socialandfamily.prototype.getRoutineExam = function(patientId) {
 		return this.query({
 			mode: 'select',
@@ -74,6 +78,7 @@ define(function(require) {
 	 * 
 	 * These methods add information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
+	// Save Social History
 	socialandfamily.prototype.saveSocialHistory = function(patientId, practiceId, socialHistory) {
 		var self = this;
 		var fields = ['patient_id', 'practice_id', 'smoking', 'smoking_weekly', 'smoking_counseling', 'alcohol',
@@ -112,6 +117,7 @@ define(function(require) {
 		}
 	}
 	
+	// Save Patient
 	socialandfamily.prototype.savePatient = function(patientId, practiceId, data) {
 		var self = this;
 		var fields = ['family_history_type', 'family_history_comment', 'routine_exam_comment', 'family_history_changed'];
@@ -135,6 +141,7 @@ define(function(require) {
 		});
 	}
 	
+	// Save Family History
 	socialandfamily.prototype.saveFamilyHistory = function(familyHistory) {
 		var self = this;
 		var fields = ['id', 'practice_id', 'patient_id', 'relationship', 'age', 'is_alive',
@@ -184,6 +191,7 @@ define(function(require) {
 		}
 	}
 	
+	// Save Routine Exam
 	socialandfamily.prototype.saveRoutineExam = function(routineExam) {
 		var self = this;
 		var fields = ['patient_id', 'name', 'last_done', 'month', 'year', 'comment'];
@@ -233,6 +241,7 @@ define(function(require) {
 	 * 
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
+	// Delete Family History
 	socialandfamily.prototype.deleteFamilyHistory = function(id) {
 		return this.query({
 			mode: 'delete',
@@ -241,6 +250,7 @@ define(function(require) {
 		});
 	}
 	
+	// Delete Routine Exam
 	socialandfamily.prototype.deleteRoutineExam = function(patientId, name) {
 		return this.query({
 			mode: 'delete',
@@ -254,6 +264,7 @@ define(function(require) {
 	 * 
 	 * This method is used by all other methods to execute the ajax call.
 	 *********************************************************************************************/ 
+	// Modified query for making synchronous calls
 	socialandfamily.prototype.query = function(data, async) {
 		if (async == undefined)
 			async = true;

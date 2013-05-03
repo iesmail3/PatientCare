@@ -1,11 +1,22 @@
+<!--
+Tab name: Routine Exams
+Main view: App/views/patient/socialandfamily.html
+Viewmodel: App/viewmodels/patient/socialandfamily.js
+Author(s): Gary Chang
+Description: This view is the the Routine Exams tab, it displays the history of examinations for
+			 a single patient.
+-->
+<!-- Alerts -->
 <div class="alertHolder">
 	<div class="alert alert-danger allAlert">You are missing required fields.</div>
 	<div class="alert alert-success">Successfully saved.</div>
 </div>
+<!-- Main Form -->
 <div class="routineExamFormScroll">
 	<form class="form-inline formPadding">
 		<div data-bind="foreach: routineExams">
 			<div class="row-fluid">
+				<!-- Exam Name -->
 				<div class="span3">
 					<input type="text" class="input-xmedium" placeholder="Name"
 						data-bind="value: name, valueUpdate: 'afterkeydown',
@@ -14,6 +25,7 @@
 				</div>
 				<div class="span9">
 					<div class="marginBottom5">
+						<!-- Last Done -->
 						<label class="radio routineRadio">
 							<input type="radio" value="1"
 								data-bind="checked: lastDone, attr: {name: radioName},
@@ -35,6 +47,7 @@
 									event: {change: $root.routineExamSetDate}" />
 							<span class="smallText">Last&nbsp;Done</span>
 						</label>
+						<!-- Month -->
 						<select class="input-xmedium"
 							data-bind="value: month, enable: lastDone() == 3 && name() != '' &&
 								$root.role().routineExam() > 1">
@@ -52,9 +65,11 @@
 							<option value="11">November</option>
 							<option value="12">December</option>
 						</select>
+						<!-- Year -->
 						<input type="number" class="input-mini" placeholder="Year"
 							data-bind="value: year, attr: {min: new Date().getFullYear()-50,
 								max: new Date().getFullYear()}, enable: $root.role().routineExam() > 1" />
+						<!-- Delete -->
 						<button type="button" class="btn btn-small btn-danger"
 							data-bind="click: $root.routineExamDelete, visible: name() != 'Colonoscopy' &&
 								name() != 'PSA' && name() != 'Physical' && name() != '' &&
@@ -62,6 +77,7 @@
 							Delete
 						</button>
 					</div>
+					<!-- Comments -->
 					<div class="marginBottom5">
 						<input type="text" class="routineComment" placeholder="Comments"
 							data-bind="value: comment, enable: name() != '' && lastDone() != 1 &&
@@ -72,11 +88,13 @@
 		</div>
 	</form>
 </div>
+<!-- Comments -->
 <div class="commentContainer">
 	<textarea class="commentSpan routineExamComment" placeholder="Comments"
 		data-bind="value: patient().routineExamComment, enable: $root.role().routineExam() > 1" />
 	</textarea>
 </div>
+<!-- Buttons -->
 <div class="pull-right">
 	<button type="submit" class="btn btn-small btn-primary"
 		data-bind="click: $root.routineExamSave, visible: $root.role().routineExam() > 1">

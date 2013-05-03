@@ -1,25 +1,38 @@
+<!--
+Tab name: Social History
+Main view: App/views/patient/socialandfamily.html
+Viewmodel: App/viewmodels/patient/socialandfamily.js
+Author(s): Gary Chang
+Description: This view is the the Social History tab, it displays the history information for
+			 a single patient.
+-->
+<!-- Alerts -->
 <div class="alertHolder">
 	<div class="alert alert-warning alertSame">No changes made.</div>
 	<div class="alert alert-success alertRevert">Changes reverted.</div>
 	<div class="alert alert-success alertSave">Successfully saved.</div>
 </div>
+<!-- Main Form -->
 <div class="socialFormScroll">
 	<form class="form-inline formPadding">
 		<!-- ko with: socialHistory -->
 		<div class="row-fluid">
 			<div class="marginBottom5">
+				<!-- Smoking -->
 				<select class="input-large"
 					data-bind="value: smoking, event: {change: $root.socialSmoking},
 						enable: $root.role().socialHistory() > 1">
-					<option value="" disabled selected style="display:none;">Smoking Habits</option>
+					<option value="" data-bind="visible: false">Smoking Habits</option>
 					<option value="currently">Current Smoker</option>
 					<option value="never">Never Smoked</option>
 					<option value="occasional">Occasional Smoker</option>
 					<option value="past">Past Smoker</option>
 				</select>
+				<!-- Packs Per Week -->
 				<input type="number" class="input-xmedium" placeholder="Packs per week"
 					data-bind="value: smokingWeekly, enable: smoking() != 'never' && smoking() != '' &&
 						$root.role().socialHistory() > 1" />
+				<!-- Smoking Counseling -->
 				<label class="checkbox inline">
 					<input type="checkbox"
 						data-bind="checked: smokingCounseling, enable: smoking() != 'never' &&
@@ -28,18 +41,21 @@
 				</label>
 			</div>
 			<div class="marginBottom5">
+				<!-- Alcohol -->
 				<select class="input-large"
 					data-bind="value: alcohol, event: {change: $root.socialAlcohol},
 						enable: $root.role().socialHistory() > 1">
-					<option value="" disabled selected style="display:none;">Drinking Habits</option>
+					<option value="" data-bind="visible: false">Drinking Habits</option>
 					<option value="never">Never Drinks</option>
 					<option value="past">Past Drinker</option>
 					<option value="regular">Regular Drinker</option>
 					<option value="social">Social Drinker</option>
 				</select>
+				<!-- Drinks per week -->
 				<input type="number" class="input-xmedium" placeholder="Drinks per week"
 					data-bind="value: alcoholWeekly, enable: alcohol() != 'never' && alcohol() != '' &&
 						$root.role().socialHistory() > 1" />
+				<!-- Alcohol Counseling -->
 				<label class="checkbox inline">
 					<input type="checkbox"
 						data-bind="checked: alcoholCounseling, enable: alcohol() != 'never' &&
@@ -47,6 +63,7 @@
 					<span>Counseling&nbsp;provided</span>
 				</label>
 			</div>
+			<!-- Drug Abuse -->
 			<div class="marginBottom5">
 				<span class="radio inline">History of IV drug abuse?</span>
 				<label class="radio inline">
@@ -61,11 +78,13 @@
 					<span>No</span>
 				</label>
 			</div>
+			<!-- Drug Abuse Comments -->
 			<div class="marginBottom5">
 				<input type="text" class="input-xlarge" placeholder="Details (if any)"
 					data-bind="value: drugComment, enable: drugAbuse() == 1 &&
 						$root.role().socialHistory() > 1" />
 			</div>
+			<!-- Blood Products -->
 			<div class="marginBottom5">
 				<span class="radio inline">Exposure to Blood products?</span>
 				<label class="radio inline">
@@ -79,6 +98,7 @@
 					<span>No</span>
 				</label>
 			</div>
+			<!-- Exposure to Chemicals -->
 			<div class="marginBottom5">
 				<span class="radio inline">Exposure to Chemicals?</span>
 				<label class="radio inline">
@@ -92,11 +112,13 @@
 					<span>No</span>
 				</label>
 			</div>
+			<!-- Comments -->
 			<div class="marginBottom5 commentContainer">
 				<textarea class="commentSpan" rows="3" placeholder="Comments" 
 					data-bind="value: comment, enable: $root.role().socialHistory() > 1" />
 				</textarea>
 			</div>
+			<!-- Social History Changed -->
 			<div class="marginBottom5">
 				<label class="checkbox inline">
 					<input type="checkbox"
@@ -108,6 +130,7 @@
 		<!-- /ko -->
 	</form>
 </div>
+<!-- Buttons -->
 <div class="pull-right">
 	<button type="submit" class="btn btn-small btn-primary"
 		data-bind="click: $root.socialSave, visible: $root.role().socialHistory() > 1">

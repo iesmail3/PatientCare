@@ -35,13 +35,7 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * KO Computed Functions
 	 **********************************************************************************************/
-
-	/*********************************************************************************************** 
-	 * ViewModel
-	 *
-	 * For including ko observables and computed functions, add an attribute of the same name.
-	 * Ex: observable: observable
-	 **********************************************************************************************/
+	
 	return {
 		/******************************************************************************************* 
 		 * Attributes
@@ -86,6 +80,7 @@ define(function(require) {
 		activate: function(data) {
 			var self = this;
 			
+			// Get user Role
 			backend.getRole(global.userId, global.practiceId).success(function(data) {
 				self.role(new userStructures.Role(data[0]));
 			});
@@ -94,6 +89,7 @@ define(function(require) {
 			self.practiceId(global.practiceId);
 			self.patientId(data.patientId);
 			
+			// Get Social History
 			backend.getSocialHistory(self.patientId(), self.practiceId()).success(function(data) {
 				if (data.length > 0) {
 					var s = new structures.SocialHistory(data[0]);
@@ -103,6 +99,7 @@ define(function(require) {
 				}
 			});
 			
+			// Get Patient
 			backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
 				if (data.length > 0) {
 					var p = new structures.Patient(data[0]);
@@ -110,6 +107,7 @@ define(function(require) {
 				}
 			});
 			
+			// Get Family History
 			backend.getFamilyHistory(self.patientId(), self.practiceId()).success(function(data) {
 				if (data.length > 0) {
 					var f = $.map(data, function(item) {return new structures.FamilyHistory(item)});
@@ -126,6 +124,7 @@ define(function(require) {
 				self.familyHistories.push(new structures.FamilyHistory());
 			});
 			
+			// Get Routine Exams
 			return backend.getRoutineExam(self.patientId()).success(function(data) {
 				if (self.routineExams().length == 0) {
 					self.routineExams.push(new structures.RoutineExam({name:'Colonoscopy',last_done:1}));
@@ -160,21 +159,25 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Social History Methods
 		 *******************************************************************************************/
+		// Clear smoking values
 		socialSmoking: function() {
 			if (socialHistory().smoking() == 'never') {
 				socialHistory().smokingWeekly('');
 				socialHistory().smokingCounseling(0);
 			}
 		},
+		// Clear alcohol values
 		socialAlcohol: function() {
 			if (socialHistory().alcohol() == 'never') {
 				socialHistory().alcoholWeekly('');
 				socialHistory().alcoholCounseling(0);
 			}
 		},
+		// Clear drug comments
 		socialDrugAbuse: function() {
 			socialHistory().drugComment('');
 		},
+		// Save social history
 		socialSave: function(data) {
 			// Store a temp copy before saving
 			var temp = new structures.SocialHistory({
@@ -204,6 +207,7 @@ define(function(require) {
 					$('.alertSave').fadeIn().delay(3000).fadeOut();
 			});
 		},
+		// revert changes to last save
 		socialCancel: function(data) {
 			var same = true;
 			$.each(socialHistory(), function(k,v) {
@@ -250,17 +254,14 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Family History Methods
 		 *******************************************************************************************/
+		// Save family status
 		familyStatusSave: function(data) {
 			patient().familyHistoryChanged(+patient().familyHistoryChanged());
 			backend.savePatient(patientId(), practiceId(), patient()).complete(function(data) {
 				// Save family status
 			});
 		},
-		familyHistoryAddRow: function(data) {
-			var lastRow = familyHistories()[familyHistories().length - 1];
-			if (lastRow.relationship() != '')
-				familyHistories.push(new structures.FamilyHistory());
-		},
+		// Save family history
 		familyHistorySave: function(data) {
 			var isValid = true;
 			var lastRow = familyHistories()[familyHistories().length - 1];
@@ -301,6 +302,7 @@ define(function(require) {
 			
 			familyHistories.push(new structures.FamilyHistory());
 		},
+		// Delete a family member
 		familyHistoryDelete: function(item) {
 			return app.showMessage(
 				'Are you sure you want to delete this family member?',
@@ -326,22 +328,26 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Routine Exams Methods
 		 *******************************************************************************************/
+		// Clear fields if never done
 		routineExamLastDone: function(data) {
 			data.month('');
 			data.year('');
 			data.comment('');
 		},
+		// Sets to current month and year
 		routineExamSetDate: function(data) {
 			var month = (new Date().getMonth()+1).toString();
 			var year = new Date().getFullYear();
 			data.month(month[1] ? month : "0" + month[0]);
 			data.year(year);
 		},
+		// Adds a row to the form
 		routineExamAddRow: function(data) {
 			var lastRow = routineExams()[routineExams().length - 1];
 			if (lastRow.name() != '')
 				routineExams.push(new structures.RoutineExam());
 		},
+		// Save routine exams
 		routineExamSave: function(data) {
 			var isValid = true;
 			var lastRow = routineExams()[routineExams().length - 1];
@@ -381,6 +387,7 @@ define(function(require) {
 			tempRoutineExams.push(new structures.RoutineExam());
 			backend.savePatient(patientId(), practiceId(), patient());
 		},
+		// Revert to last save
 		routineExamCancel: function() {
 			var temp = ko.observableArray([]);
 			for (var i = 0; i < tempRoutineExams().length; i++) {
@@ -395,6 +402,7 @@ define(function(require) {
 			}
 			routineExams(temp());
 		},
+		// Delete a routine exam
 		routineExamDelete: function(item) {
 			return app.showMessage(
 				'Are you sure you want to delete the routine exam for ' + item.name() + '?',

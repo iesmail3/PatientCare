@@ -1,9 +1,14 @@
 <!--
-View:
-Author(s):
-Description:
+View name: Social & Family History
+Tab views: App/views/patient/socialandfamilyTabs
+Viewmodel; App/viewmodels/patient/socialandfamily.js
+Author(s): Gary Chang
+Description: This view holds the Social History, Family History, and Routine Exams tabs. Each tab
+			 has been broken down into its own separate view via the compose data-binds within the
+			 tab contents.
 -->
 <div>
+	<!-- List of tabs -->
 	<ul class="nav nav-tabs patientNavs" id="socialTab">
 		<li class="active">
 			<a data-toggle="tab" href="#social" data-bind="visible: role().socialHistory() > 0">Social History</a>
@@ -15,15 +20,18 @@ Description:
 			<a data-toggle="tab" href="#routine" data-bind="visible: role().routineExam() > 0">Routine Exams</a>
 		</li>
 	</ul>
- 
+	<!-- Content of tabs -->
 	<div class="tab-content">
+		<!-- Social History -->
 		<div class="tab-pane outerPane active" id="social" data-bind="visible: role().socialHistory() > 0">
 			<div data-bind='compose: "patient/socialandfamilyTabs/social.html"'></div>
 		</div>
+		<!-- Family History -->
 		<div class="tab-pane outerPane" id="family" data-bind="css: {active: role().socialHistory() < 1},
 			visible: role().familyHistory() > 0">
 			<div data-bind='compose: "patient/socialandfamilyTabs/family.html"'></div>
 		</div>
+		<!-- Routine Exams -->
 		<div class="tab-pane outerPane" id="routine" data-bind="css: {active: role().socialHistory() < 1 &&
 			role().familyHistory() < 1}, visible: role().routineExam() > 0">
 			<div data-bind='compose: "patient/socialandfamilyTabs/exams.html"'></div>
