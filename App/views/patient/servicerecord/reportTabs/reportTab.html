@@ -1,4 +1,9 @@
-<div class="report">
+<!-------------------------------------------------------------------------------------------------
+ | View: reports
+ | Author: Imran Esmail 
+ | Description: This View contains all of the logic for the reports tab.
+ ------------------------------------------------------------------------------------------------->
+<div class="reports">
 	<form class="form-inline">
 		<div class="row-fluid">
 			<div class="alertHolder">
@@ -9,7 +14,7 @@
 			<fieldset>
 				<legend>Search</legend>
 				<div class="marginBottom5">
-						<select class="input-medium" data-bind="value:documentType,event:{ change:searchByType}">
+						<select class="input-medium" data-bind="value:documentType,event:{ change:searchByType},enable: $root.role().reports() > 1">
 						<option value="Document Type">Document Type</option>
 						<option value="All">All</option>
 						<option value="Labs">Labs</option>
@@ -26,7 +31,7 @@
 			<fieldset>   
 				<legend>Details</legend>      
 					<div class="marginBottom5">
-						<select class="input-medium" data-bind="value:type">
+						<select class="input-medium" data-bind="value:type,enable: $root.role().reports() > 1">
 							<option value="">Document Type</option>
 							<option value="Labs">Labs</option>
 							<option value="X-Ray">X-Ray</option>
@@ -34,32 +39,34 @@
 							<option value="Procedures">Procedures</option>
 							<option value="Other">Other</option>
 						</select>
-						<input type="text" placeholder="Test Date (DOS)" data-bind="datepicker: true,value:dateOfService,enable: isUnknown()==false" />
+						<input type="text" placeholder="Test Date (DOS)" data-bind="datepicker: true,value:dateOfService,visible: $root.role().reports() > 1,enable: isUnknown()==false" />
 						<label class="checkbox inline">
-							<input type="checkbox" data-bind="checked: isUnknown" />
+							<input type="checkbox" data-bind="checked: isUnknown,visible: $root.role().reports() > 1" />
 							<span>Unknown</span>
 						</label>      
 						<div class="fileupload fileupload-new pull-right" data-bind="visible:$root.isNewDocument(),uploader: true">    
 						 </div>
 					</div> 							             
 					<div class="marginBottom5">
-						<textarea class="input-xxlarge" rows="3" placeholder="Comment" data-bind="value: comment"></textarea>
+						<textarea class="input-xxlarge" rows="3" placeholder="Comment" data-bind="value: comment,enable: $root.role().reports() > 1"></textarea>
 					</div>  
 					<div class="marginBottom5">
 						<label class="checkbox inline">
-							<input type="checkbox" data-bind="checked: isReviewed" />
+							<input type="checkbox" data-bind="checked: isReviewed,enable: $root.role().reports() > 1" />
 							<span>Is&nbsp;Reviewed?</span>
 						</label>      
-						<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.documentAdd,visible: $root.documentState()">New</button>
-						<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.saveDocument,visible: !$root.documentSave()">Save</button>
-						<button type="button" id ="cancelButton" class="btn btn-small btn-danger" data-bind="click:$root.documentCancel,visible:!$root.documentState()">Cancel</button>
+						<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.documentAdd,visible: $root.documentState(),visible: $root.role().reports() > 1">New</button>
+						<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.saveDocument,visible: !$root.documentSave(),visible: $root.role().reports() > 1">Save</button>
+						<button type="button" id ="cancelButton" class="btn btn-small btn-danger" data-bind="click:$root.documentCancel,visible:!$root.documentState(),visible: $root.role().reports() > 1">Cancel</button>
 					</div>
 			</fieldset>  
 		</div> 
 	 <!-- /ko -->
 	</form>
+	<!-- Row-Fluid Document Table -->
 	<div class="row-fluid">
-		<div class="reportTableHolder">
+		<!-- reports Table Holder -->
+		<div class="reportsTableHolder">
 			<table class="table table-bordered table-hover">   
 				<thead>
 					<tr>
@@ -90,6 +97,6 @@
 					</tr>            
 				</tbody>               
 			</table>
-		</div>    
-	</div>     
-</div> 
+		</div><!-- End reports Table Holder -->
+	</div><!-- End Row-Fluid Document Table -->   
+</div><!-- End reports -->

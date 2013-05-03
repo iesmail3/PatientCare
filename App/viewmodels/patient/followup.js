@@ -214,7 +214,6 @@ define(function(require) {
 		},
 		// Loads when view is loaded
 		activate: function(data) {
-		
 			backend.getRole(global.userId, global.practiceId).success(function(data) {
 					self.role(new userStructures.Role(data[0]));
 				});

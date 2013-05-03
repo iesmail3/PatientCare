@@ -19,6 +19,17 @@
 	 * 
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/
+	 // Role
+	report.prototype.getRole = function(id, practiceId) {
+		return this.query({
+			mode: 'select', 
+			table: 'user', 
+			fields: '*',
+			join: "JOIN role ON user.role_id=role.id",
+			where: "WHERE user.id='" + id +"' AND user.practice_id='" + practiceId + "'"
+		});
+	}
+	 //Get Report 
 	 report.prototype.getDocument = function(id, practiceId, date) {
 		return this.query({
 			mode: 'select',
@@ -27,7 +38,7 @@
 			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "' AND date='" + date + "'"
 		});
 	}
-	
+	// Get Report by Type 
 	report.prototype.getDocumentByType = function(patientId,type) {
 		if(type.trim() == 'All') { 
 			return this.query({
@@ -47,12 +58,12 @@
 			});
 		}
 	}
-	
 	/**********************************************************************************************
 	 * Save Methods
 	 * 
 	 * These methods save information to the database via INSERT and UPDATE queries
 	 *********************************************************************************************/
+	// Save Document
 	report.prototype.saveDocument = function(doc,documents,practiceId,patientId,date) {
 		var self = this;
 		// Convert true/false to 1/0

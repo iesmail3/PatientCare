@@ -12,14 +12,14 @@
 				</div>
 			<!-- ko with: serviceRecord --> 
 			<div class="marginBottom5 commentContainer">
-				<textarea class="commentSpan" rows="5" data-bind="value:planAndInstructions,enable: $root.role().serviceRecord() > 1" /></textarea>
+				<textarea class="commentSpan" rows="5" data-bind="value:planAndInstructions,enable: $root.role().instructions() > 1" /></textarea>
 			</div>
 			<!-- /ko --> 
 		</div> <!--End Row-Fluid -->
 	</form>
 </div> <!--End FormScroll -->
 <div class="pull-right">
-	<button type="button" class="btn btn-small" data-bind="click:$root.selectPrint,visible: $root.role().serviceRecord() > 1">Print Letter</button>
-	<button type="submit" class="btn btn-small btn-primary" data-bind="click:$root.savePlan,visible: $root.role().serviceRecord() > 1">Save</button>
-	<button type="button" class="btn btn-small btn-warning" data-bind="click:$root.clearPlan,visible: $root.role().serviceRecord() > 1">Clear</button>
+	<button type="button" class="btn btn-small" data-bind="click:$root.selectPrint,visible: $root.role().instructions() > 1">Print Letter</button>
+	<button type="submit" class="btn btn-small btn-primary" data-bind="click:$root.savePlan,visible: $root.role().instructions() > 1">Save</button>
+	<button type="button" class="btn btn-small btn-warning" data-bind="click:$root.clearPlan,visible: $root.role().instructions() > 1">Clear</button>
 </div>

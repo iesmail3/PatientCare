@@ -1,7 +1,7 @@
 /***************************************************************************************************
- * ViewModel: 
- * Author(s): 
- * Description: 
+ * ViewModel: Report
+ * Author(s): Imran Esmail 
+ * Description: Handles the business logic for Report Tab of patient's Service Record.
  **************************************************************************************************/
 define(function(require) { 
 	/*********************************************************************************************** 
@@ -14,12 +14,15 @@ define(function(require) {
 	var Structures = require('modules/patientStructures'); 
 	var app = require('durandal/app');
 	var modal	   = require('modals/modals');				// Modals
+	var UserStructures	= require('modules/structures');		// User structures
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
 	var form 			= new Forms();
 	var backend 		= new Backend();
 	var structures   	= new Structures();
+	var userStructures  = new UserStructures();
+	var role			= ko.observable(new userStructures.Role());
 	var doc             = ko.observable(new structures.Document());
 	var documents       = ko.observableArray([]);
 	var patientId       = ko.observable();
@@ -33,11 +36,7 @@ define(function(require) {
 	var isNewDocument   = ko.observable(false); 
 	var tempDocument    = ko.observable(new structures.Document());
 	var file 			= ko.observable(); 
-	/*********************************************************************************************** 
-	 * KO Computed Functions
-	 **********************************************************************************************/
-	 // var computedFunction = ko.computed(function() {});
-
+	 
 	/*********************************************************************************************** 
 	 * ViewModel
 	 *
@@ -48,6 +47,7 @@ define(function(require) {
 	/******************************************************************************************* 
 	 * Attributes
 	 *******************************************************************************************/
+		role: role,
 		doc: doc,   
 		documents: documents,  
 		form: form,
@@ -88,11 +88,14 @@ define(function(require) {
 		},
 		// Loads when view is loaded
 		activate: function(data) {
+			backend.getRole(global.userId, global.practiceId).success(function(data) {
+					self.role(new userStructures.Role(data[0]));
+				});
 			var self = this; 
 			 self.date(data.date);
 			 self.patientId(data.patientId); 
 			 self.practiceId('1'); 
-			 
+			 // Get Document for a single patient 
 			 backend.getDocument(self.patientId(),self.practiceId(),self.date()).success(function(data) {
 			 	self.documents([]);
 				self.doc(new structures.Document());
@@ -106,7 +109,7 @@ define(function(require) {
 				}
 			}); 	
 		},
-		
+		// Save Report 
 		saveDocument: function(data) { 
 			if(doc().errors().length > 0) {
 				if(doc().errors().length > 1) {
@@ -129,7 +132,7 @@ define(function(require) {
 				
 			}					
 		},
-		
+		// Search Report By Type 
 		searchByType: function(data) { 
 			backend.getDocumentByType(patientId(),documentType()).success(function(data) { 
 				if(data.length > 0) {  
@@ -147,19 +150,23 @@ define(function(require) {
 			}); 
 			
 	    },
+		//Display Selected file 
 		displayFile: function(data) { 
 			doc(data); 
 			modal.showFile(doc().location(),'Selected File'); 
 		},
+		//Initialize document
 		setDocumentFields: function(data) {
 			isNewDocument(false); 
 			doc(data); 
 		},
+		// Cancel Document
 		documentCancel: function() {
 			isNewDocument(false); 
 			documentState(true);
 			doc(tempDocument()); 
 		},
+		//Add document
 		documentAdd: function() { 
 			   documentState(false);
 			   isNewDocument(true); 
@@ -167,8 +174,4 @@ define(function(require) {
 			  doc(new structures.Document());
 		}
 	};
-	// // Turn validation on
-	// var errors = rt['formErrors'] = ko.validation.group(rt);
-	// //vm.reviewOfSystem().errors.showAllMessages();
-	// return rt;
-});
+});//End ViewModel
