@@ -1,18 +1,18 @@
 /**************************************************************************************************
- * Module name: Patient
- * Author(s): Sean malone
- * Description: This module is used to query the database.
+ * Module: Patient
+ * Author(s): Gary Chang, Imran Esmail, Sean Malone
+ * Description: This module is used to query the database for patient.
  *************************************************************************************************/
 define(function(require) {
 	/*********************************************************************************************** 
-	 * Includes*
+	 * Includes
 	 **********************************************************************************************/
 	var system = require('durandal/system');			// System logger
 	
 	/**********************************************************************************************
 	 * Constructor
 	 *********************************************************************************************/
-	var patient = function() {};
+	var patient = function() {}
 	
 	/**********************************************************************************************
 	 * Get Methods
@@ -127,6 +127,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get All Physicians
 	patient.prototype.getPhysicians = function(practiceId) {
 		return this.query({
 			mode: 'select',
@@ -136,6 +137,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Physician
 	patient.prototype.getPhysician = function(id, practiceId) {
 		return this.query({
 			mode: 'select',

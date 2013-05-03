@@ -1,19 +1,20 @@
 /***************************************************************************************************
- * ViewModel:
- * Author(s):
- * Description: 
+ * ViewModel: Order
+ * Author(s): Sean Malone
+ * Description: This ViewModel handles all of the logic for Order, Chemo Order, Lab Order
+ *              , Imaging Order, and Medication Order
  **************************************************************************************************/
 define(function(require) { 
 	/*********************************************************************************************** 
-	 * Includes*
+	 * Includes
 	 **********************************************************************************************/
-	var system     		= require('durandal/system');			// System logger
-	var custom     		= require('durandal/customBindings');	// Custom bindings
-	var Backend    		= require('modules/order');				// Module
+	var system     		= require('durandal/system');				// System logger
+	var custom     		= require('durandal/customBindings');		// Custom bindings
+	var Backend    		= require('modules/order');					// Module
 	var Structures 		= require('modules/patientStructures'); 	// Structures
-	var modal	   		= require('modals/modals');				// Modals
-	var form	   		= require('modules/form');				// Common form data
-	var UserStructures	= require('modules/structures');		// User structures
+	var modal	   		= require('modals/modals');					// Modals
+	var form	   		= require('modules/form');					// Common form data
+	var UserStructures	= require('modules/structures');			// User structures
 	var app		   		= require('durandal/app');
 	
 	/*********************************************************************************************** 
@@ -209,6 +210,7 @@ define(function(require) {
 		/******************************************************************************************
 		 * Order
 		 *****************************************************************************************/
+		// Select an order
 		selectRow: function(type, data) {
 			// Clear group
 			groupOrders([]);
@@ -246,6 +248,7 @@ define(function(require) {
 					practiceId(), serviceRecord().id(), role, 'Chemo Order');
 			}
 		},
+		// Click New button
 		newOrder: function(type, data) {
 			var self = data;
 			// Get next group number and call modal
@@ -271,16 +274,19 @@ define(function(require) {
 				}
 			});
 		},
+		// Delete an imaging order
 		deleteOrder: function(data) {
 			var order = data;
 			orders.remove(order);
 			backend.deleteOrder(data.orderCategoryId(), data.group());
 		},
+		// Delete a lab order
 		deleteLabOrder: function(data) {
 			var order = data;
 			labOrders.remove(order);
 			backend.deleteOrder(data.orderCategoryId(), data.group());
 		},
+		// Delete a chemo order
 		deleteChemoOrder: function(data) {
 			var order = data;
 			chemoOrders.remove(order);
@@ -289,11 +295,13 @@ define(function(require) {
 		/******************************************************************************************
 		 * Medication
 		 *****************************************************************************************/
+		// Select a medication
 		selectMedication: function(data) {
 			medication(data);
 			$('.strengthList').combobox({target: '.strength'});
 			self.popStrength();
 		},
+		// Click New button
 		newMedication: function(data) {
 			tempMedication(medication());
 			medication(new structures.Medication());
@@ -301,12 +309,15 @@ define(function(require) {
 			cancelMed(1);
 			$('.strengthList').combobox({target: '.strength'});
 		},
+		// Click Cancel button
 		cancelMedication: function(data) {
 			medication(tempMedication());
 			newMed(1);
 			cancelMed(0);
 		},
+		// Save Medication
 		saveMedication: function(data) {
+			// Validation
 			if(medication().refill() == 0)
 				medication().refillQty(0);
 			if(medication().errors().length > 0) {
@@ -317,6 +328,7 @@ define(function(require) {
 				else if(medication().errors()[0] == 'sig')
 					$('.sigAlert').fadeIn().delay(3000).fadeOut();
 			}
+			// Validation passed
 			else {
 				medication().serviceRecordId(serviceRecord().id());
 				var t = backend.saveMedication(medication()).complete(function(d) {
@@ -330,6 +342,7 @@ define(function(require) {
 				});
 			}
 		},
+		// Delete a medication
 		deleteMedication: function(data) {
 			allMedications.remove(data);
 			self.filterTable();
@@ -361,6 +374,7 @@ define(function(require) {
 			// Used to set checkbox
 			return true;
 		},
+		// Populate strength list based on medicine entered
 		popStrength: function() {
 			// Delay for .2 seconds to allow data to cascade
 			setTimeout(function () {
@@ -373,6 +387,7 @@ define(function(require) {
 				strengthList(list);
 			}, 200);
 		},
+		// Select a current order
 		clickOrder: function(data) {
 			var o = _.filter(self.chemoOrders(), function(item) {
 				return item.type() == 'Procedure-Chemo';
@@ -394,10 +409,6 @@ define(function(require) {
 			else {
 				app.showMessage('There is currently not a Chemo Order placed.', 'Chemo Order');
 			}
-			
-			/*
-			
-			*/
 		}
 	};
 });

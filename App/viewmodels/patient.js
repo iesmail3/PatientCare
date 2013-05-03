@@ -1,18 +1,19 @@
 /***************************************************************************************************
- * ViewModel:
- * Author(s):
- * Description: 
+ * ViewModel: Patient
+ * Author(s): Gary Chang, Sean Malone
+ * Description: This ViewModel is responsible for the outer Patient shell.
  **************************************************************************************************/
 define(function(require) { 
 	/*********************************************************************************************** 
 	 * Includes
 	 **********************************************************************************************/
-	var system     = require('durandal/system');			// System logger
-	var custom     = require('durandal/customBindings');	// Custom bindings
-	var viewModel  = require('durandal/viewModel');      	// ViewModel
-	var Backend    = require('modules/patient');			// Backend
-	var Structures = require('modules/patientStructures'); 	// Patient Structures 
-	var Forms = require('modules/form');					// Common form elements
+	var system     		= require('durandal/system');			// System logger
+	var custom     		= require('durandal/customBindings');	// Custom bindings
+	var viewModel  		= require('durandal/viewModel');      	// ViewModel
+	var Backend    		= require('modules/patient');			// Backend
+	var Structures 		= require('modules/patientStructures'); // Patient Structures
+	var UserStructures 	= require('modules/structures');		// User Structure
+	var Forms 			= require('modules/form');				// Common form elements
 	
 	// Subviews
 	var personal 	= require('viewmodels/patient/personalinformation');
@@ -29,15 +30,17 @@ define(function(require) {
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
-	var form = new Forms();
-	var backend = new Backend();
-	var structures = new Structures();
-	var patient = ko.observable(new structures.Patient());
-	var serviceRecords = ko.observableArray([]);
-	var patientId = ko.observable();
-	var practiceId = ko.observable();
-	var date = ko.observable();
-	var currentView = viewModel.activator();
+	var form 			= new Forms();
+	var backend 		= new Backend();
+	var structures 		= new Structures();
+	var userStructures 	= new UserStructures();
+	var patient 		= ko.observable(new structures.Patient());
+	var serviceRecords 	= ko.observableArray([]);
+	var patientId 		= ko.observable();
+	var practiceId 		= ko.observable();
+	var date 			= ko.observable();
+	var currentView 	= viewModel.activator();
+	var role 			= ko.observable(new userStructures.Role());
 	
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -96,6 +99,7 @@ define(function(require) {
 		form: form,
 		backend: backend,
 		structures: structures,
+		role: role,
 		patient: patient,
 		serviceRecords: serviceRecords,
 		patientId: patientId,
@@ -128,9 +132,14 @@ define(function(require) {
 		activate: function(data) {
 			var self = this;
 			
+			// Get Role
+			self.backend.getRole(global.userId, global.practiceId).success(function(data) {
+				self.role(new userStructures.Role(data[0]));
+			});
+			
 			// Get URL parameters (make sure to create an observable above for each)
 			self.patientId(data.patientId);
-			self.practiceId('1'); // Uncomment when adding login self.practiceId(data.practiceId);
+			self.practiceId(global.practiceId); 
             var view = data.view;
             if(data.length > 3)
             	self.date(data.date);
@@ -188,7 +197,9 @@ define(function(require) {
 				}
 			});
 		},
+		// Open/Close Child
 		openClose: function(data, element) {
+			system.log('test');
 			var e = $(element.currentTarget);
 			var i = e.attr('class').toLowerCase().indexOf('plus');
 			e.parent().next().slideToggle();
@@ -199,6 +210,7 @@ define(function(require) {
 				e.removeClass().addClass('icon-plus');
 			}
 		},
+		// Toggle Child
 		toggleChild: function(data, event) {
 			var e = $(event.currentTarget);
 			e.toggleClass('icon-minus').toggleClass('icon-plus');

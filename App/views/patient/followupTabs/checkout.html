@@ -15,57 +15,69 @@
 							<span class="label">Select Co-Payment</span>
 							<div class="insuranceOptions"> 
 								<div class="marginBottom5">   
-									<label class="checkbox inline">
-										<input type="checkbox"  data-bind="checked: primaryInsurance" />
+									<label class="checkbox inline coPayCheck">
+										<input type="checkbox"  data-bind="checked: primaryInsurance,enable: $root.role().checkout() > 1" />
 										<span>Primary</span>($<span data-bind="text: $root.primaryCo"></span>)
 									</label>
 								</div>
 								<div class="marginBottom5">  
-									<label class="checkbox inline"> 
-										<input type="checkbox" data-bind="checked: secondaryInsurance" />
-										<span>Secondary</span>($<span data-bind="text: $root.secondaryCo"></span>)  
+									<label class="checkbox inline coPayCheck"> 
+										<input type="checkbox" data-bind="checked: secondaryInsurance,enable: $root.role().checkout() > 1" />
+										<span>Secondary</span>($<span data-bind="text: $root.secondaryCo,enable: $root.role().checkout() > 1"></span>)  
 									</label>
 								</div>
 								<div class="marginBottom5"> 
-									<label class="checkbox inline">      
-										<input type="checkbox" data-bind="checked: otherInsurance" />
-										<span>Other</span>($<span data-bind="text: $root.otherCo"></span>)
+									<label class="checkbox inline coPayCheck">      
+										<input type="checkbox" data-bind="checked: otherInsurance,enable: $root.role().checkout() > 1" />
+										<span>Other</span>($<span data-bind="text: $root.otherCo,enable: $root.role().checkout() > 1"></span>)
 									</label>      
 								</div> 
 							</div>         
 						</div>
-						<div class="marginBottom5">
-							<span class="label">Co-Payment amount</span>
-							<input type="text" class="input-small" placeholder="0" data-bind="value:$root.copayment"disabled/>
+						<form class="form-horizontal">
+						<div class="control-group">
+							<label class="control-label" for="inputCopayment">Co-Payment amount</label>
+							<div class="controls">
+							<input type="text" id = "inputCopayment"class="input-small" placeholder="0" data-bind="value:$root.copayment,enable: $root.role().checkout() > 1"disabled/>
+							</div>
 						</div>
-						<div class="marginBottom5">   
-							<span class="label">Other Co-Pay</span>
-							<input type="text" class="input-small" placeholder="0" data-bind="value: otherCopay"/>
+						<div class="control-group">   
+							<label class="control-label" for="otherCopay">Other Copay</label>
+							<div class="controls">
+							<input type="text" id="otherCopay"class="input-small" placeholder="0" data-bind="value: otherCopay,enable: $root.role().checkout() > 1"/>
+							</div>
 						</div>
-						<div class="marginBottom5">   
-							<label id="additionalCharges" class="checkbox inline">
-							<input data-bind="checked: editAdditionalCharge" type="checkbox" /><span>Additional Charges</span>
+						<div class="control-group">   
+							<label id="additionalCharges" class="control-label checkbox inline">
+							<input data-bind="checked: editAdditionalCharge,enable: $root.role().checkout() > 1" type="checkbox" /><span>Additional Charges</span>
 							</label> 
+							<div class="controls">
 							<input type="text" class="input-small" placeholder="0" data-bind="enable: editAdditionalCharge,
-							 value: additionalCharges"/>
+							 value: additionalCharges,enable: $root.role().checkout() > 1"/>
+							</div>
 						</div>       
-						<div class="marginBottom5">     
-							<span class="label">Insurance Portion</span>  
+						<div class="control-group">     
+							<label class="control-label" for="insurancePortion">Insurance Portion</label>
+							<div class="controls">
 							<input type="text" class="input-small" placeholder="0" data-bind="value: insurancePortion" disabled/>
+							</div>
 						</div>
-						<div class="marginBottom5">
-							<span class="label label-inverse">Total Receivable</span>
+						<div class="control-group">
+							<span class="label label-inverse control-label">Total Receivable</span>
+							<div class="controls">
 							<input type="text" class="input-small" placeholder="0" data-bind="value: $root.totalReceivable"disabled/>  
+							</div>
 						</div>
-						<div class="marginBottom5">
-							<input type="text" class="input-large" placeholder="Comments" data-bind="value: comment"/>
+						<div class="control-group">
+							<input type="text" class="input-large" placeholder="Comments" data-bind="value: comment,enable: $root.role().checkout() > 1"/>
 						</div>
 						<div class="marginBottom5">
 							<a data-bind="click:$root.selectLink">Additional Details</a>
-						</div>	
+						</div>
+                        </form>						
 					</div> 
 				<!-- /ko -->  
-					<div class="span6">  
+					<div class="span6 checkoutRight">  
 						<div class="checkoutTableHolder marginBottom5">
 					<!-- ko with: paymentMethod -->  
 							<table class="paymentTable table table-bordered table-hover">
@@ -74,13 +86,13 @@
 											<th>Modes</th>   
 											<th>Particulars</th>
 											<th>Amount</th>
-											<th></th>
+											<th data-bind="visible: $root.role().checkout() > 1"></th>
 										</tr>
 									</thead> 
 									<tbody data-bind="foreach: $root.paymentMethods">     
 										 <tr> 
 											<td class="input-small">											
-												<select class="input-small" data-bind="event: {select: $root.addRow},value: mode">
+												<select class="input-small" data-bind="event: {select: $root.addRow},value: mode,enable: $root.role().checkout() > 1">
 													<option value=""></option> 
 													<option value="Cash">Cash</option> 
 													<option value="Credit">Credit</option>
@@ -88,19 +100,19 @@
 												</select>
 											</td>
 											<td class="input-small">											 
-												<input class="input-medium"	data-bind="
+												<input class="input-medium" type="text"	data-bind="
 													event: {keyup: $root.addRow},
 													value: particulars, 
-													valueUpdate: 'afterkeydown'" />
+													valueUpdate: 'afterkeydown',enable: $root.role().checkout() > 1" />
 											</td> 
 											<td class="input-small">									
-												<input class="input-small" data-bind="
+												<input class="input-small" type="text" data-bind="
 													event: {keyup: $root.addRow},
 													value: amount, 
-													valueUpdate: 'afterkeydown'" />
+													valueUpdate: 'afterkeydown',enable: $root.role().checkout() > 1" />
 											</td> 
-											<td>
-												<a class="btn" data-bind="visible: mode()!='',click:$root.removePaymentMethod"><i class="icon-remove"></i></a>
+											<td data-bind="visible: $root.role().checkout() > 1">
+												<a class="btn" data-bind="visible: mode()!='',click:$root.removePaymentMethod,visible: $root.role().checkout() > 1"><i class="icon-remove"></i></a>
 											</td>
 										</tr> 
 									</tbody> 
@@ -152,9 +164,9 @@
 </div> 
 <div class="footer">
 	<div class="pull-right marginBottom5">
-		<button type="button" class="btn btn-small" data-bind="click:$root.printCheckout">Print Receipt</button>
-		<button type="button" class="btn btn-small" data-bind="click:$root.printCheckoutOrder">PrintOrder</button>
-		<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.savePaymentMethod">Save</button>
+		<button type="button" class="btn btn-small" data-bind="click:$root.printCheckout,visible: $root.role().checkout() > 1">Print Receipt</button>
+		<button type="button" class="btn btn-small" data-bind="click:$root.printCheckoutOrder,visible: $root.role().checkout() > 1">PrintOrder</button>
+		<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.savePaymentMethod,visible: $root.role().checkout() > 1">Save</button>
 	</div>
 </div>
 

@@ -1,6 +1,6 @@
 <?php
 /**************************************************************************************************
- * File: Print Flowsheet
+ * File: Print Order
  * Author: Sean Malone
  * Description: This script creates a pdf containing information for the Flow Sheet
  *************************************************************************************************/
@@ -160,14 +160,6 @@ $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
 $diagnosis = $rows;
 
-// Vitals
-$stmt = $db->query("SELECT * 
-					FROM venous_access
-				    WHERE service_record_id='$serviceRecordId'");
-$stmt->setFetchMode(PDO::FETCH_ASSOC);
-$rows = $stmt->fetchAll();
-$vitals = $rows;
-
 // Order
 $stmt = $db->query("SELECT * 
 					FROM orders
@@ -190,17 +182,6 @@ $stmt = $db->query("SELECT medication_order_log.*, medicine_list.code
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
 $drugs = $rows;
-
-// Office Procedures
-$stmt = $db->query("SELECT * 
-					FROM orders
-					RIGHT JOIN office_procedure
-					ON office_procedure.order_id=orders.id
-					LEFT JOIN office_procedure_type
-					ON office_procedure.office_procedure_type_id=office_procedure_type.id
-				    WHERE orders.service_record_id='$serviceRecordId'");
-$stmt->setFetchMode(PDO::FETCH_ASSOC);
-$officeProcedures = $stmt->fetchAll();
 
 // Supplies
 $stmt = $db->query("SELECT * 
@@ -242,38 +223,6 @@ $y = $pdf->GetY() + 3;
 $pdf->Line(11, $y, 199, $y);	
 
 /***************************************************************************************************
- * Vitals
- **************************************************************************************************/
-// Last Access
-$pdf->SetY($y + 2);
-$pdf->SetFont('Arial','B',10);
-$pdf->Cell(10, 5, 'Day: ');
-$pdf->SetFont('Arial','',10);
-$pdf->Cell(20, 5, $vitals[count($vitals)-1]['day']);
-$pdf->SetFont('Arial','B',10);
-$pdf->Cell(30, 5, 'Venous Access: ');
-$pdf->SetFont('Arial','',10);
-$pdf->Cell(90, 5, $vitals[count($vitals)-1]['port_access'], 0, 1);
-
-// Heading
-$pdf->SetFont('Arial','BU',10);
-$pdf->Cell(30, 5, 'Vitals', 0, 1);
-$pdf->SetFont('Arial','',10);
-$pdf->Cell(40, 5, 'Time');
-$pdf->Cell(35, 5, 'BP');
-$pdf->Cell(35, 5, 'Pulse');
-$pdf->Cell(16, 5, 'Temp (F)', 0, 1);
-
-// Data
-foreach($vitals as $v) {
-	$date = date('n/j/Y', strtotime($v['date']));
-	$pdf->Cell(40, 5, $date . ' ' . $v['time']);
-	$pdf->Cell(35, 5, $v['bp']);
-	$pdf->Cell(35, 5, $v['pulse']);
-	$pdf->Cell(16, 5, $v['temp'], 0, 1, 'R');
-} 
- 
-/***************************************************************************************************
  * Order
  **************************************************************************************************/
 if(count($order) > 0) {
@@ -310,7 +259,7 @@ if(count($order) > 0) {
 	$y = $pdf->GetY() + 3;
 	$pdf->Line(11, $y, 199, $y);
 }
-  
+
 /***************************************************************************************************
  * Drugs
  **************************************************************************************************/
@@ -344,39 +293,6 @@ if(count($drugs) > 0) {
 		$pdf->CellFit(20, 6, $d['sequence_number']);
 		$pdf->CellFit(22, 6, $d['start_time']);
 		$pdf->CellFit(22, 6, $d['end_time'], 0, 1);
-	}
-	
-	// Separator
-	$y = $pdf->GetY() + 3;
-	$pdf->Line(11, $y, 199, $y);
-}
-
-/***************************************************************************************************
- * Office Procedures
- **************************************************************************************************/
-if(count($officeProcedures) > 0) {
-	// Type
-	$pdf->SetY($pdf->GetY() + 5);
-	$pdf->SetFont('Arial','B',10);
-	$pdf->Cell(12, 5, 'Office Procedures', 0, 1);
-	$pdf->SetFont('Arial','',10);
-	
-	// Heading
-	$pdf->SetY($pdf->GetY() + 2);
-	$pdf->SetFont('Arial','BU', 10);
-	$pdf->Cell(50, 5, 'Description');
-	$pdf->Cell(30, 5, 'Code');
-	$pdf->Cell(30, 5, 'Times');
-	$pdf->Cell(30, 5, 'Cost', 0, 1);
-	
-	// Data
-	$pdf->SetFont('Arial','',9);
-	foreach($officeProcedures as $o) {
-		$cost = number_format(floatval($o['times']) * floatval($o['cost']), 2);
-		$pdf->CellFit(50, 6, $o['description']);
-		$pdf->CellFit(30, 6, $o['code']);
-		$pdf->CellFit(15, 6, $o['times'], 0);
-		$pdf->CellFit(25, 6, '$' . $cost, 0, 1, 'R');
 	}
 	
 	// Separator

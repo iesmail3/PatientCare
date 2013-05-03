@@ -1,3 +1,8 @@
+<!-------------------------------------------------------------------------------------------------
+ | View: Imaging Order
+ | Author: Sean Malone
+ | Description: This View contains the UI components for Imaging Order.
+ ------------------------------------------------------------------------------------------------->
 <div class="formScroll formPadding">
 	<div class="row-fluid mainOrderTableHolder">
 		<table class="table table-bordered table-hover OrderTable">
@@ -48,6 +53,7 @@
 		</table>
 	</div>
 </div>
+<!-- Buttons -->
 <div class="pull-right">
 	<button type="button" class="btn btn-small btn-success"
 	        data-bind="click: newOrder.bind($data, 'image'), visible: $root.role().orders() > 1">

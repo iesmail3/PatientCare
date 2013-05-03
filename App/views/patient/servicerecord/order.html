@@ -1,9 +1,10 @@
-<!--
-View:
-Author(s):
-Description:
--->
+<!-------------------------------------------------------------------------------------------------
+ | View: Order
+ | Author: Sean Malone
+ | Description: This View contains the UI components for Order.
+ ------------------------------------------------------------------------------------------------->
 <div>
+	<!-- Order Tabs -->
 	<ul class="nav nav-tabs patientNavs" id="orderTab">
 		<li class="active"><a data-toggle="tab" href="#image"data-bind="visible: role().orders() > 0">Imaging Order</a></li>
 		<li><a data-toggle="tab" href="#lab" data-bind="visible: role().orders() > 0">Labs Order</a></li>
@@ -12,7 +13,7 @@ Description:
 			<a data-toggle="tab" href="#medication" data-bind="visible: role().medicationOrders() > 0">Medication Order</a>
 		</li>
 	</ul>
- 
+ 	<!-- Tab Content -->
 	<div class="tab-content">
 		<!-- Imaging Order -->
 		<div class="tab-pane outerPane active" id="image" data-bind="visible: role().orders() > 0">

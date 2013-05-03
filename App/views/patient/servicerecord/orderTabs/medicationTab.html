@@ -1,10 +1,17 @@
+<!-------------------------------------------------------------------------------------------------
+ | View: Medication Order
+ | Author: Sean Malone
+ | Description: This View contains the UI components for Medication Order.
+ ------------------------------------------------------------------------------------------------->
 <form class="form-inline formPadding medOrderForm">
+	<!-- Alerts -->
 	<div class="modalAlert">
 		<div class="alert alert-danger allAlert">You have are missing required fields.</div>
 		<div class="alert alert-danger medAlert">Medicine is required.</div>
 		<div class="alert alert-danger sigAlert">Sigs is required.</div>
 		<div class="alert alert-success">Successfully saved.</div>
 	</div>
+	<!-- Form -->
 	<div class="row-fluid">
 		<!-- ko with: medication -->
 		<div class="marginBottom5">
@@ -61,6 +68,7 @@
 			</textarea>
 		</div>
 		<!-- /ko -->
+		<!-- Buttons -->
 		<div class="pull-right">
 			<button type="button" data-bind="click: newMedication, 
 				    visible: newMed() && role().medicationOrders() > 1" class="btn btn-small btn-success">
@@ -77,6 +85,7 @@
 		</div>
 	</div>
 </form>
+<!-- Radio for Table -->
 <div class="row-fluid">
 	<div class="marginBottom5">
 		<span class="radio inline">Show Records: </span>
@@ -92,6 +101,7 @@
 			<input type="radio" name="filter" value="all" data-bind="checked: $root.tableFilter, click: filterTable" /><span>All</span>
 		</label>
 	</div>
+	<!-- Table -->
 	<div class="medTable">
 		<table class="table table-bordered table-hover">
 			<thead>

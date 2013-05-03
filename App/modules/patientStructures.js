@@ -1,21 +1,20 @@
 /**************************************************************************************************
- * Module name: Patient Structures
- * Author(s): Sean Malone & Gary Chang
+ * Module: Patient Structures
+ * Author(s): Gary Chang, Sean Malone
  * Description: This module contains all structures that the Patients section references.
  *************************************************************************************************/
 define(function(require) {
 	/*********************************************************************************************** 
 	 * Includes*
 	 **********************************************************************************************/
-	var system = require('durandal/system');			// System logger
-	var Forms   = require('modules/form');
-	var form = new Forms();
+	var system 	= require('durandal/system');			// System logger
+	var Forms   = require('modules/form');				// Form
+	var form 	= new Forms();							// new Form
 	
 	/**********************************************************************************************
 	 * Constructor
 	 *********************************************************************************************/
-	var patient = function() {};
-	var form = new Forms();
+	var patient = function() {}
 	
 	/*********************************************************************************************** 
 	 * Structures
@@ -275,8 +274,8 @@ define(function(require) {
 		var self = this; 
 		if (data != null) {
 			this.id			 = ko.observable(data.id);
-			this.practiceId	 = ko.observable(data.practice_id);
 			this.patientId	 = ko.observable(data.patient_id);
+			this.practiceId	 = ko.observable(data.practice_id);
 			this.serviceRecordId   = ko.observable(data.service_record_id); 
 			this.type		 = ko.observable(data.type);
 			this.value		 = ko.observable(data.value).extend({required: {message: 'value'}});
@@ -287,8 +286,8 @@ define(function(require) {
 		}
 		else {
 			this.id			 = ko.observable();
-			this.practiceId	 = ko.observable();
 			this.patientId	 = ko.observable();
+			this.practiceId	 = ko.observable();
 			this.serviceRecordId = ko.observable(); 
 			this.type		 = ko.observable();
 			this.value		 = ko.observable().extend({required: {message: 'value'}});

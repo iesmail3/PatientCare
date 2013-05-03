@@ -1,5 +1,5 @@
 /**************************************************************************************************
- * Module name: form.js
+ * Module: Form
  * Author(s): Sean Malone
  * Description: This module contains large form data that is repeated throughout the application.
  *              Creating this module allows reduction in the size of the HTML files.
@@ -10,9 +10,7 @@ define(function(require) {
 	/**************************************************************************************************
 	 * Form Structure
 	 *************************************************************************************************/
-	function form () {
-		
-	}
+	function form () {}
 	
 	/**************************************************************************************************
 	 * States
@@ -444,6 +442,7 @@ define(function(require) {
 	/**************************************************************************************************
 	 * Dates
 	 *************************************************************************************************/
+	// Database format to UI format
 	form.prototype.uiDate = function(date) {
 		if(date != null && date != undefined && date != '' && date != '0000-00-00') {
 			if(date.indexOf('-') >= 0)
@@ -456,6 +455,7 @@ define(function(require) {
 		}
 	}
 	
+	// UI format to Database format
 	form.prototype.dbDate = function(date) {
 		if(date != null && date != undefined && date != '' && date != '0000/00/00') {
 			if(date.indexOf('/') >= 0)
@@ -468,6 +468,7 @@ define(function(require) {
 		}
 	}
 	
+	// Current date in UI format
 	form.prototype.currentDate = function() {
 		var date = new Date();
 		var year = date.getFullYear().toString();

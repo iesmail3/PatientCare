@@ -17,9 +17,9 @@
 						Followup in
 					</label>
 					<input type="text" placeholder="0" class="input-small"
-						data-bind="value: value, visible: type() == '1'" /> 
+						data-bind="value: value, visible: type() == '1',enable: $root.role().followup() > 1" /> 
 					<select class="input-small" 
-						data-bind="value: unit, visible: type() == '1'">
+						data-bind="value: unit, visible: type() == '1',enable: $root.role().followup() > 1">
 						<option value="">Time Period</option>         
 						<option value="Days">Days</option>     
 						<option value="Weeks">Weeks</option>            
@@ -27,7 +27,7 @@
 						<option value="Years">Years</option> 
 					</select>   
 					<input type="text" placeholder="Comment" 
-						data-bind="value: comment, visible: type() == '1'" />
+						data-bind="value: comment, visible: type() == '1',enable: $root.role().followup() > 1" />
 				</div>
 				<div class="marginBottom5">
 					<label class="radio inline">
@@ -36,7 +36,7 @@
 						Followup after
 					</label>   
 					<input type="text" placeholder="Comment" 
-					data-bind="value: comment, visible: type() == '2'" />   
+					data-bind="value: comment, visible: type() == '2',enable: $root.role().followup() > 1" />   
 				</div>   
 				<div class="marginBottom5">
 					<label class="radio inline">
@@ -45,7 +45,7 @@
 						Followup PRN
 					</label>  
 					<input type="text" placeholder="Comment" 
-					data-bind="value: comment, visible: type() == '3'" />  
+					data-bind="value: comment, visible: type() == '3',enable: $root.role().followup() > 1" />  
 				</div>
 				<div class="marginBottom5">
 					<label class="radio inline">   
@@ -54,11 +54,11 @@
 						No Followup
 					</label> 
 					<input type="text" placeholder="Comment" 
-					data-bind="value: comment, visible: type() == '4'" />     
+					data-bind="value: comment, visible: type() == '4',enable: $root.role().followup() > 1" />     
 				</div>   
 				<div class="pull-right">   
-					<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.saveFollowup">Save</button>
-					<button type="button" class="btn btn-small btn-danger" data-bind="click:$root.deleteFollowup">Delete</button>
+					<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.saveFollowup,visible: $root.role().followup() > 1">Save</button>
+					<button type="button" class="btn btn-small btn-danger" data-bind="click:$root.deleteFollowup,visible: $root.role().followup() > 1">Delete</button>
 				</div>
 			</fieldset>
 		</div>  

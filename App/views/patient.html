@@ -1,9 +1,9 @@
-<!--
-View: Patient
-Author(s): Sean Malone & Gary Chang
-Description: This view is the outer patient view. It will hold the tree
-		     and the sub-content for each patient view.
--->
+<!-------------------------------------------------------------------------------------------------
+ | View: Patient
+ | Author(s): Sean Malone & Gary Chang
+ | Description: This view is the outer patient view. It will hold the tree
+ | 		        and the sub-content for each patient view.
+ ------------------------------------------------------------------------------------------------->
 <div>
 	<div class="container-fluid"> 
 		<div class="row-fluid">
@@ -13,9 +13,19 @@ Description: This view is the outer patient view. It will hold the tree
 						<div class="patientName" data-bind="text: lastFirstName"></div>
 					<!-- /ko -->
 					<ul class="patientRecordNav unstyled">
-						<li><a data-bind="attr: {href: personalUrl}">Personal Information</a></li>
-						<li><a data-bind="attr: {href: socialUrl}">Social & Family History</a></li>
+						<li><a data-bind="attr: {href: personalUrl}, 
+							   visible: $root.role().personalInformation() > 0 || $root.role().insurance() > 0">
+								Personal Information
+							</a>
+						</li>
 						<li>
+							<a data-bind="attr: {href: socialUrl},
+							   visible: $root.role().socialHistory() > 0 || $root.role().familyHistory() > 0
+							   || $root.role().routineExam() > 0">
+								Social & Family History
+							</a>
+						</li>
+						<li data-bind="visible: $root.role().serviceRecord() > 0">
 							<i class="icon-plus" data-bind="click: $root.openClose"></i>
 							<a data-bind="attr: {href: serviceUrl}">Service Record</a>
 						</li>
@@ -26,15 +36,39 @@ Description: This view is the outer patient view. It will hold the tree
 									<a data-bind="text: serviceLabel, attr: {href: $root.serviceviewUrl($data)}"></a>
 								</li>
 								<ul class="serviceDate">
-									<li><a data-bind="attr: {href: $root.historyUrl($data)}">History & Present Illness</a></li>
-									<li><a data-bind="attr: {href: $root.physicalUrl($data)}">Physical Examinations</a></li>
-									<li><a data-bind="attr: {href: $root.reportUrl($data)}">Labs & X-ray Reports</a></li>
-									<li><a data-bind="attr: {href: $root.diagnosisUrl($data)}">Diagnosis, Plans, and Instructions</a></li>
-									<li><a data-bind="attr: {href: $root.orderUrl($data)}">Orders</a></li>
+									<li><a data-bind="attr: {href: $root.historyUrl($data)}, 
+										   visible: $root.role().historyIllness() >0">
+										History & Present Illness</a>
+									</li>
+									<li><a data-bind="attr: {href: $root.physicalUrl($data)},
+										   visible: $root.role().physicalExamination() > 0">
+										Physical Examinations</a>
+									</li>
+									<li><a data-bind="attr: {href: $root.reportUrl($data)},
+										   visible: $root.role().reports() > 0">
+										Labs & X-ray Reports</a>
+									</li>
+									<li><a data-bind="attr: {href: $root.diagnosisUrl($data)},
+										   visible: $root.role().diagnosisInstructions() > 0">
+										Diagnosis, Plans, and Instructions</a>
+									</li>
+									<li>
+										<a data-bind="attr: {href: $root.orderUrl($data)}, 
+										   visible: $root.role().orders() > 0 || $root.role().medicationOrders() > 0">
+											Orders
+									</a>
+									</li>
 								</ul>
 							</ul>
 						</div>
-						<li><a data-bind="attr: {href: followupUrl}">Follow Up</a></li>
+						<li>
+							<a data-bind="attr: {href: followupUrl},
+							   visible: $root.role().followup() > 0 || $root.role().checkout() > 0
+							   || $root.role().prescription() > 0 || $root.role().phoneLog() > 0
+							   || $root.role().superbill() > 0 || $root.role().miscDocs() > 0">
+								Follow Up
+							</a>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -43,7 +77,7 @@ Description: This view is the outer patient view. It will hold the tree
 					<!--ko compose: {
 			            model: currentView,
 			            transition:'simple',
-			            cacheViews: false
+			            cacheViews: false,
 			        }--><!--/ko-->
 				</div>
 			</div>

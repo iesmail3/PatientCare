@@ -20,7 +20,16 @@
 	 * 
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/
-	
+	// Role
+	followup.prototype.getRole = function(id, practiceId) {
+		return this.query({
+			mode: 'select', 
+			table: 'user', 
+			fields: '*',
+			join: "JOIN role ON user.role_id=role.id",
+			where: "WHERE user.id='" + id +"' AND user.practice_id='" + practiceId + "'"
+		});
+	}
 	 // Get Personal Information for a Single Patient
 	followup.prototype.getFollowup = function(patientId, practiceId) {
 		return this.query({
@@ -119,13 +128,13 @@
 		});
 	}
 	// Get document based on document type 
-	followup.prototype.getDocumentByType = function(patientId,type) {
+	followup.prototype.getDocumentByType = function(patientId,practiceId,type) {
 		if(type.trim() == 'All') { 
 			return this.query({
 				mode: 'select',
 				table: 'document',
 				fields: '*',
-				where: "WHERE patient_id='" + patientId + "'"
+				where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
 			});
 		} 
 		else { 
@@ -134,7 +143,7 @@
 				mode: 'select',
 				table: 'document',
 				fields: '*',
-				where: "WHERE type='" + type + "' AND patient_id='" + patientId + "'"
+				where: "WHERE type='" + type + "' AND patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
 			});
 		}
 	}
@@ -184,18 +193,19 @@
 	followup.prototype.saveFollowup = function(id, data) {
 		var self = this; 
 		var patientId = data.patientId();  
-		var fields = ['id','patient_id','service_record_id','type','value','unit','comment','service_date','plan'];
+		var practiceId = data.practiceId();  
+		var fields = ['id','patient_id','practice_id','service_record_id','type','value','unit','comment','service_date','plan'];
 
 		var values = $.map(data, function(k,v) {
 			return [k];
 		});
-		values[7] = form.dbDate(data.serviceDate()); 
+		values[8] = form.dbDate(data.serviceDate()); 
 		return self.query({
 				mode:  'update', 
 				table: 'follow_up',
 				fields: fields, 
 				values: values, 
-				where: "WHERE id='" + id + "' AND patient_id='" + patientId + "'"
+				where: "WHERE id='" + id + "' AND patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
 			});
 	}
 	

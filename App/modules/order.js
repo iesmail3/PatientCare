@@ -1,11 +1,11 @@
 /**************************************************************************************************
- * Module name: Patient
- * Author(s): Sean malone
- * Description: This module is used to query the database.
+ * Module: Patient
+ * Author(s): Sean Malone
+ * Description: This module is used to query the database for the order ViewModel.
  *************************************************************************************************/
 define(function(require) {
 	/*********************************************************************************************** 
-	 * Includes*
+	 * Includes
 	 **********************************************************************************************/
 	var system = require('durandal/system');			// System logger
 	var Forms = require('modules/form');
@@ -14,7 +14,7 @@ define(function(require) {
 	/**********************************************************************************************
 	 * Constructor
 	 *********************************************************************************************/
-	var order = function() {};
+	var order = function() {}
 	
 	/**********************************************************************************************
 	 * Get Methods
@@ -98,6 +98,7 @@ define(function(require) {
 		});
 	}
 	
+	// Ge Service Record
 	order.prototype.getServiceRecord = function(patientId, practiceId, date) {
 		return this.query({
 			mode: 'select',
@@ -118,6 +119,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Order Types
 	order.prototype.getOrderTypes = function(id, type) {
 		return this.query({
 			mode: 'select',
@@ -127,6 +129,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Order
 	order.prototype.getOrder = function(id) {
 		return this.query({
 			mode: 'select',
@@ -136,6 +139,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get All Orders
 	order.prototype.getOrders = function(id, type) {
 		var fields = ['orders.id', 'orders.service_record_id', 'orders.in_office', 'orders.instructions', 
 			'orders.assigned_to', 'orders.date', 'orders.order_category_id', 'order_category.description',
@@ -152,6 +156,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Order Group
 	order.prototype.getOrderGroup = function(id) {
 		return this.query({
 			mode: 'select',
@@ -163,6 +168,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Office Procedure Types
 	order.prototype.getOfficeProcedureTypes = function(id) {
 		return this.query({
 			mode: 'select',
@@ -172,6 +178,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Office Procedures
 	order.prototype.getOfficeProcedures = function(id) {
 		return this.query({
 			mode: 'select',
@@ -181,6 +188,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Supply Types
 	order.prototype.getSupplyTypes = function(id) {
 		return this.query({
 			mode: 'select',
@@ -190,6 +198,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Supplies
 	order.prototype.getSupplies = function(id) {
 		return this.query({
 			mode: 'select',
@@ -198,7 +207,8 @@ define(function(require) {
 			where: "WHERE order_id='" + id + "'"
 		});
 	}
-		
+
+	// Get Medicine List		
 	order.prototype.getMedicines = function() {
 		return this.query({
 			mode: 'select',
@@ -207,6 +217,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Diluent List
 	order.prototype.getDiluents = function() {
 		return this.query({
 			mode: 'select',
@@ -215,6 +226,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Drug Orders
 	order.prototype.getDrugOrders = function(id) {
 		return this.query({
 			mode: 'select',
@@ -224,6 +236,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Medication Order Logs
 	order.prototype.getMedicationOrderLogs = function(id) {
 		return this.query({
 			mode: 'select',
@@ -233,6 +246,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Venous Access
 	order.prototype.getVenousAccess = function(id) {
 		return this.query({
 			mode: 'select',
@@ -242,6 +256,7 @@ define(function(require) {
 		});
 	}		
 	
+	// Get Medications
 	order.prototype.getMedications = function(id) {
 		return this.query({
 			mode: 'select',
@@ -251,6 +266,7 @@ define(function(require) {
 		});
 	}	
 	
+	// Get Allergies
 	order.prototype.getAllergies = function(id) {
 		return this.query({
 			mode: 'select',
@@ -260,6 +276,7 @@ define(function(require) {
 		});
 	}
 	
+	// Get Intolerances
 	order.prototype.getIntolerances = function(id) {
 		return this.query({
 			mode: 'select',
@@ -327,6 +344,7 @@ define(function(require) {
 		}
 	}
 	
+	// Save Service Record
 	order.prototype.saveServiceRecord = function(id, data) {
 		var self = this;
 		
@@ -351,6 +369,7 @@ define(function(require) {
 		});
 	}
 	
+	// Save Order
 	order.prototype.saveOrder = function(data, method) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'order_category_id',
@@ -397,6 +416,7 @@ define(function(require) {
 		}
 	}
 	
+	// Save Office Procedure
 	order.prototype.saveOfficeProcedure = function(data, method) {
 		var self = this;
 		var fields = ['id', 'order_id', 'office_procedure_type_id', 'times'];
@@ -430,6 +450,7 @@ define(function(require) {
 		}
 	}
 	
+	// Save Supply
 	order.prototype.saveSupply = function(data, method) {
 		var self = this;
 		var fields = ['id', 'order_id', 'supply_type_id', 'quantity'];
@@ -463,6 +484,7 @@ define(function(require) {
 		}
 	}
 	
+	// Save Drug Order
 	order.prototype.saveDrugOrder = function(order, orders) {
 		var self = this;
 		var fields = ['id', 'order_id', 'scr', 'crcl', 'medicine', 'dose', 'basis', 
@@ -508,6 +530,7 @@ define(function(require) {
 		}
 	}
 	
+	// Save Venous Access
 	order.prototype.saveVenousAccess = function(venous) {
 		var self = this;
 		// Get date
@@ -554,6 +577,7 @@ define(function(require) {
 		}
 	}
 	
+	// Save Medication Order Log
 	order.prototype.saveMedicationOrderLog = function(order) {
 		var self = this;
 		var fields = ['id', 'order_id', 'medicine', 'quantity', 'actual_dose', 'sequence_number',
@@ -598,6 +622,7 @@ define(function(require) {
 		}	
 	}
 	
+	// Save Medication
 	order.prototype.saveMedication = function(med) {
 		var self = this;
 		var fields = ['id', 'service_record_id', 'medicine', 'strength', 'quantity', 'route',

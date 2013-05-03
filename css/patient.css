@@ -1,3 +1,10 @@
+@charset "UTF-8";
+/**************************************************************************************************
+ * Stylesheet: Patient
+ * Author: Gary Chang, Imran Esmail, Sean Malone
+ * Description: This stylesheet provides styles for the Patient section and password UIs.
+ *************************************************************************************************/
+
 .legend {
 	font-size: 14pt;
 	margin-bottom: 3px;
@@ -11,13 +18,9 @@
 .input-xxlarge { width: 300px; }
 .input-huge { width: 400px; }
 
-th, td {
-	cursor: default;
-}
+th, td { cursor: default; }
 
-.right10 {
-	margin-right: 10px;
-}
+.right10 { margin-right: 10px; }
 
 .smallText { font-size: 10px; }
 
@@ -45,7 +48,6 @@ th, td {
 	margin-top: 10px;
 	border-radius: 5px; 
 }    
-
 .contentPane .container-fluid { padding: 5px; }
 
 .tabScroll { overflow-y: auto; }
@@ -53,12 +55,10 @@ th, td {
 .fill { height: 100%; }                               
 
 .patientRecordNav { margin-left: 10px !important; }
-
 .patientRecordNav li a {
 	color: #000;
 	text-decoration: none;
 }
-
 .patientRecordNav li a:hover { text-decoration: none; }
 
 .patientName {
@@ -105,7 +105,6 @@ th, td {
     width: 160px;
     margin: 12px;      
 }
-
 .insuranceOptions label { width: 140px !important; }
 
 .commentContainer { padding-right: 15px; }
@@ -117,9 +116,12 @@ th, td {
 }
 
 .paymentTable { max-width: none; }
-.paymentTable input, .paymentTable select { width: 100%; }
+.paymentTable input, .paymentTable select { width: 88%; }
 .paymentTable td { padding: 5px; }
 .paymentTable th:last-child { width: 15%; }
+
+.checkoutRight { width: 53% !important; }
+.checkoutRight .label-inverse { margin-left: 10px; }    
 
 .alert { display: none; }
 
@@ -151,7 +153,6 @@ th, td {
 .down {
 	background: url('../Content/images/glyphicons-halflings.png') -307px -117px;
 }
-
 .up {
 	background: url('../Content/images/glyphicons-halflings.png') -283px -117px;
 }
@@ -193,9 +194,7 @@ th, td {
 	width: 60px;
 }
 
-.familyComment {
-	width: 239px;
-}
+.familyComment { width: 239px; }
 
 .routineExamComment {
 	height: 60px;
@@ -210,25 +209,12 @@ th, td {
 }
 
 /* Service Record */
-.serviceRecords, .serviceDate {
-	display: none;
-}
+.serviceRecords, .serviceDate { display: none; }
+.serviceRecords ul, #service li { list-style: none; }
+.patientRecordNav i { cursor: pointer; }
 
-.serviceRecords ul, #service li {
-	list-style: none;
-}
-
-.patientRecordNav i {
-	cursor: pointer;
-}
-
-#service table .recordButton {
-	width: 75px;
-}
-
-#service table .deleteButton {
-	width: 50px;
-}
+#service table .recordButton { width: 75px; }
+#service table .deleteButton { width: 50px; }
 
 /* History & Present Illness */
 .historyComment {
@@ -436,13 +422,9 @@ th, td {
 	margin-right: 13px;
 }
 
-.physicalAbnRadio {
-	display: inline-block;
-}
+.physicalAbnRadio { display: inline-block; }
 
-.physicalComments {
-	width: 455px;
-}
+.physicalComments { width: 455px; }
 
 /* Orders */
 .mainOrderTableHolder {
@@ -457,6 +439,8 @@ th, td {
 }
 
 .orderForm a { cursor: pointer; }
+.orderForm textarea { width: 97%; }
+.orderForm select { width: 160px; }
 
 .orderTable td div {
 	width: 15px;
@@ -467,16 +451,12 @@ th, td {
 	text-align: center;
 }
 
-.orderBox { min-width: 615px; }
-
-.orderForm textarea { width: 97%; }
-.orderForm select { width: 160px; }
-
 .orderTableHolder {
 	height: 250px;
 	overflow-y: auto;
 }
 
+.orderBox { min-width: 615px; }
 .orderBox .modal-body {
 	max-height: none;
 	min-height: 400px;
@@ -511,17 +491,14 @@ th, td {
 	clear: both;
 	height: 190px;
 }
-
 .drugsTable table {
 	width: 100%;
 	table-layout: fixed;
 }
-
 .drugsTable td {
 	overflow: auto;
 	white-space: nowrap;
 }
-
 .drugsTable tr > td:last-child,
 .drugsTable tr > th:last-child {
 	width: 20px;
@@ -529,7 +506,6 @@ th, td {
 }
 
 .inputCell { padding: 0 !important; }
-
 .inputCell input {
 	padding: 4px;
 	margin: 0px;
@@ -541,9 +517,7 @@ th, td {
 	width: 800px;
 	overflow-y: auto;
 }
-
 .flowHolder .modal-header { padding: 1px 15px; }
-
 .flowHolder .modal-body {
 	height: 550px;
 	max-height: 550px;
@@ -561,7 +535,6 @@ th, td {
 	max-height: 150px;
 	overflow-y: auto;
 }
-
 .venousTableHolder .last { width: 7%; }
 
 .flowForm fieldset legend {
@@ -570,17 +543,13 @@ th, td {
 	font-size: 17px;
 	line-height: 20px;
 }
-
 .flowForm .venousFields input[type="text"] { width: 35px; }
-
 .flowForm .venousFields .radio {
 	font-size: 12px;
 	margin: 0 5px;
 }
 
-.medOrderForm {
-	margin: 0;
-}
+.medOrderForm { margin: 0; }
 
 .medTable {
 	height: 225px;
@@ -600,16 +569,13 @@ th, td {
 .diagnosisTable th:nth-child(2){ width: 15%; }
 .diagnosisTable th:last-child{ width: 5%; }
 
-.textAreaWidth { 
-width: 600px; 
-}
+.textAreaWidth { width: 600px; }
 
 /* Followup */
 .superBox { 
 	min-width: 800px;
 	height: 500px;
 }
-
 .superBox .modal-body {
    height: 521px;
    overflow-y: auto;
@@ -619,6 +585,10 @@ width: 600px;
 	height: 20px;
 	display: none;
 }
+
+.coPayCheck  { 
+	padding-left:5px !important; 
+} 
 
 .phoneLogAlert {
 	height: 20px;
@@ -637,12 +607,8 @@ width: 600px;
 	width: 130px;  
 }
 
-.fileHolder {
-	width: 900px;
-}
-
+.fileHolder { width: 900px; }
 .fileHolder .modal-header { padding: 1px 15px; }
-
 .fileHolder .modal-body {
 	height: 550px;
 	min-height: 550px;
@@ -650,7 +616,6 @@ width: 600px;
 	padding-top: 0;
 	overflow-y: auto;
 }
-
 .fileHolder .modal-body img {
 	display: block;
 	max-width: 99%;
@@ -664,7 +629,8 @@ width: 600px;
 
 .checkoutTableHolder {
 	height: 150px;
-	overflow-y: auto;
+    overflow-y: auto;
+    margin-left: 15px;
 }
 
 .followupTableHolder {
@@ -679,21 +645,15 @@ width: 600px;
 } 
 
 /* Settings */
-.settings {
-	padding-top: 10px;
-}
+div[data-view="views/settings"] { background-color: white; }
 
-div[data-view="views/settings"] {
-	background-color: white;
-}
+.settings .control-label { width: 80px; }
+.settings .controls { margin-left: 100px; }
+.settings { padding-top: 10px; }
 
-.settingsContent .tab-pane {
-	border: none;
-}
+.settingsContent .tab-pane { border: none; }
 
-.settingsPills {
-	background-color: white;
-}
+.settingsPills { background-color: white; }
 
 .subSettings .tab-pane {
 	background-color: #fff;   
@@ -702,25 +662,11 @@ div[data-view="views/settings"] {
 	padding: 0 10px;
 }
 
-.passwordButton {
-	margin-top: -10px;
-}
+.passwordButton { margin-top: -10px; }
 
-.settings .control-label {
-	width: 80px;
-}
+.userTableHolder { overflow-y: auto; }
 
-.settings .controls {
-	margin-left: 100px;
-}
-
-.userTableHolder {
-	overflow-y: auto;
-}
-
-.userButtons {
-	height: 30px;
-}
+.userButtons { height: 30px; }
 
 .roleContent {
 	border: 1px solid #ddd;
@@ -736,62 +682,35 @@ div[data-view="views/settings"] {
 	text-align: center;
 }
 
-.roleButtons {
-	margin-top: 9px;
-}
+.roleButtons { margin-top: 9px; }
 
-.roleSelection {
-	border-bottom: 1px solid #ddd;
-}
-
+.roleSelection { border-bottom: 1px solid #ddd; }
 .roleSelection .root {
 	border: 1px solid #ddd;
 	border-bottom: none;
 	height: 30px;
 }
-
-.roleSelection .child {
-	display: none;
-}
-
-.roleSelection .child span:first-child {
-	margin-left: 50px;
-}
-
-.roleSelection .child .child span:first-child {
-	margin-left: 100px;
-}
-
+.roleSelection .child { display: none; }
+.roleSelection .child span:first-child { margin-left: 50px; }
+.roleSelection .child .child span:first-child { margin-left: 100px; }
 .roleSelection span {
 	padding: 5px;
 	display: inline-block;
 	font-size: 16px;
 }
-
 .roleSelection select {
 	margin-bottom: 0;
 	padding: 0;
 }
 
-.roleContent i {
-	cursor: pointer;
-}
+.roleContent i { cursor: pointer; }
 
 .roles .form-horizontal {
 	margin-top: 5px;
 	margin-bottom: 0;
 }
-
-.roles .form-horizontal .control-group{
-	margin-bottom: 10px;
-}
+.roles .form-horizontal .control-group{ margin-bottom: 10px; }
 
 /* General */
-.general .control-label {
-	width: 100px;
-}
-
-.general .controls {
-	margin-left: 115px;
-}
-
+.general .control-label { width: 100px; }
+.general .controls { margin-left: 115px; }

@@ -1,4 +1,12 @@
+/**************************************************************************************************
+ * ViewModel: Drug Order
+ * Author: Sean Malone
+ * Description: This ViewModel contains all of the logic for the drugorder view.
+ *************************************************************************************************/
 define(function(require) {
+	/**********************************************************************************************
+	 * Includes 
+     *********************************************************************************************/
 	var system = require('durandal/system');
 	var Backend = require('modules/order');
 	var Structures = require('modules/patientStructures');
@@ -177,6 +185,9 @@ define(function(require) {
 		})
 	}
 	
+	/**********************************************************************************************
+	 * Events
+     *********************************************************************************************/
 	DrugOrder.prototype.selectRow = function(order) {
 		self.drugOrder(order);
 	}

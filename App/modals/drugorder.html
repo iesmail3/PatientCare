@@ -1,11 +1,19 @@
+<!-------------------------------------------------------------------------------------------------
+ | View: Drug Order (Modal)
+ | Author: Sean Malone
+ | Description: This View contains all of the logic for the drugOrder modal.
+ ------------------------------------------------------------------------------------------------->
 <div class="messageBox drugHolder">
+	<!-- Close window key shortcut -->
 	<div data-bind="click: closeWindow, shortcut: 'esc'"></div>
+	<!-- Modal Header -->
 	<div class="modal-header">
 		<button type="button" data-bind="click: closeWindow" class="close" aria-hidden="true">
 			&times;
 		</button>
 		<h3 data-bind="html: title"></h3>
 	</div>
+	<!-- Modal Body -->
 	<div class="modal-body">
 		<div class="modalAlert">
 			<div class="alert alert-danger">You have are missing required fields.</div>
@@ -167,6 +175,6 @@
 					</tr>
 				</tbody>
 			</table>
-		</div>
-	</div>
-</div>
+		</div><!-- End Drug Table Holder -->
+	</div><!-- End Modal Body -->
+</div><!-- End Modal -->

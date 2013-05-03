@@ -1,27 +1,27 @@
 /**************************************************************************************************
- * Module name: Patient
+ * Module: Settings
  * Author(s): Sean Malone
- * Description: This module is used to query the database.
+ * Description: This module is used to query the database for Settings.
  *************************************************************************************************/
 define(function(require) {
 	/*********************************************************************************************** 
 	 * Includes*
 	 **********************************************************************************************/
-	var system = require('durandal/system');			// System logger
-	var Forms = require('modules/form');
-	var forms = new Forms();
+	var system 	= require('durandal/system');			// System logger
+	var Forms 	= require('modules/form');				// Form
+	var forms 	= new Forms();
 	
 	/**********************************************************************************************
 	 * Constructor
 	 *********************************************************************************************/
-	var settings = function() {};
+	var settings = function() {}
 	
 	/**********************************************************************************************
 	 * Get Methods
 	 * 
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/
-	// Role
+	// Get Role
 	settings.prototype.getRole = function(id, practiceId) {
 		return this.query({
 			mode: 'select', 
@@ -32,7 +32,7 @@ define(function(require) {
 		});
 	}
 	
-	// Practice
+	// Get Practice
 	settings.prototype.getPractice = function(id) {
 		return this.query({
 			mode: 'select', 
@@ -159,6 +159,7 @@ define(function(require) {
 		}
 	}
 	
+	// Save User
 	settings.prototype.saveUser = function(user) {
 		var self = this;
 		
@@ -184,7 +185,7 @@ define(function(require) {
 	 * 
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
-	// Delete Role
+	// Delete User
 	settings.prototype.deleteUser = function(id, practice) {
 		return this.query({
 			mode: 'delete', 

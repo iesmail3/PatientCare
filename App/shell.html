@@ -1,4 +1,11 @@
+<!-------------------------------------------------------------------------------------------------
+ | View: Shell
+ | Author(s): Gary Chang, Sean Malone
+ | Description: This is the main shell for the application. It contains all of the sub views. The
+ |              main navigation resides in this file. 
+ ------------------------------------------------------------------------------------------------->
 <div>
+	<!-- Main Navigation -->
 	<div class="navbar mainNav">
     	<div class="navbar-inner">
         	<ul class="nav">
@@ -59,6 +66,7 @@
       		</ul>
 		</div>        
     </div>
+    <!-- Hover Navigation Bar -->
     <div class="navbar hoverNav patient">
     	<div class="navbar-inner">
         	<ul class="nav">
@@ -69,6 +77,7 @@
       		</ul>
 		</div>        
     </div>
+    <!-- View Holder for each view -->
     <div class="viewHolder container-fluid page-host">
         <!--ko compose: { 
             model: router.activeItem,
