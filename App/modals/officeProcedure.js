@@ -1,4 +1,12 @@
+/**************************************************************************************************
+ * ViewModel: Office Procedure
+ * Author: Sean Malone
+ * Description: This ViewModel contains all of the logic for the officeProcedure view.
+ *************************************************************************************************/
 define(function(require) {
+	/**********************************************************************************************
+	 * Includes
+	 *********************************************************************************************/
 	var system = require('durandal/system');
 	var Backend = require('modules/order');
 	var Structures = require('modules/patientStructures');
@@ -30,8 +38,9 @@ define(function(require) {
 	 *********************************************************************************************/
 	OfficeProcedure.prototype.selectOption = function(dialogResult) {
 		if(dialogResult == 'Save') {
-			// Save orders
-			// Add new orders			
+			/**************************************************************************************
+	 		 * Save New Order
+	 		 *************************************************************************************/			
 			$.each(self.ids, function(k, v) {
 				if($.inArray(v, self.oldIds) == -1) {
 					// Filter the office procedures to find new ones
@@ -47,7 +56,9 @@ define(function(require) {
 					backend.saveOfficeProcedure(o, "insert");
 				}
 			});
-			// Update old orders
+			/**************************************************************************************
+	 		 * Update Old Order
+	 		 *************************************************************************************/
 			var old = _.intersection(self.oldIds, self.ids);
 			$.each(old, function(k, v) {
 				// Filter the office procedures to find new ones
@@ -63,6 +74,9 @@ define(function(require) {
 				backend.saveOfficeProcedure(o, "update");
 			});
 			
+			/**************************************************************************************
+	 		 * Delete Order
+	 		 *************************************************************************************/
 			var del = _.difference(self.oldIds, old);
 			$.each(del, function(k, v) {
 				// Filter the office procedures to find new ones

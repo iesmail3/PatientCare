@@ -1,7 +1,21 @@
+/**************************************************************************************************
+ * ViewModel: Custom Bindings
+ * Author: Sean Malone
+ * Description: This is file contains custom bindings for data-bindings. 
+ *************************************************************************************************/
 define(function(require) {
 	var system = require('./system');
 	
-	// Datepicker
+	/**********************************************************************************************
+	 * Datepicker
+	 * 
+	 * Use: Adds Bootstrap datepicker to App as a binding
+	 * How to use with options: data-bind="datepicker: {option1: value1, option2: value2}"
+	 * How to use without options: data-bind="datepicker: true" 
+	 * Example: <div data-bind="datepicker: {dateFormat: 'yyyy-mm-dd, autoSize: false}"
+	 * 
+	 * Full list of options can be found here: http://api.jqueryui.com/datepicker/
+	 *********************************************************************************************/
 	ko.bindingHandlers.datepicker = {
 		init: function(element, valueAccessor) {
 			var value = valueAccessor(); 
@@ -13,7 +27,16 @@ define(function(require) {
 		}	
 	};
 	
-	// Timepicker
+	/**********************************************************************************************
+	 * Timepicker
+	 * 
+	 * Use: Adds jQuery-UI datepicker to App as a binding
+	 * How to use with options: data-bind="timepicker: {option1: value1, option2: value2}"
+	 * How to use without options: data-bind="timepicker: true" 
+	 * Example: <div data-bind="timepicker: {minuteStep: 1, showSeconds: false}"
+	 * 
+	 * Full list of options can be found here: http://jdewit.github.io/bootstrap-timepicker/
+	 *********************************************************************************************/
 	ko.bindingHandlers.timepicker = {
 		init: function(element, valueAccessor) {
 			var value = valueAccessor(); 
@@ -25,7 +48,15 @@ define(function(require) {
 		}	
 	};
 	
-	// Typeahead
+	/**********************************************************************************************
+	 * Typeahead
+	 * 
+	 * Use: Adds Bootstrap typeahead feature as a data-binding
+	 * How to use with options: data-bind="typeahed: {option1: value1, option2: value2}"
+	 * Example: <div data-bind="typeahead: {source: myObservablArray, sorter: mySortFunction}"
+	 * 
+	 * Full list of options can be found here: http://twitter.github.io/bootstrap/javascript.html#typeahead
+	 *********************************************************************************************/
 	ko.bindingHandlers.typeahead = {
   		init: function(element, valueAccessor) {
 	    var binding = this;
@@ -49,6 +80,14 @@ define(function(require) {
   		}
 	};
 	
+	/**********************************************************************************************
+	 * Uploader
+	 * 
+	 * Use: Adds fineuploader to app as a data-binding
+	 * How to use: data-bind="uploader: true"
+	 * 
+	 * Plugin site: http://fineuploader.com/
+	 *********************************************************************************************/
 	ko.bindingHandlers.uploader = {
 		init: function(element, valueAccessor, allBindingsAccessor, vm, bindingContext) {
 			var value = valueAccessor();

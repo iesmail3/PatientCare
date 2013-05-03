@@ -1,3 +1,10 @@
+/**************************************************************************************************
+ * Module: Modal
+ * Author: Imran Esmail, Sean Malone
+ * Description: This module contains all of the signature for modals (pop-up windows). If you need
+ *              a custom modal created, you need to add it in the list below and the returned
+ *              object.
+ *************************************************************************************************/
 define(function(require) {
 	var modalDialog = require('durandal/modalDialog');
 	var Order = require('./order');

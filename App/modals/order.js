@@ -1,4 +1,12 @@
+/**************************************************************************************************
+ * ViewModel: Order
+ * Author: Sean Malone
+ * Description: This ViewModel contains all of the logic for the order view.
+ *************************************************************************************************/
 define(function(require) {
+	/**********************************************************************************************
+	 * Includes
+	 *********************************************************************************************/
 	var system = require('durandal/system');
 	var Backend = require('modules/order');
 	var Structures = require('modules/patientStructures');

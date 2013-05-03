@@ -1,7 +1,16 @@
 <?php
+/**************************************************************************************************
+ * File: Password.php
+ * Author: Sean Malone
+ * Description: This is the password reset page. This page allows users to reset their password
+ *              after clicking the link from their emails. This page does not allow users to access
+ *              this page without a guid.
+ *************************************************************************************************/
+ 
 require('php/connect_to_mysql.php');
 require('php/PasswordHash.php');
 
+// If id exists check for authenticity
 if(isset($_GET['id'])) {
 	$guid =  $_GET['id'];
 	// Grab retrieval data
@@ -14,6 +23,10 @@ if(isset($_GET['id'])) {
 	if($dif > 1)
 		$stmt2 = $db->exec("DELETE FROM password_retrieval WHERE guid='$guid'");
 }
+else {
+	header("location: index.php");
+}
+
 // Process form submission
 $passCheck = false;
 $userCheck = false;
@@ -60,17 +73,20 @@ else if(isset($_POST['username'])) {
 	<script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
 </head>
 <body>
+	<!-- Banner -->
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="banner">
 				<img src="Content/images/logo.png" />
 			</div>
 		</div>
+		<!-- If successful, display success message -->
 		<?php if($success): ?>
 		<div class="expiredLink">
 			<h3>Your password has been successfully changed.</h3>
 			<p>Click <a href="index.php">here</a> to return to the login page.</p>
-		</div>		
+		</div>
+		<!-- Else if link not expired -->		
 		<?php elseif($dif <= 1): ?>
 		<div class="row-fluid">
 			<form class="form-horizontal loginForm" action="" method="post">
@@ -92,6 +108,7 @@ else if(isset($_POST['username'])) {
 						<input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" />
 					</div>
 				</div>
+				<!-- Validation -->
 				<?php if($userCheck): ?>
 					<div class="loginValidation">That user name does not match this password retrieval request.</div>
 				<?php endif; ?>
@@ -108,7 +125,7 @@ else if(isset($_POST['username'])) {
 				</div>
 			</form>
 		</div>
-
+		<!-- Else - link is expired -->
 		<?php else: ?>
 			<div class="expiredLink">
 				<h3>This password retrieval link has expired.</h3>

@@ -1,3 +1,8 @@
+/**************************************************************************************************
+ * ViewModel: Office Supplies
+ * Author: Sean Malone
+ * Description: This ViewModel contains all of the logic for the officeSupplies view.
+ *************************************************************************************************/
 define(function(require) {
 	var system = require('durandal/system');
 	var Backend = require('modules/order');
@@ -7,6 +12,9 @@ define(function(require) {
 	var u = require('../../Scripts/underscore');
 	var self;
 	
+	/**********************************************************************************************
+	 * Constructor
+	 *********************************************************************************************/
 	var Supply = function(practiceId, orderId, supplies, role, title, options) {
 		self = this;
 		this.role = role;
@@ -23,11 +31,15 @@ define(function(require) {
 		
 	};
 	
+	/**********************************************************************************************
+	 * Select an option
+	 *********************************************************************************************/
 	Supply.prototype.selectOption = function(dialogResult) {
 		
 		if(dialogResult == 'Save') {
-			// Save supplies
-			// Add new supplies			
+			/**************************************************************************************
+	 		 * Save New Supplies
+	 		 *************************************************************************************/			
 			$.each(self.ids, function(k, v) {
 				if($.inArray(v, self.oldIds) == -1) {
 					// Filter the office procedures to find new ones
@@ -43,7 +55,9 @@ define(function(require) {
 					backend.saveSupply(o, "insert");
 				}
 			});
-			// Update old orders
+			/**************************************************************************************
+	 		 * Update Old Supplies
+	 		 *************************************************************************************/
 			var old = _.intersection(self.oldIds, self.ids);
 			$.each(old, function(k, v) {
 				// Filter the supplies to find new ones
@@ -59,6 +73,9 @@ define(function(require) {
 				backend.saveSupply(o, "update");
 			});
 			
+			/**************************************************************************************
+	 		 * Delete Supplies
+	 		 *************************************************************************************/
 			var del = _.difference(self.oldIds, old);
 			$.each(del, function(k, v) {
 				// Filter the supplies for deletion
@@ -78,6 +95,9 @@ define(function(require) {
 		this.modal.close(dialogResult);
 	}
 	
+	/**********************************************************************************************
+	 * Update Supply Types when the drop-down changes
+	 *********************************************************************************************/
 	Supply.prototype.updateSupplyTypes = function(data) {
 		backend.getSupplyTypes(self.practiceId).success(function(data){
 			var s = $.map(data, function(item){ return new structures.SupplyType(item); });
@@ -93,6 +113,9 @@ define(function(require) {
 		});
 	}
 	
+	/**********************************************************************************************
+	 * Close Modal
+	 *********************************************************************************************/
 	Supply.prototype.closeWindow = function() {
 		self.selectOption('Close');
 	}

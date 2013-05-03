@@ -1,16 +1,15 @@
 @charset "UTF-8";
+/**************************************************************************************************
+ * Stylesheet: Login
+ * Author: Sean Malone
+ * Description: This stylesheet provides styles for the login and password UIs.
+ *************************************************************************************************/
 
-body {
-  background: rgba(250,250,250,.5);
-}
+body { background: rgba(250,250,250,.5); }
 
-a, a:hover {
-  color: rgb(94,94,94);
-}
+a, a:hover { color: rgb(94,94,94); }
 
-.container-fluid {
-  padding: 0px;
-}
+.container-fluid { padding: 0px; }
 
 .banner {
   width: 100%;
@@ -52,13 +51,9 @@ a, a:hover {
   text-align: center;
 }
 
-.formFooter span {
-  font-size: 14pt;
-}
+.formFooter span { font-size: 14pt; }
 
-.loginSeparator {
-  margin-bottom: 15px;
-}
+.loginSeparator { margin-bottom: 15px; }
 
 .loginValidation {
 	margin-top: -10px;
@@ -68,19 +63,13 @@ a, a:hover {
 }
 
 /* Password Retrieval */
-.expiredLink {
-	text-align: center;
-}
+.expiredLink { text-align: center; }
 
-.expiredLink a {
-	color: #0088cc;
-}
+.expiredLink a { color: #0088cc; }
 
 .emailRetrieval {
 	margin: auto;
 	width: 250px;
 }
 
-.closePass {
-	display: none;
-}
+.closePass { display: none; }

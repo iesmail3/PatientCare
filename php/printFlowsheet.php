@@ -1,6 +1,6 @@
 <?php
 /**************************************************************************************************
- * File: printFlowsheet.php
+ * File: Print Flowsheet
  * Author: Sean Malone
  * Description: This script creates a pdf containing information for the Flow Sheet
  *************************************************************************************************/

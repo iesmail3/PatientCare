@@ -1,16 +1,27 @@
-define(function(require) { 
-    var router = require('durandal/plugins/router');
-	var system = require('durandal/system');  
-	var custom = require('durandal/customBindings');
-	var User   = require('modules/structures');
-	var PatientModule = require('modules/patient');
-	var userStructures = new User();
-    var patient = new PatientModule();
-	var self;
+/**************************************************************************************************
+ * ViewModel: Shell
+ * Author: Gary Chang, Sean Malone
+ * Description: This is ViewModel for the shell view. It creates the router for navigation.
+ *************************************************************************************************/
+define(function(require) {
+	/**********************************************************************************************
+	 * Include files
+	 *********************************************************************************************/ 
+    var router 			= require('durandal/plugins/router');		// Router
+	var system 			= require('durandal/system');  				// System for logs
+	var custom 			= require('durandal/customBindings');		// Custom Bindings
+	var User   			= require('modules/structures');			// Root Structures
+	var PatientModule 	= require('modules/patient');				// Patient Structures
+	var userStructures	= new User();								// New Structures
+    var patient 		= new PatientModule();						// New Patient Structures
+	var self;														// Global this object
 	
+	/**********************************************************************************************
+	 * View Model
+	 *********************************************************************************************/ 
     return {
         router: router,
-        role: ko.observable(),
+        role: ko.observable(new userStructures.Role()),
         // Function that allows DOM manipulation
         viewAttached: function() {
         	
@@ -26,6 +37,7 @@ define(function(require) {
             router.mapRoute('#/patient/:view/', 'viewmodels/patient', 'Patient');
             router.mapRoute('#/patient/:view/:patientId', 'viewmodels/patient', 'Patient');
             
+            // Get User Role
             patient.getRole(global.userId, global.practiceId).success(function(data) {
             	self.role(new userStructures.Role(data[0]));
             });
@@ -53,20 +65,23 @@ define(function(require) {
 	        // If the submenu is hovered, break the toggle animation,
 	        // Else hide the submenu
 	        $(cl).hover(
-	        function(e) {
-	        	$(cl).stop(true);
-	        },
-	        function(e) {
-	        	$(cl).slideUp(400, function() {
-	        		$(cl).stop(true);
-	        	});
-	        });
+		        function(e) {
+		        	$(cl).stop(true);
+		        },
+		        function(e) {
+		        	$(cl).slideUp(400, function() {
+		        		$(cl).stop(true);
+		        });
+				}
+			);
 	        
 	        $(cl).slideUp();    
         },
+        // Logout link
         logout: function() {
         	location.assign('php/logout.php');
         },
+        // Enable patients
         patientEnable: ko.computed(function() {
         	return true;
         })

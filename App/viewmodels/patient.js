@@ -1,6 +1,6 @@
 /***************************************************************************************************
  * ViewModel: Patient
- * Author(s):Gary Chang, Sean Malone
+ * Author(s): Gary Chang, Sean Malone
  * Description: This ViewModel is responsible for the outer Patient shell.
  **************************************************************************************************/
 define(function(require) { 
@@ -197,6 +197,7 @@ define(function(require) {
 				}
 			});
 		},
+		// Open/Close Child
 		openClose: function(data, element) {
 			system.log('test');
 			var e = $(element.currentTarget);
@@ -209,6 +210,7 @@ define(function(require) {
 				e.removeClass().addClass('icon-plus');
 			}
 		},
+		// Toggle Child
 		toggleChild: function(data, event) {
 			var e = $(event.currentTarget);
 			e.toggleClass('icon-minus').toggleClass('icon-plus');

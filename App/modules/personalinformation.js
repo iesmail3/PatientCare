@@ -1,27 +1,27 @@
 /**************************************************************************************************
- * Module name: Personal Information
- * Author(s): Sean Malone
- * Description: This module is used to query the database for personalinformation viewmodel.
+ * Module: Personal Information
+ * Author(s): Gary Chang, Sean Malone
+ * Description: This module is used to query the database for personalinformation ViewModel.
  *************************************************************************************************/
 define(function(require) {
 	/*********************************************************************************************** 
 	 * Includes*
 	 **********************************************************************************************/
-	var system = require('durandal/system');			// System logger
-	var Forms = require('modules/form');
-	var form = new Forms();
+	var system 	= require('durandal/system');			// System logger
+	var Forms 	= require('modules/form');				// Form
+	var form 	= new Forms();
 	
 	/**********************************************************************************************
 	 * Constructor
 	 *********************************************************************************************/
-	var personal = function() {};
+	var personal = function() {}
 	
 	/**********************************************************************************************
 	 * Get Methods
 	 * 
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/	
-	// Role
+	// Get Role
 	personal.prototype.getRole = function(id, practiceId) {
 		return this.query({
 			mode: 'select', 
@@ -169,7 +169,9 @@ define(function(require) {
 	    var self = this; 
 		var fields = ['patient_id','practice_id','type','group_number','policy_number','company_name','plan','plan_other',
 					  'effective_date','archive_date','out_of_pocket','met_out_of_pocket','remaining_out_of_pocket',
-					  'deductible','met_deductible','remaining_deductible','patient_portion','insurance_portion','referral_required','existing_clause','copayment','verification','verification_date','verification_time','confirmation_number','contact_name','contact_phone','contact_phone_ext'];
+					  'deductible','met_deductible','remaining_deductible','patient_portion','insurance_portion',
+					  'referral_required','existing_clause','copayment','verification','verification_date',
+					  'verification_time','confirmation_number','contact_name','contact_phone','contact_phone_ext'];
 	    
 		var values = $.map(insurance, function(k,v) {
 			return [k];

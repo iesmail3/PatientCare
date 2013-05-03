@@ -151,21 +151,31 @@ define(function(require) {
 					self.role(r[0]);
 			});
 		},
+		/****************************************************************************************** 
+		 * Practice
+		 *****************************************************************************************/
+		// Save Practice
 		savePractice: function() {
 			backend.savePractice(self.practice()).complete(function(data) {
 				if(data.responseText.toLowerCase().indexOf('success') >= 0)
 					$('.alert-success').fadeIn().delay(3000).fadeOut();
 			});
 		},
+		/****************************************************************************************** 
+		 * User
+		 *****************************************************************************************/
+		// New User
 		newUser: function() {
 			self.tempUser(self.user());
 			self.user(new structures.User());
 			self.newFlag(true);
 		},
+		// Cancel User
 		cancelUser: function() {
 			self.user(self.tempUser());
 			self.newFlag(false);
 		},
+		// Save User
 		saveUser: function() {
 			self.user().practiceId(self.practiceId());
 			/**********************************************************************************
@@ -214,6 +224,7 @@ define(function(require) {
 			else
 				$('.userTakenAlert').fadeIn().delay(3000).fadeOut();
 		},
+		// Delete User
 		deleteUser: function(data) {
 			app.showMessage('Are you sure you want to delete ' + self.user().firstName() 
 							+ ' ' + self.user().lastName() + '?',
@@ -228,26 +239,35 @@ define(function(require) {
 				}
 			});
 		},
+		// Select User
 		selectUser: function(data) {
 			self.user(data);
 		},
+		/****************************************************************************************** 
+		 * Role
+		 *****************************************************************************************/
+		// Select Role
 		selectRole: function(data) {
 			 self.role(data);
 		},
+		// Toggle Child element
 		toggleChild: function(data, event) {
 			var e = $(event.currentTarget);
 			e.toggleClass('icon-plus').toggleClass('icon-minus');
 			e.parent().parent().parent().find('> .child').slideToggle();
 		},
+		// New Role
 		newRole: function(data) {
 			self.tempRole(self.role());
 			self.role(new structures.Role());
 			self.newRoleFlag(true);
 		},
+		// Cancel Role
 		cancelRole: function(data) {
 			self.role(self.tempRole());
 			self.newRoleFlag(false);
 		},
+		// Save Role
 		saveRole: function(data) {
 			// Check for duplicate role names
 			var name = self.role().name();
@@ -276,6 +296,7 @@ define(function(require) {
 			else
 				$('.nameAlert').fadeIn().delay(3000).fadeOut();
 		},
+		// Delete Role
 		deleteRole: function() {
 			app.showMessage('Are you sure you want to delete ' + self.role().name() + '?',
 						    'Delete Role', ['Yes', 'No']).done(function(result) {
@@ -286,6 +307,7 @@ define(function(require) {
 				}						 	
 			});
 		},
+		// Reset Password
 		resetPassword: function() {
 			// Email
 			app.showMessage(
@@ -297,6 +319,7 @@ define(function(require) {
 					$.get('php/emailPass.php', {user: JSON.stringify(ko.toJS(self.user())), method: 'reset'});
 			});
 		},
+		// Get Role name (computed)
 		getRoleName: getRoleName
 	};
 });

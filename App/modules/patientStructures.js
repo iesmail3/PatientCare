@@ -1,21 +1,20 @@
 /**************************************************************************************************
- * Module name: Patient Structures
- * Author(s): Sean Malone & Gary Chang
+ * Module: Patient Structures
+ * Author(s): Gary Chang, Sean Malone
  * Description: This module contains all structures that the Patients section references.
  *************************************************************************************************/
 define(function(require) {
 	/*********************************************************************************************** 
 	 * Includes*
 	 **********************************************************************************************/
-	var system = require('durandal/system');			// System logger
-	var Forms   = require('modules/form');
-	var form = new Forms();
+	var system 	= require('durandal/system');			// System logger
+	var Forms   = require('modules/form');				// Form
+	var form 	= new Forms();							// new Form
 	
 	/**********************************************************************************************
 	 * Constructor
 	 *********************************************************************************************/
-	var patient = function() {};
-	var form = new Forms();
+	var patient = function() {}
 	
 	/*********************************************************************************************** 
 	 * Structures

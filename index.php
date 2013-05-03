@@ -1,4 +1,11 @@
 <?php
+/**************************************************************************************************
+ * File: Index.php
+ * Author: Sean Malone
+ * Description: This is the login page for users. This is just a temporary login page. iDBServices
+ *              would like a fully integrated website with login added to that.
+ *************************************************************************************************/
+ 
 // Start session
 session_start();
 session_regenerate_id(TRUE);
@@ -28,7 +35,9 @@ if(isset($_POST['username'])) {
 	}
 	catch (PDOException $e) {
 		echo $e->getMessage();
-	}	
+	}
+	
+	// If there are any results	
 	if(count($result) > 0) {
 		$result = $result[0]; // Only 1 element in array
 		$check = $hasher->CheckPassword($password, $result['password']);
@@ -37,6 +46,7 @@ if(isset($_POST['username'])) {
 		$check = false;
 	}
 	
+	// Direct user to app if login succeeds
 	if($check) {
 		// Session variables
 		$_SESSION['practiceId'] = $result['practice_id'];
@@ -59,6 +69,7 @@ if(isset($_POST['username'])) {
 	<script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
 	<script type="text/javascript">
 		$(function() {
+			// Click functions using jQuery
 			$('.retrievePass').click(function(e) {
 				e.preventDefault();
 				$('.passwordForm').fadeIn('slow');
@@ -89,12 +100,14 @@ if(isset($_POST['username'])) {
 	</script>
 </head>
 <body>
+	<!-- Banner -->
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="banner">
 				<img src="Content/images/logo.png" />
 			</div>
 		</div>
+		<!-- Login form -->
 		<div class="row-fluid">
 			<form class="form-horizontal loginForm" action="" method="post">
 				<div class="control-group">
@@ -109,6 +122,7 @@ if(isset($_POST['username'])) {
 						<input type="password" id="password" name="password" placeholder="Password" />
 					</div>
 				</div>
+				<!-- Validation from PHP -->
 				<?php if(!$check): ?>
 					<div class="loginValidation">Username and password combination is incorrect.</div>
 				<?php endif; ?>
@@ -120,6 +134,7 @@ if(isset($_POST['username'])) {
 			</form>
 		</div>
 		<div class="loginSeparator"></div>
+		<!-- Password Retrieval -->
 		<div class="row-fluid">
 			<div class="formFooter">
 				<a href="#" class="retrievePass">Forgot Password?</a>

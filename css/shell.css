@@ -1,6 +1,11 @@
-body {
-	height: 100%;
-}
+@charset "UTF-8";
+/**************************************************************************************************
+ * Stylesheet: Shell
+ * Author: Gary Chang, Imran Esmail, Sean Malone
+ * Description: This stylesheet provides styles for the Shell UI
+ *************************************************************************************************/
+
+body { height: 100%; }
 .viewHolder {
 	background-color: rgb(200,200,200);
 	padding: 1px;
@@ -29,27 +34,21 @@ body {
 }
 
 /* Fix the active nav item bug in Bootstrap */
-.navbar .nav>li>a {
-	padding: 10px 15px 10px;
-}
+.navbar .nav>li>a { padding: 10px 15px 10px; }
 
 .customerForm {
 	margin: 20px auto;
 	width: 846px;
 }
 
-table {
-	background-color: white;
-}
+table { background-color: white; }
 
 .customerTable {
 	width: 90%;
 	margin: auto;
 }
 
-.navCenterText {
-	text-align: center;
-}
+.navCenterText { text-align: center; }
 
 .navCenterIcon {
 	width: 25px;

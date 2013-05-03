@@ -1,4 +1,12 @@
+/**************************************************************************************************
+ * ViewModel: Flowsheet
+ * Author: Sean Malone
+ * Description: This ViewModel contains all of the logic for the flowsheet view.
+ *************************************************************************************************/
 define(function(require) {
+	/**********************************************************************************************
+	 * Includes 
+	 *********************************************************************************************/
 	var system = require('durandal/system');
 	var Backend = require('modules/order');
 	var Structures = require('modules/patientStructures');
@@ -185,9 +193,8 @@ define(function(require) {
 	}
 		
 	/**********************************************************************************************
-	 * Click Methods
+	 * Events
 	 *********************************************************************************************/
-	// Select Medication Order
 	Flowsheet.prototype.selectMO = function(order) {
 		self.instructions(order.instructions());
 	}

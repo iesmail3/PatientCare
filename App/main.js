@@ -1,4 +1,9 @@
-﻿requirejs.config({
+﻿/**************************************************************************************************
+ * File: Main.js
+ * Description: This is a Durandal file. It connects require to the app.
+ *************************************************************************************************/
+ 
+requirejs.config({
     paths: {
         'text': 'durandal/amd/text'
     }
