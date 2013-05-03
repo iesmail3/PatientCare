@@ -19,7 +19,7 @@ Description: This view is the the Medical Problems tab, it displays records of m
 		<!-- Type -->
 		<!-- ko with: medicalProblem -->
 		<div class="marginBottom5">
-			<select data-bind="value: type">
+			<select data-bind="value: type, enable: $root.role().medicalProblem() > 1">
 				<option value="" disabled selected style="display:none;">Problem Type</option>
 				<option value="Current Medical Problem">Current Medical Problem</option>
 				<option value="Other Medical Problem">Other Medical Problem</option>
@@ -28,61 +28,59 @@ Description: This view is the the Medical Problems tab, it displays records of m
 		</div>
 		<!-- Description -->
 		<div class="marginBottom5 commentContainer">
-			<textarea class="commentSpan problemComment" placeholder="Description" data-bind="
-				value: description" />
+			<textarea class="commentSpan problemComment" placeholder="Description"
+				data-bind="value: description, enable: $root.role().medicalProblem() > 1" />
 			</textarea>
 		</div>
 		<div class="marginBottom5">
 			<!-- Onset Date -->
-			<input type="text" placeholder="Onset Date" data-bind="
-				datepicker: true,
-				value: onsetDate,
-				enable: (type() == 'Current Medical Problem' || type() == 'Other Medical Problem') && !onsetUnknown()" />
+			<input type="text" placeholder="Onset Date"
+				data-bind="datepicker: true, value: onsetDate, enable: (type() == 'Current Medical Problem' ||
+					type() == 'Other Medical Problem') && !onsetUnknown() && $root.role().medicalProblem() > 1" />
 			<!-- Unknown -->
 			<label class="checkbox problemUnknown">
-				<input type="checkbox" data-bind="
-					checked: onsetUnknown,
-					enable: type() == 'Current Medical Problem' || type() == 'Other Medical Problem',
-					event: {change: $root.medicalProblemSetOnsetUnknown}" />
+				<input type="checkbox"
+					data-bind="checked: onsetUnknown, enable: (type() == 'Current Medical Problem' ||
+						type() == 'Other Medical Problem') && $root.role().medicalProblem() > 1,
+						event: {change: $root.medicalProblemSetOnsetUnknown}" />
 				<span>Unknown</span>
 			</label>
 		</div>
 		<div class="marginBottom5">
 			<!-- Resolution Date -->
-			<input type="text" placeholder="Resolution Date" data-bind="
-				datepicker: true,
-				value: resolutionDate,
-				enable: (type() == 'Other Medical Problem' || type() == 'Past Surgical History') && !resolutionUnknown() && !notApplicable()" />
+			<input type="text" placeholder="Resolution Date" 
+				data-bind="datepicker: true, value: resolutionDate, enable: (type() == 'Other Medical Problem' ||
+					type() == 'Past Surgical History') && !resolutionUnknown() && !notApplicable() &&
+					$root.role().medicalProblem() > 1" />
 			<!-- Unknown -->
 			<label class="checkbox problemUnknown">
-				<input type="checkbox" data-bind="
-					checked: resolutionUnknown,
-					enable: (type() == 'Other Medical Problem' || type() == 'Past Surgical History') && !notApplicable(),
-					event: {change: $root.medicalProblemSetResolutionUnknown}" />
+				<input type="checkbox"
+					data-bind="checked: resolutionUnknown, enable: (type() == 'Other Medical Problem' ||
+						type() == 'Past Surgical History') && !notApplicable() && $root.role().medicalProblem() > 1,
+						event: {change: $root.medicalProblemSetResolutionUnknown}" />
 				<span>Unknown</span>
 			</label>
 			<!-- Not Applicable -->
-			<label class="checkbox problemNotApplicable" data-bind="
-				visible: type() == 'Other Medical Problem'">
-				<input type="checkbox" data-bind="checked: notApplicable" />
+			<label class="checkbox problemNotApplicable" data-bind="visible: type() == 'Other Medical Problem'">
+				<input type="checkbox" data-bind="checked: notApplicable, enable: $root.role().medicalProblem() > 1" />
 				<span>Not&nbsp;Applicable</span>
 			</label>
 		</div>
 		<!-- /ko -->
 		<!-- Buttons -->
 		<div class="marginBottom5 pull-right">
-			<button type="button" class="btn btn-small btn-success" data-bind="
-				visible: !$root.medicalProblemsState(),
-				click: $root.medicalProblemNew">
+			<button type="button" class="btn btn-small btn-success"
+				data-bind="visible: !$root.medicalProblemsState() && $root.role().medicalProblem() > 1,
+					click: $root.medicalProblemNew">
 				New
 			</button>
-			<button type="submit" class="btn btn-small btn-primary" data-bind="
-				click: $root.medicalProblemSave">
+			<button type="submit" class="btn btn-small btn-primary"
+				data-bind="visible: $root.role().medicalProblem() > 1, click: $root.medicalProblemSave">
 				Save
 			</button>
-			<button type="button" class="btn btn-small btn-warning" data-bind="
-				visible: $root.medicalProblemsState(),
-				click: $root.medicalProblemCancel">
+			<button type="button" class="btn btn-small btn-warning"
+				data-bind="visible: $root.medicalProblemsState() && $root.role().medicalProblem() > 1,
+					click: $root.medicalProblemCancel">
 				Cancel
 			</button>
 		</div>
@@ -97,7 +95,7 @@ Description: This view is the the Medical Problems tab, it displays records of m
 						<th>Description</th>
 						<th>Onset Date</th>
 						<th>Resolution Date</th>
-						<th></th>
+						<th data-bind="visible: $root.role().medicalProblem() > 1"></th>
 					</tr>
 				</thead>
 				<tbody data-bind="foreach: medicalProblems">
@@ -106,7 +104,12 @@ Description: This view is the the Medical Problems tab, it displays records of m
 						<td data-bind="text: description, click: $root.medicalProblemSetFields"></td>
 						<td data-bind="text: onsetDate, click: $root.medicalProblemSetFields"></td>
 						<td data-bind="text: resolutionDate, click: $root.medicalProblemSetFields"></td>
-						<td><a class="btn btn-small btn-danger" data-bind="click: $root.medicalProblemDelete">Delete</a></td>
+						<td data-bind="visible: $root.role().medicalProblem() > 1">
+							<a class="btn btn-small btn-danger"
+								data-bind="click: $root.medicalProblemDelete">
+								Delete
+							</a>
+						</td>
 					</tr>
 				</tbody>
 			</table>

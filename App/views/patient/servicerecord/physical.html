@@ -5,17 +5,22 @@ Description:
 -->
 <div>
 	<ul class="nav nav-tabs patientNavs" id="physicalTab">
-		<li class="active"><a data-toggle="tab" href="#vital">Vital Signs</a></li>
-		<li><a data-toggle="tab" href="#physical">Physical Examination</a></li>
+		<li class="active">
+			<a data-toggle="tab" href="#vital" data-bind="visible: role().vitalSigns() > 0">Vital Signs</a>
+		</li>
+		<li data-bind="css: {active: role().vitalSigns() < 1}">
+			<a data-toggle="tab" href="#physical" data-bind="visible: role().physicalExaminationSub() > 0">Physical Examination</a>
+		</li>
 	</ul>
  
 	<div class="tab-content">
-		<div class="tab-pane outerPane active" id="vital">
+		<div class="tab-pane outerPane active" id="vital" data-bind="visible: role().vitalSigns() > 0">
 			<div data-bind="compose: 'patient/servicerecord/physicalTabs/vitalTab.html'" >
 				<!-- Vital Signs -->
 			</div>
 		</div>
-		<div class="tab-pane outerPane" id="physical">
+		<div class="tab-pane outerPane" id="physical" data-bind="css: {active: role().vitalSigns() < 1},
+			visible: role().physicalExaminationSub() > 0">
 			<div data-bind="compose: 'patient/servicerecord/physicalTabs/physicalTab.html'" >
 				<!-- Physical Examination -->
 			</div>

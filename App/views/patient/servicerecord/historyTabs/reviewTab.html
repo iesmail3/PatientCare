@@ -18,41 +18,35 @@ Description: This view is the the Review of Systems tab, it displays records of 
 			<div data-bind="foreach: reviewOfSystems">
 				<div class="reviewOfSystem">
 					<!-- Particular -->
-					<input type="text" class="input-xsmall" placeholder="Particular" data-bind="
-						value: particulars,
-						enable: !defaultParticulate(),
-						event: {keyup: $root.reviewOfSystemsAddRow},
-						valueUpdate: 'afterkeydown'" />
+					<input type="text" class="input-xsmall" placeholder="Particular"
+						data-bind="value: particulars, enable: !defaultParticulate() && $root.role().reviewOfSystems() > 1,
+							event: {keyup: $root.reviewOfSystemsAddRow}, valueUpdate: 'afterkeydown'" />
 					<div class="reviewPushRight">
 						<!-- Not Done -->
 						<label class="radio reviewRadio">
-							<input type="radio" value="not done" data-bind="
-								checked: type,
-								attr: {name: name}" />
+							<input type="radio" value="not done"
+								data-bind="checked: type, attr: {name: name}, enable: $root.role().reviewOfSystems() > 1" />
 							<span class="smallText">Not&nbsp;Done</span>
 						</label>
 						<!-- Negative -->
 						<label class="radio reviewRadio">
-							<input type="radio" value="negative" data-bind="
-								checked: type,
-								attr: {name: name}" />
+							<input type="radio" value="negative"
+								data-bind="checked: type, attr: {name: name}, enable: $root.role().reviewOfSystems() > 1" />
 							<span class="smallText">Negative</span>
 						</label>
 						<!-- Posiive -->
 						<label class="radio reviewRadio">
-							<input type="radio" value="positive" data-bind="
-								checked: type,
-								attr: {name: name}" />
+							<input type="radio" value="positive"
+								data-bind="checked: type, attr: {name: name}, enable: $root.role().reviewOfSystems() > 1" />
 							<span class="smallText">Positive</span>
 						</label>
 						<!-- Comments -->
-						<input type="text" class="reviewComment" placeholder="Comments" data-bind="
-							value: comment,
-							enable: type() != 'not done'" />
+						<input type="text" class="reviewComment" placeholder="Comments"
+							data-bind="value: comment, enable: type() != 'not done' && $root.role().reviewOfSystems() > 1" />
 						<!-- Delete Button -->
-						<button class="btn btn-small btn-danger pull-right" data-bind="
-							click: $root.reviewOfSystemsDelete,
-							visible: !defaultParticulate()">
+						<button class="btn btn-small btn-danger pull-right"
+							data-bind="click: $root.reviewOfSystemsDelete, visible: !defaultParticulate() &&
+								$root.role().reviewOfSystems() > 1">
 							Delete
 						</button>
 					</div>
@@ -63,18 +57,18 @@ Description: This view is the the Review of Systems tab, it displays records of 
 </div>
 <!-- Systems Comment -->
 <div class="commentContainer">
-	<textarea class="commentSpan reviewOfSystemComment" placeholder="Comments" data-bind="
-		value: serviceRecord().systemsComment" />
+	<textarea class="commentSpan reviewOfSystemComment" placeholder="Comments"
+		data-bind="value: serviceRecord().systemsComment, enable: $root.role().reviewOfSystems() > 1" />
 	</textarea>
 </div>
 <!-- Buttons -->
 <div class="pull-right">
-	<button type="submit" class="btn btn-small btn-primary" data-bind="
-		click: $root.reviewOfSystemsSave">
+	<button type="submit" class="btn btn-small btn-primary"
+		data-bind="click: $root.reviewOfSystemsSave, visible: $root.role().reviewOfSystems() > 1">
 		Save
 	</button>
-	<button type="button" class="btn btn-small btn-warning" data-bind="
-		click: $root.reviewOfSystemsClear">
+	<button type="button" class="btn btn-small btn-warning"
+		data-bind="click: $root.reviewOfSystemsClear, visible: $root.role().reviewOfSystems() > 1">
 		Clear
 	</button>
 </div>

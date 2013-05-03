@@ -8,93 +8,99 @@
 		<!-- ko with: socialHistory -->
 		<div class="row-fluid">
 			<div class="marginBottom5">
-				<select class="input-large" data-bind="
-					value: smoking,
-					event: {change: $root.socialSmoking}">
+				<select class="input-large"
+					data-bind="value: smoking, event: {change: $root.socialSmoking},
+						enable: $root.role().socialHistory() > 1">
 					<option value="" disabled selected style="display:none;">Smoking Habits</option>
 					<option value="currently">Current Smoker</option>
 					<option value="never">Never Smoked</option>
 					<option value="occasional">Occasional Smoker</option>
 					<option value="past">Past Smoker</option>
 				</select>
-				<input type="number" class="input-xmedium" placeholder="Packs per week" data-bind="
-					value: smokingWeekly,
-					enable: smoking() != 'never' && smoking() != ''" />
+				<input type="number" class="input-xmedium" placeholder="Packs per week"
+					data-bind="value: smokingWeekly, enable: smoking() != 'never' && smoking() != '' &&
+						$root.role().socialHistory() > 1" />
 				<label class="checkbox inline">
-					<input type="checkbox" data-bind="
-						checked: smokingCounseling,
-						enable: smoking() != 'never' && smoking() != ''" />
+					<input type="checkbox"
+						data-bind="checked: smokingCounseling, enable: smoking() != 'never' &&
+							smoking() != '' && $root.role().socialHistory() > 1" />
 					<span>Counseling&nbsp;provided</span>
 				</label>
 			</div>
 			<div class="marginBottom5">
-				<select class="input-large" data-bind="
-					value: alcohol,
-					event: {change: $root.socialAlcohol}">
+				<select class="input-large"
+					data-bind="value: alcohol, event: {change: $root.socialAlcohol},
+						enable: $root.role().socialHistory() > 1">
 					<option value="" disabled selected style="display:none;">Drinking Habits</option>
 					<option value="never">Never Drinks</option>
 					<option value="past">Past Drinker</option>
 					<option value="regular">Regular Drinker</option>
 					<option value="social">Social Drinker</option>
 				</select>
-				<input type="number" class="input-xmedium" placeholder="Drinks per week" data-bind="
-					value: alcoholWeekly,
-					enable: alcohol() != 'never' && alcohol() != ''" />
+				<input type="number" class="input-xmedium" placeholder="Drinks per week"
+					data-bind="value: alcoholWeekly, enable: alcohol() != 'never' && alcohol() != '' &&
+						$root.role().socialHistory() > 1" />
 				<label class="checkbox inline">
-					<input type="checkbox" data-bind="
-						checked: alcoholCounseling,
-						enable: alcohol() != 'never' && alcohol() != ''" />
+					<input type="checkbox"
+						data-bind="checked: alcoholCounseling, enable: alcohol() != 'never' &&
+							alcohol() != '' && $root.role().socialHistory() > 1" />
 					<span>Counseling&nbsp;provided</span>
 				</label>
 			</div>
 			<div class="marginBottom5">
 				<span class="radio inline">History of IV drug abuse?</span>
 				<label class="radio inline">
-					<input type="radio" name="drugOption" value="1" data-bind="checked: drugAbuse" />
+					<input type="radio" name="drugOption" value="1"
+						data-bind="checked: drugAbuse, enable: $root.role().socialHistory() > 1" />
 					<span>Yes</span>
 				</label>
 				<label class="radio inline">
-					<input type="radio" name="drugOption" value="0" data-bind="
-						checked: drugAbuse,
-						event: {change: $root.socialDrugAbuse}" />
+					<input type="radio" name="drugOption" value="0"
+						data-bind="checked: drugAbuse, event: {change: $root.socialDrugAbuse},
+							enable: $root.role().socialHistory() > 1" />
 					<span>No</span>
 				</label>
 			</div>
 			<div class="marginBottom5">
-				<input type="text" class="input-xlarge" placeholder="Details (if any)" data-bind="
-					value: drugComment,
-					enable: drugAbuse() == 1" />
+				<input type="text" class="input-xlarge" placeholder="Details (if any)"
+					data-bind="value: drugComment, enable: drugAbuse() == 1 &&
+						$root.role().socialHistory() > 1" />
 			</div>
 			<div class="marginBottom5">
 				<span class="radio inline">Exposure to Blood products?</span>
 				<label class="radio inline">
-					<input type="radio" name="bloodOption" value="1" data-bind="checked: bloodExposure" />
+					<input type="radio" name="bloodOption" value="1"
+						data-bind="checked: bloodExposure, enable: $root.role().socialHistory() > 1" />
 					<span>Yes</span>
 				</label>
 				<label class="radio inline">
-					<input type="radio" name="bloodOption" value="0" data-bind="checked: bloodExposure" />
+					<input type="radio" name="bloodOption" value="0"
+						data-bind="checked: bloodExposure, enable: $root.role().socialHistory() > 1" />
 					<span>No</span>
 				</label>
 			</div>
 			<div class="marginBottom5">
 				<span class="radio inline">Exposure to Chemicals?</span>
 				<label class="radio inline">
-					<input type="radio" name="chemicalOption" value="1" data-bind="checked: chemicalExposure" />
+					<input type="radio" name="chemicalOption" value="1"
+						data-bind="checked: chemicalExposure, enable: $root.role().socialHistory() > 1" />
 					<span>Yes</span>
 				</label>
 				<label class="radio inline">
-					<input type="radio" name="chemicalOption" value="0" data-bind="checked: chemicalExposure" />
+					<input type="radio" name="chemicalOption" value="0"
+						data-bind="checked: chemicalExposure, enable: $root.role().socialHistory() > 1" />
 					<span>No</span>
 				</label>
 			</div>
 			<div class="marginBottom5 commentContainer">
 				<textarea class="commentSpan" rows="3" placeholder="Comments" 
-					data-bind="value: comment" />
+					data-bind="value: comment, enable: $root.role().socialHistory() > 1" />
 				</textarea>
 			</div>
 			<div class="marginBottom5">
 				<label class="checkbox inline">
-					<input type="checkbox" data-bind="checked: historyChanged" />
+					<input type="checkbox"
+						data-bind="checked: historyChanged, enable: $root.role().socialHistory() > 1" />
 					<span>Social&nbsp;History&nbsp;Changed</span>
 				</label>
 			</div>
@@ -103,6 +109,12 @@
 	</form>
 </div>
 <div class="pull-right">
-	<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.socialSave">Save</button>
-	<button type="button" class="btn btn-small btn-warning" data-bind="click: $root.socialCancel">Cancel</button>
+	<button type="submit" class="btn btn-small btn-primary"
+		data-bind="click: $root.socialSave, visible: $root.role().socialHistory() > 1">
+		Save
+	</button>
+	<button type="button" class="btn btn-small btn-warning"
+		data-bind="click: $root.socialCancel, visible: $root.role().socialHistory() > 1">
+		Cancel
+	</button>
 </div>

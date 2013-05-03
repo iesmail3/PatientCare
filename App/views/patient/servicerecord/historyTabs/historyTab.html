@@ -12,8 +12,8 @@ Description: This view is the the History tab, it displays the history informati
 		<div class="row-fluid">
 			<!-- History -->
 			<div class="marginBottom5 commentContainer">
-				<textarea class="historyComment" placeholder="History details" data-bind="
-					value: serviceRecord().history" />
+				<textarea class="historyComment" placeholder="History details"
+					data-bind="value: serviceRecord().history, enable: $root.role().history() > 1" />
 				</textarea>
 			</div>
 		</div>
@@ -21,12 +21,12 @@ Description: This view is the the History tab, it displays the history informati
 </div>
 <!-- Buttons -->
 <div class="pull-right">
-	<button type="submit" class="btn btn-small btn-primary" data-bind="
-		click: serviceRecordSave">
+	<button type="submit" class="btn btn-small btn-primary"
+		data-bind="click: serviceRecordSave, visible: role().history() > 1">
 		Save
 	</button>
-	<button type="button" class="btn btn-small btn-warning" data-bind="
-		click: serviceRecordClear">
+	<button type="button" class="btn btn-small btn-warning"
+		data-bind="click: serviceRecordClear, visible: role().history() > 1">
 		Clear
 	</button>
 </div>

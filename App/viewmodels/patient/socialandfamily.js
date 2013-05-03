@@ -9,15 +9,18 @@ define(function(require) {
 	 **********************************************************************************************/
 	var system = require('durandal/system');				// System logger
 	var custom = require('durandal/customBindings');		// Custom bindings
-	var Backend = require('modules/socialandfamily');		// Module
+	var UserStructures = require('modules/structures');		// User structures
 	var Structures = require('modules/patientStructures');	// Structures
+	var Backend = require('modules/socialandfamily');		// Module
 	var app = require('durandal/app');
 	
 	/*********************************************************************************************** 
 	 * KO Observables
 	 **********************************************************************************************/
-	var backend = new Backend();
+	var userStructures  = new UserStructures();
 	var structures = new Structures();
+	var backend = new Backend();
+	var role = ko.observable(new userStructures.Role());
 	var patientId = ko.observable();
 	var practiceId = ko.observable();
 	var tempSocialHistory = ko.observable(new structures.SocialHistory());
@@ -43,8 +46,9 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
-		backend: backend,
 		structures: structures,
+		backend: backend,
+		role: role,
 		patientId: patientId,
 		practiceId: practiceId,
 		tempSocialHistory: tempSocialHistory,
@@ -82,11 +86,14 @@ define(function(require) {
 		activate: function(data) {
 			var self = this;
 			
-			self.practiceId('1');
-			//self.practiceId(global.practiceId);	// Comes from app.php in Scripts section
+			backend.getRole(global.userId, global.practiceId).success(function(data) {
+				self.role(new userStructures.Role(data[0]));
+			});
+			
+			// Get URL parameters
+			self.practiceId(global.practiceId);
 			self.patientId(data.patientId);
 			
-			var backend = new Backend();
 			backend.getSocialHistory(self.patientId(), self.practiceId()).success(function(data) {
 				if (data.length > 0) {
 					var s = new structures.SocialHistory(data[0]);
@@ -244,6 +251,7 @@ define(function(require) {
 		 * Family History Methods
 		 *******************************************************************************************/
 		familyStatusSave: function(data) {
+			patient().familyHistoryChanged(+patient().familyHistoryChanged());
 			backend.savePatient(patientId(), practiceId(), patient()).complete(function(data) {
 				// Save family status
 			});

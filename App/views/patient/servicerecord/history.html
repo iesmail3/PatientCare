@@ -10,32 +10,48 @@ Description: This view holds the History, Review of Systems, Medical Problems, M
 <div>
 	<!-- List of tabs -->
 	<ul class="nav nav-tabs patientNavs" id="historyTab">
-		<li class="active"><a data-toggle="tab" href="#history">History</a></li>
-		<li><a data-toggle="tab" href="#review">Review of Systems</a></li>
-		<li><a data-toggle="tab" href="#problem">Medical Problems</a></li>
-		<li><a data-toggle="tab" href="#medication">Medication</a></li>
-		<li><a data-toggle="tab" href="#allergy">Allergies/Intolerance</a></li>
+		<li class="active">
+			<a data-toggle="tab" href="#history" data-bind="visible: role().history() > 0">History</a>
+		</li>
+		<li data-bind="css: {active: role().history() < 1}">
+			<a data-toggle="tab" href="#review" data-bind="visible: role().reviewOfSystems() > 0">Review of Systems</a>
+		</li>
+		<li data-bind="css: {active: role().history() < 1 && role().reviewOfSystems() < 1}">
+			<a data-toggle="tab" href="#problem" data-bind="visible: role().medicalProblem() > 0">Medical Problems</a>
+		</li>
+		<li data-bind="css: {active: role().history() < 1 && role().reviewOfSystems() < 1 && role().medicalProblem() < 1}">
+			<a data-toggle="tab" href="#medication" data-bind="visible: role().medication() > 0">Medication</a>
+		</li>
+		<li data-bind="css: {active: role().history() < 1 && role().reviewOfSystems() < 1 && role().medicalProblem() < 1 &&
+			role().medication() < 1}">
+			<a data-toggle="tab" href="#allergy" data-bind="visible: role().allergies() > 0">Allergies/Intolerance</a>
+		</li>
 	</ul>
 	<!-- Content of tabs -->
 	<div class="tab-content">
 		<!-- History Tab -->
-		<div class="tab-pane outerPane active" id="history">
+		<div class="tab-pane outerPane active" id="history" data-bind="visible: role().history() > 0">
 			<div data-bind="compose: 'patient/servicerecord/historyTabs/historyTab.html'" ></div>
 		</div>
 		<!-- Review of Systems Tab -->
-		<div class="tab-pane outerPane" id="review">
+		<div class="tab-pane outerPane" id="review" data-bind="css: {active: role().history() < 1},
+			visible: role().reviewOfSystems() > 0">
 			<div data-bind="compose: 'patient/servicerecord/historyTabs/reviewTab.html'" ></div>
 		</div>
 		<!-- Medical Problem Tab -->
-		<div class="tab-pane outerPane" id="problem">
+		<div class="tab-pane outerPane" id="problem" data-bind="css: {active: role().history() < 1 &&
+			role().reviewOfSystems() < 1}, visible: role().medicalProblem() > 0">
 			<div data-bind="compose: 'patient/servicerecord/historyTabs/problemTab.html'" ></div>
 		</div>
 		<!-- Medication Tab -->
-		<div class="tab-pane outerPane" id="medication">
+		<div class="tab-pane outerPane" id="medication" data-bind="css: {active: role().history() < 1 &&
+			role().reviewOfSystems() < 1 && role().medicalProblem() < 1}, visible: role().medication() > 0">
 			<div data-bind="compose: 'patient/servicerecord/historyTabs/medicationTab.html'" ></div>
 		</div>
 		<!-- Allergies/Intollerance Tab -->
-		<div class="tab-pane outerPane" id="allergy">
+		<div class="tab-pane outerPane" id="allergy" data-bind="css: {active: role().history() < 1 &&
+			role().reviewOfSystems() < 1 && role().medicalProblem() < 1 && role().medication() < 1},
+			visible: role().allergies() > 0">
 			<div data-bind="compose: 'patient/servicerecord/historyTabs/allergyTab.html'" ></div>
 		</div>
 	</div>

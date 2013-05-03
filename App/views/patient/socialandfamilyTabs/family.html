@@ -9,30 +9,42 @@
 			<legend>Family Status</legend>
 			<div class="marginBottom5">
 				<label class="radio inline">
-					<input type="radio" name="familyStatusOption" value="1" data-bind="checked: familyHistoryType" />
+					<input type="radio" name="familyStatusOption" value="1"
+						data-bind="checked: familyHistoryType,
+							enable: $root.role().familyHistory() > 1" />
 					<span>Not Contributory</span>
 				</label>
 				<label class="radio inline">
-					<input type="radio" name="familyStatusOption" value="2" data-bind="checked: familyHistoryType" />
+					<input type="radio" name="familyStatusOption" value="2"
+						data-bind="checked: familyHistoryType,
+							enable: $root.role().familyHistory() > 1" />
 					<span>Comprehensive</span>
 				</label>
 				<label class="radio inline">
-					<input type="radio" name="familyStatusOption" value="3" data-bind="checked: familyHistoryType" />
+					<input type="radio" name="familyStatusOption" value="3"
+						data-bind="checked: familyHistoryType,
+							enable: $root.role().familyHistory() > 1" />
 					<span>Detail</span>
 				</label>
 			</div>
 			<div class="marginBottom5 commentContainer">
 				<textarea class="commentSpan" rows="2" placeholder="Comments"
-					data-bind="value: familyHistoryComment, enable: familyHistoryType() == 2">
+					data-bind="value: familyHistoryComment, enable: familyHistoryType() == 2 &&
+						$root.role().familyHistory() > 1">
 				</textarea>
 			</div>
 			<div class="marginBottom5">
 				<label class="checkbox inline">
-					<input type="checkbox" />
+					<input type="checkbox" data-bind="checked: familyHistoryChanged,
+						enable: $root.role().familyHistory() > 1" />
 					<span>Family&nbsp;History&nbsp;Changed</span>
 				</label>
 				<div class="pull-right">
-					<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.familyStatusSave">Save</button>
+					<button type="submit" class="btn btn-small btn-primary"
+						data-bind="click: $root.familyStatusSave,
+							visible: $root.role().familyHistory() > 1">
+						Save
+					</button>
 				</div>
 			</div>
 			<!-- /ko -->
@@ -47,24 +59,25 @@
 							<th>Age</th>
 							<th>Is Alive</th>
 							<th>Comments</th>
-							<th></th>
+							<th data-bind="visible: $root.role().familyHistory() > 1"></th>
 						</tr>
 					</thead>
 					<tbody data-bind="foreach: familyHistories">
 						<tr>
 							<td class="input-xmedium">
-								<select class="input-xmedium" data-bind="
-									value: relationship,
-									enable: $root.patient().familyHistoryType() == 3">
+								<select class="input-xmedium"
+									data-bind="value: relationship,
+										enable: $root.patient().familyHistoryType() == 3 &&
+											$root.role().familyHistory() > 1">
 									<option value="" data-bind="visible: false">Relationship</option>
-									<option value="father" data-bind="
-										visible: $root.familyHistoryFather(),
-										enable: $root.familyHistoryFather()">
+									<option value="father"
+										data-bind="visible: $root.familyHistoryFather(),
+											enable: $root.familyHistoryFather()">
 										Father
 									</option>
-									<option value="mother" data-bind="
-										visible: $root.familyHistoryMother(),
-										enable: $root.familyHistoryMother()">
+									<option value="mother"
+										data-bind="visible: $root.familyHistoryMother(),
+											enable: $root.familyHistoryMother()">
 										Mother
 									</option>
 									<option value="brother">Brother</option>
@@ -73,28 +86,31 @@
 								</select>
 							</td>
 							<td class="input-mini">
-								<input type="number" class="input-mini" placeholder="Age" min="0" data-bind="
-									value: age,
-									enable: $root.patient().familyHistoryType() == 3 && relationship() != ''">
+								<input type="number" class="input-mini" placeholder="Age" min="0"
+									data-bind="value: age, enable: $root.patient().familyHistoryType() == 3
+										&& relationship() != '' && $root.role().familyHistory() > 1">
 							</td>
 							<td class="familyIsAlive">
 								<label class="checkbox inline">
-									<input type="checkbox" data-bind="
-										checked: isAlive,
-										enable: $root.patient().familyHistoryType() == 3 && relationship() != ''" />
+									<input type="checkbox"
+										data-bind="checked: isAlive,
+											enable: $root.patient().familyHistoryType() == 3 &&
+												relationship() != '' && $root.role().familyHistory() > 1" />
 									<span>Is&nbsp;Alive</span>
 								</label>
 							</td>
 							<td>
-								<input type="text" class="familyComment" rows="1" placeholder="Comments" data-bind="
-									value: comment,
-									enable: $root.patient().familyHistoryType() == 3 && relationship() != ''" />
+								<input type="text" class="familyComment" rows="1" placeholder="Comments"
+									data-bind="value: comment,
+										enable: $root.patient().familyHistoryType() == 3 &&
+											relationship() != '' && $root.role().familyHistory() > 1" />
 							</td>
-							<td><a class="btn btn-small btn-danger" data-bind="
-								click: $root.familyHistoryDelete,
-								visible: relationship() != ''">
-								Delete
-							</a></td>
+							<td data-bind="visible: $root.role().familyHistory() > 1">
+								<a class="btn btn-small btn-danger"
+									data-bind="click: $root.familyHistoryDelete, visible: relationship() != ''">
+									Delete
+								</a>
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -103,5 +119,8 @@
 	</div>
 </form>
 <div class="pull-right">
-	<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.familyHistorySave">Save</button>
+	<button type="submit" class="btn btn-small btn-primary"
+		data-bind="click: $root.familyHistorySave, visible: $root.role().familyHistory() > 1">
+		Save
+	</button>
 </div>

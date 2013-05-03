@@ -689,7 +689,8 @@ define(function(require) {
 			this.insuranceName		  = ko.observable(data.insurance_name);
 			this.maritalStatus		  = ko.observable(data.marital_status);
 			this.numberOfChildren     = ko.observable(data.number_of_children);
-			this.insuredType 		  = ko.observable('not insured'); 
+			this.insuredType 		  = ko.observable('not insured');
+			this.familyHistoryChanged = ko.observable(data.family_history_changed == '1' ? 1 : 0);
 		}
 		else {
 			this.id					  = ko.observable();
@@ -725,7 +726,8 @@ define(function(require) {
 			this.insuranceName		  = ko.observable();
 			this.maritalStatus		  = ko.observable();
 			this.numberOfChildren     = ko.observable();
-			this.insuredType 		  = ko.observable('not insured'); 
+			this.insuredType 		  = ko.observable('not insured');
+			this.familyHistoryChanged = ko.observable();
 		}
 		
 		// This will return the name in the following format: Last, First

@@ -19,6 +19,17 @@ define(function(require) {
 	 * 
 	 * These methods retrieve information from the database via SELECT queries
 	 *********************************************************************************************/
+	// Role
+	socialandfamily.prototype.getRole = function(id, practiceId) {
+		return this.query({
+			mode: 'select', 
+			table: 'user', 
+			fields: '*',
+			join: "JOIN role ON user.role_id=role.id",
+			where: "WHERE user.id='" + id +"' AND user.practice_id='" + practiceId + "'"
+		});
+	}
+	
 	socialandfamily.prototype.getSocialHistory = function(patientId, practiceId) {
 		return this.query({
 			mode: 'select',
@@ -30,7 +41,7 @@ define(function(require) {
 	
 	socialandfamily.prototype.getPatient = function(patientId, practiceId) {
 		var self = this;
-		var fields = ['family_history_type', 'family_history_comment', 'routine_exam_comment'];
+		var fields = ['family_history_type', 'family_history_comment', 'routine_exam_comment', 'family_history_changed'];
 		
 		return self.query({
 			mode: 'select',
@@ -103,9 +114,9 @@ define(function(require) {
 	
 	socialandfamily.prototype.savePatient = function(patientId, practiceId, data) {
 		var self = this;
-		var fields = ['family_history_type', 'family_history_comment', 'routine_exam_comment'];
+		var fields = ['family_history_type', 'family_history_comment', 'routine_exam_comment', 'family_history_changed'];
 		var values = $.map(data, function(k,v) {
-			if(v == 'familyHistoryType' || v == 'familyHistoryComment' || v == 'routineExamComment') {
+			if(v == 'familyHistoryType' || v == 'familyHistoryComment' || v == 'routineExamComment' || v == 'familyHistoryChanged') {
 				if(k == null || k == undefined) {
 					return [''];
 				}

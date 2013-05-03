@@ -7,41 +7,37 @@
 		<div data-bind="foreach: routineExams">
 			<div class="row-fluid">
 				<div class="span3">
-					<input type="text" class="input-xmedium" placeholder="Name" data-bind="
-						value: name,
-						valueUpdate: 'afterkeydown',
-						event: {keyup: $root.routineExamAddRow},
-						enable: name() != 'Colonoscopy' && name() != 'PSA' && name() != 'Physical'" />
+					<input type="text" class="input-xmedium" placeholder="Name"
+						data-bind="value: name, valueUpdate: 'afterkeydown',
+							event: {keyup: $root.routineExamAddRow}, enable: name() != 'Colonoscopy' &&
+								name() != 'PSA' && name() != 'Physical' && $root.role().routineExam() > 1" />
 				</div>
 				<div class="span9">
 					<div class="marginBottom5">
 						<label class="radio routineRadio">
-							<input type="radio" value="1" data-bind="
-								checked: lastDone,
-								attr: {name: radioName},
-								enable: name() != '',
-								event: {change: $root.routineExamLastDone}" />
+							<input type="radio" value="1"
+								data-bind="checked: lastDone, attr: {name: radioName},
+									enable: name() != '' && $root.role().routineExam() > 1,
+									event: {change: $root.routineExamLastDone}" />
 							<span class="smallText">Never&nbsp;Done</span>
 						</label>
 						<label class="radio routineRadio">
-							<input type="radio" value="2" data-bind="
-								checked: lastDone,
-								attr: {name: radioName},
-								enable: name() != '',
-								event: {change: $root.routineExamLastDone}" />
+							<input type="radio" value="2"
+								data-bind="checked: lastDone, attr: {name: radioName},
+									enable: name() != '' && $root.role().routineExam() > 1,
+									event: {change: $root.routineExamLastDone}" />
 							<span class="smallText">Unknown</span>
 						</label>
 						<label class="radio routineRadio">
-							<input type="radio" value="3" data-bind="
-								checked: lastDone,
-								attr: {name: radioName},
-								enable: name() != '',
-								event: {change: $root.routineExamSetDate}" />
+							<input type="radio" value="3"
+								data-bind="checked: lastDone, attr: {name: radioName},
+									enable: name() != '' && $root.role().routineExam() > 1,
+									event: {change: $root.routineExamSetDate}" />
 							<span class="smallText">Last&nbsp;Done</span>
 						</label>
-						<select class="input-xmedium" data-bind="
-							value: month,
-							enable: lastDone() == 3 && name() != ''">
+						<select class="input-xmedium"
+							data-bind="value: month, enable: lastDone() == 3 && name() != '' &&
+								$root.role().routineExam() > 1">
 							<option value="" data-bind="visible: false">Month</option>
 							<option value="01">January</option>
 							<option value="02">February</option>
@@ -56,19 +52,20 @@
 							<option value="11">November</option>
 							<option value="12">December</option>
 						</select>
-						<input type="number" class="input-mini" placeholder="Year" data-bind="
-							value: year,
-							attr: {min: new Date().getFullYear()-50, max: new Date().getFullYear()}" />
-						<button type="button" class="btn btn-small btn-danger" data-bind="
-							click: $root.routineExamDelete,
-							visible: name() != 'Colonoscopy' && name() != 'PSA' && name() != 'Physical' && name() != ''">
+						<input type="number" class="input-mini" placeholder="Year"
+							data-bind="value: year, attr: {min: new Date().getFullYear()-50,
+								max: new Date().getFullYear()}, enable: $root.role().routineExam() > 1" />
+						<button type="button" class="btn btn-small btn-danger"
+							data-bind="click: $root.routineExamDelete, visible: name() != 'Colonoscopy' &&
+								name() != 'PSA' && name() != 'Physical' && name() != '' &&
+								$root.role().routineExam() > 1">
 							Delete
 						</button>
 					</div>
 					<div class="marginBottom5">
-						<input type="text" class="routineComment" placeholder="Comments" data-bind="
-							value: comment,
-							enable: name() != '' && lastDone() != 1" />
+						<input type="text" class="routineComment" placeholder="Comments"
+							data-bind="value: comment, enable: name() != '' && lastDone() != 1 &&
+								$root.role().routineExam() > 1" />
 					</div>
 				</div>
 			</div>
@@ -76,11 +73,17 @@
 	</form>
 </div>
 <div class="commentContainer">
-	<textarea class="commentSpan routineExamComment" placeholder="Comments" data-bind="
-		value: patient().routineExamComment" />
+	<textarea class="commentSpan routineExamComment" placeholder="Comments"
+		data-bind="value: patient().routineExamComment, enable: $root.role().routineExam() > 1" />
 	</textarea>
 </div>
 <div class="pull-right">
-	<button type="submit" class="btn btn-small btn-primary" data-bind="click: $root.routineExamSave">Save</button>
-	<button type="button" class="btn btn-small btn-warning" data-bind="click: $root.routineExamCancel">Cancel</button>
+	<button type="submit" class="btn btn-small btn-primary"
+		data-bind="click: $root.routineExamSave, visible: $root.role().routineExam() > 1">
+		Save
+	</button>
+	<button type="button" class="btn btn-small btn-warning"
+		data-bind="click: $root.routineExamCancel, visible: $root.role().routineExam() > 1">
+		Cancel
+	</button>
 </div>

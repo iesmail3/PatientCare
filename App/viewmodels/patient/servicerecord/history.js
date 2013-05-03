@@ -11,6 +11,7 @@ define(function(require) {
 	 **********************************************************************************************/
 	var system = require('durandal/system');				// System logger
 	var custom = require('durandal/customBindings');		// Custom bindings
+	var UserStructures = require('modules/structures');		// User structures
 	var Structures = require('modules/patientStructures');	// Structures
 	var Backend = require('modules/history');				// Module
 	var Forms = require('modules/form');					// Common form elements
@@ -20,9 +21,11 @@ define(function(require) {
 	 * KO Observables
 	 **********************************************************************************************/
 	var self;
+	var userStructures  = new UserStructures();
 	var structures = new Structures();
 	var backend = new Backend();
 	var form = new Forms();
+	var role = ko.observable(new userStructures.Role());
 	var practiceId = ko.observable();
 	var patientId = ko.observable();
 	var date = ko.observable();
@@ -54,9 +57,10 @@ define(function(require) {
 		/******************************************************************************************* 
 		 * Attributes
 		 *******************************************************************************************/
-		form: form,
-		backend: backend,
 		structures: structures,
+		backend: backend,
+		form: form,
+		role: role,
 		practiceId: practiceId,
 		patientId: patientId,
 		date: date,
@@ -113,6 +117,10 @@ define(function(require) {
 		// Loads when view is loaded
 		activate: function(data) {
 			self = this;
+			
+			backend.getRole(global.userId, global.practiceId).success(function(data) {
+				self.role(new userStructures.Role(data[0]));
+			});
 			
 			// Get URL parameters
 			self.practiceId(global.practiceId);

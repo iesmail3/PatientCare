@@ -16,7 +16,7 @@ define(function(require) {
 	var structures = new Structures();
 	var userStructure = new User();
 	var user = ko.observable();
-	var role = ko.observable();
+	var role = ko.observable(new userStructure.Role());
 	var userId = ko.observable();
 	var practiceId = ko.observable();
 	var keyword = ko.observable();

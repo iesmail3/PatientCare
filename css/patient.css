@@ -36,12 +36,14 @@ th, td {
 .patientTree {
 	background-color: rgb(250,250,250);
 	margin-top: 10px;
-	overflow-y: scroll;
+	overflow-y: auto;
+	border-radius: 5px;
 }
 
 .contentPane {        
 	background-color: rgb(250,250,250);
 	margin-top: 10px;
+	border-radius: 5px; 
 }    
 
 .contentPane .container-fluid { padding: 5px; }
@@ -154,15 +156,14 @@ th, td {
 	background: url('../Content/images/glyphicons-halflings.png') -283px -117px;
 }
 
+.strengthList {
+	display: none !important;
+}
+
 /* Personal Information */
 .personalAlert {
 	height: 20px;
 	display: none;
-}
-
-.span6 .label, label.inline  {
-    display: inline-block;
-    width: 130px;   
 }
 
 #additionalCharges { 
@@ -172,7 +173,7 @@ th, td {
 
 .insuranceBox { min-width: 400px; }
 .insuranceBox .modal-body { min-height:150px; } 
-=======
+
 /* Social & Family History */
 .socialFormScroll {
 	overflow-y: auto;
@@ -354,6 +355,34 @@ th, td {
 }
 
 /* Physical Examinations */
+.vitalForm .control-label {
+	width: 50px;
+}
+
+.vitalForm .controls {
+	margin-left: 70px;
+}
+
+.vitalTable th {
+	text-align: center;
+	border-color: #ffffff;
+}
+
+.vitalTable td {
+	text-align: right;
+	border-color: #ffffff;
+}
+
+.vitalTable td input {
+	display: block;
+	margin: auto;
+	width: 50px;
+}
+
+.vitalTable {
+	border-color: #ffffff;
+}
+
 .vitalSignsFormScroll {
 	overflow-y: auto;
 	border-bottom: 1px solid #ddd;
@@ -387,19 +416,13 @@ th, td {
 	border-radius: 5px;
 }
 
-.physicalAltExam {
-	padding: 10px;
-	background-color: #ddd;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-}
-
 .physicalLabelPushRight {
 	margin-left: 55px;
 }
 
 .physicalLabel {
 	margin-left: 1px;
+	background-color: #000;
 }
 
 .physicalNeRadio {
@@ -607,14 +630,9 @@ width: 600px;
 	display: none;
 }
 
-.checkoutTab label.inline  {
-    display: inline-block;
-    width: 130px;
-}
-
 .checkoutPane { overflow-y: auto; }
 
-.checkoutTab  .label, label.inline  {
+.checkoutTab  .label, .checkoutTab label.inline  {
     display: inline-block;    
 	width: 130px;  
 }

@@ -5,19 +5,27 @@ Description:
 -->
 <div>
 	<ul class="nav nav-tabs patientNavs" id="socialTab">
-		<li class="active"><a href="#social">Social History</a></li>
-		<li><a href="#family">Family History</a></li>
-		<li><a href="#routine">Routine Exams</a></li>
+		<li class="active">
+			<a data-toggle="tab" href="#social" data-bind="visible: role().socialHistory() > 0">Social History</a>
+		</li>
+		<li data-bind="css: {active: role().socialHistory() < 1}">
+			<a data-toggle="tab" href="#family" data-bind="visible: role().familyHistory() > 0">Family History</a>
+		</li>
+		<li data-bind="css: {active: role().socialHistory() < 1 && role().familyHistory() < 1}">
+			<a data-toggle="tab" href="#routine" data-bind="visible: role().routineExam() > 0">Routine Exams</a>
+		</li>
 	</ul>
  
 	<div class="tab-content">
-		<div class="tab-pane outerPane active" id="social">
+		<div class="tab-pane outerPane active" id="social" data-bind="visible: role().socialHistory() > 0">
 			<div data-bind='compose: "patient/socialandfamilyTabs/social.html"'></div>
 		</div>
-		<div class="tab-pane outerPane" id="family">
+		<div class="tab-pane outerPane" id="family" data-bind="css: {active: role().socialHistory() < 1},
+			visible: role().familyHistory() > 0">
 			<div data-bind='compose: "patient/socialandfamilyTabs/family.html"'></div>
 		</div>
-		<div class="tab-pane outerPane" id="routine">
+		<div class="tab-pane outerPane" id="routine" data-bind="css: {active: role().socialHistory() < 1 &&
+			role().familyHistory() < 1}, visible: role().routineExam() > 0">
 			<div data-bind='compose: "patient/socialandfamilyTabs/exams.html"'></div>
 		</div>
 	</div>

@@ -10,7 +10,7 @@ define(function(require) {
 	
     return {
         router: router,
-        role: ko.observable(),
+        role: ko.observable(new userStructures.Role()),
         // Function that allows DOM manipulation
         viewAttached: function() {
         	
