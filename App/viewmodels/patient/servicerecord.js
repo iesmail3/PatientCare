@@ -73,8 +73,10 @@ define(function(require) {
 			
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+			$('.serviceRecordFormScroll').height(parseInt($('.tab-pane').height()) - 358);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+				$('.serviceRecordFormScroll').height(parseInt($('.tab-pane').height()) - 358);
 			});
 		},
 		// Loads when view is loaded
