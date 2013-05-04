@@ -175,6 +175,13 @@ th, td { cursor: default; }
 .insuranceBox { min-width: 400px; }
 .insuranceBox .modal-body { min-height:150px; } 
 
+/* Service Record */
+.serviceRecordFormScroll {
+	overflow-y: auto;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 5px;
+}
+
 /* Social & Family History */
 .socialFormScroll {
 	overflow-y: auto;

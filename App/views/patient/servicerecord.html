@@ -71,35 +71,37 @@ Description: This view displays the records for each patient's service records. 
 				</fieldset>
 			</div>
 			<!-- Service Records Table -->
-			<div class="row-fluid">
-				<table class="table table-bordered table-hover">
-					<thead>
-						<tr>
-							<th></th>
-							<th>Date of Service</th>
-							<th>Physician Name</th>
-							<th>Reason for Visit</th>
-							<th data-bind="visible: $root.role().serviceRecord() > 1"></th>
-						</tr>
-					</thead>
-					<tbody data-bind="foreach: serviceRecords">
-						<tr>
-							<td><a class="btn btn-small btn-primary recordButton"
-								data-bind="attr: {href: goToRecord}">
-								Go to Record
-							</a></td>
-							<td data-bind="text: date, click: $root.setFields"></td>
-							<td data-bind="text: physicianName, click: $root.setFields"></td>
-							<td data-bind="text: reason, click: $root.setFields"></td>
-							<td data-bind="visible: $root.role().serviceRecord() > 1">
-								<a class="btn btn-small btn-danger deleteButton"
-									data-bind="click: $root.deleteServiceRecord">
-									Delete
-								</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+			<div class="serviceRecordFormScroll">
+				<div class="row-fluid">
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Date of Service</th>
+								<th>Physician Name</th>
+								<th>Reason for Visit</th>
+								<th data-bind="visible: $root.role().serviceRecord() > 1"></th>
+							</tr>
+						</thead>
+						<tbody data-bind="foreach: serviceRecords">
+							<tr>
+								<td><a class="btn btn-small btn-primary recordButton"
+									data-bind="attr: {href: goToRecord}">
+									Go to Record
+								</a></td>
+								<td data-bind="text: date, click: $root.setFields"></td>
+								<td data-bind="text: physicianName, click: $root.setFields"></td>
+								<td data-bind="text: reason, click: $root.setFields"></td>
+								<td data-bind="visible: $root.role().serviceRecord() > 1">
+									<a class="btn btn-small btn-danger deleteButton"
+										data-bind="click: $root.deleteServiceRecord">
+										Delete
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</form>
 	</div>
