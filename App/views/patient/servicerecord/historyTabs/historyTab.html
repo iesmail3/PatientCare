@@ -10,6 +10,10 @@ Description: This view is the the History tab, it displays the history informati
 <div class="historyFormScroll">
 	<form class="form-inline formPadding">
 		<div class="row-fluid">
+			<!-- Alerts -->
+			<div class="marginBottom5">
+				<span data-bind="visible: patient().familyHistoryChanged()">Family History Changed</span>
+			</div>
 			<!-- History -->
 			<div class="marginBottom5 commentContainer">
 				<textarea class="historyComment" placeholder="History details"

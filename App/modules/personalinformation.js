@@ -287,7 +287,7 @@ define(function(require) {
 	// Save Reference info
 	personal.prototype.saveReference = function(reference, method) {
 		var self = this;
-		var fields = ['patient_id', 'practice_id', 'type', 'first_name', 'middle_name', 'last_name',
+		var fields = ['id', 'patient_id', 'practice_id', 'type', 'first_name', 'middle_name', 'last_name',
 		 			  'phone', 'fax', 'email', 'degree', 'reason', 'referral'];
 		
 		var values = $.map(reference, function(k,v) {
@@ -299,20 +299,34 @@ define(function(require) {
 		});
 		
 		if(method == 'insert') {
-			return this.query({
-				mode: 'insert',
+			return self.query({
+				mode: 'select',
 				table: 'reference',
-				fields: fields,
-				values: values
+				fields: 'id',
+				order: 'ORDER BY id DESC',
+				limit: 'LIMIT 1'
+			}).success(function(data) {
+				var newId = 1;
+				if (data.length > 0)
+					newId = parseInt(data[0].id) + 1;
+				
+				values[0] = newId;
+				reference.id(newId);
+				self.query({
+					mode: 'insert',
+					table: 'reference',
+					fields: fields,
+					values: values
+				});
 			});
 		}
 		else {
-			return this.query({
+			return self.query({
 				mode: 'update',
 				table: 'reference',
 				fields: fields,
 				values: values,
-				where: "WHERE patient_id='" + reference.patientId() + "'"
+				where: "WHERE id='" + reference.id() + "' AND patient_id='" + reference.patientId() + "' AND practice_id='" + reference.practiceId() + "'"
 			});
 		}
 	}

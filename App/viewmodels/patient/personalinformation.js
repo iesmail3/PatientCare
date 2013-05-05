@@ -255,6 +255,17 @@ define(function(require) {
 					self.insuredPerson(2);
 			});
 		}, // End activate
+		printPersonal: function(data) {
+			var height = $('.flowHolder').height();
+			var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
+				   'menubar=no, status=no, titlebar=no, toolbar=no';
+			var win = window.open(
+				'php/printPersonalInformation.php/?practiceId=' + 
+				practiceId() + '&patientId=' + patientId(),
+				'',
+				settings
+			);
+		},
 		savePersonal: function(data) {
 			var self = this;
 			if(self.patient().errors().length == 0) {

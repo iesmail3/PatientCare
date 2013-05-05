@@ -1143,6 +1143,7 @@ define(function(require) {
 	// Reference
 	patient.prototype.Reference = function(data) {
 		if (data != null) {
+			this.id			= ko.observable(data.id);
 			this.patientId  = ko.observable(data.patient_id);
 			this.practiceId  = ko.observable(data.practice_id);
 			this.type	    = ko.observable(data.type);
@@ -1157,6 +1158,7 @@ define(function(require) {
 			this.referral   = ko.observable(data.referral);
 		}
 		else {
+			this.id			= ko.observable();
 			this.patientId  = ko.observable();
 			this.practiceId = ko.observable();
 			this.type	    = ko.observable();

@@ -29,6 +29,7 @@ define(function(require) {
 	var practiceId = ko.observable();
 	var patientId = ko.observable();
 	var date = ko.observable();
+	var patient = ko.observable(new structures.Patient());
 	var serviceRecord = ko.observable(new structures.ServiceRecord());
 	var reviewOfSystem = ko.observable(new structures.ReviewOfSystems());
 	var reviewOfSystems = ko.observableArray([]);
@@ -64,6 +65,7 @@ define(function(require) {
 		practiceId: practiceId,
 		patientId: patientId,
 		date: date,
+		patient: patient,
 		serviceRecord: serviceRecord,
 		reviewOfSystem: reviewOfSystem,
 		reviewOfSystems: reviewOfSystems,
@@ -126,6 +128,10 @@ define(function(require) {
 			self.practiceId(global.practiceId);
 			self.patientId(data.patientId);
 			self.date(data.date);
+			
+			backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
+				self.patient(new structures.Patient(data[0]));
+			});
 			
 			// Get the current Service Record
 			backend.getServiceRecord(self.patientId(), self.practiceId(), self.date()).success(function(data) {
