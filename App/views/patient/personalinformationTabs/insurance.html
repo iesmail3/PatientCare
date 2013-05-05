@@ -28,7 +28,7 @@
 							 name="Self" value="3" />
 						Other
 					</label>
-					<input type="text" class="radio inline input-large" data-bind="value: $root.patient().otherName" placeholder="Insurance Type" />
+					<input type="text" class="radio inline input-large" data-bind="value: $root.patient().otherName,enable:insuredPerson()==3" placeholder="Insurance Type" />
 				</div>
 			</fieldset>   
 		</div>   

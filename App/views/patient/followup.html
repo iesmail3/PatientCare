@@ -1,35 +1,58 @@
 <!--
-View:
-Author(s):    
-Description:
+View name: Followup
+Tab Views: App/views/patient/followup
+Viewmodel: App/viewmodels/patient/followup.js
+Author(s): Imran Esmail 
+Description: This view holds the Followup, checkout,Prescription,PhoneLog,Superbill and
+			 Documents tabs. Each tab has been broken down into its own separate
+			 view via the compose data-binds within the tab contents.
 -->
 <div>
+	<!-- List of tabs -->
 	<ul class="nav nav-tabs patientNavs" id="followupTab">
-	  <li class="active"><a href="#followup">Follow Up</a></li>
-	  <li><a href="#checkout">Checkout</a></li>  
-	  <li><a href="#prescriptions">Prescriptions</a></li>
-	  <li><a href="#phonelog">Phone Log</a></li>
-	  <li><a href="#superbill">Superbill</a></li>
-	  <li><a href="#docs">Misc Docs</a></li>
+		<li class="active"><a href="#followup" data-bind="visible: $root.role().followup() > 0">Follow Up</a></li>
+		<li data-bind="css: {active: role().followup() < 1}"><a href="#checkout" data-bind="visible: $root.role().checkout() > 0">Checkout</a>
+		</li>  
+		<li data-bind="css: {active: role().followup() < 1 && role().checkout() < 1}"><a href="#prescriptions" data-bind="visible: $root.role().prescription() > 0">Prescriptions</a>
+		</li>
+		<li data-bind="css: {active: role().followup() < 1 && role().checkout() < 1 && role().prescription() < 1}"><a href="#phonelog" data-bind="visible: $root.role().phoneLog() > 0">Phone Log</a>
+		</li>
+		<li  data-bind="css: {active: role().followup() < 1 && role().checkout() < 1 && role().prescription() < 1 &&
+			role().phoneLog() < 1}"><a href="#superbill" data-bind="visible: $root.role().superbill() > 0">Superbill</a>
+		</li>
+		<li data-bind="css: {active: role().followup() < 1 && role().checkout() < 1 && role().prescription() < 1 &&
+			role().phoneLog() < 1 && role().phoneLog() < 1}"><a href="#docs" data-bind="visible: $root.role().miscDocs() > 0">Misc Docs</a>
+		</li>
 	</ul>
-       
+    <!-- Content of tabs -->
 	<div class="tab-content">
-		<div class="tab-pane active" id="followup">
+		<!-- Followup Tab -->
+		<div class="tab-pane active" id="followup" data-bind="visible: role().followup() > 0">
 			<div data-bind="compose: 'patient/followupTabs/followup.html'"></div>  
 		</div>
-		<div class="tab-pane outerPane checkoutPane tabScroll" id="checkout">
+		<!-- Checkout Tab -->
+		<div class="tab-pane outerPane checkoutPane tabScroll" id="checkout" data-bind="css: {active: role().followup() < 1},
+					visible: role().checkout() > 0">
 			<div data-bind="compose: 'patient/followupTabs/checkout.html'"></div>
-		</div>    
-		<div class="tab-pane outerPane" id="prescriptions"> 
+		</div> 
+		<!-- Prescription Tab -->
+		<div class="tab-pane outerPane" id="prescriptions" data-bind="css: {active: role().followup() < 1 && role().checkout() < 1},
+					visible: role().prescription() > 0"> 
 			<div data-bind="compose: 'patient/followupTabs/prescription.html'"></div>
 		</div>
-		<div class="tab-pane outerPane" id="phonelog">
+		<!-- Phonelog Tab -->
+		<div class="tab-pane outerPane" id="phonelog" data-bind="css: {active: role().followup() < 1 && role().checkout() < 1 && role().prescription() < 1},
+					visible: role().phoneLog() > 0">
 			<div data-bind="compose: 'patient/followupTabs/phoneLog.html'"></div>
 		</div>
-		<div class="tab-pane" id="superbill">
+		<!-- Superbill Tab -->
+		<div class="tab-pane" id="superbill" data-bind="css: {active: role().followup() < 1 && role().checkout() < 1 && role().prescription() < 1 && role().phoneLog() < 1},
+					visible: role().superbill() > 0">
 			<div data-bind="compose: 'patient/followupTabs/superbill.html'"></div>
 		</div>
-		<div class="tab-pane" id="docs">
+		<!-- Document Tab -->
+		<div class="tab-pane" id="docs" data-bind="css: {active: role().followup() < 1 && role().checkout() < 1 && role().prescription() < 1 && role().phoneLog() < 1 &&  role().superbill() < 1},
+					visible: role().miscDocs() > 0">
 		   <div data-bind="compose: 'patient/followupTabs/document.html'"></div>		                   
 		</div>
 	</div>

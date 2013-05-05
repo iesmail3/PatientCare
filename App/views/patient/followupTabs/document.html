@@ -6,6 +6,7 @@
 <div class="document">
 	<form class="form-inline">
 		<div class="row-fluid">
+			<!-- Alerts -->
 			<div class="alertHolder">
 				<div class="alert alert-danger allAlert">You have are missing required fields.</div>
 				<div class="alert alert-danger typeAlert">The document type is required.</div>
@@ -14,6 +15,7 @@
 			<fieldset>
 				<legend>Search</legend>
 				<div class="marginBottom5">
+					<!-- Report Type DropDown for search -->
 					<select class="input-medium" data-bind="value:documentType,event:{ change:searchByType},enable: $root.role().miscDocs() > 1">
 						<option value="Document Type">Document Type</option>
 						<option value="All">All</option>
@@ -31,6 +33,7 @@
 			<fieldset>   
 				<legend>Details</legend>      
 					<div class="marginBottom5">
+						<!-- Document Type DropDown -->
 						<select class="input-medium" data-bind="value:type,enable: $root.role().miscDocs() > 1">
 							<option value="">Document Type</option>
 							<option value="Labs">Labs</option>
@@ -39,19 +42,23 @@
 							<option value="Procedures">Procedures</option>
 							<option value="Other">Other</option>
 						</select>
+						<!-- File uploader -->
 						<div class="fileupload fileupload-new pull-right" data-bind="visible:$root.isNewDocument(),uploader: true,visible: $root.role().miscDocs() > 1">    
 						 </div>
-					</div> 							             
+					</div>
+					<!-- Comment -->
 					<div class="marginBottom5">
 						<textarea class="input-xxlarge" rows="3" placeholder="Comment" data-bind="value: comment,enable: $root.role().miscDocs() > 1"></textarea>
 					</div>  
+					<!-- isReviewed checkbox -->
 					<div class="marginBottom5">
 						<label class="checkbox inline">
 							<input type="checkbox" data-bind="checked:isReviewed,enable: $root.role().miscDocs() > 1"/><span>Is Reviewed?</span>
 						</label>      
-						<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.documentAdd,visible: $root.documentState(),visible: $root.role().miscDocs() > 1">New</button>
-						<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.saveDocument,visible: !$root.documentSave(),visible: $root.role().miscDocs() > 1">Save</button>
-						<button type="button" id ="cancelButton" class="btn btn-small btn-danger" data-bind="click:$root.documentCancel,visible:!$root.documentState(),visible: $root.role().miscDocs() > 1">Cancel</button>
+						<!-- Buttons -->
+						<button type="button" id ="addButton" class="btn btn-small btn-success" data-bind="click:$root.documentAdd,visible: $root.documentState() && $root.role().miscDocs() > 1">New</button>
+						<button type="button" class="btn btn-small btn-primary" data-bind="click:$root.saveDocument,visible: !$root.documentSave() && $root.role().miscDocs() > 1">Save</button>
+						<button type="button" id ="cancelButton" class="btn btn-small btn-danger" data-bind="click:$root.documentCancel,visible:!$root.documentState() && $root.role().miscDocs() > 1">Cancel</button>
 					</div>
 			</fieldset>  
 		</div> 
@@ -59,7 +66,7 @@
 	</form>
 	 <!-- Row-Fluid Document Table -->
 	<div class="row-fluid">
-	    <!-- DOcument Table -->
+	    <!-- Document Table -->
 		<div class="documentTableHolder">
 			<table class="table table-bordered table-hover">   
 				<thead>
