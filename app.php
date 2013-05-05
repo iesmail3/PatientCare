@@ -32,10 +32,10 @@ $vars = array(
         
         <!--Durandal does not require Bootstrap. It's used to make the samples look nice.-->
         <link rel="stylesheet" href="css/flick/jquery-ui-1.10.1.custom.min.css" type="text/css"/>
-        <link rel="stylesheet" href="Content/bootstrap.min.css" type="text/css"/>
-        <!--<link rel="stylesheet" href="Content/cerulean.css" type="text/css"/>
+        <!--<link rel="stylesheet" href="Content/bootstrap.min.css" type="text/css"/>
+        <link rel="stylesheet" href="Content/cerulean.css" type="text/css"/>-->
         <link rel="stylesheet" href="Content/spruce.css" type="text/css"/>
-        <link rel="stylesheet" href="Content/amelia.css" type="text/css"/>
+        <!--<link rel="stylesheet" href="Content/amelia.css" type="text/css"/>
         <link rel="stylesheet" href="Content/cosmo.css" type="text/css"/>
         <link rel="stylesheet" href="Content/cyborg.css" type="text/css"/>
         <link rel="stylesheet" href="Content/journal.css" type="text/css"/>
