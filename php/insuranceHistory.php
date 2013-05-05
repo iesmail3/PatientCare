@@ -136,7 +136,7 @@ if($printAll=='true') {
 else {
 	//Insurance
 	$stmt = $db->query("SELECT insurance.* FROM insurance WHERE 
-						effective_date  BETWEEN '$startDate' AND'$endDate'");
+						effective_date  BETWEEN '$startDate' AND'$endDate' AND patient_id='$patientId' AND practice_id='$practiceId'");
 	$stmt->setFetchMode(PDO::FETCH_ASSOC);
 	$rows = $stmt->fetchAll();
 	$insurance = $rows;

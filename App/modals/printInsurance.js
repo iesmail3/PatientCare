@@ -29,8 +29,12 @@ define(function(require) {
 		//Convert to db Date 
 		this.startDate(form.dbDate(this.startDate())); 
 		this.endDate(form.dbDate(this.endDate()));
-		if(this.startDate() > this.endDate()) 
-			$('.insuranceBox .dateAlert').fadeIn().delay(3000).fadeOut();  
+		if(this.startDate() > this.endDate()) {
+			$('.insuranceBox .dateAlert').fadeIn().delay(3000).fadeOut(); 
+			//Convert back to UI date
+			this.startDate(form.uiDate(this.startDate())); 
+			this.endDate(form.uiDate(this.endDate()));
+        }			
 		else { 
 			var height = $('.flowHolder').height();
 				var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
