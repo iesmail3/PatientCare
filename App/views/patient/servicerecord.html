@@ -38,13 +38,21 @@ Description: This view displays the records for each patient's service records. 
 				<fieldset>
 					<legend>Edit Service Record</legend>
 					<div class="marginBottom5">
-						<input type="text" placeholder="Date of Service"
+						<input type="text" class="input-xmedium" placeholder="Date of Service"
 							data-bind="value: serviceRecord().date, enable: serviceRecordState() &&
 								$root.role().serviceRecord() > 1, datepicker: true" />
 						<select data-bind="options: physicians(), optionsText: 'text',
 							optionsValue: 'value', optionsCaption: 'Physicians',
 							value: serviceRecord().physicianId, enable: $root.role().serviceRecord() > 1">
 						</select>
+						<button type="button" class="btn btn-small"
+							data-bind="click: serviceRecordReport1">
+							Report 1
+						</button>
+						<button type="submit" class="btn btn-small"
+							data-bind="click: serviceRecordReport2">
+							Report 2
+						</button>
 					</div>
 					<div class="marginBottom5 commentContainer">
 						<textarea class="commentSpan" rows="3" placeholder="Reason for Visit"

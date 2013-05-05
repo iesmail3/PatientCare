@@ -343,11 +343,6 @@ class PDF extends FPDI_CellFit {
 		$this->Cell(0, 5, 'Phone for Verification: ' . $otherInsurance['contact_phone'], 0, 2);
 		$this->Cell(0, 5, 'Verification Date: ' . $verificationDate . ' ' . $otherInsurance['verification_time'], 0, 2);
 		$this->Cell(0, 5, 'Confirmation Number: ' . $otherInsurance['confirmation_number'], 0, 2);
-		
-		 /******************************************************************************************
- 		 * Other Insurance
- 		 *****************************************************************************************/
-		
 	}
 	// Print Footer
 	function Footer() {
