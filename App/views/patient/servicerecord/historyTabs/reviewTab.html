@@ -1,4 +1,4 @@
-<!--
+<!--	
 Tab name: Review of Systems
 Main view: App/views/patient/servicerecord/history.html
 Viewmodel: App/viewmodels/patient/servicerecord/history.js
@@ -15,29 +15,42 @@ Description: This view is the the Review of Systems tab, it displays records of 
 <div class="reviewFormScroll">
 	<form class="form-inline formPadding">
 		<div class="row-fluid">
+			<div class="marginBottom15">
+				<label class="radio inline">
+					<input type="radio" value="notDone" name="topRadio" data-bind="checked: reviewStatus"> Not Done
+				</label>
+				<label class="radio inline">
+					<input type="radio" value="limited" name="topRadio" data-bind="checked: reviewStatus"> Limited
+				</label>
+			</div>
 			<div data-bind="foreach: reviewOfSystems">
 				<div class="reviewOfSystem">
 					<!-- Particular -->
 					<input type="text" class="input-xsmall" placeholder="Particular"
-						data-bind="value: particulars, enable: !defaultParticulate() && $root.role().reviewOfSystems() > 1,
-							event: {keyup: $root.reviewOfSystemsAddRow}, valueUpdate: 'afterkeydown'" />
+						   data-bind="value: particulars, enable: !defaultParticulate() && $root.role().reviewOfSystems() > 1 
+						   && $root.reviewStatus() == 'limited', event: {keyup: $root.reviewOfSystemsAddRow}, 
+						   valueUpdate: 'afterkeydown'" />
 					<div class="reviewPushRight">
 						<!-- Not Done -->
 						<label class="radio reviewRadio">
 							<input type="radio" value="not done"
-								data-bind="checked: type, attr: {name: name}, enable: $root.role().reviewOfSystems() > 1" />
+								data-bind="checked: type, attr: {name: name}, 
+								enable: $root.role().reviewOfSystems() > 1 && $root.reviewStatus() == 'limited'" />
 							<span class="smallText">Not&nbsp;Done</span>
 						</label>
 						<!-- Negative -->
 						<label class="radio reviewRadio">
 							<input type="radio" value="negative"
-								data-bind="checked: type, attr: {name: name}, enable: $root.role().reviewOfSystems() > 1" />
+								data-bind="checked: type, attr: {name: name}, 
+								enable: $root.role().reviewOfSystems() > 1 && $root.reviewStatus() == 'limited',
+								event: {change: $root.changeReview}" />
 							<span class="smallText">Negative</span>
 						</label>
 						<!-- Posiive -->
 						<label class="radio reviewRadio">
 							<input type="radio" value="positive"
-								data-bind="checked: type, attr: {name: name}, enable: $root.role().reviewOfSystems() > 1" />
+								data-bind="checked: type, attr: {name: name}, 
+								enable: $root.role().reviewOfSystems() > 1 && $root.reviewStatus() == 'limited'" />
 							<span class="smallText">Positive</span>
 						</label>
 						<!-- Comments -->
