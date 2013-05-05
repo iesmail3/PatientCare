@@ -31,6 +31,26 @@ define(function(require) {
 		});
 	}
 	
+	// Get Personal Information for a Single Patient
+	history.prototype.getPatient = function(patientId, practiceId) {
+		return this.query({
+			mode: 'select', 
+			table: 'patient', 
+			fields: 'family_history_changed', 
+			where: "WHERE id='" + patientId + "' AND practice_id='" + practiceId + "'"
+		});
+	}
+	
+	// Get Social History
+	history.prototype.getSocialHistory = function(patientId, practiceId) {
+		return this.query({
+			mode: 'select', 
+			table: 'social_history', 
+			fields: '*', 
+			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
+		});
+	}
+	
 	// Get Service Records for a Single Patient
 	history.prototype.getServiceRecord = function(patientId, practiceId, date) {
 		return this.query({

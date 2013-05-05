@@ -199,7 +199,6 @@ define(function(require) {
 		},
 		// Open/Close Child
 		openClose: function(data, element) {
-			system.log('test');
 			var e = $(element.currentTarget);
 			var i = e.attr('class').toLowerCase().indexOf('plus');
 			e.parent().next().slideToggle();

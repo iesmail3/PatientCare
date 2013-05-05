@@ -25,15 +25,25 @@ $vars = array(
 <html>
     <head>
         <title>Durandal</title>
-		<!-- Duranddal links -->
+		<!-- Durandal links -->
         <link rel="apple-touch-startup-image" href="Content/images/ios-startup-image-landscape.png" media="(orientation:landscape)" />
         <link rel="apple-touch-startup-image" href="Content/images/ios-startup-image-portrait.png" media="(orientation:portrait)" />
         <link rel="apple-touch-icon" href="Content/images/icon.png"/>
         
         <!--Durandal does not require Bootstrap. It's used to make the samples look nice.-->
         <link rel="stylesheet" href="css/flick/jquery-ui-1.10.1.custom.min.css" type="text/css"/>
-        <link rel="stylesheet" href="Content/bootstrap.min.css" type="text/css"/>
-        <link rel="stylesheet" href="Content/bootstrap-responsive.min.css" type="text/css"/>
+        <!--<link rel="stylesheet" href="Content/bootstrap.min.css" type="text/css"/>
+        <link rel="stylesheet" href="Content/cerulean.css" type="text/css"/>-->
+        <link rel="stylesheet" href="Content/spruce.css" type="text/css"/>
+        <!--<link rel="stylesheet" href="Content/amelia.css" type="text/css"/>
+        <link rel="stylesheet" href="Content/cosmo.css" type="text/css"/>
+        <link rel="stylesheet" href="Content/cyborg.css" type="text/css"/>
+        <link rel="stylesheet" href="Content/journal.css" type="text/css"/>
+        <link rel="stylesheet" href="Content/readable.css" type="text/css"/>
+        <link rel="stylesheet" href="Content/simplex.css" type="text/css"/>
+        <link rel="stylesheet" href="Content/spacelab.css" type="text/css"/>
+        <link rel="stylesheet" href="Content/united.css" type="text/css"/>-->
+        <!--link rel="stylesheet" href="Content/bootstrap-responsive.min.css" type="text/css"/>-->
         <link rel="stylesheet" href="Content/durandal.css" type="text/css"/>
         <!-- Custom and Third Party CSS files -->
         <link rel="stylesheet" href="css/shell.css" type="text/css" />

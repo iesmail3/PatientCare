@@ -13,10 +13,10 @@ define(function(require) {
     var app = require('durandal/app'),
         system = require('durandal/system'),
         viewLocator = require('durandal/viewLocator');
-/**************************************************************************
- * This turns on debugging. When in development, set to true. 
- * When in production, set to false
- *************************************************************************/
+	/**************************************************************************
+ 	 * This turns on debugging. When in development, set to true. 
+ 	 * When in production, set to false
+ 	 *************************************************************************/
     system.debug(false);
     
 

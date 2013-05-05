@@ -175,6 +175,13 @@ th, td { cursor: default; }
 .insuranceBox { min-width: 400px; }
 .insuranceBox .modal-body { min-height:150px; } 
 
+/* Service Record */
+.serviceRecordFormScroll {
+	overflow-y: auto;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 5px;
+}
+
 /* Social & Family History */
 .socialFormScroll {
 	overflow-y: auto;
@@ -221,13 +228,21 @@ th, td { cursor: default; }
 	width: 100%;
 	min-width: 100%;
 	max-width: 100%;
-	height: 432px;;
+	height: 100%;
 }
 
 .historyFormScroll {
 	overflow-y: auto;
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 5px;
+}
+.historyFormScroll .alert {
+	display: inline-block;
+	padding: 5px 10px;
+	margin-bottom: 5px;
+}
+.historyFormScroll form {
+	margin: 0;
 }
 
 .reviewAlert {

@@ -9,7 +9,7 @@
 	<!-- Nav -->
 	<ul class="nav nav-tabs nav-stacked">
 		<li class="active" data-bind="visible: userRole().clinicDetails() > 0">
-			<a  data-toggle="tab">General</a>
+			<a data-toggle="tab" href="#general">General</a>
 		</li>
 		<li data-bind="visible: userRole().security() > 0, css: {active: userRole().clinicDetails() < 1}">
 			<a data-toggle="tab" href="#userRoles">Users & Roles</a>

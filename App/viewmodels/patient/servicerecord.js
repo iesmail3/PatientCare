@@ -73,8 +73,10 @@ define(function(require) {
 			
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+			$('.serviceRecordFormScroll').height(parseInt($('.tab-pane').height()) - 358);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
+				$('.serviceRecordFormScroll').height(parseInt($('.tab-pane').height()) - 358);
 			});
 		},
 		// Loads when view is loaded
@@ -119,6 +121,30 @@ define(function(require) {
 					self.patient(p);
 				}
 			});
+		},
+		// Prints out report 1
+		serviceRecordReport1: function(data) {
+			var height = $('.flowHolder').height();
+			var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
+				   'menubar=no, status=no, titlebar=no, toolbar=no';
+			var win = window.open(
+				'php/printReport1.php/?practiceId=' + 
+				practiceId() + '&patientId=' + patientId() + '&serviceRecordId=' + serviceRecord().id(),
+				'',
+				settings
+			);
+		},
+		// Prints out report 2
+		serviceRecordReport2: function(data) {
+			var height = $('.flowHolder').height();
+			var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
+				   'menubar=no, status=no, titlebar=no, toolbar=no';
+			var win = window.open(
+				'php/printReport2.php/?practiceId=' + 
+				practiceId() + '&patientId=' + patientId() + '&serviceRecordId=' + serviceRecord().id(),
+				'',
+				settings
+			);
 		},
 		// Sets fields when table record is clicked
 		setFields: function(data) {
