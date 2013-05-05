@@ -305,10 +305,10 @@
 											<span>No</span>
 										</label>   
 										<input type="text" class="input-medium" data-bind="value: verificationDate,
-										datepicker: true" placeholder="Verification Date" />
+										datepicker: true,enable:verification()=='1'" placeholder="Verification Date" />
 										<div class="input-append bootstrap-timepicker">
 											<input class="timepicker input-small" 
-												data-bind="value: verificationTime, timepicker: true" type="text" />
+												data-bind="value: verificationTime, timepicker: true,enable:verification()=='1'" type="text" />
 											<span class="add-on"><i class="icon-time"></i></span>
 										</div>
 										<input type="text" data-bind="value: confirmationNumber" 
