@@ -262,15 +262,15 @@ define(function(require) {
 				// Call Modal
 				if(type == 'image') {
 					modal.showOrder(order, centers, orders, ko.observableArray([]), 
-					form.ImagingOrders, practiceId(), serviceRecord().id(), 'Imaging Order');
+					form.ImagingOrders, practiceId(), serviceRecord().id(), role, 'Imaging Order');
 				}
 				else if(type == 'lab'){
 					modal.showOrder(order, centers, labOrders, ko.observableArray([]), 
-					form.LabOrders, practiceId(), serviceRecord().id(), 'Lab Order');
+					form.LabOrders, practiceId(), serviceRecord().id(), role, 'Lab Order');
 				}	
 				else if(type == 'chemo'){
 					modal.showOrder(order, centers, chemoOrders, ko.observableArray([]), 
-					form.ChemoOrders, practiceId(), serviceRecord().id(), 'Chemo Order');
+					form.ChemoOrders, practiceId(), serviceRecord().id(), role, 'Chemo Order');
 				}
 			});
 		},
