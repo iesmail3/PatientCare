@@ -99,6 +99,7 @@ define(function(require) {
 						return new structures.ServiceRecord(item)
 					});
 					self.serviceRecords(s);
+					self.serviceRecord(s[0]);
 				}
 			});
 			
