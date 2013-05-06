@@ -1204,6 +1204,7 @@ define(function(require) {
 		var self = this;
 		if (data != null) {
 			this.patientId = ko.observable(data.patient_id);
+			this.practiceId = ko.observable(data.practice_id);
 			this.name	   = ko.observable(data.name).extend({required: {message: 'name'}});
 			this.lastDone  = ko.observable(data.last_done).extend({notEqual: 1});
 			this.month	   = ko.observable(data.month);
@@ -1212,6 +1213,7 @@ define(function(require) {
 		}
 		else {
 			this.patientId = ko.observable();
+			this.practiceId = ko.observable();
 			this.name	   = ko.observable('').extend({required: {message: 'name'}});
 			this.lastDone  = ko.observable(1).extend({notEqual: 1});
 			this.month	   = ko.observable();
