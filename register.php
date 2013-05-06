@@ -22,7 +22,10 @@ require('php/securimage/securimage.php');
 $securimage = new Securimage();
 
 $passwords = $key = $captcha = $passLength = true;
-if(isset($_POST['user'])) {	
+$success = false;
+if(isset($_GET['success']))
+	$success = true;
+else if(isset($_POST['user'])) {	
 	$clinic   = $_POST['clinic'];
 	$username = $_POST['user'];
 	$password = $_POST['pass'];
@@ -104,6 +107,8 @@ if(isset($_POST['user'])) {
 		$stmt->bindParam(':role', $role);
 		$stmt->execute();
 		
+		// Success
+		header('location: register.php?success=true');
 	}
 }
 ?>
@@ -165,7 +170,13 @@ if(isset($_POST['user'])) {
 		</div>
 		<!-- Login form -->
 		<div class="row-fluid">
-			<form class="form-horizontal loginForm" action="" method="post">
+			<?php if($success): ?>
+			<div class="expiredLink">
+				<h3>Your registration is successful.</h3>
+				<p>Click <a href="index.php">here</a> to return to the login page.</p>
+			</div>
+			<?php else: ?>
+			<form class="form-horizontal registerForm" action="" method="post">
 				<div class="control-group">
 					<label class="control-label" for-"clinic">Clinic Name</label>
 					<div class="controls">
@@ -226,6 +237,7 @@ if(isset($_POST['user'])) {
 					</div>
 				</div>
 			</form>
+			<?php endif; ?>
 		</div>
 	</div>
 </body>
