@@ -280,7 +280,7 @@ define(function(require) {
 						$('.alert-success').fadeIn().delay(3000).fadeOut();
 				});
 				// Employer
-				if(personalEmployer()) {
+				if(personalEmployer() == 1) {
 					var m = employer().patientId() == undefined ? 'insert' : 'update';
 					employer().patientId(patientId());
 					employer().practiceId(practiceId());
@@ -289,6 +289,11 @@ define(function(require) {
 							$('.alert-success').fadeIn().delay(3000).fadeOut();
 					});	
 				}
+				else {
+					backend.deleteEmployer(self.patientId(), self.practiceId());
+					$('.alert-success').fadeIn().delay(3000).fadeOut();
+				}
+				
 				// Spouse
 				if(patient().maritalStatus() == 'married' || patient().maritalStatus() == 'separated') {
 					var m = spouse().patientId() == undefined ? 'insert' : 'update';
@@ -299,6 +304,11 @@ define(function(require) {
 							$('.alert-success').fadeIn().delay(3000).fadeOut();
 					});	
 				}
+				else {
+					backend.deleteSpouse(self.patientId(), self.practiceId());
+					$('.alert-success').fadeIn().delay(3000).fadeOut();
+				}
+				
 				// References
 				if(referencePhysician().firstName() != undefined || referencePhysician().lastName() != undefined) {
 					var m = referencePhysician().patientId() == undefined ? 'insert' : 'update';
@@ -310,6 +320,11 @@ define(function(require) {
 							$('.alert-success').fadeIn().delay(3000).fadeOut();
 					});
 				}
+				else {
+					backend.deleteReference(self.referencePhysician().id(), self.practiceId());
+					$('.alert-success').fadeIn().delay(3000).fadeOut();
+				}
+				
 				if(referencePcp().firstName() != undefined || referencePcp().lastName() != undefined) {
 					var m = referencePcp().patientId() == undefined ? 'insert' : 'update';
 					referencePcp().patientId(patientId());
@@ -320,6 +335,11 @@ define(function(require) {
 							$('.alert-success').fadeIn().delay(3000).fadeOut();
 					});
 				}
+				else {
+					backend.deleteReference(self.referencePcp().id(), self.practiceId());
+					$('.alert-success').fadeIn().delay(3000).fadeOut();
+				}
+				
 				if(referencePersonal().firstName() != undefined || referencePersonal().lastName() != undefined) {
 					var m = referencePersonal().patientId() == undefined ? 'insert' : 'update';
 					referencePersonal().patientId(patientId());
@@ -330,6 +350,11 @@ define(function(require) {
 							$('.alert-success').fadeIn().delay(3000).fadeOut();
 					});
 				}
+				else {
+					backend.deleteReference(self.referencePersonal().id(), self.practiceId());
+					$('.alert-success').fadeIn().delay(3000).fadeOut();
+				}
+				
 				if(referenceOther().firstName() != undefined || referenceOther().lastName() != undefined) {
 					var m = referenceOther().patientId() == undefined ? 'insert' : 'update';
 					referenceOther().patientId(patientId());
@@ -339,6 +364,10 @@ define(function(require) {
 						if(data.responseText.toLowerCase().indexOf('success') >= 0)
 							$('.alert-success').fadeIn().delay(3000).fadeOut();
 					});
+				}
+				else {
+					backend.deleteReference(self.referenceOther().id(), self.practiceId());
+					$('.alert-success').fadeIn().delay(3000).fadeOut();
 				}
 			}
 			else
