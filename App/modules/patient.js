@@ -32,11 +32,12 @@ define(function(require) {
 	}
 	
 	// Get All Patients
-	patient.prototype.getPatients = function() {
+	patient.prototype.getPatients = function(id) {
 		return this.query({
 			mode: 'select', 
 			table: 'patient', 
-			fields: '*'
+			fields: '*',
+			where: "WHERE practice_id='" + id + "'"
 		});
 	}
 	
@@ -56,7 +57,7 @@ define(function(require) {
 			mode: 'select', 
 			table: 'insurance', 
 			fields: '*', 
-			where: "WHERE patient_id='" + id + "'" 
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'" 
 		});
 	}
 	
@@ -66,7 +67,7 @@ define(function(require) {
 			mode: 'select', 
 			table: 'guarantor', 
 			fields: '*', 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
@@ -76,7 +77,7 @@ define(function(require) {
 			mode: 'select', 
 			table: 'employer', 
 			fields: '*', 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
@@ -86,7 +87,7 @@ define(function(require) {
 			mode: 'select', 
 			table: 'spouse', 
 			fields: '*', 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
@@ -96,7 +97,7 @@ define(function(require) {
 			mode: 'select',
 			table: 'reference',
 			fields: '*',
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
@@ -124,7 +125,7 @@ define(function(require) {
 			mode: 'select',
 			table: 'service_record',
 			fields: '*',
-			where: "WHERE patient_id='" + id + "' AND date='" + date + "'"
+			where: "WHERE patient_id='" + id + "' AND date='" + date + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
@@ -217,7 +218,7 @@ define(function(require) {
 			mode: 'insert', 
 			table: 'insurance', 
 			values: values, 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
@@ -231,7 +232,7 @@ define(function(require) {
 			mode: 'insert', 
 			table: 'guarantor', 
 			values: values, 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
@@ -245,7 +246,7 @@ define(function(require) {
 			mode: 'insert', 
 			table: 'employer', 
 			values: values, 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
@@ -259,7 +260,7 @@ define(function(require) {
 			mode: 'insert', 
 			table: 'spouse', 
 			values: values, 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
@@ -273,7 +274,7 @@ define(function(require) {
 			mode: 'insert', 
 			table: 'reference', 
 			values: values, 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
@@ -297,11 +298,11 @@ define(function(require) {
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
 	// Delete Personal Information for a Single Patient
-	patient.prototype.deletePatient = function(id) {
+	patient.prototype.deletePatient = function(id, practiceId) {
 		return this.query({
 			mode: 'delete', 
 			table: 'patient', 
-			where: "WHERE id='" + id + "'"
+			where: "WHERE id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	

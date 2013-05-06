@@ -49,12 +49,13 @@ define(function(require) {
 			table: 'user', 
 			fields: '*',
 			join: "JOIN role ON user.role_id=role.id",
-			WHERE: "WHERE user.id='" + id + "'"
+			where: "WHERE user.id='" + id + "'"
 		});
 	}
 	
 	// Get Users
 	settings.prototype.getUsers = function(id) {
+		system.log(id);
 		var fields = 'user.id, user.practice_id, user.username, user.password, user.first_name, user.last_name,' + 
 					 'user.email, user.role_id, role.name, role.description';
 		return this.query({
@@ -62,7 +63,7 @@ define(function(require) {
 			table: 'user', 
 			fields: fields,
 			join: "JOIN role ON user.role_id=role.id",
-			WHERE: "WHERE user.practice_id='" + id + "'"
+			where: "WHERE user.practice_id='" + id + "'"
 		});
 	}
 		
@@ -72,7 +73,7 @@ define(function(require) {
 			mode: 'select', 
 			table: 'role', 
 			fields: '*',
-			WHERE: "WHERE practice_id='" + id + "'"
+			where: "WHERE practice_id='" + id + "'"
 		});
 	}
 	
