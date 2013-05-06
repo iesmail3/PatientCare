@@ -30,9 +30,11 @@ define(function(require) {
 	var patientId = ko.observable();
 	var date = ko.observable();
 	var patient = ko.observable(new structures.Patient());
+	var socialHistory = ko.observable(new structures.SocialHistory());
 	var serviceRecord = ko.observable(new structures.ServiceRecord());
 	var reviewOfSystem = ko.observable(new structures.ReviewOfSystems());
 	var reviewOfSystems = ko.observableArray([]);
+	var oldSystems = ko.observableArray([]);
 	var tempMedicalProblem = ko.observable(new structures.MedicalProblem());
 	var medicalProblem = ko.observable(new structures.MedicalProblem());
 	var medicalProblems = ko.observableArray([]);
@@ -49,6 +51,7 @@ define(function(require) {
 	var allergiesIntolerance = ko.observable(new structures.AllergiesIntolerance());
 	var allergiesIntolerances = ko.observableArray([]);
 	var allergiesIntoleranceState = ko.observable(false);
+	var reviewStatus = ko.observable('notDone');
 
 	/*********************************************************************************************** 
 	 * KO Computed Functions
@@ -66,6 +69,7 @@ define(function(require) {
 		patientId: patientId,
 		date: date,
 		patient: patient,
+		socialHistory: socialHistory,
 		serviceRecord: serviceRecord,
 		reviewOfSystem: reviewOfSystem,
 		reviewOfSystems: reviewOfSystems,
@@ -85,7 +89,8 @@ define(function(require) {
 		allergiesIntolerance: allergiesIntolerance,
 		allergiesIntolerances: allergiesIntolerances,
 		allergiesIntoleranceState: allergiesIntoleranceState,
-		
+		reviewStatus: reviewStatus,
+		oldSystems: oldSystems,
 		/******************************************************************************************* 
 		 * Methods
 		 *******************************************************************************************/
@@ -98,11 +103,12 @@ define(function(require) {
 			
 			// Resize tree and content pane
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
-			$('.historyFormScroll').height(parseInt($('.tab-pane').height()) - 42);
+			$('.historyFormScroll').height(parseInt($('.tab-pane').height()) - 52);
 			$('.reviewFormScroll').height(parseInt($('.tab-pane').height()) - 145);
 			$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 258);
 			$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 293);
 			$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 214);
+			$('.commentContainer').height(parseInt($('.historyFormScroll').parent().height()) - 67);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 				$('.historyFormScroll').height(parseInt($('.tab-pane').height()) - 42);
@@ -110,6 +116,7 @@ define(function(require) {
 				$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 258);
 				$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 293);
 				$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 214);
+				$('.commentContainer').height(parseInt($('.historyFormScroll').parent().height()) - 67);
 			});
 			
 			// combobox for strength field
@@ -120,6 +127,7 @@ define(function(require) {
 		activate: function(data) {
 			self = this;
 			
+			// Get User Role
 			backend.getRole(global.userId, global.practiceId).success(function(data) {
 				self.role(new userStructures.Role(data[0]));
 			});
@@ -129,10 +137,17 @@ define(function(require) {
 			self.patientId(data.patientId);
 			self.date(data.date);
 			
+			// Get Patient
 			backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
 				self.patient(new structures.Patient(data[0]));
 			});
 			
+			// Get Social History
+			backend.getSocialHistory(self.patientId(), self.practiceId()).success(function(data) {
+				self.socialHistory(new structures.SocialHistory(data[0]));
+				
+			});
+
 			// Get the current Service Record
 			backend.getServiceRecord(self.patientId(), self.practiceId(), self.date()).success(function(data) {
 				if (data.length > 0) {
@@ -148,7 +163,7 @@ define(function(require) {
 					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'EYE',type:'not done',default_particulate:1}));
 					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'ENT',type:'not done',default_particulate:1}));
 					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'RESP',type:'not done',default_particulate:1}));
-					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'CSV',type:'not done',default_particulate:1}));
+					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'CVS',type:'not done',default_particulate:1}));
 					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GI',type:'not done',default_particulate:1}));
 					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GU',type:'not done',default_particulate:1}));
 					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'MS',type:'not done',default_particulate:1}));
@@ -156,20 +171,43 @@ define(function(require) {
 					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'SKIN',type:'not done',default_particulate:1}));
 					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'PSYCH',type:'not done',default_particulate:1}));
 					self.reviewOfSystems.push(new structures.ReviewOfSystems({particulars:'GYN',type:'not done',default_particulate:1}));
+					self.oldSystems.push(new structures.ReviewOfSystems({particulars:'GEN',type:'not done',default_particulate:1}));
+					self.oldSystems.push(new structures.ReviewOfSystems({particulars:'EYE',type:'not done',default_particulate:1}));
+					self.oldSystems.push(new structures.ReviewOfSystems({particulars:'ENT',type:'not done',default_particulate:1}));
+					self.oldSystems.push(new structures.ReviewOfSystems({particulars:'RESP',type:'not done',default_particulate:1}));
+					self.oldSystems.push(new structures.ReviewOfSystems({particulars:'CVS',type:'not done',default_particulate:1}));
+					self.oldSystems.push(new structures.ReviewOfSystems({particulars:'GI',type:'not done',default_particulate:1}));
+					self.oldSystems.push(new structures.ReviewOfSystems({particulars:'GU',type:'not done',default_particulate:1}));
+					self.oldSystems.push(new structures.ReviewOfSystems({particulars:'MS',type:'not done',default_particulate:1}));
+					self.oldSystems.push(new structures.ReviewOfSystems({particulars:'NEURO',type:'not done',default_particulate:1}));
+					self.oldSystems.push(new structures.ReviewOfSystems({particulars:'SKIN',type:'not done',default_particulate:1}));
+					self.oldSystems.push(new structures.ReviewOfSystems({particulars:'PSYCH',type:'not done',default_particulate:1}));
+					self.oldSystems.push(new structures.ReviewOfSystems({particulars:'GYN',type:'not done',default_particulate:1}));
 					if(data.length > 0) {
 						var r = $.map(data, function(item) {return new structures.ReviewOfSystems(item)});
+						var s = $.map(data, function(item) {return new structures.ReviewOfSystems(item)});
 						for (var i = 0; i < r.length; i++) {
 							if (r[i].defaultParticulate()) {
 								for (var j = 0; j < self.reviewOfSystems().length; j++) {
-									if (r[i].particulars() == self.reviewOfSystems()[j].particulars())
+									if (r[i].particulars() == self.reviewOfSystems()[j].particulars()) {
 										self.reviewOfSystems()[j] = r[i];
+										self.oldSystems()[j] = s[i];
+									}
 								}
 							}
-							else
+							else {
 								self.reviewOfSystems.push(r[i]);
+								self.oldSystems.push(s[i]);
+							}
 						}
 					}
 					self.reviewOfSystems.push(new structures.ReviewOfSystems());
+					
+					// Change the review status radio if there are systems.
+					$.each(self.reviewOfSystems(), function(k, v) {
+						if(v.type() != 'not done')
+							self.reviewStatus('limited');
+					});
 				}
 			});
 			
@@ -278,6 +316,7 @@ define(function(require) {
 		// Save the Review of Systems and Systems Comment
 		reviewOfSystemsSave: function(data) {
 			var isValid = true;
+			
 			var lastRow = reviewOfSystems()[reviewOfSystems().length - 1];
 			if (lastRow.particulars() == '')
 				reviewOfSystems.remove(lastRow);
@@ -291,6 +330,8 @@ define(function(require) {
 				var saveSuccess = true;
 				$.each(reviewOfSystems(), function(k, v) {
 					v.serviceRecordId(serviceRecord().id());
+					if(v.type() == 'not done' && v.comment() != '')
+						v.comment('');
 					backend.saveReviewOfSystems(v, reviewOfSystems);
 				});
 				$('.alert-success').fadeIn().delay(3000).fadeOut();
@@ -300,10 +341,39 @@ define(function(require) {
 			
 			reviewOfSystems.push(new structures.ReviewOfSystems());
 			backend.saveServiceRecord(patientId(), practiceId(), date(), serviceRecord());
+			// Copy Review of Systems to Old Systems
+			oldSystems.removeAll();
+			$.each(reviewOfSystems(), function(k, v) {
+				if(v.particulars() != '')
+					oldSystems.push(
+						new structures.ReviewOfSystems({
+							particulars: v.particulars(),
+							type: v.type(),
+							comment: v.comment(),
+							default_particulate: v.defaultParticulate()
+						})
+					);
+			});
 		},
-		// Clears the Systems Comment
+		// Clears the Systems
 		reviewOfSystemsClear: function(data) {
+			// Clear Comment
 			serviceRecord().systemsComment('');
+			
+			// For each system, check to see if it has been changed.
+			// If so, clear it.
+			reviewOfSystems.removeAll();
+			$.each(oldSystems(), function(k, v) {
+				reviewOfSystems.push(
+					new structures.ReviewOfSystems({
+						particulars: v.particulars(),
+						type: v.type(),
+						comment: v.comment(),
+						default_particulate: v.defaultParticulate()
+					})
+				);
+			});
+			reviewOfSystems.push(new structures.ReviewOfSystems());
 		},
 		// Delete a Review of System entry
 		reviewOfSystemsDelete: function(item) {
@@ -775,6 +845,37 @@ define(function(require) {
 					});
 				}
 			});
+		},
+		changeReview: function(data) {
+			switch(data.particulars()) {
+				case "GEN": data.comment("NO FEVER > THAN 100, NO CHILLS, NO B SYMPTOMS; NO LOSS OF APPETITE, NO WEIGHT LOSS; NO LETHARGY; NO WT GAIN");
+							break;
+				case "EYE": data.comment("NO DIPLOPIA, NO BLURRING OF VISION, NO OTHER VISUAL COMPLAINTS");
+							break;
+				case "ENT": data.comment("NO SORE THROAT, NO DYSPHAGIA OR ODYNOPHAGIA; NO HOARSNESS;  NO TINNITUS, VERTIGO, OR LOSS OF HEARING; NO SINUS PROBLEMS");
+							break;
+				case "RESP": data.comment("NO COUGH/COUGH WITH EXPECTORATION, HEMOPTYSIS, WHEEZING OR PLEURITIC CHEST PAIN.");
+							break;
+				case "CVS": data.comment("NO CHEST PAIN, DYSPNEA, ORTHOPNEA, PND, DIZZINESS,PALPITATION OR EDEMA");
+							break;
+				case "GI": data.comment("NO N/W, DIARRHEA,CONSTIPATION OR ABODOMINAL PAIN, NO HEMETEMESIS, MALENA OR BRBPR,NO CHANGE IN BOWEL HABBITS");
+							break;
+				case "GU": data.comment("NO HEMATURIA, DYSURIA OR FREOUENCY OF MICTURATlON; NO HESITANCY, DRIBlING OR WEAK STREAM, NO SEXUAL DYSFUNCTION, NO NOCUTURIA");
+							break;
+				case "MS": data.comment("NO BACK PAIN, ARTHRALGIA, ARTHROSIS, NO AM JOINT STIFFENES, DIFFICULTY IN GETTING UP FROM CHAIR; NO EDEMA");
+							break;
+				case "NEURO": data.comment("NO TINGLING, NUMBNESS; NO WEAKNESS, PARALYSIS OR CHANGE IN GAIT. NO MEMORY LOSS OR TREMORS");
+							break;
+				case "SKIN": data.comment("NO RASH WITH OR WITHOUT ITCHING, NO HAIR LOSS, PIGMENTARAY CHANGE OR POOR WOUND HEALING. NO ECHYMOSES OR PATECHIE");
+							break;
+				case "PSYCH": data.comment("NO EARLY MORNING AWEKENING, INABILITY TO GO TO SLEEP, DEPRESSION. ANXIETY OR PANIC ATTACKS");
+							break;
+				case "GYN": data.comment("NO MENORRHAGIA, INTEMENSTURAL BLEEDING OR POST MENOPAUSAL BLEEDING");
+							break;							
+				default:	data.comment("NO SPONTANEOUS BLEEDING; NO BLEEDING FROM GUMS OR NOSE; NO LUMPS;");
+							break;
+								
+			}
 		}
 	}; // End ViewModel
 });

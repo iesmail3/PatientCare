@@ -84,7 +84,7 @@ define(function(require) {
 		var self = this;
 		var fields = ['patient_id', 'practice_id', 'smoking', 'smoking_weekly', 'smoking_counseling', 'alcohol',
 			'alcohol_weekly', 'alcohol_counseling', 'drug_abuse', 'drug_comment', 'blood_exposure',
-			'chemical_exposure', 'comment', 'history_changed']
+			'chemical_exposure', 'comment', 'history_changed'];
 		
 		var values = $.map(socialHistory, function(k,v) {
 			if(k() == null || k() == undefined) {

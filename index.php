@@ -59,7 +59,7 @@ if(isset($_POST['username'])) {
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Single Page Application Playground</title>
+	<title>PatientCare</title>
 	<!-- CSS -->
 	<link type="text/css" rel="stylesheet" href="Content/bootstrap.css" />
 	<link type="text/css" rel="stylesheet" href="Content/bootstrap-responsive.css" />
@@ -138,6 +138,8 @@ if(isset($_POST['username'])) {
 		<div class="row-fluid">
 			<div class="formFooter">
 				<a href="#" class="retrievePass">Forgot Password?</a>
+				<span class="retrievePass"> | </span>
+				<a href="register.php" class="btn btn-success register">Register for live demo</a>
 				<a href="#" class="closePass">Close</a>
 				<p class="sentPass muted"></p>
 			</div>

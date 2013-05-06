@@ -66,7 +66,7 @@ define(function(require) {
 					
 				}
 			}).then(function() {			
-				backend.getPatients().success(function(data) {
+				backend.getPatients(self.practiceId()).success(function(data) {
 					var patient = $.map(data, function(item) {return new structures.Patient(item) });
 					self.patients(patient);
 					self.allPatients(patient);
@@ -132,7 +132,7 @@ define(function(require) {
 				['Yes', 'No'])
 			.done(function(answer){
 				if(answer == 'Yes') {
-					backend.deletePatient(item.id()).complete(function(data) {
+					backend.deletePatient(item.id(), practiceId()).complete(function(data) {
 						if(data.responseText == 'fail') {
 							app.showMessage('The patient could not be deleted.', 'Deletion Error');
 						}

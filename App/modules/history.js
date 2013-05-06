@@ -41,6 +41,16 @@ define(function(require) {
 		});
 	}
 	
+	// Get Social History
+	history.prototype.getSocialHistory = function(patientId, practiceId) {
+		return this.query({
+			mode: 'select', 
+			table: 'social_history', 
+			fields: '*', 
+			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
+		});
+	}
+	
 	// Get Service Records for a Single Patient
 	history.prototype.getServiceRecord = function(patientId, practiceId, date) {
 		return this.query({
