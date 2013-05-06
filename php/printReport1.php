@@ -1,8 +1,8 @@
 <?php
 /**************************************************************************************************
- * File: Print Order
- * Author: Sean Malone
- * Description: This script creates a pdf containing information for the Flow Sheet
+ * File: Print Report 1
+ * Author: Gary Chang
+ * Description: This script creates a pdf containing information for the service record report.
  *************************************************************************************************/
  
 header("charset=utf-8");
