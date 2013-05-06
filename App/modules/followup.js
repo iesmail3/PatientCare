@@ -51,13 +51,14 @@
 	}
 	
 	//Get service record 
-	followup.prototype.getSuperBill = function() {
+	followup.prototype.getSuperBill = function(patientId) {
 	var fields = ['service_record.date','service_record.physical_examination_comment','superbill.is_complete']; 
 		return this.query({
 			mode: 'select',
 			table: 'service_record',
-			join: "JOIN superbill ON service_record.id=superbill.service_record_id",
+			join: "JOIN superbill ON service_record.id=superbill.service_record_id AND service_record.practice_id = superbill.practice_id AND service_record.patient_id='"+patientId +"'",
 			fields: fields
+			//where: "WHERE service_record.practice_id = superbill.practice_id AND service_record.patient_id='"+patientId +"'"
 		});
 	}
 	

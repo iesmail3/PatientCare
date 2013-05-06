@@ -267,7 +267,7 @@ define(function(require) {
 				} 
 			}); 
 			//Get Superbill list for a single patient 
-			backend.getSuperBill().success(function(data) { 
+			backend.getSuperBill(self.patientId()).success(function(data) { 
 				if(data.length > 0) { 
 					 var p = $.map(data, function(item) {
 					 item.date = form.uiDate(item.date)
