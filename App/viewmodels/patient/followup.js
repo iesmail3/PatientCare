@@ -233,9 +233,9 @@ define(function(require) {
 				}				
 			});
             // Get Checkout list for a patient 
-            backend.getCheckOut(self.patientId(),self.practiceId()).success(function(data) { 
-				checkoutId(data[0].id);  				
+            backend.getCheckOut(self.patientId(),self.practiceId()).success(function(data) {  				
 				if(data.length > 0) {
+					checkoutId(data[0].id); 
 				    var ch = $.map(data, function(item) {return new structures.Checkout(item) });
 					self.checkouts(ch); 
 					self.checkout(ch[0]);  					
@@ -288,7 +288,7 @@ define(function(require) {
 				} 
 			});
 			//Get prescription list for a single patient 
-			backend.getPrescription().success(function(data) { 
+			backend.getPrescription(self.patientId(),self.practiceId()).success(function(data) { 
 				if(data.length > 0) {
 					 var p = $.map(data, function(item) {
 					  item.date = form.uiDate(item.date)

@@ -150,24 +150,24 @@
 					<!-- ko with: primaryInsurance -->
 					<form class="form-inline formPadding">
 							<div class="marginBottom5">
-							<input type="text" data-bind="value: companyName" 
+							<input type="text" data-bind="value: companyName,enable: $root.insuredPerson() != '2'" 
 								class="input-large" placeholder="Insurance Company" />
-							<input type="text" data-bind="value: effectiveDate, datepicker: true"
+							<input type="text" data-bind="value: effectiveDate, datepicker: true,enable: $root.insuredPerson() != '2'"
 								class="input-small"  placeholder="Effective Date" />
 							</div>
 							<div class="marginBottom5">
-								<input type="text" data-bind="value: policyNumber"
+								<input type="text" data-bind="value: policyNumber,enable: $root.insuredPerson() != '2'"
 									class="input-medium" placeholder="ID Number" />
-								<input type="text" data-bind="value: groupNumber"
+								<input type="text" data-bind="value: groupNumber,enable: $root.insuredPerson() != '2'"
 									class="input-small" placeholder="Group Number" />
 								<span class="radio inline">Subject to Pre-Existing Clause?</span>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: existingClause"
+									<input type="radio" data-bind="checked: existingClause,enable: $root.insuredPerson() != '2'"
 										 name="clauseOption" value="1" />
 									<span>Yes</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: existingClause"
+									<input type="radio" data-bind="checked: existingClause,enable: $root.insuredPerson() != '2'"
 										 name="clauseOption" value="0" />
 									<span>No</span>
 								</label>
@@ -175,40 +175,40 @@
 							<div class="marginBottom5">
 								<span class="radio inline">Plan?</span>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: plan"
+									<input type="radio" data-bind="checked: plan,enable: $root.insuredPerson() != '2'"
 										name="plant" value="hmo" />
 									<span>HMO</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: plan"
+									<input type="radio" data-bind="checked: plan,enable: $root.insuredPerson() != '2'"
 										name="plant" value="epo" />
 									<span>EPO</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: plan"
+									<input type="radio" data-bind="checked: plan,enable: $root.insuredPerson() != '2'"
 										name="plant" value="pos" />
 									<span>POS</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: plan" 
+									<input type="radio" data-bind="checked: plan,enable: $root.insuredPerson() != '2'" 
 										name="plant" value="ppo" />
 									<span>PPO</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: plan"
+									<input type="radio" data-bind="checked: plan,enable: $root.insuredPerson() != '2'"
 										name="plant" value="other" /><span>Other</span>
 								</label>
-								<input type="text" data-bind="value: planOther"
+								<input type="text" data-bind="value: planOther,enable: $root.insuredPerson() != '2' && plan()=='other'"
 									class="input-small" placeholder="Plan Type" />
 								<span class="radio inline">Referral Required?</span>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: referralRequired"
+									<input type="radio" data-bind="checked: referralRequired,enable: $root.insuredPerson() != '2'"
 										name="referalAuthorization" value="1" />
 									<span>Yes</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: referralRequired"
-										name="referalAuthorization" value="0" />
+									<input type="radio" data-bind="checked: referralRequired,
+									enable: $root.insuredPerson() != '2'"name="referalAuthorization" value="0" />
 									<span>No</span>
 								</label>
 							</div>
@@ -218,100 +218,100 @@
 									<div class="marginBottom5">
 										<div class="input-prepend">
 											<span class="add-on">$</span>
-											<input type="text" data-bind="value: deductible" 
+											<input type="text" data-bind="value: deductible,enable: $root.insuredPerson() != '2'" 
 												class="input-small" placeholder="Deductible" />
 										</div>
 										<span class="radio inline">Met Deductibles</span>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: metDeductible" 
+											<input type="radio" data-bind="checked: metDeductible,enable: $root.insuredPerson() != '2'" 
 												name="metDeductible" value="1" />
 											<span>Yes</span>
 										</label>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: metDeductible" 
+											<input type="radio" data-bind="checked: metDeductible,enable: $root.insuredPerson() != '2'" 
 												name="metDeductible" value="0" />
 											<span>No</span>
 										</label>
 										<div class="input-prepend">
 											<span class="add-on">$</span>
 											<input type="text" class="input-small" placeholder="Remaining"
-												data-bind="value: remainingDeductible, enable: metDeductible() == '0'" />
+												data-bind="value: remainingDeductible, enable: metDeductible() == '0' && $root.insuredPerson() != '2'" />
 										</div>
 									</div>
 									<div class="marginBottom5">
 										<div class="input-prepend">
 											<span class="add-on">$</span>
-											<input type="text" data-bind="value: outOfPocket"
+											<input type="text" data-bind="value: outOfPocket,enable: $root.insuredPerson() != '2'"
 												class="input-small" placeholder="Out of pocket" />
 										</div>
 										<span class="radio inline">Met Out of pocket</span>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: metOutOfPocket" 
+											<input type="radio" data-bind="checked: metOutOfPocket,enable: $root.insuredPerson() != '2'" 
 												name="metPocket" value="1" />
 											<span>Yes</span>
 										</label>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: metOutOfPocket" 
+											<input type="radio" data-bind="checked: metOutOfPocket,enable: $root.insuredPerson() != '2'" 
 												name="metPocket" value="0" />
 											<span>No</span>
 										</label>
 										<div class="input-prepend">
 											<span class="add-on">$</span>
 											<input type="text" class="input-small" placeholder="Remaining"
-												data-bind="value: remainingOutOfPocket, enable: metOutOfPocket() == '0'" />
+												data-bind="value: remainingOutOfPocket, enable: metOutOfPocket() == '0' &&  $root.insuredPerson() != '2'" />
 										</div>
 									</div>
 									<div class="marginBottom5">
 										<strong>OV/LAB</strong>    
 										<div class="input-prepend">
 											<span class="add-on">$</span>
-											<input type="text" data-bind="value: copayment" 
+											<input type="text" data-bind="value: copayment,enable: $root.insuredPerson() != '2'" 
 												class="input-small" placeholder="Co-Payment" />
 										</div>
 										<div class="input-append">
-											<input type="text" data-bind="value: patientPortion"
+											<input type="text" data-bind="value: patientPortion,enable: $root.insuredPerson() != '2'"
 												class="input-small" placeholder="Patient Portion" />
 											<span class="add-on">%</span>
 										</div>
 										<div class="input-append">
-											<input type="text" data-bind="value: insurancePortion" 
+											<input type="text" data-bind="value: insurancePortion,enable: $root.insuredPerson() != '2'" 
 												class="input-small" placeholder="Ins.Portion" />
 											<span class="add-on">%</span>
 										</div>
 									</div>
 								</fieldset>
 							</div>
-							<div class="row-fluid"><!-- Can add row-fluid class here -->
+							<div class="row-fluid">
 								<fieldset>
 									<legend>Verification</legend>
 									<div class="marginBottom5">
-										<input type="text" data-bind="value: contactName" 
+										<input type="text" data-bind="value: contactName,enable: $root.insuredPerson() != '2'" 
 											class="input-medium" placeholder="Insurance Contact" />
-										<input type="text" data-bind="value: contactPhone" 
+										<input type="text" data-bind="value: contactPhone,enable: $root.insuredPerson() != '2'" 
 											class="input-medium" placeholder="Phone Number" />
-										<input type="text" data-bind="value: contactPhoneExt" 
+										<input type="text" data-bind="value: contactPhoneExt,enable: $root.insuredPerson() != '2'" 
 											class="input-mini" placeholder="Ext" />
 									</div>
 									<div class="marginBottom5">
 										<span class="radio inline">Verified ?</span>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: verification"
+											<input type="radio" data-bind="checked: verification,enable: $root.insuredPerson() != '2'"
 												 name="plan" value="1" />
 											<span>Yes</span>
 										</label>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: verification" 
+											<input type="radio" data-bind="checked: verification,enable: $root.insuredPerson() != '2'" 
 												 name="plan" value="0" />
 											<span>No</span>
 										</label>   
 										<input type="text" class="input-medium" data-bind="value: verificationDate,
-										datepicker: true,enable:verification()=='1'" placeholder="Verification Date" />
+										datepicker: true,enable:verification()=='1' && $root.insuredPerson() != '2'" placeholder="Verification Date" />
 										<div class="input-append bootstrap-timepicker">
 											<input class="timepicker input-small" 
-												data-bind="value: verificationTime, timepicker: true,enable:verification()=='1'" type="text" />
+												data-bind="value: verificationTime, timepicker: true,enable:verification()=='1' && $root.insuredPerson() != '2'" type="text" />
 											<span class="add-on"><i class="icon-time"></i></span>
 										</div>
-										<input type="text" data-bind="value: confirmationNumber" 
+										<input type="text" data-bind="value: confirmationNumber,enable: $root.insuredPerson() != '2'" 
 											class="input-small" placeholder="Confirmation #" />
 									</div>
 								</fieldset>
@@ -323,24 +323,24 @@
 					<!-- ko with: secondaryInsurance -->
 					<form class="form-inline formPadding">       
 							<div class="marginBottom5">
-							<input type="text" data-bind="value: companyName" 
+							<input type="text" data-bind="value: companyName,enable: $root.insuredPerson() != '2'" 
 								class="input-large" placeholder="Insurance Company" />
-							<input type="text" data-bind="value: effectiveDate,datepicker: true"  
+							<input type="text" data-bind="value: effectiveDate,datepicker: true,enable: $root.insuredPerson() != '2'"  
 								class="input-small" placeholder="Effective Date" />
 							</div>
 							<div class="marginBottom5">   
-								<input type="text" data-bind="value: policyNumber"
+								<input type="text" data-bind="value: policyNumber,enable: $root.insuredPerson() != '2'"
 									class="input-medium" placeholder="ID Number" />
-								<input type="text" data-bind="value: groupNumber"
+								<input type="text" data-bind="value: groupNumber,enable: $root.insuredPerson() != '2'"
 									class="input-small" placeholder="Group Number" />
 								<span class="radio inline">Subject to Pre-Existing Clause?</span>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: existingClause"
+									<input type="radio" data-bind="checked: existingClause,enable: $root.insuredPerson() != '2'"
 										 name="clauseOption" value="1" />
 									<span>Yes</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: existingClause"
+									<input type="radio" data-bind="checked: existingClause,enable: $root.insuredPerson() != '2'"
 										 name="clauseOption" value="0" />
 									<span>No</span>
 								</label>
@@ -348,38 +348,38 @@
 							<div class="marginBottom5">
 								<span class="radio inline">Plan?</span>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: plan"
+									<input type="radio" data-bind="checked: plan,enable: $root.insuredPerson() != '2'"
 										 name="plan" value="hmo" />
 									<span>HMO</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: plan"
+									<input type="radio" data-bind="checked: plan,enable: $root.insuredPerson() != '2'"
 										 name="plan" value="epo" />
 									<span>EPO</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: plan"
+									<input type="radio" data-bind="checked: plan,enable: $root.insuredPerson() != '2'"
 										 name="plan" value="pos" />
 									<span>POS</span>
 								</label>        
 								<label class="radio inline">    
-									<input type="radio" data-bind="checked: plan" 
+									<input type="radio" data-bind="checked: plan,enable: $root.insuredPerson() != '2'" 
 										 name="plan" value="ppo" />
 									<span>PPO</span>   
 								</label>    
 								<label class="radio inline">
-									<input type="radio"  name="plan" value="Other" /><span>Other</span>
+									<input type="radio"  name="plan" value="other" data-bind=" checked:plan,enable: $root.insuredPerson() != '2'" /><span>Other</span>
 								</label>
 								<input type="text" 
-									class="input-small" placeholder="Self" />
+									class="input-small" placeholder="Pan Type" data-bind="enable: $root.insuredPerson() != '2' && plan()=='other'"/>
 								<span class="radio inline">Referral Required?</span>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: referralRequired"
+									<input type="radio" data-bind="checked: referralRequired,enable: $root.insuredPerson() != '2'"
 										name="referalAuthorization" value="1" />
 									<span>Yes</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: referralRequired"
+									<input type="radio" data-bind="checked: referralRequired,enable: $root.insuredPerson() != '2'"
 										name="referalAuthorization" value="0" />
 									<span>No</span>
 								</label>
@@ -390,100 +390,100 @@
 									<div class="marginBottom5">
 										<div class="input-prepend">
 											<span class="add-on">$</span>
-											<input type="text" data-bind="value: deductible" 
+											<input type="text" data-bind="value: deductible,enable: $root.insuredPerson() != '2'" 
 												class="input-small" placeholder="Deductible" />
 										</div>
 										<span class="radio inline">Met Deductibles</span>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: metDeductible" 
+											<input type="radio" data-bind="checked: metDeductible,enable: $root.insuredPerson() != '2'" 
 												name="metDeductible" value="1" />
 											<span>Yes</span>
 										</label>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: metDeductible" 
+											<input type="radio" data-bind="checked: metDeductible,enable: $root.insuredPerson() != '2'" 
 												name="metDeductible" value="0" />
 											<span>No</span>
 										</label>
 										<div class="input-prepend">
 											<span class="add-on">$</span>
 											<input type="text" class="input-small" placeholder="Remaining"
-												data-bind="value: remainingDeductible, enable: metDeductible() == '0'" />
+												data-bind="value: remainingDeductible, enable: metDeductible() == '0' && $root.insuredPerson() != '2'" />
 										</div>
 									</div>
 									<div class="marginBottom5">
 										<div class="input-prepend">
 											<span class="add-on">$</span>
-											<input type="text" data-bind="value: outOfPocket"
+											<input type="text" data-bind="value: outOfPocket,enable: $root.insuredPerson() != '2'"
 												class="input-small" placeholder="Out of pocket" />
 										</div>
 										<span class="radio inline">Met Out of pocket</span>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: metOutOfPocket" 
+											<input type="radio" data-bind="checked: metOutOfPocket,enable: $root.insuredPerson() != '2'" 
 												name="metPocket" value="1" />
 											<span>Yes</span>
 										</label>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: metOutOfPocket" 
+											<input type="radio" data-bind="checked: metOutOfPocket,enable: $root.insuredPerson() != '2'" 
 												name="metPocket" value="0" />
 											<span>No</span>
 										</label>
 										<div class="input-prepend">
 											<span class="add-on">$</span>
 											<input type="text" class="input-small" placeholder="Remaining"
-												data-bind="value: remainingOutOfPocket, enable: metOutOfPocket() == '0'" />
+												data-bind="value: remainingOutOfPocket, enable: metOutOfPocket() == '0' && $root.insuredPerson() != '2'" />
 										</div>
 									</div>
 									<div class="marginBottom5">
 										<strong>OV/LAB</strong>
 										<div class="input-prepend">
 											<span class="add-on">$</span>
-											<input type="text" data-bind="value: copayment" 
+											<input type="text" data-bind="value: copayment,enable: $root.insuredPerson() != '2'" 
 												class="input-small" placeholder="Co-Payment" />
 										</div>
 										<div class="input-append">
-											<input type="text" data-bind="value: patientPortion"
+											<input type="text" data-bind="value: patientPortion,enable: $root.insuredPerson() != '2'"
 												class="input-small" placeholder="Patient Portion" />
 											<span class="add-on">%</span>
 										</div>
 										<div class="input-append">
-											<input type="text" data-bind="value: insurancePortion" 
+											<input type="text" data-bind="value: insurancePortion,enable: $root.insuredPerson() != '2'" 
 												class="input-small" placeholder="Ins.Portion" />
 											<span class="add-on">%</span>
 										</div>
 									</div>
 								</fieldset>
 							</div>
-							<div class="row-fluid"><!-- Can add row-fluid class here -->
+							<div class="row-fluid">
 								<fieldset>
 									<legend>Verification</legend>
 									<div class="marginBottom5">
-										<input type="text" data-bind="value: contactName" 
+										<input type="text" data-bind="value: contactName,enable: $root.insuredPerson() != '2'" 
 											class="input-medium" placeholder="Insurance Contact" />
-										<input type="text" data-bind="value: contactPhone" 
+										<input type="text" data-bind="value: contactPhone,enable: $root.insuredPerson() != '2'" 
 											class="input-medium" placeholder="Phone Number" />
-										<input type="text" data-bind="value: contactPhoneExt" 
+										<input type="text" data-bind="value: contactPhoneExt,enable: $root.insuredPerson() != '2'" 
 											class="input-mini" placeholder="Ext" />
 									</div>
 									<div class="marginBottom5">
 										<span class="radio inline">Verified ?</span>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: verification"
+											<input type="radio" data-bind="checked: verification,enable: $root.insuredPerson() != '2'"
 												 name="plan" value="1" />
 											<span>Yes</span>
 										</label>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: verification" 
+											<input type="radio" data-bind="checked: verification,enable: $root.insuredPerson() != '2'" 
 												 name="plan" value="0" />
 											<span>No</span>
 										</label>
 										<input type="text" class="input-medium" data-bind="value: verificationDate, 
-											datepicker: true" placeholder="Verification Date" />
+											datepicker: true,enable:verification()=='1' && $root.insuredPerson() != '2'" placeholder="Verification Date" />
 										<div class="input-append bootstrap-timepicker">
 											<input class="timepicker input-small" 
-												data-bind="value: verificationTime, timepicker: true" type="text" />
+												data-bind="value: verificationTime, timepicker: true,enable:verification()=='1' && $root.insuredPerson() != '2'" type="text" />
 											<span class="add-on"><i class="icon-time"></i></span>
 										</div>
-										<input type="text" data-bind="value: confirmationNumber" 
+										<input type="text" data-bind="value: confirmationNumber,enable: $root.insuredPerson() != '2'" 
 											class="input-small" placeholder="Confirmation #" />
 									</div>
 								</fieldset>
@@ -495,24 +495,24 @@
 					<!-- ko with: otherInsurance -->
 					<form class="form-inline formPadding">       
 							<div class="marginBottom5">
-							<input type="text" data-bind="value: companyName" 
+							<input type="text" data-bind="value: companyName,enable: $root.insuredPerson() != '2'" 
 								class="input-large" placeholder="Insurance Company" />
-							<input type="text" data-bind="value: effectiveDate,datepicker: true"
+							<input type="text" data-bind="value: effectiveDate,datepicker: true,enable: $root.insuredPerson() != '2'"
 								class="input-small" placeholder="Effective Date" />
 							</div>
 							<div class="marginBottom5">   
-								<input type="text" data-bind="value: policyNumber"
+								<input type="text" data-bind="value: policyNumber,enable: $root.insuredPerson() != '2'"
 									class="input-medium" placeholder="ID Number" />
-								<input type="text" data-bind="value: groupNumber"
+								<input type="text" data-bind="value: groupNumber,enable: $root.insuredPerson() != '2'"
 									class="input-small" placeholder="Group Number" />
 								<span class="radio inline">Subject to Pre-Existing Clause?</span>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: existingClause"
+									<input type="radio" data-bind="checked: existingClause,enable: $root.insuredPerson() != '2'"
 										 name="clauseOption" value="1" />
 									<span>Yes</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: existingClause"
+									<input type="radio" data-bind="checked: existingClause,enable: $root.insuredPerson() != '2'"
 										 name="clauseOption" value="0" />
 									<span>No</span>
 								</label>
@@ -520,38 +520,38 @@
 							<div class="marginBottom5">
 								<span class="radio inline">Plan?</span>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: plan"
+									<input type="radio" data-bind="checked: plan,enable: $root.insuredPerson() != '2'"
 										 name="plan" value="hmo" />
 									<span>HMO</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: plan"
+									<input type="radio" data-bind="checked: plan,enable: $root.insuredPerson() != '2'"
 										 name="plan" value="epo" />
 									<span>EPO</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: plan"
+									<input type="radio" data-bind="checked: plan,enable: $root.insuredPerson() != '2'"
 										 name="plan" value="pos" />
 									<span>POS</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: plan" 
+									<input type="radio" data-bind="checked: plan,enable: $root.insuredPerson() != '2'" 
 										 name="plan" value="ppo" />
 									<span>PPO</span>
 								</label>
 								<label class="radio inline">
-									<input type="radio"  name="plan" value="Other" /><span>Other</span>
+									<input type="radio"  name="plan" value="other" data-bind="checked:plan,enable: $root.insuredPerson() != '2'" /><span>Other</span>
 								</label>
-								<input type="text" data-bind="value: planOther"
+								<input type="text" data-bind="value: planOther,enable: $root.insuredPerson() != '2' && plan()=='other'"
 									class="input-small" placeholder="Plan Type" />
 								<span class="radio inline">Referral Required?</span>
 								<label class="radio inline">
-									<input type="radio" data-bind="checked: referralRequired"
+									<input type="radio" data-bind="checked: referralRequired,enable: $root.insuredPerson() != '2'"
 										name="referalAuthorization" value="1" />
 									<span>Yes</span>
 								</label>     
 								<label class="radio inline">  
-									<input type="radio" data-bind="checked: referralRequired"
+									<input type="radio" data-bind="checked: referralRequired,enable: $root.insuredPerson() != '2'"
 										name="referalAuthorization" value="0" />
 									<span>No</span>
 								</label>    
@@ -562,63 +562,63 @@
 									<div class="marginBottom5">
 										<div class="input-prepend">
 											<span class="add-on">$</span>
-											<input type="text" data-bind="value: deductible" 
+											<input type="text" data-bind="value: deductible,enable: $root.insuredPerson() != '2'" 
 												class="input-small" placeholder="Deductible" />
 										</div>
 										<span class="radio inline">Met Deductibles</span>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: metDeductible" 
+											<input type="radio" data-bind="checked: metDeductible,enable: $root.insuredPerson() != '2'" 
 												name="metDeductible" value="1" />
 											<span>Yes</span>
 										</label>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: metDeductible" 
+											<input type="radio" data-bind="checked: metDeductible,enable: $root.insuredPerson() != '2'" 
 												name="metDeductible" value="0" />
 											<span>No</span>
 										</label>
 										<div class="input-prepend">
 											<span class="add-on">$</span>
 											<input type="text" class="input-small" placeholder="Remaining"
-												data-bind="value: remainingDeductible, enable: metDeductible() == '0'" />
+												data-bind="value: remainingDeductible, enable: metDeductible() == '0' && $root.insuredPerson() != '2'" />
 										</div>
 									</div>
 									<div class="marginBottom5">
 										<div class="input-prepend">
 											<span class="add-on">$</span>
-											<input type="text" data-bind="value: outOfPocket"
+											<input type="text" data-bind="value: outOfPocket, enable: $root.insuredPerson() != '2'"
 												class="input-small" placeholder="Out of pocket" />
 										</div>
 										<span class="radio inline">Met Out of pocket</span>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: metOutOfPocket" 
+											<input type="radio" data-bind="checked: metOutOfPocket,enable: $root.insuredPerson() != '2'" 
 												name="metPocket" value="1" />
 											<span>Yes</span>
 										</label>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: metOutOfPocket" 
+											<input type="radio" data-bind="checked: metOutOfPocket,enable: $root.insuredPerson() != '2'" 
 												name="metPocket" value="0" />
 											<span>No</span>
 										</label>
 										<div class="input-prepend">
 											<span class="add-on">$</span>
 											<input type="text" class="input-small" placeholder="Remaining"
-												data-bind="value: remainingOutOfPocket, enable: metOutOfPocket() == '0'" />
+												data-bind="value: remainingOutOfPocket, enable: metOutOfPocket() == '0' && $root.insuredPerson() != '2'" />
 										</div>
 									</div>
 									<div class="marginBottom5">
 										<strong>OV/LAB</strong>
 										<div class="input-prepend">
 											<span class="add-on">$</span>
-											<input type="text" data-bind="value: copayment" 
+											<input type="text" data-bind="value: copayment,enable: $root.insuredPerson() != '2'" 
 												class="input-small" placeholder="Co-Payment" />
 										</div>
 										<div class="input-append">
-											<input type="text" data-bind="value: patientPortion"
+											<input type="text" data-bind="value: patientPortion,enable: $root.insuredPerson() != '2'"
 												class="input-small" placeholder="Patient Portion" />
 											<span class="add-on">%</span>
 										</div>
 										<div class="input-append">
-											<input type="text" data-bind="value: insurancePortion" 
+											<input type="text" data-bind="value: insurancePortion,enable: $root.insuredPerson() != '2'" 
 												class="input-small" placeholder="Ins.Portion" />
 											<span class="add-on">%</span>
 										</div>
@@ -629,33 +629,33 @@
 								<fieldset>
 									<legend>Verification</legend>
 									<div class="marginBottom5">
-										<input type="text" data-bind="value: contactName" 
+										<input type="text" data-bind="value: contactName,enable: $root.insuredPerson() != '2'" 
 											class="input-medium" placeholder="Insurance Contact" />
-										<input type="text" data-bind="value: contactPhone" 
+										<input type="text" data-bind="value: contactPhone,enable: $root.insuredPerson() != '2'" 
 											class="input-medium" placeholder="Phone Number" />
-										<input type="text" data-bind="value: contactPhoneExt" 
+										<input type="text" data-bind="value: contactPhoneExt,enable: $root.insuredPerson() != '2'" 
 											class="input-mini" placeholder="Ext" />
 									</div>
 									<div class="marginBottom5">
 										<span class="radio inline">Verified ?</span>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: verification"
+											<input type="radio" data-bind="checked: verification,enable: $root.insuredPerson() != '2'"
 												 name="plan" value="1" />
 											<span>Yes</span>
 										</label>
 										<label class="radio inline">
-											<input type="radio" data-bind="checked: verification" 
+											<input type="radio" data-bind="checked: verification,enable: $root.insuredPerson() != '2'" 
 												 name="plan" value="0" />
 											<span>No</span>
 										</label>
 										<input type="text" class="input-medium" data-bind="value: verificationDate,
-										datepicker: true" placeholder="Verification Date" />
-										<div class="input-append bootstrap-timepicker">
+										datepicker: true,enable:verification()=='1' && $root.insuredPerson() != '2'" placeholder="Verification Date" />
+										<div class="input-append bootstrap-timepicker" data-bind="enable: $root.insuredPerson() != '2'" >
 											<input class="timepicker input-small" 
-												data-bind="value: verificationTime, timepicker: true" type="text" />
-											<span class="add-on"><i class="icon-time"></i></span>
+												data-bind="value: verificationTime, timepicker: true,enable:verification()=='1' && $root.insuredPerson() != '2'" type="text" />
+											<span class="add-on" data-bind="enable: $root.insuredPerson() != '2'"><i class="icon-time" data-bind="enable: $root.insuredPerson()!= '2'"></i></span>
 										</div>
-										<input type="text" data-bind="value: confirmationNumber" 
+										<input type="text" data-bind="value: confirmationNumber,enable: $root.insuredPerson() != '2'" 
 											class="input-small" placeholder="Confirmation #" />
 									</div>
 								</fieldset>

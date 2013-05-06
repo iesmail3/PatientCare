@@ -148,11 +148,12 @@
 		}
 	}
 	//Get prescriptions 
-	followup.prototype.getPrescription = function() {
+	followup.prototype.getPrescription = function(patientId,practiceId) {
 		return this.query({
 			mode: 'select',
 			table: 'prescription',
-			fields: '*'
+			fields: '*',
+			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	// Get All Insurances for a Single Patient

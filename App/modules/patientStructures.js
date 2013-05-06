@@ -1120,6 +1120,8 @@ define(function(require) {
 			this.mode			   = ko.observable(data.mode);
 			this.comment		   = ko.observable(data.comment);
 			this.medicationOrderId = ko.observable(data.medication_order_id); 
+			this.patientId         = ko.observable(data.patient_id); 
+			this.practiceId        = ko.observable(data.practice_id); 
 		}
 		else {
 			this.medicine		   = ko.observable();
@@ -1137,6 +1139,8 @@ define(function(require) {
 			this.mode			   = ko.observable();
 			this.comment		   = ko.observable();
 			this.medicationOrderId = ko.observable(); 
+			this.patientId         = ko.observable(); 
+			this.practiceId        = ko.observable(); 
 		}
 	}
 	
