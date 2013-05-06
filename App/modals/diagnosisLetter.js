@@ -43,7 +43,7 @@ define(function(require) {
 											+ item.date_of_birth + '\n'; 
 										}); 
 									
-										backend.getServiceRecord(self.date).success(function(data) { 
+										backend.getServiceRecord(self.date,self.patientId,self.practiceId).success(function(data) { 
 											if(data.length > 0) { 
 												var d = $.map(data, function(item) { 
 													letter+= 'Dear Dr.  \n\n I saw the above patient in the office on ' + self.date + 

@@ -94,12 +94,12 @@ define(function(require) {
 	}
 	
 	//Get Service Record comment
-	diagnosis.prototype.getServiceRecord = function(date) { 
+	diagnosis.prototype.getServiceRecord = function(date,patientId,practiceId) { 
 		return this.query({
 			mode: 'select',
 			table: 'service_record',
 			fields: '*',
-			where: "WHERE date='" + date + "'"
+			where: "WHERE date='" + date + "' AND patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
 		});
 	}	
 	

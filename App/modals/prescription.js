@@ -38,7 +38,7 @@ define(function(require) {
 	     if(dialogResult == 'Save') {
 			$.each(self.groupOrders(), function(k, v) {
 					 if($.inArray(v, self.oldGroup) == -1) {
-						// // Filter the categories to find the correct one
+						//Filter the categories to find the correct one
 						 var cat = _.filter(self.medicationOrders(), function(x) {
 							 return x.id() == v;
 						});
@@ -49,7 +49,6 @@ define(function(require) {
 			 //Populate the prescription observable array
 			 backend.getPrescription().success(function(data) { 
 						if(data.length > 0) {
-						system.log('data.length is' + data.length);
 							 var p = $.map(data, function(item) {
 							  item.date = form.uiDate(item.date)
 							 return new structures.Prescription(item) });

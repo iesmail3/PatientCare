@@ -58,7 +58,6 @@
 			table: 'service_record',
 			join: "JOIN superbill ON service_record.id=superbill.service_record_id AND service_record.practice_id = superbill.practice_id AND service_record.patient_id='"+patientId +"'",
 			fields: fields
-			//where: "WHERE service_record.practice_id = superbill.practice_id AND service_record.patient_id='"+patientId +"'"
 		});
 	}
 	
@@ -357,12 +356,12 @@
 		});
 	}
     // Save a prescription for a single patient 
-	followup.prototype.savePrescription = function(data,date,comment,mode) {
+	followup.prototype.savePrescription = function(data,date,comment,mode) { 
 		var self = this; 
 		var fields = ['medicine','strength','quantity','route','sigs',
 		'order','dispensed_quantity','refill'
 		,'refill_quantity','physician','created_by','date','mode',
-		'comment','medication_order_id'];
+		'comment','medication_order_id,patient_id,practice_id'];
 		var values = $.map(data, function(k,v) {
 			if(k == null || k == undefined) {
 				return[''];
@@ -386,8 +385,11 @@
 		  values[11] = date;
 		  values[12] = mode ;
 		  values[13] = comment ;
-		  values[14] = data.id(); 
+		  values[14] = data.id();
+		  values[15] = data.patientId(); 
+		  values[16] = data.practiceId(); 
 		 }); 
+		 
 		return self.query({
 				mode:  'insert', 
 				table: 'prescription',
