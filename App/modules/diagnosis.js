@@ -104,12 +104,12 @@ define(function(require) {
 	}	
 	
 	//Get Referring Physician name 
-	diagnosis.prototype.getReferringPhysician = function(patientId) { 
+	diagnosis.prototype.getReferringPhysician = function(patientId,practiceId) { 
 		return this.query({
 			mode: 'select',
 			table: 'reference',
 			fields: '*',
-			where: "WHERE  patient_id='" + patientId + "' AND type = 'referringphysician'"
+			where: "WHERE  patient_id='" + patientId + "' AND practice_id ='" + practiceId +  "'AND type = 'referringphysician'"
 		});
 	}
 	

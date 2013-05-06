@@ -31,7 +31,7 @@ define(function(require) {
                      self.text(item.diagnosis_letter); 
 					if(self.text() == '') {
 						var letter = '';
-						backend.getReferringPhysician(self.patientId).success(function(data) { 
+						backend.getReferringPhysician(self.patientId,self.practiceId).success(function(data) { 
 							if(data.length > 0) { 
 								var d = $.map(data, function(item) {
 									letter += item.first_name +  ' ' + item.last_name + ',' + item.degree + '\n\n'; 
