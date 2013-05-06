@@ -211,7 +211,10 @@ $stmt = $db->query("SELECT *
 					WHERE patient_id='$patientId' AND practice_id='$practiceId'");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
-$socialHistory = $rows[0];
+if(count($rows) > 0)
+	$socialHistory = $rows[0];
+else
+	$socialHistory = null;
 
 $stmt = $db->query("SELECT *
 					FROM family_history
@@ -232,84 +235,120 @@ $stmt = $db->query("SELECT *
 					WHERE service_record_id='$serviceRecordId'");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
-$vitalSigns = $rows[0];
+if(count($rows) > 0)
+	$vitalSigns = $rows[0];
+else
+	$vitalSigns = null;
 
 $stmt = $db->query("SELECT *
 					FROM pe_abd
 					WHERE service_record_id='$serviceRecordId'");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
-$abd = $rows[0];
+if(count($rows) > 0)
+	$abd = $rows[0];
+else
+	$abd = null;
 
 $stmt = $db->query("SELECT *
 					FROM pe_cvs
 					WHERE service_record_id='$serviceRecordId'");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
-$cvs = $rows[0];
+if(count($rows) > 0)
+	$cvs = $rows[0];
+else
+	$cvs = null;
 
 $stmt = $db->query("SELECT *
 					FROM pe_cw
 					WHERE service_record_id='$serviceRecordId'");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
-$cw = $rows[0];
+if(count($rows) > 0)
+	$cw = $rows[0];
+else
+	$cw = null;
 
 $stmt = $db->query("SELECT *
 					FROM pe_ent
 					WHERE service_record_id='$serviceRecordId'");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
-$ent = $rows[0];
+if(count($rows) > 0)
+	$ent = $rows[0];
+else
+	$ent = null;
 
 $stmt = $db->query("SELECT *
 					FROM pe_ext
 					WHERE service_record_id='$serviceRecordId'");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
-$ext = $rows[0];
+if(count($rows) > 0)
+	$ext = $rows[0];
+else
+	$ext = null;
 
 $stmt = $db->query("SELECT *
 					FROM pe_eye
 					WHERE service_record_id='$serviceRecordId'");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
-$eye = $rows[0];
+if(count($rows) > 0)
+	$eye = $rows[0];
+else
+	$eye = null;
 
 $stmt = $db->query("SELECT *
 					FROM pe_gen
 					WHERE service_record_id='$serviceRecordId'");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
-$gen = $rows[0];
+if(count($rows) > 0)
+	$gen = $rows[0];
+else
+	$gen = null;
 
 $stmt = $db->query("SELECT *
 					FROM pe_heme
 					WHERE service_record_id='$serviceRecordId'");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
-$heme = $rows[0];
+if(count($rows) > 0)
+	$heme = $rows[0];
+else
+	$heme = null;
 
 $stmt = $db->query("SELECT *
 					FROM pe_lungs
 					WHERE service_record_id='$serviceRecordId'");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
-$lungs = $rows[0];
+if(count($rows) > 0)
+	$lungs = $rows[0];
+else
+	$lungs = null;
 
 $stmt = $db->query("SELECT *
 					FROM pe_neuro
 					WHERE service_record_id='$serviceRecordId'");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
-$neuro = $rows[0];
+if(count($rows) > 0)
+	$neuro = $rows[0];
+else
+	$neuro = null;
 
 $stmt = $db->query("SELECT *
 					FROM pe_skin
 					WHERE service_record_id='$serviceRecordId'");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
-$skin = $rows[0];
+if(count($rows) > 0)
+	$skin = $rows[0];
+else
+	$skin = null;
 
 $stmt = $db->query("SELECT *
 					FROM document
@@ -330,7 +369,10 @@ $stmt = $db->query("SELECT *
 					WHERE service_record_id='$serviceRecordId'");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
-$followup = $rows[0];
+if(count($rows) > 0)
+	$followup = $rows[0];
+else
+	$followup = null;
 
 /***************************************************************************************************
  * Setup PDF
@@ -342,7 +384,6 @@ $pdf->AddPage();
 /***************************************************************************************************
  * History
  **************************************************************************************************/
-// Heading
 $pdf->SetFont('Arial','B',10);
 $pdf->Cell(0, 5, 'History Of Present Illness:', 0, 1);
 $pdf->SetFont('Arial','',10);
@@ -458,44 +499,46 @@ foreach($allergies as $allergy) {
 /***************************************************************************************************
  * Social History
  **************************************************************************************************/
-$pdf->SetY($pdf->GetY() + 4);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 5, 'Social History:', 0, 1);
+ if($socialHistory != null) {
+	$pdf->SetY($pdf->GetY() + 4);
+	$pdf->SetFont('Arial', 'B', 10);
+	$pdf->Cell(0, 5, 'Social History:', 0, 1);
 
-$pdf->SetFont('Arial', '', 10);
-$pdf->Cell(16, 5, 'Smoking: ');
-$pdf->Cell(34, 5, $socialHistory['smoking']);
-$pdf->Cell(24, 5, 'Marital Status: ');
-$pdf->Cell(26, 5, $patient['marital_status']);
-$pdf->Cell(31, 5, 'Exposure to Blood: ');
-$bloodExposure = '';
-if($socialHistory['blood_exposure'])
-	$bloodExposure = 'Yes';
-else if(!$socialHistory['blood_exposure'])
-	$bloodExposure = 'No';
-$pdf->Cell(19, 5, $bloodExposure, 0, 1);
-$pdf->Cell(15, 5, 'Drinking: ');
-$pdf->Cell(35, 5, $socialHistory['alcohol']);
-$pdf->Cell(15, 5, 'Children: ');
-$pdf->Cell(35, 5, $patient['number_of_children']);
-$pdf->Cell(38, 5, 'Exposure to Chemicals: ');
-$chemicalExposure = '';
-if($socialHistory['chemical_exposure'])
-	$chemicalExposure = 'Yes';
-else if(!$socialHistory['chemical_exposure'])
-	$chemicalExposure = 'No';
-$pdf->Cell(12, 5, $chemicalExposure, 0, 1);
-$pdf->Cell(28, 5, 'Packs per Week: ');
-$pdf->Cell(72, 5, $socialHistory['smoking_weekly']);
-$pdf->Cell(18, 5, 'HO/IV DA: ');
-$drugAbuse = '';
-if($socialHistory['drug_abuse'])
-	$drugAbuse = 'Yes';
-else if(!$socialHistory['drug_abuse'])
-	$drugAbuse = 'No';
-$pdf->Cell(32, 5, $drugAbuse, 0, 1);
-$pdf->Cell(0, 5, 'Drinks per Week: ' . $socialHistory['alcohol_weekly'], 0, 1);
-$pdf->Cell(0, 5, 'Comments: ' . $socialHistory['comment'], 0, 1);
+	$pdf->SetFont('Arial', '', 10);
+	$pdf->Cell(16, 5, 'Smoking: ');
+	$pdf->Cell(34, 5, $socialHistory['smoking']);
+	$pdf->Cell(24, 5, 'Marital Status: ');
+	$pdf->Cell(26, 5, $patient['marital_status']);
+	$pdf->Cell(31, 5, 'Exposure to Blood: ');
+	$bloodExposure = '';
+	if($socialHistory['blood_exposure'])
+		$bloodExposure = 'Yes';
+	else if(!$socialHistory['blood_exposure'])
+		$bloodExposure = 'No';
+	$pdf->Cell(19, 5, $bloodExposure, 0, 1);
+	$pdf->Cell(15, 5, 'Drinking: ');
+	$pdf->Cell(35, 5, $socialHistory['alcohol']);
+	$pdf->Cell(15, 5, 'Children: ');
+	$pdf->Cell(35, 5, $patient['number_of_children']);
+	$pdf->Cell(38, 5, 'Exposure to Chemicals: ');
+	$chemicalExposure = '';
+	if($socialHistory['chemical_exposure'])
+		$chemicalExposure = 'Yes';
+	else if(!$socialHistory['chemical_exposure'])
+		$chemicalExposure = 'No';
+	$pdf->Cell(12, 5, $chemicalExposure, 0, 1);
+	$pdf->Cell(28, 5, 'Packs per Week: ');
+	$pdf->Cell(72, 5, $socialHistory['smoking_weekly']);
+	$pdf->Cell(18, 5, 'HO/IV DA: ');
+	$drugAbuse = '';
+	if($socialHistory['drug_abuse'])
+		$drugAbuse = 'Yes';
+	else if(!$socialHistory['drug_abuse'])
+		$drugAbuse = 'No';
+	$pdf->Cell(32, 5, $drugAbuse, 0, 1);
+	$pdf->Cell(0, 5, 'Drinks per Week: ' . $socialHistory['alcohol_weekly'], 0, 1);
+	$pdf->Cell(0, 5, 'Comments: ' . $socialHistory['comment'], 0, 1);
+}
 
 /***************************************************************************************************
  * Family History
@@ -555,120 +598,147 @@ foreach($routineExam as $routine) {
 /***************************************************************************************************
  * Vital Signs
  **************************************************************************************************/
-$pdf->SetY($pdf->GetY() + 4);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 5, 'Vital Signs:', 0, 1);
+if($vitalSigns != null) {
+	$pdf->SetY($pdf->GetY() + 4);
+	$pdf->SetFont('Arial', 'B', 10);
+	$pdf->Cell(0, 5, 'Vital Signs:', 0, 1);
 
-$heightType = '';
-if($vitalSigns['height_type'] == 1)
-	$heightType = 'in';
-else
-	$heightType = 'cm';
-$weightType = '';
-if($vitalSigns['weight_type'] == 1)
-	$weightType = 'lb';
-else
-	$weightType = 'kg';
-$pdf->SetFont('Arial', 'BU', 10);
-$pdf->Cell(30, 5, 'Height');
-$pdf->Cell(30, 5, 'Weight');
-$pdf->Cell(30, 5, 'Temp');
-$pdf->Cell(30, 5, 'BP Sitting');
-$pdf->Cell(30, 5, 'Pulse Sitting');
-$pdf->Cell(0, 5, 'BP Standing', 0, 1);
-$pdf->SetFont('Arial', '', 10);
-$pdf->Cell(30, 5, $vitalSigns['height'] . ' ' . $heightType);
-$pdf->Cell(30, 5, $vitalSigns['weight'] . ' ' . $weightType);
-$pdf->Cell(30, 5, $vitalSigns['temp'] . ' ' . $vitalSigns['temp_type']);
-$pdf->Cell(30, 5, $vitalSigns['sitting_blood_pressure']);
-$pdf->Cell(30, 5, $vitalSigns['sitting_pulse']);
-$pdf->Cell(0, 5, $vitalSigns['standing_blood_pressure'], 0, 1);
-$pdf->SetY($pdf->GetY() + 3);
+	$heightType = '';
+	if($vitalSigns['height_type'] == 1)
+		$heightType = 'in';
+	else
+		$heightType = 'cm';
+	$weightType = '';
+	if($vitalSigns['weight_type'] == 1)
+		$weightType = 'lb';
+	else
+		$weightType = 'kg';
+	$pdf->SetFont('Arial', 'BU', 10);
+	$pdf->Cell(30, 5, 'Height');
+	$pdf->Cell(30, 5, 'Weight');
+	$pdf->Cell(30, 5, 'Temp');
+	$pdf->Cell(30, 5, 'BP Sitting');
+	$pdf->Cell(30, 5, 'Pulse Sitting');
+	$pdf->Cell(0, 5, 'BP Standing', 0, 1);
+	$pdf->SetFont('Arial', '', 10);
+	$pdf->Cell(30, 5, $vitalSigns['height'] . ' ' . $heightType);
+	$pdf->Cell(30, 5, $vitalSigns['weight'] . ' ' . $weightType);
+	$pdf->Cell(30, 5, $vitalSigns['temp'] . ' ' . $vitalSigns['temp_type']);
+	$pdf->Cell(30, 5, $vitalSigns['sitting_blood_pressure']);
+	$pdf->Cell(30, 5, $vitalSigns['sitting_pulse']);
+	$pdf->Cell(0, 5, $vitalSigns['standing_blood_pressure'], 0, 1);
+	$pdf->SetY($pdf->GetY() + 3);
 
-$bmi = '';
-$bsa = '';
-$height = $vitalSigns['height'];
-$weight = $vitalSigns['weight'];
-if($height != '' && $weight != '' && $height != 0 && $weight != 0) {
-	if($heightType == 'in')
-		$height = $height * 2.54;
-	if($weightType == 'lb')
-		$weight = $weight * 0.453592;
-	$bmi = round(($weight / (($height/100) * ($height/100))), 2);
-	$bsa = round((0.007184 * pow($weight, 0.425) * pow($height, 0.725)), 2);
+	$bmi = '';
+	$bsa = '';
+	$height = $vitalSigns['height'];
+	$weight = $vitalSigns['weight'];
+	if($height != '' && $weight != '' && $height != 0 && $weight != 0) {
+		if($heightType == 'in')
+			$height = $height * 2.54;
+		if($weightType == 'lb')
+			$weight = $weight * 0.453592;
+		$bmi = round(($weight / (($height/100) * ($height/100))), 2);
+		$bsa = round((0.007184 * pow($weight, 0.425) * pow($height, 0.725)), 2);
+	}
+	else {
+		$bmi = 'n/a';
+		$bsa = 'n/a';
+	}
+
+	$pdf->SetFont('Arial', 'BU', 10);
+	$pdf->Cell(30, 5, 'Pulse Standing');
+	$pdf->Cell(30, 5, 'BP Lying');
+	$pdf->Cell(30, 5, 'Pulse Lying');
+	$pdf->Cell(30, 5, 'HC');
+	$pdf->Cell(30, 5, 'BMI');
+	$pdf->Cell(0, 5, 'BSA', 0, 1);
+	$pdf->SetFont('Arial', '', 10);
+	$pdf->Cell(30, 5, $vitalSigns['standing_pulse']);
+	$pdf->Cell(30, 5, $vitalSigns['lying_blood_pressure']);
+	$pdf->Cell(30, 5, $vitalSigns['lying_pulse']);
+	$pdf->Cell(30, 5, $vitalSigns['hc']);
+	$pdf->Cell(30, 5, $bmi);
+	$pdf->Cell(0, 5, $bsa, 0, 1);
+	$pdf->SetY($pdf->GetY() + 3);
+
+	$pdf->SetFont('Arial', 'BU', 10);
+	$pdf->Cell(30, 5, 'RESP');
+	$pdf->Cell(0, 5, 'SpO2', 0, 1);
+	$pdf->SetFont('Arial', '', 10);
+	$pdf->Cell(30, 5, $vitalSigns['resp']);
+	$pdf->Cell(0, 5, $vitalSigns['spo2'] . '%', 0, 1);
 }
-else {
-	$bmi = 'n/a';
-	$bsa = 'n/a';
-}
-
-$pdf->SetFont('Arial', 'BU', 10);
-$pdf->Cell(30, 5, 'Pulse Standing');
-$pdf->Cell(30, 5, 'BP Lying');
-$pdf->Cell(30, 5, 'Pulse Lying');
-$pdf->Cell(30, 5, 'HC');
-$pdf->Cell(30, 5, 'BMI');
-$pdf->Cell(0, 5, 'BSA', 0, 1);
-$pdf->SetFont('Arial', '', 10);
-$pdf->Cell(30, 5, $vitalSigns['standing_pulse']);
-$pdf->Cell(30, 5, $vitalSigns['lying_blood_pressure']);
-$pdf->Cell(30, 5, $vitalSigns['lying_pulse']);
-$pdf->Cell(30, 5, $vitalSigns['hc']);
-$pdf->Cell(30, 5, $bmi);
-$pdf->Cell(0, 5, $bsa, 0, 1);
-$pdf->SetY($pdf->GetY() + 3);
-
-$pdf->SetFont('Arial', 'BU', 10);
-$pdf->Cell(30, 5, 'RESP');
-$pdf->Cell(0, 5, 'SpO2', 0, 1);
-$pdf->SetFont('Arial', '', 10);
-$pdf->Cell(30, 5, $vitalSigns['resp']);
-$pdf->Cell(0, 5, $vitalSigns['spo2'] . '%', 0, 1);
 
 /***************************************************************************************************
  * Physical Examinations
  **************************************************************************************************/
-$pdf->SetY($pdf->GetY() + 4);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 5, 'Physical Examinations:', 0, 1);
-$pdf->SetFont('Arial', '', 8);
-
-$pdf->Cell(0, 5, 'GEN:', 0, 1);
-$pdf->Cell(0, 5, 'NUTRITION: ' . $gen['nutrition'] . ', ' . 'HEAD: ' . $gen['head'], 0, 1);
-$pdf->SetY($pdf->GetY() + 2);
-$pdf->Cell(0, 5, 'EYE:', 0, 1);
-$pdf->Cell(0, 5, 'PERLA: ' . $eye['perla'] . ', ' . 'EOMI: ' . $eye['eomi'] . ', ' . 'ICTERUS: ' . $eye['icterus'] . ', ' . 'PALLOR: ' . $eye['pallor'], 0, 1);
-$pdf->SetY($pdf->GetY() + 2);
-$pdf->Cell(0, 5, 'ENT:', 0, 1);
-$pdf->Cell(0, 5, 'ORAL LESIONS: ' . $ent['oral_lesions'] . ', ' . 'NECK_RIGIDITY: ' . $ent['neck_rigidity'] . ', ' . 'CAROTID BRUITS: ' . $ent['carotid_bruits'] . ', ' . 'THYROMEGALY: ' . $ent['thyromegaly'] . ', ' . 'MM: ' . $ent['mm'] . ', ' . 'JVD: ' . $ent['jvd'], 0, 1);
-$pdf->Cell(0, 5, 'TM: ' . $ent['tm'] . ', ' . 'EAR CANAL: ' . $ent['ear_canal'] . ', ' . 'LEFT EAR: ' . $ent['left_ear'] . ', ' . 'RIGHT EAR: ' . $ent['right_ear'] . ', ' . 'NOSE: ' . $ent['nose'] . ', ' . 'THROAT: ' . $ent['throat'], 0, 1);
-$pdf->SetY($pdf->GetY() + 2);
-$pdf->Cell(0, 5, 'CW:', 0, 1);
-$pdf->Cell(0, 5, 'ASYMMETRY: ' . $cw['asymmetry'] . ', ' . 'CHEST/BREAST MASS: ' . $cw['chest'] . ', ' . 'SCAR: ' . $cw['scar'], 0, 1);
-$pdf->SetY($pdf->GetY() + 2);
-$pdf->Cell(0, 5, 'LUNGS:', 0, 1);
-$pdf->Cell(0, 5, 'CTAP: ' . $lungs['ctap'], 0, 1);
-$pdf->SetY($pdf->GetY() + 2);
-$pdf->Cell(0, 5, 'CVS:', 0, 1);
-$pdf->Cell(0, 5, 'RHYTHM: ' . $cvs['rhythm'] . ', ' . 'MURMUR: ' . $cvs['murmur'] . ', ' . 'GALLOP: ' . $cvs['gallop'] . ', ' . 'RUB: ' . $cvs['rub'], 0, 1);
-$pdf->SetY($pdf->GetY() + 2);
-$pdf->Cell(0, 5, 'ABD:', 0, 1);
-$pdf->Cell(0, 5, 'INSPECTION: ' . $abd['inspection'] . ', ' . 'PALPATION: ' . $abd['palpation'] . ', ' . 'PERCUSSION: ' . $abd['percussion'] . ', ' . 'AUSCULTATION: ' . $abd['auscultation'], 0, 1);
-$pdf->SetY($pdf->GetY() + 2);
-$pdf->Cell(0, 5, 'EXT:', 0, 1);
-$pdf->Cell(0, 5, 'CLUBBING: ' . $ext['clubbing'] . ', ' . 'CYANOSIS: ' . $ext['cyanosis'] . ', ' . 'EDEMA: ' . $ext['edema'] . ', ' . 'JOINTS: ' . $ext['joints'] . ', ' . 'SKELETON TENDERNESS: ' . $ext['skeleton_tenderness'], 0, 1);
-$pdf->SetY($pdf->GetY() + 2);
-$pdf->Cell(0, 5, 'HEME:', 0, 1);
-$pdf->Cell(0, 5, 'CERVICAL: ' . $heme['cervical'] . ', ' . 'AXILLARY: ' . $heme['axillary'] . ', ' . 'INGUINAL: ' . $heme['inguinal'], 0, 1);
-$pdf->SetY($pdf->GetY() + 2);
-$pdf->Cell(0, 5, 'SKIN:', 0, 1);
-$pdf->Cell(0, 5, 'ECCHYMOSES: ' . $skin['ecchymoses'] . ', ' . 'PATECHIAE: ' . $skin['patechiae'] . ', ' . 'RASH: ' . $skin['rash'], 0, 1);
-$pdf->SetY($pdf->GetY() + 2);
-$pdf->Cell(0, 5, 'NEURO:', 0, 1);
-if($neuro['focus'] == 1)
-	$pdf->Cell(0, 5, 'Exams: Non Focal and Limited', 0, 1);
-else if($neuro['focus'] == 2)
-	$pdf->Cell(0, 5, 'Exams: Comprehensive, CRANIAL NERVES: ' . $neuro['cranial_nerves'] . ', ' . 'MOTOR MUSCLE POWER: ' . $neuro['motor_muscle_power'] . ', ' . 'DTR: ' . $neuro['dtr'] . ', ' . 'SENSORY DEFICITS: ' . $neuro['sensory_deficits'] . ', ' . 'GAIT: ' . $neuro['gait'], 0, 1);
+if($abd != null && $cvs != null && $cw != null && $ent != null && $ext != null && $eye != null &&
+	$gen != null && $heme != null && $lungs != null && $neuro != null && $skin != null && $followup != null) {
+	$pdf->SetY($pdf->GetY() + 4);
+	$pdf->SetFont('Arial', 'B', 10);
+	$pdf->Cell(0, 5, 'Physical Examinations:', 0, 1);
+	$pdf->SetFont('Arial', '', 8);
+	
+	if($gen != null) {
+		$pdf->Cell(0, 5, 'GEN:', 0, 1);
+		$pdf->Cell(0, 5, 'NUTRITION: ' . $gen['nutrition'] . ', ' . 'HEAD: ' . $gen['head'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 2);
+	}
+	if($eye != null) {
+		$pdf->Cell(0, 5, 'EYE:', 0, 1);
+		$pdf->Cell(0, 5, 'PERLA: ' . $eye['perla'] . ', ' . 'EOMI: ' . $eye['eomi'] . ', ' . 'ICTERUS: ' . $eye['icterus'] . ', ' . 'PALLOR: ' . $eye['pallor'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 2);
+	}
+	if($ent != null) {
+		$pdf->Cell(0, 5, 'ENT:', 0, 1);
+		$pdf->Cell(0, 5, 'ORAL LESIONS: ' . $ent['oral_lesions'] . ', ' . 'NECK_RIGIDITY: ' . $ent['neck_rigidity'] . ', ' . 'CAROTID BRUITS: ' . $ent['carotid_bruits'] . ', ' . 'THYROMEGALY: ' . $ent['thyromegaly'] . ', ' . 'MM: ' . $ent['mm'] . ', ' . 'JVD: ' . $ent['jvd'], 0, 1);
+		$pdf->Cell(0, 5, 'TM: ' . $ent['tm'] . ', ' . 'EAR CANAL: ' . $ent['ear_canal'] . ', ' . 'LEFT EAR: ' . $ent['left_ear'] . ', ' . 'RIGHT EAR: ' . $ent['right_ear'] . ', ' . 'NOSE: ' . $ent['nose'] . ', ' . 'THROAT: ' . $ent['throat'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 2);
+	}
+	if($cw != null) {
+		$pdf->Cell(0, 5, 'CW:', 0, 1);
+		$pdf->Cell(0, 5, 'ASYMMETRY: ' . $cw['asymmetry'] . ', ' . 'CHEST/BREAST MASS: ' . $cw['chest'] . ', ' . 'SCAR: ' . $cw['scar'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 2);
+	}
+	if($lungs != null) {
+		$pdf->Cell(0, 5, 'LUNGS:', 0, 1);
+		$pdf->Cell(0, 5, 'CTAP: ' . $lungs['ctap'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 2);
+	}
+	if($cvs != null) {
+		$pdf->Cell(0, 5, 'CVS:', 0, 1);
+		$pdf->Cell(0, 5, 'RHYTHM: ' . $cvs['rhythm'] . ', ' . 'MURMUR: ' . $cvs['murmur'] . ', ' . 'GALLOP: ' . $cvs['gallop'] . ', ' . 'RUB: ' . $cvs['rub'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 2);
+	}
+	if($abd != null) {
+		$pdf->Cell(0, 5, 'ABD:', 0, 1);
+		$pdf->Cell(0, 5, 'INSPECTION: ' . $abd['inspection'] . ', ' . 'PALPATION: ' . $abd['palpation'] . ', ' . 'PERCUSSION: ' . $abd['percussion'] . ', ' . 'AUSCULTATION: ' . $abd['auscultation'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 2);
+	}
+	if($ext != null) {
+		$pdf->Cell(0, 5, 'EXT:', 0, 1);
+		$pdf->Cell(0, 5, 'CLUBBING: ' . $ext['clubbing'] . ', ' . 'CYANOSIS: ' . $ext['cyanosis'] . ', ' . 'EDEMA: ' . $ext['edema'] . ', ' . 'JOINTS: ' . $ext['joints'] . ', ' . 'SKELETON TENDERNESS: ' . $ext['skeleton_tenderness'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 2);
+	}
+	if($heme != null) {
+		$pdf->Cell(0, 5, 'HEME:', 0, 1);
+		$pdf->Cell(0, 5, 'CERVICAL: ' . $heme['cervical'] . ', ' . 'AXILLARY: ' . $heme['axillary'] . ', ' . 'INGUINAL: ' . $heme['inguinal'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 2);
+	}
+	if($skin != null) {
+		$pdf->Cell(0, 5, 'SKIN:', 0, 1);
+		$pdf->Cell(0, 5, 'ECCHYMOSES: ' . $skin['ecchymoses'] . ', ' . 'PATECHIAE: ' . $skin['patechiae'] . ', ' . 'RASH: ' . $skin['rash'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 2);
+	}
+	if($neuro != null) {
+		$pdf->Cell(0, 5, 'NEURO:', 0, 1);
+		if($neuro['focus'] == 1)
+			$pdf->Cell(0, 5, 'Exams: Non Focal and Limited', 0, 1);
+		else if($neuro['focus'] == 2)
+			$pdf->Cell(0, 5, 'Exams: Comprehensive, CRANIAL NERVES: ' . $neuro['cranial_nerves'] . ', ' . 'MOTOR MUSCLE POWER: ' . $neuro['motor_muscle_power'] . ', ' . 'DTR: ' . $neuro['dtr'] . ', ' . 'SENSORY DEFICITS: ' . $neuro['sensory_deficits'] . ', ' . 'GAIT: ' . $neuro['gait'], 0, 1);
+	}
+}
 
 /***************************************************************************************************
  * Labs/X-Ray/Pathology/Others
@@ -722,26 +792,28 @@ $pdf->Cell(0, 5, $patient['plan_and_instructions'], 0, 1);
 /***************************************************************************************************
  * Follow Up
  **************************************************************************************************/
-$pdf->SetY($pdf->GetY() + 4);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 5, 'Follow Up:', 0, 1);
-$pdf->SetFont('Arial', '', 10);
-switch($followup['type']) {
-	case 1:
-		$pdf->Cell(0, 5, 'Follow up in ' . $followup['value'] . ' ' . $followup['unit'], 0, 1);
-		$pdf->Cell(0, 5, 'Comments: ' . $followup['comment'], 0, 1);
-		break;
-	case 2:
-		$pdf->Cell(0, 5, 'Follow up after ' . $followup['comment'], 0, 1);
-		break;
-	case 3:
-		$pdf->Cell(0, 5, 'Follow up PRN', 0, 1);
-		$pdf->Cell(0, 5, 'Comments: ' . $followup['comment'], 0, 1);
-		break;
-	case 4:
-		$pdf->Cell(0, 5, 'No follow up', 0, 1);
-		$pdf->Cell(0, 5, 'Comments: ' . $followup['comment'], 0, 1);
-		break;
+if($followup != null) {
+	$pdf->SetY($pdf->GetY() + 4);
+	$pdf->SetFont('Arial', 'B', 10);
+	$pdf->Cell(0, 5, 'Follow Up:', 0, 1);
+	$pdf->SetFont('Arial', '', 10);
+	switch($followup['type']) {
+		case 1:
+			$pdf->Cell(0, 5, 'Follow up in ' . $followup['value'] . ' ' . $followup['unit'], 0, 1);
+			$pdf->Cell(0, 5, 'Comments: ' . $followup['comment'], 0, 1);
+			break;
+		case 2:
+			$pdf->Cell(0, 5, 'Follow up after ' . $followup['comment'], 0, 1);
+			break;
+		case 3:
+			$pdf->Cell(0, 5, 'Follow up PRN', 0, 1);
+			$pdf->Cell(0, 5, 'Comments: ' . $followup['comment'], 0, 1);
+			break;
+		case 4:
+			$pdf->Cell(0, 5, 'No follow up', 0, 1);
+			$pdf->Cell(0, 5, 'Comments: ' . $followup['comment'], 0, 1);
+			break;
+	}
 }
   
 /***************************************************************************************************
