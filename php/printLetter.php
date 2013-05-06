@@ -64,12 +64,14 @@ include_once('fpdf/cellfit.php');
  		 * Physician Information
  		 *****************************************************************************************/
 		 $this->SetFont('Arial', 'B', 12);
-		 $this->Cell(0, 11, $physician['first_name'] . ' ' . $physician['last_name'] . 
-					', ' . $physician['degree'], 0, 1);
-		 $this->SetFont('Arial', '', 12);
-		 $y = $this->GetY();
-		 $this->SetY($y - 11);
-		 $this->Cell(0, 11, date('n/j/Y'), 0, 1, 'R');
+		 if($physician != null) {
+			 $this->Cell(0, 11, $physician['first_name'] . ' ' . $physician['last_name'] . 
+						', ' . $physician['degree'], 0, 1);
+			 $this->SetFont('Arial', '', 12);
+			 $y = $this->GetY();
+			 $this->SetY($y - 11);
+			 $this->Cell(0, 11, date('n/j/Y'), 0, 1, 'R');
+		 }  
 		 /******************************************************************************************
  		 * Clinic Info - Only on first page.
  		 *****************************************************************************************/
@@ -85,10 +87,12 @@ include_once('fpdf/cellfit.php');
 		 /******************************************************************************************
  		 * Physician Information
  		 *****************************************************************************************/
-		$this->CellFit(0, 4, 'License No: ' . $physician['license'] . ', NPI: ' . 
-				       $physician['npi'] . ', DEA: ' . $physician['dea'], 0, 1);
-		if($this->PageNo() == 1)
-			$this->Line(11, 45, 199, 45);
+		if($physician != null) { 
+			$this->CellFit(0, 4, 'License No: ' . $physician['license'] . ', NPI: ' . 
+						   $physician['npi'] . ', DEA: ' . $physician['dea'], 0, 1);
+			if($this->PageNo() == 1)
+				$this->Line(11, 45, 199, 45);
+		}
 	}
 	function Footer() {
 		// Position at 1.5 cm from bottom
@@ -119,9 +123,6 @@ $pdf->AddPage();
 $y = $pdf->GetY() + 3;
 $pdf->SetY($y);
 $pdf->MultiCell(200,8,$letter['diagnosis_letter'],0,1);
-
-
-  
 /***************************************************************************************************
  * Output PDF
  **************************************************************************************************/

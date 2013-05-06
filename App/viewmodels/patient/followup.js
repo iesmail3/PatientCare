@@ -577,16 +577,25 @@ define(function(require) {
 	    },
 		//Displays prescription pdf file
 		clickPrint: function(data) { 
-				var height = $('.flowHolder').height();
-				var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
-					   'menubar=no, status=no, titlebar=no, toolbar=no';
-				var win = window.open(
-					'php/printPrescription.php/?practiceId=' + 
-					practiceId() + '&patientId=' + patientId() +
-                     '&medicationOrderId=' + prescription().medicationOrderId(),					
-					'',
-					settings
-				);
+				if(prescriptions().length != 0) {
+					var height = $('.flowHolder').height();
+					var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
+						   'menubar=no, status=no, titlebar=no, toolbar=no';
+					var win = window.open(
+						'php/printPrescription.php/?practiceId=' + 
+						practiceId() + '&patientId=' + patientId() +
+						 '&medicationOrderId=' + prescription().medicationOrderId(),					
+						'',
+						settings
+					);
+				}
+				else { 
+							return app.showMessage(
+					'There is currently no prescription to print', 
+					'Prescription', 
+					['Ok']);
+			   }
+			    
 		},
 		//Displays checkout pdf file
 		printCheckout: function(data) { 

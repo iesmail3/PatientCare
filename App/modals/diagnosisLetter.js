@@ -25,7 +25,6 @@ define(function(require) {
 	DiagnosisLetter.prototype.getPhysician = function(data) {
 		  var isEmpty = false; 
 		  backend.getLetter(self.patientId,self.practiceId,self.date).success(function(data) { 
-			
 			if(data.length > 0) { 
 				var d = $.map(data, function(item) {
                      self.text(item.diagnosis_letter); 
@@ -84,8 +83,7 @@ define(function(require) {
 					}
 				});
 		    }
-		  });
-			
+		  });	
 	}
 	DiagnosisLetter.prototype.printLetter  = function(data) { 
 		backend.saveLetter(self.patientId, self.practiceId,self.date,self.text); 
