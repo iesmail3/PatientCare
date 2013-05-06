@@ -184,49 +184,50 @@ $pdf->AddPage();
 /******************************************************************************************
  * Patient Information
  *****************************************************************************************/
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(0, 8, 'Patient: ' . $patient['first_name'] . ' ' .
-			$patient['middle_name'] . ' ' . $patient['last_name'], 0, 0);
-$pdf->SetFont('Arial', '', 11);
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->Cell(0, 8, 'Patient: ' . $patient['first_name'] . ' ' . $patient['middle_name'] . ' ' . $patient['last_name'], 0, 0);
+$pdf->SetFont('Arial', '', 10);
 $pdf->Cell(0, 8, date('n/j/Y'), 0, 1, 'R');
 $dob = date($patient['date_of_birth']);
-$pdf->CellFit(0, 5, 'Gender: ' . ucfirst($patient['gender']) . ', DOB: ' . $dob .
-				', ID Number: ' . $patient['id_number'] .
-				', ID Type: ' . $patient['id_type'], 0, 1);
-$pdf->CellFit(0, 5, 'Phone: ' . $patient['phone'] . ', Mobile: ' . $patient['mobile'] .
-				', Email: ' . $patient['email'], 0, 1);
+$pdf->Cell(0, 5, 'Gender: ' . ucfirst($patient['gender']) . ', DOB: ' . $dob . ', ID Number: ' . $patient['id_number'] . ', ID Type: ' . $patient['id_type'], 0, 1);
+$pdf->Cell(0, 5, 'Phone: ' . $patient['phone'] . ', Mobile: ' . $patient['mobile'] . ', Email: ' . $patient['email'], 0, 1);
 
 /******************************************************************************************
  * Address & Spouse Information
  *****************************************************************************************/
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(100, 8, 'Address:', 0, 0);
-$pdf->CellFit(0, 8, 'Spouse Information: ' . ucfirst($patient['marital_status']) .
-			', Children: ' . $patient['number_of_children'], 0, 1);
-$pdf->SetFont('Arial', '', 11);
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->Cell(95, 8, 'Address:', 0, 0);
+$pdf->Cell(36, 8, 'Spouse Information: ');
+$pdf->SetFont('Arial', '', 10);
+$pdf->Cell(0, 8, 'Status: ' . ucfirst($patient['marital_status']) . ', Children: ' . $patient['number_of_children'], 0, 1);
+$pdf->Cell(95, 5, 'Address: ' . $patient['address']);
+$pdf->Cell(0, 5, 'Spouse Name: ' . $spouse['first_name'] . ' ' . $spouse['last_name'], 0, 1);
+$pdf->Cell(95, 5, 'City/State/Zip: ' . $patient['city'] . ', ' . $patient['state'] . ' ' . $patient['zip']);
+$pdf->Cell(0, 5, 'Phone: ' . $spouse['phone'] . ' Work: ' . $spouse['work_phone'], 0, 2);
 $dob = date($spouse['date_of_birth']);
-$pdf->Cell(100, 5, $patient['country'], 0, 0);
-$pdf->CellFit(0, 5, 'Spouse Name: ' . $spouse['first_name'] . ' ' . $spouse['last_name'], 0, 1);
-$pdf->Cell(100, 5, $patient['address'], 0, 0);
-$pdf->Cell(0, 5, 'Phone: ' . $spouse['phone'] . ' Work: ' . $spouse['work_phone'], 0, 1);
-$pdf->CellFit(100, 5, $patient['city'] . ', ' . $patient['state'] . ' ' . $patient['zip'], 0, 0);
-$pdf->CellFit(0, 5, 'ID Number: ' . $spouse['id_number'] . ', ID Type: ' . $spouse['id_type'] .
-				', DOB: ' . $dob, 0, 1);
+$pdf->Cell(0, 5, 'ID Number: ' . $spouse['id_number'] . ', ID Type: ' . $spouse['id_type'] . ', DOB: ' . $dob, 0, 1);
 
 /******************************************************************************************
  * Emergency Information & Employer Information
  *****************************************************************************************/
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(100, 8, 'Emergency Contact Information:', 0, 0);
-$pdf->Cell(0, 8, 'Employer Information:', 0, 1);
-$pdf->SetFont('Arial', '', 11);
-$pdf->CellFit(100, 5, 'Emergency Contact: ' . $patient['contact_name'], 0, 0);
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->Cell(95, 8, 'Emergency Contact Information:');
+
+if(count($employer) > 0)
+	$pdf->Cell(0, 8, 'Employer Information:', 0, 1);
+else {
+	$pdf->Cell(40, 8, 'Employer Information:');
+	$pdf->SetFont('Arial', '', 10);
+	$pdf->Cell(0, 8, 'Not Employed', 0, 1);
+}
+
+$pdf->SetFont('Arial', '', 10);
+$pdf->CellFit(95, 5, 'Emergency Contact: ' . $patient['contact_name'], 0, 0);
 $pdf->CellFit(0, 5, 'Employer: ' . $employer['company_name'], 0, 1);
-$pdf->CellFit(100, 5, 'Relationship: ' . $patient['contact_relationship'], 0, 0);
+$pdf->CellFit(95, 5, 'Relationship: ' . $patient['contact_relationship'], 0, 0);
 $pdf->CellFit(0, 5, 'Address: ' . $employer['address'], 0, 1);
-$pdf->CellFit(100, 5, 'Phone: ' . $patient['contact_phone'] . ', Cell: ' . $patient['contact_mobile'], 0, 0);
-$pdf->CellFit(0, 5, $employer['city'] . ', ' . $employer['state'] . ' ' . $employer['zip'], 0, 1);
-$pdf->SetX(110);
+$pdf->CellFit(95, 5, 'Phone: ' . $patient['contact_phone'] . ', Cell: ' . $patient['contact_mobile'], 0, 0);
+$pdf->CellFit(0, 5, 'City/State/Zip: ' . $employer['city'] . ', ' . $employer['state'] . ' ' . $employer['zip'], 0, 2);
 $pdf->CellFit(0, 5, 'Phone: ' . $employer['phone'] . ' Ext: ' . $employer['phone_ext'], 0, 1);
 $y = $pdf->GetY() + 3;
 $pdf->Line(11, $y, 199, $y);
@@ -258,114 +259,112 @@ if (count($other) > 0) {
 								$other['fax'], 0, 1);
 	$y = $pdf->GetY() + 6;
 }
-$y = $pdf->GetY() + 3;
-$pdf->Line(11, $y, 199, $y);
+
+if(count($referringPhysician) > 0 || count($pcp) > 0 || count($other) > 0) {
+	$y = $pdf->GetY() + 3;
+	$pdf->Line(11, $y, 199, $y);
+	$pdf->SetY($pdf->GetY() + 6);
+}
 
 /******************************************************************************************
  * Primary Insurance
  *****************************************************************************************/
-$y = $pdf->GetY() + 6;
-$pdf->SetY($y);
+$pdf->SetFont('Arial', 'B', 8);
+$pdf->Cell(95, 5, 'Primary Insurance:');
+$pdf->Cell(0, 5, 'Secondary Insurance:', 0, 1);
+$pdf->SetFont('Arial', '', 8);
+
+$pdf->Cell(50, 5, 'Name: ' . $primaryInsurance['company_name']);
+$pdf->Cell(45, 5, 'Plan: ' . $primaryInsurance['plan']);
+$pdf->Cell(50, 5, 'Name: ' . $secondaryInsurance['company_name']);
+$pdf->Cell(0, 5, 'Plan: ' . $secondaryInsurance['plan'], 0, 1);
+
+$pdf->Cell(50, 5, 'ID: ' . $primaryInsurance['policy_number']);
+$pdf->Cell(45, 5, 'Group: ' . $primaryInsurance['group_number']);
+$pdf->Cell(50, 5, 'ID: ' . $secondaryInsurance['policy_number']);
+$pdf->Cell(0, 5, 'Group: ' . $secondaryInsurance['group_number'], 0, 1);
+
 $effectiveDate = date($primaryInsurance['effective_date']);
-$verificationDate = date($primaryInsurance['verification_date']);
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(0, 8, 'Primary Insurance:', 0, 1);
-$pdf->SetFont('Arial', '', 11);
-$pdf->Cell(0, 5, 'Name: ' . $primaryInsurance['company_name'], 0, 1);
-$pdf->Cell(0, 5, 'Plan: ' . $primaryInsurance['plan'], 0, 1);
-$pdf->Cell(0, 5, 'Insurance ID Number: ' . $primaryInsurance['policy_number'], 0, 1);
-$pdf->Cell(0, 5, 'Group: ' . $primaryInsurance['group_number'], 0, 1);
-$pdf->Cell(0, 5, 'Effective Date: ' . $effectiveDate, 0, 1);
-if (count($guarantor) > 0) {
-	$dob = date($guarantor['date_of_birth']);
-	$pdf->CellFit(0, 5, 'Insured Person: ' . $guarantor['name'] .
-					', ID Number: ' . $guarantor['id_number'] .
-					', ID Type: ' . $guarantor['id_type'] .
-					', DOB: ' . $dob . ', Relationship: ' . $guarantor['relationship'] .
-					', Employer: ' . $guarantor['employer'] .
-					', Phone: ' . $guarantor['employer_phone'], 0, 1);
-}
-$preExistingClause = '';
-if($primaryInsurance['existing_clause'])
-	$preExistingClause = 'Yes';
-else if(!$primaryInsurance['existing_clause'])
-	$preExistingClause = 'No';
-$pdf->Cell(0, 5, 'Pre-Existing Clause: ' . $preExistingClause, 0, 1);
-$referralRequired = '';
-if($primaryInsurance['referral_required'])
-	$referralRequired = 'Yes';
-else if(!$primaryInsurance['referral_required'])
-	$referralRequired = 'No';
-$pdf->Cell(0, 5, 'Referral Required: ' . $referralRequired, 0, 1);
-$pdf->Cell(0, 5, 'Deductible: $' . $primaryInsurance['deductible'], 0, 1);
-$pdf->Cell(0, 5, 'Remaining Ded: $' . $primaryInsurance['remaining_deductible'], 0, 1);
-$pdf->Cell(0, 5, 'Out of Pocket: $' . $primaryInsurance['out_of_pocket'], 0, 1);
-$pdf->Cell(0, 5, 'Remaining OOP: $' . $primaryInsurance['remaining_out_of_pocket'], 0, 1);
-$pdf->Cell(0, 5, 'OV/Lab Copay: $' . $primaryInsurance['copayment'], 0, 1);
-$pdf->Cell(0, 5, 'Patient Portion: ' . $primaryInsurance['patient_portion'] . '%', 0, 1);
-$pdf->Cell(0, 5, 'Insurance Contact Name: ' . $primaryInsurance['contact_name'], 0, 1);
-$pdf->Cell(0, 5, 'Phone for Verification: ' . $primaryInsurance['contact_phone'], 0, 1);
-$pdf->Cell(0, 5, 'Verification Date: ' . $verificationDate . ' ' . $primaryInsurance['verification_time'], 0, 1);
-$pdf->Cell(0, 5, 'Confirmation Number: ' . $primaryInsurance['confirmation_number'], 0, 1);
-
-/******************************************************************************************
- * Secondary Insurance
- *****************************************************************************************/
-
-$pdf->SetY($y);
-$pdf->SetX(90);
+$pdf->Cell(95, 5, 'Effective Date: ' . $effectiveDate);
 $effectiveDate = date($secondaryInsurance['effective_date']);
-$verificationDate = date($secondaryInsurance['verification_date']);
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(0, 8, 'Secondary Insurance:', 0, 2);
-$pdf->SetFont('Arial', '', 11);
-$pdf->Cell(50, 5, 'Name: ' . $secondaryInsurance['company_name'], 0, 0);
-$pdf->Cell(0, 5, 'Plan: ' . $secondaryInsurance['plan'], 0, 2);
-$pdf->SetX(90);
-$pdf->Cell(0, 5, 'Insurance ID Number: ' . $secondaryInsurance['policy_number'], 0, 2);
-$pdf->Cell(0, 5, 'Group: ' . $secondaryInsurance['group_number'], 0, 2);
-$pdf->Cell(0, 5, 'Effective Date: ' . $effectiveDate, 0, 2);
+$pdf->Cell(0, 5, 'Effective Date: ' . $effectiveDate, 0, 1);
+
+$pdf->Cell(95, 5, 'Insured Person: ' . $guarantor['name']);
 $preExistingClause = '';
 if($secondaryInsurance['existing_clause'])
 	$preExistingClause = 'Yes';
 else if(!$secondaryInsurance['existing_clause'])
 	$preExistingClause = 'No';
-$pdf->Cell(50, 5, 'Pre-Existing Clause: ' . $preExistingClause, 0, 0);
+$pdf->Cell(50, 5, 'Pre-Existing Clause: ' . $preExistingClause);
 $referralRequired = '';
 if($secondaryInsurance['referral_required'])
 	$referralRequired = 'Yes';
 else if(!$secondaryInsurance['referral_required'])
 	$referralRequired = 'No';
-$pdf->Cell(0, 5, 'Referral Required: ' . $referralRequired, 0, 2);
-$pdf->SetX(90);
-$pdf->Cell(50, 5, 'Deductible: $' . $secondaryInsurance['deductible'], 0, 0);
-$pdf->Cell(0, 5, 'Remaining Deducible: $' . $secondaryInsurance['remaining_deductible'], 0, 2);
-$pdf->SetX(90);
-$pdf->Cell(50, 5, 'Out of Pocket: $' . $secondaryInsurance['out_of_pocket'], 0, 0);
-$pdf->Cell(0, 5, 'Remaining OOP: $' . $secondaryInsurance['remaining_out_of_pocket'], 0, 2);
-$pdf->SetX(90);
-$pdf->Cell(50, 5, 'OV/Lab Copay: $' . $secondaryInsurance['copayment'], 0, 0);
-$pdf->Cell(0, 5, 'Patient Portion: ' . $secondaryInsurance['patient_portion'] . '%', 0, 2);
-$pdf->SetX(90);
-$pdf->Cell(0, 5, 'Insurance Contact Name: ' . $secondaryInsurance['contact_name'], 0, 2);
-$pdf->Cell(0, 5, 'Phone for Verification: ' . $secondaryInsurance['contact_phone'], 0, 2);
-$pdf->Cell(0, 5, 'Verification Date: ' . $verificationDate . ' ' . $secondaryInsurance['verification_time'], 0, 2);
-$pdf->Cell(0, 5, 'Confirmation Number: ' . $secondaryInsurance['confirmation_number'], 0, 2);
+$pdf->Cell(0, 5, 'Reference Required: ' . $referralRequired, 0, 1);
 
- /******************************************************************************************
- * Other Insurance
- *****************************************************************************************/
+$pdf->Cell(50, 5, 'ID Number: ' . $guarantor['id_number'] . ' ID Type: ' . $guarantor['id_type']);
+$dob = date($guarantor['date_of_birth']);
+$pdf->Cell(45, 5, 'DOB: ' . $dob);
+$pdf->Cell(50, 5, 'Deductible: $' . $secondaryInsurance['deductible']);
+$pdf->Cell(0, 5, 'Remaining Deductible: $' . $secondaryInsurance['remaining_deductible'], 0, 1);
+
+$pdf->Cell(50, 5, 'Insurance Type: ' . $patient['insurance_type']);
+$pdf->Cell(45, 5, 'Relationship: ' . $guarantor['relationship']);
+$pdf->Cell(50, 5, 'Out of Pocket: $' . $secondaryInsurance['out_of_pocket']);
+$pdf->Cell(0, 5, 'Remaining OOP: $' . $secondaryInsurance['remaining_out_of_pocket'], 0, 1);
+
+$pdf->Cell(95, 5, 'Employer: ' . $guarantor['employer']);
+$pdf->Cell(50, 5, 'OV/Lab Copay: $' . $secondaryInsurance['copayment']);
+$pdf->Cell(0, 5, 'Patient Portion: ' . $secondaryInsurance['patient_portion'] . '%', 0, 1);
+
+$pdf->Cell(95, 5, 'Phone: ' . $guarantor['employer_phone']);
+$pdf->Cell(0, 5, 'Insurance Contact Name: ' . $secondaryInsurance['contact_name'], 0, 1);
+
+$preExistingClause = '';
+if($primaryInsurance['existing_clause'])
+	$preExistingClause = 'Yes';
+else if(!$primaryInsurance['existing_clause'])
+	$preExistingClause = 'No';
+$pdf->Cell(50, 5, 'Pre-Existing Clause: ' . $preExistingClause);
+$referralRequired = '';
+if($primaryInsurance['referral_required'])
+	$referralRequired = 'Yes';
+else if(!$primaryInsurance['referral_required'])
+	$referralRequired = 'No';
+$pdf->Cell(45, 5, 'Reference Required: ' . $referralRequired);
+$pdf->Cell(0, 5, 'Phone for Verification: ' . $secondaryInsurance['contact_phone'], 0, 1);
+
+$pdf->Cell(50, 5, 'Deductible: $' . $primaryInsurance['deductible']);
+$pdf->Cell(45, 5, 'Remaining Deductible: $' . $primaryInsurance['remaining_deductible']);
+$verificationDate = date($secondaryInsurance['verification_date']);
+$pdf->Cell(0, 5, 'Verification Date: ' . $verificationDate . ' ' . $secondaryInsurance['verification_time'], 0, 1);
+
+$pdf->Cell(50, 5, 'Out of Pocket: $' . $primaryInsurance['out_of_pocket']);
+$pdf->Cell(45, 5, 'Remaining OOP: $' . $primaryInsurance['remaining_out_of_pocket']);
+$pdf->Cell(0, 5, 'Confirmation Number: ' . $secondaryInsurance['confirmation_number'], 0, 1);
+
+$pdf->Cell(50, 5, 'OV/Lab Copay: $' . $primaryInsurance['copayment']);
+$pdf->Cell(0, 5, 'Patient Portion: ' . $primaryInsurance['patient_portion'] . '%', 0, 1);
+
+$pdf->Cell(95, 5, 'Insurance Contact Name: ' . $primaryInsurance['contact_name']);
+$pdf->SetFont('Arial', 'B', 8);
+$pdf->Cell(0, 5, 'Other Insurance:', 0, 1);
+$pdf->SetFont('Arial', '', 8);
+
+$pdf->Cell(95, 5, 'Phone for Verification: ' . $primaryInsurance['contact_phone']);
+$pdf->Cell(50, 5, 'Name: ' . $otherInsurance['company_name']);
+$pdf->Cell(0, 5, 'Plan: ' . $otherInsurance['plan'], 0, 1);
+
+$verificationDate = date($primaryInsurance['verification_date']);
+$pdf->Cell(95, 5, 'Verification Date: ' . $verificationDate . ' ' . $primaryInsurance['verification_time']);
+$pdf->Cell(50, 5, 'ID: ' . $otherInsurance['policy_number']);
+$pdf->Cell(0, 5, 'Group: ' . $otherInsurance['group_number'], 0, 1);
+
+$pdf->Cell(95, 5, 'Confirmation Number: ' . $primaryInsurance['confirmation_number']);
 $effectiveDate = date($otherInsurance['effective_date']);
-$verificationDate = date($otherInsurance['verification_date']);
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(0, 8, 'Other Insurance:', 0, 2);
-$pdf->SetFont('Arial', '', 11);
-$pdf->Cell(50, 5, 'Name: ' . $otherInsurance['company_name'], 0, 0);
-$pdf->Cell(0, 5, 'Plan: ' . $otherInsurance['plan'], 0, 2);
-$pdf->SetX(90);
-$pdf->Cell(0, 5, 'Insurance ID Number: ' . $otherInsurance['policy_number'], 0, 2);
-$pdf->Cell(0, 5, 'Group: ' . $otherInsurance['group_number'], 0, 2);
 $pdf->Cell(0, 5, 'Effective Date: ' . $effectiveDate, 0, 2);
+
 $preExistingClause = '';
 if($otherInsurance['existing_clause'])
 	$preExistingClause = 'Yes';
@@ -378,21 +377,22 @@ if($otherInsurance['referral_required'])
 else if(!$otherInsurance['referral_required'])
 	$referralRequired = 'No';
 $pdf->Cell(0, 5, 'Referral Required: ' . $referralRequired, 0, 2);
-$pdf->SetX(90);
+$pdf->SetX(105);
 $pdf->Cell(50, 5, 'Deductible: $' . $otherInsurance['deductible'], 0, 0);
 $pdf->Cell(0, 5, 'Remaining Deducible: $' . $otherInsurance['remaining_deductible'], 0, 2);
-$pdf->SetX(90);
+$pdf->SetX(105);
 $pdf->Cell(50, 5, 'Out of Pocket: $' . $otherInsurance['out_of_pocket'], 0, 0);
 $pdf->Cell(0, 5, 'Remaining OOP: $' . $otherInsurance['remaining_out_of_pocket'], 0, 2);
-$pdf->SetX(90);
+$pdf->SetX(105);
 $pdf->Cell(50, 5, 'OV/Lab Copay: $' . $otherInsurance['copayment'], 0, 0);
 $pdf->Cell(0, 5, 'Patient Portion: ' . $otherInsurance['patient_portion'] . '%', 0, 2);
-$pdf->SetX(90);
+$pdf->SetX(105);
 $pdf->Cell(0, 5, 'Insurance Contact Name: ' . $otherInsurance['contact_name'], 0, 2);
 $pdf->Cell(0, 5, 'Phone for Verification: ' . $otherInsurance['contact_phone'], 0, 2);
+$verificationDate = date($otherInsurance['verification_date']);
 $pdf->Cell(0, 5, 'Verification Date: ' . $verificationDate . ' ' . $otherInsurance['verification_time'], 0, 2);
 $pdf->Cell(0, 5, 'Confirmation Number: ' . $otherInsurance['confirmation_number'], 0, 2);
- 
+
 /***************************************************************************************************
  * Output PDF
  **************************************************************************************************/
