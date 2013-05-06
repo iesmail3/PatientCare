@@ -384,116 +384,130 @@ $pdf->AddPage();
 /***************************************************************************************************
  * History
  **************************************************************************************************/
-$pdf->SetFont('Arial','B',10);
-$pdf->Cell(0, 5, 'History Of Present Illness:', 0, 1);
-$pdf->SetFont('Arial','',10);
-$pdf->Cell(0, 5, $patient['history'], 0, 1);
+if($patient['history'] != '') {
+	$pdf->SetFont('Arial','B',10);
+	$pdf->Cell(0, 5, 'History Of Present Illness:', 0, 1);
+	$pdf->SetFont('Arial','',10);
+	$pdf->Cell(0, 5, $patient['history'], 0, 1);
+}
 
 /***************************************************************************************************
  * Review of Systems
  **************************************************************************************************/
-$pdf->SetY($pdf->GetY() + 4);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 5, 'Review of Systems:', 0, 1);
-foreach($reviewOfSystems as $review) {
-	$pdf->SetFont('Arial', 'U', 10);
-	$pdf->Cell(0, 5, strtoupper($review['particulars']) . ':', 0, 1);
-	$pdf->SetFont('Arial', '', 8);
-	$pdf->Cell(0, 5, $review['comment'], 0, 1);
-	$pdf->SetY($pdf->GetY() + 1);
+if(count($reviewOfSystems) > 0) {
+	$pdf->SetY($pdf->GetY() + 4);
+	$pdf->SetFont('Arial', 'B', 10);
+	$pdf->Cell(0, 5, 'Review of Systems:', 0, 1);
+	foreach($reviewOfSystems as $review) {
+		$pdf->SetFont('Arial', 'U', 10);
+		$pdf->Cell(0, 5, strtoupper($review['particulars']) . ':', 0, 1);
+		$pdf->SetFont('Arial', '', 8);
+		$pdf->Cell(0, 5, $review['comment'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 1);
+	}
 }
 
 /***************************************************************************************************
  * Current Medical Problem
  **************************************************************************************************/
-$pdf->SetY($pdf->GetY() + 4);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 5, 'Current Medical Problem:', 0, 1);
+if(count($currentProblem) > 0) {
+	$pdf->SetY($pdf->GetY() + 4);
+	$pdf->SetFont('Arial', 'B', 10);
+	$pdf->Cell(0, 5, 'Current Medical Problem:', 0, 1);
 
-// Heading
-$pdf->SetFont('Arial','BU', 10);
-$pdf->Cell(50, 5, 'Description');
-$pdf->Cell(50, 5, 'Onset Date', 0, 1);
-$pdf->SetFont('Arial', '', 10);
+	// Heading
+	$pdf->SetFont('Arial','BU', 10);
+	$pdf->Cell(50, 5, 'Description');
+	$pdf->Cell(50, 5, 'Onset Date', 0, 1);
+	$pdf->SetFont('Arial', '', 10);
 
-foreach($currentProblem as $problem) {
-	$pdf->Cell(50, 5, $problem['description']);
-	$pdf->Cell(0, 5, $problem['onset_date'], 0, 1);
-	$pdf->SetY($pdf->GetY() + 1);
+	foreach($currentProblem as $problem) {
+		$pdf->Cell(50, 5, $problem['description']);
+		$pdf->Cell(0, 5, $problem['onset_date'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 1);
+	}
 }
 
 /***************************************************************************************************
  * Other Medical Problem
  **************************************************************************************************/
-$pdf->SetY($pdf->GetY() + 4);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 5, 'Other Medical Problem:', 0, 1);
+if(count($otherProblem) > 0) {
+	$pdf->SetY($pdf->GetY() + 4);
+	$pdf->SetFont('Arial', 'B', 10);
+	$pdf->Cell(0, 5, 'Other Medical Problem:', 0, 1);
 
-// Heading
-$pdf->SetFont('Arial','BU', 10);
-$pdf->Cell(50, 5, 'Description');
-$pdf->Cell(50, 5, 'Onset Date');
-$pdf->Cell(50, 5, 'Resolution Date', 0, 1);
-$pdf->SetFont('Arial', '', 10);
+	// Heading
+	$pdf->SetFont('Arial','BU', 10);
+	$pdf->Cell(50, 5, 'Description');
+	$pdf->Cell(50, 5, 'Onset Date');
+	$pdf->Cell(50, 5, 'Resolution Date', 0, 1);
+	$pdf->SetFont('Arial', '', 10);
 
-foreach($otherProblem as $problem) {
-	$pdf->Cell(50, 5, $problem['description']);
-	$pdf->Cell(50, 5, $problem['onset_date']);
-	$pdf->Cell(0, 5, $problem['resolution_date'], 0, 1);
-	$pdf->SetY($pdf->GetY() + 1);
+	foreach($otherProblem as $problem) {
+		$pdf->Cell(50, 5, $problem['description']);
+		$pdf->Cell(50, 5, $problem['onset_date']);
+		$pdf->Cell(0, 5, $problem['resolution_date'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 1);
+	}
 }
 
 /***************************************************************************************************
  * Past Surgical History
  **************************************************************************************************/
-$pdf->SetY($pdf->GetY() + 4);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 5, 'Past Surgical History:', 0, 1);
+if(count($pastProblem) > 0) {
+	$pdf->SetY($pdf->GetY() + 4);
+	$pdf->SetFont('Arial', 'B', 10);
+	$pdf->Cell(0, 5, 'Past Surgical History:', 0, 1);
 
-// Heading
-$pdf->SetFont('Arial','BU', 10);
-$pdf->Cell(50, 5, 'Description');
-$pdf->Cell(50, 5, 'Resolution Date', 0, 1);
-$pdf->SetFont('Arial', '', 10);
+	// Heading
+	$pdf->SetFont('Arial','BU', 10);
+	$pdf->Cell(50, 5, 'Description');
+	$pdf->Cell(50, 5, 'Resolution Date', 0, 1);
+	$pdf->SetFont('Arial', '', 10);
 
-foreach($pastProblem as $problem) {
-	$pdf->Cell(50, 5, $problem['description']);
-	$pdf->Cell(0, 5, $problem['resolution_date'], 0, 1);
-	$pdf->SetY($pdf->GetY() + 1);
+	foreach($pastProblem as $problem) {
+		$pdf->Cell(50, 5, $problem['description']);
+		$pdf->Cell(0, 5, $problem['resolution_date'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 1);
+	}
 }
 
 /***************************************************************************************************
  * Medications
  **************************************************************************************************/
-$pdf->SetY($pdf->GetY() + 4);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 5, 'Current Medications:', 0, 1);
-$pdf->SetFont('Arial', '', 8);
+if(count($medication) > 0) {
+	$pdf->SetY($pdf->GetY() + 4);
+	$pdf->SetFont('Arial', 'B', 10);
+	$pdf->Cell(0, 5, 'Current Medications:', 0, 1);
+	$pdf->SetFont('Arial', '', 8);
 
-foreach($medication as $med) {
-	$pdf->Cell(0, 5, 'Medicine: ' . $med['medicine'] . ', Strength: ' . $med['strength'] . ', Quantity: ' . $med['quantity'] . ', Sigs: ' . $med['sigs'], 0, 1);
-	$pdf->SetY($pdf->GetY() + 1);
+	foreach($medication as $med) {
+		$pdf->Cell(0, 5, 'Medicine: ' . $med['medicine'] . ', Strength: ' . $med['strength'] . ', Quantity: ' . $med['quantity'] . ', Sigs: ' . $med['sigs'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 1);
+	}
 }
 
 /***************************************************************************************************
  * Allergies Intolerance
  **************************************************************************************************/
-$pdf->SetY($pdf->GetY() + 4);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 5, 'Allergies:', 0, 1);
+if(count($allergies) > 0) {
+	$pdf->SetY($pdf->GetY() + 4);
+	$pdf->SetFont('Arial', 'B', 10);
+	$pdf->Cell(0, 5, 'Allergies:', 0, 1);
 
-// Heading
-$pdf->SetFont('Arial','BU', 10);
-$pdf->Cell(50, 5, 'Type');
-$pdf->Cell(50, 5, 'Status');
-$pdf->Cell(50, 5, 'Details', 0, 1);
-$pdf->SetFont('Arial', '', 10);
+	// Heading
+	$pdf->SetFont('Arial','BU', 10);
+	$pdf->Cell(50, 5, 'Type');
+	$pdf->Cell(50, 5, 'Status');
+	$pdf->Cell(50, 5, 'Details', 0, 1);
+	$pdf->SetFont('Arial', '', 10);
 
-foreach($allergies as $allergy) {
-	$pdf->Cell(50, 5, $allergy['type']);
-	$pdf->Cell(50, 5, $allergy['status']);
-	$pdf->Cell(0, 5, $allergy['details'], 0, 1);
-	$pdf->SetY($pdf->GetY() + 1);
+	foreach($allergies as $allergy) {
+		$pdf->Cell(50, 5, $allergy['type']);
+		$pdf->Cell(50, 5, $allergy['status']);
+		$pdf->Cell(0, 5, $allergy['details'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 1);
+	}
 }
 
 /***************************************************************************************************
@@ -543,56 +557,65 @@ foreach($allergies as $allergy) {
 /***************************************************************************************************
  * Family History
  **************************************************************************************************/
-$pdf->SetY($pdf->GetY() + 4);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 5, 'Family History:', 0, 1);
-$pdf->SetFont('Arial', '', 10);
-$familyHistoryType = '';
-switch($patient['family_history_type']) {
-	case 1:
-		$familyHistoryType = 'Not Contributory';
-		break;
-	case 2:
-		$familyHistoryType = 'Comprehensive';
-		break;
-	case 3:
-		$familyHistoryType = 'Provided';
-		break;
-}
-$pdf->Cell(0, 5, 'Status: ' . $familyHistoryType, 0, 1);
-
-foreach($familyHistory as $family) {
-	$isAlive = '';
-	if($family['is_alive'])
-		$isAlive = 'Alive';
-	else
-		$isAlive = 'Deceased';
-	$pdf->Cell(0, 5, ucfirst($family['relationship']) . ': ' . $isAlive . ', Age: ' . $family['age'] . ', Comment: ' . $family['comment'], 0, 1);
-	$pdf->SetY($pdf->GetY() + 1);
+if($patient['family_history_type'] != null) {
+	$pdf->SetY($pdf->GetY() + 4);
+	$pdf->SetFont('Arial', 'B', 10);
+	$pdf->Cell(0, 5, 'Family History:', 0, 1);
+	$pdf->SetFont('Arial', '', 10);
+	$familyHistoryType = '';
+	switch($patient['family_history_type']) {
+		case 1:
+			$familyHistoryType = 'Not Contributory';
+			break;
+		case 2:
+			$familyHistoryType = 'Comprehensive';
+			break;
+		case 3:
+			$familyHistoryType = 'Provided';
+			break;
+	}
+	$pdf->Cell(0, 5, 'Status: ' . $familyHistoryType, 0, 1);
+	
+	if(count($familyHistory) > 0 && $familyHistoryType == 'Provided') {
+		foreach($familyHistory as $family) {
+			$isAlive = '';
+			if($family['is_alive'])
+				$isAlive = 'Alive';
+			else
+				$isAlive = 'Deceased';
+			$pdf->Cell(0, 5, ucfirst($family['relationship']) . ': ' . $isAlive . ', Age: ' . $family['age'] . ', Comment: ' . $family['comment'], 0, 1);
+			$pdf->SetY($pdf->GetY() + 1);
+		}
+	}
+	
+	if($familyHistoryType != 'Not Contributory')
+		$pdf->Cell(0, 5, 'Comments: ' . $patient['family_history_comment'], 0, 1);
 }
 
 /***************************************************************************************************
  * Routine Exams
  **************************************************************************************************/
-$pdf->SetY($pdf->GetY() + 4);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 5, 'Routine Exams:', 0, 1);
-$pdf->SetFont('Arial', '', 10);
+if(count($routineExam) > 0) {
+	$pdf->SetY($pdf->GetY() + 4);
+	$pdf->SetFont('Arial', 'B', 10);
+	$pdf->Cell(0, 5, 'Routine Exams:', 0, 1);
+	$pdf->SetFont('Arial', '', 10);
 
-foreach($routineExam as $routine) {
-	$month = '';
-	$year = '';
-	if($routine['month'] == '')
-		$month = 'Unknown';
-	else
-		$month = $routine['month'];
-	if($routine['year'] == '')
-		$year = 'Unknown';
-	else
-		$year = $routine['year'];
-	$pdf->Cell(0, 5, 'Last ' . $routine['name'] . ': ' . $month . '/' . $year, 0, 1);
-	$pdf->Cell(0, 5, 'Comments: ' . $routine['comment'], 0, 1);
-	$pdf->SetY($pdf->GetY() + 3);
+	foreach($routineExam as $routine) {
+		$month = '';
+		$year = '';
+		if($routine['month'] == '')
+			$month = 'Unknown';
+		else
+			$month = $routine['month'];
+		if($routine['year'] == '')
+			$year = 'Unknown';
+		else
+			$year = $routine['year'];
+		$pdf->Cell(0, 5, 'Last ' . $routine['name'] . ': ' . $month . '/' . $year, 0, 1);
+		$pdf->Cell(0, 5, 'Comments: ' . $routine['comment'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 3);
+	}
 }
 
 /***************************************************************************************************
@@ -673,65 +696,65 @@ if($vitalSigns != null) {
 /***************************************************************************************************
  * Physical Examinations
  **************************************************************************************************/
-if($abd != null && $cvs != null && $cw != null && $ent != null && $ext != null && $eye != null &&
-	$gen != null && $heme != null && $lungs != null && $neuro != null && $skin != null && $followup != null) {
+if($abd != null || $cvs != null || $cw != null || $ent != null || $ext != null || $eye != null ||
+	$gen != null || $heme != null || $lungs != null || $neuro != null || $skin != null || $followup != null) {
 	$pdf->SetY($pdf->GetY() + 4);
 	$pdf->SetFont('Arial', 'B', 10);
 	$pdf->Cell(0, 5, 'Physical Examinations:', 0, 1);
 	$pdf->SetFont('Arial', '', 8);
 	
-	if($gen != null) {
+	if($gen != null && $gen['type'] != 1) {
 		$pdf->Cell(0, 5, 'GEN:', 0, 1);
 		$pdf->Cell(0, 5, 'NUTRITION: ' . $gen['nutrition'] . ', ' . 'HEAD: ' . $gen['head'], 0, 1);
 		$pdf->SetY($pdf->GetY() + 2);
 	}
-	if($eye != null) {
+	if($eye != null && $eye['type'] != 1) {
 		$pdf->Cell(0, 5, 'EYE:', 0, 1);
 		$pdf->Cell(0, 5, 'PERLA: ' . $eye['perla'] . ', ' . 'EOMI: ' . $eye['eomi'] . ', ' . 'ICTERUS: ' . $eye['icterus'] . ', ' . 'PALLOR: ' . $eye['pallor'], 0, 1);
 		$pdf->SetY($pdf->GetY() + 2);
 	}
-	if($ent != null) {
+	if($ent != null && $ent['type'] != 1) {
 		$pdf->Cell(0, 5, 'ENT:', 0, 1);
 		$pdf->Cell(0, 5, 'ORAL LESIONS: ' . $ent['oral_lesions'] . ', ' . 'NECK_RIGIDITY: ' . $ent['neck_rigidity'] . ', ' . 'CAROTID BRUITS: ' . $ent['carotid_bruits'] . ', ' . 'THYROMEGALY: ' . $ent['thyromegaly'] . ', ' . 'MM: ' . $ent['mm'] . ', ' . 'JVD: ' . $ent['jvd'], 0, 1);
 		$pdf->Cell(0, 5, 'TM: ' . $ent['tm'] . ', ' . 'EAR CANAL: ' . $ent['ear_canal'] . ', ' . 'LEFT EAR: ' . $ent['left_ear'] . ', ' . 'RIGHT EAR: ' . $ent['right_ear'] . ', ' . 'NOSE: ' . $ent['nose'] . ', ' . 'THROAT: ' . $ent['throat'], 0, 1);
 		$pdf->SetY($pdf->GetY() + 2);
 	}
-	if($cw != null) {
+	if($cw != null && $cw['type'] != 1) {
 		$pdf->Cell(0, 5, 'CW:', 0, 1);
 		$pdf->Cell(0, 5, 'ASYMMETRY: ' . $cw['asymmetry'] . ', ' . 'CHEST/BREAST MASS: ' . $cw['chest'] . ', ' . 'SCAR: ' . $cw['scar'], 0, 1);
 		$pdf->SetY($pdf->GetY() + 2);
 	}
-	if($lungs != null) {
+	if($lungs != null && $lungs['type'] != 1) {
 		$pdf->Cell(0, 5, 'LUNGS:', 0, 1);
 		$pdf->Cell(0, 5, 'CTAP: ' . $lungs['ctap'], 0, 1);
 		$pdf->SetY($pdf->GetY() + 2);
 	}
-	if($cvs != null) {
+	if($cvs != null && $cvs['type'] != 1) {
 		$pdf->Cell(0, 5, 'CVS:', 0, 1);
 		$pdf->Cell(0, 5, 'RHYTHM: ' . $cvs['rhythm'] . ', ' . 'MURMUR: ' . $cvs['murmur'] . ', ' . 'GALLOP: ' . $cvs['gallop'] . ', ' . 'RUB: ' . $cvs['rub'], 0, 1);
 		$pdf->SetY($pdf->GetY() + 2);
 	}
-	if($abd != null) {
+	if($abd != null && $abd['type'] != 1) {
 		$pdf->Cell(0, 5, 'ABD:', 0, 1);
 		$pdf->Cell(0, 5, 'INSPECTION: ' . $abd['inspection'] . ', ' . 'PALPATION: ' . $abd['palpation'] . ', ' . 'PERCUSSION: ' . $abd['percussion'] . ', ' . 'AUSCULTATION: ' . $abd['auscultation'], 0, 1);
 		$pdf->SetY($pdf->GetY() + 2);
 	}
-	if($ext != null) {
+	if($ext != null && $ext['type'] != 1) {
 		$pdf->Cell(0, 5, 'EXT:', 0, 1);
 		$pdf->Cell(0, 5, 'CLUBBING: ' . $ext['clubbing'] . ', ' . 'CYANOSIS: ' . $ext['cyanosis'] . ', ' . 'EDEMA: ' . $ext['edema'] . ', ' . 'JOINTS: ' . $ext['joints'] . ', ' . 'SKELETON TENDERNESS: ' . $ext['skeleton_tenderness'], 0, 1);
 		$pdf->SetY($pdf->GetY() + 2);
 	}
-	if($heme != null) {
+	if($heme != null && $heme['type'] != 1) {
 		$pdf->Cell(0, 5, 'HEME:', 0, 1);
 		$pdf->Cell(0, 5, 'CERVICAL: ' . $heme['cervical'] . ', ' . 'AXILLARY: ' . $heme['axillary'] . ', ' . 'INGUINAL: ' . $heme['inguinal'], 0, 1);
 		$pdf->SetY($pdf->GetY() + 2);
 	}
-	if($skin != null) {
+	if($skin != null && $skin['type'] != 1) {
 		$pdf->Cell(0, 5, 'SKIN:', 0, 1);
 		$pdf->Cell(0, 5, 'ECCHYMOSES: ' . $skin['ecchymoses'] . ', ' . 'PATECHIAE: ' . $skin['patechiae'] . ', ' . 'RASH: ' . $skin['rash'], 0, 1);
 		$pdf->SetY($pdf->GetY() + 2);
 	}
-	if($neuro != null) {
+	if($neuro != null && $neuro['type'] != 1) {
 		$pdf->Cell(0, 5, 'NEURO:', 0, 1);
 		if($neuro['focus'] == 1)
 			$pdf->Cell(0, 5, 'Exams: Non Focal and Limited', 0, 1);
@@ -743,51 +766,57 @@ if($abd != null && $cvs != null && $cw != null && $ent != null && $ext != null &
 /***************************************************************************************************
  * Labs/X-Ray/Pathology/Others
  **************************************************************************************************/
-$pdf->SetY($pdf->GetY() + 4);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 5, 'Labs/X-Ray/Pathology/Others:', 0, 1);
+if(count($reports) > 0) {
+	$pdf->SetY($pdf->GetY() + 4);
+	$pdf->SetFont('Arial', 'B', 10);
+	$pdf->Cell(0, 5, 'Labs/X-Ray/Pathology/Others:', 0, 1);
 
-// Heading
-$pdf->SetFont('Arial','BU', 10);
-$pdf->Cell(50, 5, 'Test Date');
-$pdf->Cell(50, 5, 'Type');
-$pdf->Cell(50, 5, 'Comments', 0, 1);
-$pdf->SetFont('Arial', '', 10);
+	// Heading
+	$pdf->SetFont('Arial','BU', 10);
+	$pdf->Cell(50, 5, 'Test Date');
+	$pdf->Cell(50, 5, 'Type');
+	$pdf->Cell(50, 5, 'Comments', 0, 1);
+	$pdf->SetFont('Arial', '', 10);
 
-foreach($reports as $report) {
-	$pdf->Cell(50, 5, $report['date']);
-	$pdf->Cell(50, 5, $report['type']);
-	$pdf->Cell(0, 5, $report['comment'], 0, 1);
-	$pdf->SetY($pdf->GetY() + 1);
+	foreach($reports as $report) {
+		$pdf->Cell(50, 5, $report['date']);
+		$pdf->Cell(50, 5, $report['type']);
+		$pdf->Cell(0, 5, $report['comment'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 1);
+	}
 }
 
 /***************************************************************************************************
  * Diagnosis
  **************************************************************************************************/
-$pdf->SetY($pdf->GetY() + 4);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 5, 'Diagnosis:', 0, 1);
+if(count($diagnosis) > 0) {
+	$pdf->SetY($pdf->GetY() + 4);
+	$pdf->SetFont('Arial', 'B', 10);
+	$pdf->Cell(0, 5, 'Diagnosis:', 0, 1);
 
-// Heading
-$pdf->SetFont('Arial','BU', 10);
-$pdf->Cell(50, 5, 'Diagnosis');
-$pdf->Cell(50, 5, 'Code', 0, 1);
-$pdf->SetFont('Arial', '', 10);
+	// Heading
+	$pdf->SetFont('Arial','BU', 10);
+	$pdf->Cell(50, 5, 'Diagnosis');
+	$pdf->Cell(50, 5, 'Code', 0, 1);
+	$pdf->SetFont('Arial', '', 10);
 
-foreach($diagnosis as $diagnose) {
-	$pdf->Cell(50, 5, $diagnose['diagnosis']);
-	$pdf->Cell(0, 5, $diagnose['code'], 0, 1);
-	$pdf->SetY($pdf->GetY() + 1);
+	foreach($diagnosis as $diagnose) {
+		$pdf->Cell(50, 5, $diagnose['diagnosis']);
+		$pdf->Cell(0, 5, $diagnose['code'], 0, 1);
+		$pdf->SetY($pdf->GetY() + 1);
+	}
 }
 
 /***************************************************************************************************
  * Instructions/Plan/Discussions
  **************************************************************************************************/
-$pdf->SetY($pdf->GetY() + 4);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 5, 'Instructions/Plan/Discussions:', 0, 1);
-$pdf->SetFont('Arial', '', 10);
-$pdf->Cell(0, 5, $patient['plan_and_instructions'], 0, 1);
+if($patient['plan_and_instructions'] != '') {
+	$pdf->SetY($pdf->GetY() + 4);
+	$pdf->SetFont('Arial', 'B', 10);
+	$pdf->Cell(0, 5, 'Instructions/Plan/Discussions:', 0, 1);
+	$pdf->SetFont('Arial', '', 10);
+	$pdf->Cell(0, 5, $patient['plan_and_instructions'], 0, 1);
+}
 
 /***************************************************************************************************
  * Follow Up
