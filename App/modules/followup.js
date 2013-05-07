@@ -63,15 +63,15 @@
 	
 	 //Get PrescriptionDetails 
 	 followup.prototype.getPrescriptionDetails = function() { 
-		var fields = ['medication_order.id,medicine_list.medicine_name','medication_order.quantity',
-					  'medication_order.sigs','medication_order.strength','medication_order.dispensed_quantity',
-					  'medication_order.refill_quantity,medication_order.is_added','medication_order.prescribed_by',
-					  'medication_order.created_by','medication_order.date','medication_order.comment','medication_order.refill','medication_order.route',
-					  'medication_order.order']; 
+		var fields = ['medication.id,medicine_list.medicine_name','medication.quantity',
+					  'medication.sigs','medication.strength','medication.dispensed_quantity',
+					  'medication.refill_quantity,medication.is_added','medication.prescribed_by',
+					  'medication.created_by','medication.date','medication.comment','medication.refill','medication.route',
+					  'medication.order']; 
 			return this.query({
 				mode: 'select',
-				table:'medication_order',
-				join: "JOIN medicine_list ON medication_order.medicine_list_id=medicine_list.id",
+				table:'medication',
+				join: "JOIN medicine_list ON medication.medicine_list_id=medicine_list.id",
 				fields:fields
 		});
 	 }
@@ -169,7 +169,7 @@
 	followup.prototype.getMedicationOrder = function(id) { 
 		return this.query({
 			mode: 'select',
-			table: 'medication_order',
+			table: 'medication',
 			fields: '*',
 			where: "WHERE id='" + id + "'"
 		});
@@ -361,7 +361,7 @@
 		var fields = ['medicine','strength','quantity','route','sigs',
 		'order','dispensed_quantity','refill'
 		,'refill_quantity','physician','created_by','date','mode',
-		'comment','medication_order_id,patient_id,practice_id'];
+		'comment','medication_id,patient_id,practice_id'];
 		var values = $.map(data, function(k,v) {
 			if(k == null || k == undefined) {
 				return[''];
@@ -484,7 +484,7 @@
 		return this.query({
 			mode:'delete',
 			table:'prescription',
-			where:"WHERE medication_order_id='" + id + "'"
+			where:"WHERE medication_id='" + id + "'"
 		});
 	}
 			
