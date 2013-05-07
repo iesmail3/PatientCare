@@ -42,7 +42,7 @@ define(function(require) {
 	 var prescriptions  = ko.observableArray([]); 
 	 var doc            = ko.observable(new structures.Document());
 	 var documents      = ko.observableArray([]); 
-	 var medicationOrder= ko.observable(new structures.MedicationOrder());
+	 var medicationOrder= ko.observable(new structures.Medication());
 	 var patientId      = ko.observable(); 
 	 var practiceId     = ko.observable(); 
 	 var checkoutId     = ko.observable(); 
@@ -398,7 +398,7 @@ define(function(require) {
 					groupOrders.push(v.medicationOrderId());
 			});
 			//Show prescription modal 
-			modal.showPrescription(medicationOrder,prescriptions,groupOrders,'Prescription Details');
+			modal.showPrescription(medicationOrder,prescriptions,groupOrders, patientId, practiceId, 'Prescription Details');
 		},
 		//show additional detaisl modal 
 		selectLink: function(data) {

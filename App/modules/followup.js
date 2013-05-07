@@ -63,16 +63,10 @@
 	
 	 //Get PrescriptionDetails 
 	 followup.prototype.getPrescriptionDetails = function() { 
-		var fields = ['medication.id,medicine_list.medicine_name','medication.quantity',
-					  'medication.sigs','medication.strength','medication.dispensed_quantity',
-					  'medication.refill_quantity,medication.is_added','medication.prescribed_by',
-					  'medication.created_by','medication.date','medication.comment','medication.refill','medication.route',
-					  'medication.order']; 
 			return this.query({
 				mode: 'select',
 				table:'medication',
-				join: "JOIN medicine_list ON medication.medicine_list_id=medicine_list.id",
-				fields:fields
+				fields:'*'
 		});
 	 }
 	
@@ -356,46 +350,26 @@
 		});
 	}
     // Save a prescription for a single patient 
-	followup.prototype.savePrescription = function(data,date,comment,mode) { 
+	followup.prototype.savePrescription = function(data) { 
 		var self = this; 
-		var fields = ['medicine','strength','quantity','route','sigs',
-		'order','dispensed_quantity','refill'
-		,'refill_quantity','physician','created_by','date','mode',
-		'comment','medication_id,patient_id,practice_id'];
+		var fields = ['medicine', 'strength', 'quantity', 'route', 'sigs', 'dispensed_quantity',
+					  'refill', 'refill_quantity', 'physician', 'created_by', 'date', 'mode', 
+					  'comment', 'medication_id', 'service_record_id', 'practice_id', 'patient_id'];
 		var values = $.map(data, function(k,v) {
-			if(k == null || k == undefined) {
+			if(k() == null || k() == undefined) {
 				return[''];
 			}
 			else {
 				return [k()];
 			}	
 		});
-		$.each(data, function(k, v) {
-		  values[0] = data.medicineName(); 
-		  values[1] = data.strength();
-          values[2] = data.quantity();  
-          values[3] = data.route(); 
-		  values[4] = data.sigs(); 
-		  values[5] = data.order(); 
-		  values[6] = data.dispensedQuantity(); 
-		  values[7] = data.refill(); 
-		  values[8] = data.refillQuantity();
-		  values[9] = data.prescribedBy();
-		  values[10] = data.createdBy();
-		  values[11] = date;
-		  values[12] = mode ;
-		  values[13] = comment ;
-		  values[14] = data.id();
-		  values[15] = data.patientId(); 
-		  values[16] = data.practiceId(); 
-		 }); 
 		 
 		return self.query({
-				mode:  'insert', 
-				table: 'prescription',
-				fields: fields,  
-				values: values,
-		});	
+			mode:  'insert', 
+			table: 'prescription',
+			fields: fields,  
+			values: values,
+		});
 	}
 	
 	// Save documents for a single patient 

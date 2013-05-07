@@ -49,8 +49,8 @@ define(function(require) {
 				new Flowsheet(practiceId, serviceRecordId, orderId, role, title, options)
 			);
 		},
-		showPrescription: function(prescription,patientId,practiceId,title,options) {
-			return modalDialog.show(new Prescription(prescription,patientId,practiceId,title,options));
+		showPrescription: function(prescription,prescriptions, groupOrders, patientId,practiceId,title,options) {
+			return modalDialog.show(new Prescription(prescription,prescriptions, groupOrders, patientId,practiceId,title,options));
 		},
 		showAdditionalDetails: function(title,options) {		      
 			return modalDialog.show(new AdditionalDetails(title,options));
