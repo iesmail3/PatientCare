@@ -111,9 +111,6 @@ define(function(require) {
                     self.diagnosis(d[0]);
 					self.diagnoses.push(new structures.Diagnosis()); 
 			}
-			else { 
-						paymentMethods(new structures.PaymentMethod()); 
-			}
 		 });
 		 //Get Plan 
 		 backend.getPlan(self.patientId(),self.practiceId(),self.date()).success(function(data) { 

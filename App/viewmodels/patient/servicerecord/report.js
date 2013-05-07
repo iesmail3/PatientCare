@@ -94,7 +94,7 @@ define(function(require) {
 			var self = this; 
 			 self.date(data.date);
 			 self.patientId(data.patientId); 
-			 self.practiceId('1'); 
+			 self.practiceId(global.practiceId); 
 			 // Get Document for a single patient 
 			 backend.getDocument(self.patientId(),self.practiceId(),self.date()).success(function(data) {
 			 	self.documents([]);
@@ -134,7 +134,7 @@ define(function(require) {
 		},
 		// Search Report By Type 
 		searchByType: function(data) { 
-			backend.getDocumentByType(patientId(),documentType()).success(function(data) { 
+			backend.getDocumentByType(patientId(), practiceId(), documentType()).success(function(data) { 
 				if(data.length > 0) {  
 					 var d = $.map(data, function(item) {
 					 item.date = form.uiDate(item.date)

@@ -39,13 +39,13 @@
 		});
 	}
 	// Get Report by Type 
-	report.prototype.getDocumentByType = function(patientId,type) {
+	report.prototype.getDocumentByType = function(patientId, practiceId, type) {
 		if(type.trim() == 'All') { 
 			return this.query({
 				mode: 'select',
 				table: 'document',
 				fields: '*',
-				where: "WHERE patient_id='" + patientId + "'"
+				where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
 			});
 		} 
 		else { 
@@ -54,7 +54,7 @@
 				mode: 'select',
 				table: 'document',
 				fields: '*',
-				where: "WHERE type='" + type + "' AND patient_id='" + patientId + "'"
+				where: "WHERE type='" + type + "' AND patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
 			});
 		}
 	}
@@ -88,7 +88,7 @@
 				table: 'document',
 				fields: fields,
 				values: values,
-				where: "WHERE id='" + doc.id() + "'"
+				where: "WHERE id='" + doc.id() + "' AND practice_id='" + practiceId + "'"
 			});	
 		}
 		else {
