@@ -16,7 +16,7 @@ Description: This view is the the History tab, it displays the history informati
 				<span class="alert alert-danger" data-bind="visible: socialHistory().historyChanged()">Social History Changed</span>
 			</div>
 			<!-- History -->
-			<div class="marginBottom5 commentContainer">
+			<div class="marginBottom5 historyCommentContainer">
 				<textarea class="historyComment" placeholder="History details"
 					data-bind="value: serviceRecord().history, enable: $root.role().history() > 1" />
 				</textarea>

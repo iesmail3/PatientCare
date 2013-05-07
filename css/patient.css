@@ -224,6 +224,8 @@ th, td { cursor: default; }
 #service table .deleteButton { width: 50px; }
 
 /* History & Present Illness */
+.historyCommentContainer { padding-right: 15px; }
+
 .historyComment {
 	width: 100%;
 	min-width: 100%;

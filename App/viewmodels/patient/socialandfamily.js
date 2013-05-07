@@ -127,7 +127,7 @@ define(function(require) {
 			});
 			
 			// Get Routine Exams
-			return backend.getRoutineExam(self.patientId()).success(function(data) {
+			return backend.getRoutineExam(self.patientId(), self.practiceId()).success(function(data) {
 				if (self.routineExams().length == 0) {
 					self.routineExams.push(new structures.RoutineExam({name:'Colonoscopy',last_done:1}));
 					self.routineExams.push(new structures.RoutineExam({name:'PSA',last_done:1}));
@@ -367,6 +367,7 @@ define(function(require) {
 				for (var i = 0; i < routineExams().length; i++) {
 					temp()[i] = new structures.RoutineExam({
 						patient_id: patientId(),
+						practice_id: practiceId(),
 						name: routineExams()[i].name(),
 						last_done: routineExams()[i].lastDone(),
 						month: routineExams()[i].month(),
@@ -378,6 +379,7 @@ define(function(require) {
 				
 				$.each(routineExams(), function(k,v) {
 					v.patientId(patientId());
+					v.practiceId(practiceId());
 					backend.saveRoutineExam(v);
 				});
 				$('.alert-success').fadeIn().delay(3000).fadeOut();
@@ -395,6 +397,7 @@ define(function(require) {
 			for (var i = 0; i < tempRoutineExams().length; i++) {
 				temp()[i] = new structures.RoutineExam({
 					patient_id: patientId(),
+					practice_id: practiceId(),
 					name: tempRoutineExams()[i].name(),
 					last_done: tempRoutineExams()[i].lastDone(),
 					month: tempRoutineExams()[i].month(),

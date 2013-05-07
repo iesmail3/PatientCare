@@ -65,12 +65,12 @@ define(function(require) {
 	}
 	
 	// Get Routine Exams
-	socialandfamily.prototype.getRoutineExam = function(patientId) {
+	socialandfamily.prototype.getRoutineExam = function(patientId, practiceId) {
 		return this.query({
 			mode: 'select',
 			table: 'routine_exam',
 			fields: '*',
-			where: "WHERE patient_id='" + patientId + "'"
+			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
@@ -195,7 +195,7 @@ define(function(require) {
 	// Save Routine Exam
 	socialandfamily.prototype.saveRoutineExam = function(routineExam) {
 		var self = this;
-		var fields = ['patient_id', 'name', 'last_done', 'month', 'year', 'comment'];
+		var fields = ['patient_id', 'practice_id', 'name', 'last_done', 'month', 'year', 'comment'];
 		var values = $.map(routineExam, function(k,v) {
 			if (k() == null || k() == undefined) {
 				return [''];
@@ -213,7 +213,7 @@ define(function(require) {
 			mode: 'select',
 			table: 'routine_exam',
 			fields: '*',
-			where: "WHERE patient_id='" + routineExam.patientId() + "' AND name='" + routineExam.name() + "'"
+			where: "WHERE patient_id='" + routineExam.patientId() + "' AND practice_id='" + routineExam.practiceId() + "' AND name='" + routineExam.name() + "'"
 		}).success(function(data) {
 			// Save
 			if (data.length > 0) {
@@ -252,11 +252,11 @@ define(function(require) {
 	}
 	
 	// Delete Routine Exam
-	socialandfamily.prototype.deleteRoutineExam = function(patientId, name) {
+	socialandfamily.prototype.deleteRoutineExam = function(patientId, practiceId, name) {
 		return this.query({
 			mode: 'delete',
 			table: 'routine_exam',
-			where: "WHERE patient_id='" + patientId + "' AND name='" + name + "'"
+			where: "WHERE patient_id='" + patientId + "' AND practice_id='" + practiceId + "' AND name='" + name + "'"
 		});
 	}
 	

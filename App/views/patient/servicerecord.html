@@ -46,11 +46,11 @@ Description: This view displays the records for each patient's service records. 
 							value: serviceRecord().physicianId, enable: $root.role().serviceRecord() > 1">
 						</select>
 						<button type="button" class="btn btn-small"
-							data-bind="click: serviceRecordReport1">
+							data-bind="click: serviceRecordReport1, visible: !isNaN(serviceRecord().id())">
 							Report 1
 						</button>
 						<button type="submit" class="btn btn-small"
-							data-bind="click: serviceRecordReport2">
+							data-bind="click: serviceRecordReport2, visible: !isNaN(serviceRecord().id())">
 							Report 2
 						</button>
 					</div>

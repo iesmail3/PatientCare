@@ -173,7 +173,7 @@ define(function(require) {
 	// Saves a new Followup
 	servicerecord.prototype.saveFollowup = function(followup) {
 		var self = this;
-		var fields = ['id', 'practice_id', 'patient_id', 'service_record_id', 'type', 'value', 'unit',
+		var fields = ['id', 'patient_id', 'practice_id', 'service_record_id', 'type', 'value', 'unit',
 			'comment', 'service_date', 'plan'];
 		
 		var values = $.map(followup, function(k,v) {

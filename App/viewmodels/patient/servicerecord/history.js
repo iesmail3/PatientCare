@@ -32,7 +32,6 @@ define(function(require) {
 	var patient = ko.observable(new structures.Patient());
 	var socialHistory = ko.observable(new structures.SocialHistory());
 	var serviceRecord = ko.observable(new structures.ServiceRecord());
-	var reviewOfSystem = ko.observable(new structures.ReviewOfSystems());
 	var reviewOfSystems = ko.observableArray([]);
 	var oldSystems = ko.observableArray([]);
 	var tempMedicalProblem = ko.observable(new structures.MedicalProblem());
@@ -71,7 +70,6 @@ define(function(require) {
 		patient: patient,
 		socialHistory: socialHistory,
 		serviceRecord: serviceRecord,
-		reviewOfSystem: reviewOfSystem,
 		reviewOfSystems: reviewOfSystems,
 		tempMedicalProblem: tempMedicalProblem,
 		medicalProblem: medicalProblem,
@@ -105,18 +103,18 @@ define(function(require) {
 			$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 			$('.historyFormScroll').height(parseInt($('.tab-pane').height()) - 52);
 			$('.reviewFormScroll').height(parseInt($('.tab-pane').height()) - 145);
-			$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 258);
-			$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 293);
-			$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 214);
-			$('.commentContainer').height(parseInt($('.historyFormScroll').parent().height()) - 67);
+			$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 262);
+			$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 298);
+			$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 218);
+			$('.historyCommentContainer').height(parseInt($('.historyFormScroll').parent().height()) - 67);
 			$(window).resize(function() {
 				$('.tab-pane').height(parseInt($('.contentPane').height()) - 62);
 				$('.historyFormScroll').height(parseInt($('.tab-pane').height()) - 42);
 				$('.reviewFormScroll').height(parseInt($('.tab-pane').height()) - 145);
-				$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 258);
-				$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 293);
-				$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 214);
-				$('.commentContainer').height(parseInt($('.historyFormScroll').parent().height()) - 67);
+				$('.problemFormScroll').height(parseInt($('.tab-pane').height()) - 262);
+				$('.medicationFormScroll').height(parseInt($('.tab-pane').height()) - 298);
+				$('.allergyFormScroll').height(parseInt($('.tab-pane').height()) - 218);
+				$('.historyCommentContainer').height(parseInt($('.historyFormScroll').parent().height()) - 67);
 			});
 			
 			// combobox for strength field
@@ -137,6 +135,13 @@ define(function(require) {
 			self.patientId(data.patientId);
 			self.date(data.date);
 			
+			// Clear data from observables
+			self.reviewOfSystems.removeAll();
+			self.oldSystems.removeAll();
+			self.medicalProblems.removeAll();
+			self.medications.removeAll();
+			self.allergiesIntolerances.removeAll();
+			
 			// Get Patient
 			backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
 				self.patient(new structures.Patient(data[0]));
@@ -145,7 +150,6 @@ define(function(require) {
 			// Get Social History
 			backend.getSocialHistory(self.patientId(), self.practiceId()).success(function(data) {
 				self.socialHistory(new structures.SocialHistory(data[0]));
-				
 			});
 
 			// Get the current Service Record

@@ -364,44 +364,30 @@ define(function(require) {
 	}
 	
 	// Delete Employer for a Single Patient
-	personal.prototype.deleteEmployer = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
+	personal.prototype.deleteEmployer = function(id, practiceId) {
 		
 		return this.query({
 			mode: 'delete', 
 			table: 'employer', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
 	// Delete Spouse for a Single Patient
-	personal.prototype.deleteSpouse = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
+	personal.prototype.deleteSpouse = function(id, practiceId) {
 		return this.query({
 			mode: 'delete', 
 			table: 'spouse', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
 	// Delete Reference for a Single Patient
-	personal.prototype.deleteReference = function(id, data) {
-		var values = $.map(data, function(k,v) {
-			return [k];
-		});
-		
+	personal.prototype.deleteReference = function(id, practiceId) {		
 		return this.query({
 			mode: 'delete', 
-			table: 'reference', 
-			values: values, 
-			where: "WHERE patient_id='" + id + "'"
+			table: 'reference',
+			where: "WHERE id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
