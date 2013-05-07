@@ -250,7 +250,7 @@ define(function(require) {
 						
 					}
 					else { 
-						paymentMethods(new structures.PaymentMethod()); 
+						self.paymentMethods(new structures.PaymentMethod()); 
 				    }
 				}); 
 			});
@@ -599,33 +599,49 @@ define(function(require) {
 		},
 		//Displays checkout pdf file
 		printCheckout: function(data) { 
-			var height = $('.flowHolder').height();
-			var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
-					   'menubar=no, status=no, titlebar=no, toolbar=no';
-			var win = window.open(
-					'php/printCheckout.php/?practiceId=' + practiceId() + 
-					'&patientId=' + checkout().patientId()+ '&serviceRecordId=' 
-					+ checkout().serviceRecordId() + '&checkoutId=' + checkout().id() + 
-					'&primaryCo=' + primaryCo() + '&secondaryCo=' + secondaryCo() 
-					+'&otherCo=' + otherCo(),					
-					'',
-					settings
-				);
+			if(checkouts().length != 0) {
+				var height = $('.flowHolder').height();
+				var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
+						   'menubar=no, status=no, titlebar=no, toolbar=no';
+				var win = window.open(
+						'php/printCheckout.php/?practiceId=' + practiceId() + 
+						'&patientId=' + checkout().patientId()+ '&serviceRecordId=' 
+						+ checkout().serviceRecordId() + '&checkoutId=' + checkout().id() + 
+						'&primaryCo=' + primaryCo() + '&secondaryCo=' + secondaryCo() 
+						+'&otherCo=' + otherCo(),					
+						'',
+						settings
+					);
+			}
+			else { 
+					return app.showMessage(
+					'There is currently no checkout to print', 
+					'Checkout', 
+					['Ok']);
+			}
 		},
 		//Displays checkout order pdf file 
 		printCheckoutOrder: function(data) {  
-			var height = $('.flowHolder').height();
-			var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
-					   'menubar=no, status=no, titlebar=no, toolbar=no';
-			var win = window.open(
-					'php/printCheckoutOrder.php/?practiceId=' + practiceId() + 
-					'&patientId=' + checkout().patientId() + '&serviceRecordId=' 
-					+ checkout().serviceRecordId() + '&checkoutId=' 
-					+ checkout().id()
-					,					
-					'',
-					settings
-				);
+			if(checkouts().length != 0) {
+				var height = $('.flowHolder').height();
+				var settings = 'directories=no, height=' + height + ', width=800, location=yes, ' +
+						   'menubar=no, status=no, titlebar=no, toolbar=no';
+				var win = window.open(
+						'php/printCheckoutOrder.php/?practiceId=' + practiceId() + 
+						'&patientId=' + checkout().patientId() + '&serviceRecordId=' 
+						+ checkout().serviceRecordId() + '&checkoutId=' 
+						+ checkout().id()
+						,					
+						'',
+						settings
+					);
+		    }
+			else { 
+					return app.showMessage(
+					'There is currently no checkout order to print', 
+					'Checkout Order', 
+					['Ok']);
+			}
 		}
 		
     };//End ViewModel

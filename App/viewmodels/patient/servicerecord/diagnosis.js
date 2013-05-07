@@ -195,7 +195,15 @@ define(function(require) {
 		},
 		//Display print diagnosis file 
 		selectPrint: function(data) {
-			modal.showDiagnosisLetter('Diagnosis Letter',patientId(),practiceId(),date());
+			if(diagnoses().length != 0) { 
+				modal.showDiagnosisLetter('Diagnosis Letter',patientId(),practiceId(),date());
+			}
+			else {
+					return app.showMessage(
+					'There is currently no diagnosis to print', 
+					'Diagnosis', 
+					['Ok']);
+			}
 		},
 		//Save Plan 
 		savePlan: function(data) { 

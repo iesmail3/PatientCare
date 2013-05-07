@@ -57,7 +57,7 @@
 							<input data-bind="checked: editAdditionalCharge,enable: $root.role().checkout() > 1" type="checkbox" /><span>Additional Charges</span>
 							</label> 
 							<div class="controls">
-							<input type="text" class="input-small" placeholder="0" data-bind="enable: editAdditionalCharge && $root.role().checkout() > 1,
+							<input type="text" class="input-small" placeholder="0" data-bind="enable: editAdditionalCharge()==true && $root.role().checkout() > 1,
 							 value: additionalCharges"/>
 							</div>
 						</div>       
