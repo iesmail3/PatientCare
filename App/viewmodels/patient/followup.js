@@ -250,7 +250,7 @@ define(function(require) {
 						
 					}
 					else { 
-						self.paymentMethods(new structures.PaymentMethod()); 
+						self.paymentMethods.push(new structures.PaymentMethod()); 
 				    }
 				}); 
 			});
