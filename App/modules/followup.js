@@ -9,7 +9,7 @@
 	 * Includes*
 	 **********************************************************************************************/
 	var system = require('durandal/system');			// System logger
-	var Forms = require('modules/form');					// Common form elements
+	var Forms = require('modules/form');				// Common form elements
 	var form = new Forms(); 
 	/**********************************************************************************************
 	 * Constructor
@@ -22,6 +22,7 @@
 	 *********************************************************************************************/
 	// Role
 	followup.prototype.getRole = function(id, practiceId) {
+	    //create select query script
 		return this.query({
 			mode: 'select', 
 			table: 'user', 
@@ -34,6 +35,7 @@
 	followup.prototype.getFollowup = function(patientId, practiceId) {
 		if(patientId == 'new')
 			patientId = -1;
+	    //create select query script 
 		return this.query({
 			mode: 'select',
 			table: 'follow_up',
@@ -44,6 +46,7 @@
 	
 	// Get physician name based on practice id
 	followup.prototype.getPhysician = function(practiceId) {  
+	   // create select query script 
 		return this.query({
 			mode: 'select',
 			table: 'physician',
@@ -56,27 +59,25 @@
 	followup.prototype.getSuperBill = function(patientId) {
 		if(patientId == 'new')
 			patientId = -1;
-		var fields = ['service_record.date','service_record.physical_examination_comment','superbill.is_complete']; 
-			return this.query({
-				mode: 'select',
-				table: 'service_record',
-				join: "JOIN superbill ON service_record.id=superbill.service_record_id AND service_record.practice_id = superbill.practice_id AND service_record.patient_id='"+patientId +"'",
-				fields: fields
-			});
+		//fields array 
+		var fields = ['service_record.date','service_record.physical_examination_comment',
+		'superbill.is_complete']; 
+	    //create select query script 
+		return this.query({
+			mode: 'select',
+			table: 'service_record',
+			join: "JOIN superbill ON service_record.id=superbill.service_record_id AND service_record.practice_id = superbill.practice_id AND service_record.patient_id='"+patientId +"'",
+			fields: fields
+		});
 	}
 	
 	 //Get PrescriptionDetails 
 	 followup.prototype.getPrescriptionDetails = function() { 
-		var fields = ['medication_order.id,medicine_list.medicine_name','medication_order.quantity',
-					  'medication_order.sigs','medication_order.strength','medication_order.dispensed_quantity',
-					  'medication_order.refill_quantity,medication_order.is_added','medication_order.prescribed_by',
-					  'medication_order.created_by','medication_order.date','medication_order.comment','medication_order.refill','medication_order.route',
-					  'medication_order.order']; 
-			return this.query({
-				mode: 'select',
-				table:'medication_order',
-				join: "JOIN medicine_list ON medication_order.medicine_list_id=medicine_list.id",
-				fields:fields
+	    //create a select query script 
+		return this.query({
+		    mode: 'select',
+			table:'medication',
+			fields:'*'
 		});
 	 }
 	
@@ -84,6 +85,7 @@
 	followup.prototype.getCheckOut = function(id, practiceId) {
 		if(id == 'new')
 			id = -1;
+	    //create a select query script
 		return this.query({
 			mode: 'select',
 			table: 'checkout',
@@ -93,7 +95,8 @@
 	}
 	
 	// Get payment methods for a single patient 
-	followup.prototype.getPaymentMethods = function(id) { 
+	followup.prototype.getPaymentMethods = function(id) {
+        //create a select query script 	
 		return this.query({
 			mode: 'select',
 			table: 'payment_method',
@@ -106,6 +109,7 @@
 	followup.prototype.getPhoneLog = function(id, practiceId) {
 		if(id == 'new')
 			id = -1;
+	   //create seelct query script
 		return this.query({
 			mode: 'select',
 			table: 'phone_log',
@@ -117,6 +121,7 @@
 	}
 	//Get the last phoneLog
 	followup.prototype.getLastPhoneLog = function() { 
+	    //create seelct query script
 		return this.query({
 			mode: 'select',
 			table: 'phone_log',
@@ -130,6 +135,7 @@
 	followup.prototype.getDocument = function(id, practiceId) {
 		if(id == 'new')
 			id = -1;
+	    //create seelct query script
 		return this.query({
 			mode: 'select',
 			table: 'document',
@@ -141,6 +147,7 @@
 	followup.prototype.getDocumentByType = function(patientId,practiceId,type) {
 		if(patientId == 'new')
 			patientId = -1;
+	    //If 'All' is chosen from the drop down in the view
 		if(type.trim() == 'All') { 
 			return this.query({
 				mode: 'select',
@@ -150,7 +157,6 @@
 			});
 		} 
 		else { 
-		
 			return this.query({
 				mode: 'select',
 				table: 'document',
@@ -163,6 +169,7 @@
 	followup.prototype.getPrescription = function(patientId,practiceId) {
 		if(patientId== 'new')
 			patientId = -1;
+	    //create select query script
 		return this.query({
 			mode: 'select',
 			table: 'prescription',
@@ -174,6 +181,7 @@
 	followup.prototype.getInsurance = function(id,practiceId) {
 		if(id == 'new')
 			id = -1;
+	    //create select query script
 		return this.query({
 			mode: 'select', 
 			table: 'insurance', 
@@ -183,15 +191,17 @@
 	}
 	//Get MedicationOrder for a single patient
 	followup.prototype.getMedicationOrder = function(id) { 
+	    //create select query script
 		return this.query({
 			mode: 'select',
-			table: 'medication_order',
+			table: 'medication',
 			fields: '*',
 			where: "WHERE id='" + id + "'"
 		});
 	}
 	//Get Diagnosis for a single patient
-	followup.prototype.getDiagnosis = function() { 
+	followup.prototype.getDiagnosis = function() {
+        //create select query script	
 		return this.query({
 			mode: 'select',
 			table: 'diagnosis',
@@ -208,13 +218,17 @@
 	followup.prototype.saveFollowup = function(id, data) {
 		var self = this; 
 		var patientId = data.patientId();  
-		var practiceId = data.practiceId();  
-		var fields = ['id','patient_id','practice_id','service_record_id','type','value','unit','comment','service_date','plan'];
-
+		var practiceId = data.practiceId(); 
+        //fields array 		
+		var fields = ['id','patient_id','practice_id','service_record_id','type','value','unit',
+		'comment','service_date','plan'];
+        //values array 
 		var values = $.map(data, function(k,v) {
 			return [k];
 		});
-		values[8] = form.dbDate(data.serviceDate()); 
+		//Convert uiDate to dbDate 
+		values[8] = form.dbDate(data.serviceDate());
+		//create update query script 
 		return self.query({
 				mode:  'update', 
 				table: 'follow_up',
@@ -227,7 +241,7 @@
 	followup.prototype.saveDiagnosis = function(id, data) {
 		var self = this;   
 		var fields = ['id','service_record_id','diagnosis','code'];
-
+        
 		var values = $.map(data, function(k,v) {
 			return [k];
 		});
@@ -243,7 +257,9 @@
 	// Save payment methods for a single patient 
 	followup.prototype.savePaymentMethod = function(checkoutId, paymentMethod) { 
 		var self = this; 
+		//fields array 
 		var fields = ['id','checkout_id','mode','particulars','amount'];
+		//values array 
 		var values = $.map(paymentMethod, function(k,v) {
 			if(k == null || k == undefined) {
 				return[''];
@@ -256,8 +272,7 @@
 		 
 		if(paymentMethod.id() == undefined || paymentMethod.id() == '') { 
 		    var newId = '';
-			// select the last record's id from the table,increment it by one, and set it
-			// equal to the new record's id 
+			// select the id of the last row in the table
 			return self.query({
 					mode: 'select',
 					table: 'payment_method',
@@ -266,11 +281,13 @@
 					limit: 'LIMIT 1'
 			}).success(function(data) {
 					$.each(data, function(key, item) {
+					//Increment ths id by one and set it as your new id
 							newId = parseInt(item.id) + 1;
 					});
 					
 					values[0] = newId;
 					paymentMethod.id(newId); 
+					//Create the inserts query script
 					self.query({
 							mode: 'insert',
 							table: 'payment_method',
@@ -291,23 +308,27 @@
 	}
 	// Save phoneLog for a single patient 
 	followup.prototype.savePhoneLog = function(phoneLog,phoneLogs,practiceId,patientId,showAssigned) { 
-			var self = this; 
-			var fields = ['id','patient_id','practice_id','datetime','caller','attended_by','message','action_required','assigned_to','type'];
-			var values = $.map(phoneLog(), function(k,v) {
-					if(k == null || k == undefined) {
-							return[''];
-					}
-					else {
-							return [k()];
-					}
-			});
-			values[1] = patientId;
-			values[2] = practiceId;  
-			values[3] = form.dbDate(phoneLog().datetime()); 
-			// Insert new record 
-			if(phoneLog().id() == undefined || phoneLog().id() == '') {
+		var self = this;
+		//fields array 
+		var fields = ['id','patient_id','practice_id','datetime','caller','attended_by',
+		              'message','action_required','assigned_to','type'];
+		//values array 
+		var values = $.map(phoneLog(), function(k,v) {
+			if(k == null || k == undefined) {
+				return[''];
+			}
+			else {
+				return [k()];
+			}
+		});
+		values[1] = patientId;
+		values[2] = practiceId;  
+		values[3] = form.dbDate(phoneLog().datetime()); 
+		// Insert new record 
+		if(phoneLog().id() == undefined || phoneLog().id() == '') {
              showAssigned(true);  			
 			   var newId = 1;
+			//Select the id of the last row in the database
 			return self.query({
 					mode: 'select',
 					table: 'phone_log',
@@ -316,6 +337,7 @@
 					limit: 'LIMIT 1'
 			}).success(function(data) { 
 					$.each(data, function(key, item) {
+					//Increment the id by one as set is as your new id
 							newId = parseInt(item.id) + 1;
 					});
 					
@@ -327,11 +349,12 @@
 							fields: fields,
 							values: values,
 					});
-					
+					//Add the new phoneLog observable to the array
 					phoneLogs.push(phoneLog()); 
 			   });
 		}
 		else { 
+			//create update query script
 			return self.query({
 					mode:  'update', 
 					table: 'phone_log',
@@ -344,16 +367,17 @@
     //Save checkout for a single patient 
 	followup.prototype.saveCheckout = function(data) {  
 		var self = this; 
+		//fields array 
 		var fields = ['id','practice_id','patient_id','service_record_id',
-		'date','copay_amount','other_copay','additional_charges','edit_additional_charge',
-		'insurance_portion','total_receivable','total_payment','balance','comment',
-		'primary_insurance','secondary_insurance','other_insurance'];
+					 'date','copay_amount','other_copay','additional_charges','edit_additional_charge',
+		             'insurance_portion','total_receivable','total_payment','balance','comment',
+		             'primary_insurance','secondary_insurance','other_insurance'];
 		// Convert true/false back to 1/0
 		data.editAdditionalCharge(data.editAdditionalCharge() ? 1 : 0);
 		data.primaryInsurance(data.primaryInsurance() ? 1 : 0);
 		data.secondaryInsurance(data.secondaryInsurance() ? 1 : 0);
 		data.otherInsurance(data.otherInsurance() ? 1 : 0);
-		 
+		//values array 
 		var values = $.map(data, function(k,v) {
 			if(k == null || k == undefined) {
 				return[''];
@@ -362,7 +386,7 @@
 				return [k()];
 			}
 		});
-		
+		//create query script
 		return self.query({
 			mode:  'update', 
 			table: 'checkout',
@@ -372,46 +396,28 @@
 		});
 	}
     // Save a prescription for a single patient 
-	followup.prototype.savePrescription = function(data,date,comment,mode) { 
+	followup.prototype.savePrescription = function(data) { 
 		var self = this; 
-		var fields = ['medicine','strength','quantity','route','sigs',
-		'order','dispensed_quantity','refill'
-		,'refill_quantity','physician','created_by','date','mode',
-		'comment','medication_order_id,patient_id,practice_id'];
+		//fields array 
+		var fields = ['medicine', 'strength', 'quantity', 'route', 'sigs', 'dispensed_quantity',
+					  'refill', 'refill_quantity', 'physician', 'created_by', 'date', 'mode', 
+					  'comment', 'medication_id', 'service_record_id', 'practice_id', 'patient_id'];
+		//values array 
 		var values = $.map(data, function(k,v) {
-			if(k == null || k == undefined) {
+			if(k() == null || k() == undefined) {
 				return[''];
 			}
 			else {
 				return [k()];
 			}	
 		});
-		$.each(data, function(k, v) {
-		  values[0] = data.medicineName(); 
-		  values[1] = data.strength();
-          values[2] = data.quantity();  
-          values[3] = data.route(); 
-		  values[4] = data.sigs(); 
-		  values[5] = data.order(); 
-		  values[6] = data.dispensedQuantity(); 
-		  values[7] = data.refill(); 
-		  values[8] = data.refillQuantity();
-		  values[9] = data.prescribedBy();
-		  values[10] = data.createdBy();
-		  values[11] = date;
-		  values[12] = mode ;
-		  values[13] = comment ;
-		  values[14] = data.id();
-		  values[15] = data.patientId(); 
-		  values[16] = data.practiceId(); 
-		 }); 
-		 
+		//create query script 
 		return self.query({
-				mode:  'insert', 
-				table: 'prescription',
-				fields: fields,  
-				values: values,
-		});	
+			mode:  'insert', 
+			table: 'prescription',
+			fields: fields,  
+			values: values,
+		});
 	}
 	
 	// Save documents for a single patient 
@@ -419,21 +425,22 @@
 		var self = this;
 		// Convert true/false to 1/0
 		doc.isReviewed(doc.isReviewed() ? 1 : 0);
-        
+        //fields array 
 		var fields = ['id', 'patient_id','practice_id','service_record_id',
-		'location', 'type', 'date', 'comment', 'is_reviewed','is_report','date_of_service'];
+		             'location', 'type', 'date', 'comment', 'is_reviewed','is_report','date_of_service'];
+		//values array 
 		var values = $.map(doc, function(k, v) {
 			if(k() == null || k() == undefined)
 				return [''];
 			else
 				return [k()];
 		});
-		
+		//initialize the values
         values[1] = patientId();
 		values[2] = practiceId();  
 		values[6] = form.dbDate(doc.date());
 		values[10] = form.dbDate(doc.dateOfService());
-		
+		//create query script 
 		if(values[0] != "") { 
 			self.query({
 				mode: 'update',
@@ -445,6 +452,7 @@
 		}
 	
 		else {
+		    //select the id of the last row in the table
 			return self.query({
 				mode: 'select',
 				table: 'document',
@@ -454,19 +462,20 @@
 			}).success(function(data) {
 				var newId = 1; 
 				if(data.length > 0)
+				//increment the id by one and set it as your new id
 					newId = parseInt(data[0].id) + 1; 
 				values[6] = form.currentDate(); 
 				values[0] = newId;
 				doc.id(newId);
 				doc.date(form.currentDate()); 
-				
+				//create the insert query script
 				 self.query({
 					mode: 'insert',
 					table: 'document',
 					fields: fields,
 					values: values
 				});
-				
+				//add the observable in the array 
 				documents.push(doc);
 			});
 		}
@@ -479,6 +488,7 @@
 	 *********************************************************************************************/
 	 // Delete followup
 	followup.prototype.deleteFollowup = function(id) { 
+		//create the delete query script 
 		return this.query({
 			mode: 'delete', 
 			table: 'follow_up', 
@@ -488,6 +498,7 @@
 	
 	// Delete Payment Method 
 	followup.prototype.deletePaymentMethod = function(id) {
+	    //create the delete query script
 		return this.query({
 			mode: 'delete', 
 			table: 'payment_method', 
@@ -497,10 +508,11 @@
 	
 	// Delete prescriptions
 	followup.prototype.deletePrescription = function(id) {
+	    //create the delete query script 
 		return this.query({
 			mode:'delete',
 			table:'prescription',
-			where:"WHERE medication_order_id='" + id + "'"
+			where:"WHERE medication_id='" + id + "'"
 		});
 	}
 			
@@ -518,11 +530,3 @@
 	 // *************************************************************************************************/
 	 return followup;
 });
-	
-	
-	
-	
-	
-	
-	
-	

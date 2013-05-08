@@ -13,10 +13,12 @@ define(function(require) {
 	var backend = new Backend(); 
 	var self;
     //Constructor 
-	var Prescription = function(prescription,prescriptions,groupOrders,title,options) {
+	var Prescription = function(prescription,prescriptions,groupOrders,patientId, practiceId, title,options) {
          self = this; 	
 		this.title = title || Prescription.defaultTitle;
 		this.prescription = ko.observable(prescription);
+		this.practiceId = practiceId;
+		this.patientId = patientId;
 		this.prescriptions = prescriptions;
 		this.groupOrders = groupOrders;		
 		this.oldGroup = [];
@@ -42,8 +44,30 @@ define(function(require) {
 						 var cat = _.filter(self.medicationOrders(), function(x) {
 							 return x.id() == v;
 						});
-						  self.date(form.dbDate(self.date()));
-						  backend.savePrescription(cat[0],self.date(),self.comment(),self.mode()); 							 
+						
+						self.date(form.dbDate(self.date()));
+						var p = new structures.Prescription({
+							medicine: cat[0].medicine(),
+							strength: cat[0].strength(),
+							quantity: cat[0].quantity(),
+							route: cat[0].route(),
+							sigs: cat[0].sigs(),
+							dispensed_quantity: cat[0].dispensed(),
+							refill: cat[0].refill(),
+							refill_quantity: cat[0].refillQty(),
+							physician: cat[0].prescribedBy(),
+							created_by: cat[0].prescribedBy(),
+							date: self.date(),
+							mode: self.mode(),
+							comment: cat[0].comment(),
+							medication_id: cat[0].id(),
+							service_record_id: cat[0].serviceRecordId(),
+							practice_id: self.practiceId(),
+							patient_id: self.patientId()
+						});
+
+						backend.savePrescription(p);
+						self.prescriptions.push(p); 							 
 					}
 			});
 			 //Populate the prescription observable array
@@ -66,7 +90,7 @@ define(function(require) {
 		backend.getPrescriptionDetails().success(function(data) { 
 		   
 			if(data.length > 0) { 
-				var m = $.map(data, function(item) {return new structures.MedicationOrder(item) });
+				var m = $.map(data, function(item) {return new structures.Medication(item) });
 				self.medicationOrders(m);  
 			}
 		});

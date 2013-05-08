@@ -39,12 +39,12 @@
 				<tbody data-bind="foreach: medicationOrders">     
 					<tr>   
 						<td><input type="checkbox" data-bind="attr: {value: id}, checked: $root.groupOrders" /></td>
-						<td data-bind="text: medicineName"></td>   
+						<td data-bind="text: medicine"></td>   
 						<td data-bind="text: quantity"></td>   
 						<td data-bind="text: sigs"></td>   
 						<td  data-bind="text: strength"></td>   
-						<td data-bind="text: dispensedQuantity"></td>   
-						<td data-bind="text: refillQuantity"></td>   					     
+						<td data-bind="text: dispensed"></td>   
+						<td data-bind="text: refill"></td>   					     
 					</tr>          
 			</tbody>
 			</table>
