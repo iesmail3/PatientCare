@@ -168,6 +168,7 @@ $stmt = $db->query("SELECT *
 				    WHERE orders.id='$orderId' ");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
+$order = array();
 if(count($rows) > 0)
 	$order = $rows;
 

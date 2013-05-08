@@ -176,6 +176,7 @@ $stmt = $db->query("SELECT *
 				    WHERE orders.id='$orderId' ");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $rows = $stmt->fetchAll();
+$order = array();
 if(count($rows) > 0)
 	$order = $rows;
 
@@ -244,34 +245,36 @@ $pdf->Line(11, $y, 199, $y);
 /***************************************************************************************************
  * Vitals
  **************************************************************************************************/
-// Last Access
-$pdf->SetY($y + 2);
-$pdf->SetFont('Arial','B',10);
-$pdf->Cell(10, 5, 'Day: ');
-$pdf->SetFont('Arial','',10);
-$pdf->Cell(20, 5, $vitals[count($vitals)-1]['day']);
-$pdf->SetFont('Arial','B',10);
-$pdf->Cell(30, 5, 'Venous Access: ');
-$pdf->SetFont('Arial','',10);
-$pdf->Cell(90, 5, $vitals[count($vitals)-1]['port_access'], 0, 1);
-
-// Heading
-$pdf->SetFont('Arial','BU',10);
-$pdf->Cell(30, 5, 'Vitals', 0, 1);
-$pdf->SetFont('Arial','',10);
-$pdf->Cell(40, 5, 'Time');
-$pdf->Cell(35, 5, 'BP');
-$pdf->Cell(35, 5, 'Pulse');
-$pdf->Cell(16, 5, 'Temp (F)', 0, 1);
-
-// Data
-foreach($vitals as $v) {
-	$date = date('n/j/Y', strtotime($v['date']));
-	$pdf->Cell(40, 5, $date . ' ' . $v['time']);
-	$pdf->Cell(35, 5, $v['bp']);
-	$pdf->Cell(35, 5, $v['pulse']);
-	$pdf->Cell(16, 5, $v['temp'], 0, 1, 'R');
-} 
+if(count($vitals) < 0) {
+	// Last Access
+	$pdf->SetY($y + 2);
+	$pdf->SetFont('Arial','B',10);
+	$pdf->Cell(10, 5, 'Day: ');
+	$pdf->SetFont('Arial','',10);
+	$pdf->Cell(20, 5, $vitals[count($vitals)-1]['day']);
+	$pdf->SetFont('Arial','B',10);
+	$pdf->Cell(30, 5, 'Venous Access: ');
+	$pdf->SetFont('Arial','',10);
+	$pdf->Cell(90, 5, $vitals[count($vitals)-1]['port_access'], 0, 1);
+	
+	// Heading
+	$pdf->SetFont('Arial','BU',10);
+	$pdf->Cell(30, 5, 'Vitals', 0, 1);
+	$pdf->SetFont('Arial','',10);
+	$pdf->Cell(40, 5, 'Time');
+	$pdf->Cell(35, 5, 'BP');
+	$pdf->Cell(35, 5, 'Pulse');
+	$pdf->Cell(16, 5, 'Temp (F)', 0, 1);
+	
+	// Data
+	foreach($vitals as $v) {
+		$date = date('n/j/Y', strtotime($v['date']));
+		$pdf->Cell(40, 5, $date . ' ' . $v['time']);
+		$pdf->Cell(35, 5, $v['bp']);
+		$pdf->Cell(35, 5, $v['pulse']);
+		$pdf->Cell(16, 5, $v['temp'], 0, 1, 'R');
+	} 
+}
  
 /***************************************************************************************************
  * Order

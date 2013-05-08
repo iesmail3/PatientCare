@@ -32,6 +32,8 @@
 	}
 	 // Get Personal Information for a Single Patient
 	followup.prototype.getFollowup = function(patientId, practiceId) {
+		if(patientId == 'new')
+			patientId = -1;
 		return this.query({
 			mode: 'select',
 			table: 'follow_up',
@@ -52,13 +54,15 @@
 	
 	//Get service record 
 	followup.prototype.getSuperBill = function(patientId) {
-	var fields = ['service_record.date','service_record.physical_examination_comment','superbill.is_complete']; 
-		return this.query({
-			mode: 'select',
-			table: 'service_record',
-			join: "JOIN superbill ON service_record.id=superbill.service_record_id AND service_record.practice_id = superbill.practice_id AND service_record.patient_id='"+patientId +"'",
-			fields: fields
-		});
+		if(patientId == 'new')
+			patientId = -1;
+		var fields = ['service_record.date','service_record.physical_examination_comment','superbill.is_complete']; 
+			return this.query({
+				mode: 'select',
+				table: 'service_record',
+				join: "JOIN superbill ON service_record.id=superbill.service_record_id AND service_record.practice_id = superbill.practice_id AND service_record.patient_id='"+patientId +"'",
+				fields: fields
+			});
 	}
 	
 	 //Get PrescriptionDetails 
@@ -78,6 +82,8 @@
 	
 	// Get checkout information for a single patient 
 	followup.prototype.getCheckOut = function(id, practiceId) {
+		if(id == 'new')
+			id = -1;
 		return this.query({
 			mode: 'select',
 			table: 'checkout',
@@ -98,6 +104,8 @@
 	
 	// Get phoneLog for a single patient 
 	followup.prototype.getPhoneLog = function(id, practiceId) {
+		if(id == 'new')
+			id = -1;
 		return this.query({
 			mode: 'select',
 			table: 'phone_log',
@@ -120,6 +128,8 @@
 	
 	// Get documents for a single patient 
 	followup.prototype.getDocument = function(id, practiceId) {
+		if(id == 'new')
+			id = -1;
 		return this.query({
 			mode: 'select',
 			table: 'document',
@@ -129,6 +139,8 @@
 	}
 	// Get document based on document type 
 	followup.prototype.getDocumentByType = function(patientId,practiceId,type) {
+		if(patientId == 'new')
+			patientId = -1;
 		if(type.trim() == 'All') { 
 			return this.query({
 				mode: 'select',
@@ -149,6 +161,8 @@
 	}
 	//Get prescriptions 
 	followup.prototype.getPrescription = function(patientId,practiceId) {
+		if(patientId== 'new')
+			patientId = -1;
 		return this.query({
 			mode: 'select',
 			table: 'prescription',
@@ -158,6 +172,8 @@
 	}
 	// Get All Insurances for a Single Patient
 	followup.prototype.getInsurance = function(id,practiceId) {
+		if(id == 'new')
+			id = -1;
 		return this.query({
 			mode: 'select', 
 			table: 'insurance', 

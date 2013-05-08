@@ -190,6 +190,20 @@ define(function(require) {
 				}
 			});
 
+			if(self.patientId() == 'new') {
+				self.patient(new structures.Patient());
+				self.patient().practiceId(self.practiceId());
+			}
+			else {
+				backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
+					if(data.length > 0) {
+						var p = new structures.Patient(data[0]);
+						p.practiceId(self.practiceId());
+						self.patient(p);
+					}
+				});
+			}
+
 			return backend.getPatient(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					var p = new self.structures.Patient(data[0]);

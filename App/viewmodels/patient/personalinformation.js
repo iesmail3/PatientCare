@@ -92,8 +92,10 @@ define(function(require) {
   				$(this).tab('show');
 			});
 			
-			$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
-			$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
+			setTimeout(function() {
+				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
+				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
+			}, 100);
 			$(window).resize(function() {
 				$('.outerPane').height(parseInt($('.contentPane').height()) - 62);
 				$('.formScroll').height(parseInt($('.tab-pane').height()) - 62);
@@ -106,6 +108,21 @@ define(function(require) {
 			backend.getRole(global.userId, global.practiceId).success(function(data) {
 				self.role(new userStructures.Role(data[0]));
 			});
+
+			// Reset all observables
+			user				(new userStructures.User());
+			role				(new userStructures.Role());
+			primaryInsurance 	(new structures.Insurance());
+			secondaryInsurance  (new structures.Insurance());
+			otherInsurance 		(new structures.Insurance());
+			patient				(new structures.Patient());
+			guarantor 			(new structures.Guarantor());
+			employer			(new structures.Employer());
+			spouse				(new structures.Spouse());
+			referencePhysician	(new structures.Reference());
+			referencePcp		(new structures.Reference());
+			referenceOther		(new structures.Reference());
+			referencePersonal	(new structures.Reference());
 			
 			// Patient ID
 			self.patientId(data.patientId);
@@ -130,7 +147,6 @@ define(function(require) {
 			if(self.patientId() == 'new') {
 				self.patient(new structures.Patient());
 				self.patient().practiceId(self.practiceId());
-				// Set Validation
 			}
 			
 			/**************************************************************************************
@@ -141,7 +157,7 @@ define(function(require) {
 			 * obsevable. If not, then set insuredPerson to self. Will check if insurance 
 			 * information exists in getInsurance.
 			 *************************************************************************************/ 
-			backend.getGuarantor(self.patientId()).success(function(data) {
+			backend.getGuarantor(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					// Guarantor
 					var g = new structures.Guarantor(data[0]);
@@ -171,7 +187,7 @@ define(function(require) {
 			 * If no employer information is returned, set insuredPerson to not insured. Otherwise
 			 * for each type of insurance, set appropriate observable.
 			 *************************************************************************************/
-			backend.getEmployer(self.patientId()).success(function(data) {
+			backend.getEmployer(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					var e = new structures.Employer(data[0]);
 					self.employer(e);
@@ -187,7 +203,7 @@ define(function(require) {
 			 * If no spouse information is returned, set insuredPerson to not insured. Otherwise
 			 * for each type of insurance, set appropriate observable.
 			 *************************************************************************************/
-			backend.getSpouse(self.patientId()).success(function(data) {
+			backend.getSpouse(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					var s = new structures.Spouse(data[0]);
 					if(s.dob() == '0000-00-00')
@@ -204,7 +220,7 @@ define(function(require) {
 			 * If no reference information is returned, set insuredPerson to not insured. Otherwise
 			 * for each type of insurance, set appropriate observable.
 			 *************************************************************************************/
-			backend.getReference(self.patientId()).success(function(data) {
+			backend.getReference(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
 						var i = new structures.Reference(data[count]);
@@ -233,7 +249,7 @@ define(function(require) {
 			 * If no insurance information is returned, set insuredPerson to not insured. Otherwise
 			 * for each type of insurance, set appropriate observable.
 			 *************************************************************************************/
-			return backend.getInsurance(self.patientId()).success(function(data) {
+			return backend.getInsurance(self.patientId(), self.practiceId()).success(function(data) {
 				if(data.length > 0) {
 					for(var count = 0; count < data.length; count++) {
 						var i = new structures.Insurance(data[count]);
@@ -268,107 +284,97 @@ define(function(require) {
 		},
 		savePersonal: function(data) {
 			var self = this;
+			var success = false;
 			if(self.patient().errors().length == 0) {
 				// Patient
 				self.backend.savePatient(self.patientId(), self.patient()).complete(function(data) {
 					if(data.responseText != "" && data.responseText != "failUpdate" && 
 					   data.responseText.toLowerCase().indexOf('update') < 0) {
-						self.patientId($.parseJSON(data.responseText)[0].id);
-						router.navigateTo('#/patient/personalinformation/' + (parseInt(self.patientId()) + 1));
+						self.patientId(parseInt($.parseJSON(data.responseText)[0].id) + 1);
+						success = true;
 					}
 					else if(data.responseText == 'updateSuccess')
 						$('.alert-success').fadeIn().delay(3000).fadeOut();
+					
+					// If the patient is successfully saved, save the individual components
+					// of Peronsal information.
+					if(data.responseText.toLowerCase().indexOf('insertfail') < 0) {
+						// Employer
+						if(personalEmployer() == 1) {
+							var m = employer().patientId() == undefined ? 'insert' : 'update';
+							employer().patientId(patientId());
+							employer().practiceId(practiceId());
+							backend.saveEmployer(employer(), m, self.practiceId());	
+						}
+						else {
+							backend.deleteEmployer(self.patientId(), self.practiceId());
+							$('.alert-success').fadeIn().delay(3000).fadeOut();
+						}
+						
+						// Spouse
+						if(patient().maritalStatus() == 'married' || patient().maritalStatus() == 'separated') {
+							var m = spouse().patientId() == undefined ? 'insert' : 'update';
+							spouse().patientId(patientId());
+							spouse().practiceId(practiceId());
+							backend.saveSpouse(spouse(), m, self.practiceId());	
+						}
+						else {
+							backend.deleteSpouse(self.patientId(), self.practiceId());
+						}
+						
+						// References
+						if(referencePhysician().firstName() != undefined || referencePhysician().lastName() != undefined) {
+							var m = referencePhysician().patientId() == undefined ? 'insert' : 'update';
+							referencePhysician().patientId(patientId());
+							referencePhysician().practiceId(practiceId());
+							referencePhysician().type('referringphysician');
+							backend.saveReference(referencePhysician(), m, self.practiceId());
+						}
+						else {
+							backend.deleteReference(self.referencePhysician().id(), self.practiceId());
+						}
+						
+						if(referencePcp().firstName() != undefined || referencePcp().lastName() != undefined) {
+							var m = referencePcp().patientId() == undefined ? 'insert' : 'update';
+							referencePcp().patientId(patientId());
+							referencePcp().practiceId(practiceId());
+							referencePcp().type('pcp');
+							backend.saveReference(referencePcp(), m, self.practiceId());
+						}
+						else {
+							backend.deleteReference(self.referencePcp().id(), self.practiceId());
+						}
+						
+						if(referencePersonal().firstName() != undefined || referencePersonal().lastName() != undefined) {
+							var m = referencePersonal().patientId() == undefined ? 'insert' : 'update';
+							referencePersonal().patientId(patientId());
+							referencePersonal().practiceId(practiceId());
+							referencePersonal().type('personalreference');
+							backend.saveReference(referencePersonal(), m, self.practiceId());
+						}
+						else {
+							backend.deleteReference(self.referencePersonal().id(), self.practiceId());
+						}
+						
+						if(referenceOther().firstName() != undefined || referenceOther().lastName() != undefined) {
+							var m = referenceOther().patientId() == undefined ? 'insert' : 'update';
+							referenceOther().patientId(patientId());
+							referenceOther().practiceId(practiceId());
+							referenceOther().type('other');
+							backend.saveReference(referenceOther(), m, self.practiceId());
+						}
+						else {
+							backend.deleteReference(self.referenceOther().id(), self.practiceId());
+						}
+						$('.alert-success').fadeIn().delay(3000).fadeOut();
+					}
 				});
-				// Employer
-				if(personalEmployer() == 1) {
-					var m = employer().patientId() == undefined ? 'insert' : 'update';
-					employer().patientId(patientId());
-					employer().practiceId(practiceId());
-					backend.saveEmployer(employer(), m).complete(function(data) {
-						if(data.responseText.toLowerCase().indexOf('success') >= 0)
-							$('.alert-success').fadeIn().delay(3000).fadeOut();
-					});	
-				}
-				else {
-					backend.deleteEmployer(self.patientId(), self.practiceId());
-					$('.alert-success').fadeIn().delay(3000).fadeOut();
-				}
 				
-				// Spouse
-				if(patient().maritalStatus() == 'married' || patient().maritalStatus() == 'separated') {
-					var m = spouse().patientId() == undefined ? 'insert' : 'update';
-					spouse().patientId(patientId());
-					spouse().practiceId(practiceId());
-					backend.saveSpouse(spouse(), m).complete(function(data) {
-						if(data.responseText.toLowerCase().indexOf('success') >= 0)
-							$('.alert-success').fadeIn().delay(3000).fadeOut();
-					});	
-				}
-				else {
-					backend.deleteSpouse(self.patientId(), self.practiceId());
-					$('.alert-success').fadeIn().delay(3000).fadeOut();
-				}
-				
-				// References
-				if(referencePhysician().firstName() != undefined || referencePhysician().lastName() != undefined) {
-					var m = referencePhysician().patientId() == undefined ? 'insert' : 'update';
-					referencePhysician().patientId(patientId());
-					referencePhysician().practiceId(practiceId());
-					referencePhysician().type('referringphysician');
-					backend.saveReference(referencePhysician(), m).complete(function(data) {
-						if(data.responseText.toLowerCase().indexOf('success') >= 0)
-							$('.alert-success').fadeIn().delay(3000).fadeOut();
-					});
-				}
-				else {
-					backend.deleteReference(self.referencePhysician().id(), self.practiceId());
-					$('.alert-success').fadeIn().delay(3000).fadeOut();
-				}
-				
-				if(referencePcp().firstName() != undefined || referencePcp().lastName() != undefined) {
-					var m = referencePcp().patientId() == undefined ? 'insert' : 'update';
-					referencePcp().patientId(patientId());
-					referencePcp().practiceId(practiceId());
-					referencePcp().type('pcp');
-					backend.saveReference(referencePcp(), m).complete(function(data) {
-						if(data.responseText.toLowerCase().indexOf('success') >= 0)
-							$('.alert-success').fadeIn().delay(3000).fadeOut();
-					});
-				}
-				else {
-					backend.deleteReference(self.referencePcp().id(), self.practiceId());
-					$('.alert-success').fadeIn().delay(3000).fadeOut();
-				}
-				
-				if(referencePersonal().firstName() != undefined || referencePersonal().lastName() != undefined) {
-					var m = referencePersonal().patientId() == undefined ? 'insert' : 'update';
-					referencePersonal().patientId(patientId());
-					referencePersonal().practiceId(practiceId());
-					referencePersonal().type('personalreference');
-					backend.saveReference(referencePersonal(), m).complete(function(data) {
-						if(data.responseText.toLowerCase().indexOf('success') >= 0)
-							$('.alert-success').fadeIn().delay(3000).fadeOut();
-					});
-				}
-				else {
-					backend.deleteReference(self.referencePersonal().id(), self.practiceId());
-					$('.alert-success').fadeIn().delay(3000).fadeOut();
-				}
-				
-				if(referenceOther().firstName() != undefined || referenceOther().lastName() != undefined) {
-					var m = referenceOther().patientId() == undefined ? 'insert' : 'update';
-					referenceOther().patientId(patientId());
-					referenceOther().practiceId(practiceId());
-					referenceOther().type('other');
-					backend.saveReference(referenceOther(), m).complete(function(data) {
-						if(data.responseText.toLowerCase().indexOf('success') >= 0)
-							$('.alert-success').fadeIn().delay(3000).fadeOut();
-					});
-				}
-				else {
-					backend.deleteReference(self.referenceOther().id(), self.practiceId());
-					$('.alert-success').fadeIn().delay(3000).fadeOut();
-				}
+				// Reload page
+				setTimeout(function() {
+					if(success)
+						router.navigateTo('#/patient/personalinformation/' + (self.patientId()));
+				}, 500);
 			}
 			else
 				$('.allAlert').fadeIn('slow').delay(2000).fadeOut('slow');

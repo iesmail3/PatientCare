@@ -33,72 +33,85 @@ define(function(require) {
 	}
 	
 	// Get Personal Information for a Single Patient
-	personal.prototype.getPatient = function(id) {
+	personal.prototype.getPatient = function(id, practiceId) {
+		if(id == 'new')
+			id = -1;
 		return this.query({
 			mode: 'select', 
 			table: 'patient', 
 			fields: '*', 
-			where: "WHERE id='" + id + "'"
+			where: "WHERE id='" + id + "' AND practice_id='" + practiceId + "'"
 		});
 	}
 	
 	// Get All Insurances for a Single Patient
-	personal.prototype.getInsurance = function(id) {
+	personal.prototype.getInsurance = function(id, practiceId) {
+		if(id == 'new')
+			id = -1;
 		return this.query({
 			mode: 'select', 
 			table: 'insurance', 
 			fields: '*', 
-			where: "WHERE patient_id='" + id + "' AND archive_date IS NULL"
+			where: "WHERE patient_id='" + id + "' AND practice_id='" + practiceId + "' AND archive_date IS NULL"
 		});
 	}
 	
 	// Get Insurance by type
-	personal.prototype.getInsuranceByType = function(insurance) {
+	personal.prototype.getInsuranceByType = function(insurance, practiceId) {
 		return this.query({
 			mode: 'select', 
 			table: 'insurance', 
 			fields: '*', 
-			where: "WHERE patient_id='" + insurance.patientId() + "' AND type='" + insurance.type() + "'"
+			where: "WHERE patient_id='" + insurance.patientId() + "' AND type='" + insurance.type() + "'" +
+					" AND practice_id='" + practiceId + "'"
 		});
 	}
 	
 	// Get Guarantor for a Single Patient
-	personal.prototype.getGuarantor = function(id) {
+	personal.prototype.getGuarantor = function(id, practiceId) {
+		if(id == 'new')
+			id = -1;
 		return this.query({
 			mode: 'select', 
 			table: 'guarantor', 
 			fields: '*', 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "'" + " AND practice_id='" + practiceId + "'"
 		});
 	}
 	
 	// Get Employer for a Single Patient
-	personal.prototype.getEmployer = function(id) {
+	personal.prototype.getEmployer = function(id, practiceId) {
+		if(id == 'new')
+			id = -1;
 		return this.query({
 			mode: 'select', 
 			table: 'employer', 
 			fields: '*', 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "'" + " AND practice_id='" + practiceId + "'"
 		});
 	}
 	
 	// Get Spouse for a Single Patient
-	personal.prototype.getSpouse = function(id) {
+	personal.prototype.getSpouse = function(id, practiceId) {
+		if(id == 'new')
+			id = -1;
 		return this.query({
 			mode: 'select', 
 			table: 'spouse', 
 			fields: '*', 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "'" + " AND practice_id='" + practiceId + "'"
 		});
 	}
 	
 	// Get Reference for a Single Patient
-	personal.prototype.getReference = function(id) {
+	personal.prototype.getReference = function(id, practiceId) {
+		if(id == 'new')
+			id = -1;
 		return this.query({
 			mode: 'select',
 			table: 'reference',
 			fields: '*',
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "'" + " AND practice_id='" + practiceId + "'"
 		});
 	}
 	
@@ -136,7 +149,8 @@ define(function(require) {
 				table: 'patient',
 				fields: 'id',
 				order: 'ORDER BY id DESC',
-				limit: 'LIMIT 1'
+				limit: 'LIMIT 1',
+				where: "WHERE practice_id='" + practiceId + "'"
 			}).success(function(data) {
 				$.each(data, function(key, item) {
 					newId = parseInt(item.id) + 1;
@@ -187,6 +201,7 @@ define(function(require) {
 						fields:fields,
 						values: values,
 						where: "WHERE patient_id='" + insurance.patientId() + "' AND type='" + insurance.type() + "'"
+						       + " AND practice_id='" + practiceId + "'"
 					});
 				}
 				else {
@@ -203,7 +218,7 @@ define(function(require) {
 	}
 	
 	// Add Guarantor for a Single Patient
-	personal.prototype.saveGuarantor = function(id, data) {
+	personal.prototype.saveGuarantor = function(id, data, practiceId) {
 		var values = $.map(data, function(k,v) {
 			return [k];
 		});
@@ -212,12 +227,12 @@ define(function(require) {
 			mode: 'insert', 
 			table: 'guarantor', 
 			values: values, 
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "'" + " AND practice_id='" + practiceId + "'"
 		});
 	}
 	
 	// Save Employer info
-	personal.prototype.saveEmployer = function(employer, method) {
+	personal.prototype.saveEmployer = function(employer, method, practiceId) {
 		var self = this;
 		var fields = ['patient_id', 'practice_id', 'company_name', 'address', 'city', 'state', 'zip', 
 					  'province', 'country', 'phone', 'phone_ext'];
@@ -244,13 +259,13 @@ define(function(require) {
 				table: 'employer',
 				fields: fields,
 				values: values,
-				where: "WHERE patient_id='" + employer.patientId() + "'"
+				where: "WHERE patient_id='" + employer.patientId() + "'" + " AND practice_id='" + employer.practiceId() + "'"
 			});
 		}
 	}	
 	
 	// Save spouse info
-	personal.prototype.saveSpouse = function(spouse, method) {
+	personal.prototype.saveSpouse = function(spouse, method, practiceId) {
 		var self = this;
 		var fields = ['patient_id', 'practice_id', 'first_name', 'last_name', 'id_number', 'id_type',
 					  'gender', 'date_of_birth', 'phone', 'phone_ext', 'work_phone', 'work_ext'];
@@ -279,13 +294,13 @@ define(function(require) {
 				table: 'spouse',
 				fields: fields,
 				values: values,
-				where: "WHERE patient_id='" + spouse.patientId() + "'"
+				where: "WHERE patient_id='" + spouse.patientId() + "'" + " AND practice_id='" + practiceId + "'"
 			});
 		}
 	}	
 	
 	// Save Reference info
-	personal.prototype.saveReference = function(reference, method) {
+	personal.prototype.saveReference = function(reference, method, practiceId) {
 		var self = this;
 		var fields = ['id', 'patient_id', 'practice_id', 'type', 'first_name', 'middle_name', 'last_name',
 		 			  'phone', 'fax', 'email', 'degree', 'reason', 'referral'];
@@ -337,35 +352,34 @@ define(function(require) {
 	 * These methods remove information from the database via DELETE queries
 	 *********************************************************************************************/
 	// Delete Personal Information for a Single Patient
-	personal.prototype.deletePatient = function(id) {
+	personal.prototype.deletePatient = function(id, practiceId) {
 		return this.query({
 			mode: 'delete', 
 			table: 'patient', 
-			where: "WHERE id='" + id + "'"
+			where: "WHERE id='" + id + "'" + " AND practice_id='" + practiceId + "'"
 		});
 	}
 	
 	// Delete Insurance for a Single Patient
-	personal.prototype.deleteInsurance = function(id) {
+	personal.prototype.deleteInsurance = function(id, practiceId) {
 		return this.query({
 			mode: 'delete', 
 			table: 'insurance',
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "'" + " AND practice_id='" + practiceId + "'"
 		});
 	}
 	
 	// Delete Guarantor for a Single Patient
-	personal.prototype.deleteGuarantor = function(id) {
+	personal.prototype.deleteGuarantor = function(id, practiceId) {
 		return this.query({
 			mode: 'delete', 
 			table: 'guarantor',
-			where: "WHERE patient_id='" + id + "'"
+			where: "WHERE patient_id='" + id + "'" + " AND practice_id='" + practiceId + "'"
 		});
 	}
 	
 	// Delete Employer for a Single Patient
 	personal.prototype.deleteEmployer = function(id, practiceId) {
-		
 		return this.query({
 			mode: 'delete', 
 			table: 'employer', 

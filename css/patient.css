@@ -656,7 +656,7 @@ th, td { cursor: default; }
 }
 
 .viewFileButton { 
-	width: 72px  !important; 
+	width: 80px  !important; 
 	margin: auto;
 	display: block;
 } 

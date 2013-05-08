@@ -2,7 +2,9 @@
 /**************************************************************************************************
  * Session variables
  *************************************************************************************************/
-$practiceId = 1;
+session_start();
+session_regenerate_id(TRUE);
+$practiceId = $_SESSION['practiceId'];
  
 // Include the uploader class
 require_once 'qqFileUploader.php';

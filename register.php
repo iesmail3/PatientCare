@@ -21,7 +21,7 @@ require('php/PasswordHash.php');
 require('php/securimage/securimage.php');
 $securimage = new Securimage();
 
-$passwords = $key = $captcha = $passLength = true;
+$passwords = $key = $captcha = $passLength = $username = true;
 $success = false;
 if(isset($_GET['success']))
 	$success = true;
@@ -34,7 +34,13 @@ else if(isset($_POST['user'])) {
 	$rKey	  = $_POST['key'];
 	$date 	  = date('Y-m-d');
 	
-	if($password != $repass)
+	// Check for duplicate username
+	$stmt = $db->query("SELECT * from user where username='$username'");
+	$result = $stmt->fetchAll();
+	
+	if(count($result) > 0)
+		$username = false;
+	else if($password != $repass)
 		$passwords = false;
 	else if(strlen($password) < 8 || strlen($password) > 72)
 		$passLength = false;
@@ -45,6 +51,7 @@ else if(isset($_POST['user'])) {
 	else {
 		$hasher = new PasswordHash(8, false);
 		$hash = $hasher->HashPassword($password);
+		
 		// Add Clinic
 		$stmt = $db->prepare("INSERT INTO practice (name, creation_date) VALUES(:clinic, :date)");
 		$stmt->bindParam(':clinic', $clinic);
@@ -106,6 +113,10 @@ else if(isset($_POST['user'])) {
 		$stmt->bindParam(':email', $email);
 		$stmt->bindParam(':role', $role);
 		$stmt->execute();
+		
+		// Create upload folder
+		$file = dirname(__FILE__) . "/uploads/$id";
+		mkdir($file, 0777);
 		
 		// Success
 		header('location: register.php?success=true');
@@ -222,7 +233,9 @@ else if(isset($_POST['user'])) {
 				</div>
 				</div>
 				<!-- Validation from PHP -->
-				<?php if(!$passwords): ?>
+				<?php if(!$username): ?>
+					<div class="loginValidation">That username is already taken.</div>
+				<?php elseif(!$passwords): ?>
 					<div class="loginValidation">Passwords do not match.</div>
 				<?php elseif(!$passLength): ?>
 					<div class="loginValidation">Passwords must be between 8 and 72 characters.</div>

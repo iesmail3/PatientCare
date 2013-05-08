@@ -43,6 +43,8 @@ define(function(require) {
 	
 	// Get Personal Information for a Single Patient
 	patient.prototype.getPatient = function(id, practiceId) {
+		if(id == 'new')
+			id = -1;
 		return this.query({
 			mode: 'select', 
 			table: 'patient', 
@@ -103,6 +105,8 @@ define(function(require) {
 	
 	// Get Service Records for a Single Patient
 	patient.prototype.getServiceRecords = function(id, practiceId) {
+		if(id == 'new')
+			id = -1;
 		var self = this;
 		var fields = ['service_record.id', 'service_record.patient_id', 'service_record.physician_id',
 			'physician.first_name', 'physician.last_name', 'service_record.date', 'service_record.reason',
@@ -121,6 +125,8 @@ define(function(require) {
 	
 	// Get Service Record for a Single Patient
 	patient.prototype.getServiceRecord = function(id, practiceId, date) {
+		if(id == 'new')
+			id = -1;
 		return this.query({
 			mode: 'select',
 			table: 'service_record',
@@ -141,6 +147,8 @@ define(function(require) {
 	
 	// Get Physician
 	patient.prototype.getPhysician = function(id, practiceId) {
+		if(id == 'new')
+			id = -1;
 		return this.query({
 			mode: 'select',
 			table: 'physician',

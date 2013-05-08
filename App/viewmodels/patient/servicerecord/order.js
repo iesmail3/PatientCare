@@ -254,7 +254,9 @@ define(function(require) {
 			// Get next group number and call modal
 			backend.getOrderGroup(self.serviceRecord().id()).success(function(data) {
 				// Group is 1 + last group
-				var group = parseInt(data[0].group) + 1;
+				var group = 0;
+				if(data[0] != undefined)
+					group = parseInt(data[0].group) + 1;
 				// New Order
 				var order = new self.structures.Order();
 				// Set the group

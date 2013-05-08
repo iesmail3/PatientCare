@@ -371,7 +371,7 @@
 									<input type="radio"  name="plan" value="other" data-bind=" checked:plan,enable: $root.insuredPerson() != '2'" /><span>Other</span>
 								</label>
 								<input type="text" 
-									class="input-small" placeholder="Pan Type" data-bind="enable: $root.insuredPerson() != '2' && plan()=='other'"/>
+									class="input-small" placeholder="Plan Type" data-bind="enable: $root.insuredPerson() != '2' && plan()=='other'"/>
 								<span class="radio inline">Referral Required?</span>
 								<label class="radio inline">
 									<input type="radio" data-bind="checked: referralRequired,enable: $root.insuredPerson() != '2'"

@@ -392,7 +392,7 @@ define(function(require) {
 				fields: fields,
 				values: values,
 				where: "Where `group`='" + data.group() + "' AND `order_category_id`='" 
-				+ data.orderCategoryId() + "'"
+				+ data.orderCategoryId() + "' AND service_record_id='" + data.serviceRecordId() + "'"
 			});
 		}
 		else {
@@ -401,11 +401,18 @@ define(function(require) {
 				table: 'orders',
 				fields: 'id', 
 				order: 'ORDER BY id DESC',
-				limit: 'LIMIT 1'
+				limit: 'LIMIT 1',
+				where: "WHERE service_record_id='" + data.serviceRecordId() + "'"
 			}).complete(function(d) {
 				var temp = $.parseJSON(d.responseText);
-				data.id(parseInt(temp[0].id) + 1);
-				values[0] = parseInt(temp[0].id) + 1;
+				if(data.length > 0)	{
+					data.id(parseInt(temp[0].id) + 1);
+					values[0] = parseInt(temp[0].id) + 1;
+				}
+				else {
+					data.id(0);
+					values[0] = 0;
+				}
 				return self.query({
 					mode: 'insert', 
 					table: 'orders',

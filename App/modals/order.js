@@ -103,9 +103,7 @@ define(function(require) {
 						group: self.order().group()									
 					});
 					// Insert into database
-					backend.saveOrder(o, "insert").complete(function(data) {
-						system.log(o.id());
-					});
+					backend.saveOrder(o, "insert");
 					// Reformat date for display
 					o.date(form.uiDate(date));
 					// Add to orders observable array

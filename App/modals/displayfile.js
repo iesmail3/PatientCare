@@ -14,7 +14,7 @@ define(function(require) {
 	var  DisplayFile = function(file,title,options) { 
 		self = this;  
 		this.options = options || DisplayFile.defaultOptions;
-		this.filename = ko.observable('uploads/1/' + file); 
+		this.filename = ko.observable('uploads/' + global.practiceId + '/' + file); 
 		this.headerName = ko.computed(function() {
 			var i = file.indexOf('.');
 			return file.substring(0, i).toUpperCase();

@@ -33,6 +33,8 @@ define(function(require) {
 	
 	// Get Personal Information for a Single Patient
 	servicerecord.prototype.getPatient = function(id, practiceId) {
+		if(id == 'new')
+			id = -1;
 		return this.query({
 			mode: 'select', 
 			table: 'patient', 
@@ -43,6 +45,8 @@ define(function(require) {
 	
 	// Get Service Records for a Single Patient
 	servicerecord.prototype.getServiceRecords = function(id, practiceId) {
+		if(id == 'new')
+			id = -1;
 		var self = this;
 		var fields = ['service_record.id', 'service_record.practice_id', 'service_record.patient_id',
 			'service_record.physician_id', 'service_record.date', 'service_record.reason',
