@@ -17,7 +17,7 @@ define(function(require) {
  	 * This turns on debugging. When in development, set to true. 
  	 * When in production, set to false
  	 *************************************************************************/
-    system.debug(true);
+    system.debug(false);
     
 
     app.start().then(function () {

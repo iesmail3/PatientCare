@@ -1,3 +1,13 @@
+-- phpMyAdmin SQL Dump
+-- version 3.5.2.2
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: May 08, 2013 at 03:59 PM
+-- Server version: 5.1.66
+-- PHP Version: 5.3.3
+
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -8,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `patient_care`
+-- Database: `patient`
 --
 
 -- --------------------------------------------------------
@@ -27,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `allergies_intolerance` (
   `date_inactive` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Allergy and intolerance information for a service record.' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Allergy and intolerance information for a service record.' AUTO_INCREMENT=13 ;
 
 -- --------------------------------------------------------
 
@@ -58,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `checkout` (
   KEY `patient_id_11` (`patient_id`),
   KEY `date` (`date`),
   KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This table contains information for charges for a patient''s ' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table contains information for charges for a patient''s ' AUTO_INCREMENT=54 ;
 
 -- --------------------------------------------------------
 
@@ -73,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `diagnosis` (
   `code` varchar(64) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 -- --------------------------------------------------------
 
@@ -86,6 +96,19 @@ CREATE TABLE IF NOT EXISTS `diagnostic_center` (
   `center` varchar(128) NOT NULL,
   PRIMARY KEY (`practice_id`,`center`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `diagnostic_center`
+--
+
+INSERT INTO `diagnostic_center` (`practice_id`, `center`) VALUES
+(1, 'Centennial'),
+(1, 'CPL'),
+(1, 'LabCorp'),
+(1, 'MCP'),
+(1, 'Presby Allen'),
+(1, 'Presby Plano'),
+(1, 'Quest');
 
 -- --------------------------------------------------------
 
@@ -174,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `document` (
   KEY `patient_id_2` (`patient_id`),
   KEY `service_record_id` (`service_record_id`),
   KEY `practice_id` (`practice_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This table contains documents for a patient''s record.' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table contains documents for a patient''s record.' AUTO_INCREMENT=84 ;
 
 -- --------------------------------------------------------
 
@@ -201,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `drug_order` (
   `instructions` text,
   PRIMARY KEY (`id`),
   KEY `order_id` (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This table contains drugs for an order.' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table contains drugs for an order.' AUTO_INCREMENT=11 ;
 
 -- --------------------------------------------------------
 
@@ -243,7 +266,7 @@ CREATE TABLE IF NOT EXISTS `family_history` (
   PRIMARY KEY (`id`),
   KEY `patient_id` (`patient_id`),
   KEY `practice_id` (`practice_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This table contains family history for patients.' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table contains family history for patients.' AUTO_INCREMENT=27 ;
 
 -- --------------------------------------------------------
 
@@ -266,7 +289,7 @@ CREATE TABLE IF NOT EXISTS `follow_up` (
   KEY `patient_id` (`patient_id`),
   KEY `practice_id` (`practice_id`),
   KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This table contains information for follow up visits for a p' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table contains information for follow up visits for a p' AUTO_INCREMENT=34 ;
 
 -- --------------------------------------------------------
 
@@ -355,7 +378,7 @@ CREATE TABLE IF NOT EXISTS `medical_problem` (
   `not_applicable` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Medical problems for a patient.' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Medical problems for a patient.' AUTO_INCREMENT=91 ;
 
 -- --------------------------------------------------------
 
@@ -386,7 +409,7 @@ CREATE TABLE IF NOT EXISTS `medication` (
   `is_ordered` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 -- --------------------------------------------------------
 
@@ -402,7 +425,6 @@ CREATE TABLE IF NOT EXISTS `medication_order` (
   `quantity` int(11) NOT NULL,
   `route` varchar(64) NOT NULL,
   `sigs` varchar(64) NOT NULL,
-  `order` tinyint(1) NOT NULL,
   `dispensed_quantity` int(11) NOT NULL,
   `refill` tinyint(4) NOT NULL,
   `refill_quantity` int(11) NOT NULL,
@@ -414,7 +436,7 @@ CREATE TABLE IF NOT EXISTS `medication_order` (
   PRIMARY KEY (`id`),
   KEY `service_record_id` (`service_record_id`),
   KEY `medicine_list_id` (`medicine_list_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -438,7 +460,7 @@ CREATE TABLE IF NOT EXISTS `medication_order_log` (
   PRIMARY KEY (`id`),
   KEY `id` (`id`),
   KEY `order_id` (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This table contains medication orders for a flow sheet.' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table contains medication orders for a flow sheet.' AUTO_INCREMENT=14 ;
 
 -- --------------------------------------------------------
 
@@ -64615,7 +64637,7 @@ CREATE TABLE IF NOT EXISTS `office_procedure` (
   KEY `order_id` (`order_id`),
   KEY `order_id_2` (`order_id`),
   KEY `office_procedure_type_id` (`office_procedure_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This table links orders with office procedures.' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table links orders with office procedures.' AUTO_INCREMENT=17 ;
 
 -- --------------------------------------------------------
 
@@ -64678,7 +64700,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `id` (`id`),
   KEY `order_category_id` (`order_category_id`),
   KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This table contains orders.' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table contains orders.' AUTO_INCREMENT=96 ;
 
 -- --------------------------------------------------------
 
@@ -65254,6 +65276,8 @@ CREATE TABLE IF NOT EXISTS `patient` (
   `insurance_name` varchar(64) DEFAULT NULL,
   `marital_status` varchar(64) DEFAULT NULL,
   `number_of_children` int(11) NOT NULL DEFAULT '0',
+  `family_history_changed` tinyint(4) NOT NULL,
+  `social_history_changed` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`,`practice_id`),
   KEY `practice_id` (`practice_id`),
   KEY `physician_id` (`physician_id`)
@@ -65273,7 +65297,7 @@ CREATE TABLE IF NOT EXISTS `payment_method` (
   `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`id`),
   KEY `checkout_id` (`checkout_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This table attaches payments to the checkout table.' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table attaches payments to the checkout table.' AUTO_INCREMENT=61 ;
 
 -- --------------------------------------------------------
 
@@ -65292,7 +65316,7 @@ CREATE TABLE IF NOT EXISTS `pe_abd` (
   `comment` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -65311,7 +65335,7 @@ CREATE TABLE IF NOT EXISTS `pe_cvs` (
   `comment` text,
   PRIMARY KEY (`id`),
   KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -65329,7 +65353,7 @@ CREATE TABLE IF NOT EXISTS `pe_cw` (
   `comment` text,
   PRIMARY KEY (`id`),
   KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -65356,7 +65380,7 @@ CREATE TABLE IF NOT EXISTS `pe_ent` (
   `comment` text,
   PRIMARY KEY (`id`),
   KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -65377,7 +65401,7 @@ CREATE TABLE IF NOT EXISTS `pe_ext` (
   PRIMARY KEY (`id`),
   KEY `service_record_id` (`service_record_id`),
   KEY `service_record_id_2` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -65396,7 +65420,7 @@ CREATE TABLE IF NOT EXISTS `pe_eye` (
   `comment` text,
   PRIMARY KEY (`id`),
   KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -65413,7 +65437,7 @@ CREATE TABLE IF NOT EXISTS `pe_gen` (
   `comment` text,
   PRIMARY KEY (`id`),
   KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -65431,7 +65455,7 @@ CREATE TABLE IF NOT EXISTS `pe_heme` (
   `comment` text,
   PRIMARY KEY (`id`),
   KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -65447,7 +65471,7 @@ CREATE TABLE IF NOT EXISTS `pe_lungs` (
   `comment` text,
   PRIMARY KEY (`id`),
   KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -65469,7 +65493,7 @@ CREATE TABLE IF NOT EXISTS `pe_neuro` (
   PRIMARY KEY (`id`),
   KEY `service_record_id` (`service_record_id`),
   KEY `service_record_id_2` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -65487,7 +65511,7 @@ CREATE TABLE IF NOT EXISTS `pe_skin` (
   `comment` text,
   PRIMARY KEY (`id`),
   KEY `service_record_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -65509,7 +65533,7 @@ CREATE TABLE IF NOT EXISTS `phone_log` (
   PRIMARY KEY (`id`),
   KEY `patient_id` (`patient_id`),
   KEY `practice_id` (`practice_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This table contains information about phone calls.' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table contains information about phone calls.' AUTO_INCREMENT=25 ;
 
 -- --------------------------------------------------------
 
@@ -65528,7 +65552,7 @@ CREATE TABLE IF NOT EXISTS `physician` (
   `dea` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `practice_id` (`practice_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -65554,7 +65578,7 @@ CREATE TABLE IF NOT EXISTS `practice` (
   `creation_date` date DEFAULT NULL,
   `is_current` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table holds the practice information.' AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table holds the practice information.' AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `practice`
@@ -65575,7 +65599,6 @@ CREATE TABLE IF NOT EXISTS `prescription` (
   `quantity` decimal(10,0) NOT NULL,
   `route` varchar(64) NOT NULL,
   `sigs` varchar(64) NOT NULL,
-  `order` varchar(64) NOT NULL,
   `dispensed_quantity` decimal(10,0) NOT NULL,
   `refill` tinyint(4) NOT NULL,
   `refill_quantity` decimal(10,0) NOT NULL,
@@ -65584,10 +65607,14 @@ CREATE TABLE IF NOT EXISTS `prescription` (
   `date` date NOT NULL,
   `mode` varchar(64) NOT NULL,
   `comment` longtext NOT NULL,
-  `medication_order_id` int(11) NOT NULL,
-  PRIMARY KEY (`medication_order_id`),
-  UNIQUE KEY `medication_order_id_2` (`medication_order_id`),
-  KEY `medication_order_id` (`medication_order_id`)
+  `medication_id` int(11) NOT NULL,
+  `service_record_id` int(11) NOT NULL,
+  `practice_id` int(11) NOT NULL,
+  `patient_id` int(11) NOT NULL,
+  PRIMARY KEY (`medication_id`),
+  UNIQUE KEY `medication_order_id_2` (`medication_id`),
+  KEY `medication_order_id` (`medication_id`),
+  KEY `service_record_id` (`service_record_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -65613,7 +65640,7 @@ CREATE TABLE IF NOT EXISTS `reference` (
   PRIMARY KEY (`id`),
   KEY `patient_id` (`patient_id`),
   KEY `practice_id` (`practice_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This table contains references for the patients.' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table contains references for the patients.' AUTO_INCREMENT=24 ;
 
 -- --------------------------------------------------------
 
@@ -65638,7 +65665,7 @@ CREATE TABLE IF NOT EXISTS `review_of_systems` (
 --
 
 CREATE TABLE IF NOT EXISTS `role` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `practice_id` int(11) DEFAULT NULL,
   `name` varchar(64) NOT NULL,
   `description` varchar(1024) DEFAULT NULL,
@@ -65687,18 +65714,18 @@ CREATE TABLE IF NOT EXISTS `role` (
   `diagnosis_instructions` int(11) NOT NULL DEFAULT '0',
   `physical_examination_sub` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
 
 --
 -- Dumping data for table `role`
 --
 
 INSERT INTO `role` (`id`, `practice_id`, `name`, `description`, `superbill`, `allergies`, `birth_history`, `clinic_details`, `checkout`, `copay_collection`, `development`, `diagnosis`, `family_history`, `follow_up`, `guidance`, `history`, `history_illness`, `immunization`, `instructions`, `insurance`, `insurance_verification`, `reports`, `manage_patients`, `manage_physician`, `manage_practice_type`, `manage_reason_code`, `manage_roles`, `manage_schedule`, `manage_users`, `medical_problems`, `medication`, `medication_orders`, `misc_docs`, `orders`, `other_options`, `personal_information`, `phone_log`, `physical_examination`, `prescription`, `review_of_systems`, `routine_exam`, `security`, `service_record`, `social_history`, `patient_superbill`, `vital_signs`, `diagnosis_instructions`, `physical_examination_sub`) VALUES
-(0, 1, 'Administrator', 'This account is default and cannot be modified.', 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
-(1, 1, 'Front Desk', 'This role is for Front Desk employees.', 0, 2, 0, 1, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 1, 0, 0, 2, 1, 2, 1, 1, 2, 1, 0, 1, 1, 1, 0, 1, 0, 2, 0, 0, 2, 2, 0, 1, 0, 1),
-(2, 1, 'Guest', 'This is role is for Guest accounts', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(3, 1, 'MD', 'This role is for doctors.', 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 0, 2, 2, 0, 2, 0, 2, 2, 2, 2, 0, 2, 0, 2, 0, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2),
-(4, 1, 'RN', 'This role is for nurses.', 0, 2, 2, 1, 2, 0, 1, 1, 2, 2, 1, 2, 2, 2, 1, 2, 2, 1, 2, 0, 0, 2, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 0, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1, 2);
+(14, 1, 'Administrator', 'This account is default and cannot be modified.', 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
+(15, 1, 'Front Desk', 'This role is for Front Desk employees.', 0, 2, 0, 1, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 1, 0, 0, 2, 1, 2, 1, 1, 2, 1, 0, 1, 1, 1, 0, 1, 0, 2, 0, 0, 2, 2, 0, 1, 0, 1),
+(16, 1, 'Guest', 'This is role is for Guest accounts', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(17, 1, 'MD', 'This role is for doctors.', 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 0, 2, 2, 0, 2, 0, 2, 2, 2, 2, 0, 2, 0, 2, 0, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2),
+(18, 1, 'RN', 'This role is for nurses.', 0, 2, 2, 1, 2, 0, 1, 1, 2, 2, 1, 2, 2, 2, 1, 2, 2, 1, 2, 0, 0, 2, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 0, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -65708,6 +65735,7 @@ INSERT INTO `role` (`id`, `practice_id`, `name`, `description`, `superbill`, `al
 
 CREATE TABLE IF NOT EXISTS `routine_exam` (
   `patient_id` int(11) NOT NULL,
+  `practice_id` int(11) DEFAULT NULL,
   `name` varchar(64) NOT NULL,
   `last_done` varchar(64) DEFAULT NULL,
   `month` varchar(64) DEFAULT NULL,
@@ -65742,7 +65770,7 @@ CREATE TABLE IF NOT EXISTS `service_record` (
   KEY `patient_id_2` (`patient_id`),
   KEY `practice_id` (`practice_id`),
   KEY `physician_id` (`physician_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This table contains general information for the patient''s se' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table contains general information for the patient''s se' AUTO_INCREMENT=33 ;
 
 -- --------------------------------------------------------
 
@@ -65825,7 +65853,7 @@ CREATE TABLE IF NOT EXISTS `supplies` (
   PRIMARY KEY (`id`),
   KEY `order_id` (`order_id`),
   KEY `supply_type_id` (`supply_type_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table links orders with supply types.' AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='This table links orders with supply types.' AUTO_INCREMENT=16 ;
 
 -- --------------------------------------------------------
 
@@ -65873,7 +65901,7 @@ INSERT INTO `supply_type` (`id`, `practice_id`, `description`, `unit`, `code`, `
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `practice_id` int(11) NOT NULL,
   `username` varchar(64) NOT NULL,
   `password` varchar(64) NOT NULL,
@@ -65883,15 +65911,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `role_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `practice_id` (`practice_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `practice_id`, `username`, `password`, `first_name`, `last_name`, `email`, `role_id`) VALUES
-(1, 1, 'demo', '$2a$08$865gbS94U2zki1hYy2h3h.A/.4zPHc6WqWZAi77zoHYUnAII.qtzi', 'Demo', 'User', 'seanmalone.cs@gmail.com', 0),
-(3, 1, 'administrator', '$2a$08$uO2DKJZ77GvY7yskJG.5KuS7Gpq57bQnC1yXZk41QctbQ.5Gcni/i', 'Administrator', '', 'admin@testuser.com', 0);
+(2, 1, 'demo', '$2a$08$865gbS94U2zki1hYy2h3h.A/.4zPHc6WqWZAi77zoHYUnAII.qtzi', 'Demo', 'User', 'seanmalone.cs@gmail.com', 0);
 
 -- --------------------------------------------------------
 
@@ -65911,7 +65938,7 @@ CREATE TABLE IF NOT EXISTS `venous_access` (
   `date` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `order_id` (`service_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Venous access used for the flow sheet view.' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Venous access used for the flow sheet view.' AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -65949,99 +65976,126 @@ CREATE TABLE IF NOT EXISTS `vital_signs` (
 -- Constraints for table `allergies_intolerance`
 --
 ALTER TABLE `allergies_intolerance`
+  ADD CONSTRAINT `allergies_intolerance_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `allergies_intolerance_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `checkout`
 --
 ALTER TABLE `checkout`
-  ADD CONSTRAINT `checkout_ibfk_5` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `checkout_ibfk_7` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `checkout_ibfk_8` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `checkout_ibfk_9` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `checkout_ibfk_2` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `checkout_ibfk_4` FOREIGN KEY (`practice_id`) REFERENCES `patient` (`practice_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `checkout_ibfk_5` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `checkout_ibfk_6` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `diagnosis`
 --
 ALTER TABLE `diagnosis`
+  ADD CONSTRAINT `diagnosis_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `diagnosis_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `diagnostic_center`
 --
 ALTER TABLE `diagnostic_center`
+  ADD CONSTRAINT `diagnostic_center_ibfk_2` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `diagnostic_center_ibfk_1` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `diluent_list`
 --
 ALTER TABLE `diluent_list`
+  ADD CONSTRAINT `diluent_list_ibfk_2` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `diluent_list_ibfk_1` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `document`
 --
 ALTER TABLE `document`
+  ADD CONSTRAINT `document_ibfk_7` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `document_ibfk_8` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `document_ibfk_3` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `document_ibfk_5` FOREIGN KEY (`practice_id`) REFERENCES `patient` (`practice_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `document_ibfk_6` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `drug_order`
 --
 ALTER TABLE `drug_order`
+  ADD CONSTRAINT `drug_order_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `drug_order_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `employer`
 --
 ALTER TABLE `employer`
-  ADD CONSTRAINT `employer_ibfk_5` FOREIGN KEY (`practice_id`) REFERENCES `patient` (`practice_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `employer_ibfk_4` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `employer_ibfk_3` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `employer_ibfk_4` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `employer_ibfk_5` FOREIGN KEY (`patient_id`, `practice_id`) REFERENCES `patient` (`id`, `practice_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `employer_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `employer_ibfk_2` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_patient` FOREIGN KEY (`patient_id`, `practice_id`) REFERENCES `patient` (`id`, `practice_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `family_history`
 --
 ALTER TABLE `family_history`
-  ADD CONSTRAINT `family_history_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`),
-  ADD CONSTRAINT `family_history_ibfk_3` FOREIGN KEY (`practice_id`) REFERENCES `patient` (`practice_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `family_history_ibfk_6` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `family_history_ibfk_7` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `family_history_ibfk_4` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `family_history_ibfk_5` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `follow_up`
 --
 ALTER TABLE `follow_up`
+  ADD CONSTRAINT `follow_up_ibfk_7` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `follow_up_ibfk_8` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `follow_up_ibfk_9` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `follow_up_ibfk_4` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `follow_up_ibfk_5` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `follow_up_ibfk_3` FOREIGN KEY (`practice_id`) REFERENCES `patient` (`practice_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `follow_up_ibfk_4` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `follow_up_ibfk_6` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `guarantor`
 --
 ALTER TABLE `guarantor`
-  ADD CONSTRAINT `guarantor_ibfk_3` FOREIGN KEY (`practice_id`) REFERENCES `patient` (`practice_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `guarantor_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`);
+  ADD CONSTRAINT `guarantor_ibfk_6` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `guarantor_ibfk_7` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `guarantor_ibfk_4` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `guarantor_ibfk_5` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `insurance`
 --
 ALTER TABLE `insurance`
-  ADD CONSTRAINT `insurance_ibfk_3` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`),
-  ADD CONSTRAINT `insurance_ibfk_5` FOREIGN KEY (`practice_id`) REFERENCES `patient` (`practice_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `insurance_ibfk_8` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `insurance_ibfk_9` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `insurance_ibfk_6` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `insurance_ibfk_7` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `medical_problem`
 --
 ALTER TABLE `medical_problem`
+  ADD CONSTRAINT `medical_problem_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `medical_problem_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `medication`
 --
 ALTER TABLE `medication`
-  ADD CONSTRAINT `medication_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`);
+  ADD CONSTRAINT `medication_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `medication_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `medication_order`
 --
 ALTER TABLE `medication_order`
+  ADD CONSTRAINT `medication_order_ibfk_3` FOREIGN KEY (`medicine_list_id`) REFERENCES `medicine_list` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `medication_order_ibfk_4` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `medication_order_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `medication_order_ibfk_2` FOREIGN KEY (`medicine_list_id`) REFERENCES `medicine_list` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -66049,171 +66103,217 @@ ALTER TABLE `medication_order`
 -- Constraints for table `office_procedure`
 --
 ALTER TABLE `office_procedure`
-  ADD CONSTRAINT `office_procedure_ibfk_3` FOREIGN KEY (`office_procedure_type_id`) REFERENCES `office_procedure_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `office_procedure_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `office_procedure_ibfk_4` FOREIGN KEY (`office_procedure_type_id`) REFERENCES `office_procedure_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `office_procedure_ibfk_5` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `office_procedure_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `office_procedure_ibfk_3` FOREIGN KEY (`office_procedure_type_id`) REFERENCES `office_procedure_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `office_procedure_type`
 --
 ALTER TABLE `office_procedure_type`
+  ADD CONSTRAINT `office_procedure_type_ibfk_2` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `office_procedure_type_ibfk_1` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`order_category_id`) REFERENCES `order_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `orders_ibfk_5` FOREIGN KEY (`order_category_id`) REFERENCES `order_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_ibfk_6` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`order_category_id`) REFERENCES `order_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `order_category`
 --
 ALTER TABLE `order_category`
+  ADD CONSTRAINT `order_category_ibfk_3` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `order_category_ibfk_2` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `patient`
 --
 ALTER TABLE `patient`
+  ADD CONSTRAINT `patient_ibfk_3` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `patient_ibfk_2` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `payment_method`
 --
 ALTER TABLE `payment_method`
+  ADD CONSTRAINT `payment_method_ibfk_3` FOREIGN KEY (`checkout_id`) REFERENCES `checkout` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `payment_method_ibfk_2` FOREIGN KEY (`checkout_id`) REFERENCES `checkout` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pe_abd`
 --
 ALTER TABLE `pe_abd`
-  ADD CONSTRAINT `pe_abd_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`);
+  ADD CONSTRAINT `pe_abd_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pe_abd_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pe_cvs`
 --
 ALTER TABLE `pe_cvs`
-  ADD CONSTRAINT `pe_cvs_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`);
+  ADD CONSTRAINT `pe_cvs_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pe_cvs_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pe_cw`
 --
 ALTER TABLE `pe_cw`
-  ADD CONSTRAINT `pe_cw_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`);
+  ADD CONSTRAINT `pe_cw_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pe_cw_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pe_ent`
 --
 ALTER TABLE `pe_ent`
-  ADD CONSTRAINT `pe_ent_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`);
+  ADD CONSTRAINT `pe_ent_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pe_ent_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pe_ext`
 --
 ALTER TABLE `pe_ext`
-  ADD CONSTRAINT `pe_ext_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`);
+  ADD CONSTRAINT `pe_ext_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pe_ext_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pe_eye`
 --
 ALTER TABLE `pe_eye`
-  ADD CONSTRAINT `pe_eye_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`);
+  ADD CONSTRAINT `pe_eye_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pe_eye_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pe_gen`
 --
 ALTER TABLE `pe_gen`
-  ADD CONSTRAINT `pe_gen_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`);
+  ADD CONSTRAINT `pe_gen_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pe_gen_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pe_heme`
 --
 ALTER TABLE `pe_heme`
-  ADD CONSTRAINT `pe_heme_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`);
+  ADD CONSTRAINT `pe_heme_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pe_heme_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pe_lungs`
 --
 ALTER TABLE `pe_lungs`
-  ADD CONSTRAINT `pe_lungs_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`);
+  ADD CONSTRAINT `pe_lungs_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pe_lungs_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pe_neuro`
 --
 ALTER TABLE `pe_neuro`
-  ADD CONSTRAINT `pe_neuro_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`);
+  ADD CONSTRAINT `pe_neuro_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pe_neuro_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pe_skin`
 --
 ALTER TABLE `pe_skin`
-  ADD CONSTRAINT `pe_skin_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`);
+  ADD CONSTRAINT `pe_skin_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pe_skin_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `phone_log`
 --
 ALTER TABLE `phone_log`
-  ADD CONSTRAINT `phone_log_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`),
-  ADD CONSTRAINT `phone_log_ibfk_3` FOREIGN KEY (`practice_id`) REFERENCES `patient` (`practice_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `phone_log_ibfk_6` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `phone_log_ibfk_7` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `phone_log_ibfk_4` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `phone_log_ibfk_5` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `physician`
 --
 ALTER TABLE `physician`
-  ADD CONSTRAINT `physician_ibfk_1` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`);
+  ADD CONSTRAINT `physician_ibfk_3` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `physician_ibfk_2` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `prescription`
+--
+ALTER TABLE `prescription`
+  ADD CONSTRAINT `prescription_ibfk_5` FOREIGN KEY (`medication_id`) REFERENCES `medication` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prescription_ibfk_6` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prescription_ibfk_3` FOREIGN KEY (`medication_id`) REFERENCES `medication` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prescription_ibfk_4` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `reference`
 --
 ALTER TABLE `reference`
-  ADD CONSTRAINT `reference_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`),
-  ADD CONSTRAINT `reference_ibfk_3` FOREIGN KEY (`practice_id`) REFERENCES `patient` (`practice_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `reference_ibfk_6` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reference_ibfk_7` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reference_ibfk_4` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reference_ibfk_5` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `review_of_systems`
 --
 ALTER TABLE `review_of_systems`
-  ADD CONSTRAINT `review_of_systems_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`);
+  ADD CONSTRAINT `review_of_systems_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `review_of_systems_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `routine_exam`
 --
 ALTER TABLE `routine_exam`
-  ADD CONSTRAINT `routine_exam_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`);
+  ADD CONSTRAINT `routine_exam_ibfk_3` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `routine_exam_ibfk_2` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `service_record`
 --
 ALTER TABLE `service_record`
-  ADD CONSTRAINT `service_record_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`),
-  ADD CONSTRAINT `service_record_ibfk_3` FOREIGN KEY (`practice_id`) REFERENCES `patient` (`practice_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `service_record_ibfk_4` FOREIGN KEY (`physician_id`) REFERENCES `physician` (`id`);
+  ADD CONSTRAINT `service_record_ibfk_8` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `service_record_ibfk_9` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `service_record_ibfk_10` FOREIGN KEY (`physician_id`) REFERENCES `physician` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `service_record_ibfk_5` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `service_record_ibfk_6` FOREIGN KEY (`physician_id`) REFERENCES `physician` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `service_record_ibfk_7` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `social_history`
 --
 ALTER TABLE `social_history`
-  ADD CONSTRAINT `social_history_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`),
-  ADD CONSTRAINT `social_history_ibfk_3` FOREIGN KEY (`practice_id`) REFERENCES `patient` (`practice_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `social_history_ibfk_6` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `social_history_ibfk_7` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `social_history_ibfk_4` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `social_history_ibfk_5` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `spouse`
 --
 ALTER TABLE `spouse`
-  ADD CONSTRAINT `spouse_ibfk_3` FOREIGN KEY (`practice_id`) REFERENCES `patient` (`practice_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `spouse_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`);
+  ADD CONSTRAINT `spouse_ibfk_6` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `spouse_ibfk_7` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `spouse_ibfk_4` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `spouse_ibfk_5` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `superbill`
 --
 ALTER TABLE `superbill`
-  ADD CONSTRAINT `superbill_ibfk_3` FOREIGN KEY (`practice_id`) REFERENCES `patient` (`practice_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `superbill_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`);
+  ADD CONSTRAINT `superbill_ibfk_6` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `superbill_ibfk_7` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `superbill_ibfk_4` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `superbill_ibfk_5` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `supplies`
 --
 ALTER TABLE `supplies`
+  ADD CONSTRAINT `supplies_ibfk_5` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `supplies_ibfk_6` FOREIGN KEY (`supply_type_id`) REFERENCES `supply_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `supplies_ibfk_3` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `supplies_ibfk_4` FOREIGN KEY (`supply_type_id`) REFERENCES `supply_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -66221,25 +66321,30 @@ ALTER TABLE `supplies`
 -- Constraints for table `supply_type`
 --
 ALTER TABLE `supply_type`
+  ADD CONSTRAINT `supply_type_ibfk_2` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `supply_type_ibfk_1` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user`
 --
 ALTER TABLE `user`
+  ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`practice_id`) REFERENCES `practice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `venous_access`
 --
 ALTER TABLE `venous_access`
+  ADD CONSTRAINT `venous_access_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `venous_access_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `vital_signs`
 --
 ALTER TABLE `vital_signs`
-  ADD CONSTRAINT `vital_signs_ibfk_1` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`);
+  ADD CONSTRAINT `vital_signs_ibfk_3` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `vital_signs_ibfk_2` FOREIGN KEY (`service_record_id`) REFERENCES `service_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
